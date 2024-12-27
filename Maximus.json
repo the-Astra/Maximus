@@ -1,0 +1,14 @@
+{
+	"id": "maximus",
+	"name": "Maximus",
+	"display_name": "Maximus",
+	"author": ["Astra", "Maxiss02"],
+	"description": "A vanilla-inspired mod that brings new ideas to Balatro",
+	"prefix": "mxms",
+	"main_file": "main.lua",
+	"priority": 0,
+	"badge_colour": "f51bbc",
+	"badge_text_colour": "f8a100",
+	"version": "0.0.1~",
+	"dependencies": []
+}
