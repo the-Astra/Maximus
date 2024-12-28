@@ -89,7 +89,7 @@ SMODS.Joker { -- Fortune Cookie
             }
         end
 
-        if context.end_of_round and context.individual and not context.blueprint then
+        if context.after and not context.blueprint then
             if card.ability.extra.chance < 1 then
                 --Code taken from Gros Michel/Cavendish
                 G.E_MANAGER:add_event(Event({
@@ -220,9 +220,9 @@ SMODS.Joker { -- Abyss
         name = "Abyss",
         text = {
             'When blind is selected, {C:attention}50/50{}',
-            '{C:attention}chance{} of either creating',
-            'a random {C:dark_edition}Negative Joker{} or destroying',
-            'a currently held non-Negative Joker'
+            '{C:attention}chance{} of making a currently held',
+            'non-negative Joker {C:dark_edition}Negative{} or',
+            'destroying a currently held non-negative joker'
         }
     },
     atlas = 'Jokers',
@@ -235,44 +235,47 @@ SMODS.Joker { -- Abyss
     end,
     calculate = function(self,card,context)
         if context.setting_blind then
-            local flip = pseudorandom('aby', 1, 2)
-            sendDebugMessage(flip, "MaximusDebug")
 
-            -- Create a random negative joker
-            if flip == 1 then
-                local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, nil, 'aby')
-                new_card:add_to_deck()
-                G.jokers:emplace(new_card)
-                new_card:set_edition({negative = true}, true)
-                card:juice_up(0.3, 0.4)
-                play_sound('foil1')
-                return {
-                    card = card,
-                    message = 'Void-touched!',
-                    colour = G.C.PURPLE
-                }
-            
-            -- Destroy a random non-negative joker
-            elseif flip == 2 then
+            -- Store all eligible jokers in table
                 -- Code derived Madness
-                local deletable_jokers = {}
+            local eligible_jokers = {}
                 for i = 1, #G.jokers.cards do
                     if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and not(G.jokers.cards[i].edition and G.jokers.cards[i].edition.negative) and not G.jokers.cards[i].getting_sliced then 
-                        deletable_jokers[#deletable_jokers + 1] = G.jokers.cards[i] 
+                        eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i] 
                     end
                 end
-                if next(deletable_jokers) == nil then
-                    sendDebugMessage('No Deletable Jokers for Abyss', "MaximusDebug")
+
+                -- Fail if no held jokers are eligible
+                if next(eligible_jokers) == nil then
                     return {
                         card = card,
                         message = 'No target...',
                         colour = G.C.PURPLE
                     }
                 else 
-                    local chosen_joker = #deletable_jokers > 0 and pseudorandom_element(deletable_jokers, pseudoseed('abyss')) or nil
 
-                    if chosen_joker and not (context.blueprint_card or card).getting_sliced then
-                        chosen_joker.getting_sliced = true
+                -- Choose Joker to affect
+                local chosen_joker = #eligible_jokers > 0 and pseudorandom_element(eligible_jokers, pseudoseed('abyss')) or nil
+
+                -- "Flip a coin" to decide what to do with the target
+                local flip = pseudorandom('aby', 1, 2)
+
+                -- Add negative edition to random held joker
+                if flip == 1 then
+                    card:juice_up(0.3, 0.4)
+                    chosen_joker:set_edition({negative = true}, true)
+                    return {
+                        card = card,
+                        message = 'Void-touched!',
+                        colour = G.C.PURPLE
+                    }
+                
+                -- Destroy a random non-negative joker
+                elseif flip == 2 then
+
+                    --Double check the target is not self
+                        -- Code derived Madness
+                    if chosen_joker and not (context.blueprint_card or card).getting_sliced then                            chosen_joker.getting_sliced = true
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 (context.blueprint_card or card):juice_up(0.8, 0.8)
