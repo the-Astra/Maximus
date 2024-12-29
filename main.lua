@@ -132,8 +132,8 @@ SMODS.Joker { -- Poindexter
     loc_txt = {
         name = "Poindexter",
         text = {
-            '{C:mult}x0.25 mult{} for every',
-            'scoring {C:red}glass card{} that',
+            '{C:mult}x0.25{} mult for every',
+            'scoring {C:attention}glass card{} that',
             'remains intact; {C:red}Resets{} on break',
             '{C:inactive}Currently: x#1#{}'
         }
@@ -233,6 +233,7 @@ SMODS.Joker { -- Abyss
             '{C:attention}chance{} of making a currently held',
             'non-negative Joker {C:dark_edition}Negative{} or',
             'destroying a currently held non-negative joker'
+            '{C:inactive}Can override other editions{}'
         }
     },
     atlas = 'Jokers',
@@ -257,7 +258,9 @@ SMODS.Joker { -- Abyss
 
             -- Fail if no held jokers are eligible
             if next(eligible_jokers) == nil then
-                return
+                return {
+                    extra = {message = 'No target...', colour = G.C.PURPLE}
+                }
             else 
             -- Choose Joker to affect
             local chosen_joker = #eligible_jokers > 0 and pseudorandom_element(eligible_jokers, pseudoseed('abyss')) or nil
@@ -269,7 +272,9 @@ SMODS.Joker { -- Abyss
             if flip == 1 then
                 card:juice_up(0.3, 0.4)
                 chosen_joker:set_edition({negative = true}, true)
-                return
+                return {
+                    extra = {message = 'Void-touched!', colour = G.C.PURPLE}
+                }
                 
             -- Destroy a random non-negative joker
             elseif flip == 2 then
@@ -284,7 +289,9 @@ SMODS.Joker { -- Abyss
                             return true; 
                         end}))
                     end
-                    return
+                    return{
+                        extra = {message = 'Cosumed', colour = G.C.PURPLE}
+                    }
                 end
             end
         end
@@ -297,9 +304,9 @@ SMODS.Joker { -- War
         name = 'War',
         text = {
             'All even cards are',
-            'treated as the same card,',
+            'treated as {C:attention}the same card{},',
             'all odd cards are',
-            'treated as the same card'
+            'treated as {C:attention}the same card{}'
         }
     },
     atlas = 'Jokers',
@@ -313,7 +320,7 @@ SMODS.Joker { -- Microwave
     loc_txt = {
         name = 'Microwave',
         text = {
-            'Perishable Jokers are',
+            '{C:red}Perishable{} Jokers are',
             '{C:attention}retriggered'
         }
     },
@@ -323,6 +330,7 @@ SMODS.Joker { -- Microwave
     config = {},
     calculate = function(self,card,context)
 
+        -- Thank you to theonegoodali from the Balatro Discord for helping me with this conditional
         if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability and context.other_card.ability.perishable then
             return {
                 message = localize('k_again_ex'),
@@ -338,14 +346,14 @@ SMODS.Joker { -- Combo Breaker
     loc_txt = {
         name = 'Combo Breaker',
         text = {
-            'Gains {C:mult}+ 0.5x{} mult',
-             'per retrigger in a played hand',
+            'Gains {C:mult}0.5x{} mult',
+            'per retrigger in a played hand',
             '{C:inactive}Starts at 1x mult, resets every hand{}'
         }
     },
     atlas = 'Jokers',
     pos = {x = 0, y = 1},
-    rarity = 2,
+    rarity = 3,
     config = { extra = {
         Xmult = 1.0,
         retriggers = 0
@@ -477,6 +485,152 @@ SMODS.Joker { -- Normal Joker
                 return {
                     mult = 1,
                     chips = 5
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Streaker
+    key = 'streaker',
+    loc_txt = {
+        name = 'Streaker',
+        text = {
+            '{C:chips}+30{} chips and {C:mult}+15 mult',
+            'for each consecutive {C:attention}blind{}',
+            'beaten in {C:attention}one hand{}, {C:red}Resets{}',
+            'when streak is broken',
+            '{C:inactive}Current streak: #1#',
+            '{C:inactive}Total: +#3# chips +#4# mult'
+        }
+    },
+    atlas = 'Jokers',
+    pos = {x = 5, y = 0},
+    rarity = 3,
+    config = { extra = {
+        streak = 0,
+        hands = 0, -- I know there's an tracker in vanilla but I can't access it at context.end_of_round
+        chips = 0,
+        mult = 0,    
+    }
+    },
+    loc_vars = function(self,info_queue,center)
+        return {vars = {center.ability.extra.streak, center.ability.extra.hands, center.ability.extra.chips, center.ability.extra.mult}}
+    end,
+    calculate = function(self,card,context)
+
+        if context.joker_main and card.ability.extra.streak > 0 then
+            return {
+                mult_mod = card.ability.extra.chips,
+                chip_mod = card.ability.extra.mult,
+                message = 'Streaked!',
+                colour = G.C.MULT
+            }
+        end
+
+        if context.before and not context.blueprint then 
+            card.ability.extra.hands = card.ability.extra.hands + 1
+        end
+
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            if card.ability.extra.hands == 1 then
+                card.ability.extra.hands = 0
+                card.ability.extra.streak = card.ability.extra.streak + 1
+                card.ability.extra.chips = 30 * card.ability.extra.streak
+                card.ability.extra.mult = 15 * card.ability.extra.streak
+                return {
+                    message = 'Streak ' .. card.ability.extra.streak, 
+                    colour = G.C.CHIPS,
+                    card = card
+                }
+            else
+                card.ability.extra.streak = 0
+                card.ability.extra.hands = 0
+                card.ability.extra.chips = 0
+                card.ability.extra.mult = 0
+                return {
+                    message = 'Reset',
+                    colour = G.C.RED,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Jobber
+    key = 'jobber',
+    loc_txt = {
+        name = 'Jobber',
+        text = {
+            'If hand is played with only',
+            '{C:red}debuffed{} cards, destroy this',
+            'Joker and create a random copy',
+            'of another held Joker',
+            '{C:inactive}Removes negative from copy'
+        }
+    },
+    atlas = 'Jokers',
+    pos = {x = 6, y = 0},
+    rarity = 3,
+    blueprint_compat = false,
+    calculate = function(self,card,context)
+
+        if context.before and not context.blueprint then
+
+            -- Check if played hand is all debuffed cards
+            local all_debuffed = true
+            for i = 1, #context.scoring_hand do
+                if not context.scoring_hand[i].debuff then
+                    all_debuffed = false
+                    break
+                end
+            end
+
+            -- Fail if not all debuffed
+            if not all_debuffed then
+                return
+                
+            else
+                -- Store all eligible jokers in table
+                    -- Code derived Madness
+                local eligible_jokers = {}
+                for i = 1, #G.jokers.cards do
+                    if G.jokers.cards[i] ~= card then 
+                        eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
+                    end
+                end
+
+                -- Fail if no held jokers are eligible
+                if next(eligible_jokers) == nil then
+                    return {
+                        extra = {message = 'No target...', colour = G.C.PURPLE},
+                        card = card
+                    }
+                else 
+
+                -- Destroy Jobber
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        card:start_dissolve({G.C.YELLOW}, nil, 1.6)
+                        return true; 
+                    end}))
+                end
+
+                -- Choose Joker to copy
+                local chosen_joker = #eligible_jokers > 0 and pseudorandom_element(eligible_jokers, pseudoseed('jobber')) or nil
+
+                -- Copy Joker and add to hand
+                local new_card = copy_card(chosen_joker, nil, nil, nil, chosen_joker.edition and chosen_joker.edition.negative)
+                new_card:start_materialize()
+                new_card:add_to_deck()
+                if new_card.edition and new_card.edition.negative then
+                    new_card:set_edition(nil, true)
+                end
+                G.jokers:emplace(new_card)               
+                return {
+                    extra = {message = 'Jobbed', colour = G.C.YELLOW},
+                    card = card
                 }
             end
         end
