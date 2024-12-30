@@ -5,6 +5,16 @@ SMODS.Atlas{
     py = 95
 }
 
+-- Set fallbacks
+local igo = Game.init_game_object
+Game.init_game_object = function(self)
+  local ret = igo(self)
+  ret.current_round.impractical_hand = 'High Card'
+  return ret
+end
+
+-- Jokers
+
 SMODS.Joker { -- Fortune Cookie
     key = 'fortune_cookie',
     loc_txt = {
@@ -232,7 +242,7 @@ SMODS.Joker { -- Abyss
             'When blind is selected, {C:attention}50/50{}',
             '{C:attention}chance{} of making a currently held',
             'non-negative Joker {C:dark_edition}Negative{} or',
-            'destroying a currently held non-negative joker'
+            'destroying a currently held non-negative joker',
             '{C:inactive}Can override other editions{}'
         }
     },
@@ -496,7 +506,7 @@ SMODS.Joker { -- Streaker
     loc_txt = {
         name = 'Streaker',
         text = {
-            '{C:chips}+30{} chips and {C:mult}+15 mult',
+            '{C:chips}+30{} chips and {C:mult}+15{} mult',
             'for each consecutive {C:attention}blind{}',
             'beaten in {C:attention}one hand{}, {C:red}Resets{}',
             'when streak is broken',
@@ -549,7 +559,7 @@ SMODS.Joker { -- Streaker
                 card.ability.extra.chips = 0
                 card.ability.extra.mult = 0
                 return {
-                    message = 'Reset',
+                    message = localize('k_reset'),
                     colour = G.C.RED,
                     card = card
                 }
@@ -636,3 +646,177 @@ SMODS.Joker { -- Jobber
         end
     end
 }
+
+SMODS.Joker { -- Astigmatism
+    key = 'astigmatism',
+    loc_txt = {
+        name = 'Astigmatism',
+        text = {
+            '{C:chips}x2{} chips'
+        }
+    },
+    atlas = 'Jokers',
+    pos = {x = 7, y = 0}, -- Change once sprite art is added
+    rarity = 3,
+    config = {},
+    calculate = function(self,card,context)
+
+        if context.joker_main then
+            return {
+                chip_mod = hand_chips,
+                message = 'x2',
+                colour = G.C.CHIPS
+            }
+        end
+
+    end
+}
+
+SMODS.Joker { -- Perspective
+    key = 'perspective',
+    loc_txt = {
+        name = 'Perspective',
+        text = {
+            '6\'s count as 9\'s',
+            'and vice-versa'
+        }
+    },
+    atlas = 'Jokers',
+    pos = {x = 8, y = 0},
+    rarity = 1,
+    config = {}
+}
+
+SMODS.Joker { -- Harmony
+    key = 'harmony',
+    loc_txt = {
+        name = 'Harmony',
+        text = {
+            '{C:mult}+16{} mult if played',
+            'hand contains an Ace and a 2'
+        }
+    },
+    atlas = 'Jokers',
+    pos = {x = 5, y = 1},
+    rarity = 3,
+    config = { extra = {
+        mult = 16
+    }},
+    loc_vars = function(self,info_queue,center)
+        return {vars = {center.ability.extra.mult}}
+    end,
+    calculate = function(self,card,context)
+
+        if context.joker_main then
+            local aces, twos = 0, 0
+
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:get_id() == 14 then
+                    aces = aces + 1
+                end
+                if context.scoring_hand[i]:get_id() == 14 then
+                    twos = twos + 1
+                end
+            end
+
+            if aces > 0 and twos > 0 then
+                return {
+                    mult_mod = card.ability.extra.mult,
+                    message = '+' .. card.ability.extra.mult,
+                    colour = G.C.MULT
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Impractical Joker
+    key = 'impractical_joker',
+    loc_txt = {
+        name = 'Impractical Joker',
+        text = {
+            'If a {C:attention}#2#{} is played,',
+            '{C:mult}x3{} mult. If three hands in a',
+            'row are not this hand type, {C:mult}0.5x{} mult',
+            '{C:inactive}Fail streak: #1#'
+        }
+    },
+    atlas = 'Jokers',
+    pos = {x = 6, y = 1},
+    rarity = 1,
+    config = { extra = {
+        fails = 0
+    }},
+    loc_vars = function(self,info_queue,center)
+        return {vars = {center.ability.extra.fails, G.GAME.current_round.impractical_hand}}
+    end,
+    calculate = function(self,card,context)
+
+        if context.joker_main then
+            
+            -- If correct hand is played
+            if context.scoring_name == G.GAME.current_round.impractical_hand then
+
+                if not context.blueprint then
+                    card.ability.extra.fails = 0
+                end
+
+                return {
+                    message = 'x3',
+                    Xmult_mod = 3,
+                    colour = G.C.MULT
+                }
+
+            -- If incorrect hand is played
+            else 
+
+                if not context.blueprint  then
+                    card.ability.extra.fails = card.ability.extra.fails + 1
+                end
+
+                -- If below 3 fails
+                if card.ability.extra.fails < 3 then
+                    return {
+                        message = 'Fail ' .. card.ability.extra.fails,
+                        colour = G.C.RED
+                    }
+                    
+                -- If 3 fails
+                elseif card.ability.extra.fails == 3 then
+                    return {
+                        message = 'Tonight\'s Biggest Loser',
+                        Xmult_mod = 0.5,
+                        colour = G.C.RED
+                    }
+                end
+            end
+        end
+
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            card.ability.extra.fails = 0
+            return {
+                message = localize('k_reset'),
+                colour = G.C.CHIPS
+            }
+        end
+    end
+}
+
+-- Misc Variables
+function SMODS.current_mod.reset_game_globals(run_start) 
+    
+    -- Impractical Joker
+    G.GAME.current_round.impractical_hand = G.GAME.current_round.impractical_hand
+    local valid_hands = {}
+
+    for k, v in pairs(G.GAME.hands) do
+        if v.visible then valid_hands[#valid_hands+1] = k end
+    end
+
+    local new_hand = G.GAME.current_round.impractical_hand
+    while new_hand == G.GAME.current_round.impractical_hand do
+        new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical'.. G.GAME.round_resets.ante))
+    end
+    G.GAME.current_round.impractical_hand = new_hand
+
+end
