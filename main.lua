@@ -1,3 +1,4 @@
+-- Joker Sprite Atlas
 SMODS.Atlas{
     key = 'Jokers',
     path = "Jokers.png",
@@ -5,12 +6,51 @@ SMODS.Atlas{
     py = 95
 }
 
--- Set fallbacks
+-- Set new variables to init with game
 local igo = Game.init_game_object
 Game.init_game_object = function(self)
   local ret = igo(self)
   ret.current_round.impractical_hand = 'High Card'
   return ret
+end
+
+-- Sounds
+SMODS.Sound({
+    key = 'perfect',
+    path = 'perfect.ogg',
+})
+
+-- Misc Variables
+local food_jokers = {
+    'Gros Michel',
+    'Egg',
+    'Ice Cream',
+    'Cavendish',
+    'Turtle Bean',
+    'Diet Cola',
+    'Popcorn',
+    'Ramen',
+    'Seltzer',
+    'Fortune Cookie'
+}
+
+    -- Variables that change every round
+function SMODS.current_mod.reset_game_globals(run_start) 
+    
+    -- Impractical Joker
+    G.GAME.current_round.impractical_hand = G.GAME.current_round.impractical_hand
+    local valid_hands = {}
+
+    for k, v in pairs(G.GAME.hands) do
+        if v.visible then valid_hands[#valid_hands+1] = k end
+    end
+
+    local new_hand = G.GAME.current_round.impractical_hand
+    while new_hand == G.GAME.current_round.impractical_hand do
+        new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical'.. G.GAME.round_resets.ante))
+    end
+    G.GAME.current_round.impractical_hand = new_hand
+
 end
 
 -- Jokers
@@ -330,7 +370,7 @@ SMODS.Joker { -- Microwave
     loc_txt = {
         name = 'Microwave',
         text = {
-            '{C:red}Perishable{} Jokers are',
+            '{C:red}Food{} Jokers are',
             '{C:attention}retriggered'
         }
     },
@@ -341,12 +381,16 @@ SMODS.Joker { -- Microwave
     calculate = function(self,card,context)
 
         -- Thank you to theonegoodali from the Balatro Discord for helping me with this conditional
-        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability and context.other_card.ability.perishable then
-            return {
-                message = localize('k_again_ex'),
-                repetitions = 1,
-                card = card
-            }
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            for i = 1, #food_jokers do
+                if context.other_card.ability.name == food_jokers[i] then
+                    return {
+                        message = localize('k_again_ex'),
+                        repetitions = 1,
+                        card = card
+                    }
+                end
+            end
         end
     end
 }
@@ -376,20 +420,27 @@ SMODS.Joker { -- Combo Breaker
     calculate = function(self,card,context)
 
         if context.scoring_hand and context.repetition and not context.blueprint then
-            if context.cardarea == G.play or context.cardarea == G.hand then
+            if context.cardarea == G.play or context.cardarea == G.hand or context.cardarea == G.jokers then
                 -- Add retrigger to total
                 card.ability.extra.retriggers = card.ability.extra.retriggers + 1
+                sendTraceMessage('Retrigger logged. Count: ' .. card.ability.extra.retriggers,'MaximusDebug')
                 return {
-                    message = '+ 0.5x',
                     repetitions = 0,
                     card = card
                 }
             end
         end
 
-        if context.joker_main then
+        if context.joker_main and card.ability.extra.retriggers > 0 then
             -- Add retrigger count and multiply by 0.5 for mult 
             card.ability.extra.Xmult =  card.ability.extra.Xmult + (card.ability.extra.retriggers * 0.5)
+
+            G.E_MANAGER:add_event(Event({
+                func = function ()
+                    play_sound('mxms_perfect')
+                return true; end
+            }))
+            
             return {
                 Xmult_mod = card.ability.extra.Xmult,
                 message = 'x' .. card.ability.extra.Xmult,
@@ -398,9 +449,9 @@ SMODS.Joker { -- Combo Breaker
             }
         end
 
-        if context.after then 
+        if context.before or context.after then 
             card.ability.extra.retriggers = 0
-            card.ability.extra.Xmult = 1
+            card.ability.extra.Xmult = 1.0
         end
     end
 }
@@ -408,12 +459,12 @@ SMODS.Joker { -- Combo Breaker
 SMODS.Joker { -- Faded
     key = 'faded',
     loc_txt = {
-        name = 'Faded',
+        name = 'Faded Joker',
         text = {
-            '{C:diamonds}Diamonds{} and {C:spades}spades{}',
-            'are treated as the same suit,',
-            '{C:hearts}hearts{} and {C:clubs}clubs{}',
-            'are treated as the same suit'
+            '{C:diamonds}Diamonds{} and {C:spades}Spades{}',
+            'count as the same suit,',
+            '{C:hearts}Hearts{} and {C:clubs}Clubs{}',
+            'count as the same suit'
         }
     },
     atlas = 'Jokers',
@@ -477,7 +528,7 @@ SMODS.Joker { -- Joker+
 }
 
 SMODS.Joker { -- Normal Joker
-    key = 'normal_joker',
+    key = 'normal',
     loc_txt = {
         name = 'Normal Joker',
         text = {
@@ -802,21 +853,30 @@ SMODS.Joker { -- Impractical Joker
     end
 }
 
--- Misc Variables
-function SMODS.current_mod.reset_game_globals(run_start) 
-    
-    -- Impractical Joker
-    G.GAME.current_round.impractical_hand = G.GAME.current_round.impractical_hand
-    local valid_hands = {}
+SMODS.Joker { -- Trick or Treat
+    key = 'trick_or_treat',
+    loc_txt = {
+        name = 'Trick or Treat',
+        text = {
+            'When held, {C:attention}Booster packs{}',
+            'now let you take one more', 
+            'card than usual'
+        }
+    },
+    atlas = 'Jokers',
+    pos = {x = 7, y = 1},
+    rarity = 3,
+    config = { extra = {
+        mult = 5
+    }},
+    loc_vars = function(self,info_queue,center)
+        return {vars = {center.ability.extra.mult}}
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        G.GAME.choose_mod = G.GAME.choose_mod + 1
+    end,
 
-    for k, v in pairs(G.GAME.hands) do
-        if v.visible then valid_hands[#valid_hands+1] = k end
+    remove_from_deck = function(self, card, from_debuff)
+        G.GAME.choose_mod = G.GAME.choose_mod - 1
     end
-
-    local new_hand = G.GAME.current_round.impractical_hand
-    while new_hand == G.GAME.current_round.impractical_hand do
-        new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical'.. G.GAME.round_resets.ante))
-    end
-    G.GAME.current_round.impractical_hand = new_hand
-
-end
+}

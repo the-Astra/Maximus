@@ -1,0 +1,57 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# Change booster card choice count from static to variable
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "G.GAME.pack_choices = self.config.center.config.choose or 1"
+position = "after"
+payload = '''
+G.GAME.pack_choices = G.GAME.pack_choices + G.GAME.choose_mod
+'''
+match_indent = true
+
+[[patches]]
+[patches.regex]
+target = "functions/common_events.lua"
+pattern = "(_c.config.choose)"
+position = "after"
+payload = " + G.GAME.choose_mod"
+match_indent = true
+times = 15
+
+# Add choose_mod variable to change pack choice count
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "pack_size = 2,"
+position = "after"
+payload = " choose_mod = 0,"
+match_indent = true
+
+# Add Faded Joker Functionality
+
+# Add choose_mod variable to change pack choice count
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if next(find_joker('Smeared Joker')) and (self.base.suit == 'Hearts' or self.base.suit == 'Diamonds') == (suit == 'Hearts' or suit == 'Diamonds') then
+    return true
+end
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_faded')) and (self.base.suit == 'Spades' or self.base.suit == 'Diamonds') == (suit == 'Spades' or suit == 'Diamonds') then
+    sendDebugMessage("Faded Joker detected","MaximusDebug")
+    return true
+end
+'''
+match_indent = true
+times = 2
