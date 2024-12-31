@@ -1,5 +1,5 @@
 -- Joker Sprite Atlas
-SMODS.Atlas{
+SMODS.Atlas {
     key = 'Jokers',
     path = "Jokers.png",
     px = 71,
@@ -9,45 +9,69 @@ SMODS.Atlas{
 -- Set new variables to init with game
 local igo = Game.init_game_object
 Game.init_game_object = function(self)
-  local ret = igo(self)
-  ret.current_round.impractical_hand = 'High Card'
-  return ret
+    local ret = igo(self)
+    ret.current_round.impractical_hand = 'High Card'
+    return ret
 end
 
 -- Sounds
 SMODS.Sound({
     key = 'perfect',
-    path = 'perfect.ogg',
+    path = 'perfect.ogg'
 })
 
 -- Misc Variables
-local food_jokers = {
-    'Gros Michel',
-    'Egg',
-    'Ice Cream',
-    'Cavendish',
-    'Turtle Bean',
-    'Diet Cola',
-    'Popcorn',
-    'Ramen',
-    'Seltzer',
-    'Fortune Cookie'
-}
+local food_jokers = {{
+    key = 'j_gros_Michel',
+    name = 'Gros Michel'
+}, {
+    key = 'j_egg',
+    name = 'Egg'
+}, {
+    key = 'j_ice_cream',
+    name = 'Ice Cream'
+}, {
+    key = 'j_cavendish',
+    name = 'Cavendish'
+}, {
+    key = 'j_turtle_bean',
+    name = 'Turtle Bean'
+}, {
+    key = 'diet_cola',
+    name = 'Diet Cola'
+}, {
+    key = 'j_popcorn',
+    name = 'Popcorn'
+}, {
+    key = 'j_ramen',
+    name = 'Ramen'
+}, {
+    key = 'j_seltzer',
+    name = 'Seltzer'
+}, {
+    key = 'j_mxms_fortune_cookie',
+    name = 'Fortune Cookie'
+}, {
+    key = 'j_mxms_leftovers',
+    name = 'Leftovers'
+}}
 
-    -- Variables that change every round
-function SMODS.current_mod.reset_game_globals(run_start) 
-    
+-- Variables that change every round
+function SMODS.current_mod.reset_game_globals(run_start)
+
     -- Impractical Joker
     G.GAME.current_round.impractical_hand = G.GAME.current_round.impractical_hand
     local valid_hands = {}
 
     for k, v in pairs(G.GAME.hands) do
-        if v.visible then valid_hands[#valid_hands+1] = k end
+        if v.visible then
+            valid_hands[#valid_hands + 1] = k
+        end
     end
 
     local new_hand = G.GAME.current_round.impractical_hand
     while new_hand == G.GAME.current_round.impractical_hand do
-        new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical'.. G.GAME.round_resets.ante))
+        new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical' .. G.GAME.round_resets.ante))
     end
     G.GAME.current_round.impractical_hand = new_hand
 
@@ -59,27 +83,31 @@ SMODS.Joker { -- Fortune Cookie
     key = 'fortune_cookie',
     loc_txt = {
         name = 'Fortune Cookie',
-        text = {
-            '{C:attention}#3# out of 10{} chance to receive',
-            'a random {C:tarot}Tarot{} card when',
-            ' playing a hand {C:inactive}(Must have room){}',
-            '{C:inactive}Chance reduces by #1# for every played hand'
-        }
+        text = {'{C:attention}#3# out of 10{} chance to receive', 'a random {C:tarot}Tarot{} card when',
+                ' playing a hand {C:inactive}(Must have room){}',
+                '{C:inactive}Chance reduces by #1# for every played hand'}
     },
     atlas = 'Jokers',
-    pos = {x = 0, y = 0},
+    pos = {
+        x = 0,
+        y = 0
+    },
     rarity = 1,
     perishable_compat = false,
     eternal_compat = false,
-    config = { extra = {
+    config = {
+        extra = {
             chance = 10
         }
     },
-    loc_vars = function(self,info_queue,center)
-        return {vars = {G.GAME.probabilities.normal, center.ability.extra.chance, center.ability.extra.chance * G.GAME.probabilities.normal}}
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {G.GAME.probabilities.normal, center.ability.extra.chance,
+                    center.ability.extra.chance * G.GAME.probabilities.normal}
+        }
     end,
-    calculate = function(self,card,context)
-        
+    calculate = function(self, card, context)
+
         -- Activate ability before scoring if chance is higher than 0
         if context.before and card.ability.extra.chance > 0 then
 
@@ -96,15 +124,16 @@ SMODS.Joker { -- Fortune Cookie
                 if (chance_roll >= chance_odds) then
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
-                            func = function()
+                        func = function()
                             play_sound('tarot1')
                             card:juice_up(0.3, 0.4)
 
-                            local new_card = create_card('Tarot', G.consumeables, nil,nil,nil,nil,nil,'fco')
+                            local new_card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'fco')
                             new_card:add_to_deck()
                             G.consumeables:emplace(new_card)
                             G.GAME.consumeable_buffer = 0
-                        return true; end
+                            return true;
+                        end
                     }))
                     return {
                         card = card,
@@ -112,13 +141,15 @@ SMODS.Joker { -- Fortune Cookie
                         colour = G.C.SECONDARY_SET.Tarot
                     }
 
-                -- Failed Roll
+                    -- Failed Roll
                 else
+                    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (10 - card.ability.extra.chance)
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
-                        func = function ()
+                        func = function()
                             play_sound('tarot2')
-                        return true; end
+                            return true;
+                        end
                     }))
                     return {
                         card = card,
@@ -129,9 +160,10 @@ SMODS.Joker { -- Fortune Cookie
             else
                 G.E_MANAGER:add_event(Event({
                     trigger = 'before',
-                    func = function ()
+                    func = function()
                         play_sound('tarot2')
-                    return true; end
+                        return true;
+                    end
                 }))
                 return {
                     card = card,
@@ -151,7 +183,8 @@ SMODS.Joker { -- Fortune Cookie
         -- "Crumble" card after scoring
         if context.after and not context.blueprint then
             if card.ability.extra.chance < 1 then
-                --Code derived from Gros Michel/Cavendish
+                G.GAME.destroyed_food = card.config.center.key 
+                -- Code derived from Gros Michel/Cavendish
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot2')
@@ -159,47 +192,55 @@ SMODS.Joker { -- Fortune Cookie
                         card:juice_up(0.3, 0.4)
                         card.states.drag.is = true
                         card.children.center.pinch.x = true
-                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            delay = 0.3,
+                            blockable = false,
                             func = function()
                                 G.jokers:remove_card(card)
                                 card:remove()
                                 card = nil
-                            return true; end}))
-                        return true 
+                                return true;
+                            end
+                        }))
+                        return true
                     end
                 }))
                 return {
                     card = card,
                     message = 'Crumbled'
-                } 
+                }
             end
         end
     end
 }
 
 SMODS.Joker { -- Poindexter
-    key='poindexter',
+    key = 'poindexter',
     loc_txt = {
         name = "Poindexter",
-        text = {
-            '{C:mult}x0.25{} mult for every',
-            'scoring {C:attention}glass card{} that',
-            'remains intact; {C:red}Resets{} on break',
-            '{C:inactive}Currently: x#1#{}'
-        }
+        text = {'{C:mult}x0.25{} mult for every', 'scoring {C:attention}glass card{} that',
+                'remains intact; {C:red}Resets{} on break', '{C:inactive}Currently: x#1#{}'}
     },
     atlas = 'Jokers',
     rarity = 2,
-    pos = {x = 1, y = 0},
-    config = { extra = {
-        Xmult = 1.0,
-        shattered = false
-    }},
-    loc_vars = function(self,info_queue,center)
-        info_queue[#info_queue+1] = G.P_CENTERS.m_glass
-        return {vars = {center.ability.extra.Xmult, center.ability.extra.shattered}}
+    pos = {
+        x = 1,
+        y = 0
+    },
+    config = {
+        extra = {
+            Xmult = 1.0,
+            shattered = false
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
+        return {
+            vars = {center.ability.extra.Xmult, center.ability.extra.shattered}
+        }
     end,
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
 
         if context.joker_main then
             if card.ability.extra.Xmult > 0 then
@@ -221,7 +262,7 @@ SMODS.Joker { -- Poindexter
             -- Check for shattered glass
             if context.removed ~= nil then
                 for k, val in ipairs(context.removed) do
-                    if val.config.center_key == 'm_glass' then 
+                    if val.config.center_key == 'm_glass' then
                         card.ability.extra.Xmult = 1
                         card.ability.extra.shattered = true
                     end
@@ -232,7 +273,8 @@ SMODS.Joker { -- Poindexter
                             func = function()
                                 play_sound('tarot2')
                                 card:juice_up(0.3, 0.4)
-                            return true; end
+                                return true;
+                            end
                         }))
                     end
                 end
@@ -261,7 +303,7 @@ SMODS.Joker { -- Poindexter
                         card.ability.extra.Xmult = card.ability.extra.Xmult + (glass * 0.25)
                         card:juice_up(0.3, 0.4)
                         play_sound('tarot1')
-                        return true; 
+                        return true;
                     end
                 }))
                 return {
@@ -275,72 +317,89 @@ SMODS.Joker { -- Poindexter
 }
 
 SMODS.Joker { -- Abyss
-    key='abyss',
+    key = 'abyss',
     loc_txt = {
         name = "Abyss",
-        text = {
-            'When blind is selected, {C:attention}50/50{}',
-            '{C:attention}chance{} of making a currently held',
-            'non-negative Joker {C:dark_edition}Negative{} or',
-            'destroying a currently held non-negative joker',
-            '{C:inactive}Can override other editions{}'
-        }
+        text = {'When blind is selected, {C:attention}50/50{}', '{C:attention}chance{} of making a currently held',
+                'non-negative Joker {C:dark_edition}Negative{} or', 'destroying a currently held non-negative joker',
+                '{C:inactive}Can override other editions{}'}
     },
     atlas = 'Jokers',
     rarity = 3,
-    pos = {x = 2, y = 0},
+    pos = {
+        x = 2,
+        y = 0
+    },
     config = {},
-    loc_vars = function(self,info_queue,center)
-        info_queue[#info_queue+1] = G.P_CENTERS.e_negative
-        return {vars = {}}
+    loc_vars = function(self, info_queue, center)
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
+        return {
+            vars = {}
+        }
     end,
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
         if context.setting_blind then
 
             -- Store all eligible jokers in table
-                -- Code derived Madness
+            -- Code derived Madness
             local eligible_jokers = {}
             for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and not(G.jokers.cards[i].edition and G.jokers.cards[i].edition.negative) and not G.jokers.cards[i].getting_sliced then 
-                    eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i] 
+                if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and
+                    not (G.jokers.cards[i].edition and G.jokers.cards[i].edition.negative) and
+                    not G.jokers.cards[i].getting_sliced then
+                    eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
                 end
             end
 
             -- Fail if no held jokers are eligible
             if next(eligible_jokers) == nil then
                 return {
-                    extra = {message = 'No target...', colour = G.C.PURPLE}
+                    extra = {
+                        message = 'No target...',
+                        colour = G.C.PURPLE
+                    }
                 }
-            else 
-            -- Choose Joker to affect
-            local chosen_joker = #eligible_jokers > 0 and pseudorandom_element(eligible_jokers, pseudoseed('abyss')) or nil
+            else
+                -- Choose Joker to affect
+                local chosen_joker =
+                    #eligible_jokers > 0 and pseudorandom_element(eligible_jokers, pseudoseed('abyss')) or nil
 
-            -- "Flip a coin" to decide what to do with the target
-            local flip = pseudorandom('aby', 1, 2)
+                -- "Flip a coin" to decide what to do with the target
+                local flip = pseudorandom('aby', 1, 2)
 
-            -- Add negative edition to random held joker
-            if flip == 1 then
-                card:juice_up(0.3, 0.4)
-                chosen_joker:set_edition({negative = true}, true)
-                return {
-                    extra = {message = 'Void-touched!', colour = G.C.PURPLE}
-                }
-                
-            -- Destroy a random non-negative joker
-            elseif flip == 2 then
+                -- Add negative edition to random held joker
+                if flip == 1 then
+                    card:juice_up(0.3, 0.4)
+                    chosen_joker:set_edition({
+                        negative = true
+                    }, true)
+                    return {
+                        extra = {
+                            message = 'Void-touched!',
+                            colour = G.C.PURPLE
+                        }
+                    }
 
-                --Double check the target is not self
+                    -- Destroy a random non-negative joker
+                elseif flip == 2 then
+
+                    -- Double check the target is not self
                     -- Code derived Madness
-                if chosen_joker and not (context.blueprint_card or card).getting_sliced then                            chosen_joker.getting_sliced = true
-                    G.E_MANAGER:add_event(Event({
-                        func = function()
-                            (context.blueprint_card or card):juice_up(0.8, 0.8)
-                            chosen_joker:start_dissolve({G.C.PURPLE}, nil, 1.6)
-                            return true; 
-                        end}))
+                    if chosen_joker and not (context.blueprint_card or card).getting_sliced then
+                        chosen_joker.getting_sliced = true
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                (context.blueprint_card or card):juice_up(0.8, 0.8)
+                                chosen_joker:start_dissolve({G.C.PURPLE}, nil, 1.6)
+                                return true;
+                            end
+                        }))
                     end
-                    return{
-                        extra = {message = 'Cosumed', colour = G.C.PURPLE}
+                    return {
+                        extra = {
+                            message = 'Consumed',
+                            colour = G.C.PURPLE
+                        }
                     }
                 end
             end
@@ -352,15 +411,14 @@ SMODS.Joker { -- War
     key = 'war',
     loc_txt = {
         name = 'War',
-        text = {
-            'All even cards are',
-            'treated as {C:attention}the same card{},',
-            'all odd cards are',
-            'treated as {C:attention}the same card{}'
-        }
+        text = {'All even cards are', 'treated as {C:attention}the same card{},', 'all odd cards are',
+                'treated as {C:attention}the same card{}'}
     },
     atlas = 'Jokers',
-    pos = {x = 3, y = 0},
+    pos = {
+        x = 3,
+        y = 0
+    },
     rarity = 3,
     config = {}
 }
@@ -369,21 +427,21 @@ SMODS.Joker { -- Microwave
     key = 'microwave',
     loc_txt = {
         name = 'Microwave',
-        text = {
-            '{C:red}Food{} Jokers are',
-            '{C:attention}retriggered'
-        }
+        text = {'{C:red}Food{} Jokers are', '{C:attention}retriggered'}
     },
     atlas = 'Jokers',
-    pos = {x = 4, y = 0},
-    rarity = 3,
+    pos = {
+        x = 4,
+        y = 0
+    },
+    rarity = 2,
     config = {},
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
 
         -- Thank you to theonegoodali from the Balatro Discord for helping me with this conditional
         if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
             for i = 1, #food_jokers do
-                if context.other_card.ability.name == food_jokers[i] then
+                if context.other_card.ability.name == food_jokers[i].name and food_jokers[i].name ~= 'Leftovers' then
                     return {
                         message = localize('k_again_ex'),
                         repetitions = 1,
@@ -399,48 +457,50 @@ SMODS.Joker { -- Combo Breaker
     key = 'combo_breaker',
     loc_txt = {
         name = 'Combo Breaker',
-        text = {
-            'Gains {C:mult}0.5x{} mult',
-            'per retrigger in a played hand',
-            '{C:inactive}Starts at 1x mult, resets every hand{}'
-        }
+        text = {'Gains {C:mult}0.5x{} mult', 'per retrigger', '{C:inactive}Starts at 1x mult, resets every hand{}'}
     },
     atlas = 'Jokers',
-    pos = {x = 0, y = 1},
+    pos = {
+        x = 0,
+        y = 1
+    },
     rarity = 3,
-    config = { extra = {
-        Xmult = 1.0,
-        retriggers = 0
+    config = {
+        extra = {
+            Xmult = 1.0,
+            retriggers = 0
         }
     },
-    loc_vars = function(self,info_queue,center)
-        return {vars = {center.ability.extra.Xmult, center.ability.extra.retriggers}}
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.Xmult, center.ability.extra.retriggers}
+        }
     end,
 
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
 
-        if context.scoring_hand and context.repetition and not context.blueprint then
-            if context.cardarea == G.play or context.cardarea == G.hand or context.cardarea == G.jokers then
-                -- Add retrigger to total
-                card.ability.extra.retriggers = card.ability.extra.retriggers + 1
-                sendTraceMessage('Retrigger logged. Count: ' .. card.ability.extra.retriggers,'MaximusDebug')
-                return {
-                    repetitions = 0,
-                    card = card
-                }
-            end
+        if (context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= card) or
+            (context.repetition and context.repetition_only) then
+            -- Add retrigger to total
+            card.ability.extra.retriggers = card.ability.extra.retriggers + 1
+            sendTraceMessage('Retrigger logged. Count: ' .. card.ability.extra.retriggers, 'MaximusDebug')
+            return {
+                repetitions = 0,
+                card = card
+            }
         end
 
         if context.joker_main and card.ability.extra.retriggers > 0 then
             -- Add retrigger count and multiply by 0.5 for mult 
-            card.ability.extra.Xmult =  card.ability.extra.Xmult + (card.ability.extra.retriggers * 0.5)
+            card.ability.extra.Xmult = card.ability.extra.Xmult + (card.ability.extra.retriggers * 0.5)
 
             G.E_MANAGER:add_event(Event({
-                func = function ()
+                func = function()
                     play_sound('mxms_perfect')
-                return true; end
+                    return true;
+                end
             }))
-            
+
             return {
                 Xmult_mod = card.ability.extra.Xmult,
                 message = 'x' .. card.ability.extra.Xmult,
@@ -449,7 +509,7 @@ SMODS.Joker { -- Combo Breaker
             }
         end
 
-        if context.before or context.after then 
+        if context.before or context.after then
             card.ability.extra.retriggers = 0
             card.ability.extra.Xmult = 1.0
         end
@@ -460,15 +520,14 @@ SMODS.Joker { -- Faded
     key = 'faded',
     loc_txt = {
         name = 'Faded Joker',
-        text = {
-            '{C:diamonds}Diamonds{} and {C:spades}Spades{}',
-            'count as the same suit,',
-            '{C:hearts}Hearts{} and {C:clubs}Clubs{}',
-            'count as the same suit'
-        }
+        text = {'{C:diamonds}Diamonds{} and {C:spades}Spades{}', 'count as the same suit,',
+                '{C:hearts}Hearts{} and {C:clubs}Clubs{}', 'count as the same suit'}
     },
     atlas = 'Jokers',
-    pos = {x = 1, y = 1},
+    pos = {
+        x = 1,
+        y = 1
+    },
     rarity = 2,
     config = {}
 }
@@ -477,17 +536,17 @@ SMODS.Joker { -- Old Man Jimbo
     key = 'old_man_jimbo',
     loc_txt = {
         name = 'Old Man Jimbo',
-        text = {
-            '{C:mult}x1{} mult plus {C:mult}x0.5{}',
-            'for each remaining hand'
-        }
+        text = {'{C:mult}x1{} mult plus {C:mult}x0.5{}', 'for each remaining hand'}
     },
     atlas = 'Jokers',
-    pos = {x = 2, y = 1},
-    rarity = 3,
+    pos = {
+        x = 2,
+        y = 1
+    },
+    rarity = 2,
     config = {},
 
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
         if context.joker_main then
             local Xmult = 1 + (0.5 * G.GAME.current_round.hands_left)
             return {
@@ -503,20 +562,25 @@ SMODS.Joker { -- Joker+
     key = 'joker_plus',
     loc_txt = {
         name = 'Joker+',
-        text = {
-            '{C:mult}+5{} mult'
-        }
+        text = {'{C:mult}+5{} mult'}
     },
     atlas = 'Jokers',
-    pos = {x = 3, y = 1},
+    pos = {
+        x = 3,
+        y = 1
+    },
     rarity = 3,
-    config = { extra = {
-        mult = 5
-    }},
-    loc_vars = function(self,info_queue,center)
-        return {vars = {center.ability.extra.mult}}
+    config = {
+        extra = {
+            mult = 5
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.mult}
+        }
     end,
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
         if context.joker_main then
             return {
                 mult_mod = card.ability.extra.mult,
@@ -531,18 +595,19 @@ SMODS.Joker { -- Normal Joker
     key = 'normal',
     loc_txt = {
         name = 'Normal Joker',
-        text = {
-            'Played cards without an enchancement,',
-            'edition, or seal give {C:mult}+1{} mult and {C:chips}+5{} chips'
-        }
+        text = {'Played cards without an enchancement,',
+                'edition, or seal give {C:mult}+1{} mult and {C:chips}+5{} chips'}
     },
     atlas = 'Jokers',
-    pos = {x = 4, y = 1},
+    pos = {
+        x = 4,
+        y = 1
+    },
     rarity = 1,
     config = {},
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
-            if not context.other_card.edition and not context.other_card.seal and not context.other_card.enhancement then 
+            if not context.other_card.edition and not context.other_card.seal and not context.other_card.enhancement then
                 return {
                     mult = 1,
                     chips = 5
@@ -556,29 +621,31 @@ SMODS.Joker { -- Streaker
     key = 'streaker',
     loc_txt = {
         name = 'Streaker',
-        text = {
-            '{C:chips}+30{} chips and {C:mult}+15{} mult',
-            'for each consecutive {C:attention}blind{}',
-            'beaten in {C:attention}one hand{}, {C:red}Resets{}',
-            'when streak is broken',
-            '{C:inactive}Current streak: #1#',
-            '{C:inactive}Total: +#3# chips +#4# mult'
-        }
+        text = {'{C:chips}+30{} chips and {C:mult}+15{} mult', 'for each consecutive {C:attention}blind{}',
+                'beaten in {C:attention}one hand{}, {C:red}Resets{}', 'when streak is broken',
+                '{C:inactive}Current streak: #1#', '{C:inactive}Total: +#3# chips +#4# mult'}
     },
     atlas = 'Jokers',
-    pos = {x = 5, y = 0},
-    rarity = 3,
-    config = { extra = {
-        streak = 0,
-        hands = 0, -- I know there's an tracker in vanilla but I can't access it at context.end_of_round
-        chips = 0,
-        mult = 0,    
-    }
+    pos = {
+        x = 5,
+        y = 0
     },
-    loc_vars = function(self,info_queue,center)
-        return {vars = {center.ability.extra.streak, center.ability.extra.hands, center.ability.extra.chips, center.ability.extra.mult}}
+    rarity = 2,
+    config = {
+        extra = {
+            streak = 0,
+            hands = 0, -- I know there's an tracker in vanilla but I can't access it at context.end_of_round
+            chips = 0,
+            mult = 0
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.streak, center.ability.extra.hands, center.ability.extra.chips,
+                    center.ability.extra.mult}
+        }
     end,
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
 
         if context.joker_main and card.ability.extra.streak > 0 then
             return {
@@ -589,7 +656,7 @@ SMODS.Joker { -- Streaker
             }
         end
 
-        if context.before and not context.blueprint then 
+        if context.before and not context.blueprint then
             card.ability.extra.hands = card.ability.extra.hands + 1
         end
 
@@ -600,7 +667,7 @@ SMODS.Joker { -- Streaker
                 card.ability.extra.chips = 30 * card.ability.extra.streak
                 card.ability.extra.mult = 15 * card.ability.extra.streak
                 return {
-                    message = 'Streak ' .. card.ability.extra.streak, 
+                    message = 'Streak ' .. card.ability.extra.streak,
                     colour = G.C.CHIPS,
                     card = card
                 }
@@ -623,19 +690,17 @@ SMODS.Joker { -- Jobber
     key = 'jobber',
     loc_txt = {
         name = 'Jobber',
-        text = {
-            'If hand is played with only',
-            '{C:red}debuffed{} cards, destroy this',
-            'Joker and create a random copy',
-            'of another held Joker',
-            '{C:inactive}Removes negative from copy'
-        }
+        text = {'If hand is played with only', '{C:red}debuffed{} cards, destroy this',
+                'Joker and create a random copy', 'of another held Joker', '{C:inactive}Removes negative from copy'}
     },
     atlas = 'Jokers',
-    pos = {x = 6, y = 0},
+    pos = {
+        x = 6,
+        y = 0
+    },
     rarity = 3,
     blueprint_compat = false,
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
 
         if context.before and not context.blueprint then
 
@@ -651,13 +716,13 @@ SMODS.Joker { -- Jobber
             -- Fail if not all debuffed
             if not all_debuffed then
                 return
-                
+
             else
                 -- Store all eligible jokers in table
-                    -- Code derived Madness
+                -- Code derived Madness
                 local eligible_jokers = {}
                 for i = 1, #G.jokers.cards do
-                    if G.jokers.cards[i] ~= card then 
+                    if G.jokers.cards[i] ~= card then
                         eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
                     end
                 end
@@ -665,32 +730,41 @@ SMODS.Joker { -- Jobber
                 -- Fail if no held jokers are eligible
                 if next(eligible_jokers) == nil then
                     return {
-                        extra = {message = 'No target...', colour = G.C.PURPLE},
+                        extra = {
+                            message = 'No target...',
+                            colour = G.C.PURPLE
+                        },
                         card = card
                     }
-                else 
+                else
 
-                -- Destroy Jobber
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        card:start_dissolve({G.C.YELLOW}, nil, 1.6)
-                        return true; 
-                    end}))
+                    -- Destroy Jobber
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            card:start_dissolve({G.C.YELLOW}, nil, 1.6)
+                            return true;
+                        end
+                    }))
                 end
 
                 -- Choose Joker to copy
-                local chosen_joker = #eligible_jokers > 0 and pseudorandom_element(eligible_jokers, pseudoseed('jobber')) or nil
+                local chosen_joker = #eligible_jokers > 0 and
+                                         pseudorandom_element(eligible_jokers, pseudoseed('jobber')) or nil
 
                 -- Copy Joker and add to hand
-                local new_card = copy_card(chosen_joker, nil, nil, nil, chosen_joker.edition and chosen_joker.edition.negative)
+                local new_card = copy_card(chosen_joker, nil, nil, nil,
+                    chosen_joker.edition and chosen_joker.edition.negative)
                 new_card:start_materialize()
                 new_card:add_to_deck()
                 if new_card.edition and new_card.edition.negative then
                     new_card:set_edition(nil, true)
                 end
-                G.jokers:emplace(new_card)               
+                G.jokers:emplace(new_card)
                 return {
-                    extra = {message = 'Jobbed', colour = G.C.YELLOW},
+                    extra = {
+                        message = 'Jobbed',
+                        colour = G.C.YELLOW
+                    },
                     card = card
                 }
             end
@@ -702,15 +776,16 @@ SMODS.Joker { -- Astigmatism
     key = 'astigmatism',
     loc_txt = {
         name = 'Astigmatism',
-        text = {
-            '{C:chips}x2{} chips'
-        }
+        text = {'{C:chips}x2{} chips'}
     },
     atlas = 'Jokers',
-    pos = {x = 7, y = 0}, -- Change once sprite art is added
+    pos = {
+        x = 7,
+        y = 0
+    }, -- Change once sprite art is added
     rarity = 3,
     config = {},
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
 
         if context.joker_main then
             return {
@@ -727,13 +802,13 @@ SMODS.Joker { -- Perspective
     key = 'perspective',
     loc_txt = {
         name = 'Perspective',
-        text = {
-            '6\'s count as 9\'s',
-            'and vice-versa'
-        }
+        text = {'{C:attention}6\'s{} count as {C:attention}9\'s{}', 'and vice-versa'}
     },
     atlas = 'Jokers',
-    pos = {x = 8, y = 0},
+    pos = {
+        x = 8,
+        y = 0
+    },
     rarity = 1,
     config = {}
 }
@@ -742,21 +817,25 @@ SMODS.Joker { -- Harmony
     key = 'harmony',
     loc_txt = {
         name = 'Harmony',
-        text = {
-            '{C:mult}+16{} mult if played',
-            'hand contains an Ace and a 2'
-        }
+        text = {'{C:mult}+16{} mult if played', 'hand contains an Ace and a 2'}
     },
     atlas = 'Jokers',
-    pos = {x = 5, y = 1},
-    rarity = 3,
-    config = { extra = {
-        mult = 16
-    }},
-    loc_vars = function(self,info_queue,center)
-        return {vars = {center.ability.extra.mult}}
+    pos = {
+        x = 5,
+        y = 1
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            mult = 16
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.mult}
+        }
     end,
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
 
         if context.joker_main then
             local aces, twos = 0, 0
@@ -785,26 +864,30 @@ SMODS.Joker { -- Impractical Joker
     key = 'impractical_joker',
     loc_txt = {
         name = 'Impractical Joker',
-        text = {
-            'If a {C:attention}#2#{} is played,',
-            '{C:mult}x3{} mult. If three hands in a',
-            'row are not this hand type, {C:mult}0.5x{} mult',
-            '{C:inactive}Fail streak: #1#'
-        }
+        text = {'If a {C:attention}#2#{} is played,', '{C:mult}x3{} mult. If three hands in a',
+                'row are not this hand type, {C:mult}0.5x{} mult', '{C:inactive}Hand rotates every round',
+                '{C:inactive}Fail streak: #1#'}
     },
     atlas = 'Jokers',
-    pos = {x = 6, y = 1},
-    rarity = 1,
-    config = { extra = {
-        fails = 0
-    }},
-    loc_vars = function(self,info_queue,center)
-        return {vars = {center.ability.extra.fails, G.GAME.current_round.impractical_hand}}
+    pos = {
+        x = 6,
+        y = 1
+    },
+    rarity = 2,
+    config = {
+        extra = {
+            fails = 0
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.fails, G.GAME.current_round.impractical_hand}
+        }
     end,
-    calculate = function(self,card,context)
+    calculate = function(self, card, context)
 
         if context.joker_main then
-            
+
             -- If correct hand is played
             if context.scoring_name == G.GAME.current_round.impractical_hand then
 
@@ -818,10 +901,10 @@ SMODS.Joker { -- Impractical Joker
                     colour = G.C.MULT
                 }
 
-            -- If incorrect hand is played
-            else 
+                -- If incorrect hand is played
+            else
 
-                if not context.blueprint  then
+                if not context.blueprint then
                     card.ability.extra.fails = card.ability.extra.fails + 1
                 end
 
@@ -831,8 +914,8 @@ SMODS.Joker { -- Impractical Joker
                         message = 'Fail ' .. card.ability.extra.fails,
                         colour = G.C.RED
                     }
-                    
-                -- If 3 fails
+
+                    -- If 3 fails
                 elseif card.ability.extra.fails == 3 then
                     return {
                         message = 'Tonight\'s Biggest Loser',
@@ -857,20 +940,23 @@ SMODS.Joker { -- Trick or Treat
     key = 'trick_or_treat',
     loc_txt = {
         name = 'Trick or Treat',
-        text = {
-            'When held, {C:attention}Booster packs{}',
-            'now let you take one more', 
-            'card than usual'
-        }
+        text = {'When held, {C:attention}Booster packs{}', 'now let you take one more', 'card than usual'}
     },
     atlas = 'Jokers',
-    pos = {x = 7, y = 1},
-    rarity = 3,
-    config = { extra = {
-        mult = 5
-    }},
-    loc_vars = function(self,info_queue,center)
-        return {vars = {center.ability.extra.mult}}
+    pos = {
+        x = 7,
+        y = 1
+    },
+    rarity = 2,
+    config = {
+        extra = {
+            mult = 5
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.mult}
+        }
     end,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.choose_mod = G.GAME.choose_mod + 1
@@ -880,3 +966,151 @@ SMODS.Joker { -- Trick or Treat
         G.GAME.choose_mod = G.GAME.choose_mod - 1
     end
 }
+
+SMODS.Joker { -- Pessimistic Joker
+    key = 'pessimistic',
+    loc_txt = {
+        name = 'Pessimistic Joker',
+        text = {'Every failed probability check', 'adds the odds of failing to this', 'Joker\'s mult',
+                '{C:inactive}+3 for Lucky Card Mult chance', '{C:inactive}Total: +#2#'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 1
+    },
+    rarity = 2,
+    config = {
+        extra = {
+            mult = 0
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.mult, G.GAME.pessimistic_mult}
+        }
+    end,
+    calculate = function(self, card, context)
+
+        if context.joker_main and card.ability.extra.mult > 0 then
+            return {
+                mult_mod = card.ability.extra.mult,
+                message = '+' .. card.ability.extra.mult,
+                colour = G.C.MULT
+            }
+        end
+
+        if context.buying_card and not context.blueprint then
+            card.ability.extra.mult = G.GAME.pessimistic_mult
+        end
+
+        if context.selling_self and not context.blueprint then
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i].config.center.key  == card.config.center.key  and G.jokers.cards[i] ~= card then
+                    sendDebugMessage('More than one Pessimistic detected, skipping reset','MaximusDebug')
+                    return
+                end
+            end
+            G.GAME.pessimistic_mult = 0
+        end
+
+        if context.individual and context.other_card.ability.effect == 'Lucky Card' and not context.other_card.lucky_trigger and not context.blueprint then
+            G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + 3
+        end
+
+        if card.ability.extra.mult ~= G.GAME.pessimistic_mult then
+            card.ability.extra.mult = G.GAME.pessimistic_mult
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.MULT
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Chef
+    key = 'chef',
+    loc_txt = {
+        name = 'Chef',
+        text = {'Creates a random {C:attention}Food{} Joker', 'when blind is selected'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 2
+    },
+    rarity = 1,
+    calculate = function(self, card, context)
+
+        if context.setting_blind then
+            -- Check if there is space for a new joker
+            if #G.jokers.cards >= G.jokers.config.card_limit then
+                return
+
+            else
+                local chosen_joker = pseudorandom_element(food_jokers, pseudoseed('chef'))
+                local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_joker.key, 'chef')
+                new_card:add_to_deck()
+                G.jokers:emplace(new_card)
+            end
+        end
+
+    end
+}
+
+SMODS.Joker { -- Leftovers
+    key = 'leftovers',
+    loc_txt = {
+        name = 'Leftovers',
+        text = {'Creates a new copy of', 'a {C:attention}Food{} Joker when', 'depleated or destroyed',
+                '{C:inactive}Self-destructs on copy{}'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 2
+    },
+    blueprint_compat = false,
+    rarity = 1,
+    calculate = function(self, card, context)
+
+        if G.GAME.destroyed_food ~= '' and not context.blueprint then
+            local respawn_key = G.GAME.destroyed_food
+            G.GAME.destroyed_food = ''
+
+
+            G.E_MANAGER:add_event(Event({
+                delay = 0.3,
+                func = function()
+                    play_sound('timpani')
+
+                    local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, respawn_key, 'lefto')
+                    new_card:add_to_deck()
+                    G.jokers:emplace(new_card)
+
+                    card.T.r = -0.2
+                    card:juice_up(0.3, 0.4)
+                    card.states.drag.is = true
+                    card.children.center.pinch.x = true
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.3,
+                        blockable = false,
+                        func = function()
+                            G.jokers:remove_card(card)
+                            card:remove()
+                            card = nil
+                            return true;
+                        end
+                    }))
+                    return true
+                end
+            }))
+            return {
+                card = card,
+                message = 'Saved for later!'
+            }
+        end
+    end
+}
+

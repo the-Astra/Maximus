@@ -3,8 +3,9 @@ version = "1.0.0"
 dump_lua = true
 priority = -1
 
-# Change booster card choice count from static to variable
+# Add Trick or Treak Functionality --------------------------------------
 
+    # Create modifier for card choice
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -15,6 +16,8 @@ G.GAME.pack_choices = G.GAME.pack_choices + G.GAME.choose_mod
 '''
 match_indent = true
 
+
+    # Add modifier to definitions
 [[patches]]
 [patches.regex]
 target = "functions/common_events.lua"
@@ -24,8 +27,8 @@ payload = " + G.GAME.choose_mod"
 match_indent = true
 times = 15
 
-# Add choose_mod variable to change pack choice count
 
+    # Add modifier to pack function
 [[patches]]
 [patches.pattern]
 target = "game.lua"
@@ -34,9 +37,12 @@ position = "after"
 payload = " choose_mod = 0,"
 match_indent = true
 
-# Add Faded Joker Functionality
 
-# Add choose_mod variable to change pack choice count
+
+
+
+
+# Add Faded Joker Functionality -----------------------------------------
 
 [[patches]]
 [patches.pattern]
@@ -49,9 +55,602 @@ end
 position = "after"
 payload = '''
 if next(SMODS.find_card('j_mxms_faded')) and (self.base.suit == 'Spades' or self.base.suit == 'Diamonds') == (suit == 'Spades' or suit == 'Diamonds') then
-    sendDebugMessage("Faded Joker detected","MaximusDebug")
     return true
 end
 '''
 match_indent = true
 times = 2
+
+
+
+
+
+
+# Add War Functionality -------------------------------------------------
+
+
+
+
+
+
+
+# Add Perspective Functionality -----------------------------------------
+
+    #Sixth Sense flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Sixth Sense' and #context.full_hand == 1 and context.full_hand[1]:get_id() == 6 and G.GAME.current_round.hands_played == 0 then
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Sixth Sense' and #context.full_hand == 1 and (context.full_hand[1]:get_id() == 6 or (next(SMODS.find_card('j_mxms_perspective')) and context.full_hand[1]:get_id() == 9)) and G.GAME.current_round.hands_played == 0 then 
+'''
+match_indent = true
+
+
+    #Mail-in Rebate flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Mail-In Rebate' and
+not context.other_card.debuff and
+context.other_card:get_id() == G.GAME.current_round.mail_card.id then
+    ease_dollars(self.ability.extra)
+    return {
+        message = localize('$')..self.ability.extra,
+        colour = G.C.MONEY,
+        card = self
+    }
+end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Mail-In Rebate' and
+not context.other_card.debuff then
+    if context.other_card:get_id() == G.GAME.current_round.mail_card.id 
+    or (next(SMODS.find_card('j_mxms_perspective')) and 
+    ((context.other_card:get_id() == 9 and G.GAME.current_round.mail_card.id == 6) 
+    or (context.other_card:get_id() == 6 and G.GAME.current_round.mail_card.id == 9))) then
+        ease_dollars(self.ability.extra)
+        return {
+            message = localize('$')..self.ability.extra,
+            colour = G.C.MONEY,
+            card = self
+        }
+    end
+end
+'''
+match_indent = true
+
+
+    #The Idol flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'The Idol' and
+    context.other_card:get_id() == G.GAME.current_round.idol_card.id and 
+    context.other_card:is_suit(G.GAME.current_round.idol_card.suit) then
+        return {
+            x_mult = self.ability.extra,
+            colour = G.C.RED,
+            card = self
+        }
+    end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'The Idol' then
+    if context.other_card:get_id() == G.GAME.current_round.idol_card.id
+    or (next(SMODS.find_card('j_mxms_perspective')) and 
+    ((context.other_card:get_id() == 9 and G.GAME.current_round.idol_card.id == 6) 
+    or (context.other_card:get_id() == 6 and G.GAME.current_round.idol_card.id == 9))) 
+    and context.other_card:is_suit(G.GAME.current_round.idol_card.suit) then
+        return {
+            x_mult = self.ability.extra,
+            colour = G.C.RED,
+            card = self
+        }
+    end
+end
+'''
+match_indent = true
+
+
+    #Even Steven flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Even Steven' and
+context.other_card:get_id() <= 10 and 
+context.other_card:get_id() >= 0 and
+context.other_card:get_id()%2 == 0
+then
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Even Steven' and
+((context.other_card:get_id() <= 10 and 
+context.other_card:get_id() >= 0 and
+context.other_card:get_id()%2 == 0) or
+(next(SMODS.find_card('j_mxms_perspective')) and context.other_card:get_id() == 9))
+then
+'''
+match_indent = true
+
+
+    #Odd Todd flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Odd Todd' and
+((context.other_card:get_id() <= 10 and 
+context.other_card:get_id() >= 0 and
+context.other_card:get_id()%2 == 1) or
+(context.other_card:get_id() == 14))
+then
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Odd Todd' and
+(((context.other_card:get_id() <= 10 and 
+context.other_card:get_id() >= 0 and
+context.other_card:get_id()%2 == 1) or
+(context.other_card:get_id() == 14)) or
+(next(SMODS.find_card('j_mxms_perspective')) and context.other_card:get_id() == 6))
+then
+'''
+match_indent = true
+
+
+    #Cloud 9 flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if v:get_id() == 9 then self.ability.nine_tally = self.ability.nine_tally+1 end
+'''
+position = "at"
+payload = '''
+if v:get_id() == 9 or (next(SMODS.find_card('j_mxms_perspective')) and v:get_id() == 6) then self.ability.nine_tally = self.ability.nine_tally+1 end
+'''
+match_indent = true
+
+
+
+
+
+
+# Set up Leftovers flags ------------------------------------------------
+
+    #Create flag variable
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "pack_size = 2,"
+position = "after"
+payload = " destroyed_food = '',"
+match_indent = true
+
+
+    #Gros Michel/Cavendish flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if pseudorandom(self.ability.name == 'Cavendish' and 'cavendish' or 'gros_michel') < G.GAME.probabilities.normal/self.ability.extra.odds then "
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+
+
+    #Ramen flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+ if self.ability.name == 'Ramen' and not context.blueprint then
+    if self.ability.x_mult - self.ability.extra <= 1 then
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+
+
+    #Ice Cream flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Ice Cream' and not context.blueprint then
+    if self.ability.extra.chips - self.ability.extra.chip_mod <= 0 then
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+
+
+    #Turtle Bean flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Turtle Bean' and not context.blueprint then
+    if self.ability.extra.h_size - self.ability.extra.h_mod <= 0 then 
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+
+
+    #Diet Cola flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Diet Cola' then
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+
+
+    #Popcorn flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Popcorn' and not context.blueprint then
+    if self.ability.mult - self.ability.extra <= 0 then 
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+
+
+    #Seltzer flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Seltzer' and not context.blueprint then
+    if self.ability.extra - 1 <= 0 then 
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+
+
+    #Egg flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+elseif context.selling_self then
+'''
+position = "after"
+payload = '''
+if self.ability.name == 'Egg' then
+    if next(SMODS.find_card('j_mxms_leftovers')) then
+        G.GAME.destroyed_food = self.config.center.key
+    end
+end
+'''
+match_indent = true
+
+
+
+
+
+
+# Add Pessimistic Functionality ----------------------------------------
+
+    # Create global variable to hold Pessimistic mult
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "pack_size = 2,"
+position = "after"
+payload = " pessimistic_mult = 0,"
+match_indent = true
+
+    # Add flag to Wheel of Fortune
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+    attention_text({
+        text = localize('k_nope_ex'),
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_card('j_mxms_pessimistic')) then
+    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra - G.GAME.probabilities.normal)
+    sendDebugMessage('The Wheel feeds Pessimistic','MaximusDebug')
+end
+'''
+match_indent = true
+
+
+    # Add flag to Hallucination
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if pseudorandom('halu'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/self.ability.extra then
+    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+    G.E_MANAGER:add_event(Event({
+        trigger = 'before',
+        delay = 0.0,
+        func = (function()
+            local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, 'hal')
+            card:add_to_deck()
+                G.consumeables:emplace(card)
+                G.GAME.consumeable_buffer = 0
+            return true
+        end)}))
+    card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})
+'''
+position = "after"
+payload = '''
+elseif next(SMODS.find_card('j_mxms_pessimistic')) then
+    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra - G.GAME.probabilities.normal)
+    sendDebugMessage('Hallucination feeds Pessimistic','MaximusDebug')
+'''
+match_indent = true
+
+
+    # Add flag to Gros Michel/Cavendish
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if pseudorandom(self.ability.name == 'Cavendish' and 'cavendish' or 'gros_michel') < G.GAME.probabilities.normal/self.ability.extra.odds then 
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_pessimistic')) then
+    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra.odds - G.GAME.probabilities.normal)
+    sendDebugMessage('Gros Michel/Cavendish feeds Pessimistic','MaximusDebug')
+end
+'''
+match_indent = true
+
+
+    # Add flag to 8 Ball
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if (context.other_card:get_id() == 8) and (pseudorandom('8ball') < G.GAME.probabilities.normal/self.ability.extra) then
+    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+    return {
+        extra = {focus = self, message = localize('k_plus_tarot'), func = function()
+            G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                delay = 0.0,
+                func = (function()
+                        local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, '8ba')
+                        card:add_to_deck()
+                        G.consumeables:emplace(card)
+                        G.GAME.consumeable_buffer = 0
+                    return true
+                end)}))
+        end},
+        colour = G.C.SECONDARY_SET.Tarot,
+        card = self
+    }
+end
+'''
+position = "at"
+payload = '''
+if (context.other_card:get_id() == 8) then
+    if (pseudorandom('8ball') < G.GAME.probabilities.normal/self.ability.extra) then
+        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+        return {
+            extra = {focus = self, message = localize('k_plus_tarot'), func = function()
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    delay = 0.0,
+                    func = (function()
+                        local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, '8ba')
+                        card:add_to_deck()
+                        G.consumeables:emplace(card)
+                        G.GAME.consumeable_buffer = 0
+                    return true
+                end)}))
+            end},
+            colour = G.C.SECONDARY_SET.Tarot,
+            card = self
+        }
+    elseif next(SMODS.find_card('j_mxms_pessimistic')) then
+        G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra - G.GAME.probabilities.normal)
+        sendDebugMessage('8 Ball feeds Pessimistic','MaximusDebug')
+    end
+end
+'''
+match_indent = true
+
+
+    # Add flag to Business Card
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Business Card' and
+    context.other_card:is_face() and
+    pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + 2
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = 2,
+            card = self
+        }
+    end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Business Card' and
+context.other_card:is_face() then
+    if pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + 2
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = 2,
+            card = self
+        }
+    elseif next(SMODS.find_card('j_mxms_pessimistic')) then
+        G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra - G.GAME.probabilities.normal)
+        sendDebugMessage('Business Card feeds Pessimistic','MaximusDebug')
+    end
+end
+'''
+match_indent = true
+
+
+    # Add flag to Bloodstone
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name ==  'Bloodstone' and
+context.other_card:is_suit("Hearts") and 
+pseudorandom('bloodstone') < G.GAME.probabilities.normal/self.ability.extra.odds then
+    return {
+        x_mult = self.ability.extra.Xmult,
+        card = self
+    }
+end
+'''
+position = "at"
+payload = '''
+if self.ability.name ==  'Bloodstone' and
+context.other_card:is_suit("Hearts") then 
+    if pseudorandom('bloodstone') < G.GAME.probabilities.normal/self.ability.extra.odds then
+        return {
+            x_mult = self.ability.extra.Xmult,
+            card = self
+        }
+    elseif next(SMODS.find_card('j_mxms_pessimistic')) then
+        G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra.odds - G.GAME.probabilities.normal)
+        sendDebugMessage('Bloodstone feeds Pessimistic','MaximusDebug')
+    end
+end
+'''
+match_indent = true
+
+
+    # Add flag to Reserved Parking
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Reserved Parking' and
+context.other_card:is_face() and
+pseudorandom('parking') < G.GAME.probabilities.normal/self.ability.extra.odds then
+    if context.other_card.debuff then
+        return {
+            message = localize('k_debuffed'),
+            colour = G.C.RED,
+            card = self,
+        }
+    else
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra.dollars
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = self.ability.extra.dollars,
+            card = self
+        }
+    end
+end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Reserved Parking' and
+context.other_card:is_face() then
+    if pseudorandom('parking') < G.GAME.probabilities.normal/self.ability.extra.odds then
+        if context.other_card.debuff then
+            return {
+                message = localize('k_debuffed'),
+                colour = G.C.RED,
+                card = self,
+            }
+        else
+            G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra.dollars
+            G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+            return {
+                dollars = self.ability.extra.dollars,
+                card = self
+            }
+        end
+    elseif next(SMODS.find_card('j_mxms_pessimistic')) then
+        G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra.odds - G.GAME.probabilities.normal)
+        sendDebugMessage('Reserved Parking feeds Pessimistic','MaximusDebug')
+    end
+end
+'''
+match_indent = true
+
+
+    # Add flag to Space Joker
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Space Joker' and pseudorandom('space') < G.GAME.probabilities.normal/self.ability.extra then
+    return {
+        card = self,
+        level_up = true,
+        message = localize('k_level_up_ex')
+    }
+end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Space Joker' then
+    if pseudorandom('space') < G.GAME.probabilities.normal/self.ability.extra then
+        return {
+            card = self,
+            level_up = true,
+            message = localize('k_level_up_ex')
+        }
+    elseif next(SMODS.find_card('j_mxms_pessimistic')) then
+        G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra - G.GAME.probabilities.normal)
+        sendDebugMessage('Space Joker feeds Pessimistic','MaximusDebug')
+    end
+end
+'''
+match_indent = true
