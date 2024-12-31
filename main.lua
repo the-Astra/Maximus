@@ -964,6 +964,19 @@ SMODS.Joker { -- Trick or Treat
 
     remove_from_deck = function(self, card, from_debuff)
         G.GAME.choose_mod = G.GAME.choose_mod - 1
+    end,
+    calculate = function(self, card, context)
+
+        if context.open_booster then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                delay = 0.0,
+                func = (function()
+                    card:juice_up(0.3, 0.4)
+                return true
+            end)}))
+        end
+        
     end
 }
 
