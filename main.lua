@@ -83,7 +83,7 @@ SMODS.Joker { -- Fortune Cookie
     key = 'fortune_cookie',
     loc_txt = {
         name = 'Fortune Cookie',
-        text = {'{C:attention}#3# out of 10{} chance to receive', 'a random {C:tarot}Tarot{} card when',
+        text = {'{C:attention}#3# out of #4#{} chance to receive', 'a random {C:tarot}Tarot{} card when',
                 ' playing a hand {C:inactive}(Must have room){}',
                 '{C:inactive}Chance reduces by #1# for every played hand'}
     },
@@ -97,13 +97,15 @@ SMODS.Joker { -- Fortune Cookie
     eternal_compat = false,
     config = {
         extra = {
-            chance = 10
+            chance = 10,
+            odds = 10
         }
     },
     loc_vars = function(self, info_queue, center)
         return {
-            vars = {G.GAME.probabilities.normal, center.ability.extra.chance,
-                    center.ability.extra.chance * G.GAME.probabilities.normal}
+            vars = {G.GAME.probabilities.normal, center.ability.extra.chance * G.GAME.fridge_mod,
+                    center.ability.extra.chance * G.GAME.fridge_mod * G.GAME.probabilities.normal,
+                center.ability.extra.odds * G.GAME.fridge_mod}
         }
     end,
     calculate = function(self, card, context)
@@ -112,9 +114,9 @@ SMODS.Joker { -- Fortune Cookie
         if context.before and card.ability.extra.chance > 0 then
 
             -- Roll chance and decrease by 1
-            local chance_roll = pseudorandom('fco', 1, 10 * G.GAME.probabilities.normal)
-            local chance_odds = 10 - card.ability.extra.chance
-            card.ability.extra.chance = card.ability.extra.chance - 1
+            local chance_roll = pseudorandom('fco', 1, 10 * G.GAME.fridge_mod * G.GAME.probabilities.normal)
+            local chance_odds = (card.ability.extra.odds - card.ability.extra.chance) * G.GAME.fridge_mod
+            card.ability.extra.chance = card.ability.extra.chance - (1 / G.GAME.fridge_mod)
 
             -- Check if Consumables is full
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
@@ -182,8 +184,8 @@ SMODS.Joker { -- Fortune Cookie
 
         -- "Crumble" card after scoring
         if context.after and not context.blueprint then
-            if card.ability.extra.chance < 1 then
-                G.GAME.destroyed_food = card.config.center.key 
+            if card.ability.extra.chance <= 0 then
+                G.GAME.destroyed_food = card.config.center.key
                 -- Code derived from Gros Michel/Cavendish
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -595,8 +597,8 @@ SMODS.Joker { -- Normal Joker
     key = 'normal',
     loc_txt = {
         name = 'Normal Joker',
-        text = {'Played cards without an',
-                'enchancement, edition, or seal', ' give{C:mult}+1{} mult and {C:chips}+5{} chips'}
+        text = {'Played cards without an', 'enchancement, edition, or seal',
+                ' give{C:mult}+1{} mult and {C:chips}+5{} chips'}
     },
     atlas = 'Jokers',
     pos = {
@@ -973,10 +975,11 @@ SMODS.Joker { -- Trick or Treat
                 delay = 0.0,
                 func = (function()
                     card:juice_up(0.3, 0.4)
-                return true
-            end)}))
+                    return true
+                end)
+            }))
         end
-        
+
     end
 }
 
@@ -1019,15 +1022,16 @@ SMODS.Joker { -- Pessimistic Joker
 
         if context.selling_self and not context.blueprint then
             for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i].config.center.key  == card.config.center.key  and G.jokers.cards[i] ~= card then
-                    sendDebugMessage('More than one Pessimistic detected, skipping reset','MaximusDebug')
+                if G.jokers.cards[i].config.center.key == card.config.center.key and G.jokers.cards[i] ~= card then
+                    sendDebugMessage('More than one Pessimistic detected, skipping reset', 'MaximusDebug')
                     return
                 end
             end
             G.GAME.pessimistic_mult = 0
         end
 
-        if context.individual and context.other_card.ability.effect == 'Lucky Card' and not context.other_card.lucky_trigger and not context.blueprint then
+        if context.individual and context.other_card.ability.effect == 'Lucky Card' and
+            not context.other_card.lucky_trigger and not context.blueprint then
             G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + 3
         end
 
@@ -1091,7 +1095,6 @@ SMODS.Joker { -- Leftovers
             local respawn_key = G.GAME.destroyed_food
             G.GAME.destroyed_food = ''
 
-
             G.E_MANAGER:add_event(Event({
                 delay = 0.3,
                 func = function()
@@ -1127,3 +1130,28 @@ SMODS.Joker { -- Leftovers
     end
 }
 
+SMODS.Joker { -- Refrigerator
+    key = 'refrigerator',
+    loc_txt = {
+        name = 'Refrigerator',
+        text = {'Food jokers degrade', 'half as fast'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 2,
+        y = 2
+    },
+    rarity = 3,
+    config = {
+        extra = {
+            mult = 5
+        }
+    },
+    add_to_deck = function(self, card, from_debuff)
+        G.GAME.fridge_mod = G.GAME.fridge_mod + 1
+    end,
+
+    remove_from_deck = function(self, card, from_debuff)
+        G.GAME.fridge_mod = G.GAME.fridge_mod - 1
+    end
+}

@@ -5,7 +5,7 @@ priority = -1
 
 # Add Trick or Treak Functionality --------------------------------------
 
-    # Create modifier for card choice
+    # Apply modifier to pack choice
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -28,7 +28,7 @@ match_indent = true
 times = 15
 
 
-    # Add modifier to pack function
+    # Create modifier variable
 [[patches]]
 [patches.pattern]
 target = "game.lua"
@@ -433,7 +433,7 @@ elseif next(SMODS.find_card('j_mxms_pessimistic')) then
 match_indent = true
 
 
-    # Add flag to Gros Michel/Cavendish
+    # Add flag to Gros Michel/Cavendish (Includes fridge_mod so gain scales based on Refrigerator joker)
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -443,7 +443,7 @@ if pseudorandom(self.ability.name == 'Cavendish' and 'cavendish' or 'gros_michel
 position = "after"
 payload = '''
 if next(SMODS.find_card('j_mxms_pessimistic')) then
-    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra.odds - G.GAME.probabilities.normal)
+    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra.odds * G.GAME.fridge_mod - G.GAME.probabilities.normal)
     sendDebugMessage('Gros Michel/Cavendish feeds Pessimistic','MaximusDebug')
 end
 '''
@@ -654,3 +654,225 @@ if self.ability.name == 'Space Joker' then
 end
 '''
 match_indent = true
+
+
+
+
+
+
+# Refrigerator Functionality --------------------------------------
+
+    # Create modifier variable
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "pack_size = 2,"
+position = "after"
+payload = " fridge_mod = 1,"
+match_indent = true
+
+
+    # Add modifier to Gros Michel/Cavendish
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}"
+position = "at"
+payload = "elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds * G.GAME.fridge_mod}"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif self.ability.name == 'Cavendish' then loc_vars = {self.ability.extra.Xmult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}"
+position = "at"
+payload = "elseif self.ability.name == 'Cavendish' then loc_vars = {self.ability.extra.Xmult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds * G.GAME.fridge_mod}"
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}"
+position = "at"
+payload = "elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds * G.GAME.fridge_mod}"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}"
+position = "at"
+payload = "elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds * G.GAME.fridge_mod}"
+match_indent = true
+
+
+    # Add modifier to Ice Cream
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif self.ability.name == 'Ice Cream' then loc_vars = {self.ability.extra.chips, self.ability.extra.chip_mod}"
+position = "at"
+payload = "elseif self.ability.name == 'Ice Cream' then loc_vars = {self.ability.extra.chips, self.ability.extra.chip_mod / G.GAME.fridge_mod}"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.ability.extra.chips - self.ability.extra.chip_mod <= 0 then "
+position = "at"
+payload = "if self.ability.extra.chips - (self.ability.extra.chip_mod / G.GAME.fridge_mod) <= 0 then"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "self.ability.extra.chips = self.ability.extra.chips - self.ability.extra.chip_mod"
+position = "at"
+payload = "self.ability.extra.chips = self.ability.extra.chips - (self.ability.extra.chip_mod / G.GAME.fridge_mod)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "message = localize{type='variable',key='a_chips_minus',vars={self.ability.extra.chip_mod}},"
+position = "at"
+payload = "message = localize{type='variable',key='a_chips_minus',vars={self.ability.extra.chip_mod / G.GAME.fridge_mod}},"
+match_indent = true
+
+
+    # Add modifier to Turtle Bean
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif self.ability.name == 'Turtle Bean' then loc_vars = {self.ability.extra.h_size, self.ability.extra.h_mod}"
+position = "at"
+payload = "elseif self.ability.name == 'Turtle Bean' then loc_vars = {self.ability.extra.h_size, self.ability.extra.h_mod / G.GAME.fridge_mod}"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.ability.extra.h_size - self.ability.extra.h_mod <= 0 then"
+position = "at"
+payload = "if self.ability.extra.h_size - (self.ability.extra.h_mod / G.GAME.fridge_mod) <= 0 then"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "G.hand:change_size(- self.ability.extra.h_mod)"
+position = "at"
+payload = "G.hand:change_size(- (self.ability.extra.h_mod / G.GAME.fridge_mod))"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "message = localize{type='variable',key='a_handsize_minus',vars={self.ability.extra.h_mod}},"
+position = "at"
+payload = "message = localize{type='variable',key='a_handsize_minus',vars={self.ability.extra.h_mod / G.GAME.fridge_mod}},"
+match_indent = true
+
+
+    # Add modifier to Popcorn
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif self.ability.name == 'Popcorn' then loc_vars = {self.ability.mult, self.ability.extra}"
+position = "at"
+payload = "elseif self.ability.name == 'Popcorn' then loc_vars = {self.ability.mult, self.ability.extra / G.GAME.fridge_mod}"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.ability.mult - self.ability.extra <= 0 then"
+position = "at"
+payload = "if self.ability.mult - (self.ability.extra / G.GAME.fridge_mod) <= 0 then "
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "self.ability.mult = self.ability.mult - self.ability.extra"
+position = "at"
+payload = "self.ability.mult = self.ability.mult - (self.ability.extra / G.GAME.fridge_mod)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "message = localize{type='variable',key='a_mult_minus',vars={self.ability.extra}},"
+position = "at"
+payload = "message = localize{type='variable',key='a_mult_minus',vars={self.ability.extra / G.GAME.fridge_mod}},"
+match_indent = true
+
+
+    # Add modifier to Ramen
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif self.ability.name == 'Ramen' then loc_vars = {self.ability.x_mult, self.ability.extra}"
+position = "at"
+payload = "elseif self.ability.name == 'Ramen' then loc_vars = {self.ability.x_mult, self.ability.extra / G.GAME.fridge_mod}"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.ability.x_mult - self.ability.extra <= 1 then"
+position = "at"
+payload = "if self.ability.x_mult - (self.ability.extra / G.GAME.fridge_mod) <= 1 then"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "self.ability.x_mult = self.ability.x_mult - self.ability.extra"
+position = "at"
+payload = "self.ability.x_mult = self.ability.x_mult - (self.ability.extra / G.GAME.fridge_mod)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "message = localize{type='variable',key='a_xmult_minus',vars={self.ability.extra}},"
+position = "at"
+payload = "message = localize{type='variable',key='a_xmult_minus',vars={self.ability.extra / G.GAME.fridge_mod}},"
+match_indent = true
+
+
+    # Add modifier to Seltzer
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif self.ability.name == 'Seltzer' then loc_vars = {self.ability.extra}"
+position = "at"
+payload = "elseif self.ability.name == 'Seltzer' then loc_vars = {self.ability.extra * G.GAME.fridge_mod}"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.ability.extra - 1 <= 0 then "
+position = "at"
+payload = "if self.ability.extra - (1 / G.GAME.fridge_mod) <= 0 then "
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "self.ability.extra = self.ability.extra - 1"
+position = "at"
+payload = "self.ability.extra = self.ability.extra - (1 / G.GAME.fridge_mod)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "message = self.ability.extra..'',"
+position = "at"
+payload = "message = self.ability.extra * G.GAME.fridge_mod..'',"
+match_indent = true
+
