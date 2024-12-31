@@ -480,7 +480,7 @@ SMODS.Joker { -- Combo Breaker
     calculate = function(self, card, context)
 
         if (context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= card) or
-            (context.repetition and context.repetition_only) then
+            (context.cardarea == G.play and context.repetition and context.other_card.seal == 'Red') then
             -- Add retrigger to total
             card.ability.extra.retriggers = card.ability.extra.retriggers + 1
             sendTraceMessage('Retrigger logged. Count: ' .. card.ability.extra.retriggers, 'MaximusDebug')
