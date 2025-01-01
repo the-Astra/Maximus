@@ -399,7 +399,6 @@ position = "before"
 payload = '''
 if next(SMODS.find_card('j_mxms_pessimistic')) then
     G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra - G.GAME.probabilities.normal)
-    sendDebugMessage('The Wheel feeds Pessimistic','MaximusDebug')
 end
 '''
 match_indent = true
@@ -428,7 +427,6 @@ position = "after"
 payload = '''
 elseif next(SMODS.find_card('j_mxms_pessimistic')) then
     G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra - G.GAME.probabilities.normal)
-    sendDebugMessage('Hallucination feeds Pessimistic','MaximusDebug')
 '''
 match_indent = true
 
@@ -444,7 +442,6 @@ position = "after"
 payload = '''
 if next(SMODS.find_card('j_mxms_pessimistic')) then
     G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra.odds * G.GAME.fridge_mod - G.GAME.probabilities.normal)
-    sendDebugMessage('Gros Michel/Cavendish feeds Pessimistic','MaximusDebug')
 end
 '''
 match_indent = true
@@ -498,7 +495,6 @@ if (context.other_card:get_id() == 8) then
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra - G.GAME.probabilities.normal)
-        sendDebugMessage('8 Ball feeds Pessimistic','MaximusDebug')
     end
 end
 '''
@@ -534,7 +530,6 @@ context.other_card:is_face() then
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra - G.GAME.probabilities.normal)
-        sendDebugMessage('Business Card feeds Pessimistic','MaximusDebug')
     end
 end
 '''
@@ -566,7 +561,6 @@ context.other_card:is_suit("Hearts") then
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra.odds - G.GAME.probabilities.normal)
-        sendDebugMessage('Bloodstone feeds Pessimistic','MaximusDebug')
     end
 end
 '''
@@ -618,7 +612,6 @@ context.other_card:is_face() then
         end
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra.odds - G.GAME.probabilities.normal)
-        sendDebugMessage('Reserved Parking feeds Pessimistic','MaximusDebug')
     end
 end
 '''
@@ -649,7 +642,6 @@ if self.ability.name == 'Space Joker' then
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (self.ability.extra - G.GAME.probabilities.normal)
-        sendDebugMessage('Space Joker feeds Pessimistic','MaximusDebug')
     end
 end
 '''
@@ -876,3 +868,31 @@ position = "at"
 payload = "message = self.ability.extra * G.GAME.fridge_mod..'',"
 match_indent = true
 
+
+
+
+
+
+# Hopscotch Functionality --------------------------------------
+
+    # Create tracking variable
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "pack_size = 2,"
+position = "after"
+payload = "skip_tag = '',"
+match_indent = true
+
+
+    # Intercept skip tag from 
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if G.blind_select then "
+position = "after"
+payload = '''
+local _tag = e.UIBox:get_UIE_by_ID('tag_container')
+G.GAME.skip_tag = _tag
+'''
+match_indent = true

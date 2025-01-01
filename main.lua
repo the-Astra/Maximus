@@ -83,7 +83,7 @@ SMODS.Joker { -- Fortune Cookie
     key = 'fortune_cookie',
     loc_txt = {
         name = 'Fortune Cookie',
-        text = {'{C:attention}#3# out of #4#{} chance to receive', 'a random {C:tarot}Tarot{} card when',
+        text = {'{C:green}#3# out of #4#{} chance to receive', 'a random {C:tarot}Tarot{} card when',
                 ' playing a hand {C:inactive}(Must have room){}',
                 '{C:inactive}Chance reduces by #1# for every played hand'}
     },
@@ -105,7 +105,7 @@ SMODS.Joker { -- Fortune Cookie
         return {
             vars = {G.GAME.probabilities.normal, center.ability.extra.chance * G.GAME.fridge_mod,
                     center.ability.extra.chance * G.GAME.fridge_mod * G.GAME.probabilities.normal,
-                center.ability.extra.odds * G.GAME.fridge_mod}
+                    center.ability.extra.odds * G.GAME.fridge_mod}
         }
     end,
     calculate = function(self, card, context)
@@ -322,7 +322,7 @@ SMODS.Joker { -- Abyss
     key = 'abyss',
     loc_txt = {
         name = "Abyss",
-        text = {'When blind is selected, {C:attention}50/50{}', '{C:attention}chance{} of making a currently held',
+        text = {'When blind is selected, {C:green}50/50{}', '{C:attention}chance{} of making a currently held',
                 'non-negative Joker {C:dark_edition}Negative{} or', 'destroying a currently held non-negative joker',
                 '{C:inactive}Can override other editions{}'}
     },
@@ -598,7 +598,7 @@ SMODS.Joker { -- Normal Joker
     loc_txt = {
         name = 'Normal Joker',
         text = {'Played cards without an', 'enchancement, edition, or seal',
-                ' give{C:mult}+1{} mult and {C:chips}+5{} chips'}
+                ' give {C:mult}+1{} mult and {C:chips}+5{} chips'}
     },
     atlas = 'Jokers',
     pos = {
@@ -632,7 +632,7 @@ SMODS.Joker { -- Streaker
         x = 5,
         y = 0
     },
-    rarity = 2,
+    rarity = 3,
     config = {
         extra = {
             streak = 0,
@@ -987,8 +987,8 @@ SMODS.Joker { -- Pessimistic Joker
     key = 'pessimistic',
     loc_txt = {
         name = 'Pessimistic Joker',
-        text = {'Every failed probability check', 'adds the odds of failing to this', 'Joker\'s mult',
-                '{C:inactive}+3 for Lucky Card Mult chance', '{C:inactive}Total: +#2#'}
+        text = {'After each failed probability check,', 'this Joker gains {C:mult}Mult{} equal to the', 'odds of failing the check',
+                '{C:inactive}+3 for missed Lucky Card', '{C:inactive}Total: {C:mult}+#2# {C:inactive}Mult'}
     },
     atlas = 'Jokers',
     pos = {
@@ -1134,7 +1134,7 @@ SMODS.Joker { -- Refrigerator
     key = 'refrigerator',
     loc_txt = {
         name = 'Refrigerator',
-        text = {'Food jokers degrade', 'half as fast'}
+        text = {'{C:attention}Food{} Jokers degrade', 'half as fast'}
     },
     atlas = 'Jokers',
     pos = {
@@ -1153,5 +1153,64 @@ SMODS.Joker { -- Refrigerator
 
     remove_from_deck = function(self, card, from_debuff)
         G.GAME.fridge_mod = G.GAME.fridge_mod - 1
+    end
+}
+
+SMODS.Joker { -- Hopscotch
+    key = 'hopscotch',
+    loc_txt = {
+        name = 'Hopscotch',
+        text = {'When selecting blind,', '{C:green}1 out of 3{} chance to', 'receive associated skip tag'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 3,
+        y = 2
+    },
+    rarity = 2,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {G.GAME.probabilities.normal}
+        }
+    end,
+    calculate = function(self, card, context)
+
+        if context.setting_blind then
+
+            if pseudorandom('hopscotch', G.GAME.probabilities.normal, 3) == 3 then
+
+                card:juice_up(0.3, 0.4)
+
+                -- Code derived from G.FUNCS.skip_blind
+                local _tag = G.GAME.skip_tag
+                play_sound('generic1')
+                if _tag then
+                    add_tag(_tag.config.ref_table)
+                    G.GAME.skip_tag = ''
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'immediate',
+                        func = function()
+                            delay(0.3)
+                            save_run()
+                            for i = 1, #G.GAME.tags do
+                                G.GAME.tags[i]:apply_to_run({
+                                    type = 'immediate'
+                                })
+                            end
+                            for i = 1, #G.GAME.tags do
+                                if G.GAME.tags[i]:apply_to_run({
+                                    type = 'new_blind_choice'
+                                }) then
+                                    break
+                                end
+                            end
+                            return true
+                        end
+                    }))
+                end
+            elseif next(SMODS.find_card('j_mxms_pessimistic')) then
+                G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (3 - G.GAME.probabilities.normal)
+            end
+        end
     end
 }
