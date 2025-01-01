@@ -1175,16 +1175,15 @@ SMODS.Joker { -- Hopscotch
     end,
     calculate = function(self, card, context)
 
-        if context.setting_blind then
+        if context.setting_blind and not G.GAME.blind:get_type() == 'Boss' then
 
             if pseudorandom('hopscotch', G.GAME.probabilities.normal, 3) == 3 then
 
-                card:juice_up(0.3, 0.4)
-
                 -- Code derived from G.FUNCS.skip_blind
                 local _tag = G.GAME.skip_tag
-                play_sound('generic1')
                 if _tag then
+                    play_sound('generic1')
+                    card:juice_up(0.3, 0.4)
                     add_tag(_tag.config.ref_table)
                     G.GAME.skip_tag = ''
                     G.E_MANAGER:add_event(Event({
