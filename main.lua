@@ -20,6 +20,11 @@ SMODS.Sound({
     path = 'perfect.ogg'
 })
 
+SMODS.Sound({
+    key = 'eggsplosion',
+    path = 'eggsplosion.ogg'
+})
+
 -- Misc Variables
 local food_jokers = {{
     key = 'j_gros_Michel',
@@ -75,6 +80,15 @@ function SMODS.current_mod.reset_game_globals(run_start)
     end
     G.GAME.current_round.impractical_hand = new_hand
 
+end
+
+-- Misc functions
+function Card:mxms_iterate_timer(dt) -- Function derived from 'Blind:cry_ante_base_mod' in Cryptid
+    local obj = self.config.center
+    if obj.mxms_iterate_timer and type(obj.mxms_iterate_timer) == "function" then
+        return obj:mxms_iterate_timer(dt)
+    end
+    return 0
 end
 
 -- Jokers
@@ -413,8 +427,7 @@ SMODS.Joker { -- War
     key = 'war',
     loc_txt = {
         name = 'War',
-        text = {'All even cards are', 'treated as {C:attention}the same card{},', 'all odd cards are',
-                'treated as {C:attention}the same card{}'}
+        text = {'Means of destroying cards', 'have their limits {C:attention}doubled{}'}
     },
     atlas = 'Jokers',
     pos = {
@@ -422,7 +435,14 @@ SMODS.Joker { -- War
         y = 0
     },
     rarity = 3,
-    config = {}
+    config = {},
+    add_to_deck = function(self, card, from_debuff)
+        G.GAME.war_mod = G.GAME.war_mod * 2
+    end,
+
+    remove_from_deck = function(self, card, from_debuff)
+        G.GAME.war_mod = G.GAME.war_mod / 2
+    end
 }
 
 SMODS.Joker { -- Microwave
@@ -485,7 +505,6 @@ SMODS.Joker { -- Combo Breaker
             (context.cardarea == G.play and context.repetition and context.other_card.seal == 'Red') then
             -- Add retrigger to total
             card.ability.extra.retriggers = card.ability.extra.retriggers + 1
-            sendTraceMessage('Retrigger logged. Count: ' .. card.ability.extra.retriggers, 'MaximusDebug')
             return {
                 repetitions = 0,
                 card = card
@@ -987,8 +1006,9 @@ SMODS.Joker { -- Pessimistic Joker
     key = 'pessimistic',
     loc_txt = {
         name = 'Pessimistic Joker',
-        text = {'After each failed probability check,', 'this Joker gains {C:mult}Mult{} equal to the', 'odds of failing the check',
-                '{C:inactive}+3 for missed Lucky Card', '{C:inactive}Total: {C:mult}+#2# {C:inactive}Mult'}
+        text = {'After each failed probability check,', 'this Joker gains {C:mult}Mult{} equal to the',
+                'odds of failing the check', '{C:inactive}+3 for missed Lucky Card',
+                '{C:inactive}Total: {C:mult}+#2# {C:inactive}Mult'}
     },
     atlas = 'Jokers',
     pos = {
@@ -1023,7 +1043,6 @@ SMODS.Joker { -- Pessimistic Joker
         if context.selling_self and not context.blueprint then
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i].config.center.key == card.config.center.key and G.jokers.cards[i] ~= card then
-                    sendDebugMessage('More than one Pessimistic detected, skipping reset', 'MaximusDebug')
                     return
                 end
             end
@@ -1065,7 +1084,10 @@ SMODS.Joker { -- Chef
                 return
 
             else
-                local chosen_joker = pseudorandom_element(food_jokers, pseudoseed('chef'))
+                local chosen_joker = nil
+                while not chosen_joker or (chosen_joker.name == 'Cavendish' and not G.GAME.pool_flags.gros_michel_extinct) do
+                    chosen_joker = pseudorandom_element(food_jokers, pseudoseed('chef'))
+                end
                 local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_joker.key, 'chef')
                 new_card:add_to_deck()
                 G.jokers:emplace(new_card)
@@ -1141,7 +1163,7 @@ SMODS.Joker { -- Refrigerator
         x = 2,
         y = 2
     },
-    rarity = 3,
+    rarity = 2,
     config = {
         extra = {
             mult = 5
@@ -1212,4 +1234,146 @@ SMODS.Joker { -- Hopscotch
             end
         end
     end
+}
+
+--[[ SMODS.Joker { -- 4D
+    key = '4d',
+    loc_txt = {
+        name = '4D Joker',
+        text = {'{C:mult}x#1#{} mult,', 'decreases by {C:mult}x0.01{} every second'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 3,
+        y = 1
+    },
+    rarity = 2,
+    config = {
+        extra = {
+            Xmult = 4
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.Xmult}
+        }
+    end,
+    calculate = function(self, card, context)
+
+        if context.joker_main then
+            return {
+                Xmult_mod = card.ability.extra.Xmult,
+                message = 'x' .. card.ability.extra.Xmult,
+                colour = G.C.MULT
+            }
+        end
+
+        if card.ability.extra.Xmult <= 1 then
+
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound('tarot2')
+                    card.T.r = -0.2
+                    card:juice_up(0.3, 0.4)
+                    card.states.drag.is = true
+                    card.children.center.pinch.x = true
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.3,
+                        blockable = false,
+                        func = function()
+                            G.jokers:remove_card(card)
+                            card:remove()
+                            card = nil
+                            return true;
+                        end
+                    }))
+                    return true
+                end
+            }))
+            return {
+                card = card,
+                message = 'Timed Out'
+            }
+
+        end
+
+    end,
+    mxms_iterate_timer = function(self, dt)
+        card.ability.extra.Xmult = card.ability.extra.Xmult - 0.01
+    end
+} ]]
+
+SMODS.Joker { -- Secret Society
+    key = 'secret_society',
+    loc_txt = {
+        name = 'Secret Society',
+        text = {'{C:chips}Chip{} values of ranks', 'are {C:attention}swapped and doubled{}'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 4,
+        y = 2
+    },
+    rarity = 2,
+    config = {}
+}
+
+SMODS.Joker { -- Bullseye
+    key = 'bullseye',
+    loc_txt = {
+        name = 'bullseye',
+        text = {'If {C:attention}blind\'s{} chip requirement', 'is met {C:attention}exactly{}, this joker', 
+                'gains {C:chips}+#1#{} chips', '{C:inactive}Scales with round', '{C:inactive}Total: +#2#'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 5,
+        y = 2
+    },
+    rarity = 2,
+    config = {
+        extra = {
+            chips = 0
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {100 * G.GAME.round, center.ability.extra.chips}
+        }
+    end,
+    calculate = function(self, card, context)
+
+        if context.joker_main and card.ability.extra.chips > 0 then
+            return {
+                chip_mod = card.ability.extra.chips,
+                message = '+' .. card.ability.extra.chips,
+                colour = G.C.CHIPS
+            }
+        end
+
+        if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and G.GAME.blind.chips == G.GAME.chips then 
+            card.ability.extra.chips = card.ability.extra.chips + (100 * G.GAME.round)
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.CHIPS
+            }
+        end
+
+    end
+}
+
+SMODS.Joker { -- Hammer and Chisel
+    key = 'hammer_and_chisel',
+    loc_txt = {
+        name = 'Hammer and Chisel',
+        text = {'Stone cards retain', 'rank and suit'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 2
+    },
+    rarity = 2,
+    config = {}
 }
