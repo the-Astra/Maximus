@@ -92,9 +92,8 @@ function SMODS.current_mod.reset_game_globals(run_start)
 
 end
 
--- Misc functions
+-- Update checks
 
--- 4D Patches (Derived from Jimball animation code)
 local upd = Game.update
 
 mxms_4d_dt_anim = 0
@@ -107,6 +106,7 @@ function Game:update(dt)
     mxms_4d_dt_anim = mxms_4d_dt_anim + dt
     mxms_4d_dt_mod = mxms_4d_dt_mod + dt
 
+    -- 4D Patches (Derived from Jimball animation code)
     if G.P_CENTERS and G.P_CENTERS.j_mxms_4d and mxms_4d_dt_anim > 0.05 then
 
         mxms_4d_dt_anim = 0
