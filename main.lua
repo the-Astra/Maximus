@@ -1635,7 +1635,7 @@ SMODS.Joker { -- Man in the Mirror
     key = 'man_in_the_mirror',
     loc_txt = {
         name = 'Man in the Mirror',
-        text = {'Selling this joker'}
+        text = {'Selling this joker', 'creates {C:dark_edition}Negative{} copies of', 'all non-Negative held consumeables'}
     },
     atlas = 'Jokers',
     pos = {
@@ -1645,6 +1645,12 @@ SMODS.Joker { -- Man in the Mirror
     blueprint_compat = false,
     rarity = 2,
     config = {},
+    loc_vars = function(self, info_queue, center)
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
+        return {
+            vars = {}
+        }
+    end,
     calculate = function(self, card, context)
 
         if context.selling_self and not context.blueprint then
@@ -1689,7 +1695,8 @@ SMODS.Joker { -- Unpleasant Gradient
     key = 'unpleasant_gradient',
     loc_txt = {
         name = 'Unpleasant Gradient',
-        text = {'{C:mult}+5{} Mult'}
+        text = {'If scored hand has exactly 4 cards,', 'convert each card into {C:clubs}Clubs{},',
+                '{C:hearts}Hearts{}, {C:diamonds}Diamonds{}, and {C:spades}Spades', 'respectively from left to right'}
     },
     atlas = 'Jokers',
     pos = {
@@ -1794,6 +1801,39 @@ SMODS.Joker { -- Random Encounter
     end
 }
 
+SMODS.Joker { -- Jackpot
+    key = 'jackpot',
+    loc_txt = {
+        name = 'Jackpot',
+        text = {'{C:mult}+5{} Mult'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 3
+    },
+    rarity = 2,
+    config = {
+        extra = {
+            mult = 5
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.mult}
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult_mod = card.ability.extra.mult,
+                message = '+' .. card.ability.extra.mult,
+                colour = G.C.MULT
+            }
+        end
+    end
+}
+
 SMODS.Joker { -- Bell Curve
     key = 'bell_curve',
     loc_txt = {
@@ -1802,7 +1842,7 @@ SMODS.Joker { -- Bell Curve
     },
     atlas = 'Jokers',
     pos = {
-        x = 7,
+        x = 8,
         y = 3
     },
     rarity = 2,
