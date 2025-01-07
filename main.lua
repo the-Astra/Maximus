@@ -21,6 +21,11 @@ local igo = Game.init_game_object
 Game.init_game_object = function(self)
     local ret = igo(self)
     ret.current_round.impractical_hand = 'High Card'
+    ret.current_round.marco_polo_pos = 1
+    ret.current_round.go_fish = {
+        rank = "Ace",
+        mult = 4
+    }
     return ret
 end
 
@@ -89,6 +94,33 @@ function SMODS.current_mod.reset_game_globals(run_start)
         new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical' .. G.GAME.round_resets.ante))
     end
     G.GAME.current_round.impractical_hand = new_hand
+
+    -- Marco Polo
+    local new_pos = G.GAME.current_round.marco_polo_pos
+    if #G.jokers.cards <= 1 then
+        new_pos = 1
+    else
+        while new_pos == G.GAME.current_round.marco_polo_pos do
+            new_pos = pseudorandom(('marcopolo' .. G.GAME.round_resets.ante), 1, #G.jokers.cards)
+        end
+    end
+    G.GAME.current_round.marco_polo_pos = new_pos
+
+    -- Go Fish
+    local valid_ranks = {}
+    local new_rank = G.GAME.current_round.go_fish.rank
+    local new_mult = 0
+    for k, v in ipairs(G.playing_cards) do
+        valid_ranks[#valid_ranks + 1] = v.base.value
+    end
+    new_rank = pseudorandom_element(valid_ranks, pseudoseed('go_fish' .. G.GAME.round_resets.ante))
+    G.GAME.current_round.go_fish.rank = new_rank
+    for k, v in ipairs(valid_ranks) do
+        if v == new_rank then
+            new_mult = new_mult + 1
+        end
+    end
+    G.GAME.current_round.go_fish.mult = new_mult
 
 end
 
@@ -684,6 +716,7 @@ SMODS.Joker { -- Normal Joker
     rarity = 1,
     config = {},
     calculate = function(self, card, context)
+
         if context.individual and context.cardarea == G.play then
             if not context.other_card.edition and not context.other_card.seal and not context.other_card.enhancement then
                 return {
@@ -692,6 +725,7 @@ SMODS.Joker { -- Normal Joker
                 }
             end
         end
+
     end
 }
 
@@ -1621,7 +1655,7 @@ SMODS.Joker { -- Virus
     key = 'virus',
     loc_txt = {
         name = 'Virus',
-        text = {'{C:mult}+5{} Mult'}
+        text = {'All single-suit hands', 'with more than one card are', 'treated as a {C:attention}flush{}'}
     },
     atlas = 'Jokers',
     pos = {
@@ -1635,7 +1669,8 @@ SMODS.Joker { -- Man in the Mirror
     key = 'man_in_the_mirror',
     loc_txt = {
         name = 'Man in the Mirror',
-        text = {'Selling this joker', 'creates {C:dark_edition}Negative{} copies of', 'all non-Negative held consumeables'}
+        text = {'Selling this joker', 'creates {C:dark_edition}Negative{} copies of',
+                'all non-Negative held consumeables'}
     },
     atlas = 'Jokers',
     pos = {
@@ -1772,7 +1807,7 @@ SMODS.Joker { -- Random Encounter
     key = 'random_encounter',
     loc_txt = {
         name = 'Random Encounter',
-        text = {'{C:mult}+5{} Mult'}
+        text = {'{C:green}#1# in 4 chance{} of', 'scored playing cards', 'gaining a permanent {C:mult}+1{} Mult'}
     },
     atlas = 'Jokers',
     pos = {
@@ -1782,22 +1817,46 @@ SMODS.Joker { -- Random Encounter
     rarity = 2,
     config = {
         extra = {
-            mult = 5
+            chance = 4
         }
     },
     loc_vars = function(self, info_queue, center)
         return {
-            vars = {center.ability.extra.mult}
+            vars = {center.ability.extra.chance * G.GAME.probabilities.normal}
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main then
+
+        if context.individual and context.cardarea == G.play then
+            local chance_roll = pseudorandom('rand_enc', card.ability.extra.chance * G.GAME.probabilities.normal, 4)
+            if chance_roll == 4 then
+
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    delay = 0.3,
+                    func = function()
+
+                        card:juice_up(0.3, 0.4)
+                        context.other_card:juice_up(0.3, 0.4)
+                        play_sound('tarot1')
+                        context.other_card.ability.mult_perma_bonus = context.other_card.ability.mult_perma_bonus or 0
+                        context.other_card.ability.mult_perma_bonus = context.other_card.ability.mult_perma_bonus + 1
+
+                        return true
+                    end
+                }))
+
+            end
+
             return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
-                colour = G.C.MULT
+                message = 'A random mult appears!',
+                mult = 1,
+                colour = G.C.MULT,
+                card = card
             }
+
         end
+
     end
 }
 
@@ -1805,7 +1864,7 @@ SMODS.Joker { -- Jackpot
     key = 'jackpot',
     loc_txt = {
         name = 'Jackpot',
-        text = {'{C:mult}+5{} Mult'}
+        text = {'Played hands containing at least', '{C:attention}three 7\'s{} give {C:money}$#1#'}
     },
     atlas = 'Jokers',
     pos = {
@@ -1815,21 +1874,35 @@ SMODS.Joker { -- Jackpot
     rarity = 2,
     config = {
         extra = {
-            mult = 5
+            money = 15,
+            sevens = 0
         }
     },
     loc_vars = function(self, info_queue, center)
         return {
-            vars = {center.ability.extra.mult}
+            vars = {center.ability.extra.money}
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main then
-            return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
-                colour = G.C.MULT
-            }
+
+        if context.before then
+            local sevens = 0
+
+            for k, v in ipairs(context.scoring_hand) do
+                if v:get_id() == 7 then
+                    sevens = sevens + 1
+                end
+            end
+
+            if sevens >= 3 then
+                ease_dollars(15)
+                return {
+                    message = 'Jackpot!',
+                    dollars = card.ability.extra.money,
+                    colour = G.C.money,
+                    card = card
+                }
+            end
         end
     end
 }
@@ -1838,7 +1911,8 @@ SMODS.Joker { -- Bell Curve
     key = 'bell_curve',
     loc_txt = {
         name = 'Bell Curve',
-        text = {'{C:mult}+5{} Mult'}
+        text = {'Approximately {X:mult,C:white}X#1#{} Mult,', 'Changes sigmoidially according to',
+                'deck size\'s deviation', 'from 52'}
     },
     atlas = 'Jokers',
     pos = {
@@ -1846,24 +1920,29 @@ SMODS.Joker { -- Bell Curve
         y = 3
     },
     rarity = 2,
-    config = {
-        extra = {
-            mult = 5
-        }
-    },
+    config = {},
     loc_vars = function(self, info_queue, center)
+        local calc = 0
+        if G.playing_cards ~= nil then
+            calc = 2 * math.exp(-(((#G.playing_cards - 52) ^ 2) / 1000)) + 1
+        else
+            calc = 3
+        end
         return {
-            vars = {center.ability.extra.mult}
+            vars = {calc}
         }
     end,
     calculate = function(self, card, context)
+
         if context.joker_main then
+            local Xmult = 2 * math.exp(-(((#G.playing_cards - 52) ^ 2) / 1000)) + 1
             return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
+                Xmult_mod = Xmult,
+                message = 'X' .. Xmult,
                 colour = G.C.MULT
             }
         end
+
     end
 }
 
@@ -1871,7 +1950,7 @@ SMODS.Joker { -- Loaded Gun
     key = 'loaded_gun',
     loc_txt = {
         name = 'Loaded Gun',
-        text = {'{C:mult}+5{} Mult'}
+        text = {'Played {C:attention}Steel Cards{}', 'give {X:mult,C:white}X2{} Mult'}
     },
     atlas = 'Jokers',
     pos = {
@@ -1879,6 +1958,142 @@ SMODS.Joker { -- Loaded Gun
         y = 4
     },
     rarity = 2,
+    config = {
+        extra = {
+            Xmult = 2
+        }
+    },
+    calculate = function(self, card, context)
+
+        if context.individual and context.cardarea == G.play and context.other_card.config.center == G.P_CENTERS.m_steel then
+
+            return {
+                x_mult = card.ability.extra.Xmult,
+                message = 'X2',
+                colour = G.C.MULT,
+                card = card
+            }
+
+        end
+
+    end
+}
+
+SMODS.Joker { -- Coupon
+    key = 'coupon',
+    loc_txt = {
+        name = 'Coupon',
+        text = {'{C:green}#1# in 30{} chance for shop', 'Jokers to be free'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 4
+    },
+    rarity = 2,
+    config = {
+        extra = {
+            odds = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.odds * G.GAME.probabilities.normal}
+        }
+    end
+}
+
+SMODS.Joker { -- Loony Joker
+    key = 'loony',
+    loc_txt = {
+        name = 'Loony Joker',
+        text = {"{C:red}+#1#{} Mult if played", "hand contains", "a {C:attention}#2#"}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 2,
+        y = 4
+    },
+    rarity = 1,
+    effect = 'Type Mult',
+    config = {
+        t_mult = 5,
+        type = 'High Card'
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.t_mult, center.ability.type}
+        }
+    end
+}
+
+SMODS.Joker { -- Lazy Joker
+    key = 'lazy',
+    loc_txt = {
+        name = 'Lazy Joker',
+        text = {"{C:chips}+#1#{} Chips if played", "hand contains", "a {C:attention}#2#"}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 3,
+        y = 4
+    },
+    rarity = 1,
+    config = {
+        t_chips = 20,
+        type = 'High Card'
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.t_chips, center.ability.type}
+        }
+    end
+}
+
+SMODS.Joker { -- Salt Circle
+    key = 'salt_circle',
+    loc_txt = {
+        name = 'Salt Circle',
+        text = {'Gains {C:mult}+15{} mult for', 'for every {C:spectral}Spectral{} card used',
+                '{C:inactive}Currently: {C:mult}+#1#'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 4,
+        y = 4
+    },
+    rarity = 1,
+    config = {},
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {G.GAME.spectrals_used * 15}
+        }
+    end,
+    calculate = function(self, card, context)
+
+        if context.joker_main then
+            return {
+                mult_mod = G.GAME.spectrals_used * 15,
+                message = '+' .. G.GAME.spectrals_used * 15,
+                colour = G.C.MULT
+            }
+        end
+
+    end
+}
+
+SMODS.Joker { -- Light Show
+    key = 'light_show',
+    loc_txt = {
+        name = 'Light Show',
+        text = {'{C:mult}+5{} Mult'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 5,
+        y = 4
+    },
+    rarity = 1,
     config = {},
     calculate = function(self, card, context)
         if context.joker_main then
@@ -1891,18 +2106,328 @@ SMODS.Joker { -- Loaded Gun
     end
 }
 
-SMODS.Joker { -- Coupon
-    key = 'coupon',
+SMODS.Joker { -- Monk
+    key = 'monk',
     loc_txt = {
-        name = 'Coupon',
-        text = {'{C:mult}+5{} Mult'}
+        name = 'Monk',
+        text = {'Gains {C:chips}+20{} chips for every', 'shop exited without purchase',
+                '{C:inactive}Currently: {C:chips}+#1#{}'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 4
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            purchase_made = false,
+            chips = 0
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.chips}
+        }
+    end,
+    calculate = function(self, card, context)
+
+        if context.joker_main and card.ability.extra.chips > 0 then
+            return {
+                chip_mod = card.ability.extra.chips,
+                message = '+' .. card.ability.extra.chips,
+                colour = G.C.MULT
+            }
+        end
+
+        if context.buying_card or context.open_booster or context.reroll_shop then
+            card.ability.extra.purchase_made = true
+        end
+
+        if context.ending_shop then
+            if not card.ability.extra.purchase_made then
+                card:juice_up(0.3, 0.4)
+                play_sound('tarot1')
+                card.ability.extra.chips = card.ability.extra.chips + 20
+            else
+                card:juice_up(0.3, 0.4)
+                play_sound('tarot2')
+                card.ability.extra.purchase_made = false
+            end
+
+        end
+
+    end
+}
+
+SMODS.Joker { -- Marco Polo
+    key = 'marco_polo',
+    loc_txt = {
+        name = 'Marco Polo',
+        text = {'{C:mult}+12{} Mult if card is at secret placement', 'in Joker hand order. Given Mult is',
+                '{C:mult}subtracted by 3{} for', 'each card out of place', '{C:inactive}Position changes every round{}'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 4
+    },
+    rarity = 1,
+    config = {},
+    calculate = function(self, card, context)
+
+        if context.joker_main then
+
+            local position = 0
+            for i = 0, #G.jokers.cards do
+                if G.jokers.cards[i] == card then
+                    position = i
+                end
+            end
+
+            local mult = 12 - (3 * (math.abs(position - G.GAME.current_round.marco_polo_pos)))
+
+            if mult < 0 then
+                mult = 0
+            end
+
+            return {
+                mult_mod = mult,
+                message = '+' .. mult,
+                colour = G.C.MULT
+            }
+
+        end
+
+    end
+}
+
+SMODS.Joker { -- Go Fish
+    key = 'go_fish',
+    loc_txt = {
+        name = 'Go Fish',
+        text = {'{C:mult}+2{} Mult for each {C:attention}#1#{}', 'in full deck at start of round',
+                '{C:inactive}Rank changes every round'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 4
+    },
+    rarity = 2,
+    config = {},
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {G.GAME.current_round.go_fish.rank}
+        }
+    end,
+    calculate = function(self, card, context)
+
+        if context.joker_main then
+            return {
+                mult_mod = G.GAME.current_round.go_fish.mult,
+                message = '+' .. G.GAME.current_round.go_fish.mult,
+                colour = G.C.MULT
+            }
+        end
+
+    end
+}
+
+SMODS.Joker { -- Sleuth
+    key = 'sleuth',
+    loc_txt = {
+        name = 'Sleuth',
+        text = {'{C:attention}+1 card slot{}', 'available in the shop'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 5
+    },
+    rarity = 2,
+    config = {},
+    add_to_deck = function(self, card, from_debuff)
+        change_shop_size(1)
+    end,
+
+    remove_from_deck = function(self, card, from_debuff)
+        change_shop_size(-1)
+    end
+}
+
+SMODS.Joker { -- Don't Mind if I Do
+    key = 'dont_mind_if_i_do',
+    loc_txt = {
+        name = 'Don\'t Mind if I Do',
+        text = {'Gains {X:mult,C:white}X0.25{} Mult for every', 'card scored with a seal at the cost of',
+                'removing the seal', '{C:inactive}Currently: {X:mult,C:white}X#1#'}
     },
     atlas = 'Jokers',
     pos = {
         x = 1,
-        y = 4
+        y = 5
     },
-    rarity = 2,
-    config = {}
+    blueprint_compat = false,
+    rarity = 3,
+    config = {
+        extra = {
+            Xmult = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = {center.ability.extra.Xmult}
+        }
+    end,
+    calculate = function(self, card, context)
+
+        if context.before and not context.blueprint then
+
+            for i = 1, #context.scoring_hand do
+
+                if context.scoring_hand[i].seal then
+
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.50,
+                        func = function()
+                            local other_card = context.scoring_hand[i]
+                            play_sound('card1')
+                            card:juice_up(0.3, 0.3)
+                            other_card:juice_up(0.3, 0.3)
+                            other_card:set_seal(nil, nil, true)
+                            card.ability.extra.Xmult = card.ability.extra.Xmult + 0.25
+                            return true
+                        end
+                    }))
+
+                end
+            end
+
+        end
+
+        if context.joker_main and card.ability.extra.Xmult > 1 then
+            return {
+                Xmult_mod = card.ability.extra.Xmult,
+                message = '+' .. card.ability.extra.Xmult,
+                colour = G.C.MULT
+            }
+        end
+
+    end
 }
 
+SMODS.Joker { -- Guillotine
+    key = 'guillotine',
+    loc_txt = {
+        name = 'Guillotine',
+        text = {'Scored {C:attention}Face{} or {C:attention}Ace{} cards', 'have their rank demoted',
+                'to {C:attention}10{}'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 2,
+        y = 5
+    },
+    rarity = 3,
+    config = {},
+    calculate = function(self, card, context)
+        if context.before and not context.blueprint then
+
+            for i = 1, #context.scoring_hand do
+
+                if context.scoring_hand[i]:get_id() > 10 then
+
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.50,
+                        func = function()
+                            local other_card = context.scoring_hand[i]
+                            play_sound('card1')
+                            other_card:juice_up(0.3, 0.3)
+                            local suit_prefix = string.sub(other_card.base.suit, 1, 1) .. '_'
+                            other_card:set_base(G.P_CARDS[suit_prefix .. 'T'])
+                            return true
+                        end
+                    }))
+
+                end
+            end
+
+        end
+    end
+}
+
+SMODS.Joker { -- Power Creep
+    key = 'power_creep',
+    loc_txt = {
+        name = 'Power Creep',
+        text = {'{C:attention}Scoring Editions{} are {C:attention}twice{} as potent',
+                'Shop prices are {C:attention}doubled'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 3,
+        y = 5
+    },
+    rarity = 3,
+    config = {},
+    add_to_deck = function(self, card, from_debuff)
+        G.GAME.creep_mod = G.GAME.creep_mod * 2
+    end,
+
+    remove_from_deck = function(self, card, from_debuff)
+        G.GAME.creep_mod = G.GAME.creep_mod / 2
+    end
+}
+
+SMODS.Joker { -- Space Race
+    key = 'space_race',
+    loc_txt = {
+        name = 'Space Race',
+        text = {'If played hand is not the highest', 'level hand, upgrade hand by one level',
+                '{C:inactive}Hands tied for highest do not upgrade{}'}
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 4,
+        y = 5
+    },
+    rarity = 3,
+    config = {},
+    calculate = function(self, card, context)
+
+        if context.cardarea == G.jokers and context.before then
+
+            local hand_is_highest = false
+
+            local hand, level, highest = nil, 0, {}
+            for k, v in pairs(G.GAME.hands) do
+                if v.visible and v.level > level then
+                    hand = k
+                    level = v.level
+                    highest = {hand}
+                elseif v.visible and v.level == level then
+                    highest[#highest + 1] = k
+                end
+            end
+
+            for i = 1, #highest do
+                if context.scoring_name == highest[i] then
+                    hand_is_highest = true
+                end
+            end
+
+            if not hand_is_highest then
+                return {
+                    card = self,
+                    level_up = true,
+                    message = localize('k_level_up_ex')
+                }
+            end
+
+        end
+
+    end
+}
