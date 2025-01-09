@@ -936,7 +936,7 @@ SMODS.Joker { -- Harmony
                 if context.scoring_hand[i]:get_id() == 14 then
                     aces = aces + 1
                 end
-                if context.scoring_hand[i]:get_id() == 14 then
+                if context.scoring_hand[i]:get_id() == 2 then
                     twos = twos + 1
                 end
             end
