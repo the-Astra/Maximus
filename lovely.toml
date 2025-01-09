@@ -15,13 +15,14 @@ payload = '''
 G.GAME.pack_choices = G.GAME.pack_choices + G.GAME.choose_mod
 '''
 match_indent = true
+times = 1
 
 
     # Add modifier to definitions
 [[patches]]
 [patches.regex]
 target = "functions/common_events.lua"
-pattern = "(_c.config.choose)"
+pattern = "(cfg.choose)"
 position = "after"
 payload = " + G.GAME.choose_mod"
 times = 15
@@ -35,6 +36,7 @@ pattern = "pack_size = 2,"
 position = "after"
 payload = "choose_mod = 0,"
 match_indent = true
+times = 1
 
 
 
@@ -69,7 +71,7 @@ if next(SMODS.find_card('j_mxms_microwave')) and pseudorandom('eggsplode', 1, 30
 end
 '''
 match_indent = true
-
+times = 1
 
 
 
@@ -108,6 +110,7 @@ pattern = "pack_size = 2,"
 position = "after"
 payload = "war_mod = 1,"
 match_indent = true
+times = 1
 
 
     #Change limits and description for Trading Card
@@ -118,6 +121,7 @@ pattern = "G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 t
 position = "at"
 payload = "G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 * G.GAME.war_mod then"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -126,6 +130,7 @@ pattern = "elseif self.ability.name == 'Trading Card' then loc_vars = {self.abil
 position = "at"
 payload = "elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.extra, self.ability.destroy * G.GAME.war_mod}"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -155,6 +160,7 @@ payload = '''
         end
 '''
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -163,6 +169,7 @@ pattern = "elseif self.ability.name == 'Sixth Sense' then loc_vars = {}"
 position = "at"
 payload = "elseif self.ability.name == 'Sixth Sense' then loc_vars = {self.ability.destroy * G.GAME.war_mod}"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -175,6 +182,7 @@ payload = '''
 j_sixth_sense=      {order = 54,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Sixth Sense', pos = {x = 8, y = 10}, set = 'Joker', config = {destroy = 1}},
 '''
 match_indent = true
+times = 1
 
 
     #Change limits and description for Immolate
@@ -185,14 +193,16 @@ pattern = "for i = 1, self.ability.extra.destroy do destroyed_cards[#destroyed_c
 position = "at"
 payload = "for i = 1, self.ability.extra.destroy * G.GAME.war_mod do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
-pattern = "elseif _c.name == 'Immolate' then loc_vars = {_c.config.extra.destroy, _c.config.extra.dollars}"
+pattern = "elseif _c.name == 'Immolate' then loc_vars = {cfg.extra.destroy, cfg.extra.dollars}"
 position = "at"
-payload = "elseif _c.name == 'Immolate' then loc_vars = {_c.config.extra.destroy * G.GAME.war_mod, _c.config.extra.dollars}"
+payload = "elseif _c.name == 'Immolate' then loc_vars = {cfg.extra.destroy * G.GAME.war_mod, cfg.extra.dollars}"
 match_indent = true
+times = 1
 
 
     #Change limits and description for Hanged Man
@@ -215,18 +225,20 @@ if self.ability.consumeable and self.ability.consumeable.max_highlighted then
 end
 '''
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
 pattern = '''
-elseif _c.name == "The Hanged Man" then loc_vars = {_c.config.max_highlighted}
+elseif _c.name == "The Hanged Man" then loc_vars = {cfg.max_highlighted}
 '''
 position = "at"
 payload = '''
-elseif _c.name == "The Hanged Man" then loc_vars = {_c.config.max_highlighted * G.GAME.war_mod}
+elseif _c.name == "The Hanged Man" then loc_vars = {cfg.max_highlighted * G.GAME.war_mod}
 '''
 match_indent = true
+times = 1
 
 
     #Change limits and descriptions for Grim, Incantation, and Familiar
@@ -249,6 +261,7 @@ end
 
 '''
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -265,14 +278,16 @@ c_grim=             {order = 2,    discovered = false, cost = 4, consumeable = t
 c_incantation=      {order = 3,    discovered = false, cost = 4, consumeable = true, name = "Incantation", pos = {x=2,y=4}, set = "Spectral", config = {remove_card = true, extra = 4, destroy = 1}},
 '''
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
-pattern = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {_c.config.extra}"
+pattern = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra}"
 position = "at"
-payload = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {_c.config.extra, _c.config.destroy * G.GAME.war_mod}"
+payload = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra, cfg.destroy * G.GAME.war_mod}"
 match_indent = true
+times = 1
 
 
 
@@ -316,6 +331,7 @@ not context.other_card.debuff then
 end
 '''
 match_indent = true
+times = 1
 
 
     #The Idol flag
@@ -350,6 +366,7 @@ if self.ability.name == 'The Idol' then
 end
 '''
 match_indent = true
+times = 1
 
 
     #Even Steven flag
@@ -373,6 +390,7 @@ context.other_card:get_id()%2 == 0) or
 then
 '''
 match_indent = true
+times = 1
 
 
     #Odd Todd flag
@@ -398,6 +416,7 @@ context.other_card:get_id()%2 == 1) or
 then
 '''
 match_indent = true
+times = 1
 
 
     #Cloud 9 flag
@@ -412,6 +431,7 @@ payload = '''
 if v:get_id() == 9 or (next(SMODS.find_card('j_mxms_perspective')) and v:get_id() == 6) then self.ability.nine_tally = self.ability.nine_tally+1 end
 '''
 match_indent = true
+times = 1
 
 
 
@@ -428,6 +448,7 @@ pattern = "pack_size = 2,"
 position = "after"
 payload = "destroyed_food = '',"
 match_indent = true
+times = 1
 
 
     #Gros Michel/Cavendish flag
@@ -442,6 +463,7 @@ if next(SMODS.find_card('j_mxms_leftovers')) then
 end
 '''
 match_indent = true
+times = 1
 
 
     #Ramen flag
@@ -459,6 +481,7 @@ if next(SMODS.find_card('j_mxms_leftovers')) then
 end
 '''
 match_indent = true
+times = 1
 
 
     #Ice Cream flag
@@ -476,6 +499,7 @@ if next(SMODS.find_card('j_mxms_leftovers')) then
 end
 '''
 match_indent = true
+times = 1
 
 
     #Turtle Bean flag
@@ -493,6 +517,7 @@ if next(SMODS.find_card('j_mxms_leftovers')) then
 end
 '''
 match_indent = true
+times = 1
 
 
     #Diet Cola flag
@@ -509,6 +534,7 @@ if next(SMODS.find_card('j_mxms_leftovers')) then
 end
 '''
 match_indent = true
+times = 1
 
 
     #Popcorn flag
@@ -526,6 +552,7 @@ if next(SMODS.find_card('j_mxms_leftovers')) then
 end
 '''
 match_indent = true
+times = 1
 
 
     #Seltzer flag
@@ -543,6 +570,7 @@ if next(SMODS.find_card('j_mxms_leftovers')) then
 end
 '''
 match_indent = true
+times = 1
 
 
     #Egg flag
@@ -561,6 +589,7 @@ if self.ability.name == 'Egg' then
 end
 '''
 match_indent = true
+times = 1
 
 
 
@@ -596,6 +625,7 @@ if next(SMODS.find_card('j_mxms_pessimistic')) then
 end
 '''
 match_indent = true
+times = 1
 
 
     # Add flag to Hallucination
@@ -633,6 +663,7 @@ elseif next(SMODS.find_card('j_mxms_pessimistic')) then
     end
 '''
 match_indent = true
+times = 1
 
 
     # Add flag to Gros Michel/Cavendish (Includes fridge_mod so gain scales based on Refrigerator joker)
@@ -659,6 +690,7 @@ if next(SMODS.find_card('j_mxms_pessimistic')) then
 end
 '''
 match_indent = true
+times = 1
 
 
     # Add flag to 8 Ball
@@ -723,6 +755,7 @@ if (context.other_card:get_id() == 8) then
 end
 '''
 match_indent = true
+times = 1
 
 
     # Add flag to Business Card
@@ -768,6 +801,7 @@ context.other_card:is_face() then
 end
 '''
 match_indent = true
+times = 1
 
 
     # Add flag to Bloodstone
@@ -809,6 +843,7 @@ context.other_card:is_suit("Hearts") then
 end
 '''
 match_indent = true
+times = 1
 
 
     # Add flag to Reserved Parking
@@ -870,6 +905,7 @@ context.other_card:is_face() then
 end
 '''
 match_indent = true
+times = 1
 
 
     # Add flag to Space Joker
@@ -910,6 +946,7 @@ if self.ability.name == 'Space Joker' then
 end
 '''
 match_indent = true
+times = 1
 
 
 
@@ -926,6 +963,7 @@ pattern = "pack_size = 2,"
 position = "after"
 payload = "fridge_mod = 1,"
 match_indent = true
+times = 1
 
 
     # Add modifier to Gros Michel/Cavendish
@@ -936,6 +974,7 @@ pattern = "elseif self.ability.name == 'Gros Michel' then loc_vars = {self.abili
 position = "at"
 payload = "elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds * G.GAME.fridge_mod}"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -944,6 +983,7 @@ pattern = "elseif self.ability.name == 'Cavendish' then loc_vars = {self.ability
 position = "at"
 payload = "elseif self.ability.name == 'Cavendish' then loc_vars = {self.ability.extra.Xmult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds * G.GAME.fridge_mod}"
 match_indent = true
+times = 1
 
 
     # Add modifier to Ice Cream
@@ -954,6 +994,7 @@ pattern = "elseif self.ability.name == 'Ice Cream' then loc_vars = {self.ability
 position = "at"
 payload = "elseif self.ability.name == 'Ice Cream' then loc_vars = {self.ability.extra.chips, self.ability.extra.chip_mod / G.GAME.fridge_mod}"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -962,6 +1003,7 @@ pattern = "if self.ability.extra.chips - self.ability.extra.chip_mod <= 0 then "
 position = "at"
 payload = "if self.ability.extra.chips - (self.ability.extra.chip_mod / G.GAME.fridge_mod) <= 0 then"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -970,6 +1012,7 @@ pattern = "self.ability.extra.chips = self.ability.extra.chips - self.ability.ex
 position = "at"
 payload = "self.ability.extra.chips = self.ability.extra.chips - (self.ability.extra.chip_mod / G.GAME.fridge_mod)"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -978,6 +1021,9 @@ pattern = "message = localize{type='variable',key='a_chips_minus',vars={self.abi
 position = "at"
 payload = "message = localize{type='variable',key='a_chips_minus',vars={self.ability.extra.chip_mod / G.GAME.fridge_mod}},"
 match_indent = true
+times = 1
+
+
 
 
     # Add modifier to Turtle Bean
@@ -988,6 +1034,7 @@ pattern = "elseif self.ability.name == 'Turtle Bean' then loc_vars = {self.abili
 position = "at"
 payload = "elseif self.ability.name == 'Turtle Bean' then loc_vars = {self.ability.extra.h_size, self.ability.extra.h_mod / G.GAME.fridge_mod}"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -996,6 +1043,7 @@ pattern = "if self.ability.extra.h_size - self.ability.extra.h_mod <= 0 then"
 position = "at"
 payload = "if self.ability.extra.h_size - (self.ability.extra.h_mod / G.GAME.fridge_mod) <= 0 then"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1004,6 +1052,7 @@ pattern = "G.hand:change_size(- self.ability.extra.h_mod)"
 position = "at"
 payload = "G.hand:change_size(- (self.ability.extra.h_mod / G.GAME.fridge_mod))"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1012,6 +1061,7 @@ pattern = "message = localize{type='variable',key='a_handsize_minus',vars={self.
 position = "at"
 payload = "message = localize{type='variable',key='a_handsize_minus',vars={self.ability.extra.h_mod / G.GAME.fridge_mod}},"
 match_indent = true
+times = 1
 
 
     # Add modifier to Popcorn
@@ -1022,6 +1072,7 @@ pattern = "elseif self.ability.name == 'Popcorn' then loc_vars = {self.ability.m
 position = "at"
 payload = "elseif self.ability.name == 'Popcorn' then loc_vars = {self.ability.mult, self.ability.extra / G.GAME.fridge_mod}"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1030,6 +1081,7 @@ pattern = "if self.ability.mult - self.ability.extra <= 0 then"
 position = "at"
 payload = "if self.ability.mult - (self.ability.extra / G.GAME.fridge_mod) <= 0 then "
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1038,6 +1090,7 @@ pattern = "self.ability.mult = self.ability.mult - self.ability.extra"
 position = "at"
 payload = "self.ability.mult = self.ability.mult - (self.ability.extra / G.GAME.fridge_mod)"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1046,6 +1099,7 @@ pattern = "message = localize{type='variable',key='a_mult_minus',vars={self.abil
 position = "at"
 payload = "message = localize{type='variable',key='a_mult_minus',vars={self.ability.extra / G.GAME.fridge_mod}},"
 match_indent = true
+times = 1
 
 
     # Add modifier to Ramen
@@ -1056,6 +1110,7 @@ pattern = "elseif self.ability.name == 'Ramen' then loc_vars = {self.ability.x_m
 position = "at"
 payload = "elseif self.ability.name == 'Ramen' then loc_vars = {self.ability.x_mult, self.ability.extra / G.GAME.fridge_mod}"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1064,6 +1119,7 @@ pattern = "if self.ability.x_mult - self.ability.extra <= 1 then"
 position = "at"
 payload = "if self.ability.x_mult - (self.ability.extra / G.GAME.fridge_mod) <= 1 then"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1072,6 +1128,7 @@ pattern = "self.ability.x_mult = self.ability.x_mult - self.ability.extra"
 position = "at"
 payload = "self.ability.x_mult = self.ability.x_mult - (self.ability.extra / G.GAME.fridge_mod)"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1080,6 +1137,7 @@ pattern = "message = localize{type='variable',key='a_xmult_minus',vars={self.abi
 position = "at"
 payload = "message = localize{type='variable',key='a_xmult_minus',vars={self.ability.extra / G.GAME.fridge_mod}},"
 match_indent = true
+times = 1
 
 
     # Add modifier to Seltzer
@@ -1090,6 +1148,7 @@ pattern = "elseif self.ability.name == 'Seltzer' then loc_vars = {self.ability.e
 position = "at"
 payload = "elseif self.ability.name == 'Seltzer' then loc_vars = {self.ability.extra * G.GAME.fridge_mod}"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1098,6 +1157,7 @@ pattern = "if self.ability.extra - 1 <= 0 then "
 position = "at"
 payload = "if self.ability.extra - (1 / G.GAME.fridge_mod) <= 0 then "
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1106,6 +1166,7 @@ pattern = "self.ability.extra = self.ability.extra - 1"
 position = "at"
 payload = "self.ability.extra = self.ability.extra - (1 / G.GAME.fridge_mod)"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1114,6 +1175,7 @@ pattern = "message = self.ability.extra..'',"
 position = "at"
 payload = "message = self.ability.extra * G.GAME.fridge_mod..'',"
 match_indent = true
+times = 1
 
 
 
@@ -1131,6 +1193,7 @@ pattern = "pack_size = 2,"
 position = "after"
 payload = "skip_tag = '',"
 match_indent = true
+times = 1
 
 
     # Intercept skip tag from 
@@ -1140,10 +1203,11 @@ target = "functions/button_callbacks.lua"
 pattern = "if G.blind_select then "
 position = "after"
 payload = '''
-local _tag = e.UIBox:get_UIE_by_ID('tag_container')
-G.GAME.skip_tag = _tag
+    local _tag = e.UIBox:get_UIE_by_ID('tag_container')
+    G.GAME.skip_tag = _tag
 '''
 match_indent = true
+times = 1
 
 
 
@@ -1156,7 +1220,7 @@ match_indent = true
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if self.ability.effect == 'Stone Card' then
+if self.ability.effect == 'Stone Card' or self.config.center.replace_base_card then
     return self.ability.bonus + (self.ability.perma_bonus or 0)
 end
 '''
@@ -1198,6 +1262,7 @@ elseif next(SMODS.find_card('j_mxms_secret_society')) then
 end
 '''
 match_indent = true
+times = 1
 
 
 
@@ -1211,14 +1276,15 @@ match_indent = true
 target = "card.lua"
 pattern = '''
 if flush_calc then
-    if self.ability.effect == 'Stone Card' then
+    if SMODS.has_no_suit(self) then
 '''
 position = "at"
 payload = '''
 if flush_calc then
-    if self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
+    if SMODS.has_no_suit(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
 '''
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1226,55 +1292,42 @@ target = "card.lua"
 pattern = '''
 else
     if self.debuff and not bypass_debuff then return end
-    if self.ability.effect == 'Stone Card' then
+    if SMODS.has_no_suit(self) then
 '''
 position = "at"
 payload = '''
 else
     if self.debuff and not bypass_debuff then return end
-    if self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
+    if SMODS.has_no_suit(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
 '''
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
 target = "card.lua"
-pattern = '''
-if self.ability.effect == 'Stone Card' then mult = -1000 end
-'''
+pattern = "if self.ability.effect == 'Stone Card' or (self.config.center.no_suit and self.config.center.no_rank) then"
 position = "at"
-payload = '''
-if self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then mult = -1000 end
-'''
+payload ="if (self.ability.effect == 'Stone Card' or (self.config.center.no_suit and self.config.center.no_rank)) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then"
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if self.ability.effect == 'Stone Card' and not self.vampired then
+if SMODS.has_no_rank(self) and not self.vampired then
     return -math.random(100, 1000000)
 end
 '''
 position = "at"
 payload = '''
-if self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) and not self.vampired then
+if SMODS.has_no_rank(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) and not self.vampired then
     return -math.random(100, 1000000)
 end
 '''
 match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.effect == 'Stone Card' or (self.config.center.no_suit and self.config.center.no_rank) then
-'''
-position = "at"
-payload = '''
-if (self.ability.effect == 'Stone Card' or (self.config.center.no_suit and self.config.center.no_rank)) and next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
-'''
-match_indent = true
+times = 1
 
 
     # Change Raise Fist interaction
@@ -1282,13 +1335,14 @@ match_indent = true
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_Mult = G.hand.cards[i].base.nominal; temp_ID = G.hand.cards[i].base.id; raised_card = G.hand.cards[i] end
+if temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i]) then 
 '''
 position = "at"
 payload = '''
-if temp_ID >= G.hand.cards[i].base.id and (G.hand.cards[i].ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel'))) then temp_Mult = G.hand.cards[i].base.nominal; temp_ID = G.hand.cards[i].base.id; raised_card = G.hand.cards[i] end
+if temp_ID >= (G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i])) or next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
 '''
 match_indent = true
+times = 1
 
 
     # Change rendering code for stone cards to include rand and suit
@@ -1297,14 +1351,15 @@ match_indent = true
 target = "card.lua"
 pattern = '''
 --If the card has a front, draw that next
-if self.children.front and self.ability.effect ~= 'Stone Card' then
+if self.children.front and self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card then
 '''
 position = "at"
 payload = '''
 --If the card has a front, draw that next
-if self.children.front and (self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel'))) then
+if self.children.front and self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card or next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
 '''
 match_indent = true
+times = 1
 
 
 
@@ -1324,6 +1379,7 @@ soy_mod = 1,
 purchased_jokers = {},
 '''
 match_indent = true
+times = 1
 
 
     # Add joker to tracker or iterate modifier if already present (Clown Car functionality included)
@@ -1363,6 +1419,7 @@ if self.ability.set == 'Joker' then
 end
 '''
 match_indent = true
+times = 1
 
 
 
@@ -1379,6 +1436,7 @@ pattern = "pack_size = 2,"
 position = "after"
 payload = "gambler_mod = 1,"
 match_indent = true
+times = 1
 
 
     # Apply modifier to interest
@@ -1409,6 +1467,7 @@ check_for_unlock({type = 'interest_streak'})
 dollars = dollars + G.GAME.interest_amount*math.min(math.floor(G.GAME.dollars/5), G.GAME.interest_cap/(5 * G.GAME.gambler_mod))
 '''
 match_indent = true
+times = 1
 
 
     # Apply modifier to Hermit
@@ -1416,17 +1475,18 @@ match_indent = true
 [patches.pattern]
 target = "functions/common_events.lua"
 pattern = '''
-elseif _c.name == "The Hermit" then loc_vars = {_c.config.extra}
+elseif _c.name == "The Hermit" then loc_vars = {cfg.extra}
 '''
 position = "at"
 payload = '''
-elseif _c.name == "The Hermit" then loc_vars = {(_c.config.extra * G.GAME.gambler_mod)}
+elseif _c.name == "The Hermit" then loc_vars = {(cfg.extra * G.GAME.gambler_mod)}
 '''
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
-target = "functions/common_events.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'The Hermit' then
     G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
@@ -1449,6 +1509,7 @@ if self.ability.name == 'The Hermit' then
 end
 '''
 match_indent = true
+times = 1
 
 
     # Apply modifier to Temperance
@@ -1465,7 +1526,7 @@ elseif _c.name == "Temperance" then
             end
         end
     end
-    loc_vars = {_c.config.extra, math.min(_c.config.extra, _money)}
+    loc_vars = {cfg.extra, math.min(cfg.extra, _money)}
 '''
 position = "at"
 payload = '''
@@ -1478,9 +1539,10 @@ elseif _c.name == "Temperance" then
             end
         end
     end
-    loc_vars = {(_c.config.extra * G.GAME.gambler_mod), math.min((_c.config.extra * G.GAME.gambler_mod), _money)}
+    loc_vars = {(cfg.extra * G.GAME.gambler_mod), math.min((cfg.extra * G.GAME.gambler_mod), _money)}
 '''
 match_indent = true
+times = 1
 
 [[patches]]
 [patches.pattern]
@@ -1509,6 +1571,7 @@ if self.ability.name == 'Temperance' then
 end
 '''
 match_indent = true
+times = 1
 
 
     # Apply modifier to Economy Tag
@@ -1523,6 +1586,7 @@ payload = '''
 elseif name_to_check == 'Economy Tag' then loc_vars = {self.config.max * G.GAME.gambler_mod}
 '''
 match_indent = true
+times = 1
 
 
 
@@ -1535,55 +1599,11 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "card.lua"
-pattern = '''
-    self.ability = {
-        name = center.name,
-        effect = center.effect,
-        set = center.set,
-        mult = center.config.mult or 0,
-        h_mult = center.config.h_mult or 0,
-        h_x_mult = center.config.h_x_mult or 0,
-        h_dollars = center.config.h_dollars or 0,
-        p_dollars = center.config.p_dollars or 0,
-        t_mult = center.config.t_mult or 0,
-        t_chips = center.config.t_chips or 0,
-        x_mult = center.config.Xmult or 1,
-        h_size = center.config.h_size or 0,
-        d_size = center.config.d_size or 0,
-        extra = copy_table(center.config.extra) or nil,
-        extra_value = 0,
-        type = center.config.type or '',
-        order = center.order or nil,
-        forced_selection = self.ability and self.ability.forced_selection or nil,
-        perma_bonus = self.ability and self.ability.perma_bonus or 0,
-    }
-'''
-position = "at"
-payload = '''
-    self.ability = {
-        name = center.name,
-        effect = center.effect,
-        set = center.set,
-        mult = center.config.mult or 0,
-        h_mult = center.config.h_mult or 0,
-        h_x_mult = center.config.h_x_mult or 0,
-        h_dollars = center.config.h_dollars or 0,
-        p_dollars = center.config.p_dollars or 0,
-        t_mult = center.config.t_mult or 0,
-        t_chips = center.config.t_chips or 0,
-        x_mult = center.config.Xmult or 1,
-        h_size = center.config.h_size or 0,
-        d_size = center.config.d_size or 0,
-        extra = copy_table(center.config.extra) or nil,
-        extra_value = 0,
-        type = center.config.type or '',
-        order = center.order or nil,
-        forced_selection = self.ability and self.ability.forced_selection or nil,
-        perma_bonus = self.ability and self.ability.perma_bonus or 0,
-        mult_perma_bonus = self.ability and self.ability.mult_perma_bonus or 0,
-    }
-'''
+pattern = "perma_bonus = self.ability and self.ability.perma_bonus or 0,"
+position = "after"
+payload = "mult_perma_bonus = self.ability and self.ability.mult_perma_bonus or 0,"
 match_indent = true
+times = 1
 
     # Apply variable to mult calc
 [[patches]]
@@ -1622,6 +1642,7 @@ function Card:get_chip_mult()
     end
 end'''
 match_indent = true
+times = 1
 
 
 
@@ -1638,13 +1659,8 @@ pattern = '''
 function get_flush(hand)
   local ret = {}
   local four_fingers = next(find_joker('Four Fingers'))
-  local suits = {
-    "Spades",
-    "Hearts",
-    "Clubs",
-    "Diamonds"
-  }
-  if #hand > 5 or #hand < (5 - (four_fingers and 1 or 0)) then return ret else
+  local suits = SMODS.Suit.obj_buffer
+  if #hand < (5 - (four_fingers and 1 or 0)) then return ret else
     for j = 1, #suits do
       local t = {}
       local suit = suits[j]
@@ -1666,14 +1682,8 @@ payload = '''
 function get_flush(hand)
   local ret = {}
   local four_fingers = next(find_joker('Four Fingers'))
-  local virus = next(SMODS.find_card('j_mxms_virus'))
-  local suits = {
-    "Spades",
-    "Hearts",
-    "Clubs",
-    "Diamonds"
-  }
-  if #hand > 5 or #hand < (5 - (four_fingers and 1 or virus and 3 or 0)) then return ret else
+  local suits = SMODS.Suit.obj_buffer
+  if #hand < (5 - (four_fingers and 1 or virus and 3 or 0)) then return ret else
     for j = 1, #suits do
       local t = {}
       local suit = suits[j]
@@ -1691,6 +1701,7 @@ function get_flush(hand)
 end
 '''
 match_indent = true
+times = 1
 
 
 
@@ -1716,6 +1727,7 @@ elseif self.ability.name == 'Jolly Joker' or self.ability.name == 'Zany Joker' o
     loc_vars = {self.ability.t_mult, localize(self.ability.type, 'poker_hands')}
 '''
 match_indent = true
+times = 1
 
 
 
@@ -1741,6 +1753,7 @@ elseif self.ability.name == 'Sly Joker' or self.ability.name == 'Wily Joker' or
         loc_vars = {self.ability.t_chips, localize(self.ability.type, 'poker_hands')}
 '''
 match_indent = true
+times = 1
 
 
 
@@ -1776,6 +1789,7 @@ if self.ability.set == 'Spectral' then
 end
 '''
 match_indent = true
+times = 1
 
 
 
@@ -1801,6 +1815,7 @@ if polled_rate > check_rate and polled_rate <= check_rate + v.val then
     end
 '''
 match_indent = true
+times = 1
 
 
 
@@ -1832,6 +1847,7 @@ payload = '''
     self.cost = self.cost * G.GAME.creep_mod
 '''
 match_indent = true
+times = 1
 
 
 
@@ -1867,5 +1883,6 @@ local ret = {card = self}
     return ret
 '''
 match_indent = true
+times = 1
 
 

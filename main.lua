@@ -57,7 +57,7 @@ food_jokers = { {
     key = 'j_turtle_bean',
     name = 'Turtle Bean'
 }, {
-    key = 'diet_cola',
+    key = 'j_diet_cola',
     name = 'Diet Cola'
 }, {
     key = 'j_popcorn',
@@ -232,7 +232,17 @@ SMODS.Joker { -- Fortune Cookie
 
                     -- Failed Roll
                 else
-                    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (10 - card.ability.extra.chance)
+                    for k, v in pairs(G.jokers.cards) do
+                        if v.ability.name == 'Pessimistic Joker' then
+                            v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
+                            G.E_MANAGER:add_event(Event({
+                                trigger = 'after',
+                                func = function()
+                                    v:juice_up(0.3, 0.4)
+                                return true; end
+                            }))
+                        end
+                    end
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
                         func = function()
@@ -1747,7 +1757,7 @@ SMODS.Joker { -- Random Encounter
     rarity = 2,
     config = {
         extra = {
-            chance = 4
+            chance = 1
         }
     },
     loc_vars = function(self, info_queue, center)
