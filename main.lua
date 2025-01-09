@@ -233,7 +233,7 @@ SMODS.Joker { -- Fortune Cookie
                     -- Failed Roll
                 else
                     for k, v in pairs(G.jokers.cards) do
-                        if v.ability.name == 'Pessimistic Joker' then
+                        if v.config.center.key == 'j_mxms_pessimistic' then
                             v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
                             G.E_MANAGER:add_event(Event({
                                 trigger = 'after',

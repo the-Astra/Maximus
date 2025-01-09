@@ -611,7 +611,7 @@ position = "before"
 payload = '''
 if next(SMODS.find_card('j_mxms_pessimistic')) then
     for k, v in pairs(G.jokers.cards) do
-        if v.ability.name == 'Pessimistic Joker' then
+        if v.config.center.key == 'j_mxms_pessimistic' then
             v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -651,7 +651,7 @@ position = "after"
 payload = '''
 elseif next(SMODS.find_card('j_mxms_pessimistic')) then
     for k, v in pairs(G.jokers.cards) do
-        if v.ability.name == 'Pessimistic Joker' then
+        if v.config.center.key == 'j_mxms_pessimistic' then
             v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -677,7 +677,7 @@ position = "after"
 payload = '''
 if next(SMODS.find_card('j_mxms_pessimistic')) then
     for k, v in pairs(G.jokers.cards) do
-        if v.ability.name == 'Pessimistic Joker' then
+        if v.config.center.key == 'j_mxms_pessimistic' then
             v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -741,7 +741,7 @@ if (context.other_card:get_id() == 8) then
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         for k, v in pairs(G.jokers.cards) do
-            if v.ability.name == 'Pessimistic Joker' then
+            if v.config.center.key == 'j_mxms_pessimistic' then
                 v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
@@ -787,7 +787,7 @@ context.other_card:is_face() then
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         for k, v in pairs(G.jokers.cards) do
-            if v.ability.name == 'Pessimistic Joker' then
+            if v.config.center.key == 'j_mxms_pessimistic' then
                 v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
@@ -829,7 +829,7 @@ context.other_card:is_suit("Hearts") then
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         for k, v in pairs(G.jokers.cards) do
-            if v.ability.name == 'Pessimistic Joker' then
+            if v.config.center.key == 'j_mxms_pessimistic' then
                 v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
@@ -891,7 +891,7 @@ context.other_card:is_face() then
         end
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         for k, v in pairs(G.jokers.cards) do
-            if v.ability.name == 'Pessimistic Joker' then
+            if v.config.center.key == 'j_mxms_pessimistic' then
                 v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
@@ -932,7 +932,7 @@ if self.ability.name == 'Space Joker' then
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         for k, v in pairs(G.jokers.cards) do
-            if v.ability.name == 'Pessimistic Joker' then
+            if v.config.center.key == 'j_mxms_pessimistic' then
                 v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
