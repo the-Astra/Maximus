@@ -933,10 +933,10 @@ SMODS.Joker { -- Harmony
             local aces, twos = 0, 0
 
             for i = 1, #context.scoring_hand do
-                if context.scoring_hand[i]:get_id() == 14 then
+                if context.scoring_hand[i]:get_id() == 14 and not context.scoring_hand[i].debuff then
                     aces = aces + 1
                 end
-                if context.scoring_hand[i]:get_id() == 2 then
+                if context.scoring_hand[i]:get_id() == 2 and not context.scoring_hand[i].debuff then
                     twos = twos + 1
                 end
             end
