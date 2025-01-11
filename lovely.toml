@@ -1439,37 +1439,6 @@ match_indent = true
 times = 1
 
 
-    # Apply modifier to interest
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''
-if not G.GAME.seeded and not G.GAME.challenge then
-    if G.GAME.interest_amount*math.min(math.floor(G.GAME.dollars/5), G.GAME.interest_cap/5) == G.GAME.interest_amount*G.GAME.interest_cap/5 then 
-        G.PROFILES[G.SETTINGS.profile].career_stats.c_round_interest_cap_streak = G.PROFILES[G.SETTINGS.profile].career_stats.c_round_interest_cap_streak + 1
-    else
-        G.PROFILES[G.SETTINGS.profile].career_stats.c_round_interest_cap_streak = 0
-    end
-end
-check_for_unlock({type = 'interest_streak'})
-dollars = dollars + G.GAME.interest_amount*math.min(math.floor(G.GAME.dollars/5), G.GAME.interest_cap/5)
-'''
-position = "at"
-payload = '''
-if not G.GAME.seeded and not G.GAME.challenge then
-    if G.GAME.interest_amount*math.min(math.floor(G.GAME.dollars/5), G.GAME.interest_cap/(5 * G.GAME.gambler_mod)) == G.GAME.interest_amount*G.GAME.interest_cap/(5 * G.GAME.gambler_mod) then 
-        G.PROFILES[G.SETTINGS.profile].career_stats.c_round_interest_cap_streak = G.PROFILES[G.SETTINGS.profile].career_stats.c_round_interest_cap_streak + 1
-    else
-        G.PROFILES[G.SETTINGS.profile].career_stats.c_round_interest_cap_streak = 0
-    end
-end
-check_for_unlock({type = 'interest_streak'})
-dollars = dollars + G.GAME.interest_amount*math.min(math.floor(G.GAME.dollars/5), G.GAME.interest_cap/(5 * G.GAME.gambler_mod))
-'''
-match_indent = true
-times = 1
-
-
     # Apply modifier to Hermit
 [[patches]]
 [patches.pattern]
