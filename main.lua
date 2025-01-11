@@ -1625,6 +1625,7 @@ SMODS.Joker { -- Dark Room
 
             local chosen_voucher = create_card('Voucher', nil, nil, nil, nil, nil,
                 pseudorandom_element(eligible_vouchers, pseudoseed('dark_room')), 'dark_room')
+            chosen_voucher.cost = 0
             chosen_voucher:redeem()
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',

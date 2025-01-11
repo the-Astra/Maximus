@@ -1803,3 +1803,17 @@ match_indent = true
 times = 1
 
 
+
+
+
+
+# Add Power Creep Functionality -----------------------------------------
+
+    # Create modifier variable
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "pack_size = 2,"
+position = "after"
+payload = "creep_mod = 1,"
+match_indent = true
