@@ -1546,7 +1546,7 @@ times = 1
 
 [[patches]]
 [patches.pattern]
-target = "functions/common_events.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Temperance' then
     self.ability.money = 0
@@ -1699,58 +1699,6 @@ function get_flush(hand)
     return {}
   end
 end
-'''
-match_indent = true
-times = 1
-
-
-
-
-
-
-# Add Loony Functionality -----------------------------------------
-    # Apply modifier to Economy Tag
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-elseif self.ability.name == 'Jolly Joker' or self.ability.name == 'Zany Joker' or
-    self.ability.name == 'Mad Joker' or self.ability.name == 'Crazy Joker'  or 
-    self.ability.name == 'Droll Joker' then 
-    loc_vars = {self.ability.t_mult, localize(self.ability.type, 'poker_hands')}
-'''
-position = "at"
-payload = '''
-elseif self.ability.name == 'Jolly Joker' or self.ability.name == 'Zany Joker' or
-    self.ability.name == 'Mad Joker' or self.ability.name == 'Crazy Joker'  or 
-    self.ability.name == 'Droll Joker' or self.ability.name == 'Loony Joker' then 
-    loc_vars = {self.ability.t_mult, localize(self.ability.type, 'poker_hands')}
-'''
-match_indent = true
-times = 1
-
-
-
-
-
-
-# Add Lazy Functionality -----------------------------------------
-    # Apply modifier to Economy Tag
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-elseif self.ability.name == 'Sly Joker' or self.ability.name == 'Wily Joker' or
-self.ability.name == 'Clever Joker' or self.ability.name == 'Devious Joker'  or 
-self.ability.name == 'Crafty Joker' then 
-    loc_vars = {self.ability.t_chips, localize(self.ability.type, 'poker_hands')}
-'''
-position = "at"
-payload = '''
-elseif self.ability.name == 'Sly Joker' or self.ability.name == 'Wily Joker' or
-    self.ability.name == 'Clever Joker' or self.ability.name == 'Devious Joker'  or 
-    self.ability.name == 'Crafty Joker' or self.ability.name == 'Lazy Joker' then 
-        loc_vars = {self.ability.t_chips, localize(self.ability.type, 'poker_hands')}
 '''
 match_indent = true
 times = 1

@@ -184,6 +184,7 @@ SMODS.Joker { -- Fortune Cookie
     rarity = 1,
     perishable_compat = false,
     eternal_compat = false,
+    blueprint_compat = true,
     config = {
         extra = {
             chance = 10,
@@ -234,12 +235,14 @@ SMODS.Joker { -- Fortune Cookie
                 else
                     for k, v in pairs(G.jokers.cards) do
                         if v.config.center.key == 'j_mxms_pessimistic' then
-                            v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
+                            v.ability.extra.mult = v.ability.extra.mult +
+                            (self.ability.extra - G.GAME.probabilities.normal)
                             G.E_MANAGER:add_event(Event({
                                 trigger = 'after',
                                 func = function()
                                     v:juice_up(0.3, 0.4)
-                                return true; end
+                                    return true;
+                                end
                             }))
                         end
                     end
@@ -333,6 +336,7 @@ SMODS.Joker { -- Poindexter
             shattered = false
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
         return {
@@ -358,8 +362,8 @@ SMODS.Joker { -- Poindexter
         if context.remove_playing_cards and not context.blueprint then
             -- Check for shattered glass
             if context.removed ~= nil then
-                for k, val in ipairs(context.removed) do
-                    if val.config.center_key == 'm_glass' then
+                for k, v in ipairs(context.removed) do
+                    if v.config.center_key == 'm_glass' and not v.debuff then
                         card.ability.extra.Xmult = 1
                         card.ability.extra.shattered = true
                     end
@@ -428,6 +432,7 @@ SMODS.Joker { -- Abyss
         y = 0
     },
     config = {},
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
         return {
@@ -453,7 +458,8 @@ SMODS.Joker { -- Abyss
                     extra = {
                         message = 'No target...',
                         colour = G.C.PURPLE
-                    }
+                    },
+                    card = card
                 }
             else
                 -- Choose Joker to affect
@@ -473,7 +479,8 @@ SMODS.Joker { -- Abyss
                         extra = {
                             message = 'Void-touched!',
                             colour = G.C.PURPLE
-                        }
+                        },
+                        card = card
                     }
 
                     -- Destroy a random non-negative joker
@@ -494,7 +501,8 @@ SMODS.Joker { -- Abyss
                         extra = {
                             message = 'Consumed',
                             colour = G.C.PURPLE
-                        }
+                        },
+                        card = card
                     }
                 end
             end
@@ -515,6 +523,7 @@ SMODS.Joker { -- War
     },
     rarity = 3,
     config = {},
+    blueprint_compat = false,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.war_mod = G.GAME.war_mod * 2
     end,
@@ -537,6 +546,7 @@ SMODS.Joker { -- Microwave
     },
     rarity = 2,
     config = {},
+    blueprint_compat = true,
     calculate = function(self, card, context)
         -- Thank you to theonegoodali from the Balatro Discord for helping me with this conditional
         if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
@@ -572,6 +582,7 @@ SMODS.Joker { -- Combo Breaker
             retriggers = 0
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.Xmult, center.ability.extra.retriggers }
@@ -628,7 +639,8 @@ SMODS.Joker { -- Faded
         y = 1
     },
     rarity = 2,
-    config = {}
+    config = {},
+    blueprint_compat = false,
 }
 
 SMODS.Joker { -- Old Man Jimbo
@@ -644,6 +656,7 @@ SMODS.Joker { -- Old Man Jimbo
     },
     rarity = 2,
     config = {},
+    blueprint_compat = true,
 
     calculate = function(self, card, context)
         if context.joker_main then
@@ -651,7 +664,8 @@ SMODS.Joker { -- Old Man Jimbo
             return {
                 Xmult_mod = Xmult,
                 message = 'x' .. Xmult,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
     end
@@ -674,6 +688,7 @@ SMODS.Joker { -- Joker+
             mult = 5
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
@@ -684,7 +699,8 @@ SMODS.Joker { -- Joker+
             return {
                 mult_mod = card.ability.extra.mult,
                 message = '+' .. card.ability.extra.mult,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
     end
@@ -704,12 +720,14 @@ SMODS.Joker { -- Normal Joker
     },
     rarity = 1,
     config = {},
+    blueprint_compat = true,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
             if not context.other_card.edition and not context.other_card.seal and not context.other_card.enhancement then
                 return {
                     mult = 1,
-                    chips = 5
+                    chips = 5,
+                    card = card
                 }
             end
         end
@@ -739,6 +757,7 @@ SMODS.Joker { -- Streaker
             mult = 0
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.streak, center.ability.extra.hands, center.ability.extra.chips,
@@ -751,7 +770,8 @@ SMODS.Joker { -- Streaker
                 mult_mod = card.ability.extra.chips,
                 chip_mod = card.ability.extra.mult,
                 message = 'Streaked!',
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
 
@@ -880,12 +900,14 @@ SMODS.Joker { -- Astigmatism
     }, -- Change once sprite art is added
     rarity = 3,
     config = {},
+    blueprint_compat = true,
     calculate = function(self, card, context)
         if context.joker_main then
             return {
                 chip_mod = hand_chips,
                 message = 'x2',
-                colour = G.C.CHIPS
+                colour = G.C.CHIPS,
+                card = card
             }
         end
     end
@@ -903,7 +925,8 @@ SMODS.Joker { -- Perspective
         y = 0
     },
     rarity = 1,
-    config = {}
+    config = {},
+    blueprint_compat = false,
 }
 
 SMODS.Joker { -- Harmony
@@ -923,6 +946,7 @@ SMODS.Joker { -- Harmony
             mult = 16
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
@@ -945,7 +969,8 @@ SMODS.Joker { -- Harmony
                 return {
                     mult_mod = card.ability.extra.mult,
                     message = '+' .. card.ability.extra.mult,
-                    colour = G.C.MULT
+                    colour = G.C.MULT,
+                    card = card
                 }
             end
         end
@@ -971,6 +996,7 @@ SMODS.Joker { -- Impractical Joker
             fails = 0
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.fails, G.GAME.current_round.impractical_hand }
@@ -987,7 +1013,8 @@ SMODS.Joker { -- Impractical Joker
                 return {
                     message = 'x3',
                     Xmult_mod = 3,
-                    colour = G.C.MULT
+                    colour = G.C.MULT,
+                    card = card
                 }
 
                 -- If incorrect hand is played
@@ -1000,7 +1027,8 @@ SMODS.Joker { -- Impractical Joker
                 if card.ability.extra.fails < 3 then
                     return {
                         message = 'Fail ' .. card.ability.extra.fails,
-                        colour = G.C.RED
+                        colour = G.C.RED,
+                        card = card
                     }
 
                     -- If 3 fails
@@ -1008,7 +1036,8 @@ SMODS.Joker { -- Impractical Joker
                     return {
                         message = 'Tonight\'s Biggest Loser',
                         Xmult_mod = 0.5,
-                        colour = G.C.RED
+                        colour = G.C.RED,
+                        card = card
                     }
                 end
             end
@@ -1018,7 +1047,8 @@ SMODS.Joker { -- Impractical Joker
             card.ability.extra.fails = 0
             return {
                 message = localize('k_reset'),
-                colour = G.C.CHIPS
+                colour = G.C.CHIPS,
+                card = card
             }
         end
     end
@@ -1041,6 +1071,7 @@ SMODS.Joker { -- Trick or Treat
             mult = 5
         }
     },
+    blueprint_compat = false,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
@@ -1086,6 +1117,7 @@ SMODS.Joker { -- Pessimistic Joker
             mult = 0
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
@@ -1096,7 +1128,8 @@ SMODS.Joker { -- Pessimistic Joker
             return {
                 mult_mod = card.ability.extra.mult,
                 message = '+' .. card.ability.extra.mult,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
 
@@ -1120,6 +1153,7 @@ SMODS.Joker { -- Chef
         y = 2
     },
     rarity = 1,
+    blueprint_compat = true,
     calculate = function(self, card, context)
         if context.setting_blind then
             -- Check if there is space for a new joker
@@ -1134,6 +1168,7 @@ SMODS.Joker { -- Chef
                 local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_joker.key, 'chef')
                 new_card:add_to_deck()
                 G.jokers:emplace(new_card)
+                card.juice_up(0.3, 0.4)
             end
         end
     end
@@ -1210,6 +1245,7 @@ SMODS.Joker { -- Refrigerator
             mult = 5
         }
     },
+    blueprint_compat = false,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.fridge_mod = G.GAME.fridge_mod + 1
     end,
@@ -1231,13 +1267,14 @@ SMODS.Joker { -- Hopscotch
         y = 2
     },
     rarity = 2,
+    blueprint_compat = false,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { G.GAME.probabilities.normal }
         }
     end,
     calculate = function(self, card, context)
-        if context.setting_blind and not G.GAME.blind:get_type() == 'Boss' then
+        if context.setting_blind and not G.GAME.blind:get_type() == 'Boss' and not context.blueprint then
             if pseudorandom('hopscotch', G.GAME.probabilities.normal, 3) == 3 then
                 -- Code derived from G.FUNCS.skip_blind
                 local _tag = G.GAME.skip_tag
@@ -1285,6 +1322,7 @@ SMODS.Joker { -- Secret Society
         x = 4,
         y = 2
     },
+    blueprint_compat = false,
     rarity = 2,
     config = {}
 }
@@ -1307,6 +1345,7 @@ SMODS.Joker { -- Bullseye
             chips = 0
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { 100 * G.GAME.round, center.ability.extra.chips }
@@ -1317,7 +1356,8 @@ SMODS.Joker { -- Bullseye
             return {
                 chip_mod = card.ability.extra.chips,
                 message = '+' .. card.ability.extra.chips,
-                colour = G.C.CHIPS
+                colour = G.C.CHIPS,
+                card = card
             }
         end
 
@@ -1326,7 +1366,8 @@ SMODS.Joker { -- Bullseye
             card.ability.extra.chips = card.ability.extra.chips + (100 * G.GAME.round)
             return {
                 message = localize('k_upgrade_ex'),
-                colour = G.C.CHIPS
+                colour = G.C.CHIPS,
+                card = card
             }
         end
     end
@@ -1345,6 +1386,7 @@ SMODS.Joker { -- Hammer and Chisel
     },
     rarity = 2,
     config = {},
+    blueprint_compat = false,
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
         return {
@@ -1408,6 +1450,7 @@ SMODS.Joker { -- Soyjoke
     },
     rarity = 2,
     config = {},
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { G.GAME.soy_mod }
@@ -1418,7 +1461,8 @@ SMODS.Joker { -- Soyjoke
             return {
                 Xmult_mod = G.GAME.soy_mod,
                 message = 'x' .. G.GAME.soy_mod,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
     end
@@ -1441,6 +1485,7 @@ SMODS.Joker { -- Clown Car
             mult = 0
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
@@ -1451,7 +1496,8 @@ SMODS.Joker { -- Clown Car
             return {
                 mult_mod = card.ability.extra.mult,
                 message = '+' .. card.ability.extra.mult,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
     end
@@ -1470,12 +1516,15 @@ SMODS.Joker { -- Gambler
     },
     rarity = 2,
     config = {},
+    blueprint_compat = false,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.gambler_mod = G.GAME.gambler_mod * 2
+        G.GAME.interest_cap = G.GAME.interest_cap * 2
     end,
 
     remove_from_deck = function(self, card, from_debuff)
-        G.GAME.gambler_mod = G.GAME.gambler_mod / 1
+        G.GAME.gambler_mod = G.GAME.gambler_mod / 2
+        G.GAME.interest_cap = G.GAME.interest_cap / 2
     end
 }
 
@@ -1497,6 +1546,7 @@ SMODS.Joker { -- 4D
     rarity = 2,
     perishable_compat = false,
     eternal_compat = false,
+    blueprint_compat = true,
     config = {
         extra = {
             Xmult = 4
@@ -1512,7 +1562,8 @@ SMODS.Joker { -- 4D
             return {
                 Xmult_mod = card.ability.extra.Xmult,
                 message = 'x' .. card.ability.extra.Xmult,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
 
@@ -1567,7 +1618,8 @@ SMODS.Joker { -- Dark Room
             if #eligible_vouchers == 0 then
                 return {
                     message = 'None Valid',
-                    colour = G.C.FILTER
+                    colour = G.C.FILTER,
+                    card = card
                 }
             end
 
@@ -1596,7 +1648,8 @@ SMODS.Joker { -- Dark Room
             return {
                 message = (card.ability.extra.rounds < 3) and (card.ability.extra.rounds .. '/3') or
                     localize('k_active_ex'),
-                colour = G.C.FILTER
+                colour = G.C.FILTER,
+                card = card
             }
         end
     end
@@ -1613,7 +1666,8 @@ SMODS.Joker { -- Virus
         x = 3,
         y = 3
     },
-    rarity = 2
+    rarity = 2,
+    blueprint_compat = false,
 }
 
 SMODS.Joker { -- Man in the Mirror
@@ -1645,7 +1699,8 @@ SMODS.Joker { -- Man in the Mirror
                     extra = {
                         message = 'No target...',
                         colour = G.C.PURPLE
-                    }
+                    },
+                    card = card
                 }
             else
                 -- Add negative edition to all held consumeables
@@ -1686,6 +1741,7 @@ SMODS.Joker { -- Unpleasant Gradient
     },
     rarity = 2,
     config = {},
+    blueprint_compat = true,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
             card:juice_up(0.3, 0.4)
@@ -1760,6 +1816,7 @@ SMODS.Joker { -- Random Encounter
             chance = 1
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.chance * G.GAME.probabilities.normal }
@@ -1812,6 +1869,7 @@ SMODS.Joker { -- Jackpot
             sevens = 0
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.money }
@@ -1854,6 +1912,7 @@ SMODS.Joker { -- Bell Curve
     },
     rarity = 2,
     config = {},
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         local calc = 0
         if G.playing_cards ~= nil then
@@ -1871,7 +1930,8 @@ SMODS.Joker { -- Bell Curve
             return {
                 Xmult_mod = Xmult,
                 message = 'X' .. Xmult,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
     end
@@ -1894,6 +1954,7 @@ SMODS.Joker { -- Loaded Gun
             Xmult = 2
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
         return {}
@@ -1927,6 +1988,7 @@ SMODS.Joker { -- Coupon
             odds = 1
         }
     },
+    blueprint_compat = false,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.odds * G.GAME.probabilities.normal }
@@ -1938,7 +2000,7 @@ SMODS.Joker { -- Loony Joker
     key = 'loony',
     loc_txt = {
         name = 'Loony Joker',
-        text = { "{C:red}+#1#{} Mult if played", "hand contains", "a {C:attention}#2#" }
+        text = { "{C:red}+#1#{} Mult if played", "hand is", "a {C:attention}#2#" }
     },
     atlas = 'Jokers',
     pos = {
@@ -1951,10 +2013,21 @@ SMODS.Joker { -- Loony Joker
         t_mult = 5,
         type = 'High Card'
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.t_mult, center.ability.type }
         }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main and context.scoring_name == 'High Card' then
+            return {
+                mult_mod = card.ability.extra.t_mult,
+                message = '+' .. card.ability.extra.t_mult,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
     end
 }
 
@@ -1962,7 +2035,7 @@ SMODS.Joker { -- Lazy Joker
     key = 'lazy',
     loc_txt = {
         name = 'Lazy Joker',
-        text = { "{C:chips}+#1#{} Chips if played", "hand contains", "a {C:attention}#2#" }
+        text = { "{C:chips}+#1#{} Chips if played", "hand is", "a {C:attention}#2#" }
     },
     atlas = 'Jokers',
     pos = {
@@ -1974,10 +2047,21 @@ SMODS.Joker { -- Lazy Joker
         t_chips = 20,
         type = 'High Card'
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.t_chips, center.ability.type }
         }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main and context.scoring_name == 'High Card' then
+            return {
+                chip_mod = card.ability.extra.t_chips,
+                message = '+' .. card.ability.extra.t_chips,
+                colour = G.C.CHIPS,
+                card = card
+            }
+        end
     end
 }
 
@@ -1995,6 +2079,7 @@ SMODS.Joker { -- Salt Circle
     },
     rarity = 1,
     config = {},
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { G.GAME.spectrals_used * 15 }
@@ -2005,7 +2090,8 @@ SMODS.Joker { -- Salt Circle
             return {
                 mult_mod = G.GAME.spectrals_used * 15,
                 message = '+' .. G.GAME.spectrals_used * 15,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
     end
@@ -2024,6 +2110,7 @@ SMODS.Joker { -- Light Show
     },
     rarity = 1,
     config = {},
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_bonus
         info_queue[#info_queue + 1] = G.P_CENTERS.m_mult
@@ -2061,6 +2148,7 @@ SMODS.Joker { -- Monk
             chips = 0
         }
     },
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.chips }
@@ -2071,11 +2159,12 @@ SMODS.Joker { -- Monk
             return {
                 chip_mod = card.ability.extra.chips,
                 message = '+' .. card.ability.extra.chips,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
 
-        if context.buying_card or context.open_booster or context.reroll_shop then
+        if (context.buying_card or context.open_booster or context.reroll_shop) and not context.blueprint then
             card.ability.extra.purchase_made = true
         end
 
@@ -2107,6 +2196,7 @@ SMODS.Joker { -- Marco Polo
     },
     rarity = 1,
     config = {},
+    blueprint_compat = true,
     calculate = function(self, card, context)
         if context.joker_main then
             local position = 0
@@ -2125,7 +2215,8 @@ SMODS.Joker { -- Marco Polo
             return {
                 mult_mod = mult,
                 message = '+' .. mult,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
     end
@@ -2145,6 +2236,7 @@ SMODS.Joker { -- Go Fish
     },
     rarity = 2,
     config = {},
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { G.GAME.current_round.go_fish.rank }
@@ -2155,7 +2247,8 @@ SMODS.Joker { -- Go Fish
             return {
                 mult_mod = G.GAME.current_round.go_fish.mult,
                 message = '+' .. G.GAME.current_round.go_fish.mult,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
     end
@@ -2174,6 +2267,7 @@ SMODS.Joker { -- Sleuth
     },
     rarity = 2,
     config = {},
+    blueprint_compat = false,
     add_to_deck = function(self, card, from_debuff)
         change_shop_size(1)
     end,
@@ -2232,7 +2326,8 @@ SMODS.Joker { -- Don't Mind if I Do
             return {
                 Xmult_mod = card.ability.extra.Xmult,
                 message = '+' .. card.ability.extra.Xmult,
-                colour = G.C.MULT
+                colour = G.C.MULT,
+                card = card
             }
         end
     end
@@ -2252,10 +2347,11 @@ SMODS.Joker { -- Guillotine
     },
     rarity = 3,
     config = {},
+    blueprint_compat = false,
     calculate = function(self, card, context)
         if context.before and not context.blueprint then
             for i = 1, #context.scoring_hand do
-                if context.scoring_hand[i]:get_id() > 10 then
+                if context.scoring_hand[i]:get_id() > 10 and not context.scoring_hand[i].debuff then
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
                         delay = 0.50,
@@ -2288,6 +2384,7 @@ SMODS.Joker { -- Power Creep
     },
     rarity = 3,
     config = {},
+    blueprint_compat = false,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.creep_mod = G.GAME.creep_mod * 2
     end,
@@ -2311,6 +2408,7 @@ SMODS.Joker { -- Space Race
     },
     rarity = 3,
     config = {},
+    blueprint_compat = true,
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.before then
             local hand_is_highest = false
@@ -2334,7 +2432,7 @@ SMODS.Joker { -- Space Race
 
             if not hand_is_highest then
                 return {
-                    card = self,
+                    card = card,
                     level_up = true,
                     message = localize('k_level_up_ex')
                 }
