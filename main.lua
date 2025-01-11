@@ -2165,16 +2165,10 @@ SMODS.Joker { -- Monk
             card.ability.extra.purchase_made = true
         end
 
-        if context.ending_shop then
-            if not card.ability.extra.purchase_made then
-                card:juice_up(0.3, 0.4)
-                play_sound('tarot1')
-                card.ability.extra.chips = card.ability.extra.chips + 20
-            else
-                card:juice_up(0.3, 0.4)
-                play_sound('tarot2')
-                card.ability.extra.purchase_made = false
-            end
+        if context.ending_shop and not card.ability.extra.purchase_made then
+            card:juice_up(0.3, 0.4)
+            play_sound('tarot1')
+            card.ability.extra.chips = card.ability.extra.chips + 20
         end
     end
 }
@@ -2322,7 +2316,7 @@ SMODS.Joker { -- Don't Mind if I Do
         if context.joker_main and card.ability.extra.Xmult > 1 then
             return {
                 Xmult_mod = card.ability.extra.Xmult,
-                message = '+' .. card.ability.extra.Xmult,
+                message = 'X' .. card.ability.extra.Xmult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -2534,33 +2528,40 @@ SMODS.Joker { -- Hedonist
     key = 'hedonist',
     loc_txt = {
         name = 'Hedonist',
-        text = { '{C:mult}+5{} Mult' }
+        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X0.5{} Mult', 'if shop is cleared out', 'when exiting' }
     },
     atlas = 'Jokers',
     pos = {
         x = 6,
         y = 5
     },
-    rarity = 3,
+    rarity = 2,
     config = {
         extra = {
-            mult = 5
+            Xmult = 1
         }
     },
     blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { center.ability.extra.mult }
+            vars = { center.ability.extra.Xmult }
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main then
+
+        if context.joker_main and card.ability.extra.Xmult > 1 then
             return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
+                Xmult_mod = card.ability.extra.Xmult,
+                message = "X"..card.ability.extra.Xmult,
                 colour = G.C.MULT,
                 card = card
             }
+        end
+
+        if context.ending_shop and #G.shop_vouchers.cards == 0 and #G.shop_booster.cards == 0 and #G.shop_jokers.cards == 0 then
+            card:juice_up(0.3, 0.4)
+            play_sound('tarot1')
+            card.ability.extra.Xmult = card.ability.extra.Xmult + 0.5
         end
     end
 }
