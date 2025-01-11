@@ -1328,7 +1328,7 @@ SMODS.Joker { -- Secret Society
 SMODS.Joker { -- Bullseye
     key = 'bullseye',
     loc_txt = {
-        name = 'bullseye',
+        name = 'Bullseye',
         text = { 'If {C:attention}blind\'s{} Chip requirement', 'is met {C:attention}exactly{}, this joker',
             'gains {C:chips}+#1#{} Chips', '{C:inactive}Scales with round', '{C:inactive}Currently: {C:chips}+#2#' }
     },
@@ -2434,6 +2434,347 @@ SMODS.Joker { -- Space Race
                     message = localize('k_level_up_ex')
                 }
             end
+        end
+    end
+}
+
+SMODS.Joker { -- Poet
+    key = 'poet',
+    loc_txt = {
+        name = 'Poet',
+        text = { 'If hand type is played exclusively with number ranks', 'matching the hand name, give Xmult equal to that rank', '{C:inactive}Two Pair must be played with a pair of 2s and', '{C:inactive}a pair of faces or aces' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 5,
+        y = 5
+    },
+    rarity = 2,
+    config = {},
+    blueprint_compat = true,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local same_rank = true
+            if context.scoring_name == 'Two Pair' then
+                local two_count = 0
+                local face_count = 0
+                for k, v in ipairs(context.scoring_hand) do
+                    if v:get_id() == 2 then
+                        two_count = two_count + 1
+                    elseif v:get_id() > 10 then
+                        face_count = face_count + 1
+                    end
+                end
+
+                if two_count == 2 and face_count == 2 then
+                    return {
+                        message = 'X2',
+                        Xmult_mod = 2,
+                        colour = G.C.MULT,
+                        card = card
+                    }
+                end
+            end
+
+            if context.scoring_name == 'Three of a Kind' then
+                for k, v in ipairs(context.scoring_hand) do
+                    if v:get_id() ~= 3 then
+                        same_rank = false
+                    end
+                end
+
+                if same_rank then
+                    return {
+                        message = 'X3',
+                        Xmult_mod = 3,
+                        colour = G.C.MULT,
+                        card = card
+                    }
+                end
+            end
+
+            if context.scoring_name == 'Four of a Kind' then
+                for k, v in ipairs(context.scoring_hand) do
+                    if v:get_id() ~= 4 then
+                        same_rank = false
+                    end
+                end
+
+                if same_rank then
+                    return {
+                        message = 'X4',
+                        Xmult_mod = 4,
+                        colour = G.C.MULT,
+                        card = card
+                    }
+                end
+            end
+
+            if context.scoring_name == 'Five of a Kind' or context.scoring_name == 'Flush Five' then
+                for k, v in ipairs(context.scoring_hand) do
+                    if v:get_id() ~= 5 then
+                        same_rank = false
+                    end
+                end
+
+                if same_rank then
+                    return {
+                        message = 'X5',
+                        Xmult_mod = 5,
+                        colour = G.C.MULT,
+                        card = card
+                    }
+                end
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Hedonist
+    key = 'hedonist',
+    loc_txt = {
+        name = 'Hedonist',
+        text = { '{C:mult}+5{} Mult' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 5
+    },
+    rarity = 3,
+    config = {
+        extra = {
+            mult = 5
+        }
+    },
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.mult }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult_mod = card.ability.extra.mult,
+                message = '+' .. card.ability.extra.mult,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Zombie
+    key = 'zombie',
+    loc_txt = {
+        name = 'Zombie',
+        text = { '{C:mult}+5{} Mult' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 5
+    },
+    rarity = 3,
+    config = {
+        extra = {
+            mult = 5
+        }
+    },
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.mult }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult_mod = card.ability.extra.mult,
+                message = '+' .. card.ability.extra.mult,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Coronation
+    key = 'coronation',
+    loc_txt = {
+        name = 'Coronation',
+        text = { '{C:mult}+5{} Mult' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 5
+    },
+    rarity = 3,
+    config = {
+        extra = {
+            mult = 5
+        }
+    },
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.mult }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult_mod = card.ability.extra.mult,
+                message = '+' .. card.ability.extra.mult,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Soil Joker
+    key = 'soil',
+    loc_txt = {
+        name = 'Soil Joker',
+        text = { '{C:mult}+5{} Mult' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 6
+    },
+    rarity = 3,
+    config = {
+        extra = {
+            mult = 5
+        }
+    },
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.mult }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult_mod = card.ability.extra.mult,
+                message = '+' .. card.ability.extra.mult,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Stop Sign
+    key = 'stop_sign',
+    loc_txt = {
+        name = 'Stop Sign',
+        text = { '{C:mult}+5{} Mult' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 6
+    },
+    rarity = 3,
+    config = {
+        extra = {
+            mult = 5
+        }
+    },
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.mult }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult_mod = card.ability.extra.mult,
+                message = '+' .. card.ability.extra.mult,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Chihuahua
+    key = 'chihuahua',
+    loc_txt = {
+        name = 'Chihuahua',
+        text = { '{C:mult}+5{} Mult' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 2,
+        y = 6
+    },
+    rarity = 3,
+    config = {
+        extra = {
+            mult = 5
+        }
+    },
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.mult }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult_mod = card.ability.extra.mult,
+                message = '+' .. card.ability.extra.mult,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Ledger
+    key = 'ledger',
+    loc_txt = {
+        name = 'Ledger',
+        text = { '{C:mult}+5{} Mult' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 7
+    },
+    soul_pos = {
+        x = 0,
+        y = 8
+    },
+    rarity = 4,
+    config = {
+        extra = {
+            mult = 5
+        }
+    },
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.mult }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult_mod = card.ability.extra.mult,
+                message = '+' .. card.ability.extra.mult,
+                colour = G.C.MULT,
+                card = card
+            }
         end
     end
 }
