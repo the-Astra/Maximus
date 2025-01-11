@@ -1840,7 +1840,6 @@ SMODS.Joker { -- Random Encounter
                 }))
                 return {
                     message = 'A random mult appears!',
-                    mult = 1,
                     colour = G.C.MULT,
                     card = card
                 }
