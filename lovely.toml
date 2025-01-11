@@ -1400,7 +1400,7 @@ if self.ability.set == 'Joker' then
         G.E_MANAGER:add_event(Event({func = function()
             for k, v in pairs(G.jokers.cards) do
                 if v.config.center.key == 'j_mxms_clown_car' then
-                    v.ability.extra.mult = v.ability.extra.mult + 10
+                    v.ability.extra.mult = v.ability.extra.mult + 8
                     return true
                 end
             end
