@@ -1838,14 +1838,13 @@ SMODS.Joker { -- Random Encounter
                         return true
                     end
                 }))
+                return {
+                    message = 'A random mult appears!',
+                    mult = 1,
+                    colour = G.C.MULT,
+                    card = card
+                }
             end
-
-            return {
-                message = 'A random mult appears!',
-                mult = 1,
-                colour = G.C.MULT,
-                card = card
-            }
         end
     end
 }

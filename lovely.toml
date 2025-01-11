@@ -1574,6 +1574,7 @@ payload = "mult_perma_bonus = self.ability and self.ability.mult_perma_bonus or 
 match_indent = true
 times = 1
 
+
     # Apply variable to mult calc
 [[patches]]
 [patches.pattern]
@@ -1610,6 +1611,45 @@ function Card:get_chip_mult()
         return self.ability.mult + self.ability.mult_perma_bonus
     end
 end'''
+match_indent = true
+times = 1
+
+
+    # Add variable to card description
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+loc_vars = { playing_card = not not self.base.colour, value = self.base.value, suit = self.base.suit, colour = self.base.colour,
+    nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,
+    bonus_chips = (self.ability.bonus + (self.ability.perma_bonus or 0)) > 0 and (self.ability.bonus + (self.ability.perma_bonus or 0)) or nil,
+}
+'''
+position = "at"
+payload = '''
+loc_vars = { playing_card = not not self.base.colour, value = self.base.value, suit = self.base.suit, colour = self.base.colour,
+    nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,
+    bonus_chips = (self.ability.bonus + (self.ability.perma_bonus or 0)) > 0 and (self.ability.bonus + (self.ability.perma_bonus or 0)) or nil,
+    bonus_mult = (self.ability.mult_perma_bonus > 0 and self.ability.mult_perma_bonus) or nil
+}
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+if specific_vars.bonus_chips then
+    localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {specific_vars.bonus_chips}}
+end
+'''
+position = "after"
+payload = '''
+if specific_vars.bonus_mult then
+    localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
+end
+'''
 match_indent = true
 times = 1
 
