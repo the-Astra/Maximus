@@ -709,7 +709,7 @@ SMODS.Joker { -- Normal Joker
     loc_txt = {
         name = 'Normal Joker',
         text = { 'Played cards without an', 'enchancement, edition, or seal',
-            ' give {C:mult}+1{} Mult and {C:chips}+5{} Chips' }
+            ' give {C:mult}+2{} Mult and {C:chips}+15{} Chips' }
     },
     atlas = 'Jokers',
     pos = {
@@ -723,8 +723,8 @@ SMODS.Joker { -- Normal Joker
         if context.individual and context.cardarea == G.play then
             if not context.other_card.edition and not context.other_card.seal and not context.other_card.enhancement then
                 return {
-                    mult = 1,
-                    chips = 5,
+                    mult = 2,
+                    chips = 15,
                     card = card
                 }
             end
@@ -736,7 +736,7 @@ SMODS.Joker { -- Streaker
     key = 'streaker',
     loc_txt = {
         name = 'Streaker',
-        text = { '{C:chips}+30{} Chips and {C:mult}+15{} Mult', 'for each consecutive {C:attention}blind{}',
+        text = { '{C:chips}+20{} Chips and {C:mult}+8{} Mult', 'for each consecutive {C:attention}blind{}',
             'beaten in {C:attention}one hand{}, {C:red}Resets{}', 'when streak is broken',
             '{C:inactive}Current streak: #1#',
             '{C:inactive}Currently: {C:chips}+#3# {C:inactive}Chips, {C:mult}+#4#{} Mult' }
@@ -781,8 +781,8 @@ SMODS.Joker { -- Streaker
             if card.ability.extra.hands == 1 then
                 card.ability.extra.hands = 0
                 card.ability.extra.streak = card.ability.extra.streak + 1
-                card.ability.extra.chips = 30 * card.ability.extra.streak
-                card.ability.extra.mult = 15 * card.ability.extra.streak
+                card.ability.extra.chips = 20 * card.ability.extra.streak
+                card.ability.extra.mult = 8 * card.ability.extra.streak
                 return {
                     message = 'Streak ' .. card.ability.extra.streak,
                     colour = G.C.CHIPS,
@@ -1470,7 +1470,7 @@ SMODS.Joker { -- Clown Car
     key = 'clown_car',
     loc_txt = {
         name = 'Clown Car',
-        text = { 'Gains {C:mult}+10{} Mult each time', 'a Joker is added to hand', '{C:inactive}Currently: +#1#' }
+        text = { 'Gains {C:mult}+8{} Mult each time', 'a Joker is added to hand', '{C:inactive}Currently: +#1#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2007,7 +2007,7 @@ SMODS.Joker { -- Loony Joker
     rarity = 1,
     effect = 'Type Mult',
     config = {
-        t_mult = 5,
+        t_mult = 10,
         type = 'High Card'
     },
     blueprint_compat = true,
@@ -2041,7 +2041,7 @@ SMODS.Joker { -- Lazy Joker
     },
     rarity = 1,
     config = {
-        t_chips = 20,
+        t_chips = 40,
         type = 'High Card'
     },
     blueprint_compat = true,
@@ -2066,8 +2066,8 @@ SMODS.Joker { -- Salt Circle
     key = 'salt_circle',
     loc_txt = {
         name = 'Salt Circle',
-        text = { 'Gains {C:mult}+15{} mult for', 'for every {C:spectral}Spectral{} card used',
-            '{C:inactive}Currently: {C:mult}+#1#' }
+        text = { 'Gains {C:chips}+15{} Chips for', 'for every {C:spectral}Spectral{} card used',
+            '{C:inactive}Currently: {C:chips}+#1#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2085,7 +2085,7 @@ SMODS.Joker { -- Salt Circle
     calculate = function(self, card, context)
         if context.joker_main then
             return {
-                mult_mod = G.GAME.spectrals_used * 15,
+                chip_mod = G.GAME.spectrals_used * 15,
                 message = '+' .. G.GAME.spectrals_used * 15,
                 colour = G.C.MULT,
                 card = card
