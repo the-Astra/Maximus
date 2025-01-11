@@ -721,7 +721,7 @@ SMODS.Joker { -- Normal Joker
     blueprint_compat = true,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
-            if not context.other_card.edition and not context.other_card.seal and not context.other_card.enhancement then
+            if not context.other_card.edition and not context.other_card.seal and not SMODS.get_enhancements(context.other_card) then
                 return {
                     mult = 2,
                     chips = 15,
