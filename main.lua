@@ -236,7 +236,7 @@ SMODS.Joker { -- Fortune Cookie
                     for k, v in pairs(G.jokers.cards) do
                         if v.config.center.key == 'j_mxms_pessimistic' then
                             v.ability.extra.mult = v.ability.extra.mult +
-                            (self.ability.extra - G.GAME.probabilities.normal)
+                                (self.ability.extra - G.GAME.probabilities.normal)
                             G.E_MANAGER:add_event(Event({
                                 trigger = 'after',
                                 func = function()
@@ -344,15 +344,13 @@ SMODS.Joker { -- Poindexter
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main then
-            if card.ability.extra.Xmult > 0 then
-                return {
-                    card = card,
-                    Xmult_mod = card.ability.extra.Xmult,
-                    message = 'x' .. card.ability.extra.Xmult,
-                    colour = G.C.MULT
-                }
-            end
+        if context.joker_main and card.ability.extra.Xmult > 1 then
+            return {
+                card = card,
+                Xmult_mod = card.ability.extra.Xmult,
+                message = 'x' .. card.ability.extra.Xmult,
+                colour = G.C.MULT
+            }
         end
 
         if context.before and not context.blueprint then
