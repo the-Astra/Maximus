@@ -348,7 +348,7 @@ SMODS.Joker { -- Poindexter
             return {
                 card = card,
                 Xmult_mod = card.ability.extra.Xmult,
-                message = 'x' .. card.ability.extra.Xmult,
+                message = 'X' .. card.ability.extra.Xmult,
                 colour = G.C.MULT
             }
         end
@@ -588,7 +588,7 @@ SMODS.Joker { -- Combo Breaker
     end,
 
     calculate = function(self, card, context)
-        if (context.retrigger_joker_check and not context.retrigger_joker and context.other_card ~= card) or
+        if (context.retrigger_joker_check and not context.retrigger_joker and context.other_joker ~= card) or
             (context.cardarea == G.play and context.repetition and context.other_card.seal == 'Red') then
             -- Add retrigger to total
             card.ability.extra.retriggers = card.ability.extra.retriggers + 1
@@ -611,7 +611,7 @@ SMODS.Joker { -- Combo Breaker
 
             return {
                 Xmult_mod = card.ability.extra.Xmult,
-                message = 'x' .. card.ability.extra.Xmult,
+                message = 'X' .. card.ability.extra.Xmult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -661,7 +661,7 @@ SMODS.Joker { -- Old Man Jimbo
             local Xmult = 1 + (0.5 * G.GAME.current_round.hands_left)
             return {
                 Xmult_mod = Xmult,
-                message = 'x' .. Xmult,
+                message = 'X' .. Xmult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -1458,7 +1458,7 @@ SMODS.Joker { -- Soyjoke
         if context.joker_main and G.GAME.soy_mod > 1 then
             return {
                 Xmult_mod = G.GAME.soy_mod,
-                message = 'x' .. G.GAME.soy_mod,
+                message = 'X' .. G.GAME.soy_mod,
                 colour = G.C.MULT,
                 card = card
             }
@@ -1559,7 +1559,7 @@ SMODS.Joker { -- 4D
         if context.joker_main and card.ability.extra.Xmult > 1 then
             return {
                 Xmult_mod = card.ability.extra.Xmult,
-                message = 'x' .. card.ability.extra.Xmult,
+                message = 'X' .. card.ability.extra.Xmult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -2162,6 +2162,7 @@ SMODS.Joker { -- Monk
         end
 
         if (context.buying_card or context.open_booster or context.reroll_shop) and not context.blueprint then
+            sendDebugMessage('Purchase detected! Monk will not trigger','MaximusDebug')
             card.ability.extra.purchase_made = true
         end
 
@@ -2169,6 +2170,10 @@ SMODS.Joker { -- Monk
             card:juice_up(0.3, 0.4)
             play_sound('tarot1')
             card.ability.extra.chips = card.ability.extra.chips + 20
+        end
+
+        if context.setting_blind then
+            card.ability.extra.purchase_made = false
         end
     end
 }
