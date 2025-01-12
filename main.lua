@@ -566,7 +566,7 @@ SMODS.Joker { -- Combo Breaker
     loc_txt = {
         name = 'Combo Breaker',
         text = { 'Gains {X:mult,C:white}X0.5{} Mult', 'per retrigger',
-            '{C:inactive}Starts at {X:mult,C:white}X1{} Mult, resets every hand{}' }
+            '{C:inactive}Starts at {X:mult,C:white}X1{C:inactive} Mult, resets every hand{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -721,7 +721,7 @@ SMODS.Joker { -- Normal Joker
     blueprint_compat = true,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
-            if not context.other_card.edition and not context.other_card.seal and not SMODS.get_enhancements(context.other_card) then
+            if not context.other_card.edition and not context.other_card.seal and not next(SMODS.get_enhancements(context.other_card)) then
                 return {
                     mult = 2,
                     chips = 15,
@@ -1166,7 +1166,7 @@ SMODS.Joker { -- Chef
                 local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_joker.key, 'chef')
                 new_card:add_to_deck()
                 G.jokers:emplace(new_card)
-                card.juice_up(0.3, 0.4)
+                card:juice_up(0.3, 0.4)
             end
         end
     end
