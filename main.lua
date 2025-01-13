@@ -40,6 +40,19 @@ SMODS.Sound({
     path = 'eggsplosion.ogg'
 })
 
+-- Repetition Calc hook
+local rep_calc = SMODS.calculate_repetitions
+function SMODS.calculate_repetitions(card, context, reps)
+    local rep_return = rep_calc(card, context, reps)
+    local jokers = SMODS.find_card('j_mxms_combo_breaker')
+    if next(jokers) then
+        for _, joker in ipairs(jokers) do
+            joker.ability.extra.retriggers = joker.ability.extra.retriggers + #rep_return - 1
+        end
+    end
+    return rep_return
+end
+
 -- Misc Variables
 food_jokers = { {
     key = 'j_gros_michel',
@@ -595,12 +608,10 @@ SMODS.Joker { -- Combo Breaker
     end,
 
     calculate = function(self, card, context)
-        if (context.retrigger_joker_check and not context.retrigger_joker and context.other_joker ~= card) or
-            (context.cardarea == G.play and context.repetition and context.other_card.seal == 'Red') then
+        if context.post_trigger and context.other_context.retrigger_joker then
             -- Add retrigger to total
             card.ability.extra.retriggers = card.ability.extra.retriggers + 1
             return {
-                repetitions = 0,
                 card = card
             }
         end
@@ -2459,7 +2470,7 @@ SMODS.Joker { -- Poet
     key = 'poet',
     loc_txt = {
         name = 'Poet',
-        text = { 'If hand type is played', '{C:attention}exclusively{} with number ranks', 'matching the {C:attention}hand name{}, give', 'Xmult equal to that rank', '{C:inactive}Two Pair must be played', 'with a pair of 2s and', '{C:inactive}a pair of faces or aces' }
+        text = { 'If hand type is played {C:attention}exclusively{} with number ranks', 'matching the {C:attention}hand name{}, give Xmult equal to that rank', '{C:inactive}Two Pair must be played with a pair of 2s and', '{C:inactive}a pair of faces or aces' }
     },
     atlas = 'Jokers',
     pos = {
