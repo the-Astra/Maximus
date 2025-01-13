@@ -2649,48 +2649,43 @@ SMODS.Joker { -- Coronation
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition and next(SMODS.find_card('j_joker')) then
             if not card.ability.extra.skips_used then
-                
                 if G.GAME.round % 3 == 0 then
-
                     if card.ability.extra.rounds == 3 then
                         G.E_MANAGER:add_event(Event({
                             trigger = 'after',
                             func = function()
                                 local jimbo = SMODS.find_card('j_joker')[1]
-        
-                                local new_jimbo = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_joker_plus', 'coron')
+
+                                local new_jimbo = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_joker_plus',
+                                    'coron')
                                 if jimbo.edition then
                                     new_jimbo:set_edition(jimbo.edition, nil, true)
                                 end
                                 jimbo:start_dissolve({ G.C.YELLOW }, nil, 1.6)
                                 G.jokers:emplace(new_jimbo)
-        
+
                                 play_sound('polychrome1')
                                 return true;
                             end
                         }))
 
                         card.ability.extra.rounds = 0
-                    card.ability.extra.skips_used = false
-        
+                        card.ability.extra.skips_used = false
+
                         return {
                             message = 'Crowned',
                             colour = G.C.YELLOW,
                             card = card
                         }
                     end
-
                 else
-
                     return {
-                        message = card.ability.extra.rounds..'/3',
+                        message = card.ability.extra.rounds .. '/3',
                         colour = G.C.YELLOW,
                         card = card
                     }
                 end
-
             end
-        
         end
 
         if context.setting_blind then
