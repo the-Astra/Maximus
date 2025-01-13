@@ -2021,8 +2021,8 @@ SMODS.Joker { -- Loony Joker
     calculate = function(self, card, context)
         if context.joker_main and context.scoring_name == 'High Card' then
             return {
-                mult_mod = card.ability.extra.t_mult,
-                message = '+' .. card.ability.extra.t_mult,
+                mult_mod = card.ability.t_mult,
+                message = '+' .. card.ability.t_mult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -2055,8 +2055,8 @@ SMODS.Joker { -- Lazy Joker
     calculate = function(self, card, context)
         if context.joker_main and context.scoring_name == 'High Card' then
             return {
-                chip_mod = card.ability.extra.t_chips,
-                message = '+' .. card.ability.extra.t_chips,
+                chip_mod = card.ability.t_chips,
+                message = '+' .. card.ability.t_chips,
                 colour = G.C.CHIPS,
                 card = card
             }
