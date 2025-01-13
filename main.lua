@@ -337,6 +337,7 @@ SMODS.Joker { -- Poindexter
         }
     },
     blueprint_compat = true,
+    enhancement_gate = 'm_glass',
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
         return {
@@ -1385,6 +1386,7 @@ SMODS.Joker { -- Hammer and Chisel
     rarity = 2,
     config = {},
     blueprint_compat = false,
+    enhancement_gate = 'm_stone',
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
         return {
@@ -1420,7 +1422,7 @@ SMODS.Joker { -- Four-Leaf Clover
                 v:set_ability(G.P_CENTERS.m_lucky, nil, true)
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        v:juice_up()
+                        v:juice_up(0.3, 0.4)
                         return true
                     end
                 }))
@@ -1952,6 +1954,7 @@ SMODS.Joker { -- Loaded Gun
         }
     },
     blueprint_compat = true,
+    enhancement_gate = 'm_steel',
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
         return {}
@@ -2005,7 +2008,6 @@ SMODS.Joker { -- Loony Joker
         y = 4
     },
     rarity = 1,
-    effect = 'Type Mult',
     config = {
         t_mult = 10,
         type = 'High Card'
@@ -2108,6 +2110,10 @@ SMODS.Joker { -- Light Show
     rarity = 1,
     config = {},
     blueprint_compat = true,
+    enhancement_gate_set = {
+        'm_bonus',
+        'm_mult'
+    },
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_bonus
         info_queue[#info_queue + 1] = G.P_CENTERS.m_mult
@@ -2230,7 +2236,7 @@ SMODS.Joker { -- Go Fish
         x = 8,
         y = 4
     },
-    rarity = 2,
+    rarity = 1,
     config = {},
     blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
@@ -2292,6 +2298,7 @@ SMODS.Joker { -- Don't Mind if I Do
             Xmult = 1
         }
     },
+    seal_gate = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.Xmult }
@@ -2381,6 +2388,12 @@ SMODS.Joker { -- Power Creep
     rarity = 3,
     config = {},
     blueprint_compat = false,
+    edition_gate_set = {
+        'm_foil',
+        'm_holo',
+        'm_polychrome'
+        
+    },
     add_to_deck = function(self, card, from_debuff)
         G.GAME.creep_mod = G.GAME.creep_mod * 2
     end,
@@ -2624,6 +2637,7 @@ SMODS.Joker { -- Coronation
         }
     },
     blueprint_compat = true,
+    joker_gate = 'j_joker',
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
