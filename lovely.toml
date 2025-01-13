@@ -2037,14 +2037,14 @@ elseif v.enhancement_gate_set then
     end
 elseif v.edition_gate_set then
     add = nil
-    for kk, vv in pairs(v.enhancement_gate_set) do
+    for kk, vv in pairs(v.edition_gate_set) do
         for kkk, vvv in pairs(G.playing_cards) do
-            if SMODS.has_enhancement(vvv, vv) then
+            if vvv.edition and vvv.edition.type == vv then
                 add = true
             end
         end
-        for kkk, vvv in pairs(G.jokers) do
-            if SMODS.has_enhancement(vvv, vv) then
+        for kkk, vvv in ipairs(G.jokers) do
+            if vvv.edition and vvv.edition.type == vv then
                 add = true
             end
         end

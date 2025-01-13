@@ -2174,7 +2174,7 @@ SMODS.Joker { -- Monk
         end
 
         if (context.buying_card or context.open_booster or context.reroll_shop) and not context.blueprint then
-            sendDebugMessage('Purchase detected! Monk will not trigger','MaximusDebug')
+            sendDebugMessage('Purchase detected! Monk will not trigger', 'MaximusDebug')
             card.ability.extra.purchase_made = true
         end
 
@@ -2395,10 +2395,9 @@ SMODS.Joker { -- Power Creep
     config = {},
     blueprint_compat = false,
     edition_gate_set = {
-        'm_foil',
-        'm_holo',
-        'm_polychrome'
-        
+        'foil',
+        'holo',
+        'polychrome'
     },
     add_to_deck = function(self, card, from_debuff)
         G.GAME.creep_mod = G.GAME.creep_mod * 2
@@ -2460,7 +2459,7 @@ SMODS.Joker { -- Poet
     key = 'poet',
     loc_txt = {
         name = 'Poet',
-        text = { 'If hand type is played', 'exclusively with number ranks', 'matching the hand name, give', 'Xmult equal to that rank', '{C:inactive}Two Pair must be played', 'with a pair of 2s and', '{C:inactive}a pair of faces or aces' }
+        text = { 'If hand type is played', '{C:attention}exclusively{} with number ranks', 'matching the {C:attention}hand name{}, give', 'Xmult equal to that rank', '{C:inactive}Two Pair must be played', 'with a pair of 2s and', '{C:inactive}a pair of faces or aces' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2572,11 +2571,10 @@ SMODS.Joker { -- Hedonist
         }
     end,
     calculate = function(self, card, context)
-
         if context.joker_main and card.ability.extra.Xmult > 1 then
             return {
                 Xmult_mod = card.ability.extra.Xmult,
-                message = "X"..card.ability.extra.Xmult,
+                message = "X" .. card.ability.extra.Xmult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -2629,7 +2627,7 @@ SMODS.Joker { -- Coronation
     key = 'coronation',
     loc_txt = {
         name = 'Coronation',
-        text = { '{C:mult}+5{} Mult' }
+        text = { 'If {C:attention}Joker{} is in', 'hand after {C:attention}1 full ante {C:inactive}(No skips){},', 'upgrade {C:attention}Joker{} to {C:attention}Joker+{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2639,24 +2637,68 @@ SMODS.Joker { -- Coronation
     rarity = 3,
     config = {
         extra = {
-            mult = 5
+            rounds = 0,
+            skips_used = false
         }
     },
     blueprint_compat = true,
     joker_gate = 'j_joker',
     loc_vars = function(self, info_queue, center)
-        return {
-            vars = { center.ability.extra.mult }
-        }
+        info_queue[#info_queue + 1] = G.P_CENTERS.j_joker
     end,
     calculate = function(self, card, context)
-        if context.joker_main then
-            return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
-                colour = G.C.MULT,
-                card = card
-            }
+        if context.end_of_round and not context.individual and not context.repetition and next(SMODS.find_card('j_joker')) then
+            if not card.ability.extra.skips_used then
+                
+                if G.GAME.round % 3 == 0 then
+
+                    if card.ability.extra.rounds == 3 then
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                local jimbo = SMODS.find_card('j_joker')[1]
+        
+                                local new_jimbo = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_joker_plus', 'coron')
+                                if jimbo.edition then
+                                    new_jimbo:set_edition(jimbo.edition, nil, true)
+                                end
+                                jimbo:start_dissolve({ G.C.YELLOW }, nil, 1.6)
+                                G.jokers:emplace(new_jimbo)
+        
+                                play_sound('polychrome1')
+                                return true;
+                            end
+                        }))
+
+                        card.ability.extra.rounds = 0
+                    card.ability.extra.skips_used = false
+        
+                        return {
+                            message = 'Crowned',
+                            colour = G.C.YELLOW,
+                            card = card
+                        }
+                    end
+
+                else
+
+                    return {
+                        message = card.ability.extra.rounds..'/3',
+                        colour = G.C.YELLOW,
+                        card = card
+                    }
+                end
+
+            end
+        
+        end
+
+        if context.setting_blind then
+            card.ability.extra.rounds = card.ability.extra.rounds + 1
+        end
+
+        if context.skip_blind then
+            card.ability.extra.skips_used = true
         end
     end
 }
@@ -2700,7 +2742,7 @@ SMODS.Joker { -- Stop Sign
     key = 'stop_sign',
     loc_txt = {
         name = 'Stop Sign',
-        text = { 'Jokers that have rotating', 'requirements no longer change'}
+        text = { 'Jokers that have rotating', 'requirements {C:attention}no longer change{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2751,7 +2793,7 @@ SMODS.Joker { -- Ledger
     key = 'ledger',
     loc_txt = {
         name = 'Ledger',
-        text = { '{C:mult}+5{} Mult' }
+        text = { 'Every ante, one random', 'Joker becomes {C:dark_edition}negative{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2763,25 +2805,46 @@ SMODS.Joker { -- Ledger
         y = 8
     },
     rarity = 4,
-    config = {
-        extra = {
-            mult = 5
-        }
-    },
+    config = {},
     blueprint_compat = true,
-    loc_vars = function(self, info_queue, center)
-        return {
-            vars = { center.ability.extra.mult }
-        }
-    end,
     calculate = function(self, card, context)
-        if context.joker_main then
-            return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
-                colour = G.C.MULT,
-                card = card
-            }
+        if context.end_of_round and not context.individual and not context.repetition and G.GAME.round % 3 == 0 then
+            local eligible_jokers = {}
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and
+                    not (G.jokers.cards[i].edition and G.jokers.cards[i].edition.negative) and
+                    not G.jokers.cards[i].getting_sliced then
+                    eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
+                end
+            end
+
+            -- Fail if no held jokers are eligible
+            if next(eligible_jokers) == nil then
+                return {
+                    extra = {
+                        message = 'No target...',
+                        colour = G.C.PURPLE
+                    },
+                    card = card
+                }
+            else
+                -- Choose Joker to affect
+                local chosen_joker =
+                    #eligible_jokers > 0 and pseudorandom_element(eligible_jokers, pseudoseed('abyss')) or nil
+
+                -- Add negative edition to random held joker
+
+                chosen_joker:set_edition({
+                    negative = true
+                }, true)
+                return {
+                    extra = {
+                        message = 'Why so serious?',
+                        colour = G.C.PURPLE
+                    },
+                    card = card
+                }
+            end
         end
     end
 }
