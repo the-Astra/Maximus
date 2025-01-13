@@ -79,47 +79,53 @@ food_jokers = { {
 -- Variables that change every round
 function SMODS.current_mod.reset_game_globals(run_start)
     -- Impractical Joker
-    G.GAME.current_round.impractical_hand = G.GAME.current_round.impractical_hand
-    local valid_hands = {}
+    if not next(SMODS.find_card('j_mxms_stop_sign')) then
+        G.GAME.current_round.impractical_hand = G.GAME.current_round.impractical_hand
+        local valid_hands = {}
 
-    for k, v in pairs(G.GAME.hands) do
-        if v.visible then
-            valid_hands[#valid_hands + 1] = k
+        for k, v in pairs(G.GAME.hands) do
+            if v.visible then
+                valid_hands[#valid_hands + 1] = k
+            end
         end
-    end
 
-    local new_hand = G.GAME.current_round.impractical_hand
-    while new_hand == G.GAME.current_round.impractical_hand do
-        new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical' .. G.GAME.round_resets.ante))
+        local new_hand = G.GAME.current_round.impractical_hand
+        while new_hand == G.GAME.current_round.impractical_hand do
+            new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical' .. G.GAME.round_resets.ante))
+        end
+        G.GAME.current_round.impractical_hand = new_hand
     end
-    G.GAME.current_round.impractical_hand = new_hand
 
     -- Marco Polo
-    local new_pos = G.GAME.current_round.marco_polo_pos
-    if #G.jokers.cards <= 1 then
-        new_pos = 1
-    else
-        while new_pos == G.GAME.current_round.marco_polo_pos do
-            new_pos = pseudorandom(('marcopolo' .. G.GAME.round_resets.ante), 1, #G.jokers.cards)
+    if not next(SMODS.find_card('j_mxms_stop_sign')) then
+        local new_pos = G.GAME.current_round.marco_polo_pos
+        if #G.jokers.cards <= 1 then
+            new_pos = 1
+        else
+            while new_pos == G.GAME.current_round.marco_polo_pos do
+                new_pos = pseudorandom(('marcopolo' .. G.GAME.round_resets.ante), 1, #G.jokers.cards)
+            end
         end
+        G.GAME.current_round.marco_polo_pos = new_pos
     end
-    G.GAME.current_round.marco_polo_pos = new_pos
 
     -- Go Fish
-    local valid_ranks = {}
-    local new_rank = G.GAME.current_round.go_fish.rank
-    local new_mult = 0
-    for k, v in ipairs(G.playing_cards) do
-        valid_ranks[#valid_ranks + 1] = v.base.value
-    end
-    new_rank = pseudorandom_element(valid_ranks, pseudoseed('go_fish' .. G.GAME.round_resets.ante))
-    G.GAME.current_round.go_fish.rank = new_rank
-    for k, v in ipairs(valid_ranks) do
-        if v == new_rank then
-            new_mult = new_mult + 1
+    if not next(SMODS.find_card('j_mxms_stop_sign')) then
+        local valid_ranks = {}
+        local new_rank = G.GAME.current_round.go_fish.rank
+        local new_mult = 0
+        for k, v in ipairs(G.playing_cards) do
+            valid_ranks[#valid_ranks + 1] = v.base.value
         end
+        new_rank = pseudorandom_element(valid_ranks, pseudoseed('go_fish' .. G.GAME.round_resets.ante))
+        G.GAME.current_round.go_fish.rank = new_rank
+        for k, v in ipairs(valid_ranks) do
+            if v == new_rank then
+                new_mult = new_mult + 1
+            end
+        end
+        G.GAME.current_round.go_fish.mult = new_mult
     end
-    G.GAME.current_round.go_fish.mult = new_mult
 end
 
 -- Update checks
@@ -2694,7 +2700,7 @@ SMODS.Joker { -- Stop Sign
     key = 'stop_sign',
     loc_txt = {
         name = 'Stop Sign',
-        text = { '{C:mult}+5{} Mult' }
+        text = { 'Jokers that have rotating', 'requirements no longer change'}
     },
     atlas = 'Jokers',
     pos = {
@@ -2702,27 +2708,8 @@ SMODS.Joker { -- Stop Sign
         y = 6
     },
     rarity = 3,
-    config = {
-        extra = {
-            mult = 5
-        }
-    },
-    blueprint_compat = true,
-    loc_vars = function(self, info_queue, center)
-        return {
-            vars = { center.ability.extra.mult }
-        }
-    end,
-    calculate = function(self, card, context)
-        if context.joker_main then
-            return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
-                colour = G.C.MULT,
-                card = card
-            }
-        end
-    end
+    config = {},
+    blueprint_compat = true
 }
 
 SMODS.Joker { -- Chihuahua
