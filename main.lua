@@ -1157,7 +1157,7 @@ SMODS.Joker { -- Pessimistic Joker
             }
         end
 
-        if context.individual and context.other_card.ability.effect == 'Lucky Card' and
+        if context.individual and context.other_card.ability.effect == 'Lucky Card' and not context.after and not context.end_of_round and
             not context.other_card.lucky_trigger and not context.blueprint then
             card.ability.extra.mult = card.ability.extra.mult + 3
             card:juice_up(0.3, 0.4)
