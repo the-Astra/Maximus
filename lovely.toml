@@ -575,7 +575,7 @@ times = 1
 
 
 
-# Add Pessimistic Functionality ----------------------------------------
+# Add Pessimistic Functionality (including Soil Joker mods since Pessimistic scales ) ----------------------------------------
 
     # Add flag to Wheel of Fortune
 [[patches]]
@@ -591,7 +591,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_pessimistic')) then
     for k, v in pairs(G.jokers.cards) do
         if v.config.center.key == 'j_mxms_pessimistic' then
-            v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
+            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 func = function()
@@ -631,7 +631,7 @@ payload = '''
 elseif next(SMODS.find_card('j_mxms_pessimistic')) then
     for k, v in pairs(G.jokers.cards) do
         if v.config.center.key == 'j_mxms_pessimistic' then
-            v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
+            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 func = function()
@@ -657,7 +657,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_pessimistic')) then
     for k, v in pairs(G.jokers.cards) do
         if v.config.center.key == 'j_mxms_pessimistic' then
-            v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
+            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 func = function()
@@ -721,7 +721,7 @@ if (context.other_card:get_id() == 8) then
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         for k, v in pairs(G.jokers.cards) do
             if v.config.center.key == 'j_mxms_pessimistic' then
-                v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
+                v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     func = function()
@@ -767,7 +767,7 @@ context.other_card:is_face() then
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         for k, v in pairs(G.jokers.cards) do
             if v.config.center.key == 'j_mxms_pessimistic' then
-                v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
+                v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     func = function()
@@ -809,7 +809,7 @@ context.other_card:is_suit("Hearts") then
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         for k, v in pairs(G.jokers.cards) do
             if v.config.center.key == 'j_mxms_pessimistic' then
-                v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
+                v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     func = function()
@@ -871,7 +871,7 @@ context.other_card:is_face() then
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         for k, v in pairs(G.jokers.cards) do
             if v.config.center.key == 'j_mxms_pessimistic' then
-                v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
+                v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     func = function()
@@ -912,7 +912,7 @@ if self.ability.name == 'Space Joker' then
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
         for k, v in pairs(G.jokers.cards) do
             if v.config.center.key == 'j_mxms_pessimistic' then
-                v.ability.extra.mult = v.ability.extra.mult + (self.ability.extra - G.GAME.probabilities.normal)
+                v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     func = function()
@@ -1670,6 +1670,7 @@ payload = '''
 function get_flush(hand)
   local ret = {}
   local four_fingers = next(find_joker('Four Fingers'))
+  local virus = SMODS.find_card('j_mxms_virus')
   local suits = SMODS.Suit.obj_buffer
   if #hand < (5 - (four_fingers and 1 or virus and 3 or 0)) then return ret else
     for j = 1, #suits do

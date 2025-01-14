@@ -2721,7 +2721,7 @@ SMODS.Joker { -- Soil Joker
     key = 'soil',
     loc_txt = {
         name = 'Soil Joker',
-        text = { 'Scaling Jokers scale', '{C:attention}twice{} as fast'}
+        text = { 'Scaling Jokers scale', '{C:attention}twice{} as fast' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2769,7 +2769,7 @@ SMODS.Joker { -- Chihuahua
     key = 'chihuahua',
     loc_txt = {
         name = 'Chihuahua',
-        text = { '{C:mult}+5{} Mult' }
+        text = { 'Retriggers cards that appear', 'the least number of times', 'in the deck the', 'same number of times', 'that rank appears' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2779,23 +2779,60 @@ SMODS.Joker { -- Chihuahua
     rarity = 3,
     config = {
         extra = {
-            mult = 5
+            least_id = '0',
+            least_count = 0,
+            tie = false
         }
     },
     blueprint_compat = true,
-    loc_vars = function(self, info_queue, center)
-        return {
-            vars = { center.ability.extra.mult }
-        }
-    end,
     calculate = function(self, card, context)
-        if context.joker_main then
+        if context.before then
+            local ranks = {
+                ['2'] = 0,
+                ['3'] = 0,
+                ['4'] = 0,
+                ['5'] = 0,
+                ['6'] = 0,
+                ['7'] = 0,
+                ['8'] = 0,
+                ['9'] = 0,
+                ['10'] = 0,
+                ['11'] = 0,
+                ['12'] = 0,
+                ['13'] = 0,
+                ['14'] = 0
+            }
+
+            for i = 1, #G.playing_cards do
+                if not SMODS.has_no_rank(G.playing_cards[i]) then
+                    ranks[tostring(G.playing_cards[i].base.id)] = ranks[tostring(G.playing_cards[i].base.id)] + 1
+                end
+            end
+
+            for k, v in pairs(ranks) do
+                if not card.ability.extra.tie then
+                    if card.ability.extra.least_count == 0 or (v < card.ability.extra.least_count and not v == 0) then
+                        card.ability.extra.least_id = k
+                        card.ability.extra.least_count = v
+                    elseif v == card.ability.extra.least_count then
+                        card.ability.extra.tie = true
+                    end
+                end
+            end
+        end
+
+        if context.cardarea == G.play and context.repetition and tostring(context.other_card:get_id()) == card.ability.extra.least_id and card.ability.extra.tie then
             return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
-                colour = G.C.MULT,
+                message = localize('k_again_ex'),
+                repetitions = card.ability.extra.least_count,
                 card = card
             }
+        end
+
+        if context.after then
+            card.ability.extra.least_id = '0'
+            card.ability.extra.least_count = 0
+            card.ability.extra.tie = false
         end
     end
 }
