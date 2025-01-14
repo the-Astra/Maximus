@@ -2385,7 +2385,7 @@ SMODS.Joker { -- Guillotine
                         delay = 0.50,
                         func = function()
                             local other_card = context.scoring_hand[i]
-                            play_sound('card1')
+                            play_sound('slice1')
                             other_card:juice_up(0.3, 0.3)
                             local suit_prefix = string.sub(other_card.base.suit, 1, 1) .. '_'
                             other_card:set_base(G.P_CARDS[suit_prefix .. 'T'])
