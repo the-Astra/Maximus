@@ -53,6 +53,14 @@ function SMODS.calculate_repetitions(card, context, reps)
     return rep_return
 end
 
+--[[ -- Random Destroy hook
+local rdm_dstr = SMODS.random_destroy
+function SMODS.random_destroy(used_tarot)
+    local dstr_return = rdm_dstr(used_tarot)
+
+    return dstr_return
+end ]]
+
 -- Misc Variables
 food_jokers = { {
     key = 'j_gros_michel',
@@ -2713,7 +2721,7 @@ SMODS.Joker { -- Soil Joker
     key = 'soil',
     loc_txt = {
         name = 'Soil Joker',
-        text = { '{C:mult}+5{} Mult' }
+        text = { 'Scaling Jokers scale', '{C:attention}twice{} as fast'}
     },
     atlas = 'Jokers',
     pos = {
@@ -2732,15 +2740,12 @@ SMODS.Joker { -- Soil Joker
             vars = { center.ability.extra.mult }
         }
     end,
-    calculate = function(self, card, context)
-        if context.joker_main then
-            return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
-                colour = G.C.MULT,
-                card = card
-            }
-        end
+    add_to_deck = function(self, card, from_debuff)
+        G.GAME.soil_mod = G.GAME.soil_mod * 2
+    end,
+
+    remove_from_deck = function(self, card, from_debuff)
+        G.GAME.soil_mod = G.GAME.soil_mod / 2
     end
 }
 
