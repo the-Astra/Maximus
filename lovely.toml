@@ -2066,7 +2066,7 @@ times = 1
     # Hook into Campfire
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Campfire' and not context.blueprint then
     self.ability.x_mult = self.ability.x_mult + self.ability.extra
@@ -2083,7 +2083,7 @@ times = 1
     # Hook into Flash Card
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Flash Card' and not context.blueprint then
     self.ability.mult = self.ability.mult + self.ability.extra
@@ -2100,7 +2100,7 @@ times = 1
     # Hook into Red Card
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Red Card' and not context.blueprint then
     self.ability.mult = self.ability.mult + self.ability.extra
@@ -2117,7 +2117,7 @@ times = 1
     # Hook into Hologram
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Hologram' and (not context.blueprint)
     and context.cards and context.cards[1] then
@@ -2136,7 +2136,7 @@ times = 1
     # Hook into Madness
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Madness' and not context.blueprint and not context.blind.boss then
     self.ability.x_mult = self.ability.x_mult + self.ability.extra
@@ -2153,7 +2153,7 @@ times = 1
     # Hook into Ceremonial Dagger
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 self.ability.mult = self.ability.mult + sliced_card.sell_cost*2
 '''
@@ -2168,7 +2168,7 @@ times = 1
     # Hook into Canio
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 self.ability.caino_xmult = self.ability.caino_xmult + faces*self.ability.extra
 '''
@@ -2181,7 +2181,7 @@ times = 1
 
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 self.ability.caino_xmult = self.ability.caino_xmult + face_cards*self.ability.extra
 '''
@@ -2196,7 +2196,7 @@ times = 1
     # Hook into Glass Joker
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 self.ability.x_mult = self.ability.x_mult + self.ability.extra*glasses
 '''
@@ -2209,7 +2209,7 @@ times = 1
 
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 self.ability.x_mult = self.ability.x_mult + self.ability.extra*glass_cards
 '''
@@ -2222,7 +2222,7 @@ times = 1
 
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 self.ability.x_mult = self.ability.x_mult + self.ability.extra*shattered_glass
 '''
@@ -2237,7 +2237,7 @@ times = 1
     # Hook into Constellation
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Constellation' and not context.blueprint and context.consumeable.ability.set == 'Planet' then
     self.ability.x_mult = self.ability.x_mult + self.ability.extra
@@ -2254,7 +2254,7 @@ times = 1
     # Hook into Yorick
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Yorick' and not context.blueprint then
     if self.ability.yorick_discards <= 1 then
@@ -2275,7 +2275,7 @@ times = 1
     # Hook into Castle
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 context.other_card:is_suit(G.GAME.current_round.castle_card.suit) and not context.blueprint then
     self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
@@ -2292,7 +2292,7 @@ times = 1
     # Hook into Hit the Road
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Hit the Road' and
 not context.other_card.debuff and
@@ -2313,7 +2313,7 @@ times = 1
     # Hook into Rocket
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Rocket' and G.GAME.blind.boss then
     self.ability.extra.dollars = self.ability.extra.dollars + self.ability.extra.increase
@@ -2330,7 +2330,7 @@ times = 1
     # Hook into Egg
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Egg' then
     self.ability.extra_value = self.ability.extra_value + self.ability.extra
@@ -2347,7 +2347,7 @@ times = 1
     # Hook into Gift Card
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 for k, v in ipairs(G.jokers.cards) do
     if v.set_cost then 
@@ -2384,7 +2384,7 @@ times = 1
     # Hook into Lucky Cat
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Lucky Cat' and context.other_card.lucky_trigger and not context.blueprint then
     self.ability.x_mult = self.ability.x_mult + self.ability.extra
@@ -2401,7 +2401,7 @@ times = 1
     # Hook into Wee joker
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Wee Joker' and
     context.other_card:get_id() == 2 and not context.blueprint then
@@ -2420,7 +2420,7 @@ times = 1
     # Hook into Spare Trousers
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Spare Trousers' and (next(context.poker_hands['Two Pair']) or next(context.poker_hands['Full House'])) and not context.blueprint then
     self.ability.mult = self.ability.mult + self.ability.extra
@@ -2437,7 +2437,7 @@ times = 1
     # Hook into Square Joker
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Square Joker' and #context.full_hand == 4 and not context.blueprint then
     self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
@@ -2454,7 +2454,7 @@ times = 1
     # Hook into Runner
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 self.ability.name == 'Runner' and next(context.poker_hands['Straight']) and not context.blueprint then
     self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
@@ -2471,7 +2471,7 @@ times = 1
     # Hook into Vampire
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if #enhanced > 0 then 
     self.ability.x_mult = self.ability.x_mult + self.ability.extra*#enhanced
@@ -2488,7 +2488,7 @@ times = 1
     # Hook into Ride the Bus
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Ride the Bus' and not context.blueprint then
     local faces = false
@@ -2535,7 +2535,7 @@ times = 1
     # Hook into Obelisk
 [[patches]]
 [patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Obelisk' and not context.blueprint then
     local reset = true
@@ -2586,24 +2586,7 @@ times = 1
     # Hook into Green Joker
 [[patches]]
 [patches.pattern]
-target = "game.lua"
-pattern = '''
-if self.ability.name == 'Green Joker' and not context.blueprint then
-    self.ability.mult = self.ability.mult + self.ability.extra.hand_add
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Green Joker' and not context.blueprint then
-    self.ability.mult = self.ability.mult + (self.ability.extra.hand_add * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Green Joker
-[[patches]]
-[patches.pattern]
-target = "game.lua"
+target = "card.lua"
 pattern = '''
 if self.ability.name == 'Green Joker' and not context.blueprint then
     self.ability.mult = self.ability.mult + self.ability.extra.hand_add

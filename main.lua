@@ -1927,7 +1927,7 @@ SMODS.Joker { -- Bell Curve
     loc_txt = {
         name = 'Bell Curve',
         text = { 'Approximately {X:mult,C:white}X#1#{} Mult,', 'Changes sigmoidially according to',
-            'deck size\'s deviation', 'from 52' }
+            'deck size\'s deviation', 'from {C:attention}52{}' }
     },
     atlas = 'Jokers',
     pos = {
