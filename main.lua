@@ -1938,11 +1938,9 @@ SMODS.Joker { -- Bell Curve
     config = {},
     blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
-        local calc = 0
+        local calc = 3
         if G.playing_cards ~= nil then
-            calc = 2 * math.exp(-(((#G.playing_cards - 52) ^ 2) / 1000)) + 1
-        else
-            calc = 3
+            calc = 2 * math.exp(-(((#G.playing_cards - 52) ^ 2) / 250)) + 1
         end
         return {
             vars = { calc }
@@ -1950,7 +1948,7 @@ SMODS.Joker { -- Bell Curve
     end,
     calculate = function(self, card, context)
         if context.joker_main then
-            local Xmult = 2 * math.exp(-(((#G.playing_cards - 52) ^ 2) / 1000)) + 1
+            local Xmult = 2 * math.exp(-(((#G.playing_cards - 52) ^ 2) / 250)) + 1
             return {
                 Xmult_mod = Xmult,
                 message = 'X' .. Xmult,
