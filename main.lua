@@ -427,7 +427,7 @@ SMODS.Joker { -- Poindexter
                     trigger = 'after',
                     delay = 0.3,
                     func = function()
-                        card.ability.extra.Xmult = card.ability.extra.Xmult + (glass * 0.25)
+                        card.ability.extra.Xmult = card.ability.extra.Xmult + ((glass * 0.25) * G.GAME.soil_mod)
                         card:juice_up(0.3, 0.4)
                         play_sound('tarot1')
                         return true;
@@ -807,8 +807,8 @@ SMODS.Joker { -- Streaker
             if card.ability.extra.hands == 1 then
                 card.ability.extra.hands = 0
                 card.ability.extra.streak = card.ability.extra.streak + 1
-                card.ability.extra.chips = 20 * card.ability.extra.streak
-                card.ability.extra.mult = 8 * card.ability.extra.streak
+                card.ability.extra.chips = 20 * card.ability.extra.streak * G.GAME.soil_mod
+                card.ability.extra.mult = 8 * card.ability.extra.streak * G.GAME.soil_mod
                 return {
                     message = 'Streak ' .. card.ability.extra.streak,
                     colour = G.C.CHIPS,
@@ -1387,7 +1387,7 @@ SMODS.Joker { -- Bullseye
 
         if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and
             G.GAME.blind.chips == G.GAME.chips then
-            card.ability.extra.chips = card.ability.extra.chips + (100 * G.GAME.round)
+            card.ability.extra.chips = card.ability.extra.chips + ((100 * G.GAME.round) * G.GAME.soil_mod)
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.CHIPS,
@@ -2200,7 +2200,7 @@ SMODS.Joker { -- Monk
         if context.ending_shop and not card.ability.extra.purchase_made then
             card:juice_up(0.3, 0.4)
             play_sound('tarot1')
-            card.ability.extra.chips = card.ability.extra.chips + 20
+            card.ability.extra.chips = card.ability.extra.chips + (20 * G.GAME.soil_mod)
         end
 
         if context.setting_blind then
@@ -2342,7 +2342,7 @@ SMODS.Joker { -- Don't Mind if I Do
                             card:juice_up(0.3, 0.3)
                             other_card:juice_up(0.3, 0.3)
                             other_card:set_seal(nil, nil, true)
-                            card.ability.extra.Xmult = card.ability.extra.Xmult + 0.25
+                            card.ability.extra.Xmult = card.ability.extra.Xmult + (0.25 * G.GAME.soil_mod)
                             return true
                         end
                     }))
@@ -2602,7 +2602,7 @@ SMODS.Joker { -- Hedonist
         if context.ending_shop and #G.shop_vouchers.cards == 0 and #G.shop_booster.cards == 0 and #G.shop_jokers.cards == 0 then
             card:juice_up(0.3, 0.4)
             play_sound('tarot1')
-            card.ability.extra.Xmult = card.ability.extra.Xmult + 0.5
+            card.ability.extra.Xmult = card.ability.extra.Xmult + (0.5 * G.GAME.soil_mod)
         end
     end
 }
