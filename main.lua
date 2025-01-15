@@ -39,6 +39,7 @@ Game.init_game_object = function(self)
         rank = "Ace",
         mult = 4
     }
+    ret.current_round.zombie_target = nil
 
     return ret
 end
@@ -153,6 +154,26 @@ function SMODS.current_mod.reset_game_globals(run_start)
         end
         G.GAME.current_round.go_fish.mult = new_mult
     end
+
+    -- Zombie
+    local eligible_jokers = {}
+    local new_target = G.GAME.current_round.zombie_target
+    if #G.jokers.cards <= 1 then
+        new_target = nil
+    else
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i].config.center.key ~= 'j_mxms_zombie' then
+                eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
+            end
+        end
+        if next(eligible_jokers) then
+            new_target = pseudorandom_element(eligible_jokers, pseudoseed('zombie' .. G.GAME.round_resets.ante))
+        else
+            new_target = nil
+        end
+    end
+
+    G.GAME.current_round.zombie_target = new_target
 end
 
 -- Update checks
@@ -1185,21 +1206,18 @@ SMODS.Joker { -- Chef
     rarity = 1,
     blueprint_compat = true,
     calculate = function(self, card, context)
-        if context.setting_blind then
-            -- Check if there is space for a new joker
-            if #G.jokers.cards >= G.jokers.config.card_limit then
-                return
-            else
-                local chosen_joker = nil
-                while not chosen_joker or
-                    (chosen_joker.name == 'Cavendish' and not G.GAME.pool_flags.gros_michel_extinct) do
-                    chosen_joker = pseudorandom_element(food_jokers, pseudoseed('chef'))
-                end
-                local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_joker.key, 'chef')
-                new_card:add_to_deck()
-                G.jokers:emplace(new_card)
-                card:juice_up(0.3, 0.4)
+        if context.setting_blind and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+            G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+            local chosen_joker = nil
+            while not chosen_joker or
+                (chosen_joker.name == 'Cavendish' and not G.GAME.pool_flags.gros_michel_extinct) do
+                chosen_joker = pseudorandom_element(food_jokers, pseudoseed('chef'))
             end
+            local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_joker.key, 'chef')
+            new_card:add_to_deck()
+            G.jokers:emplace(new_card)
+            card:juice_up(0.3, 0.4)
+            G.GAME.joker_buffer = G.GAME.joker_buffer - 1
         end
     end
 }
@@ -2615,33 +2633,64 @@ SMODS.Joker { -- Zombie
     key = 'zombie',
     loc_txt = {
         name = 'Zombie',
-        text = { '{C:mult}+5{} Mult' }
+        text = { 'Copies {C:attention}one random Joker{} each round.', 'The copied joker will {C:attention}turn into', '{C:attention}another Zombie{} at the end', 'of the round', '{C:inactive}All zombies target the same Joker', '{C:inactive}Zombification can be stopped by selling', '{C:inactive}the zombie that made the copy' }
     },
     atlas = 'Jokers',
     pos = {
         x = 7,
         y = 5
     },
-    rarity = 3,
+    rarity = 2,
     config = {
         extra = {
-            mult = 5
+            infected = nil
         }
     },
     blueprint_compat = true,
-    loc_vars = function(self, info_queue, center)
-        return {
-            vars = { center.ability.extra.mult }
-        }
-    end,
     calculate = function(self, card, context)
-        if context.joker_main then
-            return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
-                colour = G.C.MULT,
-                card = card
-            }
+        if context.setting_blind and G.GAME.current_round.zombie_target ~= nil and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+            G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            play_sound('timpani')
+                            delay(0.4)
+                            card.ability.extra.infected = copy_card(G.GAME.current_round.zombie_target, nil, nil, nil,
+                                nil)
+                            card.ability.extra.infected:start_materialize()
+                            card.ability.extra.infected:add_to_deck()
+                            G.jokers:emplace(card.ability.extra.infected)
+                            return true
+                        end
+                    }))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Infected!' })
+                    return true
+                end
+            }))
+            G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+        end
+
+        if context.end_of_round and not context.individual and not context.repetition and card.ability.extra.infected ~= nil and not (card.ability.extra.infected.abililty and card.ability.extra.infected.abililty.eternal) then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            play_sound('timpani')
+                            delay(0.4)
+                            card.ability.extra.infected:start_dissolve({ G.C.GREEN }, nil, 1.6)
+                            local new_zombie = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_zombie',
+                                'zombie')
+                            new_zombie:start_materialize()
+                            new_zombie:add_to_deck()
+                            G.jokers:emplace(new_zombie)
+                            return true
+                        end
+                    }))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Turned!' })
+                    return true
+                end
+            }))
         end
     end
 }
