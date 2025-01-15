@@ -53,14 +53,6 @@ function SMODS.calculate_repetitions(card, context, reps)
     return rep_return
 end
 
---[[ -- Random Destroy hook
-local rdm_dstr = SMODS.random_destroy
-function SMODS.random_destroy(used_tarot)
-    local dstr_return = rdm_dstr(used_tarot)
-
-    return dstr_return
-end ]]
-
 -- Misc Variables
 food_jokers = { {
     key = 'j_gros_michel',
@@ -2767,7 +2759,7 @@ SMODS.Joker { -- Chihuahua
     key = 'chihuahua',
     loc_txt = {
         name = 'Chihuahua',
-        text = { 'Retriggers cards that appear', 'the least number of times', 'in the deck the', 'same number of times', 'that rank appears' }
+        text = { 'Retriggers cards that appear', 'the least number of times', 'in the deck the', 'same number of times', 'that rank appears', '{C:inactive}Does not activate if tie{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2786,40 +2778,42 @@ SMODS.Joker { -- Chihuahua
     calculate = function(self, card, context)
         if context.before then
             local ranks = {
-                ['2'] = 0,
-                ['3'] = 0,
-                ['4'] = 0,
-                ['5'] = 0,
-                ['6'] = 0,
-                ['7'] = 0,
-                ['8'] = 0,
-                ['9'] = 0,
-                ['10'] = 0,
-                ['11'] = 0,
-                ['12'] = 0,
-                ['13'] = 0,
-                ['14'] = 0
+                ["2"] = { freq = 0, id = '2' },
+                ["3"] = { freq = 0, id = '3' },
+                ["4"] = { freq = 0, id = '4' },
+                ["5"] = { freq = 0, id = '5' },
+                ["6"] = { freq = 0, id = '6' },
+                ["7"] = { freq = 0, id = '7' },
+                ["8"] = { freq = 0, id = '8' },
+                ["9"] = { freq = 0, id = '9' },
+                ["10"] = { freq = 0, id = '10' },
+                ["11"] = { freq = 0, id = '11' },
+                ["12"] = { freq = 0, id = '12' },
+                ["13"] = { freq = 0, id = '13' },
+                ["14"] = { freq = 0, id = '14' }
             }
 
             for i = 1, #G.playing_cards do
                 if not SMODS.has_no_rank(G.playing_cards[i]) then
-                    ranks[tostring(G.playing_cards[i].base.id)] = ranks[tostring(G.playing_cards[i].base.id)] + 1
+                    ranks[tostring(G.playing_cards[i].base.id)].freq = ranks[tostring(G.playing_cards[i].base.id)].freq +
+                        1
                 end
             end
 
             for k, v in pairs(ranks) do
-                if not card.ability.extra.tie then
-                    if card.ability.extra.least_count == 0 or (v < card.ability.extra.least_count and not v == 0) then
-                        card.ability.extra.least_id = k
-                        card.ability.extra.least_count = v
-                    elseif v == card.ability.extra.least_count then
+                if v.freq ~= 0 then
+                    if v.freq < card.ability.extra.least_count or card.ability.extra.least_count == 0 then
+                        card.ability.extra.least_id = v.id
+                        card.ability.extra.least_count = v.freq
+                        card.ability.extra.tie = false
+                    elseif v.freq == card.ability.extra.least_count then
                         card.ability.extra.tie = true
                     end
                 end
             end
         end
 
-        if context.cardarea == G.play and context.repetition and tostring(context.other_card:get_id()) == card.ability.extra.least_id and card.ability.extra.tie then
+        if context.cardarea == G.play and context.repetition and tostring(context.other_card.base.id) == card.ability.extra.least_id and not card.ability.extra.tie then
             return {
                 message = localize('k_again_ex'),
                 repetitions = card.ability.extra.least_count,

@@ -1670,7 +1670,7 @@ payload = '''
 function get_flush(hand)
   local ret = {}
   local four_fingers = next(find_joker('Four Fingers'))
-  local virus = SMODS.find_card('j_mxms_virus')
+  local virus = next(SMODS.find_card('j_mxms_virus'))
   local suits = SMODS.Suit.obj_buffer
   if #hand < (5 - (four_fingers and 1 or virus and 3 or 0)) then return ret else
     for j = 1, #suits do
@@ -1845,7 +1845,7 @@ match_indent = true
 
 # Add Stop Sign Functionality -----------------------------------------
 
-    # Create modifier variable
+    # Hook into rotating cards in common_events
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
@@ -1983,6 +1983,21 @@ function reset_castle_card()
 end
 '''
 match_indent = true
+
+
+    # Hook into To Do List
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'To Do List' then
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'To Do List' and not next(SMODS.find_card('j_mxms_stop_sign')) then
+'''
+match_indent = true
+times = 1
 
 
 
