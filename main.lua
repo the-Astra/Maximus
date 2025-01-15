@@ -2773,7 +2773,7 @@ SMODS.Joker { -- Chihuahua
     key = 'chihuahua',
     loc_txt = {
         name = 'Chihuahua',
-        text = { 'Retriggers cards that appear', 'the least number of times', 'in the deck the', 'same number of times', 'that rank appears', '{C:inactive}Does not activate if there is a tie{}' }
+        text = { 'Retriggers cards with ranks that appear', 'the least number of times', 'in the deck the', 'same number of times', 'that rank appears', '{C:inactive}Does not activate if there is a tie{}' }
     },
     atlas = 'Jokers',
     pos = {
