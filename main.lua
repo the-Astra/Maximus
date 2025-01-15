@@ -20,12 +20,26 @@ SMODS.Atlas {
 local igo = Game.init_game_object
 Game.init_game_object = function(self)
     local ret = igo(self)
+
+    -- Conditional/tracking Modifiers
+    ret.choose_mod = 0
+    ret.war_mod = 0
+    ret.fridge_mod = 1
+    ret.soy_mod = 1
+    ret.purchased_jokers = {}
+    ret.gambler_mod = 1
+    ret.spectrals_used = 0
+    ret.creep_mod = 1
+    ret.soil_mod = 1
+
+    --Rotating Modifiers
     ret.current_round.impractical_hand = 'High Card'
     ret.current_round.marco_polo_pos = 1
     ret.current_round.go_fish = {
         rank = "Ace",
         mult = 4
     }
+
     return ret
 end
 
@@ -40,7 +54,7 @@ SMODS.Sound({
     path = 'eggsplosion.ogg'
 })
 
--- Repetition Calc hook
+-- Repetition Calc hook for Combo Breaker card repetition tracking
 local rep_calc = SMODS.calculate_repetitions
 function SMODS.calculate_repetitions(card, context, reps)
     local rep_return = rep_calc(card, context, reps)
@@ -2759,7 +2773,7 @@ SMODS.Joker { -- Chihuahua
     key = 'chihuahua',
     loc_txt = {
         name = 'Chihuahua',
-        text = { 'Retriggers cards that appear', 'the least number of times', 'in the deck the', 'same number of times', 'that rank appears', '{C:inactive}Does not activate if tie{}' }
+        text = { 'Retriggers cards that appear', 'the least number of times', 'in the deck the', 'same number of times', 'that rank appears', '{C:inactive}Does not activate if there is a tie{}' }
     },
     atlas = 'Jokers',
     pos = {

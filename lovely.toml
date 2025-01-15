@@ -28,17 +28,6 @@ payload = " + G.GAME.choose_mod"
 times = 15
 
 
-    # Create modifier variable
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "pack_size = 2,"
-position = "after"
-payload = "choose_mod = 0,"
-match_indent = true
-times = 1
-
-
 
 
 
@@ -101,17 +90,6 @@ times = 2
 
 
 # Add War Functionality -------------------------------------------------
-
-    # Create modifier variable
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "pack_size = 2,"
-position = "after"
-payload = "war_mod = 1,"
-match_indent = true
-times = 1
-
 
     #Change limits and description for Trading Card
 [[patches]]
@@ -934,18 +912,7 @@ times = 1
 
 # Refrigerator Functionality --------------------------------------
 
-    # Create modifier variable
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "pack_size = 2,"
-position = "after"
-payload = "fridge_mod = 1,"
-match_indent = true
-times = 1
-
-
-    # Add modifier to Gros Michel/Cavendish
+    # Add hook to Gros Michel/Cavendish
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -965,7 +932,7 @@ match_indent = true
 times = 1
 
 
-    # Add modifier to Ice Cream
+    # Add hook to Ice Cream
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -1005,7 +972,7 @@ times = 1
 
 
 
-    # Add modifier to Turtle Bean
+    # Add hook to Turtle Bean
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -1043,7 +1010,7 @@ match_indent = true
 times = 1
 
 
-    # Add modifier to Popcorn
+    # Add hook to Popcorn
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -1081,7 +1048,7 @@ match_indent = true
 times = 1
 
 
-    # Add modifier to Ramen
+    # Add hook to Ramen
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -1119,7 +1086,7 @@ match_indent = true
 times = 1
 
 
-    # Add modifier to Seltzer
+    # Add hook to Seltzer
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -1347,20 +1314,6 @@ times = 1
 
 # Add Soyjoke Functionality -----------------------------------------
 
-    # Create modifier and tracker variables
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "pack_size = 2,"
-position = "after"
-payload = '''
-soy_mod = 1,
-purchased_jokers = {},
-'''
-match_indent = true
-times = 1
-
-
     # Add joker to tracker or iterate modifier if already present (Clown Car functionality included)
 [[patches]]
 [patches.pattern]
@@ -1406,17 +1359,6 @@ times = 1
 
 
 # Add Gambler Functionality -----------------------------------------
-
-    # Create modifier variable
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "pack_size = 2,"
-position = "after"
-payload = "gambler_mod = 1,"
-match_indent = true
-times = 1
-
 
     # Apply modifier to Hermit
 [[patches]]
@@ -1699,16 +1641,6 @@ times = 1
 
 # Add Salt Circle Functionality -----------------------------------------
 
-    # Create modifier variable
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "pack_size = 2,"
-position = "after"
-payload = "spectrals_used = 0,"
-match_indent = true
-
-
     # Iterate spectrals_used if spectral card is used_tarot
 [[patches]]
 [patches.pattern]
@@ -1761,16 +1693,6 @@ times = 1
 
 # Add Power Creep Functionality -----------------------------------------
 
-    # Create modifier variable
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "pack_size = 2,"
-position = "after"
-payload = "creep_mod = 1,"
-match_indent = true
-
-
     # Modify shop costs
 [[patches]]
 [patches.pattern]
@@ -1821,22 +1743,6 @@ local ret = {card = self}
 '''
 match_indent = true
 times = 1
-
-
-
-
-
-
-# Add Power Creep Functionality -----------------------------------------
-
-    # Create modifier variable
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "pack_size = 2,"
-position = "after"
-payload = "creep_mod = 1,"
-match_indent = true
 
 
 
@@ -2066,17 +1972,6 @@ times = 1
 
 
 # Add Soil Functionality -------------------------------------------------
-
-    # Create modifier variable
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "pack_size = 2,"
-position = "after"
-payload = "soil_mod = 1,"
-match_indent = true
-times = 1
-
 
     # Hook into Campfire
 [[patches]]
