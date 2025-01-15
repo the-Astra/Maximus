@@ -23,7 +23,7 @@ Game.init_game_object = function(self)
 
     -- Conditional/tracking Modifiers
     ret.choose_mod = 0
-    ret.war_mod = 0
+    ret.war_mod = 1
     ret.fridge_mod = 1
     ret.soy_mod = 1
     ret.purchased_jokers = {}
