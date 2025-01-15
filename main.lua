@@ -2114,7 +2114,7 @@ SMODS.Joker { -- Salt Circle
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main then
+        if context.joker_main and G.GAME.spectrals_used > 0 then
             return {
                 chip_mod = G.GAME.spectrals_used * 15,
                 message = '+' .. G.GAME.spectrals_used * 15,
