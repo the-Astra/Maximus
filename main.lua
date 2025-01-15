@@ -2296,7 +2296,7 @@ SMODS.Joker { -- Sleuth
         x = 0,
         y = 5
     },
-    rarity = 2,
+    rarity = 1,
     config = {},
     blueprint_compat = false,
     add_to_deck = function(self, card, from_debuff)
@@ -2321,7 +2321,7 @@ SMODS.Joker { -- Don't Mind if I Do
         y = 5
     },
     blueprint_compat = false,
-    rarity = 3,
+    rarity = 2,
     config = {
         extra = {
             Xmult = 1
