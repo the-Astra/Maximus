@@ -185,13 +185,10 @@ function SMODS.current_mod.reset_game_globals(run_start)
                 local new_target = G.GAME.current_round.zombie_target
                 if #G.jokers.cards <= 1 then
                     new_target = nil
-                    sendDebugMessage('No valid jokers for zombies to target, skipping', 'MaximusDebug')
                 else
                     for i = 1, #G.jokers.cards do
                         if G.jokers.cards[i].config.center.key ~= 'j_mxms_zombie' and G.jokers.cards[i] ~= new_target and G.jokers.cards[i].config.center.blueprint_compat then
                             eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
-                            sendDebugMessage(G.jokers.cards[i].ability.name .. ' detected as an eligible zombie target',
-                                'MaximusDebug')
                         end
                     end
                     if next(eligible_jokers) then
@@ -204,8 +201,6 @@ function SMODS.current_mod.reset_game_globals(run_start)
 
                 G.GAME.current_round.zombie_target = new_target
                 if G.GAME.current_round.zombie_target ~= nil then
-                    sendDebugMessage(G.GAME.current_round.zombie_target.ability.name .. ' selected as zombie target',
-                        'MaximusDebug')
                     card_eval_status_text(G.GAME.current_round.zombie_target, 'extra', nil, nil, nil,
                         { message = 'Infected!', colour = G.C.GREEN })
                 end
