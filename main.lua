@@ -2,14 +2,14 @@
 Maximus_config = SMODS.current_mod.config
 
 -- Joker Sprite Atlases
-SMODS.Atlas {
+SMODS.Atlas { -- Main Joker Atlas
     key = 'Jokers',
     path = "Jokers.png",
     px = 71,
     py = 95
 }
 
-SMODS.Atlas {
+SMODS.Atlas { -- 4D Joker Atlas
     key = '4D',
     path = "4d_joker.png",
     px = 71,
@@ -37,7 +37,7 @@ Game.init_game_object = function(self)
     ret.current_round.marco_polo_pos = 1
     ret.current_round.go_fish = {
         rank = "Ace",
-        mult = 4
+        mult = 8
     }
     ret.current_round.zombie_target = nil
 
@@ -152,28 +152,62 @@ function SMODS.current_mod.reset_game_globals(run_start)
                 new_mult = new_mult + 1
             end
         end
-        G.GAME.current_round.go_fish.mult = new_mult
+        G.GAME.current_round.go_fish.mult = new_mult * 2
     end
 
     -- Zombie
-    local eligible_jokers = {}
-    local new_target = G.GAME.current_round.zombie_target
-    if #G.jokers.cards <= 1 then
-        new_target = nil
-    else
-        for i = 1, #G.jokers.cards do
-            if G.jokers.cards[i].config.center.key ~= 'j_mxms_zombie' then
-                eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
+    if next(SMODS.find_card('j_mxms_zombie')) and G.GAME.current_round.zombie_target ~= nil then
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('timpani')
+                delay(0.4)
+                G.GAME.current_round.zombie_target.T.r = -0.2
+                G.GAME.current_round.zombie_target:juice_up(0.3, 0.4)
+                G.GAME.current_round.zombie_target.states.drag.is = true
+                G.GAME.current_round.zombie_target.children.center.pinch.x = true
+                local new_zombie = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_zombie',
+                    'zombie')
+                new_zombie:start_materialize()
+                new_zombie:add_to_deck()
+                G.jokers:emplace(new_zombie)
+                delay(0.4)
+                card_eval_status_text(new_zombie, 'extra', nil, nil, nil, { message = 'Turned!', colour = G.C.GREEN })
+                return true
             end
-        end
-        if next(eligible_jokers) then
-            new_target = pseudorandom_element(eligible_jokers, pseudoseed('zombie' .. G.GAME.round_resets.ante))
-        else
-            new_target = nil
-        end
+        }))
     end
 
-    G.GAME.current_round.zombie_target = new_target
+    if not next(SMODS.find_card('j_mxms_stop_sign')) then
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                local eligible_jokers = {}
+                local new_target = G.GAME.current_round.zombie_target
+                if #G.jokers.cards <= 1 then
+                    new_target = nil
+                else
+                    for i = 1, #G.jokers.cards do
+                        if G.jokers.cards[i].config.center.key ~= 'j_mxms_zombie' and G.jokers.cards[i] ~= new_target and G.jokers.cards[i].config.center.blueprint_compat then
+                            eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
+                        end
+                    end
+                    if next(eligible_jokers) then
+                        new_target = pseudorandom_element(eligible_jokers,
+                            pseudoseed('zombie' .. G.GAME.round_resets.ante))
+                    else
+                        new_target = nil
+                    end
+                end
+
+                G.GAME.current_round.zombie_target = new_target
+                if G.GAME.current_round.zombie_target ~= nil then
+                    card_eval_status_text(G.GAME.current_round.zombie_target, 'extra', nil, nil, nil,
+                        { message = 'Infected!', colour = G.C.GREEN })
+                end
+                return true
+            end
+        }))
+    end
 end
 
 -- Update checks
@@ -256,7 +290,8 @@ SMODS.Joker { -- Fortune Cookie
         -- Activate ability before scoring if chance is higher than 0
         if context.before and card.ability.extra.chance > 0 then
             -- Roll chance and decrease by 1
-            local chance_roll = pseudorandom('fco', 1, 10 * G.GAME.fridge_mod * G.GAME.probabilities.normal)
+            local chance_roll = pseudorandom('fco' .. G.GAME.round_resets.ante, 1,
+                10 * G.GAME.fridge_mod * G.GAME.probabilities.normal)
             local chance_odds = (card.ability.extra.odds - card.ability.extra.chance) * G.GAME.fridge_mod
             card.ability.extra.chance = card.ability.extra.chance - (1 / G.GAME.fridge_mod)
 
@@ -517,10 +552,11 @@ SMODS.Joker { -- Abyss
             else
                 -- Choose Joker to affect
                 local chosen_joker =
-                    #eligible_jokers > 0 and pseudorandom_element(eligible_jokers, pseudoseed('abyss')) or nil
+                    #eligible_jokers > 0 and
+                    pseudorandom_element(eligible_jokers, pseudoseed('abyss' .. G.GAME.round_resets.ante)) or nil
 
                 -- "Flip a coin" to decide what to do with the target
-                local flip = pseudorandom('aby', 1, 2)
+                local flip = pseudorandom('aby' .. G.GAME.round_resets.ante, 1, 2)
 
                 -- Add negative edition to random held joker
                 if flip == 1 then
@@ -789,7 +825,7 @@ SMODS.Joker { -- Streaker
     key = 'streaker',
     loc_txt = {
         name = 'Streaker',
-        text = { '{C:chips}+20{} Chips and {C:mult}+8{} Mult', 'for each consecutive {C:attention}blind{}',
+        text = { '{C:chips}+20{} Chips and {C:mult}+5{} Mult', 'for each consecutive {C:attention}blind{}',
             'beaten in {C:attention}one hand{}, {C:red}Resets{}', 'when streak is broken',
             '{C:inactive}Current streak: #1#',
             '{C:inactive}Currently: {C:chips}+#3# {C:inactive}Chips, {C:mult}+#4#{} Mult' }
@@ -828,27 +864,27 @@ SMODS.Joker { -- Streaker
 
         if context.before and not context.blueprint then
             card.ability.extra.hands = card.ability.extra.hands + 1
-        end
-
-        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            if card.ability.extra.hands == 1 then
-                card.ability.extra.hands = 0
-                card.ability.extra.streak = card.ability.extra.streak + 1
-                card.ability.extra.chips = 20 * card.ability.extra.streak * G.GAME.soil_mod
-                card.ability.extra.mult = 8 * card.ability.extra.streak * G.GAME.soil_mod
-                return {
-                    message = 'Streak ' .. card.ability.extra.streak,
-                    colour = G.C.CHIPS,
-                    card = card
-                }
-            else
+            if card.ability.hands > 1 and card.ability.extra.streak ~= 0 then
                 card.ability.extra.streak = 0
-                card.ability.extra.hands = 0
                 card.ability.extra.chips = 0
                 card.ability.extra.mult = 0
                 return {
                     message = localize('k_reset'),
                     colour = G.C.RED,
+                    card = card
+                }
+            end
+        end
+
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            card.ability.extra.hands = 0
+            if card.ability.extra.hands == 1 then
+                card.ability.extra.streak = card.ability.extra.streak + 1
+                card.ability.extra.chips = 20 * card.ability.extra.streak * G.GAME.soil_mod
+                card.ability.extra.mult = 5 * card.ability.extra.streak * G.GAME.soil_mod
+                return {
+                    message = 'Streak ' .. card.ability.extra.streak,
+                    colour = G.C.CHIPS,
                     card = card
                 }
             end
@@ -915,7 +951,7 @@ SMODS.Joker { -- Jobber
 
                 -- Choose Joker to copy
                 local chosen_joker = #eligible_jokers > 0 and
-                    pseudorandom_element(eligible_jokers, pseudoseed('jobber')) or nil
+                    pseudorandom_element(eligible_jokers, pseudoseed('jobber' .. G.GAME.round_resets.ante)) or nil
 
                 -- Copy Joker and add to hand
                 local new_card = copy_card(chosen_joker, nil, nil, nil,
@@ -1211,7 +1247,7 @@ SMODS.Joker { -- Chef
             local chosen_joker = nil
             while not chosen_joker or
                 (chosen_joker.name == 'Cavendish' and not G.GAME.pool_flags.gros_michel_extinct) do
-                chosen_joker = pseudorandom_element(food_jokers, pseudoseed('chef'))
+                chosen_joker = pseudorandom_element(food_jokers, pseudoseed('chef' .. G.GAME.round_resets.ante))
             end
             local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_joker.key, 'chef')
             new_card:add_to_deck()
@@ -1323,7 +1359,7 @@ SMODS.Joker { -- Hopscotch
     end,
     calculate = function(self, card, context)
         if context.setting_blind and not G.GAME.blind:get_type() == 'Boss' and not context.blueprint then
-            if pseudorandom('hopscotch', G.GAME.probabilities.normal, 3) == 3 then
+            if pseudorandom('hopscotch' .. G.GAME.round_resets.ante, G.GAME.probabilities.normal, 3) == 3 then
                 -- Code derived from G.FUNCS.skip_blind
                 local _tag = G.GAME.skip_tag
                 if _tag then
@@ -1521,7 +1557,7 @@ SMODS.Joker { -- Clown Car
     key = 'clown_car',
     loc_txt = {
         name = 'Clown Car',
-        text = { 'Gains {C:mult}+2{} Mult each time', 'a Joker is added to hand', '{C:inactive}Currently: +#1#' }
+        text = { 'Gains {C:mult}+2{} Mult each time', 'a Joker is picked up', '{C:inactive}Currently: +#1#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -1673,7 +1709,7 @@ SMODS.Joker { -- Dark Room
             end
 
             local chosen_voucher = create_card('Voucher', nil, nil, nil, nil, nil,
-                pseudorandom_element(eligible_vouchers, pseudoseed('dark_room')), 'dark_room')
+                pseudorandom_element(eligible_vouchers, pseudoseed('dark_room' .. G.GAME.round_resets.ante)), 'dark_room')
             chosen_voucher.cost = 0
             chosen_voucher:redeem()
             G.E_MANAGER:add_event(Event({
@@ -1874,7 +1910,8 @@ SMODS.Joker { -- Random Encounter
     end,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
-            local chance_roll = pseudorandom('rand_enc', card.ability.extra.chance * G.GAME.probabilities.normal, 4)
+            local chance_roll = pseudorandom('rand_enc' .. G.GAME.round_resets.ante,
+                card.ability.extra.chance * G.GAME.probabilities.normal, 4)
             if chance_roll == 4 then
                 G.E_MANAGER:add_event(Event({
                     trigger = 'before',
@@ -2115,7 +2152,7 @@ SMODS.Joker { -- Salt Circle
     key = 'salt_circle',
     loc_txt = {
         name = 'Salt Circle',
-        text = { 'Gains {C:chips}+15{} Chips for', 'for every {C:spectral}Spectral{} card used',
+        text = { 'Gains {C:chips}+30{} Chips for', 'for every {C:spectral}Spectral{} card used',
             '{C:inactive}Currently: {C:chips}+#1#' }
     },
     atlas = 'Jokers',
@@ -2128,14 +2165,14 @@ SMODS.Joker { -- Salt Circle
     blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { G.GAME.spectrals_used * 15 }
+            vars = { G.GAME.spectrals_used * 30 }
         }
     end,
     calculate = function(self, card, context)
         if context.joker_main and G.GAME.spectrals_used > 0 then
             return {
-                chip_mod = G.GAME.spectrals_used * 15,
-                message = '+' .. G.GAME.spectrals_used * 15,
+                chip_mod = G.GAME.spectrals_used * 30,
+                message = '+' .. G.GAME.spectrals_used * 30,
                 colour = G.C.MULT,
                 card = card
             }
@@ -2183,7 +2220,7 @@ SMODS.Joker { -- Monk
     key = 'monk',
     loc_txt = {
         name = 'Monk',
-        text = { 'Gains {C:chips}+20{} chips for every', 'shop exited without purchase',
+        text = { 'Gains {C:chips}+25{} chips for every', 'shop exited without purchase',
             '{C:inactive}Currently: {C:chips}+#1#{}' }
     },
     atlas = 'Jokers',
@@ -2215,14 +2252,13 @@ SMODS.Joker { -- Monk
         end
 
         if (context.buying_card or context.open_booster or context.reroll_shop) and not context.blueprint then
-            sendDebugMessage('Purchase detected! Monk will not trigger', 'MaximusDebug')
             card.ability.extra.purchase_made = true
         end
 
         if context.ending_shop and not card.ability.extra.purchase_made then
             card:juice_up(0.3, 0.4)
             play_sound('tarot1')
-            card.ability.extra.chips = card.ability.extra.chips + (20 * G.GAME.soil_mod)
+            card.ability.extra.chips = card.ability.extra.chips + (25 * G.GAME.soil_mod)
         end
 
         if context.setting_blind then
@@ -2276,7 +2312,7 @@ SMODS.Joker { -- Go Fish
     loc_txt = {
         name = 'Go Fish',
         text = { '{C:mult}+2{} Mult for each {C:attention}#1#{}', 'in full deck at start of round',
-            '{C:inactive}Rank changes every round' }
+            '{C:inactive}Rank changes every round', '{C:inactive}Currently {C:mult}+#2# {C:inactive}Mult' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2288,7 +2324,7 @@ SMODS.Joker { -- Go Fish
     blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { G.GAME.current_round.go_fish.rank }
+            vars = { G.GAME.current_round.go_fish.rank, G.GAME.current_round.go_fish.mult }
         }
     end,
     calculate = function(self, card, context)
@@ -2633,7 +2669,7 @@ SMODS.Joker { -- Zombie
     key = 'zombie',
     loc_txt = {
         name = 'Zombie',
-        text = { 'Copies {C:attention}one random Joker{} each round.', 'The copied joker will {C:attention}turn into', '{C:attention}another Zombie{} at the end', 'of the round', '{C:inactive}All zombies target the same Joker', '{C:inactive}Zombification can be stopped by selling', '{C:inactive}the zombie that made the copy' }
+        text = { 'Copies the effect of {C:attention}one random Joker{}', 'each round. The target Joker will {C:attention}turn into', '{C:attention}another Zombie{} at the end of the round', '{C:inactive}All zombies target the same Joker', '{C:inactive}Zombification can be stopped by selling all other zombies', '{C:inactive}Current target: {C:red}#1#{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2641,56 +2677,32 @@ SMODS.Joker { -- Zombie
         y = 5
     },
     rarity = 2,
-    config = {
-        extra = {
-            infected = nil
-        }
-    },
+    config = {},
     blueprint_compat = true,
-    calculate = function(self, card, context)
-        if context.setting_blind and G.GAME.current_round.zombie_target ~= nil and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
-            G.GAME.joker_buffer = G.GAME.joker_buffer + 1
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    G.E_MANAGER:add_event(Event({
-                        func = function()
-                            play_sound('timpani')
-                            delay(0.4)
-                            card.ability.extra.infected = copy_card(G.GAME.current_round.zombie_target, nil, nil, nil,
-                                nil)
-                            card.ability.extra.infected:start_materialize()
-                            card.ability.extra.infected:add_to_deck()
-                            G.jokers:emplace(card.ability.extra.infected)
-                            return true
-                        end
-                    }))
-                    card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Infected!' })
-                    return true
-                end
-            }))
-            G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    loc_vars = function(self, info_queue, center)
+        if G.GAME.current_round.zombie_target ~= nil then
+            return {
+                vars = { G.localization.descriptions.Joker[G.GAME.current_round.zombie_target.config.center.key].name }
+            }
+        else
+            return {
+                vars = { 'No valid target' }
+            }
         end
-
-        if context.end_of_round and not context.individual and not context.repetition and card.ability.extra.infected ~= nil and not (card.ability.extra.infected.abililty and card.ability.extra.infected.abililty.eternal) then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    G.E_MANAGER:add_event(Event({
-                        func = function()
-                            play_sound('timpani')
-                            delay(0.4)
-                            card.ability.extra.infected:start_dissolve({ G.C.GREEN }, nil, 1.6)
-                            local new_zombie = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_zombie',
-                                'zombie')
-                            new_zombie:start_materialize()
-                            new_zombie:add_to_deck()
-                            G.jokers:emplace(new_zombie)
-                            return true
-                        end
-                    }))
-                    card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Turned!' })
-                    return true
-                end
-            }))
+    end,
+    calculate = function(self, card, context)
+        if G.GAME.current_round.zombie_target and not context.no_blueprint then
+            context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
+            context.blueprint_card = context.blueprint_card or card
+            local zombie_target_ret = G.GAME.current_round.zombie_target:calculate_joker(context)
+            context.blueprint = nil
+            local eff_card = context.blueprint_card or self
+            context.blueprint_card = nil
+            if zombie_target_ret then
+                zombie_target_ret.card = eff_card
+                zombie_target_ret.colour = G.C.GREEN
+                return zombie_target_ret
+            end
         end
     end
 }
@@ -2822,7 +2834,7 @@ SMODS.Joker { -- Chihuahua
     key = 'chihuahua',
     loc_txt = {
         name = 'Chihuahua',
-        text = { 'Retriggers cards with ranks that appear', 'the least number of times', 'in the deck the', 'same number of times', 'that rank appears', '{C:inactive}Does not activate if there is a tie{}' }
+        text = { 'Retriggers cards with ranks that appear', 'the least number of times in the deck the', 'same number of times that rank appears', '{C:inactive}Does not activate if there is a tie{}', '{C:inactive}Limit of 10 retriggers{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2877,9 +2889,15 @@ SMODS.Joker { -- Chihuahua
         end
 
         if context.cardarea == G.play and context.repetition and tostring(context.other_card.base.id) == card.ability.extra.least_id and not card.ability.extra.tie then
+            local reps 
+            if card.ability.extra.least_count <= 10 then
+                reps = card.ability.extra.least_count
+            else
+                reps = 10
+            end
             return {
                 message = localize('k_again_ex'),
-                repetitions = card.ability.extra.least_count,
+                repetitions = reps,
                 card = card
             }
         end
@@ -2933,7 +2951,8 @@ SMODS.Joker { -- Ledger
             else
                 -- Choose Joker to affect
                 local chosen_joker =
-                    #eligible_jokers > 0 and pseudorandom_element(eligible_jokers, pseudoseed('abyss')) or nil
+                    #eligible_jokers > 0 and
+                    pseudorandom_element(eligible_jokers, pseudoseed('ledger' .. G.GAME.round_resets.ante)) or nil
 
                 -- Add negative edition to random held joker
 

@@ -44,7 +44,7 @@ if self.ability.name == 'Egg' then
 '''
 position = "after"
 payload = '''
-if next(SMODS.find_card('j_mxms_microwave')) and pseudorandom('eggsplode', 1, 20) == 1 then
+if next(SMODS.find_card('j_mxms_microwave')) and pseudorandom('eggsplode' .. G.GAME.round_resets.ante, 1, 20) == 1 then
     G.E_MANAGER:add_event(Event({
         func = function()
             play_sound('mxms_eggsplosion')
@@ -1332,7 +1332,8 @@ if self.ability.set == 'Joker' then
         G.E_MANAGER:add_event(Event({func = function()
             for k, v in pairs(G.jokers.cards) do
                 if v.config.center.key == 'j_mxms_clown_car' then
-                    v.ability.extra.mult = v.ability.extra.mult + 2
+                v:juice_up(0.1,0.1)
+                    v.ability.extra.mult = v.ability.extra.mult + (2 * G.GAME.soil_mod)
                     return true
                 end
             end
@@ -1679,7 +1680,7 @@ position = "at"
 payload = '''
 if polled_rate > check_rate and polled_rate <= check_rate + v.val then
     local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
-    if card.ability.set == 'Joker' and next(SMODS.find_card('j_mxms_coupon')) and pseudorandom('cou', 1 * G.GAME.probabilities.normal, 30) == 30 then
+    if card.ability.set == 'Joker' and next(SMODS.find_card('j_mxms_coupon')) and pseudorandom('cou' .. G.GAME.round_resets.ante, 1 * G.GAME.probabilities.normal, 10) == 10 then
         card.cost = 0
     end
 '''
