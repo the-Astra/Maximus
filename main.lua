@@ -2817,7 +2817,7 @@ SMODS.Joker { -- Coronation
                             card = card
                         }
                     end
-                else
+                elseif card.ability.extra.rounds > 0 then
                     return {
                         message = card.ability.extra.rounds .. '/3',
                         colour = G.C.YELLOW,
@@ -2827,12 +2827,17 @@ SMODS.Joker { -- Coronation
             end
         end
 
-        if context.setting_blind then
+        if context.setting_blind and (card.ability.extra.skips_used > 0 or G.GAME.round % 3 == 1) then
             card.ability.extra.rounds = card.ability.extra.rounds + 1
         end
 
         if context.skip_blind then
             card.ability.extra.skips_used = true
+            return {
+                message = localize('k_reset'),
+                colour = G.C.YELLOW,
+                card = card
+            }
         end
     end
 }
