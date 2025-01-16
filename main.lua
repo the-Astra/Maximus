@@ -275,6 +275,7 @@ SMODS.Joker { -- Fortune Cookie
     perishable_compat = false,
     eternal_compat = false,
     blueprint_compat = true,
+    cost = 4,
     config = {
         extra = {
             chance = 10,
@@ -428,6 +429,7 @@ SMODS.Joker { -- Poindexter
         }
     },
     blueprint_compat = true,
+    cost = 7,
     enhancement_gate = 'm_glass',
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
@@ -523,6 +525,7 @@ SMODS.Joker { -- Abyss
     },
     config = {},
     blueprint_compat = true,
+    cost = 9,
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
         return {
@@ -615,6 +618,7 @@ SMODS.Joker { -- War
     rarity = 3,
     config = {},
     blueprint_compat = false,
+    cost = 8,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.war_mod = G.GAME.war_mod * 2
     end,
@@ -638,6 +642,7 @@ SMODS.Joker { -- Microwave
     rarity = 2,
     config = {},
     blueprint_compat = true,
+    cost = 6,
     calculate = function(self, card, context)
         -- Thank you to theonegoodali from the Balatro Discord for helping me with this conditional
         if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
@@ -674,6 +679,7 @@ SMODS.Joker { -- Combo Breaker
         }
     },
     blueprint_compat = true,
+    cost = 8,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.Xmult, center.ability.extra.retriggers }
@@ -730,6 +736,7 @@ SMODS.Joker { -- Faded
     rarity = 2,
     config = {},
     blueprint_compat = false,
+    cost = 7,
 }
 
 SMODS.Joker { -- Old Man Jimbo
@@ -746,6 +753,7 @@ SMODS.Joker { -- Old Man Jimbo
     rarity = 2,
     config = {},
     blueprint_compat = true,
+    cost = 6,
 
     calculate = function(self, card, context)
         if context.joker_main then
@@ -778,6 +786,7 @@ SMODS.Joker { -- Joker+
         }
     },
     blueprint_compat = true,
+    cost = 5,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
@@ -810,6 +819,7 @@ SMODS.Joker { -- Normal Joker
     rarity = 1,
     config = {},
     blueprint_compat = true,
+    cost = 3,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
             if not context.other_card.edition and not context.other_card.seal and not next(SMODS.get_enhancements(context.other_card)) then
@@ -847,6 +857,7 @@ SMODS.Joker { -- Streaker
         }
     },
     blueprint_compat = true,
+    cost = 8,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.streak, center.ability.extra.hands, center.ability.extra.chips,
@@ -908,6 +919,7 @@ SMODS.Joker { -- Jobber
     },
     rarity = 3,
     blueprint_compat = false,
+    cost = 8,
     calculate = function(self, card, context)
         if context.before and not context.blueprint then
             -- Check if played hand is all debuffed cards
@@ -990,6 +1002,7 @@ SMODS.Joker { -- Astigmatism
     rarity = 3,
     config = {},
     blueprint_compat = true,
+    cost = 9,
     calculate = function(self, card, context)
         if context.joker_main then
             return {
@@ -1016,6 +1029,7 @@ SMODS.Joker { -- Perspective
     rarity = 1,
     config = {},
     blueprint_compat = false,
+    cost = 3,
 }
 
 SMODS.Joker { -- Harmony
@@ -1036,6 +1050,7 @@ SMODS.Joker { -- Harmony
         }
     },
     blueprint_compat = true,
+    cost = 3,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
@@ -1086,6 +1101,7 @@ SMODS.Joker { -- Impractical Joker
         }
     },
     blueprint_compat = true,
+    cost = 6,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.fails, G.GAME.current_round.impractical_hand }
@@ -1161,6 +1177,7 @@ SMODS.Joker { -- Trick or Treat
         }
     },
     blueprint_compat = false,
+    cost = 6,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
@@ -1207,6 +1224,7 @@ SMODS.Joker { -- Pessimistic Joker
         }
     },
     blueprint_compat = true,
+    cost = 7,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
@@ -1243,6 +1261,7 @@ SMODS.Joker { -- Chef
     },
     rarity = 1,
     blueprint_compat = true,
+    cost = 5,
     calculate = function(self, card, context)
         if context.setting_blind and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
             G.GAME.joker_buffer = G.GAME.joker_buffer + 1
@@ -1273,6 +1292,7 @@ SMODS.Joker { -- Leftovers
         y = 2
     },
     blueprint_compat = false,
+    cost = 4,
     rarity = 1,
     calculate = function(self, card, context)
         if G.GAME.destroyed_food ~= '' and not context.blueprint then
@@ -1332,6 +1352,7 @@ SMODS.Joker { -- Refrigerator
         }
     },
     blueprint_compat = false,
+    cost = 6,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.fridge_mod = G.GAME.fridge_mod + 1
     end,
@@ -1354,6 +1375,7 @@ SMODS.Joker { -- Hopscotch
     },
     rarity = 2,
     blueprint_compat = false,
+    cost = 5,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { G.GAME.probabilities.normal }
@@ -1409,6 +1431,7 @@ SMODS.Joker { -- Secret Society
         y = 2
     },
     blueprint_compat = false,
+    cost = 5,
     rarity = 2,
     config = {}
 }
@@ -1432,6 +1455,7 @@ SMODS.Joker { -- Bullseye
         }
     },
     blueprint_compat = true,
+    cost = 5,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { 100 * G.GAME.round, center.ability.extra.chips }
@@ -1473,6 +1497,7 @@ SMODS.Joker { -- Hammer and Chisel
     rarity = 2,
     config = {},
     blueprint_compat = false,
+    cost = 5,
     enhancement_gate = 'm_stone',
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
@@ -1495,13 +1520,14 @@ SMODS.Joker { -- Four-Leaf Clover
     },
     rarity = 2,
     config = {},
+    blueprint_compat = false,
+    cost = 7,
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_lucky
         return {
             vars = {}
         }
     end,
-    blueprint_compat = false,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
             -- Code derived from Midas Mask
@@ -1538,6 +1564,7 @@ SMODS.Joker { -- Soyjoke
     rarity = 2,
     config = {},
     blueprint_compat = true,
+    cost = 8,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { G.GAME.soy_mod }
@@ -1573,6 +1600,7 @@ SMODS.Joker { -- Clown Car
         }
     },
     blueprint_compat = true,
+    cost = 7,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
@@ -1604,6 +1632,7 @@ SMODS.Joker { -- Gambler
     rarity = 2,
     config = {},
     blueprint_compat = false,
+    cost = 7,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.gambler_mod = G.GAME.gambler_mod * 2
         G.GAME.interest_cap = G.GAME.interest_cap * 2
@@ -1634,6 +1663,7 @@ SMODS.Joker { -- 4D
     perishable_compat = false,
     eternal_compat = false,
     blueprint_compat = true,
+    cost = 6,
     config = {
         extra = {
             Xmult = 4
@@ -1673,6 +1703,8 @@ SMODS.Joker { -- Dark Room
     },
     rarity = 3,
     blueprint_compat = false,
+    eternal_compat = false,
+    cost = 7,
     config = {
         extra = {
             rounds = 0
@@ -1756,6 +1788,7 @@ SMODS.Joker { -- Virus
     },
     rarity = 2,
     blueprint_compat = false,
+    cost = 6,
 }
 
 SMODS.Joker { -- Man in the Mirror
@@ -1771,6 +1804,7 @@ SMODS.Joker { -- Man in the Mirror
         y = 3
     },
     blueprint_compat = false,
+    cost = 8,
     rarity = 2,
     config = {},
     loc_vars = function(self, info_queue, center)
@@ -1830,6 +1864,7 @@ SMODS.Joker { -- Unpleasant Gradient
     rarity = 2,
     config = {},
     blueprint_compat = true,
+    cost = 5,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
             card:juice_up(0.3, 0.4)
@@ -1905,6 +1940,7 @@ SMODS.Joker { -- Random Encounter
         }
     },
     blueprint_compat = true,
+    cost = 5,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.chance * G.GAME.probabilities.normal }
@@ -1957,6 +1993,7 @@ SMODS.Joker { -- Jackpot
         }
     },
     blueprint_compat = true,
+    cost = 8,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.money }
@@ -2000,6 +2037,7 @@ SMODS.Joker { -- Bell Curve
     rarity = 2,
     config = {},
     blueprint_compat = true,
+    cost = 7,
     loc_vars = function(self, info_queue, center)
         local calc = 3
         if G.playing_cards ~= nil then
@@ -2040,6 +2078,7 @@ SMODS.Joker { -- Loaded Gun
         }
     },
     blueprint_compat = true,
+    cost = 8,
     enhancement_gate = 'm_steel',
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
@@ -2075,6 +2114,7 @@ SMODS.Joker { -- Coupon
         }
     },
     blueprint_compat = false,
+    cost = 5,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.odds * G.GAME.probabilities.normal }
@@ -2099,6 +2139,7 @@ SMODS.Joker { -- Loony Joker
         type = 'High Card'
     },
     blueprint_compat = true,
+    cost = 3,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.t_mult, center.ability.type }
@@ -2133,6 +2174,7 @@ SMODS.Joker { -- Lazy Joker
         type = 'High Card'
     },
     blueprint_compat = true,
+    cost = 3,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.t_chips, center.ability.type }
@@ -2165,6 +2207,7 @@ SMODS.Joker { -- Salt Circle
     rarity = 1,
     config = {},
     blueprint_compat = true,
+    cost = 5,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { G.GAME.spectrals_used * 30 }
@@ -2196,6 +2239,7 @@ SMODS.Joker { -- Light Show
     rarity = 1,
     config = {},
     blueprint_compat = true,
+    cost = 5,
     enhancement_gate_set = {
         'm_bonus',
         'm_mult'
@@ -2238,6 +2282,7 @@ SMODS.Joker { -- Monk
         }
     },
     blueprint_compat = true,
+    cost = 4,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.chips }
@@ -2284,6 +2329,7 @@ SMODS.Joker { -- Marco Polo
     rarity = 1,
     config = {},
     blueprint_compat = true,
+    cost = 3,
     calculate = function(self, card, context)
         if context.joker_main then
             local position = 0
@@ -2324,6 +2370,7 @@ SMODS.Joker { -- Go Fish
     rarity = 1,
     config = {},
     blueprint_compat = true,
+    cost = 4,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { G.GAME.current_round.go_fish.rank, G.GAME.current_round.go_fish.mult }
@@ -2355,6 +2402,7 @@ SMODS.Joker { -- Sleuth
     rarity = 1,
     config = {},
     blueprint_compat = false,
+    cost = 6,
     add_to_deck = function(self, card, from_debuff)
         change_shop_size(1)
     end,
@@ -2377,6 +2425,7 @@ SMODS.Joker { -- Don't Mind if I Do
         y = 5
     },
     blueprint_compat = false,
+    cost = 7,
     rarity = 2,
     config = {
         extra = {
@@ -2436,6 +2485,7 @@ SMODS.Joker { -- Guillotine
     rarity = 3,
     config = {},
     blueprint_compat = false,
+    cost = 9,
     calculate = function(self, card, context)
         if context.before and not context.blueprint then
             for i = 1, #context.scoring_hand do
@@ -2473,6 +2523,7 @@ SMODS.Joker { -- Power Creep
     rarity = 3,
     config = {},
     blueprint_compat = false,
+    cost = 7,
     edition_gate_set = {
         'foil',
         'holo',
@@ -2502,6 +2553,7 @@ SMODS.Joker { -- Space Race
     rarity = 3,
     config = {},
     blueprint_compat = true,
+    cost = 7,
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.before then
             local hand_is_highest = false
@@ -2548,6 +2600,7 @@ SMODS.Joker { -- Poet
     rarity = 2,
     config = {},
     blueprint_compat = true,
+    cost = 8,
     calculate = function(self, card, context)
         if context.joker_main then
             local same_rank = true
@@ -2644,6 +2697,7 @@ SMODS.Joker { -- Hedonist
         }
     },
     blueprint_compat = true,
+    cost = 7,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.Xmult }
@@ -2681,6 +2735,7 @@ SMODS.Joker { -- Zombie
     rarity = 2,
     config = {},
     blueprint_compat = true,
+    cost = 8,
     loc_vars = function(self, info_queue, center)
         if G.GAME.current_round.zombie_target ~= nil then
             return {
@@ -2728,6 +2783,7 @@ SMODS.Joker { -- Coronation
         }
     },
     blueprint_compat = true,
+    cost = 7,
     joker_gate = 'j_joker',
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.j_joker
@@ -2802,6 +2858,7 @@ SMODS.Joker { -- Soil Joker
         }
     },
     blueprint_compat = true,
+    cost = 8,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.mult }
@@ -2829,7 +2886,8 @@ SMODS.Joker { -- Stop Sign
     },
     rarity = 3,
     config = {},
-    blueprint_compat = true
+    blueprint_compat = true,
+    cost = 8,
 }
 
 SMODS.Joker { -- Chihuahua
@@ -2852,6 +2910,7 @@ SMODS.Joker { -- Chihuahua
         }
     },
     blueprint_compat = true,
+    cost = 8,
     calculate = function(self, card, context)
         if context.before then
             local ranks = {
