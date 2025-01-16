@@ -183,7 +183,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
             func = function()
                 local eligible_jokers = {}
                 local new_target = G.GAME.current_round.zombie_target
-                if #G.jokers.cards <= 1 then
+                if #G.jokers.cards <= 1 or not next(SMODS.find_card('j_mxms_zombie')) then
                     new_target = nil
                 else
                     for i = 1, #G.jokers.cards do
