@@ -2827,7 +2827,7 @@ SMODS.Joker { -- Coronation
             end
         end
 
-        if context.setting_blind and (card.ability.extra.skips_used > 0 or G.GAME.round % 3 == 1) then
+        if context.setting_blind and (card.ability.extra.rounds > 0 or G.GAME.round % 3 == 1) then
             card.ability.extra.rounds = card.ability.extra.rounds + 1
         end
 
