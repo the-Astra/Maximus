@@ -161,10 +161,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
             func = function()
                 play_sound('timpani')
                 delay(0.4)
-                G.GAME.current_round.zombie_target.T.r = -0.2
-                G.GAME.current_round.zombie_target:juice_up(0.3, 0.4)
-                G.GAME.current_round.zombie_target.states.drag.is = true
-                G.GAME.current_round.zombie_target.children.center.pinch.x = true
+                G.GAME.current_round.zombie_target:start_dissolve({ G.C.GREEN }, nil, 1.6)
                 local new_zombie = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_zombie',
                     'zombie')
                 new_zombie:start_materialize()
@@ -647,7 +644,7 @@ SMODS.Joker { -- Microwave
         -- Thank you to theonegoodali from the Balatro Discord for helping me with this conditional
         if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
             for i = 1, #food_jokers do
-                if context.other_card.ability.name == food_jokers[i].name and food_jokers[i].name ~= 'Leftovers' then
+                if G.localization.descriptions.Joker[context.other_card.config.center.key].name == food_jokers[i].name and food_jokers[i].name ~= 'Leftovers' then
                     return {
                         message = localize('k_again_ex'),
                         repetitions = 1,
@@ -1554,7 +1551,7 @@ SMODS.Joker { -- Soyjoke
     key = 'soyjoke',
     loc_txt = {
         name = 'Soyjoke',
-        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X1{} Mult', 'every time a Joker', 'is repurchased' }
+        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X0.5{} Mult', 'every time a Joker', 'is repurchased' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2820,7 +2817,7 @@ SMODS.Joker { -- Coronation
                             card = card
                         }
                     end
-                else
+                elseif card.ability.extra.rounds > 0 then
                     return {
                         message = card.ability.extra.rounds .. '/3',
                         colour = G.C.YELLOW,
@@ -2830,12 +2827,17 @@ SMODS.Joker { -- Coronation
             end
         end
 
-        if context.setting_blind then
+        if context.setting_blind and (card.ability.extra.skips_used > 0 or G.GAME.round % 3 == 1) then
             card.ability.extra.rounds = card.ability.extra.rounds + 1
         end
 
         if context.skip_blind then
             card.ability.extra.skips_used = true
+            return {
+                message = localize('k_reset'),
+                colour = G.C.YELLOW,
+                card = card
+            }
         end
     end
 }
