@@ -161,10 +161,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
             func = function()
                 play_sound('timpani')
                 delay(0.4)
-                G.GAME.current_round.zombie_target.T.r = -0.2
-                G.GAME.current_round.zombie_target:juice_up(0.3, 0.4)
-                G.GAME.current_round.zombie_target.states.drag.is = true
-                G.GAME.current_round.zombie_target.children.center.pinch.x = true
+                G.GAME.current_round.zombie_target:start_dissolve({ G.C.GREEN }, nil, 1.6)
                 local new_zombie = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_zombie',
                     'zombie')
                 new_zombie:start_materialize()
