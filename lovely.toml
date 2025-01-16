@@ -1343,7 +1343,7 @@ if self.ability.set == 'Joker' then
     G.E_MANAGER:add_event(Event({func = function()
         for k, v in pairs(G.GAME.purchased_jokers) do
             if v == self.ability.name then
-                G.GAME.soy_mod = G.GAME.soy_mod + 1
+                G.GAME.soy_mod = G.GAME.soy_mod + 0.5
                 return true
             end
         end
