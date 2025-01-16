@@ -221,7 +221,9 @@ function Game:update(dt)
     upd(self, dt)
 
     mxms_4d_dt_anim = mxms_4d_dt_anim + dt
-    mxms_4d_dt_mod = mxms_4d_dt_mod + dt
+    if next(SMODS.find_card('j_mxms_4d')) and not G.SETTINGS.paused then
+        mxms_4d_dt_mod = mxms_4d_dt_mod + dt
+    end
 
     -- 4D Patches (Derived from Jimball animation code)
     if G.P_CENTERS and G.P_CENTERS.j_mxms_4d and mxms_4d_dt_anim > 0.05 then
@@ -2925,6 +2927,7 @@ SMODS.Joker { -- Ledger
         x = 0,
         y = 8
     },
+    cost = 20,
     rarity = 4,
     config = {},
     blueprint_compat = true,
