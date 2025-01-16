@@ -37,7 +37,7 @@ Game.init_game_object = function(self)
     ret.current_round.marco_polo_pos = 1
     ret.current_round.go_fish = {
         rank = "Ace",
-        mult = 4
+        mult = 8
     }
     ret.current_round.zombie_target = nil
 
@@ -152,7 +152,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
                 new_mult = new_mult + 1
             end
         end
-        G.GAME.current_round.go_fish.mult = new_mult
+        G.GAME.current_round.go_fish.mult = new_mult * 2
     end
 
     -- Zombie
@@ -1521,7 +1521,7 @@ SMODS.Joker { -- Clown Car
     key = 'clown_car',
     loc_txt = {
         name = 'Clown Car',
-        text = { 'Gains {C:mult}+2{} Mult each time', 'a Joker is added to hand', '{C:inactive}Currently: +#1#' }
+        text = { 'Gains {C:mult}+2{} Mult each time', 'a Joker is picked up', '{C:inactive}Currently: +#1#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2276,7 +2276,7 @@ SMODS.Joker { -- Go Fish
     loc_txt = {
         name = 'Go Fish',
         text = { '{C:mult}+2{} Mult for each {C:attention}#1#{}', 'in full deck at start of round',
-            '{C:inactive}Rank changes every round' }
+            '{C:inactive}Rank changes every round', '{C:inactive}Currently {C:mult}+#2# {C:inactive}Mult' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2288,7 +2288,7 @@ SMODS.Joker { -- Go Fish
     blueprint_compat = true,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { G.GAME.current_round.go_fish.rank }
+            vars = { G.GAME.current_round.go_fish.rank, G.GAME.current_round.go_fish.mult }
         }
     end,
     calculate = function(self, card, context)
@@ -2822,7 +2822,7 @@ SMODS.Joker { -- Chihuahua
     key = 'chihuahua',
     loc_txt = {
         name = 'Chihuahua',
-        text = { 'Retriggers cards with ranks that appear', 'the least number of times', 'in the deck the', 'same number of times', 'that rank appears', '{C:inactive}Does not activate if there is a tie{}' }
+        text = { 'Retriggers cards with ranks that appear', 'the least number of times in the deck the', 'same number of times that rank appears', '{C:inactive}Does not activate if there is a tie{}' }
     },
     atlas = 'Jokers',
     pos = {
