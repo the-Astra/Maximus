@@ -2669,7 +2669,7 @@ SMODS.Joker { -- Zombie
     key = 'zombie',
     loc_txt = {
         name = 'Zombie',
-        text = { 'Copies {C:attention}one random Joker{} each round.', 'The copied joker will {C:attention}turn into', '{C:attention}another Zombie{} at the end of the round', '{C:inactive}All zombies target the same Joker', '{C:inactive}Zombification can be stopped by selling all other zombies', '{C:inactive}Current target: {C:red}#1#{}' }
+        text = { 'Copies the effect of {C:attention}one random Joker{}', 'each round. The target Joker will {C:attention}turn into', '{C:attention}another Zombie{} at the end of the round', '{C:inactive}All zombies target the same Joker', '{C:inactive}Zombification can be stopped by selling all other zombies', '{C:inactive}Current target: {C:red}#1#{}' }
     },
     atlas = 'Jokers',
     pos = {
