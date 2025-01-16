@@ -1591,7 +1591,7 @@ function get_flush(hand)
   local ret = {}
   local four_fingers = next(find_joker('Four Fingers'))
   local suits = SMODS.Suit.obj_buffer
-if #hand < (5 - (four_fingers and 1 or virus and 3 or 0)) then return ret else
+if #hand < (5 - (four_fingers and 1 or 0)) then return ret else
 '''
 position = "at"
 payload = '''
