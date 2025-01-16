@@ -644,7 +644,7 @@ SMODS.Joker { -- Microwave
         -- Thank you to theonegoodali from the Balatro Discord for helping me with this conditional
         if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
             for i = 1, #food_jokers do
-                if context.other_card.ability.name == food_jokers[i].name and food_jokers[i].name ~= 'Leftovers' then
+                if G.localization.descriptions.Joker[context.other_card.config.center.key].name == food_jokers[i].name and food_jokers[i].name ~= 'Leftovers' then
                     return {
                         message = localize('k_again_ex'),
                         repetitions = 1,
