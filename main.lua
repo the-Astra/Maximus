@@ -211,6 +211,9 @@ end
 
     -- Make Editions scale with Power Creep
 SMODS.Edition:take_ownership('polychrome', {
+    loc_vars = function(self)
+        return { vars = { self.config.x_mult * G.GAME.creep_mod } }
+    end,
     calculate = function(self, card, context)
         if context.post_joker or (context.main_scoring and context.cardarea == G.play) then
             return {
@@ -221,6 +224,9 @@ SMODS.Edition:take_ownership('polychrome', {
 })
 
 SMODS.Edition:take_ownership('holo', {
+    loc_vars = function(self)
+        return { vars = { self.config.mult * G.GAME.creep_mod } }
+    end,
     calculate = function(self, card, context)
         if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
             return {
@@ -231,6 +237,9 @@ SMODS.Edition:take_ownership('holo', {
 })
 
 SMODS.Edition:take_ownership('foil', {
+    loc_vars = function(self)
+        return { vars = { self.config.chips * G.GAME.creep_mod } }
+    end,
     calculate = function(self, card, context)
         if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
             return {

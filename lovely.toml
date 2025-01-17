@@ -1694,42 +1694,6 @@ times = 1
 
 
 
-    # Modify edition scoring
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-local ret = {card = self}
-    if self.edition.x_mult then 
-        ret.x_mult_mod = self.edition.x_mult
-    end
-    if self.edition.mult then 
-        ret.mult_mod = self.edition.mult
-    end
-    if self.edition.chips then 
-        ret.chip_mod = self.edition.chips
-    end
-    return ret
-'''
-position = "at"
-payload = '''
-local ret = {card = self}
-    if self.edition.x_mult then 
-        ret.x_mult_mod = self.edition.x_mult * G.GAME.creep_mod
-    end
-    if self.edition.mult then 
-        ret.mult_mod = self.edition.mult * G.GAME.creep_mod
-    end
-    if self.edition.chips then 
-        ret.chip_mod = self.edition.chips * G.GAME.creep_mod
-    end
-    return ret
-'''
-match_indent = true
-times = 1
-
-
-
 
 
 
