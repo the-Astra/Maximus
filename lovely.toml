@@ -1880,11 +1880,11 @@ match_indent = true
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if self.ability.name == 'To Do List' then
+if self.ability.name == 'To Do List' and not context.blueprint then
 '''
 position = "at"
 payload = '''
-if self.ability.name == 'To Do List' and not next(SMODS.find_card('j_mxms_stop_sign')) then
+if self.ability.name == 'To Do List' and not context.blueprint and not next(SMODS.find_card('j_mxms_stop_sign')) then
 '''
 match_indent = true
 times = 1
