@@ -94,7 +94,7 @@ food_jokers = { {
     key = 'j_ramen',
     name = 'Ramen'
 }, {
-    key = 'j_seltzer',
+    key = 'j_selzer',
     name = 'Seltzer'
 }, {
     key = 'j_mxms_fortune_cookie',
