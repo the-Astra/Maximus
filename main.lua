@@ -207,6 +207,40 @@ function SMODS.current_mod.reset_game_globals(run_start)
     end
 end
 
+-- Ownership changes
+
+    -- Make Editions scale with Power Creep
+SMODS.Edition:take_ownership('polychrome', {
+    calculate = function(self, card, context)
+        if context.post_joker or (context.main_scoring and context.cardarea == G.play) then
+            return {
+                x_mult = card.edition.x_mult * G.GAME.creep_mod
+            }     
+        end
+    end
+})
+
+SMODS.Edition:take_ownership('holo', {
+    calculate = function(self, card, context)
+        if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
+            return {
+                mult = card.edition.mult * G.GAME.creep_mod
+            }     
+        end
+    end
+})
+
+SMODS.Edition:take_ownership('foil', {
+    calculate = function(self, card, context)
+        if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
+            return {
+                chips = card.edition.chips * G.GAME.creep_mod
+            }     
+        end
+    end
+})
+
+
 -- Update checks
 
 local upd = Game.update
