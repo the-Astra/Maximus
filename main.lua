@@ -874,7 +874,7 @@ SMODS.Joker { -- Streaker
 
         if context.before and not context.blueprint then
             card.ability.extra.hands = card.ability.extra.hands + 1
-            if card.ability.hands > 1 and card.ability.extra.streak ~= 0 then
+            if card.ability.extra.hands > 1 and card.ability.extra.streak ~= 0 then
                 card.ability.extra.streak = 0
                 card.ability.extra.chips = 0
                 card.ability.extra.mult = 0
