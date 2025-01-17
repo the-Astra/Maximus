@@ -2997,7 +2997,7 @@ SMODS.Joker { -- Ledger
             local eligible_jokers = {}
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and
-                    not (G.jokers.cards[i].edition and G.jokers.cards[i].edition.negative) and
+                    not G.jokers.cards[i].edition and
                     not G.jokers.cards[i].getting_sliced then
                     eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
                 end
