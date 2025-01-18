@@ -31,6 +31,7 @@ Game.init_game_object = function(self)
     ret.spectrals_used = 0
     ret.creep_mod = 1
     ret.soil_mod = 1
+    ret.skip_tag = ''
 
     --Rotating Modifiers
     ret.current_round.impractical_hand = 'High Card'
@@ -94,7 +95,7 @@ food_jokers = { {
     key = 'j_ramen',
     name = 'Ramen'
 }, {
-    key = 'j_seltzer',
+    key = 'j_selzer',
     name = 'Seltzer'
 }, {
     key = 'j_mxms_fortune_cookie',
@@ -131,7 +132,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
             new_pos = 1
         else
             while new_pos == G.GAME.current_round.marco_polo_pos do
-                new_pos = pseudorandom(('marcopolo' .. G.GAME.round_resets.ante), 1, #G.jokers.cards)
+                new_pos = pseudorandom(pseudoseed('marcopolo' .. G.GAME.round_resets.ante), 1, #G.jokers.cards)
             end
         end
         G.GAME.current_round.marco_polo_pos = new_pos
@@ -206,6 +207,49 @@ function SMODS.current_mod.reset_game_globals(run_start)
         }))
     end
 end
+
+-- Ownership changes
+
+    -- Make Editions scale with Power Creep
+SMODS.Edition:take_ownership('polychrome', {
+    loc_vars = function(self)
+        return { vars = { self.config.x_mult * G.GAME.creep_mod } }
+    end,
+    calculate = function(self, card, context)
+        if context.post_joker or (context.main_scoring and context.cardarea == G.play) then
+            return {
+                x_mult = card.edition.x_mult * G.GAME.creep_mod
+            }     
+        end
+    end
+})
+
+SMODS.Edition:take_ownership('holo', {
+    loc_vars = function(self)
+        return { vars = { self.config.mult * G.GAME.creep_mod } }
+    end,
+    calculate = function(self, card, context)
+        if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
+            return {
+                mult = card.edition.mult * G.GAME.creep_mod
+            }     
+        end
+    end
+})
+
+SMODS.Edition:take_ownership('foil', {
+    loc_vars = function(self)
+        return { vars = { self.config.chips * G.GAME.creep_mod } }
+    end,
+    calculate = function(self, card, context)
+        if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
+            return {
+                chips = card.edition.chips * G.GAME.creep_mod
+            }     
+        end
+    end
+})
+
 
 -- Update checks
 
@@ -290,7 +334,7 @@ SMODS.Joker { -- Fortune Cookie
         -- Activate ability before scoring if chance is higher than 0
         if context.before and card.ability.extra.chance > 0 then
             -- Roll chance and decrease by 1
-            local chance_roll = pseudorandom('fco' .. G.GAME.round_resets.ante, 1,
+            local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante), 1,
                 10 * G.GAME.fridge_mod * G.GAME.probabilities.normal)
             local chance_odds = (card.ability.extra.odds - card.ability.extra.chance) * G.GAME.fridge_mod
             card.ability.extra.chance = card.ability.extra.chance - (1 / G.GAME.fridge_mod)
@@ -344,7 +388,7 @@ SMODS.Joker { -- Fortune Cookie
                     }))
                     return {
                         card = card,
-                        message = 'NOPE!',
+                        message = localize('k_nope_ex'),
                         colour = G.C.SET.Tarot
                     }
                 end
@@ -558,7 +602,7 @@ SMODS.Joker { -- Abyss
                     pseudorandom_element(eligible_jokers, pseudoseed('abyss' .. G.GAME.round_resets.ante)) or nil
 
                 -- "Flip a coin" to decide what to do with the target
-                local flip = pseudorandom('aby' .. G.GAME.round_resets.ante, 1, 2)
+                local flip = pseudorandom(pseudoseed('aby' .. G.GAME.round_resets.ante), 1, 2)
 
                 -- Add negative edition to random held joker
                 if flip == 1 then
@@ -874,7 +918,7 @@ SMODS.Joker { -- Streaker
 
         if context.before and not context.blueprint then
             card.ability.extra.hands = card.ability.extra.hands + 1
-            if card.ability.hands > 1 and card.ability.extra.streak ~= 0 then
+            if card.ability.extra.hands > 1 and card.ability.extra.streak ~= 0 then
                 card.ability.extra.streak = 0
                 card.ability.extra.chips = 0
                 card.ability.extra.mult = 0
@@ -1351,11 +1395,11 @@ SMODS.Joker { -- Refrigerator
     blueprint_compat = false,
     cost = 6,
     add_to_deck = function(self, card, from_debuff)
-        G.GAME.fridge_mod = G.GAME.fridge_mod + 1
+        G.GAME.fridge_mod = G.GAME.fridge_mod * 2
     end,
 
     remove_from_deck = function(self, card, from_debuff)
-        G.GAME.fridge_mod = G.GAME.fridge_mod - 1
+        G.GAME.fridge_mod = G.GAME.fridge_mod / 2
     end
 }
 
@@ -1363,7 +1407,7 @@ SMODS.Joker { -- Hopscotch
     key = 'hopscotch',
     loc_txt = {
         name = 'Hopscotch',
-        text = { 'When selecting blind,', '{C:green}1 out of 3{} chance to', 'receive associated skip tag' }
+        text = { 'When selecting blind,', '{C:green}#1# out of 3{} chance to', 'receive associated skip tag' }
     },
     atlas = 'Jokers',
     pos = {
@@ -1379,8 +1423,9 @@ SMODS.Joker { -- Hopscotch
         }
     end,
     calculate = function(self, card, context)
-        if context.setting_blind and not G.GAME.blind:get_type() == 'Boss' and not context.blueprint then
-            if pseudorandom('hopscotch' .. G.GAME.round_resets.ante, G.GAME.probabilities.normal, 3) == 3 then
+        if context.setting_blind and G.GAME.blind:get_type() ~= 'Boss' and not context.blueprint then
+            local chance_roll = pseudorandom(pseudoseed('hopscotch' .. G.GAME.round_resets.ante), G.GAME.probabilities.normal, 3)
+            if chance_roll == 3 then
                 -- Code derived from G.FUNCS.skip_blind
                 local _tag = G.GAME.skip_tag
                 if _tag then
@@ -1409,8 +1454,22 @@ SMODS.Joker { -- Hopscotch
                         end
                     }))
                 end
-            elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-                G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (3 - G.GAME.probabilities.normal)
+            else
+                if next(SMODS.find_card('j_mxms_pessimistic')) then
+                    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (3 - G.GAME.probabilities.normal)
+                end
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    func = function()
+                        play_sound('tarot2')
+                        return true;
+                    end
+                }))
+                return {
+                    card = card,
+                    message = localize('k_nope_ex'),
+                    colour = G.C.SET.Tarot
+                }
             end
         end
     end
@@ -1945,7 +2004,7 @@ SMODS.Joker { -- Random Encounter
     end,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
-            local chance_roll = pseudorandom('rand_enc' .. G.GAME.round_resets.ante,
+            local chance_roll = pseudorandom(pseudoseed('rand_enc' .. G.GAME.round_resets.ante),
                 card.ability.extra.chance * G.GAME.probabilities.normal, 4)
             if chance_roll == 4 then
                 G.E_MANAGER:add_event(Event({
@@ -2997,7 +3056,7 @@ SMODS.Joker { -- Ledger
             local eligible_jokers = {}
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and
-                    not (G.jokers.cards[i].edition and G.jokers.cards[i].edition.negative) and
+                    not G.jokers.cards[i].edition and
                     not G.jokers.cards[i].getting_sliced then
                     eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
                 end

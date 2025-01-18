@@ -1131,17 +1131,6 @@ times = 1
 
 # Hopscotch Functionality --------------------------------------
 
-    # Create tracking variable
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "pack_size = 2,"
-position = "after"
-payload = "skip_tag = '',"
-match_indent = true
-times = 1
-
-
     # Intercept skip tag from 
 [[patches]]
 [patches.pattern]
@@ -1694,42 +1683,6 @@ times = 1
 
 
 
-    # Modify edition scoring
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-local ret = {card = self}
-    if self.edition.x_mult then 
-        ret.x_mult_mod = self.edition.x_mult
-    end
-    if self.edition.mult then 
-        ret.mult_mod = self.edition.mult
-    end
-    if self.edition.chips then 
-        ret.chip_mod = self.edition.chips
-    end
-    return ret
-'''
-position = "at"
-payload = '''
-local ret = {card = self}
-    if self.edition.x_mult then 
-        ret.x_mult_mod = self.edition.x_mult * G.GAME.creep_mod
-    end
-    if self.edition.mult then 
-        ret.mult_mod = self.edition.mult * G.GAME.creep_mod
-    end
-    if self.edition.chips then 
-        ret.chip_mod = self.edition.chips * G.GAME.creep_mod
-    end
-    return ret
-'''
-match_indent = true
-times = 1
-
-
-
 
 
 
@@ -1880,11 +1833,11 @@ match_indent = true
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if self.ability.name == 'To Do List' then
+if self.ability.name == 'To Do List' and not context.blueprint then
 '''
 position = "at"
 payload = '''
-if self.ability.name == 'To Do List' and not next(SMODS.find_card('j_mxms_stop_sign')) then
+if self.ability.name == 'To Do List' and not context.blueprint and not next(SMODS.find_card('j_mxms_stop_sign')) then
 '''
 match_indent = true
 times = 1
