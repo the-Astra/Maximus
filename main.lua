@@ -3036,7 +3036,7 @@ SMODS.Joker { -- Ledger
     key = 'ledger',
     loc_txt = {
         name = 'Ledger',
-        text = { 'Every ante, one random', 'Joker becomes {C:dark_edition}negative{}' }
+        text = { 'At the end of every ante, one', 'random Joker becomes {C:dark_edition}Negative{}' }
     },
     atlas = 'Jokers',
     pos = {
