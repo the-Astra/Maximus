@@ -84,7 +84,22 @@ end
 match_indent = true
 times = 2
 
-
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if next(find_joker('Smeared Joker')) and (self.base.suit == 'Hearts' or self.base.suit == 'Diamonds') == (suit == 'Hearts' or suit == 'Diamonds') then
+    return true
+end
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_card('j_mxms_faded')) and next(find_joker('Smeared Joker')) then
+    return true
+end
+'''
+match_indent = true
+times = 2
 
 
 
