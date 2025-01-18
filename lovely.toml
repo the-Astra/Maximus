@@ -1131,17 +1131,6 @@ times = 1
 
 # Hopscotch Functionality --------------------------------------
 
-    # Create tracking variable
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "pack_size = 2,"
-position = "after"
-payload = "skip_tag = '',"
-match_indent = true
-times = 1
-
-
     # Intercept skip tag from 
 [[patches]]
 [patches.pattern]

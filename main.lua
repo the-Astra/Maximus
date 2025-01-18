@@ -31,6 +31,7 @@ Game.init_game_object = function(self)
     ret.spectrals_used = 0
     ret.creep_mod = 1
     ret.soil_mod = 1
+    ret.skip_tag = ''
 
     --Rotating Modifiers
     ret.current_round.impractical_hand = 'High Card'
@@ -333,7 +334,7 @@ SMODS.Joker { -- Fortune Cookie
         -- Activate ability before scoring if chance is higher than 0
         if context.before and card.ability.extra.chance > 0 then
             -- Roll chance and decrease by 1
-            local chance_roll = pseudorandom('fco' .. G.GAME.round_resets.ante, 1,
+            local chance_roll = pseudorandom(('fco' .. G.GAME.round_resets.ante), 1,
                 10 * G.GAME.fridge_mod * G.GAME.probabilities.normal)
             local chance_odds = (card.ability.extra.odds - card.ability.extra.chance) * G.GAME.fridge_mod
             card.ability.extra.chance = card.ability.extra.chance - (1 / G.GAME.fridge_mod)
@@ -601,7 +602,7 @@ SMODS.Joker { -- Abyss
                     pseudorandom_element(eligible_jokers, pseudoseed('abyss' .. G.GAME.round_resets.ante)) or nil
 
                 -- "Flip a coin" to decide what to do with the target
-                local flip = pseudorandom('aby' .. G.GAME.round_resets.ante, 1, 2)
+                local flip = pseudorandom(('aby' .. G.GAME.round_resets.ante), 1, 2)
 
                 -- Add negative edition to random held joker
                 if flip == 1 then
@@ -1406,7 +1407,7 @@ SMODS.Joker { -- Hopscotch
     key = 'hopscotch',
     loc_txt = {
         name = 'Hopscotch',
-        text = { 'When selecting blind,', '{C:green}1 out of 3{} chance to', 'receive associated skip tag' }
+        text = { 'When selecting blind,', '{C:green}#1# out of 3{} chance to', 'receive associated skip tag' }
     },
     atlas = 'Jokers',
     pos = {
@@ -1422,8 +1423,10 @@ SMODS.Joker { -- Hopscotch
         }
     end,
     calculate = function(self, card, context)
-        if context.setting_blind and not G.GAME.blind:get_type() == 'Boss' and not context.blueprint then
-            if pseudorandom('hopscotch' .. G.GAME.round_resets.ante, G.GAME.probabilities.normal, 3) == 3 then
+        if context.setting_blind and G.GAME.blind:get_type() ~= 'Boss' and not context.blueprint then
+            local chance_roll = pseudorandom(('hopscotch' .. G.GAME.round_resets.ante), G.GAME.probabilities.normal, 3)
+            if chance_roll == 3 then
+                sendDebugMessage("Hopscotch activated","MaximusDebug")
                 -- Code derived from G.FUNCS.skip_blind
                 local _tag = G.GAME.skip_tag
                 if _tag then
@@ -1988,7 +1991,7 @@ SMODS.Joker { -- Random Encounter
     end,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
-            local chance_roll = pseudorandom('rand_enc' .. G.GAME.round_resets.ante,
+            local chance_roll = pseudorandom(('rand_enc' .. G.GAME.round_resets.ante),
                 card.ability.extra.chance * G.GAME.probabilities.normal, 4)
             if chance_roll == 4 then
                 G.E_MANAGER:add_event(Event({
