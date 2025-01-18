@@ -585,6 +585,35 @@ match_indent = true
 times = 1
 
 
+    # Add flag to Glass Card Break
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if scoring_hand[i].ability.name == 'Glass Card' and not scoring_hand[i].debuff and pseudorandom('glass') < G.GAME.probabilities.normal/scoring_hand[i].ability.extra then 
+    destroyed = true
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_pessimistic')) then
+    for k, v in pairs(G.jokers.cards) do
+        if v.config.center.key == 'j_mxms_pessimistic' then
+            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true; end
+            }))
+            
+        end
+    end
+end
+'''
+match_indent = true
+times = 1
+
+
     # Add flag to Hallucination
 [[patches]]
 [patches.pattern]
