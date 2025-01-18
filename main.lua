@@ -132,7 +132,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
             new_pos = 1
         else
             while new_pos == G.GAME.current_round.marco_polo_pos do
-                new_pos = pseudorandom(('marcopolo' .. G.GAME.round_resets.ante), 1, #G.jokers.cards)
+                new_pos = pseudorandom(pseudoseed('marcopolo' .. G.GAME.round_resets.ante), 1, #G.jokers.cards)
             end
         end
         G.GAME.current_round.marco_polo_pos = new_pos
@@ -334,7 +334,7 @@ SMODS.Joker { -- Fortune Cookie
         -- Activate ability before scoring if chance is higher than 0
         if context.before and card.ability.extra.chance > 0 then
             -- Roll chance and decrease by 1
-            local chance_roll = pseudorandom(('fco' .. G.GAME.round_resets.ante), 1,
+            local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante), 1,
                 10 * G.GAME.fridge_mod * G.GAME.probabilities.normal)
             local chance_odds = (card.ability.extra.odds - card.ability.extra.chance) * G.GAME.fridge_mod
             card.ability.extra.chance = card.ability.extra.chance - (1 / G.GAME.fridge_mod)
@@ -388,7 +388,7 @@ SMODS.Joker { -- Fortune Cookie
                     }))
                     return {
                         card = card,
-                        message = 'NOPE!',
+                        message = localize('k_nope_ex'),
                         colour = G.C.SET.Tarot
                     }
                 end
@@ -602,7 +602,7 @@ SMODS.Joker { -- Abyss
                     pseudorandom_element(eligible_jokers, pseudoseed('abyss' .. G.GAME.round_resets.ante)) or nil
 
                 -- "Flip a coin" to decide what to do with the target
-                local flip = pseudorandom(('aby' .. G.GAME.round_resets.ante), 1, 2)
+                local flip = pseudorandom(pseudoseed('aby' .. G.GAME.round_resets.ante), 1, 2)
 
                 -- Add negative edition to random held joker
                 if flip == 1 then
@@ -1424,9 +1424,8 @@ SMODS.Joker { -- Hopscotch
     end,
     calculate = function(self, card, context)
         if context.setting_blind and G.GAME.blind:get_type() ~= 'Boss' and not context.blueprint then
-            local chance_roll = pseudorandom(('hopscotch' .. G.GAME.round_resets.ante), G.GAME.probabilities.normal, 3)
+            local chance_roll = pseudorandom(pseudoseed('hopscotch' .. G.GAME.round_resets.ante), G.GAME.probabilities.normal, 3)
             if chance_roll == 3 then
-                sendDebugMessage("Hopscotch activated","MaximusDebug")
                 -- Code derived from G.FUNCS.skip_blind
                 local _tag = G.GAME.skip_tag
                 if _tag then
@@ -1455,8 +1454,22 @@ SMODS.Joker { -- Hopscotch
                         end
                     }))
                 end
-            elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-                G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (3 - G.GAME.probabilities.normal)
+            else
+                if next(SMODS.find_card('j_mxms_pessimistic')) then
+                    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (3 - G.GAME.probabilities.normal)
+                end
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    func = function()
+                        play_sound('tarot2')
+                        return true;
+                    end
+                }))
+                return {
+                    card = card,
+                    message = localize('k_nope_ex'),
+                    colour = G.C.SET.Tarot
+                }
             end
         end
     end
@@ -1991,7 +2004,7 @@ SMODS.Joker { -- Random Encounter
     end,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
-            local chance_roll = pseudorandom(('rand_enc' .. G.GAME.round_resets.ante),
+            local chance_roll = pseudorandom(pseudoseed('rand_enc' .. G.GAME.round_resets.ante),
                 card.ability.extra.chance * G.GAME.probabilities.normal, 4)
             if chance_roll == 4 then
                 G.E_MANAGER:add_event(Event({
