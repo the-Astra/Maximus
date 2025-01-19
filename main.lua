@@ -210,7 +210,7 @@ end
 
 -- Ownership changes
 
-    -- Make Editions scale with Power Creep
+-- Make Editions scale with Power Creep
 SMODS.Edition:take_ownership('polychrome', {
     loc_vars = function(self)
         return { vars = { self.config.x_mult * G.GAME.creep_mod } }
@@ -219,7 +219,7 @@ SMODS.Edition:take_ownership('polychrome', {
         if context.post_joker or (context.main_scoring and context.cardarea == G.play) then
             return {
                 x_mult = card.edition.x_mult * G.GAME.creep_mod
-            }     
+            }
         end
     end
 })
@@ -232,7 +232,7 @@ SMODS.Edition:take_ownership('holo', {
         if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
             return {
                 mult = card.edition.mult * G.GAME.creep_mod
-            }     
+            }
         end
     end
 })
@@ -245,7 +245,7 @@ SMODS.Edition:take_ownership('foil', {
         if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
             return {
                 chips = card.edition.chips * G.GAME.creep_mod
-            }     
+            }
         end
     end
 })
@@ -1424,7 +1424,8 @@ SMODS.Joker { -- Hopscotch
     end,
     calculate = function(self, card, context)
         if context.setting_blind and G.GAME.blind:get_type() ~= 'Boss' and not context.blueprint then
-            local chance_roll = pseudorandom(pseudoseed('hopscotch' .. G.GAME.round_resets.ante), G.GAME.probabilities.normal, 3)
+            local chance_roll = pseudorandom(pseudoseed('hopscotch' .. G.GAME.round_resets.ante),
+                G.GAME.probabilities.normal, 3)
             if chance_roll == 3 then
                 -- Code derived from G.FUNCS.skip_blind
                 local _tag = G.GAME.skip_tag
@@ -1588,13 +1589,15 @@ SMODS.Joker { -- Four-Leaf Clover
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
             -- Code derived from Midas Mask
             for k, v in ipairs(context.scoring_hand) do
-                v:set_ability(G.P_CENTERS.m_lucky, nil, true)
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        v:juice_up(0.3, 0.4)
-                        return true
-                    end
-                }))
+                if not v.edition then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            v:set_ability(G.P_CENTERS.m_lucky, nil, true)
+                            v:juice_up(0.3, 0.4)
+                            return true
+                        end
+                    }))
+                end
             end
 
             return {
@@ -3011,7 +3014,7 @@ SMODS.Joker { -- Chihuahua
         end
 
         if context.cardarea == G.play and context.repetition and tostring(context.other_card.base.id) == card.ability.extra.least_id and not card.ability.extra.tie then
-            local reps 
+            local reps
             if card.ability.extra.least_count <= 10 then
                 reps = card.ability.extra.least_count
             else
