@@ -1309,7 +1309,7 @@ match_indent = true
 times = 1
 
 
-    # Change Raise Fist interaction
+    # Change Raised Fist interaction
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -1318,7 +1318,7 @@ if temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i])
 '''
 position = "at"
 payload = '''
-if temp_ID >= (G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i])) or next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
+if (temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i])) or next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
 '''
 match_indent = true
 times = 1
