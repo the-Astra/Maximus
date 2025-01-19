@@ -688,7 +688,7 @@ SMODS.Joker { -- Microwave
         -- Thank you to theonegoodali from the Balatro Discord for helping me with this conditional
         if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
             for i = 1, #food_jokers do
-                if G.localization.descriptions.Joker[context.other_card.config.center.key].name == food_jokers[i].name and food_jokers[i].name ~= 'Leftovers' then
+                if context.other_card.config.center.key == food_jokers[i].key and food_jokers[i].name ~= 'Leftovers' then
                     return {
                         message = localize('k_again_ex'),
                         repetitions = 1,
@@ -696,6 +696,7 @@ SMODS.Joker { -- Microwave
                     }
                 end
             end
+            sendDebugMessage(context.other_card.config.center.key..' is not applicable to Microwave','MaximusDebug')
         end
     end
 }
@@ -1932,7 +1933,7 @@ SMODS.Joker { -- Unpleasant Gradient
             for i = 1, #context.scoring_hand do
                 local percent = 1.15 - (i - 0.999) / (#context.scoring_hand - 0.998) * 0.3
                 G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
+                    trigger = 'before',
                     delay = 0.15,
                     func = function()
                         local other_card = context.scoring_hand[i]
