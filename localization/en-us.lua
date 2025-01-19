@@ -23,7 +23,7 @@ return {
                 name="Sixth Sense",
                 text={
                     "If {C:attention}first hand{} of round is",
-                    "#1# {C:attention}Six(es){}, destroy the card(s)",
+                    "at most #1# {C:attention}Six(es){}, destroy the card(s)",
                     "and create a {C:spectral}Spectral{} card",
                     "{C:inactive}(Must have room)",
                 },
