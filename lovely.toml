@@ -1696,8 +1696,15 @@ position = "at"
 payload = '''
 if polled_rate > check_rate and polled_rate <= check_rate + v.val then
     local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
-    if card.ability.set == 'Joker' and next(SMODS.find_card('j_mxms_coupon')) and pseudorandom('cou' .. G.GAME.round_resets.ante, 1 * G.GAME.probabilities.normal, 10) == 10 then
-        card.cost = 0
+    local coupons = SMODS.find_card('j_mxms_coupon')
+    if card.ability.set == 'Joker' and next(coupons) then
+        for k, v in pairs(coupons) do
+            if pseudorandom('cou' .. G.GAME.round_resets.ante, 1 * G.GAME.probabilities.normal, 10) == 10 then
+                card.cost = 0
+                v:juice_up(0.3, 0.4)
+                break
+            end
+        end
     end
 '''
 match_indent = true
