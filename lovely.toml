@@ -20,12 +20,13 @@ times = 1
 
     # Add modifier to definitions
 [[patches]]
-[patches.regex]
-target = "functions/common_events.lua"
-pattern = "(cfg.choose)"
-position = "after"
-payload = " + G.GAME.choose_mod"
-times = 15
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = 'vars = { cfg.choose, cfg.extra },'
+position = "at"
+payload = 'vars = { cfg.choose + G.GAME.choose_mod, cfg.extra },'
+match_indent = true
+timer = 1
 
 
 
