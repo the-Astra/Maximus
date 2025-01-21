@@ -20,12 +20,13 @@ times = 1
 
     # Add modifier to definitions
 [[patches]]
-[patches.regex]
-target = "functions/common_events.lua"
-pattern = "(cfg.choose)"
-position = "after"
-payload = " + G.GAME.choose_mod"
-times = 15
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = 'vars = { cfg.choose, cfg.extra },'
+position = "at"
+payload = 'vars = { cfg.choose + G.GAME.choose_mod, cfg.extra },'
+match_indent = true
+timer = 1
 
 
 
@@ -84,7 +85,22 @@ end
 match_indent = true
 times = 2
 
-
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if next(find_joker('Smeared Joker')) and (self.base.suit == 'Hearts' or self.base.suit == 'Diamonds') == (suit == 'Hearts' or suit == 'Diamonds') then
+    return true
+end
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_card('j_mxms_faded')) and next(find_joker('Smeared Joker')) then
+    return true
+end
+'''
+match_indent = true
+times = 2
 
 
 
@@ -219,7 +235,37 @@ match_indent = true
 times = 1
 
 
+    #Change limits for Grim, Incantation, and Familiar
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+local function random_destroy(used_tarot)
+    local destroyed_cards = {}
+    destroyed_cards[#destroyed_cards + 1] = pseudorandom_element(G.hand.cards, pseudoseed('random_destroy'))
+'''
+position = "at"
+payload = '''
+local function random_destroy(used_tarot)
+    local destroyed_cards = {}
+    for i = 1, used_tarot.ability.destroy * G.GAME.war_mod do
+        destroyed_cards[#destroyed_cards + 1] = pseudorandom_element(G.hand.cards, pseudoseed('random_destroy'..i))
+    end
+'''
+match_indent = true
+times = 1
+
+
     #Change descriptions for Grim, Incantation, and Familiar
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra}"
+position = "at"
+payload = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra, cfg.destroy * G.GAME.war_mod}"
+match_indent = true
+times = 1
+
 [[patches]]
 [patches.pattern]
 target = "game.lua"
@@ -234,15 +280,6 @@ c_familiar=         {order = 1,    discovered = false, cost = 4, consumeable = t
 c_grim=             {order = 2,    discovered = false, cost = 4, consumeable = true, name = "Grim",     pos = {x=1,y=4}, set = "Spectral", config = {remove_card = true, extra = 2, destroy = 1}},
 c_incantation=      {order = 3,    discovered = false, cost = 4, consumeable = true, name = "Incantation", pos = {x=2,y=4}, set = "Spectral", config = {remove_card = true, extra = 4, destroy = 1}},
 '''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra}"
-position = "at"
-payload = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra, cfg.destroy * G.GAME.war_mod}"
 match_indent = true
 times = 1
 
@@ -566,18 +603,51 @@ G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
 '''
 position = "before"
 payload = '''
-if next(SMODS.find_card('j_mxms_pessimistic')) then
-    for k, v in pairs(G.jokers.cards) do
-        if v.config.center.key == 'j_mxms_pessimistic' then
-            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    v:juice_up(0.3, 0.4)
-                return true; end
-            }))
-            
-        end
+local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+if next(pessimistics) then
+    for k, v in pairs(pessimistics) do
+        v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                v:juice_up(0.3, 0.4)
+                return true;
+            end
+        }))
+    end
+end
+'''
+match_indent = true
+times = 1
+
+
+    # Add flag to Glass Card Break
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+for k, v in ipairs(cards_destroyed) do
+    if v.shattered then glass_shattered[#glass_shattered+1] = v end
+end
+'''
+position = "at"
+payload = '''
+local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+for k, v in ipairs(cards_destroyed) do
+    if v.shattered then 
+    glass_shattered[#glass_shattered+1] = v 
+    if next(pessimistics) then
+    for kk, vv in pairs(pessimistics) do
+        vv.ability.extra.mult = vv.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                vv:juice_up(0.3, 0.4)
+            return true; end
+        }))
+    end
+end
+
     end
 end
 '''
@@ -607,16 +677,15 @@ if pseudorandom('halu'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/
 position = "after"
 payload = '''
 elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-    for k, v in pairs(G.jokers.cards) do
-        if v.config.center.key == 'j_mxms_pessimistic' then
-            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    v:juice_up(0.3, 0.4)
-                return true; end
-            }))
-        end
+    local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+    for k, v in pairs(pessimistics) do
+        v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                v:juice_up(0.3, 0.4)
+            return true; end
+        }))
     end
 '''
 match_indent = true
@@ -632,17 +701,17 @@ if pseudorandom(self.ability.name == 'Cavendish' and 'cavendish' or 'gros_michel
 '''
 position = "after"
 payload = '''
-if next(SMODS.find_card('j_mxms_pessimistic')) then
-    for k, v in pairs(G.jokers.cards) do
-        if v.config.center.key == 'j_mxms_pessimistic' then
-            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    v:juice_up(0.3, 0.4)
-                return true; end
-            }))
-        end
+local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+if next(pessimistics) then
+    for k, v in pairs(pessimistics) do
+        v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra.odds - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                v:juice_up(0.3, 0.4)
+                return true;
+            end
+        }))
     end
 end
 '''
@@ -697,16 +766,15 @@ if (context.other_card:get_id() == 8) then
             card = self
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-        for k, v in pairs(G.jokers.cards) do
-            if v.config.center.key == 'j_mxms_pessimistic' then
-                v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        v:juice_up(0.3, 0.4)
-                    return true; end
-                }))
-            end
+    local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+        for k, v in pairs(pessimistics) do
+            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true; end
+            }))
         end
     end
 end
@@ -743,16 +811,15 @@ context.other_card:is_face() then
             card = self
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-        for k, v in pairs(G.jokers.cards) do
-            if v.config.center.key == 'j_mxms_pessimistic' then
-                v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        v:juice_up(0.3, 0.4)
-                    return true; end
-                }))
-            end
+        local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+        for k, v in pairs(pessimistics) do
+            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true; end
+            }))
         end
     end
 end
@@ -785,16 +852,15 @@ context.other_card:is_suit("Hearts") then
             card = self
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-        for k, v in pairs(G.jokers.cards) do
-            if v.config.center.key == 'j_mxms_pessimistic' then
-                v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        v:juice_up(0.3, 0.4)
-                    return true; end
-                }))
-            end
+        local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+        for k, v in pairs(pessimistics) do
+            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true; end
+            }))
         end
     end
 end
@@ -847,16 +913,15 @@ context.other_card:is_face() then
             }
         end
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-        for k, v in pairs(G.jokers.cards) do
-            if v.config.center.key == 'j_mxms_pessimistic' then
-                v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        v:juice_up(0.3, 0.4)
-                    return true; end
-                }))
-            end
+        local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+        for k, v in pairs(pessimistics) do
+            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true; end
+            }))
         end
     end
 end
@@ -888,16 +953,15 @@ if self.ability.name == 'Space Joker' then
             message = localize('k_level_up_ex')
         }
     elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-        for k, v in pairs(G.jokers.cards) do
-            if v.config.center.key == 'j_mxms_pessimistic' then
-                v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        v:juice_up(0.3, 0.4)
-                    return true; end
-                }))
-            end
+        local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+        for k, v in pairs(pessimistics) do
+            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true; end
+            }))
         end
     end
 end
@@ -1265,7 +1329,7 @@ match_indent = true
 times = 1
 
 
-    # Change Raise Fist interaction
+    # Change Raised Fist interaction
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -1274,7 +1338,7 @@ if temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i])
 '''
 position = "at"
 payload = '''
-if temp_ID >= (G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i])) or next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
+if (temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i])) or next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
 '''
 match_indent = true
 times = 1
@@ -1473,7 +1537,7 @@ times = 1
 
 
 
-# Add Random Encounter Functionality -----------------------------------------
+# Add mult bonus variable to card objects-----------------------------------------
 
     # Create card variable
 [[patches]]
@@ -1580,7 +1644,7 @@ function get_flush(hand)
   local ret = {}
   local four_fingers = next(find_joker('Four Fingers'))
   local suits = SMODS.Suit.obj_buffer
-if #hand < (5 - (four_fingers and 1 or 0)) then return ret else
+  if #hand < (5 - (four_fingers and 1 or 0)) then return ret else
 '''
 position = "at"
 payload = '''
@@ -1589,7 +1653,7 @@ function get_flush(hand)
   local four_fingers = next(find_joker('Four Fingers'))
   local virus = next(SMODS.find_card('j_mxms_virus'))
   local suits = SMODS.Suit.obj_buffer
-if #hand < (5 - (four_fingers and 1 or virus and 3 or 0)) then return ret else
+  if #hand < (5 - (four_fingers and 1 or virus and 3 or 0)) then return ret else
 '''
 match_indent = true
 times = 1
@@ -1652,8 +1716,15 @@ position = "at"
 payload = '''
 if polled_rate > check_rate and polled_rate <= check_rate + v.val then
     local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
-    if card.ability.set == 'Joker' and next(SMODS.find_card('j_mxms_coupon')) and pseudorandom('cou' .. G.GAME.round_resets.ante, 1 * G.GAME.probabilities.normal, 10) == 10 then
-        card.cost = 0
+    local coupons = SMODS.find_card('j_mxms_coupon')
+    if card.ability.set == 'Joker' and next(coupons) then
+        for k, v in pairs(coupons) do
+            if pseudorandom('cou' .. G.GAME.round_resets.ante, 1 * G.GAME.probabilities.normal, 10) == 10 then
+                card.cost = 0
+                v:juice_up(0.3, 0.4)
+                break
+            end
+        end
     end
 '''
 match_indent = true

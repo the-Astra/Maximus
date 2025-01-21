@@ -1,6 +1,10 @@
 -- Load config and save state
 Maximus_config = SMODS.current_mod.config
 
+--SMODS Optional Features
+SMODS.current_mod.optional_features = { retrigger_joker = true }
+
+
 -- Joker Sprite Atlases
 SMODS.Atlas { -- Main Joker Atlas
     key = 'Jokers',
@@ -15,6 +19,7 @@ SMODS.Atlas { -- 4D Joker Atlas
     px = 71,
     py = 95
 }
+
 
 -- Set new variables to init with game
 local igo = Game.init_game_object
@@ -45,6 +50,7 @@ Game.init_game_object = function(self)
     return ret
 end
 
+
 -- Sounds
 SMODS.Sound({
     key = 'perfect',
@@ -55,6 +61,7 @@ SMODS.Sound({
     key = 'eggsplosion',
     path = 'eggsplosion.ogg'
 })
+
 
 -- Repetition Calc hook for Combo Breaker card repetition tracking
 local rep_calc = SMODS.calculate_repetitions
@@ -104,6 +111,7 @@ food_jokers = { {
     key = 'j_mxms_leftovers',
     name = 'Leftovers'
 } }
+
 
 -- Variables that change every round
 function SMODS.current_mod.reset_game_globals(run_start)
@@ -210,7 +218,7 @@ end
 
 -- Ownership changes
 
-    -- Make Editions scale with Power Creep
+-- Make Editions scale with Power Creep
 SMODS.Edition:take_ownership('polychrome', {
     loc_vars = function(self)
         return { vars = { self.config.x_mult * G.GAME.creep_mod } }
@@ -219,7 +227,7 @@ SMODS.Edition:take_ownership('polychrome', {
         if context.post_joker or (context.main_scoring and context.cardarea == G.play) then
             return {
                 x_mult = card.edition.x_mult * G.GAME.creep_mod
-            }     
+            }
         end
     end
 })
@@ -232,7 +240,7 @@ SMODS.Edition:take_ownership('holo', {
         if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
             return {
                 mult = card.edition.mult * G.GAME.creep_mod
-            }     
+            }
         end
     end
 })
@@ -245,7 +253,7 @@ SMODS.Edition:take_ownership('foil', {
         if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
             return {
                 chips = card.edition.chips * G.GAME.creep_mod
-            }     
+            }
         end
     end
 })
@@ -366,10 +374,11 @@ SMODS.Joker { -- Fortune Cookie
 
                     -- Failed Roll
                 else
-                    for k, v in pairs(G.jokers.cards) do
-                        if v.config.center.key == 'j_mxms_pessimistic' then
+                    local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+                    if next(pessimistics) then
+                        for k, v in pairs(pessimistics) do
                             v.ability.extra.mult = v.ability.extra.mult +
-                                (self.ability.extra - G.GAME.probabilities.normal)
+                                (card.ability.extra.odds - card.ability.extra.chance * G.GAME.probabilities.normal) * G.GAME.soil_mod
                             G.E_MANAGER:add_event(Event({
                                 trigger = 'after',
                                 func = function()
@@ -379,6 +388,7 @@ SMODS.Joker { -- Fortune Cookie
                             }))
                         end
                     end
+
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
                         func = function()
@@ -605,7 +615,7 @@ SMODS.Joker { -- Abyss
                 local flip = pseudorandom(pseudoseed('aby' .. G.GAME.round_resets.ante), 1, 2)
 
                 -- Add negative edition to random held joker
-                if flip == 1 then
+                if flip == 1 and chosen_joker ~= nil then
                     card:juice_up(0.3, 0.4)
                     chosen_joker:set_edition({
                         negative = true
@@ -688,7 +698,7 @@ SMODS.Joker { -- Microwave
         -- Thank you to theonegoodali from the Balatro Discord for helping me with this conditional
         if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
             for i = 1, #food_jokers do
-                if G.localization.descriptions.Joker[context.other_card.config.center.key].name == food_jokers[i].name and food_jokers[i].name ~= 'Leftovers' then
+                if context.other_card.config.center.key == food_jokers[i].key and food_jokers[i].name ~= 'Leftovers' then
                     return {
                         message = localize('k_again_ex'),
                         repetitions = 1,
@@ -1009,21 +1019,23 @@ SMODS.Joker { -- Jobber
                     pseudorandom_element(eligible_jokers, pseudoseed('jobber' .. G.GAME.round_resets.ante)) or nil
 
                 -- Copy Joker and add to hand
-                local new_card = copy_card(chosen_joker, nil, nil, nil,
-                    chosen_joker.edition and chosen_joker.edition.negative)
-                new_card:start_materialize()
-                new_card:add_to_deck()
-                if new_card.edition and new_card.edition.negative then
-                    new_card:set_edition(nil, true)
+                if chosen_joker ~= nil then
+                    local new_card = copy_card(chosen_joker, nil, nil, nil,
+                        chosen_joker.edition and chosen_joker.edition.negative)
+                    new_card:start_materialize()
+                    new_card:add_to_deck()
+                    if new_card.edition and new_card.edition.negative then
+                        new_card:set_edition(nil, true)
+                    end
+                    G.jokers:emplace(new_card)
+                    return {
+                        extra = {
+                            message = 'Jobbed',
+                            colour = G.C.YELLOW
+                        },
+                        card = card
+                    }
                 end
-                G.jokers:emplace(new_card)
-                return {
-                    extra = {
-                        message = 'Jobbed',
-                        colour = G.C.YELLOW
-                    },
-                    card = card
-                }
             end
         end
     end
@@ -1424,39 +1436,30 @@ SMODS.Joker { -- Hopscotch
     end,
     calculate = function(self, card, context)
         if context.setting_blind and G.GAME.blind:get_type() ~= 'Boss' and not context.blueprint then
-            local chance_roll = pseudorandom(pseudoseed('hopscotch' .. G.GAME.round_resets.ante), G.GAME.probabilities.normal, 3)
+            local chance_roll = pseudorandom(pseudoseed('hopscotch' .. G.GAME.round_resets.ante),
+                G.GAME.probabilities.normal, 3)
             if chance_roll == 3 then
-                -- Code derived from G.FUNCS.skip_blind
                 local _tag = G.GAME.skip_tag
                 if _tag then
                     play_sound('generic1')
                     card:juice_up(0.3, 0.4)
                     add_tag(_tag.config.ref_table)
                     G.GAME.skip_tag = ''
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'immediate',
-                        func = function()
-                            delay(0.3)
-                            save_run()
-                            for i = 1, #G.GAME.tags do
-                                G.GAME.tags[i]:apply_to_run({
-                                    type = 'immediate'
-                                })
-                            end
-                            for i = 1, #G.GAME.tags do
-                                if G.GAME.tags[i]:apply_to_run({
-                                        type = 'new_blind_choice'
-                                    }) then
-                                    break
-                                end
-                            end
-                            return true
-                        end
-                    }))
                 end
             else
-                if next(SMODS.find_card('j_mxms_pessimistic')) then
-                    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (3 - G.GAME.probabilities.normal)
+                local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+                if next(pessimistics) then
+                    for k, v in pairs(pessimistics) do
+                        v.ability.extra.mult = v.ability.extra.mult +
+                            (3 - G.GAME.probabilities.normal) * G.GAME.soil_mod
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                v:juice_up(0.3, 0.4)
+                                return true;
+                            end
+                        }))
+                    end
                 end
                 G.E_MANAGER:add_event(Event({
                     trigger = 'before',
@@ -1588,13 +1591,15 @@ SMODS.Joker { -- Four-Leaf Clover
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
             -- Code derived from Midas Mask
             for k, v in ipairs(context.scoring_hand) do
-                v:set_ability(G.P_CENTERS.m_lucky, nil, true)
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        v:juice_up(0.3, 0.4)
-                        return true
-                    end
-                }))
+                if not v.edition then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            v:set_ability(G.P_CENTERS.m_lucky, nil, true)
+                            v:juice_up(0.3, 0.4)
+                            return true
+                        end
+                    }))
+                end
             end
 
             return {
@@ -1919,11 +1924,10 @@ SMODS.Joker { -- Unpleasant Gradient
     },
     rarity = 2,
     config = {},
-    blueprint_compat = true,
+    blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
-            card:juice_up(0.3, 0.4)
 
             -- Code derived from Sigil
             for i = 1, #context.scoring_hand do
@@ -1953,7 +1957,7 @@ SMODS.Joker { -- Unpleasant Gradient
                     end
                 }))
             end
-
+            delay(0.2)
             for i = 1, #context.scoring_hand do
                 local percent = 0.85 - (i - 0.999) / (#context.scoring_hand - 0.998) * 0.3
                 G.E_MANAGER:add_event(Event({
@@ -1968,7 +1972,7 @@ SMODS.Joker { -- Unpleasant Gradient
                     end
                 }))
             end
-
+            delay(0.5)
             return {
                 message = 'how Unpleasant',
                 colour = G.C.PURPLE,
@@ -2156,7 +2160,7 @@ SMODS.Joker { -- Coupon
     key = 'coupon',
     loc_txt = {
         name = 'Coupon',
-        text = { '{C:green}#1# in 30{} chance for shop', 'Jokers to be free' }
+        text = { '{C:green}#1# in 10{} chance for shop', 'Jokers to be free' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2191,21 +2195,21 @@ SMODS.Joker { -- Loony Joker
     },
     rarity = 1,
     config = {
-        t_mult = 10,
+        mult = 10,
         type = 'High Card'
     },
     blueprint_compat = true,
     cost = 3,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { center.ability.t_mult, center.ability.type }
+            vars = { center.ability.mult, center.ability.type }
         }
     end,
     calculate = function(self, card, context)
         if context.joker_main and context.scoring_name == 'High Card' then
             return {
-                mult_mod = card.ability.t_mult,
-                message = '+' .. card.ability.t_mult,
+                mult_mod = card.ability.mult,
+                message = '+' .. card.ability.mult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -2226,21 +2230,21 @@ SMODS.Joker { -- Lazy Joker
     },
     rarity = 1,
     config = {
-        t_chips = 40,
+        chips = 40,
         type = 'High Card'
     },
     blueprint_compat = true,
     cost = 3,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { center.ability.t_chips, center.ability.type }
+            vars = { center.ability.chips, center.ability.type }
         }
     end,
     calculate = function(self, card, context)
         if context.joker_main and context.scoring_name == 'High Card' then
             return {
-                chip_mod = card.ability.t_chips,
-                message = '+' .. card.ability.t_chips,
+                chip_mod = card.ability.chips,
+                message = '+' .. card.ability.chips,
                 colour = G.C.CHIPS,
                 card = card
             }
@@ -3011,7 +3015,7 @@ SMODS.Joker { -- Chihuahua
         end
 
         if context.cardarea == G.play and context.repetition and tostring(context.other_card.base.id) == card.ability.extra.least_id and not card.ability.extra.tie then
-            local reps 
+            local reps
             if card.ability.extra.least_count <= 10 then
                 reps = card.ability.extra.least_count
             else
@@ -3036,7 +3040,7 @@ SMODS.Joker { -- Ledger
     key = 'ledger',
     loc_txt = {
         name = 'Ledger',
-        text = { 'Every ante, one random', 'Joker becomes {C:dark_edition}negative{}' }
+        text = { 'At the end of every ante, one', 'random Joker becomes {C:dark_edition}Negative{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -3079,16 +3083,18 @@ SMODS.Joker { -- Ledger
 
                 -- Add negative edition to random held joker
 
-                chosen_joker:set_edition({
-                    negative = true
-                }, true)
-                return {
-                    extra = {
-                        message = 'Why so serious?',
-                        colour = G.C.PURPLE
-                    },
-                    card = card
-                }
+                if chosen_joker ~= nil then
+                    chosen_joker:set_edition({
+                        negative = true
+                    }, true)
+                    return {
+                        extra = {
+                            message = 'Why so serious?',
+                            colour = G.C.PURPLE
+                        },
+                        card = card
+                    }
+                end
             end
         end
     end
