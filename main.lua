@@ -2204,21 +2204,21 @@ SMODS.Joker { -- Loony Joker
     },
     rarity = 1,
     config = {
-        t_mult = 10,
+        mult = 10,
         type = 'High Card'
     },
     blueprint_compat = true,
     cost = 3,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { center.ability.t_mult, center.ability.type }
+            vars = { center.ability.mult, center.ability.type }
         }
     end,
     calculate = function(self, card, context)
         if context.joker_main and context.scoring_name == 'High Card' then
             return {
-                mult_mod = card.ability.t_mult,
-                message = '+' .. card.ability.t_mult,
+                mult_mod = card.ability.mult,
+                message = '+' .. card.ability.mult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -2239,21 +2239,21 @@ SMODS.Joker { -- Lazy Joker
     },
     rarity = 1,
     config = {
-        t_chips = 40,
+        chips = 40,
         type = 'High Card'
     },
     blueprint_compat = true,
     cost = 3,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { center.ability.t_chips, center.ability.type }
+            vars = { center.ability.chips, center.ability.type }
         }
     end,
     calculate = function(self, card, context)
         if context.joker_main and context.scoring_name == 'High Card' then
             return {
-                chip_mod = card.ability.t_chips,
-                message = '+' .. card.ability.t_chips,
+                chip_mod = card.ability.chips,
+                message = '+' .. card.ability.chips,
                 colour = G.C.CHIPS,
                 card = card
             }
