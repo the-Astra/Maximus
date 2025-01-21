@@ -249,7 +249,6 @@ local function random_destroy(used_tarot)
     local destroyed_cards = {}
     for i = 1, used_tarot.ability.destroy * G.GAME.war_mod do
         destroyed_cards[#destroyed_cards + 1] = pseudorandom_element(G.hand.cards, pseudoseed('random_destroy'..i))
-        sendDebugMessage("Destroyed card via consumeable","MaximusDebug")
     end
 '''
 match_indent = true

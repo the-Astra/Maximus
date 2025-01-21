@@ -1,6 +1,9 @@
 -- Load config and save state
 Maximus_config = SMODS.current_mod.config
 
+--SMODS Optional Features
+SMODS.current_mod.optional_features = { retrigger_joker = true }
+
 
 -- Joker Sprite Atlases
 SMODS.Atlas { -- Main Joker Atlas
@@ -701,7 +704,6 @@ SMODS.Joker { -- Microwave
                     }
                 end
             end
-            sendDebugMessage(context.other_card.config.center.key .. ' is not applicable to Microwave', 'MaximusDebug')
         end
     end
 }
