@@ -1437,33 +1437,12 @@ SMODS.Joker { -- Hopscotch
             local chance_roll = pseudorandom(pseudoseed('hopscotch' .. G.GAME.round_resets.ante),
                 G.GAME.probabilities.normal, 3)
             if chance_roll == 3 then
-                -- Code derived from G.FUNCS.skip_blind
                 local _tag = G.GAME.skip_tag
                 if _tag then
                     play_sound('generic1')
                     card:juice_up(0.3, 0.4)
                     add_tag(_tag.config.ref_table)
                     G.GAME.skip_tag = ''
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'immediate',
-                        func = function()
-                            delay(0.3)
-                            save_run()
-                            for i = 1, #G.GAME.tags do
-                                G.GAME.tags[i]:apply_to_run({
-                                    type = 'immediate'
-                                })
-                            end
-                            for i = 1, #G.GAME.tags do
-                                if G.GAME.tags[i]:apply_to_run({
-                                        type = 'new_blind_choice'
-                                    }) then
-                                    break
-                                end
-                            end
-                            return true
-                        end
-                    }))
                 end
             else
                 if next(SMODS.find_card('j_mxms_pessimistic')) then
