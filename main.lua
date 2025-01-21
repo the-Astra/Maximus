@@ -374,10 +374,11 @@ SMODS.Joker { -- Fortune Cookie
 
                     -- Failed Roll
                 else
-                    for k, v in pairs(G.jokers.cards) do
-                        if v.config.center.key == 'j_mxms_pessimistic' then
+                    local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+                    if next(pessimistics) then
+                        for k, v in pairs(pessimistics) do
                             v.ability.extra.mult = v.ability.extra.mult +
-                                (self.ability.extra - G.GAME.probabilities.normal)
+                                (card.ability.extra.odds - card.ability.extra.chance * G.GAME.probabilities.normal) * G.GAME.soil_mod
                             G.E_MANAGER:add_event(Event({
                                 trigger = 'after',
                                 func = function()
@@ -387,6 +388,7 @@ SMODS.Joker { -- Fortune Cookie
                             }))
                         end
                     end
+
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
                         func = function()
@@ -1445,8 +1447,19 @@ SMODS.Joker { -- Hopscotch
                     G.GAME.skip_tag = ''
                 end
             else
-                if next(SMODS.find_card('j_mxms_pessimistic')) then
-                    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (3 - G.GAME.probabilities.normal)
+                local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+                if next(pessimistics) then
+                    for k, v in pairs(pessimistics) do
+                        v.ability.extra.mult = v.ability.extra.mult +
+                            (3 - G.GAME.probabilities.normal) * G.GAME.soil_mod
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                v:juice_up(0.3, 0.4)
+                                return true;
+                            end
+                        }))
+                    end
                 end
                 G.E_MANAGER:add_event(Event({
                     trigger = 'before',
