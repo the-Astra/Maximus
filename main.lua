@@ -1,6 +1,7 @@
 -- Load config and save state
 Maximus_config = SMODS.current_mod.config
 
+
 -- Joker Sprite Atlases
 SMODS.Atlas { -- Main Joker Atlas
     key = 'Jokers',
@@ -15,6 +16,7 @@ SMODS.Atlas { -- 4D Joker Atlas
     px = 71,
     py = 95
 }
+
 
 -- Set new variables to init with game
 local igo = Game.init_game_object
@@ -45,6 +47,7 @@ Game.init_game_object = function(self)
     return ret
 end
 
+
 -- Sounds
 SMODS.Sound({
     key = 'perfect',
@@ -55,6 +58,7 @@ SMODS.Sound({
     key = 'eggsplosion',
     path = 'eggsplosion.ogg'
 })
+
 
 -- Repetition Calc hook for Combo Breaker card repetition tracking
 local rep_calc = SMODS.calculate_repetitions
@@ -104,6 +108,7 @@ food_jokers = { {
     key = 'j_mxms_leftovers',
     name = 'Leftovers'
 } }
+
 
 -- Variables that change every round
 function SMODS.current_mod.reset_game_globals(run_start)
@@ -605,7 +610,7 @@ SMODS.Joker { -- Abyss
                 local flip = pseudorandom(pseudoseed('aby' .. G.GAME.round_resets.ante), 1, 2)
 
                 -- Add negative edition to random held joker
-                if flip == 1 then
+                if flip == 1 and chosen_joker ~= nil then
                     card:juice_up(0.3, 0.4)
                     chosen_joker:set_edition({
                         negative = true
@@ -696,7 +701,7 @@ SMODS.Joker { -- Microwave
                     }
                 end
             end
-            sendDebugMessage(context.other_card.config.center.key..' is not applicable to Microwave','MaximusDebug')
+            sendDebugMessage(context.other_card.config.center.key .. ' is not applicable to Microwave', 'MaximusDebug')
         end
     end
 }
@@ -1010,21 +1015,23 @@ SMODS.Joker { -- Jobber
                     pseudorandom_element(eligible_jokers, pseudoseed('jobber' .. G.GAME.round_resets.ante)) or nil
 
                 -- Copy Joker and add to hand
-                local new_card = copy_card(chosen_joker, nil, nil, nil,
-                    chosen_joker.edition and chosen_joker.edition.negative)
-                new_card:start_materialize()
-                new_card:add_to_deck()
-                if new_card.edition and new_card.edition.negative then
-                    new_card:set_edition(nil, true)
+                if chosen_joker ~= nil then
+                    local new_card = copy_card(chosen_joker, nil, nil, nil,
+                        chosen_joker.edition and chosen_joker.edition.negative)
+                    new_card:start_materialize()
+                    new_card:add_to_deck()
+                    if new_card.edition and new_card.edition.negative then
+                        new_card:set_edition(nil, true)
+                    end
+                    G.jokers:emplace(new_card)
+                    return {
+                        extra = {
+                            message = 'Jobbed',
+                            colour = G.C.YELLOW
+                        },
+                        card = card
+                    }
                 end
-                G.jokers:emplace(new_card)
-                return {
-                    extra = {
-                        message = 'Jobbed',
-                        colour = G.C.YELLOW
-                    },
-                    card = card
-                }
             end
         end
     end
@@ -3083,16 +3090,18 @@ SMODS.Joker { -- Ledger
 
                 -- Add negative edition to random held joker
 
-                chosen_joker:set_edition({
-                    negative = true
-                }, true)
-                return {
-                    extra = {
-                        message = 'Why so serious?',
-                        colour = G.C.PURPLE
-                    },
-                    card = card
-                }
+                if chosen_joker ~= nil then
+                    chosen_joker:set_edition({
+                        negative = true
+                    }, true)
+                    return {
+                        extra = {
+                            message = 'Why so serious?',
+                            colour = G.C.PURPLE
+                        },
+                        card = card
+                    }
+                end
             end
         end
     end

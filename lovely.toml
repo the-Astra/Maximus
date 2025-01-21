@@ -234,7 +234,38 @@ match_indent = true
 times = 1
 
 
+    #Change limits for Grim, Incantation, and Familiar
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+local function random_destroy(used_tarot)
+    local destroyed_cards = {}
+    destroyed_cards[#destroyed_cards + 1] = pseudorandom_element(G.hand.cards, pseudoseed('random_destroy'))
+'''
+position = "at"
+payload = '''
+local function random_destroy(used_tarot)
+    local destroyed_cards = {}
+    for i = 1, used_tarot.ability.destroy * G.GAME.war_mod do
+        destroyed_cards[#destroyed_cards + 1] = pseudorandom_element(G.hand.cards, pseudoseed('random_destroy'..i))
+        sendDebugMessage("Destroyed card via consumeable","MaximusDebug")
+    end
+'''
+match_indent = true
+times = 1
+
+
     #Change descriptions for Grim, Incantation, and Familiar
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra}"
+position = "at"
+payload = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra, cfg.destroy * G.GAME.war_mod}"
+match_indent = true
+times = 1
+
 [[patches]]
 [patches.pattern]
 target = "game.lua"
@@ -249,15 +280,6 @@ c_familiar=         {order = 1,    discovered = false, cost = 4, consumeable = t
 c_grim=             {order = 2,    discovered = false, cost = 4, consumeable = true, name = "Grim",     pos = {x=1,y=4}, set = "Spectral", config = {remove_card = true, extra = 2, destroy = 1}},
 c_incantation=      {order = 3,    discovered = false, cost = 4, consumeable = true, name = "Incantation", pos = {x=2,y=4}, set = "Spectral", config = {remove_card = true, extra = 4, destroy = 1}},
 '''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra}"
-position = "at"
-payload = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra, cfg.destroy * G.GAME.war_mod}"
 match_indent = true
 times = 1
 
@@ -605,23 +627,28 @@ times = 1
 [patches.pattern]
 target = "functions/state_events.lua"
 pattern = '''
-if scoring_hand[i].ability.name == 'Glass Card' and not scoring_hand[i].debuff and pseudorandom('glass') < G.GAME.probabilities.normal/scoring_hand[i].ability.extra then 
-    destroyed = true
+for k, v in ipairs(cards_destroyed) do
+    if v.shattered then glass_shattered[#glass_shattered+1] = v end
+end
 '''
-position = "after"
+position = "at"
 payload = '''
-if next(SMODS.find_card('j_mxms_pessimistic')) then
-    for k, v in pairs(G.jokers.cards) do
-        if v.config.center.key == 'j_mxms_pessimistic' then
-            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    v:juice_up(0.3, 0.4)
-                return true; end
-            }))
-            
-        end
+local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+for k, v in ipairs(cards_destroyed) do
+    if v.shattered then 
+    glass_shattered[#glass_shattered+1] = v 
+    if next(pessimistics) then
+    for kk, vv in pairs(pessimistics) do
+        vv.ability.extra.mult = vv.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                vv:juice_up(0.3, 0.4)
+            return true; end
+        }))
+    end
+end
+
     end
 end
 '''
@@ -679,7 +706,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_pessimistic')) then
     for k, v in pairs(G.jokers.cards) do
         if v.config.center.key == 'j_mxms_pessimistic' then
-            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra.odds - G.GAME.probabilities.normal) * G.GAME.soil_mod)
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 func = function()
@@ -1517,7 +1544,7 @@ times = 1
 
 
 
-# Add Random Encounter Functionality -----------------------------------------
+# Add mult bonus variable to card objects-----------------------------------------
 
     # Create card variable
 [[patches]]
@@ -1624,7 +1651,7 @@ function get_flush(hand)
   local ret = {}
   local four_fingers = next(find_joker('Four Fingers'))
   local suits = SMODS.Suit.obj_buffer
-if #hand < (5 - (four_fingers and 1 or 0)) then return ret else
+  if #hand < (5 - (four_fingers and 1 or 0)) then return ret else
 '''
 position = "at"
 payload = '''
@@ -1633,7 +1660,7 @@ function get_flush(hand)
   local four_fingers = next(find_joker('Four Fingers'))
   local virus = next(SMODS.find_card('j_mxms_virus'))
   local suits = SMODS.Suit.obj_buffer
-if #hand < (5 - (four_fingers and 1 or virus and 3 or 0)) then return ret else
+  if #hand < (5 - (four_fingers and 1 or virus and 3 or 0)) then return ret else
 '''
 match_indent = true
 times = 1
