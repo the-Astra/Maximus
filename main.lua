@@ -374,10 +374,11 @@ SMODS.Joker { -- Fortune Cookie
 
                     -- Failed Roll
                 else
-                    for k, v in pairs(G.jokers.cards) do
-                        if v.config.center.key == 'j_mxms_pessimistic' then
+                    local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+                    if next(pessimistics) then
+                        for k, v in pairs(pessimistics) do
                             v.ability.extra.mult = v.ability.extra.mult +
-                                (self.ability.extra - G.GAME.probabilities.normal)
+                                (card.ability.extra.odds - card.ability.extra.chance * G.GAME.probabilities.normal) * G.GAME.soil_mod
                             G.E_MANAGER:add_event(Event({
                                 trigger = 'after',
                                 func = function()
@@ -387,6 +388,7 @@ SMODS.Joker { -- Fortune Cookie
                             }))
                         end
                     end
+
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
                         func = function()
@@ -1437,37 +1439,27 @@ SMODS.Joker { -- Hopscotch
             local chance_roll = pseudorandom(pseudoseed('hopscotch' .. G.GAME.round_resets.ante),
                 G.GAME.probabilities.normal, 3)
             if chance_roll == 3 then
-                -- Code derived from G.FUNCS.skip_blind
                 local _tag = G.GAME.skip_tag
                 if _tag then
                     play_sound('generic1')
                     card:juice_up(0.3, 0.4)
                     add_tag(_tag.config.ref_table)
                     G.GAME.skip_tag = ''
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'immediate',
-                        func = function()
-                            delay(0.3)
-                            save_run()
-                            for i = 1, #G.GAME.tags do
-                                G.GAME.tags[i]:apply_to_run({
-                                    type = 'immediate'
-                                })
-                            end
-                            for i = 1, #G.GAME.tags do
-                                if G.GAME.tags[i]:apply_to_run({
-                                        type = 'new_blind_choice'
-                                    }) then
-                                    break
-                                end
-                            end
-                            return true
-                        end
-                    }))
                 end
             else
-                if next(SMODS.find_card('j_mxms_pessimistic')) then
-                    G.GAME.pessimistic_mult = G.GAME.pessimistic_mult + (3 - G.GAME.probabilities.normal)
+                local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+                if next(pessimistics) then
+                    for k, v in pairs(pessimistics) do
+                        v.ability.extra.mult = v.ability.extra.mult +
+                            (3 - G.GAME.probabilities.normal) * G.GAME.soil_mod
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                v:juice_up(0.3, 0.4)
+                                return true;
+                            end
+                        }))
+                    end
                 end
                 G.E_MANAGER:add_event(Event({
                     trigger = 'before',
