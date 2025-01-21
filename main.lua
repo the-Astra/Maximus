@@ -1924,17 +1924,16 @@ SMODS.Joker { -- Unpleasant Gradient
     },
     rarity = 2,
     config = {},
-    blueprint_compat = true,
+    blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
-            card:juice_up(0.3, 0.4)
 
             -- Code derived from Sigil
             for i = 1, #context.scoring_hand do
                 local percent = 1.15 - (i - 0.999) / (#context.scoring_hand - 0.998) * 0.3
                 G.E_MANAGER:add_event(Event({
-                    trigger = 'before',
+                    trigger = 'after',
                     delay = 0.15,
                     func = function()
                         local other_card = context.scoring_hand[i]
@@ -1958,7 +1957,7 @@ SMODS.Joker { -- Unpleasant Gradient
                     end
                 }))
             end
-
+            delay(0.2)
             for i = 1, #context.scoring_hand do
                 local percent = 0.85 - (i - 0.999) / (#context.scoring_hand - 0.998) * 0.3
                 G.E_MANAGER:add_event(Event({
@@ -1973,7 +1972,7 @@ SMODS.Joker { -- Unpleasant Gradient
                     end
                 }))
             end
-
+            delay(0.5)
             return {
                 message = 'how Unpleasant',
                 colour = G.C.PURPLE,
