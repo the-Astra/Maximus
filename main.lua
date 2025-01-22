@@ -1073,7 +1073,7 @@ SMODS.Joker { -- Perspective
     key = 'perspective',
     loc_txt = {
         name = 'Perspective',
-        text = { '{C:attention}6\'s{} also count as {C:attention}9\'s{}', 'and vice-versa' }
+        text = { 'Jokers treat {C:attention}6\'s{} as {C:attention}9\'s{}', 'and vice-versa' }
     },
     atlas = 'Jokers',
     pos = {
