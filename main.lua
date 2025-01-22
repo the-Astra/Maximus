@@ -349,10 +349,11 @@ SMODS.Joker { -- Fortune Cookie
 
             -- Check if Consumables is full
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                
 
                 -- Successful roll
                 if (chance_roll >= chance_odds) then
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
                         func = function()
@@ -362,7 +363,7 @@ SMODS.Joker { -- Fortune Cookie
                             local new_card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'fco')
                             new_card:add_to_deck()
                             G.consumeables:emplace(new_card)
-                            G.GAME.consumeable_buffer = 0
+                            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
                             return true;
                         end
                     }))
