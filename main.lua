@@ -2021,19 +2021,8 @@ SMODS.Joker { -- Random Encounter
             local chance_roll = pseudorandom(pseudoseed('rand_enc' .. G.GAME.round_resets.ante),
                 card.ability.extra.chance * G.GAME.probabilities.normal, 4)
             if chance_roll == 4 then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'before',
-                    delay = 0.3,
-                    func = function()
-                        card:juice_up(0.3, 0.4)
-                        context.other_card:juice_up(0.3, 0.4)
-                        play_sound('tarot1')
-                        context.other_card.ability.mult_perma_bonus = context.other_card.ability.mult_perma_bonus or 0
-                        context.other_card.ability.mult_perma_bonus = context.other_card.ability.mult_perma_bonus + 1
-
-                        return true
-                    end
-                }))
+                context.other_card.ability.mult_perma_bonus = context.other_card.ability.mult_perma_bonus or 0
+                context.other_card.ability.mult_perma_bonus = context.other_card.ability.mult_perma_bonus + 1
                 return {
                     message = 'A random mult appears!',
                     colour = G.C.MULT,
@@ -2927,18 +2916,9 @@ SMODS.Joker { -- Soil Joker
         y = 6
     },
     rarity = 3,
-    config = {
-        extra = {
-            mult = 5
-        }
-    },
-    blueprint_compat = true,
+    config = {},
+    blueprint_compat = false,
     cost = 8,
-    loc_vars = function(self, info_queue, center)
-        return {
-            vars = { center.ability.extra.mult }
-        }
-    end,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.soil_mod = G.GAME.soil_mod * 2
     end,
