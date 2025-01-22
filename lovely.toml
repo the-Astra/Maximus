@@ -3,6 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
+# ------------------------------------------ JOKERS ------------------------------------------
 # Add Trick or Treak Functionality --------------------------------------
 
     # Apply modifier to pack choice
@@ -1918,67 +1919,6 @@ times = 1
 
 
 
-# Add new shop appearance gates -----------------------------------------
-
-    # Create modifier and tracker variables
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = '''
-elseif v.enhancement_gate then
-    add = nil
-    for kk, vv in pairs(G.playing_cards) do
-        if SMODS.has_enhancement(vv, v.enhancement_gate) then
-            add = true
-        end
-    end
-'''
-position = "after"
-payload = '''
-elseif v.enhancement_gate_set then
-    add = nil
-    for kk, vv in pairs(G.playing_cards) do
-        for kkk, vvv in pairs(v.enhancement_gate_set) do
-            if SMODS.has_enhancement(vv, vvv) then
-                add = true
-            end
-        end
-    end
-elseif v.edition_gate_set then
-    add = nil
-    for kk, vv in pairs(v.edition_gate_set) do
-        for kkk, vvv in pairs(G.playing_cards) do
-            if vvv.edition and vvv.edition.type == vv then
-                add = true
-            end
-        end
-        for kkk, vvv in ipairs(G.jokers) do
-            if vvv.edition and vvv.edition.type == vv then
-                add = true
-            end
-        end
-    end
-elseif v.seal_gate then
-    add = nil
-    for kk, vv in pairs(G.playing_cards) do
-        if v.seal then
-            add = true
-        end
-    end
-elseif v.joker_gate then
-    add = nil
-    if next(SMODS.find_card(v.joker_gate)) then
-        add = true
-    end
-'''
-match_indent = true
-times = 1
-
-
-
-
-
-
 # Add Soil Functionality (yes this really sucked to implement) -------------------------------------------------
 
     # Hook into Campfire
@@ -2513,6 +2453,110 @@ position = "at"
 payload = '''
 if self.ability.name == 'Green Joker' and not context.blueprint then
     self.ability.mult = self.ability.mult + (self.ability.extra.hand_add * G.GAME.soil_mod)
+'''
+match_indent = true
+times = 1
+
+
+
+
+
+
+# Add better Unpleasant Gradient compat with Flower Pot -------------------------------------------------
+
+    # Hook into Flower Pot
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Flower Pot' then
+    local suits = {
+        ['Hearts'] = 0,
+        ['Diamonds'] = 0,
+        ['Spades'] = 0,
+        ['Clubs'] = 0
+    }
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Flower Pot' then
+    local unpleasant = SMODS.find_card('j_mxms_unpleasant_gradient')
+    if next(unpleasant) then
+        if unpleasant[1].ability.extra.triggered then
+            return {
+                message = localize{type='variable',key='a_xmult',vars={self.ability.extra}},
+                Xmult_mod = self.ability.extra
+            }
+        end
+    end
+    local suits = {
+        ['Hearts'] = 0,
+        ['Diamonds'] = 0,
+        ['Spades'] = 0,
+        ['Clubs'] = 0
+    }
+'''
+match_indent = true
+times = 1
+
+
+
+
+
+
+# ------------------------------------------ NEW LOGIC ------------------------------------------
+# Add new shop appearance gates -----------------------------------------
+
+    # Create modifier and tracker variables
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+elseif v.enhancement_gate then
+    add = nil
+    for kk, vv in pairs(G.playing_cards) do
+        if SMODS.has_enhancement(vv, v.enhancement_gate) then
+            add = true
+        end
+    end
+'''
+position = "after"
+payload = '''
+elseif v.enhancement_gate_set then
+    add = nil
+    for kk, vv in pairs(G.playing_cards) do
+        for kkk, vvv in pairs(v.enhancement_gate_set) do
+            if SMODS.has_enhancement(vv, vvv) then
+                add = true
+            end
+        end
+    end
+elseif v.edition_gate_set then
+    add = nil
+    for kk, vv in pairs(v.edition_gate_set) do
+        for kkk, vvv in pairs(G.playing_cards) do
+            if vvv.edition and vvv.edition.type == vv then
+                add = true
+            end
+        end
+        for kkk, vvv in ipairs(G.jokers) do
+            if vvv.edition and vvv.edition.type == vv then
+                add = true
+            end
+        end
+    end
+elseif v.seal_gate then
+    add = nil
+    for kk, vv in pairs(G.playing_cards) do
+        if v.seal then
+            add = true
+        end
+    end
+elseif v.joker_gate then
+    add = nil
+    if next(SMODS.find_card(v.joker_gate)) then
+        add = true
+    end
 '''
 match_indent = true
 times = 1

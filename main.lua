@@ -1923,7 +1923,11 @@ SMODS.Joker { -- Unpleasant Gradient
         y = 3
     },
     rarity = 2,
-    config = {},
+    config = {
+        extra = {
+            triggered = false
+        }
+    },
     blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
@@ -1973,12 +1977,18 @@ SMODS.Joker { -- Unpleasant Gradient
                 }))
             end
             delay(0.5)
+            card.ability.extra.triggered = true
             return {
                 message = 'how Unpleasant',
                 colour = G.C.PURPLE,
                 card = card
             }
         end
+
+        if context.after and card.ability.extra.triggered then
+            card.ability.extra.triggered = false
+        end
+
     end
 }
 
