@@ -1866,6 +1866,7 @@ SMODS.Joker { -- Man in the Mirror
         y = 3
     },
     blueprint_compat = false,
+    eternal_compat = false,
     cost = 8,
     rarity = 2,
     config = {},
