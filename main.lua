@@ -2796,8 +2796,10 @@ SMODS.Joker { -- Zombie
     cost = 8,
     loc_vars = function(self, info_queue, center)
         if G.GAME.current_round.zombie_target ~= nil then
+            local copied_key = G.GAME.current_round.zombie_target.config.center.key
+            info_queue[#info_queue + 1] = G.P_CENTERS[copied_key]
             return {
-                vars = { G.localization.descriptions.Joker[G.GAME.current_round.zombie_target.config.center.key].name }
+                vars = { G.localization.descriptions.Joker[copied_key].name }
             }
         else
             return {
@@ -3110,8 +3112,10 @@ SMODS.Joker { -- Bootleg
     cost = 3,
     loc_vars = function(self, info_queue, center)
         if center.ability.extra.copied_card ~= nil then
+            local copied_key = center.ability.extra.copied_card.config.center.key
+            info_queue[#info_queue + 1] = G.P_CENTERS[copied_key]
             return {
-                vars = { G.localization.descriptions.Joker[center.ability.extra.copied_card.config.center.key].name }
+                vars = { G.localization.descriptions.Joker[copied_key].name }
             }
         else
             return {
