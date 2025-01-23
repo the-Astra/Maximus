@@ -349,8 +349,6 @@ SMODS.Joker { -- Fortune Cookie
 
             -- Check if Consumables is full
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                
-
                 -- Successful roll
                 if (chance_roll >= chance_odds) then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
@@ -379,7 +377,8 @@ SMODS.Joker { -- Fortune Cookie
                     if next(pessimistics) then
                         for k, v in pairs(pessimistics) do
                             v.ability.extra.mult = v.ability.extra.mult +
-                                (card.ability.extra.odds - card.ability.extra.chance * G.GAME.probabilities.normal) * G.GAME.soil_mod
+                                (card.ability.extra.odds - card.ability.extra.chance * G.GAME.probabilities.normal) *
+                                G.GAME.soil_mod
                             G.E_MANAGER:add_event(Event({
                                 trigger = 'after',
                                 func = function()
@@ -1934,7 +1933,6 @@ SMODS.Joker { -- Unpleasant Gradient
     cost = 5,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
-
             -- Code derived from Sigil
             for i = 1, #context.scoring_hand do
                 local percent = 1.15 - (i - 0.999) / (#context.scoring_hand - 0.998) * 0.3
@@ -1990,7 +1988,6 @@ SMODS.Joker { -- Unpleasant Gradient
         if context.after and card.ability.extra.triggered then
             card.ability.extra.triggered = false
         end
-
     end
 }
 
@@ -3088,6 +3085,58 @@ SMODS.Joker { -- Ledger
                     }
                 end
             end
+        end
+    end
+}
+
+SMODS.Joker { -- Bootleg
+    key = 'bootleg',
+    loc_txt = {
+        name = 'Bootleg',
+        text = { 'Copies the effect of the', '{C:attention}most recently purchased Joker', '{C:inactive}Current target: {C:red}#1#{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 3,
+        y = 6
+    },
+    rarity = 2,
+    config = {
+        extra = {
+            copied_card = nil
+        }
+    },
+    blueprint_compat = true,
+    cost = 3,
+    loc_vars = function(self, info_queue, center)
+        if center.ability.extra.copied_card ~= nil then
+            return {
+                vars = { G.localization.descriptions.Joker[center.ability.extra.copied_card.config.center.key].name }
+            }
+        else
+            return {
+                vars = { 'No valid target' }
+            }
+        end
+    end,
+    calculate = function(self, card, context)
+        if card.ability.extra.copied_card and not context.no_blueprint then
+            context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
+            context.blueprint_card = context.blueprint_card or card
+            local bootleg_target_ret = card.ability.extra.copied_card:calculate_joker(context)
+            context.blueprint = nil
+            local eff_card = context.blueprint_card or self
+            context.blueprint_card = nil
+            if bootleg_target_ret then
+                bootleg_target_ret.card = eff_card
+                bootleg_target_ret.colour = G.C.YELLOW
+                return bootleg_target_ret
+            end
+        end
+
+        if context.buying_card and context.card.config.center.blueprint_compat then
+            card.ability.extra.copied_card = context.card
+            card:juice_up(0.3, 0.4)
         end
     end
 }
