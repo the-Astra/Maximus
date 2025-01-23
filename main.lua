@@ -3102,7 +3102,7 @@ SMODS.Joker { -- Bootleg
         x = 3,
         y = 6
     },
-    rarity = 2,
+    rarity = 3,
     config = {
         extra = {
             copied_card = nil
