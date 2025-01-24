@@ -37,6 +37,7 @@ Game.init_game_object = function(self)
     ret.creep_mod = 1
     ret.soil_mod = 1
     ret.skip_tag = ''
+    ret.last_bought = nil
 
     --Rotating Modifiers
     ret.current_round.impractical_hand = 'High Card'
@@ -3095,7 +3096,7 @@ SMODS.Joker { -- Bootleg
     key = 'bootleg',
     loc_txt = {
         name = 'Bootleg',
-        text = { 'Copies the effect of the', '{C:attention}most recently purchased Joker', '{C:inactive}Current target: {C:red}#1#{}' }
+        text = { 'Copies the effect of the', '{C:attention}most recently purchased Joker', '{C:inactive}Current effect: {C:red}#1#{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -3103,31 +3104,27 @@ SMODS.Joker { -- Bootleg
         y = 6
     },
     rarity = 3,
-    config = {
-        extra = {
-            copied_card = nil
-        }
-    },
+    config = {},
     blueprint_compat = true,
     cost = 3,
     loc_vars = function(self, info_queue, center)
-        if center.ability.extra.copied_card ~= nil then
-            local copied_key = center.ability.extra.copied_card.config.center.key
+        if G.GAME.last_bought ~= nil then
+            local copied_key = G.GAME.last_bought.config.center.key
             info_queue[#info_queue + 1] = G.P_CENTERS[copied_key]
             return {
                 vars = { G.localization.descriptions.Joker[copied_key].name }
             }
         else
             return {
-                vars = { 'No valid target' }
+                vars = { 'None' }
             }
         end
     end,
     calculate = function(self, card, context)
-        if card.ability.extra.copied_card and not context.no_blueprint then
+        if G.GAME.last_bought and G.GAME.last_bought.config.center.key ~= "j_mxms_bootleg" and not context.no_blueprint then
             context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
             context.blueprint_card = context.blueprint_card or card
-            local bootleg_target_ret = card.ability.extra.copied_card:calculate_joker(context)
+            local bootleg_target_ret = G.GAME.last_bought:calculate_joker(context)
             context.blueprint = nil
             local eff_card = context.blueprint_card or self
             context.blueprint_card = nil
@@ -3139,8 +3136,13 @@ SMODS.Joker { -- Bootleg
         end
 
         if context.buying_card and context.card.config.center.blueprint_compat then
-            card.ability.extra.copied_card = context.card
+            G.GAME.last_bought = context.card
             card:juice_up(0.3, 0.4)
+        end
+    end,
+    remove_from_deck = function(self, card, context)
+        if not next(SMODS.find_card('j_mxms_bootleg')) then
+            G.GAME.last_bought = nil
         end
     end
 }
