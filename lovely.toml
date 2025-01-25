@@ -591,7 +591,7 @@ times = 1
 
 
 
-# Add Pessimistic Functionality (including Soil Joker mods since Pessimistic scales ) ----------------------------------------
+# Add Pessimistic Functionality (including Soil Joker and Group Chat mods since Pessimistic scales ) ----------------------------------------
 
     # Add flag to Wheel of Fortune
 [[patches]]
@@ -612,6 +612,13 @@ if next(pessimistics) then
             trigger = 'after',
             func = function()
                 v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true;
             end
         }))
@@ -644,6 +651,13 @@ for k, v in ipairs(cards_destroyed) do
             trigger = 'after',
             func = function()
                 vv:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kkk, vvv in pairs(groupchats) do
+                        vvv.ability.extra.chips = vvv.ability.extra.chips + 2
+                        vvv:juice_up(0.3, 0.4)
+                    end
+                end
             return true; end
         }))
     end
@@ -685,6 +699,13 @@ elseif next(SMODS.find_card('j_mxms_pessimistic')) then
             trigger = 'after',
             func = function()
                 v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
             return true; end
         }))
     end
@@ -710,6 +731,13 @@ if next(pessimistics) then
             trigger = 'after',
             func = function()
                 v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true;
             end
         }))
@@ -774,6 +802,13 @@ if (context.other_card:get_id() == 8) then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true; end
             }))
         end
@@ -819,6 +854,13 @@ context.other_card:is_face() then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true; end
             }))
         end
@@ -860,6 +902,13 @@ context.other_card:is_suit("Hearts") then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true; end
             }))
         end
@@ -921,6 +970,13 @@ context.other_card:is_face() then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true; end
             }))
         end
@@ -961,6 +1017,13 @@ if self.ability.name == 'Space Joker' then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true; end
             }))
         end
@@ -1919,7 +1982,7 @@ times = 1
 
 
 
-# Add Soil Functionality (yes this really sucked to implement) -------------------------------------------------
+# Add Soil and Group Chat Functionality (yes this really sucked to implement) -------------------------------------------------
 
     # Hook into Campfire
 [[patches]]
@@ -1933,6 +1996,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Campfire' and not context.blueprint then
     self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -1950,6 +2020,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Flash Card' and not context.blueprint then
     self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -1967,6 +2044,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Red Card' and not context.blueprint then
     self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -1986,6 +2070,13 @@ payload = '''
 if self.ability.name == 'Hologram' and (not context.blueprint)
     and context.cards and context.cards[1] then
         self.ability.x_mult = self.ability.x_mult + (#context.cards*self.ability.extra*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2003,6 +2094,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Madness' and not context.blueprint and not context.blind.boss then
     self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2018,6 +2116,13 @@ self.ability.mult = self.ability.mult + sliced_card.sell_cost*2
 position = "at"
 payload = '''
 self.ability.mult = self.ability.mult + (sliced_card.sell_cost*2*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2033,6 +2138,13 @@ self.ability.caino_xmult = self.ability.caino_xmult + faces*self.ability.extra
 position = "at"
 payload = '''
 self.ability.caino_xmult = self.ability.caino_xmult + (faces*self.ability.extra*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2046,6 +2158,13 @@ self.ability.caino_xmult = self.ability.caino_xmult + face_cards*self.ability.ex
 position = "at"
 payload = '''
 self.ability.caino_xmult = self.ability.caino_xmult + (face_cards*self.ability.extra*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2061,6 +2180,13 @@ self.ability.x_mult = self.ability.x_mult + self.ability.extra*glasses
 position = "at"
 payload = '''
 self.ability.x_mult = self.ability.x_mult + (self.ability.extra*glasses*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2074,6 +2200,13 @@ self.ability.x_mult = self.ability.x_mult + self.ability.extra*glass_cards
 position = "at"
 payload = '''
 self.ability.x_mult = self.ability.x_mult + (self.ability.extra*glass_cards*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2087,6 +2220,13 @@ self.ability.x_mult = self.ability.x_mult + self.ability.extra*shattered_glass
 position = "at"
 payload = '''
 self.ability.x_mult = self.ability.x_mult + (self.ability.extra*shattered_glass*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2104,6 +2244,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Constellation' and not context.blueprint and context.consumeable.ability.set == 'Planet' then
     self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2125,6 +2272,13 @@ if self.ability.name == 'Yorick' and not context.blueprint then
     if self.ability.yorick_discards <= 1 then
         self.ability.yorick_discards = self.ability.extra.discards
         self.ability.x_mult = self.ability.x_mult + (self.ability.extra.xmult * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2142,6 +2296,13 @@ position = "at"
 payload = '''
 context.other_card:is_suit(G.GAME.current_round.castle_card.suit) and not context.blueprint then
     self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2163,6 +2324,13 @@ if self.ability.name == 'Hit the Road' and
 not context.other_card.debuff and
 context.other_card:get_id() == 11 and not context.blueprint then
     self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2180,6 +2348,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Rocket' and G.GAME.blind.boss then
     self.ability.extra.dollars = self.ability.extra.dollars + (self.ability.extra.increase * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2197,6 +2372,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Egg' then
     self.ability.extra_value = self.ability.extra_value + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2225,12 +2407,26 @@ payload = '''
 for k, v in ipairs(G.jokers.cards) do
     if v.set_cost then 
         v.ability.extra_value = (v.ability.extra_value or 0) + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
         v:set_cost()
     end
 end
 for k, v in ipairs(G.consumeables.cards) do
     if v.set_cost then 
         v.ability.extra_value = (v.ability.extra_value or 0) + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
         v:set_cost()
     end
 end
@@ -2251,6 +2447,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Lucky Cat' and context.other_card.lucky_trigger and not context.blueprint then
     self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2270,6 +2473,13 @@ payload = '''
 if self.ability.name == 'Wee Joker' and
     context.other_card:get_id() == 2 and not context.blueprint then
         self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2287,6 +2497,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Spare Trousers' and (next(context.poker_hands['Two Pair']) or next(context.poker_hands['Full House'])) and not context.blueprint then
     self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2304,6 +2521,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Square Joker' and #context.full_hand == 4 and not context.blueprint then
     self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2321,6 +2545,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Runner' and next(context.poker_hands['Straight']) and not context.blueprint then
     self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2338,6 +2569,13 @@ position = "at"
 payload = '''
 if #enhanced > 0 then 
     self.ability.x_mult = self.ability.x_mult + (self.ability.extra*#enhanced*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1
@@ -2384,6 +2622,13 @@ if self.ability.name == 'Ride the Bus' and not context.blueprint then
         end
     else
         self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
+        local groupchats = SMODS.find_card('j_mxms_group_chat')
+        if next(groupchats) then
+            for k, v in pairs(groupchats) do
+                v.ability.extra.chips = v.ability.extra.chips + 2
+                v:juice_up(0.3, 0.4)
+            end
+        end
     end
 '''
 match_indent = true
@@ -2435,6 +2680,13 @@ if self.ability.name == 'Obelisk' and not context.blueprint then
         end
     else
         self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+        local groupchats = SMODS.find_card('j_mxms_group_chat')
+        if next(groupchats) then
+            for k, v in pairs(groupchats) do
+                v.ability.extra.chips = v.ability.extra.chips + 2
+                v:juice_up(0.3, 0.4)
+            end
+        end
     end
 '''
 match_indent = true
@@ -2453,6 +2705,13 @@ position = "at"
 payload = '''
 if self.ability.name == 'Green Joker' and not context.blueprint then
     self.ability.mult = self.ability.mult + (self.ability.extra.hand_add * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
 '''
 match_indent = true
 times = 1

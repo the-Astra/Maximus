@@ -384,6 +384,13 @@ SMODS.Joker { -- Fortune Cookie
                                 trigger = 'after',
                                 func = function()
                                     v:juice_up(0.3, 0.4)
+                                    local groupchats = SMODS.find_card('j_mxms_group_chat')
+                                    if next(groupchats) then
+                                        for k, v in pairs(groupchats) do
+                                            v.ability.extra.chips = v.ability.extra.chips + 2
+                                            v:juice_up(0.3, 0.4)
+                                        end
+                                    end
                                     return true;
                                 end
                             }))
@@ -546,6 +553,13 @@ SMODS.Joker { -- Poindexter
                     delay = 0.3,
                     func = function()
                         card.ability.extra.Xmult = card.ability.extra.Xmult + ((glass * 0.25) * G.GAME.soil_mod)
+                        local groupchats = SMODS.find_card('j_mxms_group_chat')
+                        if next(groupchats) then
+                            for k, v in pairs(groupchats) do
+                                v.ability.extra.chips = v.ability.extra.chips + 2
+                                v:juice_up(0.3, 0.4)
+                            end
+                        end
                         card:juice_up(0.3, 0.4)
                         play_sound('tarot1')
                         return true;
@@ -947,6 +961,13 @@ SMODS.Joker { -- Streaker
                 card.ability.extra.streak = card.ability.extra.streak + 1
                 card.ability.extra.chips = 20 * card.ability.extra.streak * G.GAME.soil_mod
                 card.ability.extra.mult = 5 * card.ability.extra.streak * G.GAME.soil_mod
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for k, v in pairs(groupchats) do
+                        v.ability.extra.chips = v.ability.extra.chips + 2
+                        v:juice_up(0.3, 0.4)
+                    end
+                end
                 return {
                     message = 'Streak ' .. card.ability.extra.streak,
                     colour = G.C.CHIPS,
@@ -1453,6 +1474,13 @@ SMODS.Joker { -- Hopscotch
                     for k, v in pairs(pessimistics) do
                         v.ability.extra.mult = v.ability.extra.mult +
                             (3 - G.GAME.probabilities.normal) * G.GAME.soil_mod
+                        local groupchats = SMODS.find_card('j_mxms_group_chat')
+                        if next(groupchats) then
+                            for k, v in pairs(groupchats) do
+                                v.ability.extra.chips = v.ability.extra.chips + 2
+                                v:juice_up(0.3, 0.4)
+                            end
+                        end
                         G.E_MANAGER:add_event(Event({
                             trigger = 'after',
                             func = function()
@@ -1534,6 +1562,13 @@ SMODS.Joker { -- Bullseye
         if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and
             G.GAME.blind.chips == G.GAME.chips then
             card.ability.extra.chips = card.ability.extra.chips + ((100 * G.GAME.round) * G.GAME.soil_mod)
+            local groupchats = SMODS.find_card('j_mxms_group_chat')
+            if next(groupchats) then
+                for k, v in pairs(groupchats) do
+                    v.ability.extra.chips = v.ability.extra.chips + 2
+                    v:juice_up(0.3, 0.4)
+                end
+            end
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.CHIPS,
@@ -2365,6 +2400,13 @@ SMODS.Joker { -- Monk
             card:juice_up(0.3, 0.4)
             play_sound('tarot1')
             card.ability.extra.chips = card.ability.extra.chips + (25 * G.GAME.soil_mod)
+            local groupchats = SMODS.find_card('j_mxms_group_chat')
+            if next(groupchats) then
+                for k, v in pairs(groupchats) do
+                    v.ability.extra.chips = v.ability.extra.chips + 2
+                    v:juice_up(0.3, 0.4)
+                end
+            end
         end
 
         if context.setting_blind then
@@ -2511,6 +2553,13 @@ SMODS.Joker { -- Don't Mind if I Do
                             other_card:juice_up(0.3, 0.3)
                             other_card:set_seal(nil, nil, true)
                             card.ability.extra.Xmult = card.ability.extra.Xmult + (0.25 * G.GAME.soil_mod)
+                            local groupchats = SMODS.find_card('j_mxms_group_chat')
+                            if next(groupchats) then
+                                for k, v in pairs(groupchats) do
+                                    v.ability.extra.chips = v.ability.extra.chips + 2
+                                    v:juice_up(0.3, 0.4)
+                                end
+                            end
                             return true
                         end
                     }))
@@ -2776,6 +2825,13 @@ SMODS.Joker { -- Hedonist
             card:juice_up(0.3, 0.4)
             play_sound('tarot1')
             card.ability.extra.Xmult = card.ability.extra.Xmult + (0.5 * G.GAME.soil_mod)
+            local groupchats = SMODS.find_card('j_mxms_group_chat')
+            if next(groupchats) then
+                for k, v in pairs(groupchats) do
+                    v.ability.extra.chips = v.ability.extra.chips + 2
+                    v:juice_up(0.3, 0.4)
+                end
+            end
         end
     end
 }
@@ -3143,6 +3199,42 @@ SMODS.Joker { -- Bootleg
     remove_from_deck = function(self, card, context)
         if not next(SMODS.find_card('j_mxms_bootleg')) then
             G.GAME.last_bought = nil
+        end
+    end
+}
+
+SMODS.Joker { -- Group Chat
+    key = 'group_chat',
+    loc_txt = {
+        name = 'Group Chat',
+        text = { 'Gains {C:chips}+2{} Chips', 'whenever another Joker scales', '{C:inactive}Currently: {C:chips}+#1#' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 4,
+        y = 6
+    },
+    rarity = 3,
+    config = {
+        extra = {
+            chips = 0
+        }
+    },
+    blueprint_compat = false,
+    cost = 3,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.chips }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main and card.ability.extra.chips > 0 then
+            return {
+                chip_mod = card.ability.extra.chips,
+                message = '+'..card.ability.extra.chips,
+                colour = G.C.CHIPS,
+                card = card
+            }
         end
     end
 }
