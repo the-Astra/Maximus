@@ -708,6 +708,7 @@ SMODS.Joker { -- Microwave
     rarity = 2,
     config = {},
     blueprint_compat = true,
+    eternal_compat = false,
     cost = 6,
     calculate = function(self, card, context)
         -- Thank you to theonegoodali from the Balatro Discord for helping me with this conditional
@@ -3282,3 +3283,4 @@ SMODS.Joker { -- Minimalist
         end
     end
 }
+
