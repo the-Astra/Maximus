@@ -3191,7 +3191,7 @@ SMODS.Joker { -- Bootleg
             end
         end
 
-        if context.buying_card and context.card.config.center.blueprint_compat then
+        if context.buying_card and context.card.config.center.blueprint_compat and context.card ~= self then
             G.GAME.last_bought = context.card
             card:juice_up(0.3, 0.4)
         end
@@ -3214,7 +3214,7 @@ SMODS.Joker { -- Group Chat
         x = 4,
         y = 6
     },
-    rarity = 3,
+    rarity = 1,
     config = {
         extra = {
             chips = 0
@@ -3228,6 +3228,50 @@ SMODS.Joker { -- Group Chat
         }
     end,
     calculate = function(self, card, context)
+        if context.joker_main and card.ability.extra.chips > 0 then
+            return {
+                chip_mod = card.ability.extra.chips,
+                message = '+'..card.ability.extra.chips,
+                colour = G.C.CHIPS,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Minimalist
+    key = 'minimalist',
+    loc_txt = {
+        name = 'Minimalist',
+        text = { '{C:chips}+90{} Chips, {C:chips}-15{} for', 'every enhanced card in full deck', '{C:inactive}Currently: {C:chips}+#1#' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 5,
+        y = 6
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            chips = 90
+        }
+    },
+    blueprint_compat = false,
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.chips }
+        }
+    end,
+    calculate = function(self, card, context)
+
+        card.ability.extra.chips = 90
+        for k, v in pairs(G.playing_cards) do
+            if next(SMODS.get_enhancements(v)) and card.ability.extra.chips > 0 then
+                card.ability.extra.chips = card.ability.extra.chips - 15
+            end
+        end
+
         if context.joker_main and card.ability.extra.chips > 0 then
             return {
                 chip_mod = card.ability.extra.chips,
