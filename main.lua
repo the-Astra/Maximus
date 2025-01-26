@@ -1835,16 +1835,8 @@ SMODS.Joker { -- Dark Room
 
             local eligible_vouchers = {}
             for i = 1, #voucher_pool do
-                if voucher_pool[i] ~= 'UNAVAILABLE' and
-                    (voucher_pool[i] == 'v_overstock_plus' or voucher_pool[i] == 'v_liquidation' or voucher_pool[i] ==
-                        'v_glow_up' or voucher_pool[i] == 'v_reroll_glut' or voucher_pool[i] == 'v_omen_globe' or
-                        voucher_pool[i] == 'v_observatory' or voucher_pool[i] == 'v_nacho_tong' or voucher_pool[i] ==
-                        'v_recyclomancy' or voucher_pool[i] == 'v_tarot_tycoon' or voucher_pool[i] == 'v_planet_tycoon' or
-                        voucher_pool[i] == 'v_money_tree' or voucher_pool[i] == 'v_antimatter' or voucher_pool[i] ==
-                        'v_illusion' or voucher_pool[i] == 'v_petroglyph' or voucher_pool[i] == 'v_retcon' or
-                        voucher_pool[i] == 'v_palette') then
+                if voucher_pool[i] ~= 'UNAVAILABLE' and G.P_CENTERS[voucher_pool[i]].requires then
                     eligible_vouchers[#eligible_vouchers + 1] = voucher_pool[i]
-                    sendDebugMessage(voucher_pool[i] .. ' detected as eligible', 'MaximusDebug')
                 end
             end
 
@@ -3487,18 +3479,18 @@ SMODS.Joker { -- Gravity
                 { mult = 0, chips = 0, handname = '', level = '' })
             card.ability.extra.hands = card.ability.extra.hands - 1
 
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.9,
-                    func = function()
-                        if card.ability.extra.hands == 0 then
-                            card:start_dissolve({ G.C.RED }, nil, 1.6)
-                            card_eval_status_text(card, 'extra', nil, nil, nil,
-                                { message = 'Splat!', colour = G.C.RED })
-                        end
-                        return true
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.9,
+                func = function()
+                    if card.ability.extra.hands == 0 then
+                        card:start_dissolve({ G.C.RED }, nil, 1.6)
+                        card_eval_status_text(card, 'extra', nil, nil, nil,
+                            { message = 'Splat!', colour = G.C.RED })
                     end
-                }))
+                    return true
+                end
+            }))
         end
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -3575,7 +3567,8 @@ SMODS.Joker { -- Gravity
                     return true
                 end
             }))
-            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.9, delay = 0 }, { level = '-'..card.ability.extra.hands })
+            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.9, delay = 0 },
+                { level = '-' .. card.ability.extra.hands })
             delay(1.3)
             for k, v in pairs(G.GAME.hands) do
                 level_up_hand(self, k, true, -(card.ability.extra.hands))
