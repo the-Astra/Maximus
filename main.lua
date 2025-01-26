@@ -821,16 +821,20 @@ SMODS.Joker { -- Old Man Jimbo
         y = 1
     },
     rarity = 2,
-    config = {},
+    config = {
+        extra = {
+            Xmult = 0
+        }
+    },
     blueprint_compat = true,
     cost = 6,
 
     calculate = function(self, card, context)
         if context.joker_main then
-            local Xmult = 1 + (0.5 * G.GAME.current_round.hands_left)
+            card.ability.extra.Xmult = 1 + (0.5 * G.GAME.current_round.hands_left)
             return {
-                Xmult_mod = Xmult,
-                message = 'X' .. Xmult,
+                Xmult_mod = card.ability.extra.Xmult,
+                message = 'X' .. card.ability.extra.Xmult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -1176,6 +1180,7 @@ SMODS.Joker { -- Impractical Joker
     rarity = 2,
     config = {
         extra = {
+            Xmult = 3,
             fails = 0
         }
     },
@@ -1192,11 +1197,12 @@ SMODS.Joker { -- Impractical Joker
             if context.scoring_name == G.GAME.current_round.impractical_hand then
                 if not context.blueprint then
                     card.ability.extra.fails = 0
+                    card.ability.extra.Xmult = 3
                 end
 
                 return {
-                    message = 'x3',
-                    Xmult_mod = 3,
+                    message = 'X' .. card.ability.extra.Xmult,
+                    Xmult_mod = card.ability.extra.Xmult,
                     colour = G.C.MULT,
                     card = card
                 }
@@ -1217,9 +1223,10 @@ SMODS.Joker { -- Impractical Joker
 
                     -- If 3 fails
                 elseif card.ability.extra.fails == 3 then
+                    card.ability.extra.Xmult = 0.5
                     return {
                         message = 'Tonight\'s Biggest Loser',
-                        Xmult_mod = 0.5,
+                        Xmult_mod = card.ability.extra.Xmult,
                         colour = G.C.RED,
                         card = card
                     }
@@ -1663,7 +1670,11 @@ SMODS.Joker { -- Soyjoke
         y = 2
     },
     rarity = 2,
-    config = {},
+    config = {
+        extra = {
+            Xmult = 0
+        }
+    },
     blueprint_compat = true,
     cost = 8,
     loc_vars = function(self, info_queue, center)
@@ -1672,10 +1683,12 @@ SMODS.Joker { -- Soyjoke
         }
     end,
     calculate = function(self, card, context)
+        card.ability.extra.Xmult = G.GAME.soy_mod
+
         if context.joker_main and G.GAME.soy_mod > 1 then
             return {
-                Xmult_mod = G.GAME.soy_mod,
-                message = 'X' .. G.GAME.soy_mod,
+                Xmult_mod = card.ability.extra.Xmult,
+                message = 'X' .. card.ability.extra.Xmult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -2133,7 +2146,11 @@ SMODS.Joker { -- Bell Curve
         y = 3
     },
     rarity = 2,
-    config = {},
+    config = {
+        extra = {
+            Xmult = 3
+        }
+    },
     blueprint_compat = true,
     cost = 7,
     loc_vars = function(self, info_queue, center)
@@ -2147,10 +2164,10 @@ SMODS.Joker { -- Bell Curve
     end,
     calculate = function(self, card, context)
         if context.joker_main then
-            local Xmult = 2 * math.exp(-(((#G.playing_cards - 52) ^ 2) / 250)) + 1
+            card.ability.extra.Xmult = 2 * math.exp(-(((#G.playing_cards - 52) ^ 2) / 250)) + 1
             return {
-                Xmult_mod = Xmult,
-                message = 'X' .. Xmult,
+                Xmult_mod = card.ability.extra.Xmult,
+                message = 'X' .. card.ability.extra.Xmult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -3318,7 +3335,7 @@ SMODS.Joker { -- Endless Breadsticks
             if card.ability.extra.d_tally < card.ability.extra.d_requirement then
                 return {
                     delay = 0.2,
-                    message =  card.ability.extra.d_tally .. '/' .. card.ability.extra.d_requirement,
+                    message = card.ability.extra.d_tally .. '/' .. card.ability.extra.d_requirement,
                     colour = G.C.CHIPS,
                     card = card
                 }
@@ -3327,7 +3344,7 @@ SMODS.Joker { -- Endless Breadsticks
                 card.ability.extra.d_tally = 0
                 return {
                     delay = 0.2,
-                    message =  localize('k_upgrade_ex'),
+                    message = localize('k_upgrade_ex'),
                     colour = G.C.CHIPS,
                     card = card
                 }
@@ -3351,6 +3368,56 @@ SMODS.Joker { -- Endless Breadsticks
                 colour = G.C.CHIPS,
                 card = card
             }
+        end
+    end
+}
+
+SMODS.Joker { -- Glass Cannon
+    key = 'glass_cannon',
+    loc_txt = {
+        name = 'Glass Cannon',
+        text = { 'All Joker {X:mult,C:white}XMult{} is {C:attention}retriggered', '{C:attention}Shatters{} if blind isn\'t', 'beaten in 2 hands' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 6
+    },
+    rarity = 3,
+    config = {
+        extra = {
+            hands = 0
+        }
+    },
+    blueprint_compat = true,
+    eternal_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.other_ret
+            and context.retrigger_joker_check and not context.retrigger_joker
+            and (context.other_ret.jokers and (context.other_ret.jokers.Xmult or context.other_ret.jokers.Xmult_mod)) then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+
+        if context.after and not context.blueprint then
+            card.ability.extra.hands = card.ability.extra.hands + 1
+        end
+
+        if context.before and not context.blueprint and card.ability.extra.hands == 2 then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    card:shatter()
+                    return true
+                end
+            }))
+        end
+
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            card.ability.extra.hands = 0
         end
     end
 }
