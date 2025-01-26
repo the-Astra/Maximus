@@ -3419,22 +3419,27 @@ SMODS.Joker { -- Gravity
     key = 'gravity',
     loc_txt = {
         name = 'Gravity',
-        text = { 'All Joker {X:mult,C:white}XMult{} is {C:attention}retriggered', '{C:attention}Shatters{} if blind isn\'t', 'beaten in 2 hands' }
+        text = { '{C:attention}+#1#{} levels to all Poker hands', '{C:attention}-1{} level every round' }
     },
     atlas = 'Jokers',
     pos = {
         x = 8,
         y = 6
     },
-    rarity = 3,
+    rarity = 2,
     config = {
         extra = {
-            hands = 5
+            rounds = 5
         }
     },
     blueprint_compat = false,
     eternal_compat = false,
     cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.rounds }
+        }
+    end,
     calculate = function(self, card, context)
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
@@ -3477,13 +3482,13 @@ SMODS.Joker { -- Gravity
             end
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 1.1, delay = 0 },
                 { mult = 0, chips = 0, handname = '', level = '' })
-            card.ability.extra.hands = card.ability.extra.hands - 1
+            card.ability.extra.rounds = card.ability.extra.rounds - 1
 
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.9,
                 func = function()
-                    if card.ability.extra.hands == 0 then
+                    if card.ability.extra.rounds == 0 then
                         card:start_dissolve({ G.C.RED }, nil, 1.6)
                         card_eval_status_text(card, 'extra', nil, nil, nil,
                             { message = 'Splat!', colour = G.C.RED })
@@ -3568,10 +3573,10 @@ SMODS.Joker { -- Gravity
                 end
             }))
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.9, delay = 0 },
-                { level = '-' .. card.ability.extra.hands })
+                { level = '-' .. card.ability.extra.rounds })
             delay(1.3)
             for k, v in pairs(G.GAME.hands) do
-                level_up_hand(self, k, true, -(card.ability.extra.hands))
+                level_up_hand(self, k, true, -(card.ability.extra.rounds))
             end
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 1.1, delay = 0 },
                 { mult = 0, chips = 0, handname = '', level = '' })
