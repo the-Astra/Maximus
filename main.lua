@@ -3405,16 +3405,17 @@ SMODS.Joker { -- Glass Cannon
 
         if context.after and not context.blueprint then
             card.ability.extra.hands = card.ability.extra.hands + 1
-        end
-
-        if context.before and not context.blueprint and card.ability.extra.hands == 2 then
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    card:shatter()
+                    if card.ability.extra.hands == 2 and G.GAME.chips - G.GAME.blind.chips < 0 then
+                        sendDebugMessage(G.GAME.chips .. ' chips on break', 'MaximusDebug')
+                        card:shatter()
+                    end
                     return true
                 end
             }))
         end
+
 
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
             card.ability.extra.hands = 0
