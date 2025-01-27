@@ -3634,7 +3634,7 @@ SMODS.Joker { -- Stone Thrower
         x = 1,
         y = 9
     },
-    rarity = 1,
+    rarity = 2,
     config = {
         extra = {
             chips = 0
