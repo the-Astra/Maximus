@@ -643,26 +643,25 @@ payload = '''
 local pessimistics = SMODS.find_card('j_mxms_pessimistic')
 for k, v in ipairs(cards_destroyed) do
     if v.shattered then 
-    glass_shattered[#glass_shattered+1] = v 
-    if next(pessimistics) then
-    for kk, vv in pairs(pessimistics) do
-        vv.ability.extra.mult = vv.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            func = function()
-                vv:juice_up(0.3, 0.4)
-                local groupchats = SMODS.find_card('j_mxms_group_chat')
-                if next(groupchats) then
-                    for kkk, vvv in pairs(groupchats) do
-                        vvv.ability.extra.chips = vvv.ability.extra.chips + 2
-                        vvv:juice_up(0.3, 0.4)
-                    end
-                end
-            return true; end
-        }))
-    end
-end
-
+        glass_shattered[#glass_shattered+1] = v 
+            if next(pessimistics) then
+            for kk, vv in pairs(pessimistics) do
+                vv.ability.extra.mult = vv.ability.extra.mult + ((v.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    func = function()
+                        vv:juice_up(0.3, 0.4)
+                        local groupchats = SMODS.find_card('j_mxms_group_chat')
+                        if next(groupchats) then
+                            for kkk, vvv in pairs(groupchats) do
+                                vvv.ability.extra.chips = vvv.ability.extra.chips + 2
+                                vvv:juice_up(0.3, 0.4)
+                            end
+                        end
+                    return true; end
+                }))
+            end
+        end
     end
 end
 '''
