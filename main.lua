@@ -1684,7 +1684,7 @@ SMODS.Joker { -- Soyjoke
     key = 'soyjoke',
     loc_txt = {
         name = 'Soyjoke',
-        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X0.5{} Mult', 'every time a Joker', 'is repurchased' }
+        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X0.25{} Mult', 'every time a Joker', 'is repurchased' }
     },
     atlas = 'Jokers',
     pos = {

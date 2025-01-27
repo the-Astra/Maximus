@@ -1428,9 +1428,9 @@ times = 1
 
 
 
-# Add Soyjoke Functionality -----------------------------------------
+# Add Soyjoke and Clown Car Functionality -----------------------------------------
 
-    # Add joker to tracker or iterate modifier if already present (Clown Car functionality included)
+    # Add joker to tracker or iterate modifier if already present
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -1459,7 +1459,7 @@ if self.ability.set == 'Joker' then
     G.E_MANAGER:add_event(Event({func = function()
         for k, v in pairs(G.GAME.purchased_jokers) do
             if v == self.ability.name then
-                G.GAME.soy_mod = G.GAME.soy_mod + 0.5
+                G.GAME.soy_mod = G.GAME.soy_mod + 0.25
                 return true
             end
         end
