@@ -629,7 +629,7 @@ match_indent = true
 times = 1
 
 
-    # Add flag to Glass Card Break
+    # Add flag to Glass Card Break (Stone Thrower will not scale Pessimistic)
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
@@ -644,7 +644,7 @@ local pessimistics = SMODS.find_card('j_mxms_pessimistic')
 for k, v in ipairs(cards_destroyed) do
     if v.shattered then 
         glass_shattered[#glass_shattered+1] = v 
-            if next(pessimistics) then
+            if next(pessimistics) and not next(SMODS.find_card('j_mxms_stone_thrower')) then
             for kk, vv in pairs(pessimistics) do
                 vv.ability.extra.mult = vv.ability.extra.mult + ((v.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
                 G.E_MANAGER:add_event(Event({
@@ -2797,6 +2797,23 @@ end
 '''
 match_indent = true
 times = 1
+
+
+
+
+
+
+# Add Stone Thrower functionality
+
+    # Modify chances to guarantee break with Stone Thrower
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not card.debuff and pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) then'''
+position = "at"
+payload = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not card.debuff and (pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) or next(SMODS.find_card('j_mxms_stone_thrower'))) then'''
+match_indent = true
+timer = 1
 
 
 
