@@ -429,6 +429,48 @@ match_indent = true
 times = 1
 
 
+    #Hand detection functionality
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = '''
+function get_X_same(num, hand, or_more)
+  local vals = {}
+  for i = 1, SMODS.Rank.max_id.value do
+      vals[i] = {}
+  end
+  for i=#hand, 1, -1 do
+    local curr = {}
+    table.insert(curr, hand[i])
+    for j=1, #hand do
+      if hand[i]:get_id() == hand[j]:get_id() and i ~= j then
+        table.insert(curr, hand[j])
+      end
+    end
+'''
+position = "at"
+payload = '''
+function get_X_same(num, hand, or_more)
+  local vals = {}
+  local perspective = next(SMODS.find_card('j_mxms_perspective'))
+  for i = 1, SMODS.Rank.max_id.value do
+      vals[i] = {}
+  end
+  for i=#hand, 1, -1 do
+    local curr = {}
+    table.insert(curr, hand[i])
+    for j=1, #hand do
+      if perspective and hand[i]:get_id() == 9 and hand[j]:get_id() == 6 and i ~= j then
+        table.insert(curr, hand[j])
+      elseif hand[i]:get_id() == hand[j]:get_id() and i ~= j then
+        table.insert(curr, hand[j])
+      end
+    end
+'''
+match_indent = true
+times = 1
+
+
 
 
 
@@ -2753,47 +2795,6 @@ if self.ability.name == 'Flower Pot' then
         ['Spades'] = 0,
         ['Clubs'] = 0
     }
-'''
-match_indent = true
-times = 1
-
-
-
-
-
-
-# Add Fog functionality -------------------------------------------------
-
-    # Hook into 4oaK detection
-[[patches]]
-[patches.pattern]
-target = "functions/misc_functions.lua"
-pattern = '''
-if next(parts._4) then
-    results["Four of a Kind"] = parts._4
-    if not results.top then results.top = results["Four of a Kind"] end
-end
-'''
-position = "at"
-payload = '''
-if next(parts._4) then
-    if next(SMODS.find_card('j_mxms_fog')) then
-        results["Two Pair"] = parts._4
-    end
-    results["Four of a Kind"] = parts._4
-    if not results.top then results.top = results["Four of a Kind"] end
-end
-
-if #parts._2 == 2 and next(SMODS.find_card('j_mxms_fog')) then
-    local pair_1 = parts._2[1]
-    local pair_2 = parts._2[2]
-    sendDebugMessage(pair_1[1], 'MaximusDebug')
-    sendDebugMessage(pair_2[2], 'MaximusDebug')
-    if math.abs(pair_1[1] - pair_2[2]) == 1 or (pair_1[1] == 14 and pair_2[1] == 2) then
-        results["Four of a Kind"] = parts._2
-        if not results.top then results.top = results["Four of a Kind"] end
-    end
-end
 '''
 match_indent = true
 times = 1

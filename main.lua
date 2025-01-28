@@ -284,6 +284,14 @@ SMODS.PokerHand:take_ownership('Two Pair', {
     end
 })
 
+-- Change Full House to not interfere with Perspective
+SMODS.PokerHand:take_ownership('Full House', {
+    evaluate = function(parts, hand)
+        if #parts._3 < 1 or #parts._2 < 2 or #hand < 5 then return {} end
+        return parts._all_pairs
+    end
+})
+
 
 -- Update checks
 
@@ -1123,7 +1131,7 @@ SMODS.Joker { -- Perspective
     key = 'perspective',
     loc_txt = {
         name = 'Perspective',
-        text = { 'Jokers treat {C:attention}6\'s{} as {C:attention}9\'s{}', 'and vice-versa' }
+        text = { '{C:attention}6\'s{} are treated as {C:attention}9\'s{}', 'and vice-versa' }
     },
     atlas = 'Jokers',
     pos = {
