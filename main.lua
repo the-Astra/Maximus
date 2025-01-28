@@ -3673,7 +3673,7 @@ SMODS.Voucher { -- Launch Code
     key = 'launch_code',
     loc_txt = {
         name = 'Launch Code',
-        text = { '+#1# ante, +#2# hand and', '+#2# discard per round' }
+        text = { '{C:attention}+#1#{} ante, {C:blue}+#2#{} hand and', '{C:red}+#2#{} discard per round' }
     },
     config = {
         extra = {
@@ -3686,7 +3686,7 @@ SMODS.Voucher { -- Launch Code
             vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
         }
     end,
-    add_to_deck = function(self, card, from_debuff)
+    redeem = function(self, card, from_debuff)
         ease_ante(card.ability.extra.ante_mod)
         G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
         G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
@@ -3703,7 +3703,7 @@ SMODS.Voucher { -- Warp Drive
     key = 'warp_drive',
     loc_txt = {
         name = 'Warp Drive',
-        text = { '+#1# ante, +#2# hand and', '+#2# discard per round' }
+        text = { '{C:attention}+#1#{} ante, {C:blue}+#2#{} hand and', '{C:red}+#2#{} discard per round' }
     },
     config = {
         extra = {
@@ -3717,7 +3717,7 @@ SMODS.Voucher { -- Warp Drive
             vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
         }
     end,
-    add_to_deck = function(self, card, from_debuff)
+    redeem = function(self, card)
         ease_ante(card.ability.extra.ante_mod)
         G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
         G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
