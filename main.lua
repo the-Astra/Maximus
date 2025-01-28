@@ -331,8 +331,7 @@ function Game:update(dt)
     end
 end
 
--- Jokers
-
+----------------------------------------- JOKERS -----------------------------------------
 SMODS.Joker { -- Fortune Cookie
     key = 'fortune_cookie',
     loc_txt = {
@@ -3661,8 +3660,72 @@ SMODS.Joker { -- Stone Thrower
 
         if context.individual and context.cardarea == G.play and context.other_card.config.center == G.P_CENTERS.m_glass then
             card.ability.extra.chips = card.ability.extra.chips + 30
-            card_eval_status_text(card, 'extra', nil, nil, nil,{ message = localize('k_upgrade_ex'), colour = G.C.CHIPS })
-        end 
+            card_eval_status_text(card, 'extra', nil, nil, nil,
+                { message = localize('k_upgrade_ex'), colour = G.C.CHIPS })
+        end
+    end
+}
 
+
+--------------------------------------- VOUCHERS ---------------------------------------
+
+SMODS.Voucher { -- Launch Code
+    key = 'launch_code',
+    loc_txt = {
+        name = 'Launch Code',
+        text = { '+#1# ante, +#2# hand and', '+#2# discard per round' }
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end
+}
+
+SMODS.Voucher { -- Warp Drive
+    key = 'warp_drive',
+    loc_txt = {
+        name = 'Warp Drive',
+        text = { '+#1# ante, +#2# hand and', '+#2# discard per round' }
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 2
+        }
+    },
+    requires = { 'v_mxms_launch_code' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
     end
 }
