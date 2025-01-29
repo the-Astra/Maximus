@@ -360,9 +360,13 @@ SMODS.Consumable:take_ownership('ankh', {
             delay = 0.75,
             func = function()
                 for k, v in pairs(deletable_jokers) do
-                    if v ~= chosen_joker and pseudorandom('ankh') < (card.ability.extra.chance - G.GAME.v_destroy_reduction) / card.ability.extra.odds then
-                        v:start_dissolve(nil, _first_dissolve)
-                        _first_dissolve = true
+                    if v ~= chosen_joker then
+                        if pseudorandom('ankh') < (card.ability.extra.chance - G.GAME.v_destroy_reduction) / card.ability.extra.odds then
+                            v:start_dissolve(nil, _first_dissolve)
+                            _first_dissolve = true
+                        elseif not G.GAME.used_vouchers.v_mxms_guardian then
+                            card_eval_status_text(v, 'extra', nil, nil, nil, { message = localize('k_safe_ex') })
+                        end
                     end
                 end
                 return true
@@ -409,8 +413,12 @@ SMODS.Consumable:take_ownership('hex', {
                 check_for_unlock({ type = 'have_edition' })
                 local _first_dissolve = nil
                 for k, v in pairs(G.jokers.cards) do
-                    if v ~= eligible_card and (not v.ability.eternal) and pseudorandom('hex') < (card.ability.extra.chance - G.GAME.v_destroy_reduction) / card.ability.extra.odds then
-                        v:start_dissolve(nil, _first_dissolve); _first_dissolve = true
+                    if v ~= eligible_card and (not v.ability.eternal) then
+                        if pseudorandom('hex') < (card.ability.extra.chance - G.GAME.v_destroy_reduction) / card.ability.extra.odds then
+                            v:start_dissolve(nil, _first_dissolve); _first_dissolve = true
+                        elseif not G.GAME.used_vouchers.v_mxms_guardian then
+                            card_eval_status_text(v, 'extra', nil, nil, nil, { message = localize('k_safe_ex') })
+                        end
                     end
                 end
                 card:juice_up(0.3, 0.5)
