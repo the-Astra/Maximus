@@ -2814,14 +2814,14 @@ pattern = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not 
 position = "at"
 payload = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not card.debuff and (pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) or next(SMODS.find_card('j_mxms_stone_thrower'))) then'''
 match_indent = true
-timer = 1
-
+times = 1
 
 
 
 
 
 # ------------------------------------------ NEW LOGIC ------------------------------------------
+
 # Add new shop appearance gates -----------------------------------------
 
     # Create modifier and tracker variables

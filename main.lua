@@ -220,7 +220,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
     end
 end
 
--- Ownership changes
+--------------------------------------- OWNERSHIP CHANGES ---------------------------------------
 
 -- Make Editions scale with Power Creep
 SMODS.Edition:take_ownership('polychrome', {
@@ -289,6 +289,39 @@ SMODS.PokerHand:take_ownership('Full House', {
     evaluate = function(parts, hand)
         if #parts._3 < 1 or #parts._2 < 2 or #hand < 5 then return {} end
         return parts._all_pairs
+    end
+})
+
+-- Change Arcana Packs to include checks for Party Voucher
+SMODS.Booster:take_ownership_by_kind('Arcana', {
+    create_card = function(self, card, i)
+        local _card
+        if G.GAME.used_vouchers.v_mxms_party and i == 1 then
+            local suit_tallies = { ['Spades'] = 0, ['Hearts'] = 0, ['Clubs'] = 0, ['Diamonds'] = 0 }
+            for k, v in ipairs(G.playing_cards) do
+                suit_tallies[v.base.suit] = (suit_tallies[v.base.suit] or 0) + 1
+            end
+            local _tarot, _suit, _tally = nil, nil, 0
+            for k, v in pairs(suit_tallies) do
+                if v > _tally then
+                    _suit = k
+                    _tally = v
+                end
+            end
+            if _suit then
+                for k, v in pairs(G.P_CENTER_POOLS.Tarot) do
+                    if v.config.suit_conv == _suit then
+                        _tarot = v.key
+                    end
+                end
+            end
+            _card = { set = "Tarot", area = G.pack_cards, skip_materialize = true, soulable = true, key = _tarot, key_append = 'ar1' }
+        elseif G.GAME.used_vouchers.v_omen_globe and pseudorandom('omen_globe') > 0.8 then
+            _card = { set = "Spectral", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ar2" }
+        else
+            _card = { set = "Tarot", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ar1" }
+        end
+        return _card
     end
 })
 
@@ -3429,7 +3462,6 @@ SMODS.Joker { -- Glass Cannon
             G.E_MANAGER:add_event(Event({
                 func = function()
                     if card.ability.extra.hands == 2 and G.GAME.chips - G.GAME.blind.chips < 0 then
-                        sendDebugMessage(G.GAME.chips .. ' chips on break', 'MaximusDebug')
                         card:shatter()
                     end
                     return true
@@ -3736,4 +3768,42 @@ SMODS.Voucher { -- Warp Drive
         G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
         ease_discard(card.ability.extra.val_mod)
     end
+}
+
+SMODS.Voucher { -- Party Voucher
+    key = 'party',
+    loc_txt = {
+        name = 'Party Voucher',
+        text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
+    }
+}
+
+SMODS.Voucher { -- Executive Voucher
+    key = 'executive',
+    loc_txt = {
+        name = 'Executive Voucher',
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:red,C:white} X#1# {} Mult for each', '{C:attention}played card{} matching', 'its suit' }
+    },
+    config = {
+        extra = 1.5
+    },
+    requires = { 'v_mxms_party' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
+            local suit_tally = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit(context.other_consumeable.ability.consumeable.suit_conv, false) then
+                    suit_tally = suit_tally + 1
+                end
+            end
+            return {
+                x_mult = card.ability.extra * suit_tally
+            }
+        end
+    end,
 }
