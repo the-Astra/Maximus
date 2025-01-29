@@ -296,11 +296,11 @@ SMODS.PokerHand:take_ownership('Full House', {
     end
 })
 
--- Change Arcana Packs to include checks for Party Voucher
+-- Change Arcana Packs to include checks for Tailor
 SMODS.Booster:take_ownership_by_kind('Arcana', {
     create_card = function(self, card, i)
         local _card
-        if G.GAME.used_vouchers.v_mxms_party and i == 1 then
+        if G.GAME.used_vouchers.v_mxms_tailor and i == 1 then
             local suit_tallies = { ['Spades'] = 0, ['Hearts'] = 0, ['Clubs'] = 0, ['Diamonds'] = 0 }
             for k, v in ipairs(G.playing_cards) do
                 suit_tallies[v.base.suit] = (suit_tallies[v.base.suit] or 0) + 1
@@ -3876,24 +3876,24 @@ SMODS.Voucher { -- Warp Drive
     end
 }
 
-SMODS.Voucher { -- Party Voucher
-    key = 'party',
+SMODS.Voucher { -- Tailor
+    key = 'tailor',
     loc_txt = {
-        name = 'Party Voucher',
+        name = 'Tailor',
         text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
     }
 }
 
-SMODS.Voucher { -- Executive Voucher
-    key = 'executive',
+SMODS.Voucher { -- Gala
+    key = 'gala',
     loc_txt = {
-        name = 'Executive Voucher',
+        name = 'Gala',
         text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:red,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
     },
     config = {
         extra = 0.2
     },
-    requires = { 'v_mxms_party' },
+    requires = { 'v_mxms_tailor' },
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra }
