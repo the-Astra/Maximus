@@ -52,7 +52,7 @@ return {
                 name="Incantation",
                 text={
                     "Destroy {C:attention}#2#{} random",
-                    "card(s) in your hand, add",
+                    "card(s) in your hand, add {C:attention}#1#",
                     "random {C:attention}Enhanced numbered",
                     "{C:attention}cards{} to your hand",
                 },
