@@ -3782,10 +3782,10 @@ SMODS.Voucher { -- Executive Voucher
     key = 'executive',
     loc_txt = {
         name = 'Executive Voucher',
-        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:red,C:white} X#1# {} Mult for each', '{C:attention}played card{} matching', 'its suit' }
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:red,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
     },
     config = {
-        extra = 1.5
+        extra = 0.2
     },
     requires = { 'v_mxms_party' },
     loc_vars = function(self, info_queue, center)
@@ -3801,9 +3801,11 @@ SMODS.Voucher { -- Executive Voucher
                     suit_tally = suit_tally + 1
                 end
             end
-            return {
-                x_mult = card.ability.extra * suit_tally
-            }
+            if suit_tally > 0 then
+                return {
+                    x_mult = card.ability.extra * suit_tally + 1
+                }
+            end
         end
     end,
 }
