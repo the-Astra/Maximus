@@ -1807,7 +1807,7 @@ SMODS.Joker { -- Four-Leaf Clover
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
             -- Code derived from Midas Mask
             for k, v in ipairs(context.scoring_hand) do
-                if not v.edition then
+                if not v.edition and not v.debuff then
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             v:set_ability(G.P_CENTERS.m_lucky, nil, true)
