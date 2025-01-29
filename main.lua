@@ -1,11 +1,11 @@
--- Load config and save state
+-- Load config
 Maximus_config = SMODS.current_mod.config
 
---SMODS Optional Features
+--region SMODS Optional Features
 SMODS.current_mod.optional_features = { retrigger_joker = true }
+--endregion
 
-
--- Joker Sprite Atlases
+--region Atlases
 SMODS.Atlas { -- Main Joker Atlas
     key = 'Jokers',
     path = "Jokers.png",
@@ -19,9 +19,9 @@ SMODS.Atlas { -- 4D Joker Atlas
     px = 71,
     py = 95
 }
+--endregion
 
-
--- Set new variables to init with game
+--region Function Hooks
 local igo = Game.init_game_object
 Game.init_game_object = function(self)
     local ret = igo(self)
@@ -38,6 +38,7 @@ Game.init_game_object = function(self)
     ret.soil_mod = 1
     ret.skip_tag = ''
     ret.last_bought = nil
+    ret.v_destroy_reduction = 0
 
     --Rotating Modifiers
     ret.current_round.impractical_hand = 'High Card'
@@ -50,19 +51,6 @@ Game.init_game_object = function(self)
 
     return ret
 end
-
-
--- Sounds
-SMODS.Sound({
-    key = 'perfect',
-    path = 'perfect.ogg'
-})
-
-SMODS.Sound({
-    key = 'eggsplosion',
-    path = 'eggsplosion.ogg'
-})
-
 
 -- Repetition Calc hook for Combo Breaker card repetition tracking
 local rep_calc = SMODS.calculate_repetitions
@@ -77,7 +65,21 @@ function SMODS.calculate_repetitions(card, context, reps)
     return rep_return
 end
 
--- Misc Variables
+--endregion
+
+--region Sounds
+SMODS.Sound({
+    key = 'perfect',
+    path = 'perfect.ogg'
+})
+
+SMODS.Sound({
+    key = 'eggsplosion',
+    path = 'eggsplosion.ogg'
+})
+--endregion
+
+--region Misc Variables
 food_jokers = { {
     key = 'j_gros_michel',
     name = 'Gros Michel'
@@ -115,9 +117,9 @@ food_jokers = { {
     key = 'j_mxms_breadsticks',
     name = 'Endless Breadsticks'
 } }
+--endregion
 
-
--- Variables that change every round
+--region Round Changing Variables
 function SMODS.current_mod.reset_game_globals(run_start)
     -- Impractical Joker
     if not next(SMODS.find_card('j_mxms_stop_sign')) then
@@ -220,7 +222,9 @@ function SMODS.current_mod.reset_game_globals(run_start)
     end
 end
 
---------------------------------------- OWNERSHIP CHANGES ---------------------------------------
+--endregion
+
+--region Ownership Taking
 
 -- Make Editions scale with Power Creep
 SMODS.Edition:take_ownership('polychrome', {
@@ -315,7 +319,15 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
                     end
                 end
             end
-            _card = { set = "Tarot", area = G.pack_cards, skip_materialize = true, soulable = true, key = _tarot, key_append = 'ar1' }
+            _card = {
+                set = "Tarot",
+                area = G.pack_cards,
+                skip_materialize = true,
+                soulable = true,
+                key = _tarot,
+                key_append =
+                'ar1'
+            }
         elseif G.GAME.used_vouchers.v_omen_globe and pseudorandom('omen_globe') > 0.8 then
             _card = { set = "Spectral", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ar2" }
         else
@@ -325,8 +337,93 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
     end
 })
 
+-- Change Ankh and Hex to work with Insurance and Guardian Vouchers
+SMODS.Consumable:take_ownership('ankh', {
+    config = {
+        extra = {
+            chance = 2,
+            odds = 2,
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return { vars = { center.ability.extra.chance - G.GAME.v_destroy_reduction, center.ability.extra.odds } }
+    end,
+    use = function(self, card, area, copier)
+        local deletable_jokers = {}
+        for k, v in pairs(G.jokers.cards) do
+            if not v.ability.eternal then deletable_jokers[#deletable_jokers + 1] = v end
+        end
+        local chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('ankh_choice'))
+        local _first_dissolve = nil
+        G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            delay = 0.75,
+            func = function()
+                for k, v in pairs(deletable_jokers) do
+                    if v ~= chosen_joker and pseudorandom('ankh') < (card.ability.extra.chance - G.GAME.v_destroy_reduction) / card.ability.extra.odds then
+                        v:start_dissolve(nil, _first_dissolve)
+                        _first_dissolve = true
+                    end
+                end
+                return true
+            end
+        }))
+        G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            delay = 0.4,
+            func = function()
+                local card = copy_card(chosen_joker, nil, nil, nil,
+                    chosen_joker.edition and chosen_joker.edition.negative)
+                card:start_materialize()
+                card:add_to_deck()
+                if card.edition and card.edition.negative then
+                    card:set_edition(nil, true)
+                end
+                G.jokers:emplace(card)
+                return true
+            end
+        }))
+    end
+})
 
--- Update checks
+SMODS.Consumable:take_ownership('hex', {
+    config = {
+        extra = {
+            chance = 2,
+            odds = 2,
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return { vars = { center.ability.extra.chance - G.GAME.v_destroy_reduction, center.ability.extra.odds } }
+    end,
+    use = function(self, card, area, copier)
+        local temp_pool = card.eligible_editionless_jokers or {}
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                local over = false
+                local eligible_card = pseudorandom_element(temp_pool, pseudoseed('hex'))
+                local edition = { polychrome = true }
+                eligible_card:set_edition(edition, true)
+                check_for_unlock({ type = 'have_edition' })
+                local _first_dissolve = nil
+                for k, v in pairs(G.jokers.cards) do
+                    if v ~= eligible_card and (not v.ability.eternal) and pseudorandom('hex') < (card.ability.extra.chance - G.GAME.v_destroy_reduction) / card.ability.extra.odds then
+                        v:start_dissolve(nil, _first_dissolve); _first_dissolve = true
+                    end
+                end
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        delay(0.6)
+    end
+})
+
+--endregion
+
+--region Update Checks
 
 local upd = Game.update
 
@@ -372,7 +469,9 @@ function Game:update(dt)
     end
 end
 
------------------------------------------ JOKERS -----------------------------------------
+--endregion
+
+--region Jokers
 SMODS.Joker { -- Fortune Cookie
     key = 'fortune_cookie',
     loc_txt = {
@@ -3705,10 +3804,9 @@ SMODS.Joker { -- Stone Thrower
         end
     end
 }
+--endregion
 
-
---------------------------------------- VOUCHERS ---------------------------------------
-
+--region Vouchers
 SMODS.Voucher { -- Launch Code
     key = 'launch_code',
     loc_txt = {
@@ -3809,3 +3907,28 @@ SMODS.Voucher { -- Executive Voucher
         end
     end,
 }
+
+SMODS.Voucher { -- Insurance Voucher
+    key = 'insurance',
+    loc_txt = {
+        name = 'Insurance Voucher',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+    },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+SMODS.Voucher { -- Guardian Voucher
+    key = 'guardian',
+    loc_txt = {
+        name = 'Guardian Voucher',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'no longer do so' }
+    },
+    requires = { 'v_mxms_insurance' },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+--endregion

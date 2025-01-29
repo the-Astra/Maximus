@@ -30,6 +30,15 @@ return {
             },
         },
         Spectral = {
+            c_ankh={
+                name="Ankh",
+                text={
+                    "Create a copy of a",
+                    "random {C:attention}Joker{},",
+                    "{C:green}#1# in #2#{} chance to destroy",
+                    "each remaining Joker",
+                },
+            },
             c_familiar={
                 name="Familiar",
                 text={
@@ -46,6 +55,15 @@ return {
                     "card(s) in your hand, add",
                     "add {C:attention}#1#{} random {C:attention}Enhanced",
                     "{C:attention}Aces{} to your hand",
+                },
+            },
+            c_hex={
+                name="Hex",
+                text={
+                    "Add {C:dark_edition}Polychrome{} to a",
+                    "random {C:attention}Joker{},",
+                    "{C:green}#1# in #2#{} chance to destroy",
+                    "each remaining Joker",
                 },
             },
             c_incantation={
