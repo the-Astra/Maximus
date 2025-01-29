@@ -3819,7 +3819,7 @@ SMODS.Voucher { -- Launch Code
     key = 'launch_code',
     loc_txt = {
         name = 'Launch Code',
-        text = { '{C:attention}+#1#{} ante, {C:blue}+#2#{} hand and', '{C:red}+#2#{} discard per round' }
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
     },
     config = {
         extra = {
@@ -3849,7 +3849,7 @@ SMODS.Voucher { -- Warp Drive
     key = 'warp_drive',
     loc_txt = {
         name = 'Warp Drive',
-        text = { '{C:attention}+#1#{} ante, {C:blue}+#2#{} hand and', '{C:red}+#2#{} discard per round' }
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
     },
     config = {
         extra = {
@@ -3916,10 +3916,10 @@ SMODS.Voucher { -- Executive Voucher
     end,
 }
 
-SMODS.Voucher { -- Insurance Voucher
+SMODS.Voucher { -- Insurance
     key = 'insurance',
     loc_txt = {
-        name = 'Insurance Voucher',
+        name = 'Insurance',
         text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
     },
     redeem = function(self, card, from_debuff)
@@ -3927,11 +3927,11 @@ SMODS.Voucher { -- Insurance Voucher
     end
 }
 
-SMODS.Voucher { -- Guardian Voucher
+SMODS.Voucher { -- Guardian
     key = 'guardian',
     loc_txt = {
-        name = 'Guardian Voucher',
-        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'no longer do so' }
+        name = 'Guardian',
+        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
     },
     requires = { 'v_mxms_insurance' },
     redeem = function(self, card, from_debuff)
