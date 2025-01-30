@@ -116,6 +116,9 @@ food_jokers = { {
 }, {
     key = 'j_mxms_breadsticks',
     name = 'Endless Breadsticks'
+}, {
+    key = 'j_mxms_four_course_meal',
+    name = 'Four Course Meal'
 } }
 --endregion
 
