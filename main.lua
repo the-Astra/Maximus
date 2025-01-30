@@ -2975,7 +2975,7 @@ SMODS.Joker { -- Hedonist
     key = 'hedonist',
     loc_txt = {
         name = 'Hedonist',
-        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X0.5{} Mult', 'if shop is cleared out', 'when exiting' }
+        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X0.25{} Mult', 'if shop is cleared out', 'when exiting' }
     },
     atlas = 'Jokers',
     pos = {
@@ -3008,7 +3008,7 @@ SMODS.Joker { -- Hedonist
         if context.ending_shop and #G.shop_vouchers.cards == 0 and #G.shop_booster.cards == 0 and #G.shop_jokers.cards == 0 then
             card:juice_up(0.3, 0.4)
             play_sound('tarot1')
-            card.ability.extra.Xmult = card.ability.extra.Xmult + (0.5 * G.GAME.soil_mod)
+            card.ability.extra.Xmult = card.ability.extra.Xmult + (0.25 * G.GAME.soil_mod)
             local groupchats = SMODS.find_card('j_mxms_group_chat')
             if next(groupchats) then
                 for k, v in pairs(groupchats) do
