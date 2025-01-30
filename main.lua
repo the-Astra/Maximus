@@ -1133,8 +1133,8 @@ SMODS.Joker { -- Streaker
         end
 
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            card.ability.extra.hands = 0
             if card.ability.extra.hands == 1 then
+                card.ability.extra.hands = 0
                 card.ability.extra.streak = card.ability.extra.streak + 1
                 card.ability.extra.chips = 20 * card.ability.extra.streak * G.GAME.soil_mod
                 card.ability.extra.mult = 5 * card.ability.extra.streak * G.GAME.soil_mod
@@ -1150,6 +1150,8 @@ SMODS.Joker { -- Streaker
                     colour = G.C.CHIPS,
                     card = card
                 }
+            else
+                card.ability.extra.hands = 0
             end
         end
     end
@@ -3491,7 +3493,7 @@ SMODS.Joker { -- Endless Breadsticks
         }
     end,
     calculate = function(self, card, context)
-        if context.discard and not context.blueprint then
+        if context.discard and not context.blueprint and not context.other_card.debuff then
             card.ability.extra.d_tally = card.ability.extra.d_tally + 1
             if card.ability.extra.d_tally < card.ability.extra.d_requirement then
                 return {
