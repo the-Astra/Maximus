@@ -3711,7 +3711,7 @@ SMODS.Joker { -- Gravity
             { mult = 0, chips = 0, handname = '', level = '' })
     end,
     remove_from_deck = function(self, card, from_debuff)
-        if card.ability.extra.hands > 0 then
+        if card.ability.extra.rounds > 0 then
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
                 { handname = localize('k_all_hands'), chips = '...', mult = '...', level = '' })
             G.E_MANAGER:add_event(Event({
