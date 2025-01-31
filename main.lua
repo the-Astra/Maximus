@@ -19,6 +19,14 @@ SMODS.Atlas { -- 4D Joker Atlas
     px = 71,
     py = 95
 }
+
+SMODS.Atlas { -- Main Voucher Atlas
+    key = 'Vouchers',
+    path = "Vouchers.png",
+    px = 71,
+    py = 95
+}
+
 --endregion
 
 --region Function Hooks
@@ -3996,6 +4004,11 @@ SMODS.Voucher { -- Launch Code
         name = 'Launch Code',
         text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
     },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 0
+    },
     config = {
         extra = {
             ante_mod = 1,
@@ -4025,6 +4038,11 @@ SMODS.Voucher { -- Warp Drive
     loc_txt = {
         name = 'Warp Drive',
         text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 1
     },
     config = {
         extra = {
@@ -4056,7 +4074,12 @@ SMODS.Voucher { -- Sharp Suit
     loc_txt = {
         name = 'Sharp Suit',
         text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
-    }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 0
+    },
 }
 
 SMODS.Voucher { -- Best Dressed
@@ -4064,6 +4087,11 @@ SMODS.Voucher { -- Best Dressed
     loc_txt = {
         name = 'Best Dressed',
         text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:red,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 1
     },
     config = {
         extra = 0.2
@@ -4097,6 +4125,11 @@ SMODS.Voucher { -- Shield
         name = 'Shield',
         text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
     },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 0
+    },
     redeem = function(self, card, from_debuff)
         G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
     end
@@ -4107,6 +4140,11 @@ SMODS.Voucher { -- Guardian
     loc_txt = {
         name = 'Guardian',
         text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 1
     },
     requires = { 'v_mxms_shield' },
     redeem = function(self, card, from_debuff)
