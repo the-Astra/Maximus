@@ -3481,7 +3481,7 @@ SMODS.Joker { -- Endless Breadsticks
     key = 'breadsticks',
     loc_txt = {
         name = 'Endless Breadsticks',
-        text = { 'Gains {C:chips}+20{} Chips every {C:attention}#1#{} cards', 'discarded this round. Discard requirement', 'increases by {C:attention}1{} each round', '{C:inactive}Currently: {C:chips}+#2#' }
+        text = { 'Gains {C:chips}+25{} Chips every {C:attention}#1#{} cards', 'discarded this round. Discard requirement', 'increases by {C:attention}1{} and resets {C:chips}Chips{}', 'each round', '{C:inactive}Currently: {C:chips}+#2#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -3514,7 +3514,7 @@ SMODS.Joker { -- Endless Breadsticks
                     card = card
                 }
             else
-                card.ability.extra.chips = card.ability.extra.chips + 20
+                card.ability.extra.chips = card.ability.extra.chips + 25
                 card.ability.extra.d_tally = 0
                 return {
                     delay = 0.2,
@@ -3536,6 +3536,7 @@ SMODS.Joker { -- Endless Breadsticks
 
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
             card.ability.extra.d_tally = 0
+            card.ability.extra.chips = 0
             card.ability.extra.d_requirement = card.ability.extra.d_requirement + 1
             return {
                 message = 'More Please!',
