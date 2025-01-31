@@ -3,6 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
+# ------------------------------------------ JOKERS ------------------------------------------
 # Add Trick or Treak Functionality --------------------------------------
 
     # Apply modifier to pack choice
@@ -428,6 +429,48 @@ match_indent = true
 times = 1
 
 
+    #Hand detection functionality
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = '''
+function get_X_same(num, hand, or_more)
+  local vals = {}
+  for i = 1, SMODS.Rank.max_id.value do
+      vals[i] = {}
+  end
+  for i=#hand, 1, -1 do
+    local curr = {}
+    table.insert(curr, hand[i])
+    for j=1, #hand do
+      if hand[i]:get_id() == hand[j]:get_id() and i ~= j then
+        table.insert(curr, hand[j])
+      end
+    end
+'''
+position = "at"
+payload = '''
+function get_X_same(num, hand, or_more)
+  local vals = {}
+  local perspective = next(SMODS.find_card('j_mxms_perspective'))
+  for i = 1, SMODS.Rank.max_id.value do
+      vals[i] = {}
+  end
+  for i=#hand, 1, -1 do
+    local curr = {}
+    table.insert(curr, hand[i])
+    for j=1, #hand do
+      if perspective and hand[i]:get_id() == 9 and hand[j]:get_id() == 6 and i ~= j then
+        table.insert(curr, hand[j])
+      elseif hand[i]:get_id() == hand[j]:get_id() and i ~= j then
+        table.insert(curr, hand[j])
+      end
+    end
+'''
+match_indent = true
+times = 1
+
+
 
 
 
@@ -590,7 +633,7 @@ times = 1
 
 
 
-# Add Pessimistic Functionality (including Soil Joker mods since Pessimistic scales ) ----------------------------------------
+# Add Pessimistic Functionality (including Soil Joker and Group Chat mods since Pessimistic scales ) ----------------------------------------
 
     # Add flag to Wheel of Fortune
 [[patches]]
@@ -611,6 +654,13 @@ if next(pessimistics) then
             trigger = 'after',
             func = function()
                 v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true;
             end
         }))
@@ -621,7 +671,7 @@ match_indent = true
 times = 1
 
 
-    # Add flag to Glass Card Break
+    # Add flag to Glass Card Break (Stone Thrower will not scale Pessimistic)
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
@@ -635,19 +685,25 @@ payload = '''
 local pessimistics = SMODS.find_card('j_mxms_pessimistic')
 for k, v in ipairs(cards_destroyed) do
     if v.shattered then 
-    glass_shattered[#glass_shattered+1] = v 
-    if next(pessimistics) then
-    for kk, vv in pairs(pessimistics) do
-        vv.ability.extra.mult = vv.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            func = function()
-                vv:juice_up(0.3, 0.4)
-            return true; end
-        }))
-    end
-end
-
+        glass_shattered[#glass_shattered+1] = v 
+            if next(pessimistics) and not next(SMODS.find_card('j_mxms_stone_thrower')) then
+            for kk, vv in pairs(pessimistics) do
+                vv.ability.extra.mult = vv.ability.extra.mult + ((v.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    func = function()
+                        vv:juice_up(0.3, 0.4)
+                        local groupchats = SMODS.find_card('j_mxms_group_chat')
+                        if next(groupchats) then
+                            for kkk, vvv in pairs(groupchats) do
+                                vvv.ability.extra.chips = vvv.ability.extra.chips + 2
+                                vvv:juice_up(0.3, 0.4)
+                            end
+                        end
+                    return true; end
+                }))
+            end
+        end
     end
 end
 '''
@@ -684,6 +740,13 @@ elseif next(SMODS.find_card('j_mxms_pessimistic')) then
             trigger = 'after',
             func = function()
                 v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
             return true; end
         }))
     end
@@ -709,6 +772,13 @@ if next(pessimistics) then
             trigger = 'after',
             func = function()
                 v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true;
             end
         }))
@@ -773,6 +843,13 @@ if (context.other_card:get_id() == 8) then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true; end
             }))
         end
@@ -818,6 +895,13 @@ context.other_card:is_face() then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true; end
             }))
         end
@@ -859,6 +943,13 @@ context.other_card:is_suit("Hearts") then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true; end
             }))
         end
@@ -920,6 +1011,13 @@ context.other_card:is_face() then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true; end
             }))
         end
@@ -960,6 +1058,13 @@ if self.ability.name == 'Space Joker' then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
+                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                if next(groupchats) then
+                    for kk, vv in pairs(groupchats) do
+                        vv.ability.extra.chips = vv.ability.extra.chips + 2
+                        vv:juice_up(0.3, 0.4)
+                    end
+                end
                 return true; end
             }))
         end
@@ -1365,9 +1470,9 @@ times = 1
 
 
 
-# Add Soyjoke Functionality -----------------------------------------
+# Add Soyjoke and Clown Car Functionality -----------------------------------------
 
-    # Add joker to tracker or iterate modifier if already present (Clown Car functionality included)
+    # Add joker to tracker or iterate modifier if already present
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -1396,7 +1501,7 @@ if self.ability.set == 'Joker' then
     G.E_MANAGER:add_event(Event({func = function()
         for k, v in pairs(G.GAME.purchased_jokers) do
             if v == self.ability.name then
-                G.GAME.soy_mod = G.GAME.soy_mod + 0.5
+                G.GAME.soy_mod = G.GAME.soy_mod + 0.25
                 return true
             end
         end
@@ -1918,6 +2023,805 @@ times = 1
 
 
 
+# Add Soil and Group Chat Functionality (yes this really sucked to implement) -------------------------------------------------
+
+    # Hook into Campfire
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Campfire' and not context.blueprint then
+    self.ability.x_mult = self.ability.x_mult + self.ability.extra
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Campfire' and not context.blueprint then
+    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Flash Card
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Flash Card' and not context.blueprint then
+    self.ability.mult = self.ability.mult + self.ability.extra
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Flash Card' and not context.blueprint then
+    self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Red Card
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Red Card' and not context.blueprint then
+    self.ability.mult = self.ability.mult + self.ability.extra
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Red Card' and not context.blueprint then
+    self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Hologram
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Hologram' and (not context.blueprint)
+    and context.cards and context.cards[1] then
+        self.ability.x_mult = self.ability.x_mult + #context.cards*self.ability.extra
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Hologram' and (not context.blueprint)
+    and context.cards and context.cards[1] then
+        self.ability.x_mult = self.ability.x_mult + (#context.cards*self.ability.extra*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Madness
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Madness' and not context.blueprint and not context.blind.boss then
+    self.ability.x_mult = self.ability.x_mult + self.ability.extra
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Madness' and not context.blueprint and not context.blind.boss then
+    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Ceremonial Dagger
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+self.ability.mult = self.ability.mult + sliced_card.sell_cost*2
+'''
+position = "at"
+payload = '''
+self.ability.mult = self.ability.mult + (sliced_card.sell_cost*2*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Canio
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+self.ability.caino_xmult = self.ability.caino_xmult + faces*self.ability.extra
+'''
+position = "at"
+payload = '''
+self.ability.caino_xmult = self.ability.caino_xmult + (faces*self.ability.extra*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+self.ability.caino_xmult = self.ability.caino_xmult + face_cards*self.ability.extra
+'''
+position = "at"
+payload = '''
+self.ability.caino_xmult = self.ability.caino_xmult + (face_cards*self.ability.extra*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Glass Joker
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+self.ability.x_mult = self.ability.x_mult + self.ability.extra*glasses
+'''
+position = "at"
+payload = '''
+self.ability.x_mult = self.ability.x_mult + (self.ability.extra*glasses*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+self.ability.x_mult = self.ability.x_mult + self.ability.extra*glass_cards
+'''
+position = "at"
+payload = '''
+self.ability.x_mult = self.ability.x_mult + (self.ability.extra*glass_cards*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+self.ability.x_mult = self.ability.x_mult + self.ability.extra*shattered_glass
+'''
+position = "at"
+payload = '''
+self.ability.x_mult = self.ability.x_mult + (self.ability.extra*shattered_glass*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Constellation
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Constellation' and not context.blueprint and context.consumeable.ability.set == 'Planet' then
+    self.ability.x_mult = self.ability.x_mult + self.ability.extra
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Constellation' and not context.blueprint and context.consumeable.ability.set == 'Planet' then
+    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Yorick
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Yorick' and not context.blueprint then
+    if self.ability.yorick_discards <= 1 then
+        self.ability.yorick_discards = self.ability.extra.discards
+        self.ability.x_mult = self.ability.x_mult + self.ability.extra.xmult
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Yorick' and not context.blueprint then
+    if self.ability.yorick_discards <= 1 then
+        self.ability.yorick_discards = self.ability.extra.discards
+        self.ability.x_mult = self.ability.x_mult + (self.ability.extra.xmult * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Castle
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+context.other_card:is_suit(G.GAME.current_round.castle_card.suit) and not context.blueprint then
+    self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+'''
+position = "at"
+payload = '''
+context.other_card:is_suit(G.GAME.current_round.castle_card.suit) and not context.blueprint then
+    self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Hit the Road
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Hit the Road' and
+not context.other_card.debuff and
+context.other_card:get_id() == 11 and not context.blueprint then
+    self.ability.x_mult = self.ability.x_mult + self.ability.extra
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Hit the Road' and
+not context.other_card.debuff and
+context.other_card:get_id() == 11 and not context.blueprint then
+    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Rocket
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Rocket' and G.GAME.blind.boss then
+    self.ability.extra.dollars = self.ability.extra.dollars + self.ability.extra.increase
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Rocket' and G.GAME.blind.boss then
+    self.ability.extra.dollars = self.ability.extra.dollars + (self.ability.extra.increase * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Egg
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Egg' then
+    self.ability.extra_value = self.ability.extra_value + self.ability.extra
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Egg' then
+    self.ability.extra_value = self.ability.extra_value + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Gift Card
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+for k, v in ipairs(G.jokers.cards) do
+    if v.set_cost then 
+        v.ability.extra_value = (v.ability.extra_value or 0) + self.ability.extra
+        v:set_cost()
+    end
+end
+for k, v in ipairs(G.consumeables.cards) do
+    if v.set_cost then 
+        v.ability.extra_value = (v.ability.extra_value or 0) + self.ability.extra
+        v:set_cost()
+    end
+end
+'''
+position = "at"
+payload = '''
+for k, v in ipairs(G.jokers.cards) do
+    if v.set_cost then 
+        v.ability.extra_value = (v.ability.extra_value or 0) + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+        v:set_cost()
+    end
+end
+for k, v in ipairs(G.consumeables.cards) do
+    if v.set_cost then 
+        v.ability.extra_value = (v.ability.extra_value or 0) + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+        v:set_cost()
+    end
+end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Lucky Cat
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Lucky Cat' and context.other_card.lucky_trigger and not context.blueprint then
+    self.ability.x_mult = self.ability.x_mult + self.ability.extra
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Lucky Cat' and context.other_card.lucky_trigger and not context.blueprint then
+    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Wee joker
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Wee Joker' and
+    context.other_card:get_id() == 2 and not context.blueprint then
+        self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Wee Joker' and
+    context.other_card:get_id() == 2 and not context.blueprint then
+        self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Spare Trousers
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Spare Trousers' and (next(context.poker_hands['Two Pair']) or next(context.poker_hands['Full House'])) and not context.blueprint then
+    self.ability.mult = self.ability.mult + self.ability.extra
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Spare Trousers' and (next(context.poker_hands['Two Pair']) or next(context.poker_hands['Full House'])) and not context.blueprint then
+    self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Square Joker
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Square Joker' and #context.full_hand == 4 and not context.blueprint then
+    self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Square Joker' and #context.full_hand == 4 and not context.blueprint then
+    self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Runner
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Runner' and next(context.poker_hands['Straight']) and not context.blueprint then
+    self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Runner' and next(context.poker_hands['Straight']) and not context.blueprint then
+    self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Vampire
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if #enhanced > 0 then 
+    self.ability.x_mult = self.ability.x_mult + self.ability.extra*#enhanced
+'''
+position = "at"
+payload = '''
+if #enhanced > 0 then 
+    self.ability.x_mult = self.ability.x_mult + (self.ability.extra*#enhanced*G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Ride the Bus
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Ride the Bus' and not context.blueprint then
+    local faces = false
+    for i = 1, #context.scoring_hand do
+        if context.scoring_hand[i]:is_face() then faces = true end
+    end
+    if faces then
+        local last_mult = self.ability.mult
+        self.ability.mult = 0
+        if last_mult > 0 then 
+            return {
+                card = self,
+                message = localize('k_reset')
+            }
+        end
+    else
+        self.ability.mult = self.ability.mult + self.ability.extra
+    end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Ride the Bus' and not context.blueprint then
+    local faces = false
+    for i = 1, #context.scoring_hand do
+        if context.scoring_hand[i]:is_face() then faces = true end
+    end
+    if faces then
+        local last_mult = self.ability.mult
+        self.ability.mult = 0
+        if last_mult > 0 then 
+            return {
+                card = self,
+                message = localize('k_reset')
+            }
+        end
+    else
+        self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
+        local groupchats = SMODS.find_card('j_mxms_group_chat')
+        if next(groupchats) then
+            for k, v in pairs(groupchats) do
+                v.ability.extra.chips = v.ability.extra.chips + 2
+                v:juice_up(0.3, 0.4)
+            end
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Obelisk
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Obelisk' and not context.blueprint then
+    local reset = true
+    local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
+    for k, v in pairs(G.GAME.hands) do
+        if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
+            reset = false
+        end
+    end
+    if reset then
+        if self.ability.x_mult > 1 then
+            self.ability.x_mult = 1
+            return {
+                card = self,
+                message = localize('k_reset')
+            }
+        end
+    else
+        self.ability.x_mult = self.ability.x_mult + self.ability.extra
+    end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Obelisk' and not context.blueprint then
+    local reset = true
+    local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
+    for k, v in pairs(G.GAME.hands) do
+        if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
+            reset = false
+        end
+    end
+    if reset then
+        if self.ability.x_mult > 1 then
+            self.ability.x_mult = 1
+            return {
+                card = self,
+                message = localize('k_reset')
+            }
+        end
+    else
+        self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
+        local groupchats = SMODS.find_card('j_mxms_group_chat')
+        if next(groupchats) then
+            for k, v in pairs(groupchats) do
+                v.ability.extra.chips = v.ability.extra.chips + 2
+                v:juice_up(0.3, 0.4)
+            end
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+    # Hook into Green Joker
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Green Joker' and not context.blueprint then
+    self.ability.mult = self.ability.mult + self.ability.extra.hand_add
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Green Joker' and not context.blueprint then
+    self.ability.mult = self.ability.mult + (self.ability.extra.hand_add * G.GAME.soil_mod)
+    local groupchats = SMODS.find_card('j_mxms_group_chat')
+    if next(groupchats) then
+        for k, v in pairs(groupchats) do
+            v.ability.extra.chips = v.ability.extra.chips + 2
+            v:juice_up(0.3, 0.4)
+        end
+    end
+'''
+match_indent = true
+times = 1
+
+
+
+
+
+
+# Add better Unpleasant Gradient compat with Flower Pot -------------------------------------------------
+
+    # Hook into Flower Pot
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Flower Pot' then
+    local suits = {
+        ['Hearts'] = 0,
+        ['Diamonds'] = 0,
+        ['Spades'] = 0,
+        ['Clubs'] = 0
+    }
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Flower Pot' then
+    local unpleasant = SMODS.find_card('j_mxms_unpleasant_gradient')
+    if next(unpleasant) then
+        if unpleasant[1].ability.extra.triggered then
+            return {
+                message = localize{type='variable',key='a_xmult',vars={self.ability.extra}},
+                Xmult_mod = self.ability.extra
+            }
+        end
+    end
+    local suits = {
+        ['Hearts'] = 0,
+        ['Diamonds'] = 0,
+        ['Spades'] = 0,
+        ['Clubs'] = 0
+    }
+'''
+match_indent = true
+times = 1
+
+
+
+
+
+
+# Add Stone Thrower functionality
+
+    # Modify chances to guarantee break with Stone Thrower
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not card.debuff and pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) then'''
+position = "at"
+payload = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not card.debuff and (pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) or next(SMODS.find_card('j_mxms_stone_thrower'))) then'''
+match_indent = true
+times = 1
+
+
+
+
+
+# ------------------------------------------ NEW LOGIC ------------------------------------------
+
 # Add new shop appearance gates -----------------------------------------
 
     # Create modifier and tracker variables
@@ -1970,549 +2874,6 @@ elseif v.joker_gate then
     if next(SMODS.find_card(v.joker_gate)) then
         add = true
     end
-'''
-match_indent = true
-times = 1
-
-
-
-
-
-
-# Add Soil Functionality (yes this really sucked to implement) -------------------------------------------------
-
-    # Hook into Campfire
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Campfire' and not context.blueprint then
-    self.ability.x_mult = self.ability.x_mult + self.ability.extra
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Campfire' and not context.blueprint then
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Flash Card
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Flash Card' and not context.blueprint then
-    self.ability.mult = self.ability.mult + self.ability.extra
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Flash Card' and not context.blueprint then
-    self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Red Card
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Red Card' and not context.blueprint then
-    self.ability.mult = self.ability.mult + self.ability.extra
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Red Card' and not context.blueprint then
-    self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Hologram
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Hologram' and (not context.blueprint)
-    and context.cards and context.cards[1] then
-        self.ability.x_mult = self.ability.x_mult + #context.cards*self.ability.extra
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Hologram' and (not context.blueprint)
-    and context.cards and context.cards[1] then
-        self.ability.x_mult = self.ability.x_mult + (#context.cards*self.ability.extra*G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Madness
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Madness' and not context.blueprint and not context.blind.boss then
-    self.ability.x_mult = self.ability.x_mult + self.ability.extra
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Madness' and not context.blueprint and not context.blind.boss then
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Ceremonial Dagger
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-self.ability.mult = self.ability.mult + sliced_card.sell_cost*2
-'''
-position = "at"
-payload = '''
-self.ability.mult = self.ability.mult + (sliced_card.sell_cost*2*G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Canio
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-self.ability.caino_xmult = self.ability.caino_xmult + faces*self.ability.extra
-'''
-position = "at"
-payload = '''
-self.ability.caino_xmult = self.ability.caino_xmult + (faces*self.ability.extra*G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-self.ability.caino_xmult = self.ability.caino_xmult + face_cards*self.ability.extra
-'''
-position = "at"
-payload = '''
-self.ability.caino_xmult = self.ability.caino_xmult + (face_cards*self.ability.extra*G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Glass Joker
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-self.ability.x_mult = self.ability.x_mult + self.ability.extra*glasses
-'''
-position = "at"
-payload = '''
-self.ability.x_mult = self.ability.x_mult + (self.ability.extra*glasses*G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-self.ability.x_mult = self.ability.x_mult + self.ability.extra*glass_cards
-'''
-position = "at"
-payload = '''
-self.ability.x_mult = self.ability.x_mult + (self.ability.extra*glass_cards*G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-self.ability.x_mult = self.ability.x_mult + self.ability.extra*shattered_glass
-'''
-position = "at"
-payload = '''
-self.ability.x_mult = self.ability.x_mult + (self.ability.extra*shattered_glass*G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Constellation
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Constellation' and not context.blueprint and context.consumeable.ability.set == 'Planet' then
-    self.ability.x_mult = self.ability.x_mult + self.ability.extra
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Constellation' and not context.blueprint and context.consumeable.ability.set == 'Planet' then
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Yorick
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Yorick' and not context.blueprint then
-    if self.ability.yorick_discards <= 1 then
-        self.ability.yorick_discards = self.ability.extra.discards
-        self.ability.x_mult = self.ability.x_mult + self.ability.extra.xmult
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Yorick' and not context.blueprint then
-    if self.ability.yorick_discards <= 1 then
-        self.ability.yorick_discards = self.ability.extra.discards
-        self.ability.x_mult = self.ability.x_mult + (self.ability.extra.xmult * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Castle
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-context.other_card:is_suit(G.GAME.current_round.castle_card.suit) and not context.blueprint then
-    self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
-'''
-position = "at"
-payload = '''
-context.other_card:is_suit(G.GAME.current_round.castle_card.suit) and not context.blueprint then
-    self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Hit the Road
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Hit the Road' and
-not context.other_card.debuff and
-context.other_card:get_id() == 11 and not context.blueprint then
-    self.ability.x_mult = self.ability.x_mult + self.ability.extra
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Hit the Road' and
-not context.other_card.debuff and
-context.other_card:get_id() == 11 and not context.blueprint then
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Rocket
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Rocket' and G.GAME.blind.boss then
-    self.ability.extra.dollars = self.ability.extra.dollars + self.ability.extra.increase
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Rocket' and G.GAME.blind.boss then
-    self.ability.extra.dollars = self.ability.extra.dollars + (self.ability.extra.increase * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Egg
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Egg' then
-    self.ability.extra_value = self.ability.extra_value + self.ability.extra
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Egg' then
-    self.ability.extra_value = self.ability.extra_value + (self.ability.extra * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Gift Card
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-for k, v in ipairs(G.jokers.cards) do
-    if v.set_cost then 
-        v.ability.extra_value = (v.ability.extra_value or 0) + self.ability.extra
-        v:set_cost()
-    end
-end
-for k, v in ipairs(G.consumeables.cards) do
-    if v.set_cost then 
-        v.ability.extra_value = (v.ability.extra_value or 0) + self.ability.extra
-        v:set_cost()
-    end
-end
-'''
-position = "at"
-payload = '''
-for k, v in ipairs(G.jokers.cards) do
-    if v.set_cost then 
-        v.ability.extra_value = (v.ability.extra_value or 0) + (self.ability.extra * G.GAME.soil_mod)
-        v:set_cost()
-    end
-end
-for k, v in ipairs(G.consumeables.cards) do
-    if v.set_cost then 
-        v.ability.extra_value = (v.ability.extra_value or 0) + (self.ability.extra * G.GAME.soil_mod)
-        v:set_cost()
-    end
-end
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Lucky Cat
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Lucky Cat' and context.other_card.lucky_trigger and not context.blueprint then
-    self.ability.x_mult = self.ability.x_mult + self.ability.extra
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Lucky Cat' and context.other_card.lucky_trigger and not context.blueprint then
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Wee joker
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Wee Joker' and
-    context.other_card:get_id() == 2 and not context.blueprint then
-        self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Wee Joker' and
-    context.other_card:get_id() == 2 and not context.blueprint then
-        self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Spare Trousers
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Spare Trousers' and (next(context.poker_hands['Two Pair']) or next(context.poker_hands['Full House'])) and not context.blueprint then
-    self.ability.mult = self.ability.mult + self.ability.extra
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Spare Trousers' and (next(context.poker_hands['Two Pair']) or next(context.poker_hands['Full House'])) and not context.blueprint then
-    self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Square Joker
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Square Joker' and #context.full_hand == 4 and not context.blueprint then
-    self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Square Joker' and #context.full_hand == 4 and not context.blueprint then
-    self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Runner
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Runner' and next(context.poker_hands['Straight']) and not context.blueprint then
-    self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Runner' and next(context.poker_hands['Straight']) and not context.blueprint then
-    self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Vampire
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if #enhanced > 0 then 
-    self.ability.x_mult = self.ability.x_mult + self.ability.extra*#enhanced
-'''
-position = "at"
-payload = '''
-if #enhanced > 0 then 
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra*#enhanced*G.GAME.soil_mod)
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Ride the Bus
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Ride the Bus' and not context.blueprint then
-    local faces = false
-    for i = 1, #context.scoring_hand do
-        if context.scoring_hand[i]:is_face() then faces = true end
-    end
-    if faces then
-        local last_mult = self.ability.mult
-        self.ability.mult = 0
-        if last_mult > 0 then 
-            return {
-                card = self,
-                message = localize('k_reset')
-            }
-        end
-    else
-        self.ability.mult = self.ability.mult + self.ability.extra
-    end
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Ride the Bus' and not context.blueprint then
-    local faces = false
-    for i = 1, #context.scoring_hand do
-        if context.scoring_hand[i]:is_face() then faces = true end
-    end
-    if faces then
-        local last_mult = self.ability.mult
-        self.ability.mult = 0
-        if last_mult > 0 then 
-            return {
-                card = self,
-                message = localize('k_reset')
-            }
-        end
-    else
-        self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
-    end
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Obelisk
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Obelisk' and not context.blueprint then
-    local reset = true
-    local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
-    for k, v in pairs(G.GAME.hands) do
-        if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
-            reset = false
-        end
-    end
-    if reset then
-        if self.ability.x_mult > 1 then
-            self.ability.x_mult = 1
-            return {
-                card = self,
-                message = localize('k_reset')
-            }
-        end
-    else
-        self.ability.x_mult = self.ability.x_mult + self.ability.extra
-    end
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Obelisk' and not context.blueprint then
-    local reset = true
-    local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
-    for k, v in pairs(G.GAME.hands) do
-        if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
-            reset = false
-        end
-    end
-    if reset then
-        if self.ability.x_mult > 1 then
-            self.ability.x_mult = 1
-            return {
-                card = self,
-                message = localize('k_reset')
-            }
-        end
-    else
-        self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-    end
-'''
-match_indent = true
-times = 1
-
-
-    # Hook into Green Joker
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.ability.name == 'Green Joker' and not context.blueprint then
-    self.ability.mult = self.ability.mult + self.ability.extra.hand_add
-'''
-position = "at"
-payload = '''
-if self.ability.name == 'Green Joker' and not context.blueprint then
-    self.ability.mult = self.ability.mult + (self.ability.extra.hand_add * G.GAME.soil_mod)
 '''
 match_indent = true
 times = 1
