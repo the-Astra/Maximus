@@ -570,7 +570,7 @@ SMODS.Joker { -- Fortune Cookie
                                     local groupchats = SMODS.find_card('j_mxms_group_chat')
                                     if next(groupchats) then
                                         for k, v in pairs(groupchats) do
-                                            v.ability.extra.chips = v.ability.extra.chips + 2
+                                            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                                             v:juice_up(0.3, 0.4)
                                         end
                                     end
@@ -3457,13 +3457,6 @@ SMODS.Joker { -- Minimalist
         }
     end,
     calculate = function(self, card, context)
-        card.ability.extra.chips = 90
-        for k, v in pairs(G.playing_cards) do
-            if next(SMODS.get_enhancements(v)) and card.ability.extra.chips > 0 then
-                card.ability.extra.chips = card.ability.extra.chips - 15
-            end
-        end
-
         if context.joker_main and card.ability.extra.chips > 0 then
             return {
                 chip_mod = card.ability.extra.chips,
@@ -3471,6 +3464,14 @@ SMODS.Joker { -- Minimalist
                 colour = G.C.CHIPS,
                 card = card
             }
+        end
+    end,
+    update = function(self, card, dt)
+        card.ability.extra.chips = 90
+        for k, v in pairs(G.playing_cards) do
+            if next(SMODS.get_enhancements(v)) and card.ability.extra.chips > 0 then
+                card.ability.extra.chips = card.ability.extra.chips - 15
+            end
         end
     end
 }
