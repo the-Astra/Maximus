@@ -3370,7 +3370,7 @@ SMODS.Joker { -- Bootleg
         end
     end,
     calculate = function(self, card, context)
-        if G.GAME.last_bought and G.GAME.last_bought.config.center.key ~= "j_mxms_bootleg" and not context.no_blueprint then
+        if G.GAME.last_bought and not context.no_blueprint then
             context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
             context.blueprint_card = context.blueprint_card or card
             local bootleg_target_ret = G.GAME.last_bought:calculate_joker(context)
@@ -3384,7 +3384,7 @@ SMODS.Joker { -- Bootleg
             end
         end
 
-        if context.buying_card and context.card.config.center.blueprint_compat and context.card ~= self then
+        if context.buying_card and context.card.config.center.blueprint_compat and context.card ~= card and G.GAME.last_bought.config.center.key ~= "j_mxms_bootleg" then
             G.GAME.last_bought = context.card
             card:juice_up(0.3, 0.4)
         end
