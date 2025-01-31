@@ -299,11 +299,11 @@ SMODS.PokerHand:take_ownership('Full House', {
     end
 })
 
--- Change Arcana Packs to include checks for Tailor
+-- Change Arcana Packs to include checks for Sharp Suit
 SMODS.Booster:take_ownership_by_kind('Arcana', {
     create_card = function(self, card, i)
         local _card
-        if G.GAME.used_vouchers.v_mxms_tailor and i == 1 then
+        if G.GAME.used_vouchers.v_mxms_sharp_suit and i == 1 then
             local suit_tallies = { ['Spades'] = 0, ['Hearts'] = 0, ['Clubs'] = 0, ['Diamonds'] = 0 }
             for k, v in ipairs(G.playing_cards) do
                 suit_tallies[v.base.suit] = (suit_tallies[v.base.suit] or 0) + 1
@@ -340,7 +340,7 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
     end
 })
 
--- Change Ankh and Hex to work with Insurance and Guardian Vouchers
+-- Change Ankh and Hex to work with Shield and Guardian Vouchers
 SMODS.Consumable:take_ownership('ankh', {
     config = {
         extra = {
@@ -3985,8 +3985,6 @@ SMODS.Joker { -- Four Course Meal
         end
     end
 }
-
-
 --endregion
 
 --region Vouchers
@@ -4053,24 +4051,24 @@ SMODS.Voucher { -- Warp Drive
     end
 }
 
-SMODS.Voucher { -- Tailor
-    key = 'tailor',
+SMODS.Voucher { -- Sharp Suit
+    key = 'sharp_suit',
     loc_txt = {
-        name = 'Tailor',
+        name = 'Sharp Suit',
         text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
     }
 }
 
-SMODS.Voucher { -- Gala
-    key = 'gala',
+SMODS.Voucher { -- Best Dressed
+    key = 'best_dressed',
     loc_txt = {
-        name = 'Gala',
+        name = 'Best Dressed',
         text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:red,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
     },
     config = {
         extra = 0.2
     },
-    requires = { 'v_mxms_tailor' },
+    requires = { 'v_mxms_sharp_suit' },
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra }
@@ -4093,10 +4091,10 @@ SMODS.Voucher { -- Gala
     end,
 }
 
-SMODS.Voucher { -- Insurance
-    key = 'insurance',
+SMODS.Voucher { -- Shield
+    key = 'shield',
     loc_txt = {
-        name = 'Insurance',
+        name = 'Shield',
         text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
     },
     redeem = function(self, card, from_debuff)
@@ -4110,7 +4108,7 @@ SMODS.Voucher { -- Guardian
         name = 'Guardian',
         text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
     },
-    requires = { 'v_mxms_insurance' },
+    requires = { 'v_mxms_shield' },
     redeem = function(self, card, from_debuff)
         G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
     end
