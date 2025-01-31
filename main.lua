@@ -570,7 +570,7 @@ SMODS.Joker { -- Fortune Cookie
                                     local groupchats = SMODS.find_card('j_mxms_group_chat')
                                     if next(groupchats) then
                                         for k, v in pairs(groupchats) do
-                                            v.ability.extra.chips = v.ability.extra.chips + 2
+                                            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                                             v:juice_up(0.3, 0.4)
                                         end
                                     end
@@ -739,7 +739,7 @@ SMODS.Joker { -- Poindexter
                         local groupchats = SMODS.find_card('j_mxms_group_chat')
                         if next(groupchats) then
                             for k, v in pairs(groupchats) do
-                                v.ability.extra.chips = v.ability.extra.chips + 2
+                                v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                                 v:juice_up(0.3, 0.4)
                             end
                         end
@@ -1152,7 +1152,7 @@ SMODS.Joker { -- Streaker
                 local groupchats = SMODS.find_card('j_mxms_group_chat')
                 if next(groupchats) then
                     for k, v in pairs(groupchats) do
-                        v.ability.extra.chips = v.ability.extra.chips + 2
+                        v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                         v:juice_up(0.3, 0.4)
                     end
                 end
@@ -1670,7 +1670,7 @@ SMODS.Joker { -- Hopscotch
                         local groupchats = SMODS.find_card('j_mxms_group_chat')
                         if next(groupchats) then
                             for k, v in pairs(groupchats) do
-                                v.ability.extra.chips = v.ability.extra.chips + 2
+                                v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                                 v:juice_up(0.3, 0.4)
                             end
                         end
@@ -1758,7 +1758,7 @@ SMODS.Joker { -- Bullseye
             local groupchats = SMODS.find_card('j_mxms_group_chat')
             if next(groupchats) then
                 for k, v in pairs(groupchats) do
-                    v.ability.extra.chips = v.ability.extra.chips + 2
+                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                     v:juice_up(0.3, 0.4)
                 end
             end
@@ -2598,7 +2598,7 @@ SMODS.Joker { -- Monk
             local groupchats = SMODS.find_card('j_mxms_group_chat')
             if next(groupchats) then
                 for k, v in pairs(groupchats) do
-                    v.ability.extra.chips = v.ability.extra.chips + 2
+                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                     v:juice_up(0.3, 0.4)
                 end
             end
@@ -2751,7 +2751,7 @@ SMODS.Joker { -- Don't Mind if I Do
                             local groupchats = SMODS.find_card('j_mxms_group_chat')
                             if next(groupchats) then
                                 for k, v in pairs(groupchats) do
-                                    v.ability.extra.chips = v.ability.extra.chips + 2
+                                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                                     v:juice_up(0.3, 0.4)
                                 end
                             end
@@ -3023,7 +3023,7 @@ SMODS.Joker { -- Hedonist
             local groupchats = SMODS.find_card('j_mxms_group_chat')
             if next(groupchats) then
                 for k, v in pairs(groupchats) do
-                    v.ability.extra.chips = v.ability.extra.chips + 2
+                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                     v:juice_up(0.3, 0.4)
                 end
             end
@@ -3302,9 +3302,7 @@ SMODS.Joker { -- Ledger
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.round % 3 == 0 then
             local eligible_jokers = {}
             for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and
-                    not G.jokers.cards[i].edition and
-                    not G.jokers.cards[i].getting_sliced then
+                if G.jokers.cards[i] ~= card and not G.jokers.cards[i].edition and not G.jokers.cards[i].getting_sliced then
                     eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
                 end
             end
@@ -3372,7 +3370,7 @@ SMODS.Joker { -- Bootleg
         end
     end,
     calculate = function(self, card, context)
-        if G.GAME.last_bought and G.GAME.last_bought.config.center.key ~= "j_mxms_bootleg" and not context.no_blueprint then
+        if G.GAME.last_bought and not context.no_blueprint then
             context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
             context.blueprint_card = context.blueprint_card or card
             local bootleg_target_ret = G.GAME.last_bought:calculate_joker(context)
@@ -3386,7 +3384,7 @@ SMODS.Joker { -- Bootleg
             end
         end
 
-        if context.buying_card and context.card.config.center.blueprint_compat and context.card ~= self then
+        if context.buying_card and context.card.config.center.blueprint_compat and context.card ~= card and G.GAME.last_bought.config.center.key ~= "j_mxms_bootleg" then
             G.GAME.last_bought = context.card
             card:juice_up(0.3, 0.4)
         end
@@ -3459,13 +3457,6 @@ SMODS.Joker { -- Minimalist
         }
     end,
     calculate = function(self, card, context)
-        card.ability.extra.chips = 90
-        for k, v in pairs(G.playing_cards) do
-            if next(SMODS.get_enhancements(v)) and card.ability.extra.chips > 0 then
-                card.ability.extra.chips = card.ability.extra.chips - 15
-            end
-        end
-
         if context.joker_main and card.ability.extra.chips > 0 then
             return {
                 chip_mod = card.ability.extra.chips,
@@ -3473,6 +3464,14 @@ SMODS.Joker { -- Minimalist
                 colour = G.C.CHIPS,
                 card = card
             }
+        end
+    end,
+    update = function(self, card, dt)
+        card.ability.extra.chips = 90
+        for k, v in pairs(G.playing_cards) do
+            if next(SMODS.get_enhancements(v)) and card.ability.extra.chips > 0 then
+                card.ability.extra.chips = card.ability.extra.chips - 15
+            end
         end
     end
 }
@@ -3910,90 +3909,53 @@ SMODS.Joker { -- Four Course Meal
     end
 }
 
-
-
-SMODS.Joker { -- Four Course Meal
-    key = 'four_course_meal',
+SMODS.Joker { -- Memory Game
+    key = 'memory_game',
     loc_txt = {
-        name = 'Four Course Meal',
-        text = { 'For the next 4 hands,', 'give {C:chips}+150{} Chips, {C:mult}+30{} Mult,', '{X:mult,C:white}X3{} Mult, and {C:money}$10{}', 'respectively' }
+        name = 'Memory Game',
+        text = { 'If played hand is', 'a {C:attention}Pair,{} convert', 'the first scoring card', 'into the second scoring card' }
     },
     atlas = 'Jokers',
     pos = {
-        x = 2,
+        x = 3,
         y = 9
     },
-    rarity = 3,
-    config = {
-        extra = {
-            hands = 0
-        }
-    },
-    blueprint_compat = true,
-    cost = 8,
+    rarity = 2,
+    blueprint_compat = false,
+    cost = 5,
     calculate = function(self, card, context)
-        if context.joker_main then
-            card.ability.extra.hands = card.ability.extra.hands + (1 * G.GAME.fridge_mod)
-            if card.ability.extra.hands <= 1 then
-                return {
-                    message = '+150',
-                    chip_mod = 150,
-                    colour = G.C.chips,
-                    card = card
-                }
-            elseif card.ability.extra.hands <= 2 then
-                return {
-                    message = '+30',
-                    mult_mod = 30,
-                    colour = G.C.mult,
-                    card = card
-                }
-            elseif card.ability.extra.hands <= 3 then
-                return {
-                    message = 'X3',
-                    Xmult_mod = 3,
-                    colour = G.C.mult,
-                    card = card
-                }
-            elseif card.ability.extra.hands <= 4 then
-                ease_dollars(10)
-                return {
-                    message = '$10',
-                    colour = G.C.money,
-                    card = card
-                }
-            end
-        end
+        if context.before and context.scoring_name == "Pair" then
+            play_sound('tarot1')
+            card:juice_up(0.3, 0.5)
 
-        if context.after and card.ability.extra.hands >= 4 then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot1')
-                    card.T.r = -0.2
-                    card:juice_up(0.3, 0.4)
-                    card.states.drag.is = true
-                    card.children.center.pinch.x = true
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.3,
-                        blockable = false,
-                        func = function()
-                            G.jokers:remove_card(self)
-                            card:remove()
-                            card = nil
-                            return true;
-                        end
-                    }))
-                    return true
-                end
-            }))
-            return {
-                message = localize('k_eaten_ex'),
-                colour = G.C.RED
-            }
+            for i = 1, 2 do
+                local percent = 1.15 - (i - 0.999) / (#context.scoring_hand - 0.998) * 0.3
+                context.scoring_hand[i]:flip();
+                play_sound('card1', percent);
+                context.scoring_hand[i]:juice_up(0.3, 0.3);
+            end
+            delay(0.2)
+
+            copy_card(context.scoring_hand[2], context.scoring_hand[1])
+
+            for i = 1, 2 do
+                local percent = 0.85 - (i - 0.999) / (#context.scoring_hand - 0.998) * 0.3
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.15,
+                    func = function()
+                        context.scoring_hand[i]:flip();
+                        play_sound('card1', percent);
+                        context.scoring_hand[i]:juice_up(0.3, 0.3);
+                        return true
+                    end
+                }))
+            end
+            delay(0.5)
         end
     end
 }
+
 --endregion
 
 --region Vouchers
