@@ -739,7 +739,7 @@ SMODS.Joker { -- Poindexter
                         local groupchats = SMODS.find_card('j_mxms_group_chat')
                         if next(groupchats) then
                             for k, v in pairs(groupchats) do
-                                v.ability.extra.chips = v.ability.extra.chips + 2
+                                v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                                 v:juice_up(0.3, 0.4)
                             end
                         end
@@ -1152,7 +1152,7 @@ SMODS.Joker { -- Streaker
                 local groupchats = SMODS.find_card('j_mxms_group_chat')
                 if next(groupchats) then
                     for k, v in pairs(groupchats) do
-                        v.ability.extra.chips = v.ability.extra.chips + 2
+                        v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                         v:juice_up(0.3, 0.4)
                     end
                 end
@@ -1670,7 +1670,7 @@ SMODS.Joker { -- Hopscotch
                         local groupchats = SMODS.find_card('j_mxms_group_chat')
                         if next(groupchats) then
                             for k, v in pairs(groupchats) do
-                                v.ability.extra.chips = v.ability.extra.chips + 2
+                                v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                                 v:juice_up(0.3, 0.4)
                             end
                         end
@@ -1758,7 +1758,7 @@ SMODS.Joker { -- Bullseye
             local groupchats = SMODS.find_card('j_mxms_group_chat')
             if next(groupchats) then
                 for k, v in pairs(groupchats) do
-                    v.ability.extra.chips = v.ability.extra.chips + 2
+                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                     v:juice_up(0.3, 0.4)
                 end
             end
@@ -2598,7 +2598,7 @@ SMODS.Joker { -- Monk
             local groupchats = SMODS.find_card('j_mxms_group_chat')
             if next(groupchats) then
                 for k, v in pairs(groupchats) do
-                    v.ability.extra.chips = v.ability.extra.chips + 2
+                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                     v:juice_up(0.3, 0.4)
                 end
             end
@@ -2751,7 +2751,7 @@ SMODS.Joker { -- Don't Mind if I Do
                             local groupchats = SMODS.find_card('j_mxms_group_chat')
                             if next(groupchats) then
                                 for k, v in pairs(groupchats) do
-                                    v.ability.extra.chips = v.ability.extra.chips + 2
+                                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                                     v:juice_up(0.3, 0.4)
                                 end
                             end
@@ -3023,7 +3023,7 @@ SMODS.Joker { -- Hedonist
             local groupchats = SMODS.find_card('j_mxms_group_chat')
             if next(groupchats) then
                 for k, v in pairs(groupchats) do
-                    v.ability.extra.chips = v.ability.extra.chips + 2
+                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
                     v:juice_up(0.3, 0.4)
                 end
             end
