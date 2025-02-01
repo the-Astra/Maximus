@@ -3924,7 +3924,7 @@ SMODS.Joker { -- Memory Game
     blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
-        if context.before and context.scoring_name == "Pair" then
+        if context.before and context.scoring_name == "Pair" and not context.blueprint then
             play_sound('tarot1')
             card:juice_up(0.3, 0.5)
 
