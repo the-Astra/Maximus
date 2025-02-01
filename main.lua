@@ -3467,10 +3467,12 @@ SMODS.Joker { -- Minimalist
         end
     end,
     update = function(self, card, dt)
-        card.ability.extra.chips = 90
-        for k, v in pairs(G.playing_cards) do
-            if next(SMODS.get_enhancements(v)) and card.ability.extra.chips > 0 then
-                card.ability.extra.chips = card.ability.extra.chips - 15
+        if G.STAGE == G.STAGES.RUN then
+            card.ability.extra.chips = 90
+            for k, v in pairs(G.playing_cards) do
+                if next(SMODS.get_enhancements(v)) and card.ability.extra.chips > 0 then
+                    card.ability.extra.chips = card.ability.extra.chips - 15
+                end
             end
         end
     end
