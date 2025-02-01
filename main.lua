@@ -3413,7 +3413,7 @@ SMODS.Joker { -- Group Chat
             chips = 0
         }
     },
-    blueprint_compat = false,
+    blueprint_compat = true,
     cost = 3,
     loc_vars = function(self, info_queue, center)
         return {
