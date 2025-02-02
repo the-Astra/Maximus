@@ -1724,7 +1724,7 @@ SMODS.Joker { -- Bullseye
     loc_txt = {
         name = 'Bullseye',
         text = { 'If {C:attention}blind\'s{} Chip requirement', 'is met {C:attention}exactly{}, this joker',
-            'gains {C:chips}+#1#{} Chips', '{C:inactive}Scales with round', '{C:inactive}Currently: {C:chips}+#2#' }
+            'gains {C:chips}+#1#{} Chips', '{C:inactive}Gain scales with round', '{C:inactive}Currently: {C:chips}+#2#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -1740,8 +1740,12 @@ SMODS.Joker { -- Bullseye
     blueprint_compat = true,
     cost = 5,
     loc_vars = function(self, info_queue, center)
+        local gain = 100 * G.GAME.round
+        if gain < 100 then
+            gain = 100
+        end
         return {
-            vars = { 100 * G.GAME.round, center.ability.extra.chips }
+            vars = { gain, center.ability.extra.chips }
         }
     end,
     calculate = function(self, card, context)
@@ -4157,9 +4161,9 @@ SMODS.Challenge { -- Stardust Crusaders
             { id = 'v_magic_trick' },
             { id = 'v_illusion' },
             { id = 'p_standard_normal_1', ids = {
-                'p_standard_normal_1', 'p_standard_normal_2', 
-                'p_standard_normal_3', 'p_standard_normal_4', 
-                'p_standard_jumbo_1', 'p_standard_jumbo_2', 
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
                 'p_standard_mega_1', 'p_standard_mega_2' }
             },
             { id = 'j_dna' },
@@ -4208,6 +4212,69 @@ SMODS.Challenge { -- It's Hip to be Square
         }
     },
     jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones', edition = 'negative'},
+        { id = 'j_mr_bones', edition = 'negative'},
+        { id = 'j_mr_bones', edition = 'negative'},
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
     deck = {
         type = 'Challenge Deck'
     }

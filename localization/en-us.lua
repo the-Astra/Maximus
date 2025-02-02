@@ -104,7 +104,7 @@ return {
                 "Only {C:attention}#1#{} card(s) can be selected at a time"
             },
             ch_c_mxms_bullseye_requirement={
-                "Bullseye must have at least {C:chips}+500{} Chips by first boss blind"
+                "Bullseye must have at least {C:chips}+#1#{} Chips by the end of ante 8 boss blind"
             },
             ch_c_mxms_feast={
                 "Only food Jokers (including Microwave and Refrigerator) can appear in shops"

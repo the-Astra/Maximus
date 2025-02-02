@@ -2854,6 +2854,32 @@ match_indent = true
 times = 1
 
 
+    #Target Practice Check
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''
+if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then
+    game_won = true
+    G.GAME.won = true
+end
+'''
+position = "at"
+payload = '''
+if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then
+    if G.GAME.modifiers.mxms_bullseye_requirement and G.GAME.modifiers.mxms_bullseye_requirement > SMODS.find_card('j_mxms_bullseye')[1].ability.extra.chips then
+        game_over = true
+    else
+        game_won = true
+        G.GAME.won = true
+    end
+end
+'''
+match_indent = true
+times = 1
+
+
+
 
 
 # ------------------------------------------ NEW LOGIC ------------------------------------------
