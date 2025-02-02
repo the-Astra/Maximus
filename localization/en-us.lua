@@ -81,6 +81,39 @@ return {
                 text={
                     "{C:mult}+#1#{} extra mult",
                 },
+            },
+            pinned_right={
+                name="Pinned",
+                text={
+                    "This Joker stays",
+                    "pinned to the",
+                    "rightmost position",
+                },
+            },
+        }
+    },
+    misc = {
+        v_text={
+            ch_c_mxms_X_blind_size={
+                "{X:mult,C:white}X#1#{} blind size"
+            },
+            ch_c_mxms_X_blind_scale={
+                "Blinds scale {X:mult,C:white}X#1#{} as fast"
+            },
+            ch_c_mxms_highlight_limit={
+                "Only {C:attention}#1#{} card(s) can be selected at a time"
+            },
+            ch_c_mxms_bullseye_requirement={
+                "Bullseye must have at least {C:chips}+#1#{} Chips by the end of ante 8 boss blind"
+            },
+            ch_c_mxms_feast={
+                "Only food Jokers (including Microwave and Refrigerator) can appear in shops"
+            },
+            ch_c_mxms_random_suit_debuff={
+                "A random suit is {C:attention}debuffed{} each round"
+            },
+            ch_c_mxms_all_rare={
+                "Only {C:red}Rare{} Jokers can show up in the shop"
             }
         }
     }

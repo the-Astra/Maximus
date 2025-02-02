@@ -49,7 +49,7 @@ Game.init_game_object = function(self)
     ret.v_destroy_reduction = 0
 
     --Rotating Modifiers
-    ret.current_round.impractical_hand = 'High Card'
+    ret.current_round.impractical_hand = 'Straight Flush'
     ret.current_round.marco_polo_pos = 1
     ret.current_round.go_fish = {
         rank = "Ace",
@@ -133,7 +133,9 @@ food_jokers = { {
 --region Round Changing Variables
 function SMODS.current_mod.reset_game_globals(run_start)
     -- Impractical Joker
-    if not next(SMODS.find_card('j_mxms_stop_sign')) then
+    if G.GAME.challenge == 'c_mxms_tonights_biggest_loser' then
+        G.GAME.current_round.impractical_hand = 'Straight Flush'
+    elseif not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1 then
         G.GAME.current_round.impractical_hand = G.GAME.current_round.impractical_hand
         local valid_hands = {}
 
@@ -151,7 +153,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
     end
 
     -- Marco Polo
-    if not next(SMODS.find_card('j_mxms_stop_sign')) then
+    if not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1 then
         local new_pos = G.GAME.current_round.marco_polo_pos
         if #G.jokers.cards <= 1 then
             new_pos = 1
@@ -164,7 +166,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
     end
 
     -- Go Fish
-    if not next(SMODS.find_card('j_mxms_stop_sign')) then
+    if not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1 then
         local valid_ranks = {}
         local new_rank = G.GAME.current_round.go_fish.rank
         local new_mult = 0
@@ -1722,7 +1724,7 @@ SMODS.Joker { -- Bullseye
     loc_txt = {
         name = 'Bullseye',
         text = { 'If {C:attention}blind\'s{} Chip requirement', 'is met {C:attention}exactly{}, this joker',
-            'gains {C:chips}+#1#{} Chips', '{C:inactive}Scales with round', '{C:inactive}Currently: {C:chips}+#2#' }
+            'gains {C:chips}+#1#{} Chips', '{C:inactive}Gain is equal to 100 x Round', '{C:inactive}Currently: {C:chips}+#2#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -1738,8 +1740,12 @@ SMODS.Joker { -- Bullseye
     blueprint_compat = true,
     cost = 5,
     loc_vars = function(self, info_queue, center)
+        local gain = 100 * G.GAME.round
+        if gain < 100 then
+            gain = 100
+        end
         return {
-            vars = { 100 * G.GAME.round, center.ability.extra.chips }
+            vars = { gain, center.ability.extra.chips }
         }
     end,
     calculate = function(self, card, context)
@@ -3384,7 +3390,7 @@ SMODS.Joker { -- Bootleg
             end
         end
 
-        if context.buying_card and context.card.config.center.blueprint_compat and context.card ~= card and G.GAME.last_bought.config.center.key ~= "j_mxms_bootleg" then
+        if context.buying_card and context.card.config.center.blueprint_compat and (context.card ~= card or context.card.config.center.key ~= "j_mxms_bootleg") then
             G.GAME.last_bought = context.card
             card:juice_up(0.3, 0.4)
         end
@@ -3413,7 +3419,7 @@ SMODS.Joker { -- Group Chat
             chips = 0
         }
     },
-    blueprint_compat = false,
+    blueprint_compat = true,
     cost = 3,
     loc_vars = function(self, info_queue, center)
         return {
@@ -3467,10 +3473,12 @@ SMODS.Joker { -- Minimalist
         end
     end,
     update = function(self, card, dt)
-        card.ability.extra.chips = 90
-        for k, v in pairs(G.playing_cards) do
-            if next(SMODS.get_enhancements(v)) and card.ability.extra.chips > 0 then
-                card.ability.extra.chips = card.ability.extra.chips - 15
+        if G.STAGE == G.STAGES.RUN then
+            card.ability.extra.chips = 90
+            for k, v in pairs(G.playing_cards) do
+                if next(SMODS.get_enhancements(v)) and card.ability.extra.chips > 0 then
+                    card.ability.extra.chips = card.ability.extra.chips - 15
+                end
             end
         end
     end
@@ -3924,7 +3932,7 @@ SMODS.Joker { -- Memory Game
     blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
-        if context.before and context.scoring_name == "Pair" then
+        if context.before and context.scoring_name == "Pair" and not context.blueprint then
             play_sound('tarot1')
             card:juice_up(0.3, 0.5)
 
@@ -4114,5 +4122,171 @@ SMODS.Voucher { -- Guardian
         G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
     end
 }
+
+--endregion
+
+--region Challenges
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_soul' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones', edition = 'negative'},
+        { id = 'j_mr_bones', edition = 'negative'},
+        { id = 'j_mr_bones', edition = 'negative'},
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+end
 
 --endregion
