@@ -49,7 +49,7 @@ Game.init_game_object = function(self)
     ret.v_destroy_reduction = 0
 
     --Rotating Modifiers
-    ret.current_round.impractical_hand = 'High Card'
+    ret.current_round.impractical_hand = 'Straight Flush'
     ret.current_round.marco_polo_pos = 1
     ret.current_round.go_fish = {
         rank = "Ace",
@@ -133,7 +133,9 @@ food_jokers = { {
 --region Round Changing Variables
 function SMODS.current_mod.reset_game_globals(run_start)
     -- Impractical Joker
-    if not next(SMODS.find_card('j_mxms_stop_sign')) then
+    if G.GAME.challenge == 'c_mxms_tonights_biggest_loser' then
+        G.GAME.current_round.impractical_hand = 'Straight Flush'
+    elseif not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1 then
         G.GAME.current_round.impractical_hand = G.GAME.current_round.impractical_hand
         local valid_hands = {}
 
@@ -151,7 +153,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
     end
 
     -- Marco Polo
-    if not next(SMODS.find_card('j_mxms_stop_sign')) then
+    if not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1 then
         local new_pos = G.GAME.current_round.marco_polo_pos
         if #G.jokers.cards <= 1 then
             new_pos = 1
@@ -164,7 +166,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
     end
 
     -- Go Fish
-    if not next(SMODS.find_card('j_mxms_stop_sign')) then
+    if not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1 then
         local valid_ranks = {}
         local new_rank = G.GAME.current_round.go_fish.rank
         local new_mult = 0
@@ -4116,5 +4118,108 @@ SMODS.Voucher { -- Guardian
         G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
     end
 }
+
+--endregion
+
+--region Challenges
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2', 
+                'p_standard_normal_3', 'p_standard_normal_4', 
+                'p_standard_jumbo_1', 'p_standard_jumbo_2', 
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_soul' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+end
 
 --endregion
