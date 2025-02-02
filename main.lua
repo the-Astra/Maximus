@@ -1724,7 +1724,7 @@ SMODS.Joker { -- Bullseye
     loc_txt = {
         name = 'Bullseye',
         text = { 'If {C:attention}blind\'s{} Chip requirement', 'is met {C:attention}exactly{}, this joker',
-            'gains {C:chips}+#1#{} Chips', '{C:inactive}Gain scales with round', '{C:inactive}Currently: {C:chips}+#2#' }
+            'gains {C:chips}+#1#{} Chips', '{C:inactive}Gain is equal to 100 x Round', '{C:inactive}Currently: {C:chips}+#2#' }
     },
     atlas = 'Jokers',
     pos = {
