@@ -3521,7 +3521,7 @@ SMODS.Joker { -- Endless Breadsticks
                     card = card
                 }
             else
-                card.ability.extra.chips = card.ability.extra.chips + 25
+                card.ability.extra.chips = card.ability.extra.chips + 25 * G.GAME.soil_mod
                 card.ability.extra.d_tally = 0
                 return {
                     delay = 0.2,
