@@ -3024,7 +3024,7 @@ SMODS.Joker { -- Hedonist
             }
         end
 
-        if context.ending_shop and #G.shop_vouchers.cards == 0 and #G.shop_booster.cards == 0 and #G.shop_jokers.cards == 0 then
+        if context.ending_shop and #G.shop_vouchers.cards == 0 and #G.shop_booster.cards == 0 and #G.shop_jokers.cards == 0 and not context.blueprint then
             card:juice_up(0.3, 0.4)
             play_sound('tarot1')
             card.ability.extra.Xmult = card.ability.extra.Xmult + (0.25 * G.GAME.soil_mod)
