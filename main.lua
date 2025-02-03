@@ -4228,6 +4228,11 @@ SMODS.Challenge { -- It's Hip to be Square
         }
     },
     jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_psychic' }
+        }
+    },
     deck = {
         type = 'Challenge Deck'
     }
@@ -4303,7 +4308,7 @@ SMODS.Challenge { -- Tonight's Biggest Loser
     },
     rules = {},
     jokers = {
-        { id = 'j_mxms_stop_sign', edition = 'negative', eternal = true },
+        { id = 'j_mxms_stop_sign',         edition = 'negative', eternal = true },
         { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
     },
     deck = {
@@ -4338,6 +4343,14 @@ SMODS.Challenge { -- Fashion Disaster
         }
     },
     jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_club' },
+            { id = 'bl_goad' },
+            { id = 'bl_head' },
+            { id = 'bl_window' }
+        }
+    },
     deck = {
         type = 'Challenge Deck'
     }
@@ -4376,7 +4389,7 @@ SMODS.Challenge { -- All Stars
             },
             { id = 'p_buffoon_normal_1', ids = {
                 'p_buffoon_normal_1', 'p_buffoon_normal_2',
-                'p_buffoon_jumbo_1', 'p_buffoon_mega_1'}
+                'p_buffoon_jumbo_1', 'p_buffoon_mega_1' }
             },
         }
     },
@@ -4406,8 +4419,9 @@ function Blind:set_blind(blind, reset, silent)
         G.GAME.joker_buffer = G.GAME.joker_buffer - 1
     end
     if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
-        local suits = {'Clubs', 'Spades', 'Hearts', 'Diamonds'}
-        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits, pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+            pseudoseed('fashion' .. G.GAME.round_resets.ante))
         for _, v in ipairs(G.playing_cards) do
             self:debuff_card(v)
         end
