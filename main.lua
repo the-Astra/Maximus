@@ -4229,7 +4229,7 @@ SMODS.Challenge { -- It's Hip to be Square
     jokers = {},
     restrictions = {
         banned_other = {
-            { id = 'bl_psychic' }
+            { id = 'bl_psychic', type = 'blind' }
         }
     },
     deck = {
@@ -4377,10 +4377,10 @@ SMODS.Challenge { -- Fashion Disaster
     jokers = {},
     restrictions = {
         banned_other = {
-            { id = 'bl_club' },
-            { id = 'bl_goad' },
-            { id = 'bl_head' },
-            { id = 'bl_window' }
+            { id = 'bl_club', type = 'blind' },
+            { id = 'bl_goad', type = 'blind' },
+            { id = 'bl_head', type = 'blind' },
+            { id = 'bl_window', type = 'blind' }
         }
     },
     deck = {
