@@ -4325,6 +4325,21 @@ SMODS.Challenge { -- Picky Eater
     }
 }
 
+SMODS.Challenge { -- Fashion Disaster
+    key = 'fashion',
+    loc_txt = {
+        name = 'Fashion Disaster'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_random_suit_debuff' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
 
 -- Custom Rule Hooks
 local gsr = G.start_run
@@ -4345,6 +4360,25 @@ function Blind:set_blind(blind, reset, silent)
         G.jokers:emplace(new_card)
         new_card:juice_up(0.3, 0.4)
         G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    end
+    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
+        local suits = {'Clubs', 'Spades', 'Hearts', 'Diamonds'}
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits, pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        for _, v in ipairs(G.playing_cards) do
+            self:debuff_card(v)
+        end
+    end
+end
+
+local bdc = Blind.debuff_card
+function Blind:debuff_card(card, from_blind)
+    bdc(self, card, from_blind)
+    if G.GAME.modifiers.mxms_random_suit_debuff and card.area ~= G.jokers then
+        if card:is_suit(G.GAME.modifiers.mxms_random_suit_debuff, true) then
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+            return
+        end
     end
 end
 
