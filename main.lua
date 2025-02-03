@@ -3827,7 +3827,7 @@ SMODS.Joker { -- Stone Thrower
         end
 
         if context.individual and context.cardarea == G.play and context.other_card.config.center == G.P_CENTERS.m_glass then
-            card.ability.extra.chips = card.ability.extra.chips + 30
+            card.ability.extra.chips = card.ability.extra.chips + 30 * G.GAME.soil_mod
             card_eval_status_text(card, 'extra', nil, nil, nil,
                 { message = localize('k_upgrade_ex'), colour = G.C.CHIPS })
         end
