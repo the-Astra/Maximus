@@ -185,21 +185,23 @@ function SMODS.current_mod.reset_game_globals(run_start)
 
     -- Zombie
     if next(SMODS.find_card('j_mxms_zombie')) and G.GAME.current_round.zombie_target ~= nil then
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                play_sound('timpani')
-                delay(0.4)
-                G.GAME.current_round.zombie_target:start_dissolve({ G.C.GREEN }, nil, 1.6)
-                local new_zombie = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_zombie',
-                    'zombie')
-                new_zombie:start_materialize()
-                new_zombie:add_to_deck()
-                G.jokers:emplace(new_zombie)
-                delay(0.4)
-                card_eval_status_text(new_zombie, 'extra', nil, nil, nil, { message = 'Turned!', colour = G.C.GREEN })
-                return true
-            end
-        }))
+        if not G.GAME.current_round.zombie_target.ability.eternal then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound('timpani')
+                    delay(0.4)
+                    G.GAME.current_round.zombie_target:start_dissolve({ G.C.GREEN }, nil, 1.6)
+                    local new_zombie = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_zombie',
+                        'zombie')
+                    new_zombie:start_materialize()
+                    new_zombie:add_to_deck()
+                    G.jokers:emplace(new_zombie)
+                    delay(0.4)
+                    card_eval_status_text(new_zombie, 'extra', nil, nil, nil, { message = 'Turned!', colour = G.C.GREEN })
+                    return true
+                end
+            }))
+        end
     end
 
     if not next(SMODS.find_card('j_mxms_stop_sign')) then
