@@ -1829,9 +1829,9 @@ SMODS.Joker { -- Four-Leaf Clover
             -- Code derived from Midas Mask
             for k, v in ipairs(context.scoring_hand) do
                 if not next(SMODS.get_enhancements(v)) and not v.debuff then
+                    v:set_ability(G.P_CENTERS.m_lucky, nil, true)
                     G.E_MANAGER:add_event(Event({
                         func = function()
-                            v:set_ability(G.P_CENTERS.m_lucky, nil, true)
                             v:juice_up(0.3, 0.4)
                             return true
                         end
