@@ -4183,7 +4183,6 @@ SMODS.Challenge { -- Stardust Crusaders
                 'p_standard_mega_1', 'p_standard_mega_2' }
             },
             { id = 'j_dna' },
-            { id = 'c_soul' },
             { id = 'c_cryptid' },
         }
     },
@@ -4246,11 +4245,44 @@ SMODS.Challenge { -- Let's Go Gambling!
     rules = {
         custom = {
             { id = 'no_extra_hand_money' },
-            { id = 'no_reward' }
+            { id = 'no_reward' },
+            { id = 'no_interest' }
+        },
+        modifiers = {
+            { id = 'dollars', value = 10}
         }
     },
     jokers = {},
     restrictions = {
+        banned_cards = {
+            { id = 'c_temperance' },
+            { id = 'c_hermit' },
+            { id = 'c_devil' },
+            { id = 'c_magician' },
+            { id = 'c_immolate' },
+            { id = 'j_egg' },
+            { id = 'j_matador' },
+            { id = 'j_golden' },
+            { id = 'j_delayed_grat' },
+            { id = 'j_business' },
+            { id = 'j_faceless' },
+            { id = 'j_todo_list' },
+            { id = 'j_cloud_9' },
+            { id = 'j_rocket' },
+            { id = 'j_gift' },
+            { id = 'j_reserved_parking' },
+            { id = 'j_mail' },
+            { id = 'j_to_the_moon' },
+            { id = 'j_trading' },
+            { id = 'j_ticket' },
+            { id = 'j_rough_gem' },
+            { id = 'j_satellite' },
+            { id = 'j_mxms_gambler' },
+            { id = 'j_mxms_jackpot' },
+            { id = 'j_mxms_four_course_meal' },
+            { id = 'v_seed_money' },
+            { id = 'v_money_tree' },
+        },
         banned_tags = {
             { id = 'tag_uncommon' },
             { id = 'tag_rare' },
