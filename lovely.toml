@@ -2940,7 +2940,8 @@ elseif v.joker_gate then
 match_indent = true
 times = 1
 
-# Change highlight limit to be mutable
+
+# Change highlight limit to be mutable -----------------------------------------
 [[patches]]
 [patches.pattern]
 target = "cardarea.lua"
@@ -2950,7 +2951,8 @@ payload = "self.config.highlighted_limit = config.highlight_limit or G.GAME.modi
 match_indent = true
 times = 1
 
-# Add posted code
+
+# Add posted code -----------------------------------------
 [[patches]]
 [patches.pattern]
 target = "game.lua"

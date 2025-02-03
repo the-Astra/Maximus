@@ -110,14 +110,17 @@ return {
                 "Bullseye must have at least {C:chips}+#1#{} Chips by the end of ante 8 boss blind"
             },
             ch_c_mxms_feast={
-                "Only food Jokers (including Microwave and Refrigerator) can appear in shops"
+                "{C:attention}Only food Jokers{} (including Microwave and Refrigerator) can appear in shops"
             },
             ch_c_mxms_random_suit_debuff={
                 "A random suit is {C:attention}debuffed{} each round"
             },
             ch_c_mxms_all_rare={
                 "Only {C:red}Rare{} Jokers can show up in the shop"
-            }
+            },
+            ch_c_mxms_picky={
+                "A copy of {C:attention}Four-Course Meal{} spawns in hand at the start of each round if there's room"
+            },
         }
     }
 }

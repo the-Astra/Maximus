@@ -4309,12 +4309,42 @@ SMODS.Challenge { -- Tonight's Biggest Loser
     }
 }
 
+SMODS.Challenge { -- Picky Eater
+    key = 'picky',
+    loc_txt = {
+        name = 'Picky Eater'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_picky' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+
 -- Custom Rule Hooks
 local gsr = G.start_run
 function Game:start_run(args)
     gsr(self, args)
     if G.GAME.modifiers.mxms_X_blind_scale then
         G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+end
+
+local bsb = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    bsb(self, blind, reset, silent)
+    if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
+        new_card:add_to_deck()
+        G.jokers:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
     end
 end
 
