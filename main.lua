@@ -4001,6 +4001,13 @@ SMODS.Voucher { -- Launch Code
 
         G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
         ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
     end
 }
 
@@ -4037,6 +4044,13 @@ SMODS.Voucher { -- Warp Drive
 
         G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
         ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
     end
 }
 
@@ -4270,9 +4284,9 @@ SMODS.Challenge { -- Target Practice
         }
     },
     jokers = {
-        { id = 'j_mr_bones', edition = 'negative'},
-        { id = 'j_mr_bones', edition = 'negative'},
-        { id = 'j_mr_bones', edition = 'negative'},
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mr_bones',      edition = 'negative' },
         { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
     },
     deck = {
