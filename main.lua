@@ -133,7 +133,7 @@ food_jokers = { {
 --region Round Changing Variables
 function SMODS.current_mod.reset_game_globals(run_start)
     -- Impractical Joker
-    if G.GAME.challenge == 'c_mxms_tonights_biggest_loser' then
+    if G.GAME.challenge == 'c_mxms_biggest_loser' then
         G.GAME.current_round.impractical_hand = 'Straight Flush'
     elseif not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1 then
         G.GAME.current_round.impractical_hand = G.GAME.current_round.impractical_hand
@@ -4288,6 +4288,21 @@ SMODS.Challenge { -- Target Practice
         { id = 'j_mr_bones',      edition = 'negative' },
         { id = 'j_mr_bones',      edition = 'negative' },
         { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Tonight's Biggest Loser
+    key = 'biggest_loser',
+    loc_txt = {
+        name = 'Tonight\'s Biggest Loser'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_stop_sign', edition = 'negative', eternal = true },
+        { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
     },
     deck = {
         type = 'Challenge Deck'

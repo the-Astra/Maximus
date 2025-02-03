@@ -82,17 +82,20 @@ return {
                     "{C:mult}+#1#{} extra mult",
                 },
             },
-            pinned_right={
-                name="Pinned",
+            posted_right={
+                name="Posted",
                 text={
                     "This Joker stays",
-                    "pinned to the",
+                    "posted to the",
                     "rightmost position",
                 },
             },
         }
     },
     misc = {
+        labels = {
+            posted_right="Posted"
+        },
         v_text={
             ch_c_mxms_X_blind_size={
                 "{X:mult,C:white}X#1#{} blind size"
