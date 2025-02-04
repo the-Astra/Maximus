@@ -241,6 +241,21 @@ end
 
 --region Ownership Taking
 
+-- Change Stone Card function based on Hammer and Chisel
+SMODS.Enhancement:take_ownership('stone', {
+    update = function(self, card, dt) 
+        if next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
+            self.replace_base_card = false
+            self.no_rank = false
+            self.no_suit = false
+        else
+            self.replace_base_card = true
+            self.no_rank = true
+            self.no_suit = true
+        end
+    end
+})
+
 -- Make Editions scale with Power Creep
 SMODS.Edition:take_ownership('polychrome', {
     loc_vars = function(self)
@@ -2303,7 +2318,6 @@ SMODS.Joker { -- Jackpot
             end
 
             if sevens >= 3 then
-                ease_dollars(card.ability.extra.money)
                 ease_dollars(card.ability.extra.money)
                 return {
                     message = 'Jackpot!',

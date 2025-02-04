@@ -1319,19 +1319,17 @@ times = 2
 
 # Secret Society Functionality ------------------------------------
 
-    # Rewrite card scoring functionality (includes Hammer and Chisel implementation to reduce patches)
+    # Rewrite card scoring functionality
 [[patches]]
 [patches.pattern]
 target = "card.lua"
 pattern = '''
 if self.ability.effect == 'Stone Card' or self.config.center.replace_base_card then
     return self.ability.bonus + (self.ability.perma_bonus or 0)
-end
+
 '''
-position = "at"
+position = "after"
 payload = '''
-if self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
-    return self.ability.bonus + (self.ability.perma_bonus or 0)
 elseif next(SMODS.find_card('j_mxms_secret_society')) then
     if self:get_id() == 2 then
         return 22 + self.ability.bonus + (self.ability.perma_bonus or 0)
@@ -1363,104 +1361,6 @@ elseif next(SMODS.find_card('j_mxms_secret_society')) then
     if self:get_id() == 14 then
         return 4 + self.ability.bonus + (self.ability.perma_bonus or 0)
     end
-end
-'''
-match_indent = true
-times = 1
-
-
-
-
-
-# Hammer and Chisel Functionality ------------------------------------
-
-    # Change stone card checks
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if flush_calc then
-    if SMODS.has_no_suit(self) then
-'''
-position = "at"
-payload = '''
-if flush_calc then
-    if SMODS.has_no_suit(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-else
-    if self.debuff and not bypass_debuff then return end
-    if SMODS.has_no_suit(self) then
-'''
-position = "at"
-payload = '''
-else
-    if self.debuff and not bypass_debuff then return end
-    if SMODS.has_no_suit(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = "if self.ability.effect == 'Stone Card' or (self.config.center.no_suit and self.config.center.no_rank) then"
-position = "at"
-payload ="if (self.ability.effect == 'Stone Card' or (self.config.center.no_suit and self.config.center.no_rank)) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then"
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if SMODS.has_no_rank(self) and not self.vampired then
-    return -math.random(100, 1000000)
-end
-'''
-position = "at"
-payload = '''
-if SMODS.has_no_rank(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) and not self.vampired then
-    return -math.random(100, 1000000)
-end
-'''
-match_indent = true
-times = 1
-
-
-    # Change Raised Fist interaction
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i]) then 
-'''
-position = "at"
-payload = '''
-if (temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i])) or next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
-'''
-match_indent = true
-times = 1
-
-
-    # Change rendering code for stone cards to include rank and suit
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
---If the card has a front, draw that next
-if self.children.front and self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card then
-'''
-position = "at"
-payload = '''
---If the card has a front, draw that next
-if self.children.front and (self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel'))) and not self.config.center.replace_base_card then
 '''
 match_indent = true
 times = 1
