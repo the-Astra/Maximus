@@ -1330,7 +1330,7 @@ end
 '''
 position = "at"
 payload = '''
-if self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
+if (self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel'))) or self.config.center.replace_base_card then
     return self.ability.bonus + (self.ability.perma_bonus or 0)
 elseif next(SMODS.find_card('j_mxms_secret_society')) then
     if self:get_id() == 2 then
@@ -1385,7 +1385,7 @@ if flush_calc then
 position = "at"
 payload = '''
 if flush_calc then
-    if SMODS.has_no_suit(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
+    if SMODS.has_no_suit(self) and not (self.ability.effect == 'Stone Card' and next(SMODS.find_card('j_mxms_hammer_and_chisel'))) then
 '''
 match_indent = true
 times = 1
@@ -1402,7 +1402,7 @@ position = "at"
 payload = '''
 else
     if self.debuff and not bypass_debuff then return end
-    if SMODS.has_no_suit(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
+    if SMODS.has_no_suit(self) and not (self.ability.effect == 'Stone Card' and next(SMODS.find_card('j_mxms_hammer_and_chisel'))) then
 '''
 match_indent = true
 times = 1
@@ -1412,7 +1412,7 @@ times = 1
 target = "card.lua"
 pattern = "if self.ability.effect == 'Stone Card' or (self.config.center.no_suit and self.config.center.no_rank) then"
 position = "at"
-payload ="if (self.ability.effect == 'Stone Card' or (self.config.center.no_suit and self.config.center.no_rank)) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then"
+payload ="if (self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel'))) or (self.config.center.no_suit and self.config.center.no_rank) then"
 match_indent = true
 times = 1
 
@@ -1426,7 +1426,7 @@ end
 '''
 position = "at"
 payload = '''
-if SMODS.has_no_rank(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) and not self.vampired then
+if SMODS.has_no_rank(self) and not (self.ability.effect == 'Stone Card' and next(SMODS.find_card('j_mxms_hammer_and_chisel'))) and not self.vampired then
     return -math.random(100, 1000000)
 end
 '''
@@ -1443,7 +1443,7 @@ if temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i])
 '''
 position = "at"
 payload = '''
-if (temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i])) or next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
+if temp_ID >= G.hand.cards[i].base.id and not (SMODS.has_no_rank(G.hand.cards[i]) and not (self.ability.effect == 'Stone Card' and next(SMODS.find_card('j_mxms_hammer_and_chisel')))) then
 '''
 match_indent = true
 times = 1
