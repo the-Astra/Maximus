@@ -60,6 +60,17 @@ Game.init_game_object = function(self)
     return ret
 end
 
+local cgcm = Card.get_chip_mult
+function Card.get_chip_mult(self)
+	local ret = cgcm(self)
+	if not self.debuff and not (self.ability.set == "Joker") then
+		if self.ability.mxms_mult_perma_bonus then
+			ret = ret + self.ability.mxms_mult_perma_bonus
+		end
+	end
+	return ret
+end
+
 -- Repetition Calc hook for Combo Breaker card repetition tracking
 local rep_calc = SMODS.calculate_repetitions
 function SMODS.calculate_repetitions(card, context, reps)
