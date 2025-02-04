@@ -1402,7 +1402,7 @@ payload = "if (self.ability.effect == 'Stone Card' and not next(SMODS.find_card(
 match_indent = true
 times = 1
 
-# Change rendering code for stone cards to include rank and suit
+    # Change rendering code for stone cards to include rank and suit
 [[patches]]
 [patches.pattern]
 target = "card.lua"
