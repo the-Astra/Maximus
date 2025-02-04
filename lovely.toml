@@ -1376,7 +1376,7 @@ times = 1
 
     # Change stone card checks
 [[patches]]
-[patches.regex]
+[patches.pattern]
 target = '=[SMODS _ "src/utils.lua"]'
 pattern = "if k == 'm_stone' or G.P_CENTERS[k].no_suit then is_stone = true end"
 position = "at"
