@@ -1376,34 +1376,20 @@ times = 1
 
     # Change stone card checks
 [[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if flush_calc then
-    if SMODS.has_no_suit(self) then
-'''
+[patches.regex]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "(?<pre>[\t ]*if )k == 'm_stone'(?<post>.*or G\\.P_CENTERS\\[k\\]\\.no_suit then is_stone = true end)"
 position = "at"
-payload = '''
-if flush_calc then
-    if SMODS.has_no_suit(self) and not (self.ability.effect == 'Stone Card' and next(SMODS.find_card('j_mxms_hammer_and_chisel'))) then
-'''
+payload = "$pre(k == 'm_stone' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')))$post"
 match_indent = true
 times = 1
 
 [[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-else
-    if self.debuff and not bypass_debuff then return end
-    if SMODS.has_no_suit(self) then
-'''
+[patches.regex]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "(?<pre>[\t ]*if )k == 'm_stone'(?<post>.*or G\\.P_CENTERS\\[k\\]\\.no_rank then return true end)"
 position = "at"
-payload = '''
-else
-    if self.debuff and not bypass_debuff then return end
-    if SMODS.has_no_suit(self) and not (self.ability.effect == 'Stone Card' and next(SMODS.find_card('j_mxms_hammer_and_chisel'))) then
-'''
+payload = "$pre(k == 'm_stone' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')))$post"
 match_indent = true
 times = 1
 
@@ -1412,44 +1398,11 @@ times = 1
 target = "card.lua"
 pattern = "if self.ability.effect == 'Stone Card' or (self.config.center.no_suit and self.config.center.no_rank) then"
 position = "at"
-payload ="if (self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel'))) or (self.config.center.no_suit and self.config.center.no_rank) then"
+payload = "if (self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel'))) or (self.config.center.no_suit and self.config.center.no_rank) then"
 match_indent = true
 times = 1
 
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if SMODS.has_no_rank(self) and not self.vampired then
-    return -math.random(100, 1000000)
-end
-'''
-position = "at"
-payload = '''
-if SMODS.has_no_rank(self) and not (self.ability.effect == 'Stone Card' and next(SMODS.find_card('j_mxms_hammer_and_chisel'))) and not self.vampired then
-    return -math.random(100, 1000000)
-end
-'''
-match_indent = true
-times = 1
-
-
-    # Change Raised Fist interaction
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i]) then 
-'''
-position = "at"
-payload = '''
-if temp_ID >= G.hand.cards[i].base.id and not (SMODS.has_no_rank(G.hand.cards[i]) and not (self.ability.effect == 'Stone Card' and next(SMODS.find_card('j_mxms_hammer_and_chisel')))) then
-'''
-match_indent = true
-times = 1
-
-
-    # Change rendering code for stone cards to include rank and suit
+# Change rendering code for stone cards to include rank and suit
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -1465,7 +1418,24 @@ if self.children.front and (self.ability.effect ~= 'Stone Card' or next(SMODS.fi
 match_indent = true
 times = 1
 
-
+# Hook into rotating cards that check rank/suit
+[[patches]]
+[patches.regex]
+target = "function/common_events.lua"
+pattern = '''
+(?<indent>)[\t ]*if v.ability.effect ~= 'Stone Card' then
+[\t ]*    if (?<cond>(not SMODS.has_no_suit(v) and )?not SMODS.has_no_rank(v)) then
+[\t ]*        (?<var>\w+)\\[#\w+\\+1\\] = v
+[\t ]*    end
+[\t ]*end
+'''
+position = "at"
+payload = '''
+if $cond then
+    $w[#$w+1] = v
+end
+'''
+line_prepend = '$indent'
 
 
 
@@ -1866,142 +1836,15 @@ times = 1
 
     # Hook into rotating cards in common_events
 [[patches]]
-[patches.pattern]
+[patches.regex]
 target = "functions/common_events.lua"
-pattern = '''
-function reset_idol_card()
-    G.GAME.current_round.idol_card.rank = 'Ace'
-    G.GAME.current_round.idol_card.suit = 'Spades'
-    local valid_idol_cards = {}
-    for k, v in ipairs(G.playing_cards) do
-        if v.ability.effect ~= 'Stone Card' then
-            if not SMODS.has_no_suit(v) and not SMODS.has_no_rank(v) then
-                valid_idol_cards[#valid_idol_cards+1] = v
-            end
-        end
-    end
-    if valid_idol_cards[1] then 
-        local idol_card = pseudorandom_element(valid_idol_cards, pseudoseed('idol'..G.GAME.round_resets.ante))
-        G.GAME.current_round.idol_card.rank = idol_card.base.value
-        G.GAME.current_round.idol_card.suit = idol_card.base.suit
-        G.GAME.current_round.idol_card.id = idol_card.base.id
-    end
-end
-
-function reset_mail_rank()
-    G.GAME.current_round.mail_card.rank = 'Ace'
-    local valid_mail_cards = {}
-    for k, v in ipairs(G.playing_cards) do
-        if v.ability.effect ~= 'Stone Card' then
-            if not SMODS.has_no_rank(v) then
-                valid_mail_cards[#valid_mail_cards+1] = v
-            end
-        end
-    end
-    if valid_mail_cards[1] then 
-        local mail_card = pseudorandom_element(valid_mail_cards, pseudoseed('mail'..G.GAME.round_resets.ante))
-        G.GAME.current_round.mail_card.rank = mail_card.base.value
-        G.GAME.current_round.mail_card.id = mail_card.base.id
-    end
-end
-
-function reset_ancient_card()
-    local ancient_suits = {}
-    for k, v in ipairs({'Spades','Hearts','Clubs','Diamonds'}) do
-        if v ~= G.GAME.current_round.ancient_card.suit then ancient_suits[#ancient_suits + 1] = v end
-    end
-    local ancient_card = pseudorandom_element(ancient_suits, pseudoseed('anc'..G.GAME.round_resets.ante))
-    G.GAME.current_round.ancient_card.suit = ancient_card
-end
-
-function reset_castle_card()
-    G.GAME.current_round.castle_card.suit = 'Spades'
-    local valid_castle_cards = {}
-    for k, v in ipairs(G.playing_cards) do
-        if v.ability.effect ~= 'Stone Card' then
-            if not SMODS.has_no_suit(v) then
-                valid_castle_cards[#valid_castle_cards+1] = v
-            end
-        end
-    end
-    if valid_castle_cards[1] then 
-        local castle_card = pseudorandom_element(valid_castle_cards, pseudoseed('cas'..G.GAME.round_resets.ante))
-        G.GAME.current_round.castle_card.suit = castle_card.base.suit
-    end
-end
-'''
-position = "at"
+pattern="function reset_(idol_card|mail_rank|ancient_card|castle_card)\\(\\)"
+position = "after"
 payload = '''
-function reset_idol_card()
-    if not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1 then
-        G.GAME.current_round.idol_card.rank = 'Ace'
-        G.GAME.current_round.idol_card.suit = 'Spades'
-        local valid_idol_cards = {}
-        for k, v in ipairs(G.playing_cards) do
-            if v.ability.effect ~= 'Stone Card' then
-                if not SMODS.has_no_suit(v) and not SMODS.has_no_rank(v) then
-                    valid_idol_cards[#valid_idol_cards+1] = v
-                end
-            end
-        end
-        if valid_idol_cards[1] then 
-            local idol_card = pseudorandom_element(valid_idol_cards, pseudoseed('idol'..G.GAME.round_resets.ante))
-            G.GAME.current_round.idol_card.rank = idol_card.base.value
-            G.GAME.current_round.idol_card.suit = idol_card.base.suit
-            G.GAME.current_round.idol_card.id = idol_card.base.id
-        end
-    end
-end
 
-function reset_mail_rank()
-    if not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1 then
-        G.GAME.current_round.mail_card.rank = 'Ace'
-        local valid_mail_cards = {}
-        for k, v in ipairs(G.playing_cards) do
-            if v.ability.effect ~= 'Stone Card' then
-                if not SMODS.has_no_rank(v) then
-                    valid_mail_cards[#valid_mail_cards+1] = v
-                end
-            end
-        end
-        if valid_mail_cards[1] then 
-            local mail_card = pseudorandom_element(valid_mail_cards, pseudoseed('mail'..G.GAME.round_resets.ante))
-            G.GAME.current_round.mail_card.rank = mail_card.base.value
-            G.GAME.current_round.mail_card.id = mail_card.base.id
-        end
-    end
-end
-
-function reset_ancient_card()
-    if not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1 then
-        local ancient_suits = {}
-        for k, v in ipairs({'Spades','Hearts','Clubs','Diamonds'}) do
-            if v ~= G.GAME.current_round.ancient_card.suit then ancient_suits[#ancient_suits + 1] = v end
-        end
-        local ancient_card = pseudorandom_element(ancient_suits, pseudoseed('anc'..G.GAME.round_resets.ante))
-        G.GAME.current_round.ancient_card.suit = ancient_card
-    end
-end
-
-function reset_castle_card()
-    if not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1 then
-        G.GAME.current_round.castle_card.suit = 'Spades'
-        local valid_castle_cards = {}
-        for k, v in ipairs(G.playing_cards) do
-            if v.ability.effect ~= 'Stone Card' then
-                if not SMODS.has_no_suit(v) then
-                    valid_castle_cards[#valid_castle_cards+1] = v
-                end
-            end
-        end
-        if valid_castle_cards[1] then 
-            local castle_card = pseudorandom_element(valid_castle_cards, pseudoseed('cas'..G.GAME.round_resets.ante))
-            G.GAME.current_round.castle_card.suit = castle_card.base.suit
-        end
-    end
-end
-'''
+    if next(SMODS.find_card('j_mxms_stop_sign')) or G.GAME.round == 1 then return end'''
 match_indent = true
+
 
 
     # Hook into To Do List
