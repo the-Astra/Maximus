@@ -60,6 +60,7 @@ Game.init_game_object = function(self)
     return ret
 end
 
+-- Get Chip Mult hook for perma mult
 local cgcm = Card.get_chip_mult
 function Card.get_chip_mult(self)
     local ret = cgcm(self)
@@ -69,36 +70,6 @@ function Card.get_chip_mult(self)
         end
     end
     return ret
-end
-
-local csa = Card.set_ability
-function Card.set_ability(center, initial, delay_sprites)
-    csa(self, center, initial, delay_sprites)
-    if center.set == "Enhanced" then
-        local hypes = SMODS.find_card('j_mxms_hypeman')
-        if next(hypes) then
-            for k, v in ipairs(hypes) do
-                card_eval_status_text(context.blueprint_card or v, 'extra', nil, nil, nil,
-                            { message = '+'..v.ability.extra.dollars * G.GAME.gambler_mod, colour = G.C.MONEY })
-                ease_dollars(v.ability.extra.dollars * G.GAME.gambler_mod)
-            end
-        end
-    end
-end
-
-local cc = copy_card
-function copy_card(other, new_card, card_scale, playing_card, strip_edition)
-    cc(self, other, new_card, card_scale, playing_card, strip_edition)
-    if new_card.ability.set == "Enhanced" then
-        local hypes = SMODS.find_card('j_mxms_hypeman')
-        if next(hypes) then
-            for k, v in ipairs(hypes) do
-                card_eval_status_text(context.blueprint_card or v, 'extra', nil, nil, nil,
-                            { message = '+'..v.ability.extra.dollars * G.GAME.gambler_mod, colour = G.C.MONEY })
-                ease_dollars(v.ability.extra.dollars * G.GAME.gambler_mod)
-            end
-        end
-    end
 end
 
 -- Repetition Calc hook for Combo Breaker card repetition tracking
@@ -114,6 +85,7 @@ function SMODS.calculate_repetitions(card, context, reps)
     return rep_return
 end
 
+-- Set Ability hook for H&C and Hype Man
 local csa = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites)
     csa(self, center, initial, delay_sprites)
@@ -121,6 +93,22 @@ function Card:set_ability(center, initial, delay_sprites)
         self.config.center.replace_base_card = false
         self.config.center.no_rank = false
         self.config.center.no_suit = false
+    end
+    if center.set == "Enhanced" then
+        local hypes = SMODS.find_card('j_mxms_hypeman')
+        if next(hypes) then
+            for k, v in ipairs(hypes) do
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('mxms_hey')
+                        return true;
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil,
+                    { message = '+' .. v.ability.extra.dollars * G.GAME.gambler_mod, colour = G.C.MONEY })
+                ease_dollars(v.ability.extra.dollars * G.GAME.gambler_mod)
+            end
+        end
     end
 end
 
@@ -135,6 +123,11 @@ SMODS.Sound({
 SMODS.Sound({
     key = 'eggsplosion',
     path = 'eggsplosion.ogg'
+})
+
+SMODS.Sound({
+    key = 'hey',
+    path = 'hey.ogg'
 })
 --endregion
 
@@ -4066,7 +4059,7 @@ SMODS.Joker { -- Rock Slide
     },
     atlas = 'Jokers',
     pos = {
-        x = 3,
+        x = 4,
         y = 9
     },
     rarity = 2,
@@ -4125,10 +4118,10 @@ SMODS.Joker { -- First Aid Kit
     },
     atlas = 'Jokers',
     pos = {
-        x = 3,
+        x = 5,
         y = 9
     },
-    rarity = 2,
+    rarity = 1,
     blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
@@ -4176,10 +4169,30 @@ SMODS.Joker { -- First Aid Kit
     end
 }
 
+SMODS.Joker { -- Hype Man
+    key = 'hypeman',
+    loc_txt = {
+        name = 'Hype Man',
+        text = { 'Gives {C:money}$1{} every', 'time a card is', '{C:attention}enhanced{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = {
+            dollars = 1
+        }
+    },
+    blueprint_compat = false,
+    cost = 6
+}
+
 --endregion
 
 --region Vouchers
-
 
 SMODS.Voucher { -- Launch Code
     key = 'launch_code',
