@@ -1378,18 +1378,18 @@ times = 1
 [[patches]]
 [patches.regex]
 target = '=[SMODS _ "src/utils.lua"]'
-pattern = "(?<pre>[\t ]*if )k == 'm_stone'(?<post>.*or G\\.P_CENTERS\\[k\\]\\.no_suit then is_stone = true end)"
+pattern = "if k == 'm_stone' or G.P_CENTERS[k].no_suit then is_stone = true end"
 position = "at"
-payload = "$pre(k == 'm_stone' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')))$post"
+payload = "if (k == 'm_stone' and not next(SMODS.find_card('j_mxms_hammer_and_chisel'))) or G.P_CENTERS[k].no_suit then is_stone = true end"
 match_indent = true
 times = 1
 
 [[patches]]
-[patches.regex]
+[patches.pattern]
 target = '=[SMODS _ "src/utils.lua"]'
-pattern = "(?<pre>[\t ]*if )k == 'm_stone'(?<post>.*or G\\.P_CENTERS\\[k\\]\\.no_rank then return true end)"
+pattern = "if k == 'm_stone' or G.P_CENTERS[k].no_rank then return true end"
 position = "at"
-payload = "$pre(k == 'm_stone' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')))$post"
+payload = "if (k == 'm_stone' and not next(SMODS.find_card('j_mxms_hammer_and_chisel'))) or G.P_CENTERS[k].no_rank then return true end"
 match_indent = true
 times = 1
 
