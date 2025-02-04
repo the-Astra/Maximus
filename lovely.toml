@@ -1352,7 +1352,7 @@ end
 '''
 position = "at"
 payload = '''
-if self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) or self.config.center.replace_base_card then
+if (self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel'))) or self.config.center.replace_base_card then
     return self.ability.bonus + (self.ability.perma_bonus or 0)
 elseif next(SMODS.find_card('j_mxms_secret_society')) then
     if self:get_id() == 2 then
