@@ -1418,26 +1418,24 @@ if self.children.front and (self.ability.effect ~= 'Stone Card' or next(SMODS.fi
 match_indent = true
 times = 1
 
-# Hook into rotating cards that check rank/suit
+# Hook into rotating checks that require rank/suit
 [[patches]]
 [patches.regex]
-target = "function/common_events.lua"
+target = "functions/common_events.lua"
 pattern = '''
 (?<indent>[\t ]*)if v.ability.effect ~= 'Stone Card' then
-[\t ]*    if (?<cond>(not SMODS.has_no_suit(v) and )?not SMODS.has_no_rank(v)) then
-[\t ]*        (?<var>\w+)\\[#\w+\\+1\\] = v
+[\t ]*    if (?<cond>.*) then
+[\t ]*        (?<var>\w+)\[#\w+\+1\] = v
 [\t ]*    end
 [\t ]*end
 '''
 position = "at"
 payload = '''
 if $cond then
-    $w[#$w+1] = v
+    $var[#$var+1] = v
 end
 '''
 line_prepend = '$indent'
-
-
 
 
 # Add Soyjoke and Clown Car Functionality -----------------------------------------
@@ -1834,16 +1832,19 @@ times = 1
 
 # Add Stop Sign Functionality -----------------------------------------
 
-    # Hook into rotating cards in common_events
 [[patches]]
 [patches.regex]
 target = "functions/common_events.lua"
-pattern="function reset_(idol_card|mail_rank|ancient_card|castle_card)\\(\\)"
+pattern = '''
+function reset_(idol_card|mail_rank|ancient_card|castle_card)\(\)
+'''
 position = "after"
 payload = '''
+    if next(SMODS.find_card('j_mxms_stop_sign')) then return end
+    
+'''
 
-    if next(SMODS.find_card('j_mxms_stop_sign')) or G.GAME.round == 1 then return end'''
-match_indent = true
+
 
 
     # Hook into To Do List
