@@ -62,13 +62,13 @@ end
 
 local cgcm = Card.get_chip_mult
 function Card.get_chip_mult(self)
-	local ret = cgcm(self)
-	if not self.debuff and not (self.ability.set == "Joker") then
-		if self.ability.mxms_mult_perma_bonus then
-			ret = ret + self.ability.mxms_mult_perma_bonus
-		end
-	end
-	return ret
+    local ret = cgcm(self)
+    if not self.debuff and not (self.ability.set == "Joker") then
+        if self.ability.mxms_mult_perma_bonus then
+            ret = ret + self.ability.mxms_mult_perma_bonus
+        end
+    end
+    return ret
 end
 
 -- Repetition Calc hook for Combo Breaker card repetition tracking
@@ -4052,7 +4052,7 @@ SMODS.Joker { -- Rock Slide
     calculate = function(self, card, context)
         if context.before and #context.scoring_hand == 5 then
             local stone_tally = 0
-            for k, v in context.scoring_hand do
+            for k, v in ipairs(context.scoring_hand) do
                 if SMODS.has_enhancement(v, 'm_stone') then
                     stone_tally = stone_tally + 1
                 end
@@ -4067,23 +4067,21 @@ SMODS.Joker { -- Rock Slide
                             local card = Card(G.play.T.x + G.play.T.w / 2, G.play.T.y, G.CARD_W, G.CARD_H, front,
                                 G.P_CENTERS.m_stone, { playing_card = G.playing_card })
                             card:start_materialize({ G.C.SECONDARY_SET.Enhanced })
-                            G.play:emplace(card)
+                            G.deck:emplace(card)
                             table.insert(G.playing_cards, card)
                             return true
                         end
                     }))
-                    card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil,
+                    card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil,
                         { message = localize('k_plus_stone'), colour = G.C.SECONDARY_SET.Enhanced })
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            G.deck.config.card_limit = G.deck.config.card_limit + stone_tally
+                            return true
+                        end
+                    }))
+                    playing_card_joker_effects({ true })
                 end
-
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        G.deck.config.card_limit = G.deck.config.card_limit + stone_tally
-                        return true
-                    end
-                }))
-                draw_card(G.play, G.deck, 90, 'up', nil)
-                playing_card_joker_effects({ true })
             end
         end
     end
