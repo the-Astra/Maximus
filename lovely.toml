@@ -1596,36 +1596,18 @@ times = 1
 
 [[patches]]
 [patches.pattern]
-target = "card.lua"
+target = "functions/common_events.lua"
 pattern = '''
 elseif _c.set == 'Enhanced' then 
+'''
 position = "before"
 payload = '''
 	if specific_vars.mxms_bonus_mult then
-		localize{type = 'other', key = 'mxms_card_extra_mult', nodes = desc_nodes, vars = {specific_vars.mxms_bonus_mult}}
+		localize{type = 'other', key = 'maximus_card_extra_mult', nodes = desc_nodes, vars = {specific_vars.mxms_bonus_mult}}
 	end
-}
 '''
 match_indent = true
 times = 1
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = '''
-if specific_vars.bonus_chips then
-    localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {specific_vars.bonus_chips}}
-end
-'''
-position = "after"
-payload = '''
-if specific_vars.bonus_mult then
-    localize{type = 'other', key = 'mxms_card_extra_mult', nodes = desc_nodes, vars = {specific_vars.mxms_bonus_mult}}
-end
-'''
-match_indent = true
-times = 1
-
 
 [[patches]]
 [patches.pattern]
@@ -1636,7 +1618,7 @@ elseif _c.set == 'Booster' then
 position = "before"
 payload = '''
 	if specific_vars and specific_vars.mxms_bonus_mult then
-		localize{type = 'other', key = 'mxms_card_extra_mult', nodes = desc_nodes, vars = {specific_vars.mxms_bonus_mult}}
+		localize{type = 'other', key = 'maximus_card_extra_mult', nodes = desc_nodes, vars = {specific_vars.mxms_bonus_mult}}
 	end
 '''
 match_indent = true

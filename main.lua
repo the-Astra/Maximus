@@ -2303,7 +2303,7 @@ SMODS.Joker { -- Random Encounter
     rarity = 2,
     config = {
         extra = {
-            chance = 1
+            chance = 4
         }
     },
     blueprint_compat = true,
@@ -2318,8 +2318,8 @@ SMODS.Joker { -- Random Encounter
             local chance_roll = pseudorandom(pseudoseed('rand_enc' .. G.GAME.round_resets.ante),
                 card.ability.extra.chance * G.GAME.probabilities.normal, 4)
             if chance_roll == 4 then
-                context.other_card.ability.mult_perma_bonus = context.other_card.ability.mult_perma_bonus or 0
-                context.other_card.ability.mult_perma_bonus = context.other_card.ability.mult_perma_bonus + 1
+                context.other_card.ability.mxms_mult_perma_bonus = context.other_card.ability.mxms_mult_perma_bonus or 0
+                context.other_card.ability.mxms_mult_perma_bonus = context.other_card.ability.mxms_mult_perma_bonus + 1
                 return {
                     message = 'A random mult appears!',
                     colour = G.C.MULT,
@@ -4035,7 +4035,10 @@ SMODS.Joker { -- Rock Slide
         text = { 'If played hand is', '{C:attention}5 Stone Cards,{} add', '5 random Stone Card', 'to the deck' }
     },
     atlas = 'Jokers',
-    pos = {},
+    pos = {
+        x = 3,
+        y = 9
+    },
     rarity = 2,
     blueprint_compat = true,
     cost = 6,
@@ -4090,7 +4093,7 @@ SMODS.Joker { -- First Aid Kit
     key = 'first_aid_kit',
     loc_txt = {
         name = 'First Aid Kit',
-        text = { 'Sell this card for', '+2 hands and +2 discards', 'for the current round' }
+        text = { 'Sell this card for', '{C:blue}+2{} hands and {C:red}+2{} discards', 'for the current round' }
     },
     atlas = 'Jokers',
     pos = {
@@ -4107,7 +4110,7 @@ SMODS.Joker { -- First Aid Kit
                 func = function()
                     local hand_UI = G.HUD:get_UIE_by_ID('hand_UI_count')
                     G.GAME.current_round.hands_left = G.GAME.current_round.hands_left + 2
-                    handUI.config.object:update()
+                    hand_UI.config.object:update()
                     G.HUD:recalculate()
                     attention_text({
                         text = '+' .. 2,
@@ -4127,7 +4130,7 @@ SMODS.Joker { -- First Aid Kit
                 func = function()
                     local discard_UI = G.HUD:get_UIE_by_ID('discard_UI_count')
                     G.GAME.current_round.discards_left = G.GAME.current_round.discards_left + 2
-                    handUI.config.object:update()
+                    discard_UI.config.object:update()
                     G.HUD:recalculate()
                     attention_text({
                         text = '+' .. 2,
