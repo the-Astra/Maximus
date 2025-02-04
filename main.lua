@@ -4080,8 +4080,8 @@ SMODS.Joker { -- Rock Slide
                             return true
                         end
                     }))
-                    playing_card_joker_effects({ true })
                 end
+                playing_card_joker_effects({ true })
             end
         end
     end
