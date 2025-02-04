@@ -71,6 +71,36 @@ function Card.get_chip_mult(self)
     return ret
 end
 
+local csa = Card.set_ability
+function Card.set_ability(center, initial, delay_sprites)
+    csa(self, center, initial, delay_sprites)
+    if center.set == "Enhanced" then
+        local hypes = SMODS.find_card('j_mxms_hypeman')
+        if next(hypes) then
+            for k, v in ipairs(hypes) do
+                card_eval_status_text(context.blueprint_card or v, 'extra', nil, nil, nil,
+                            { message = '+'..v.ability.extra.dollars * G.GAME.gambler_mod, colour = G.C.MONEY })
+                ease_dollars(v.ability.extra.dollars * G.GAME.gambler_mod)
+            end
+        end
+    end
+end
+
+local cc = copy_card
+function copy_card(other, new_card, card_scale, playing_card, strip_edition)
+    cc(self, other, new_card, card_scale, playing_card, strip_edition)
+    if new_card.ability.set == "Enhanced" then
+        local hypes = SMODS.find_card('j_mxms_hypeman')
+        if next(hypes) then
+            for k, v in ipairs(hypes) do
+                card_eval_status_text(context.blueprint_card or v, 'extra', nil, nil, nil,
+                            { message = '+'..v.ability.extra.dollars * G.GAME.gambler_mod, colour = G.C.MONEY })
+                ease_dollars(v.ability.extra.dollars * G.GAME.gambler_mod)
+            end
+        end
+    end
+end
+
 -- Repetition Calc hook for Combo Breaker card repetition tracking
 local rep_calc = SMODS.calculate_repetitions
 function SMODS.calculate_repetitions(card, context, reps)
