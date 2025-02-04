@@ -1420,6 +1420,9 @@ times = 1
 
 
 
+
+
+
 # Add Soyjoke and Clown Car Functionality -----------------------------------------
 
     # Add joker to tracker or iterate modifier if already present
@@ -1946,7 +1949,6 @@ function reset_castle_card()
 end
 '''
 match_indent = true
-
 
 
     # Hook into To Do List
