@@ -4173,21 +4173,26 @@ SMODS.Joker { -- Hype Man
     key = 'hypeman',
     loc_txt = {
         name = 'Hype Man',
-        text = { 'Gives {C:money}$1{} every', 'time a card is', '{C:attention}enhanced{}' }
+        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
     },
     atlas = 'Jokers',
     pos = {
         x = 6,
         y = 9
     },
-    rarity = 2,
+    rarity = 1,
     config = {
         extra = {
             dollars = 1
         }
     },
     blueprint_compat = false,
-    cost = 6
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars * G.GAME.gambler_mod }
+        }
+    end
 }
 
 --endregion
@@ -4503,6 +4508,7 @@ SMODS.Challenge { -- Let's Go Gambling!
             { id = 'j_mxms_gambler' },
             { id = 'j_mxms_jackpot' },
             { id = 'j_mxms_four_course_meal' },
+            { id = 'j_mxms_hypeman' },
             { id = 'v_seed_money' },
             { id = 'v_money_tree' },
         },
