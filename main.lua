@@ -89,12 +89,14 @@ end
 local csa = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites)
     csa(self, center, initial, delay_sprites)
+    -- Hammer and Chisel
     if center == G.P_CENTERS.m_stone and next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
         self.config.center.replace_base_card = false
         self.config.center.no_rank = false
         self.config.center.no_suit = false
     end
-    if center.set == "Enhanced" then
+    -- Hype Man
+    if center.set == "Enhanced" and G.STATE ~= G.STATES.STANDARD_PACK then
         local hypes = SMODS.find_card('j_mxms_hypeman')
         if next(hypes) then
             for k, v in ipairs(hypes) do
