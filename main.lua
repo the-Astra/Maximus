@@ -4830,10 +4830,10 @@ SMODS.PokerHandPart {
 
 SMODS.PokerHand {
     key = 'three_pair',
-    mult = 1,
-    chips = 1,
+    mult = 4,
+    chips = 30,
     l_mult = 1,
-    l_chips = 1,
+    l_chips = 25,
     example = {
 
         { 'S_K', true },
@@ -4851,7 +4851,6 @@ SMODS.PokerHand {
         }
     },
     visible = false,
-    above_hand = 'Two Pair',
     evaluate = function(parts, hand)
         return #parts._2 >= 3 and { hand } or {}
     end
@@ -4859,10 +4858,10 @@ SMODS.PokerHand {
 
 SMODS.PokerHand {
     key = 'double_triple',
-    mult = 1,
-    chips = 1,
-    l_mult = 1,
-    l_chips = 1,
+    mult = 60,
+    chips = 60,
+    l_mult = 2,
+    l_chips = 35,
     example = {
 
         { 'S_K', true },
@@ -4880,7 +4879,6 @@ SMODS.PokerHand {
         }
     },
     visible = false,
-    above_hand = 'Full House',
     evaluate = function(parts, hand)
         return #parts._3 >= 2 and { hand } or {}
     end
@@ -4888,10 +4886,10 @@ SMODS.PokerHand {
 
 SMODS.PokerHand {
     key = '6oak',
-    mult = 1,
-    chips = 1,
-    l_mult = 1,
-    l_chips = 1,
+    mult = 18,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 40,
     example = {
 
         { 'S_K', true },
@@ -4909,7 +4907,6 @@ SMODS.PokerHand {
         }
     },
     visible = false,
-    above_hand = 'Five of a Kind',
     evaluate = function(parts, hand)
         return next(parts.mxms_6) and { hand } or {}
     end
@@ -4917,10 +4914,10 @@ SMODS.PokerHand {
 
 SMODS.PokerHand {
     key = 's_straight',
-    mult = 1,
-    chips = 1,
-    l_mult = 1,
-    l_chips = 1,
+    mult = 6,
+    chips = 50,
+    l_mult = 3,
+    l_chips = 50,
     example = {
 
         { 'S_A', true },
@@ -4938,7 +4935,6 @@ SMODS.PokerHand {
         }
     },
     visible = false,
-    above_hand = 'Straight',
     evaluate = function(parts, hand)
         return next(parts.mxms_s_straight) and { hand } or {}
     end
@@ -4946,10 +4942,10 @@ SMODS.PokerHand {
 
 SMODS.PokerHand {
     key = 's_flush',
-    mult = 1,
-    chips = 1,
-    l_mult = 1,
-    l_chips = 1,
+    mult = 6,
+    chips = 55,
+    l_mult = 2,
+    l_chips = 25,
     example = {
 
         { 'S_A', true },
@@ -4967,7 +4963,6 @@ SMODS.PokerHand {
         }
     },
     visible = false,
-    above_hand = 'Flush',
     evaluate = function(parts, hand)
         return next(parts.mxms_s_flush) and { hand } or {}
     end
@@ -4975,10 +4970,10 @@ SMODS.PokerHand {
 
 SMODS.PokerHand {
     key = 'house_party',
-    mult = 1,
-    chips = 1,
-    l_mult = 1,
-    l_chips = 1,
+    mult = 8,
+    chips = 70,
+    l_mult = 3,
+    l_chips = 40,
     example = {
 
         { 'S_A', true },
@@ -5005,10 +5000,10 @@ SMODS.PokerHand {
 
 SMODS.PokerHand {
     key = 'f_three_pair',
-    mult = 1,
-    chips = 1,
-    l_mult = 1,
-    l_chips = 1,
+    mult = 14,
+    chips = 150,
+    l_mult = 3,
+    l_chips = 30,
     example = {
 
         { 'S_K', true },
@@ -5036,10 +5031,10 @@ SMODS.PokerHand {
 
 SMODS.PokerHand {
     key = 'f_double_triple',
-    mult = 1,
-    chips = 1,
-    l_mult = 1,
-    l_chips = 1,
+    mult = 16,
+    chips = 170,
+    l_mult = 4,
+    l_chips = 50,
     example = {
 
         { 'S_K', true },
@@ -5066,10 +5061,10 @@ SMODS.PokerHand {
 
 SMODS.PokerHand {
     key = 's_straight_f',
-    mult = 1,
-    chips = 1,
-    l_mult = 1,
-    l_chips = 1,
+    mult = 20,
+    chips = 200,
+    l_mult = 5,
+    l_chips = 55,
     example = {
 
         { 'S_A', true },
@@ -5096,10 +5091,10 @@ SMODS.PokerHand {
 
 SMODS.PokerHand {
     key = 'f_party',
-    mult = 1,
-    chips = 1,
-    l_mult = 1,
-    l_chips = 1,
+    mult = 16,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 50,
     example = {
 
         { 'S_A', true },
@@ -5126,10 +5121,10 @@ SMODS.PokerHand {
 
 SMODS.PokerHand {
     key = 'f_6oak',
-    mult = 1,
-    chips = 1,
-    l_mult = 1,
-    l_chips = 1,
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
     example = {
 
         { 'S_K', true },
