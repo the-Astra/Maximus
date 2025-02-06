@@ -5155,6 +5155,7 @@ SMODS.PokerHand {
 --endregion
 
 --region Consumables
+
 SMODS.Consumable { -- Microscopii
     key = 'microscopii',
     set = 'Planet',
@@ -5168,7 +5169,7 @@ SMODS.Consumable { -- Microscopii
         },
     },
     config = {
-        hand_type = 'mxms_three_pair'
+        hand_type = 'mxms_three_pair',
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
@@ -5176,10 +5177,13 @@ SMODS.Consumable { -- Microscopii
             vars = 
             {
                 G.GAME.hands[center.ability.hand_type].level,
-                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
-                G.GAME.hands[center.ability.hand_type].l_chips
-            }
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }  
+            },  
         }
     end,
     in_pool = function(self, args) 
@@ -5212,10 +5216,13 @@ SMODS.Consumable { -- Wasp
             vars = 
             {
                 G.GAME.hands[center.ability.hand_type].level,
-                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
-                G.GAME.hands[center.ability.hand_type].l_chips
-            }
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }  
+            },
         }
     end,
     in_pool = function(self, args) 
@@ -5249,10 +5256,13 @@ SMODS.Consumable { -- Pegasi
             vars = 
             {
                 G.GAME.hands[center.ability.hand_type].level,
-                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
-                G.GAME.hands[center.ability.hand_type].l_chips
-            }
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }  
+            },
         }
     end,
     in_pool = function(self, args) 
@@ -5285,10 +5295,13 @@ SMODS.Consumable { -- Trappist
             vars = 
             {
                 G.GAME.hands[center.ability.hand_type].level,
-                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
-                G.GAME.hands[center.ability.hand_type].l_chips
-            }
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }  
+            },
         }
     end,
     in_pool = function(self, args) 
@@ -5321,10 +5334,13 @@ SMODS.Consumable { -- Corot
             vars = 
             {
                 G.GAME.hands[center.ability.hand_type].level,
-                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
-                G.GAME.hands[center.ability.hand_type].l_chips
-            }
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }  
+            },
         }
     end,
     in_pool = function(self, args) 
@@ -5357,10 +5373,13 @@ SMODS.Consumable { -- Poltergeist
             vars = 
             {
                 G.GAME.hands[center.ability.hand_type].level,
-                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
-                G.GAME.hands[center.ability.hand_type].l_chips
-            }
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }  
+            },
         }
     end,
     in_pool = function(self, args) 
@@ -5394,10 +5413,13 @@ SMODS.Consumable { -- Gliese
             vars = 
             {
                 G.GAME.hands[center.ability.hand_type].level,
-                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
-                G.GAME.hands[center.ability.hand_type].l_chips
-            }
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }  
+            },
         }
     end,
     in_pool = function(self, args) 
@@ -5431,10 +5453,13 @@ SMODS.Consumable { -- Cancri
             vars = 
             {
                 G.GAME.hands[center.ability.hand_type].level,
-                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
-                G.GAME.hands[center.ability.hand_type].l_chips
-            }
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }  
+            },
         }
     end,
     in_pool = function(self, args) 
@@ -5468,10 +5493,13 @@ SMODS.Consumable { -- Proxima Centauri
             vars = 
             {
                 G.GAME.hands[center.ability.hand_type].level,
-                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
-                G.GAME.hands[center.ability.hand_type].l_chips
-            }
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }  
+            },
         }
     end,
     in_pool = function(self, args) 
@@ -5505,10 +5533,13 @@ SMODS.Consumable { -- Phobetor
             vars = 
             {
                 G.GAME.hands[center.ability.hand_type].level,
-                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
-                G.GAME.hands[center.ability.hand_type].l_chips
-            }
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }  
+            },
         }
     end,
     in_pool = function(self, args) 
@@ -5542,10 +5573,13 @@ SMODS.Consumable { --Kepler
             vars = 
             {
                 G.GAME.hands[center.ability.hand_type].level,
-                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
-                G.GAME.hands[center.ability.hand_type].l_chips
-            }
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }  
+            },
         }
     end,
     in_pool = function(self, args) 
@@ -5556,3 +5590,5 @@ SMODS.Consumable { --Kepler
         return false
     end
 }
+
+--endregion
