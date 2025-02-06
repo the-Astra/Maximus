@@ -1317,9 +1317,31 @@ times = 2
 
 
 
+# Hammer and Chisel Functionality ------------------------------------
+
+    # Change rendering code for stone cards to include rank and suit
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+--If the card has a front, draw that next
+if self.children.front and self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card then
+'''
+position = "at"
+payload = '''
+--If the card has a front, draw that next
+if self.children.front and (self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel'))) and not self.config.center.replace_base_card then
+'''
+match_indent = true
+times = 1
+
+
+
+
+
 # Secret Society Functionality ------------------------------------
 
-    # Rewrite card scoring functionality (includes Hammer and Chisel implementation to reduce patches)
+    # Rewrite card scoring functionality
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -1330,7 +1352,7 @@ end
 '''
 position = "at"
 payload = '''
-if self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
+if (self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel'))) or self.config.center.replace_base_card then
     return self.ability.bonus + (self.ability.perma_bonus or 0)
 elseif next(SMODS.find_card('j_mxms_secret_society')) then
     if self:get_id() == 2 then
@@ -1364,103 +1386,6 @@ elseif next(SMODS.find_card('j_mxms_secret_society')) then
         return 4 + self.ability.bonus + (self.ability.perma_bonus or 0)
     end
 end
-'''
-match_indent = true
-times = 1
-
-
-
-
-
-# Hammer and Chisel Functionality ------------------------------------
-
-    # Change stone card checks
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if flush_calc then
-    if SMODS.has_no_suit(self) then
-'''
-position = "at"
-payload = '''
-if flush_calc then
-    if SMODS.has_no_suit(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-else
-    if self.debuff and not bypass_debuff then return end
-    if SMODS.has_no_suit(self) then
-'''
-position = "at"
-payload = '''
-else
-    if self.debuff and not bypass_debuff then return end
-    if SMODS.has_no_suit(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = "if self.ability.effect == 'Stone Card' or (self.config.center.no_suit and self.config.center.no_rank) then"
-position = "at"
-payload ="if (self.ability.effect == 'Stone Card' or (self.config.center.no_suit and self.config.center.no_rank)) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) then"
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if SMODS.has_no_rank(self) and not self.vampired then
-    return -math.random(100, 1000000)
-end
-'''
-position = "at"
-payload = '''
-if SMODS.has_no_rank(self) and not next(SMODS.find_card('j_mxms_hammer_and_chisel')) and not self.vampired then
-    return -math.random(100, 1000000)
-end
-'''
-match_indent = true
-times = 1
-
-
-    # Change Raised Fist interaction
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i]) then 
-'''
-position = "at"
-payload = '''
-if (temp_ID >= G.hand.cards[i].base.id and not SMODS.has_no_rank(G.hand.cards[i])) or next(SMODS.find_card('j_mxms_hammer_and_chisel')) then
-'''
-match_indent = true
-times = 1
-
-
-    # Change rendering code for stone cards to include rank and suit
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
---If the card has a front, draw that next
-if self.children.front and self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card then
-'''
-position = "at"
-payload = '''
---If the card has a front, draw that next
-if self.children.front and (self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel'))) and not self.config.center.replace_base_card then
 '''
 match_indent = true
 times = 1
@@ -1650,47 +1575,7 @@ times = 1
 target = "card.lua"
 pattern = "perma_bonus = self.ability and self.ability.perma_bonus or 0,"
 position = "after"
-payload = "mult_perma_bonus = self.ability and self.ability.mult_perma_bonus or 0,"
-match_indent = true
-times = 1
-
-
-    # Apply variable to mult calc
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-function Card:get_chip_mult()
-    if self.debuff then return 0 end
-    if self.ability.set == 'Joker' then return 0 end
-    if self.ability.effect == "Lucky Card" then 
-        if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/5 then
-            self.lucky_trigger = true
-            return self.ability.mult
-        else
-            return 0
-        end
-    else  
-        return self.ability.mult
-    end
-end
-'''
-position = "at"
-payload = '''
-function Card:get_chip_mult()
-    if self.debuff then return 0 end
-    if self.ability.set == 'Joker' then return 0 end
-    if self.ability.effect == "Lucky Card" then 
-        if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/5 then
-            self.lucky_trigger = true
-            return self.ability.mult + self.ability.mult_perma_bonus
-        else
-            return 0
-        end
-    else  
-        return self.ability.mult + self.ability.mult_perma_bonus
-    end
-end'''
+payload = "mxms_mult_perma_bonus = self.ability and self.ability.mxms_mult_perma_bonus or 0,"
 match_indent = true
 times = 1
 
@@ -1700,18 +1585,11 @@ times = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-loc_vars = { playing_card = not not self.base.colour, value = self.base.value, suit = self.base.suit, colour = self.base.colour,
-    nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,
-    bonus_chips = (self.ability.bonus + (self.ability.perma_bonus or 0)) > 0 and (self.ability.bonus + (self.ability.perma_bonus or 0)) or nil,
-}
+bonus_chips = (self.ability.bonus + (self.ability.perma_bonus or 0)) > 0 and (self.ability.bonus + (self.ability.perma_bonus or 0)) or nil,
 '''
-position = "at"
+position = "after"
 payload = '''
-loc_vars = { playing_card = not not self.base.colour, value = self.base.value, suit = self.base.suit, colour = self.base.colour,
-    nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,
-    bonus_chips = (self.ability.bonus + (self.ability.perma_bonus or 0)) > 0 and (self.ability.bonus + (self.ability.perma_bonus or 0)) or nil,
-    bonus_mult = (self.ability.mult_perma_bonus > 0 and self.ability.mult_perma_bonus) or nil
-}
+mxms_bonus_mult = (self.ability.mxms_mult_perma_bonus or 0) > 0 and self.ability.mxms_mult_perma_bonus or nil,
 '''
 match_indent = true
 times = 1
@@ -1720,18 +1598,30 @@ times = 1
 [patches.pattern]
 target = "functions/common_events.lua"
 pattern = '''
-if specific_vars.bonus_chips then
-    localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {specific_vars.bonus_chips}}
-end
+elseif _c.set == 'Enhanced' then 
 '''
-position = "after"
+position = "before"
 payload = '''
-if specific_vars.bonus_mult then
-    localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
-end
+	if specific_vars.mxms_bonus_mult then
+		localize{type = 'other', key = 'maximus_card_extra_mult', nodes = desc_nodes, vars = {specific_vars.mxms_bonus_mult}}
+	end
 '''
 match_indent = true
 times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+elseif _c.set == 'Booster' then 
+'''
+position = "before"
+payload = '''
+	if specific_vars and specific_vars.mxms_bonus_mult then
+		localize{type = 'other', key = 'maximus_card_extra_mult', nodes = desc_nodes, vars = {specific_vars.mxms_bonus_mult}}
+	end
+'''
+match_indent = true
 
 
 
@@ -1817,10 +1707,8 @@ pattern = '''
 if polled_rate > check_rate and polled_rate <= check_rate + v.val then
     local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
 '''
-position = "at"
+position = "after"
 payload = '''
-if polled_rate > check_rate and polled_rate <= check_rate + v.val then
-    local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
     local coupons = SMODS.find_card('j_mxms_coupon')
     if card.ability.set == 'Joker' and next(coupons) then
         for k, v in pairs(coupons) do
@@ -2867,13 +2755,37 @@ end
 position = "at"
 payload = '''
 if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then
-    if G.GAME.modifiers.mxms_bullseye_requirement and G.GAME.modifiers.mxms_bullseye_requirement > SMODS.find_card('j_mxms_bullseye')[1].ability.extra.chips then
-        game_over = true
+    if G.GAME.modifiers.mxms_bullseye_requirement then
+        if next(SMODS.find_card('j_mxms_bullseye')) and G.GAME.modifiers.mxms_bullseye_requirement > SMODS.find_card('j_mxms_bullseye')[1].ability.extra.chips or not next(SMODS.find_card('j_mxms_bullseye')) then
+            game_over = true
+        end
     else
         game_won = true
         G.GAME.won = true
     end
 end
+'''
+match_indent = true
+times = 1
+
+
+    # All Rare check
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+if polled_rate > check_rate and polled_rate <= check_rate + v.val then
+    local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
+'''
+position = "at"
+payload = '''
+if polled_rate > check_rate and polled_rate <= check_rate + v.val then
+    local card = nil
+    if G.GAME.modifiers.mxms_all_rare and v.type == 'Joker' then
+        card = create_card(v.type, area, nil, 0.99, nil, nil, nil, 'sho')
+    else
+        card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
+    end
 '''
 match_indent = true
 times = 1
@@ -2940,7 +2852,8 @@ elseif v.joker_gate then
 match_indent = true
 times = 1
 
-# Change highlight limit to be mutable
+
+# Change highlight limit to be mutable -----------------------------------------
 [[patches]]
 [patches.pattern]
 target = "cardarea.lua"
@@ -2948,3 +2861,105 @@ pattern = "self.config.highlighted_limit = config.highlight_limit or 5"
 position = "at"
 payload = "self.config.highlighted_limit = config.highlight_limit or G.GAME.modifiers.mxms_highlight_limit or 5"
 match_indent = true
+times = 1
+
+
+# Add posted code -----------------------------------------
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "if v.pinned then _joker.pinned = true end"
+position = "after"
+payload = "if v.posted then _joker.posted = true end"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = "table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*((a.pinned and not a.ignore_pinned) and a.sort_id or 0) < b.T.x + b.T.w/2 - 100*((b.pinned and not b.ignore_pinned) and b.sort_id or 0) end)"
+position = "at"
+payload = "table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*((a.pinned and not a.ignore_pinned or b.posted and not b.ignore_posted) and a.sort_id or 0) < b.T.x + b.T.w/2 - 100*((b.pinned and not b.ignore_pinned or a.posted and not a.ignore_posted) and b.sort_id or 0) end)"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/ui.lua"]'''
+pattern = "card.ignore_pinned = true"
+position = "after"
+payload = "card.ignore_posted = true"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "pinned_left = G.C.ORANGE,"
+position = "after"
+payload = "posted_right = G.C.ORANGE,"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "if v.pinned then card.pinned = true end"
+position = "after"
+payload = "if v.posted then card.posted = true end"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "new_card.pinned = other.pinned"
+position = "after"
+payload = "new_card.posted = other.posted"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if specific_vars and specific_vars.pinned then info_queue[#info_queue+1] = {key = 'pinned_left', set = 'Other'} end"
+position = "after"
+payload = "if specific_vars and specific_vars.posted then info_queue[#info_queue+1] = {key = 'posted_right', set = 'Other'} end"
+match_indent = true
+times = 2
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if v == 'pinned_left' then info_queue[#info_queue+1] = {key = 'pinned_left', set = 'Other'} end"
+position = "after"
+payload = "if v == 'posted_right' then info_queue[#info_queue+1] = {key = 'posted_right', set = 'Other'} end"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.pinned then badges[#badges + 1] = 'pinned_left' end"
+position = "after"
+payload = "if self.posted then badges[#badges + 1] = 'posted_right' end"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "pinned = self.pinned,"
+position = "after"
+payload = "posted = self.posted,"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "self.pinned = cardTable.pinned,"
+position = "after"
+payload = "self.posted = cardTable.posted,"
+match_indent = true
+times = 1
