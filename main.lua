@@ -4493,6 +4493,7 @@ SMODS.Challenge { -- Let's Go Gambling!
             { id = 'c_devil' },
             { id = 'c_magician' },
             { id = 'c_immolate' },
+            { id = 'c_talisman' },
             { id = 'j_egg' },
             { id = 'j_matador' },
             { id = 'j_golden' },
