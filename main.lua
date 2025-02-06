@@ -47,6 +47,7 @@ Game.init_game_object = function(self)
     ret.skip_tag = ''
     ret.last_bought = nil
     ret.v_destroy_reduction = 0
+    ret.shop_price_multiplier = 1
 
     --Rotating Modifiers
     ret.current_round.impractical_hand = 'Straight Flush'
@@ -4718,7 +4719,7 @@ end
 SMODS.Back { --Sixth Finger
     key = 'sixth_finger',
     loc_txt = {
-        name = 'Sixth Finger',
+        name = 'Sixth Finger Deck',
         text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
     },
     apply = function(self, back)
@@ -4732,6 +4733,21 @@ SMODS.Back { --Sixth Finger
         G.GAME.hands.mxms_s_flush.visible = true
         G.GAME.hands.mxms_house_party.visible = true
         G.GAME.hands.mxms_s_straight_f.visible = true
+    end
+}
+
+SMODS.Back { --Nirvana
+    key = 'nirvana',
+    loc_txt = {
+        name = 'Nirvana Deck',
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    apply = function(self, back)
+        --Change shop prices
+        G.GAME.shop_price_multiplier = 1.5
+
+        -- Change reroll starting price
+        G.GAME.starting_params.reroll_cost = 0
     end
 }
 
