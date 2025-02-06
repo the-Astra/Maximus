@@ -1407,7 +1407,7 @@ SMODS.Joker { -- Harmony
                     end
                 end
                 if #ranks == 0 or unique then
-                    ranks[#ranks+1] = context.scoring_hand[i]:get_id()
+                    ranks[#ranks + 1] = context.scoring_hand[i]:get_id()
                 end
             end
 
@@ -4710,5 +4710,338 @@ function Blind:debuff_card(card, from_blind)
         end
     end
 end
+
+--endregion
+
+--region Backs
+
+SMODS.Back { --Sixth Finger
+    key = 'sixth_finger',
+    loc_txt = {
+        name = 'Sixth Finger',
+        loc_txt = 'Increases maximum highlight', 'limit to {C:attention}6 cards{}'
+    },
+    apply = function(self, back)
+        G.GAME.modifiers.mxms_highlight_limit = 6
+    end
+}
+
+--endregion
+
+--region Hand Types
+
+SMODS.PokerHandPart {
+    key = '_6',
+    func = function(hand)
+        return get_X_same(6, hand)
+    end
+}
+
+SMODS.PokerHandPart {
+    key = '_s_flush',
+    func = function(hand)
+        local ret = {}
+        local four_fingers = next(find_joker('Four Fingers'))
+        local suits = SMODS.Suit.obj_buffer
+        if #hand < (6 - (four_fingers and 1 or 0)) then
+            return ret
+        else
+            for j = 1, #suits do
+                local t = {}
+                local suit = suits[j]
+                local flush_count = 0
+                for i = 1, #hand do
+                    if hand[i]:is_suit(suit, nil, true) then
+                        flush_count = flush_count + 1; t[#t + 1] = hand[i]
+                    end
+                end
+                if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                    table.insert(ret, t)
+                    return ret
+                end
+            end
+            return {}
+        end
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_straight',
+    func = function(hand)
+        local ret = {}
+        local four_fingers = next(find_joker('Four Fingers'))
+        if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
+            return ret
+        else
+            local t = {}
+            local IDS = {}
+            for i = 1, #hand do
+                local id = hand[i]:get_id()
+                if id > 1 and id < 15 then
+                    if IDS[id] then
+                        IDS[id][#IDS[id] + 1] = hand[i]
+                    else
+                        IDS[id] = { hand[i] }
+                    end
+                end
+            end
+
+            local straight_length = 0
+            local straight = false
+            local can_skip = next(find_joker('Shortcut'))
+            local skipped_rank = false
+            for j = 1, 14 do
+                if IDS[j == 1 and 14 or j] then
+                    straight_length = straight_length + 1
+                    skipped_rank = false
+                    for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+                        t[#t + 1] = v
+                    end
+                elseif can_skip and not skipped_rank and j ~= 14 then
+                    skipped_rank = true
+                else
+                    straight_length = 0
+                    skipped_rank = false
+                    if not straight then t = {} end
+                    if straight then break end
+                end
+                if straight_length >= (5 - (four_fingers and 1 or 0)) then straight = true end
+            end
+            if not straight then return ret end
+            table.insert(ret, t)
+            return ret
+        end
+    end
+}
+
+
+
+SMODS.PokerHand {
+    key = 'three_pair',
+    mult = 1,
+    chips = 1,
+    l_mult = 1,
+    l_chips = 1,
+    example = {
+        {
+            { 'S_K', true },
+            { 'D_K', true },
+            { 'S_9', true },
+            { 'D_9', true },
+            { 'S_6', true },
+            { 'D_6', true }
+        }
+    },
+    loc_txt = {
+        name = 'Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 >= 3 and { hand } or {}
+    end
+}
+
+SMODS.PokerHand {
+    key = 'double_triple',
+    mult = 1,
+    chips = 1,
+    l_mult = 1,
+    l_chips = 1,
+    example = {
+        {
+            { 'S_K', true },
+            { 'D_K', true },
+            { 'C_K', true },
+            { 'S_9', true },
+            { 'D_9', true },
+            { 'C_9', true }
+        }
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and { hand } or {}
+    end
+}
+
+SMODS.PokerHand {
+    key = '6oak',
+    mult = 1,
+    chips = 1,
+    l_mult = 1,
+    l_chips = 1,
+    example = {
+        {
+            { 'S_K', true },
+            { 'D_K', true },
+            { 'C_K', true },
+            { 'H_K', true },
+            { 'S_K', true },
+            { 'D_K', true }
+        }
+    },
+    loc_txt = {
+        name = 'Six of a Kind',
+        description = {
+            "6 cards with the same rank"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and { hand } or {}
+    end
+}
+
+SMODS.PokerHand {
+    key = 's_straight',
+    mult = 1,
+    chips = 1,
+    l_mult = 1,
+    l_chips = 1,
+    example = {
+        {
+            { 'S_A', true },
+            { 'D_K', true },
+            { 'C_Q', true },
+            { 'H_J', true },
+            { 'S_T', true },
+            { 'D_9', true }
+        }
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards in a row (consecutive ranks)"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and { hand } or {}
+    end
+}
+
+SMODS.PokerHand {
+    key = 's_flush',
+    mult = 1,
+    chips = 1,
+    l_mult = 1,
+    l_chips = 1,
+    example = {
+        {
+            { 'S_A', true },
+            { 'S_K', true },
+            { 'S_J', true },
+            { 'S_8', true },
+            { 'S_6', true },
+            { 'S_2', true }
+        }
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards that share the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_flush) and { hand } or {}
+    end
+}
+
+SMODS.PokerHand {
+    key = 'house_party',
+    mult = 1,
+    chips = 1,
+    l_mult = 1,
+    l_chips = 1,
+    example = {
+        {
+            { 'S_A', true },
+            { 'D_A', true },
+            { 'C_A', true },
+            { 'H_A', true },
+            { 'S_T', true },
+            { 'D_T', true }
+        }
+    },
+    loc_txt = {
+        name = 'House Party',
+        description = {
+            "A 4 of a kind and a Pair"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #hand >= 6 and next(parts._2) and next(parts._4) and
+            { hand } or {}
+    end
+}
+
+SMODS.PokerHand {
+    key = 'f_three_pair',
+    mult = 1,
+    chips = 1,
+    l_mult = 1,
+    l_chips = 1,
+    example = {
+        {
+            { 'S_K', true },
+            { 'S_K', true },
+            { 'S_9', true },
+            { 'S_9', true },
+            { 'S_6', true },
+            { 'S_6', true }
+        }
+    },
+    loc_txt = {
+        name = 'Flush Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks with", 
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 == 3 and next(parts.mxms_s_flush) and
+            { hand } or {}
+    end
+}
+
+SMODS.PokerHand {
+    key = 'f_double_triple',
+    mult = 1,
+    chips = 1,
+    l_mult = 1,
+    l_chips = 1,
+    example = {
+        {
+            { 'S_K', true },
+            { 'S_K', true },
+            { 'S_K', true },
+            { 'S_9', true },
+            { 'S_9', true },
+            { 'S_9', true }
+        }
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and next(parts.mxms_s_flush) and { hand } or {}
+    end
+}
 
 --endregion
