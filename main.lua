@@ -4722,7 +4722,10 @@ SMODS.Back { --Sixth Finger
         text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
     },
     apply = function(self, back)
+        --Change highlight limit
         G.GAME.modifiers.mxms_highlight_limit = 6
+
+        -- Make non-secret hands visible
         G.GAME.hands.mxms_three_pair.visible = true
         G.GAME.hands.mxms_double_triple.visible = true
         G.GAME.hands.mxms_s_straight.visible = true
@@ -5150,3 +5153,406 @@ SMODS.PokerHand {
 }
 
 --endregion
+
+--region Consumables
+SMODS.Consumable { -- Microscopii
+    key = 'microscopii',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Microscopii',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    config = {
+        hand_type = 'mxms_three_pair'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return { 
+            vars = 
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips
+            }
+        }
+    end,
+    in_pool = function(self, args) 
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end
+}
+
+SMODS.Consumable { -- Wasp
+    key = 'wasp',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Wasp',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    config = {
+        hand_type = 'mxms_double_triple'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return { 
+            vars = 
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips
+            }
+        }
+    end,
+    in_pool = function(self, args) 
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end
+}
+
+SMODS.Consumable { -- Pegasi
+    key = 'pegasi',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Pegasi',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    config = {
+        hand_type = 'mxms_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return { 
+            vars = 
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips
+            }
+        }
+    end,
+    in_pool = function(self, args) 
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end
+}
+
+SMODS.Consumable { -- Trappist
+    key = 'trappist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Trappist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    config = {
+        hand_type = 'mxms_s_straight'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return { 
+            vars = 
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips
+            }
+        }
+    end,
+    in_pool = function(self, args) 
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end
+}
+
+SMODS.Consumable { -- Corot
+    key = 'corot',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Corot',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    config = {
+        hand_type = 'mxms_s_flush'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return { 
+            vars = 
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips
+            }
+        }
+    end,
+    in_pool = function(self, args) 
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end
+}
+
+SMODS.Consumable { -- Poltergeist
+    key = 'poltergeist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Poltergeist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    config = {
+        hand_type = 'mxms_house_party'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return { 
+            vars = 
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips
+            }
+        }
+    end,
+    in_pool = function(self, args) 
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end
+}
+
+SMODS.Consumable { -- Gliese
+    key = 'gliese',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Gliese',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    config = {
+        hand_type = 'mxms_f_three_pair',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return { 
+            vars = 
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips
+            }
+        }
+    end,
+    in_pool = function(self, args) 
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end
+}
+
+SMODS.Consumable { -- Cancri
+    key = 'cancri',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Cancri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    config = {
+        hand_type = 'mxms_f_double_triple',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return { 
+            vars = 
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips
+            }
+        }
+    end,
+    in_pool = function(self, args) 
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end
+}
+
+SMODS.Consumable { -- Proxima Centauri
+    key = 'proxima',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Proxima Centauri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    config = {
+        hand_type = 'mxms_s_straight_f',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return { 
+            vars = 
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips
+            }
+        }
+    end,
+    in_pool = function(self, args) 
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end
+}
+
+SMODS.Consumable { -- Phobetor
+    key = 'phobetor',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Phobetor',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    config = {
+        hand_type = 'mxms_f_party',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return { 
+            vars = 
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips
+            }
+        }
+    end,
+    in_pool = function(self, args) 
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end
+}
+
+SMODS.Consumable { --Kepler
+    key = 'kepler',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Kepler',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    config = {
+        hand_type = 'mxms_f_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return { 
+            vars = 
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                G.localization.misc.poker_hands[center.ability.hand_type].name,
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips
+            }
+        }
+    end,
+    in_pool = function(self, args) 
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end
+}
