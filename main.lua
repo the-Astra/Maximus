@@ -122,8 +122,8 @@ function Card:set_ability(center, initial, delay_sprites)
                     end
                 }))
                 card_eval_status_text(v, 'extra', nil, nil, nil,
-                    { message = '+' .. v.ability.extra.dollars * G.GAME.gambler_mod, colour = G.C.MONEY })
-                ease_dollars(v.ability.extra.dollars * G.GAME.gambler_mod)
+                    { message = '+' .. v.ability.extra.dollars, colour = G.C.MONEY })
+                ease_dollars(v.ability.extra.dollars)
             end
         end
     end
@@ -4210,7 +4210,7 @@ SMODS.Joker { -- Hype Man
     cost = 6,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { center.ability.extra.dollars * G.GAME.gambler_mod }
+            vars = { center.ability.extra.dollars }
         }
     end
 }
