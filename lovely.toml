@@ -1728,28 +1728,6 @@ times = 1
 
 
 
-# Add Power Creep Functionality -----------------------------------------
-
-    # Modify shop costs
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-if self.area and self.ability.couponed and (self.area == G.shop_jokers or self.area == G.shop_booster) then self.cost = 0 end
-self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost
-'''
-position = "after"
-payload = '''
-    self.cost = self.cost * G.GAME.creep_mod
-'''
-match_indent = true
-times = 1
-
-
-
-
-
-
 # Add Stop Sign Functionality -----------------------------------------
 
     # Hook into rotating cards in common_events
@@ -2863,6 +2841,15 @@ payload = "self.config.highlighted_limit = config.highlight_limit or G.GAME.modi
 match_indent = true
 times = 1
 
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > 5 then "
+position = "at"
+payload = "if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > G.hand.config.highlighted_limit then "
+match_indent = true
+times = 1
+
 
 # Add posted code -----------------------------------------
 [[patches]]
@@ -2961,5 +2948,23 @@ target = "card.lua"
 pattern = "self.pinned = cardTable.pinned,"
 position = "after"
 payload = "self.posted = cardTable.posted,"
+match_indent = true
+times = 1
+
+
+# Add Shop Multipliers -----------------------------------------
+
+    # Modify shop costs
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.area and self.ability.couponed and (self.area == G.shop_jokers or self.area == G.shop_booster) then self.cost = 0 end
+self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost
+'''
+position = "after"
+payload = '''
+    self.cost = self.cost * G.GAME.shop_price_multiplier * G.GAME.creep_mod
+'''
 match_indent = true
 times = 1
