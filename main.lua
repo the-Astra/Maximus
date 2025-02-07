@@ -4923,7 +4923,7 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        return #parts._3 >= 2 and parts._3 or {}
+        return #parts._3 >= 2 and parts._all_pairs or {}
     end
 }
 
@@ -5037,7 +5037,7 @@ SMODS.PokerHand {
     evaluate = function(parts, hand)
         if #parts._4 < 1 or #parts._2 < 2 then return {} end
         return #hand >= 6 and next(parts._2) and next(parts._4) and
-            { SMODS.merge_lists(parts.all_pairs) } or {}
+            { SMODS.merge_lists(parts._all_pairs) } or {}
     end
 }
 
@@ -5097,7 +5097,7 @@ SMODS.PokerHand {
     visible = false,
     evaluate = function(parts, hand)
         return #parts._3 >= 2 and next(parts.mxms_s_flush) 
-            and { SMODS.merge_lists(parts._3, parts.mxms_s_flush) } or {}
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
     end
 }
 
@@ -5158,7 +5158,7 @@ SMODS.PokerHand {
     evaluate = function(parts, hand)
         if #parts._4 < 1 or #parts._2 < 2 then return {} end
         return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush) 
-            and { SMODS.merge_lists(parts.all_pairs, parts.mxms_s_flush) } or {}
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
     end
 }
 
