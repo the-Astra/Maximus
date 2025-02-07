@@ -2841,6 +2841,15 @@ payload = "self.config.highlighted_limit = config.highlight_limit or G.GAME.modi
 match_indent = true
 times = 1
 
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > 5 then "
+position = "at"
+payload = "if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > G.hand.config.highlighted_limit then "
+match_indent = true
+times = 1
+
 
 # Add posted code -----------------------------------------
 [[patches]]

@@ -4871,7 +4871,7 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        return #parts._2 >= 3 and { hand } or {}
+        return #parts._2 >= 3 and parts._all_pairs or {}
     end
 }
 
@@ -4899,7 +4899,7 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        return #parts._3 >= 2 and { hand } or {}
+        return #parts._3 >= 2 and parts._3 or {}
     end
 }
 
@@ -4927,7 +4927,7 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        return next(parts.mxms_6) and { hand } or {}
+        return next(parts.mxms_6) and parts.mxms_6 or {}
     end
 }
 
@@ -4955,7 +4955,7 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        return next(parts.mxms_s_straight) and { hand } or {}
+        return next(parts.mxms_s_straight) and parts.mxms_s_straight or {}
     end
 }
 
@@ -4976,14 +4976,14 @@ SMODS.PokerHand {
 
     },
     loc_txt = {
-        name = 'Super Straight',
+        name = 'Super Flush',
         description = {
             "6 cards that share the same suit"
         }
     },
     visible = false,
     evaluate = function(parts, hand)
-        return next(parts.mxms_s_flush) and { hand } or {}
+        return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}
     end
 }
 
@@ -5010,10 +5010,9 @@ SMODS.PokerHand {
         }
     },
     visible = false,
-    above_hand = 'Four of a Kind',
     evaluate = function(parts, hand)
         return #hand >= 6 and next(parts._2) and next(parts._4) and
-            { hand } or {}
+            { SMODS.merge_lists(parts._all_pairs, parts._4) } or {}
     end
 }
 
@@ -5041,10 +5040,9 @@ SMODS.PokerHand {
         }
     },
     visible = false,
-    above_hand = 'Super Flush',
     evaluate = function(parts, hand)
         return #parts._2 == 3 and next(parts.mxms_s_flush) and
-            { hand } or {}
+            { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
     end
 }
 
@@ -5072,9 +5070,9 @@ SMODS.PokerHand {
         }
     },
     visible = false,
-    above_hand = 'Flush Three Pair',
     evaluate = function(parts, hand)
-        return #parts._3 >= 2 and next(parts.mxms_s_flush) and { hand } or {}
+        return #parts._3 >= 2 and next(parts.mxms_s_flush) 
+            and { SMODS.merge_lists(parts._3, parts.mxms_s_flush) } or {}
     end
 }
 
@@ -5102,9 +5100,9 @@ SMODS.PokerHand {
         }
     },
     visible = false,
-    above_hand = 'Straight Flush',
     evaluate = function(parts, hand)
-        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush) and { hand } or {}
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush) 
+            and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
     end
 }
 
@@ -5132,9 +5130,9 @@ SMODS.PokerHand {
         }
     },
     visible = false,
-    above_hand = 'House Party',
     evaluate = function(parts, hand)
-        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush) and { hand } or {}
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush) 
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
     end
 }
 
@@ -5162,9 +5160,9 @@ SMODS.PokerHand {
         }
     },
     visible = false,
-    above_hand = 'Flush Five',
     evaluate = function(parts, hand)
-        return next(parts.mxms_6) and next(parts.mxms_s_flush) and { hand } or {}
+        return next(parts.mxms_6) and next(parts.mxms_s_flush) 
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
     end
 }
 
@@ -5189,20 +5187,20 @@ SMODS.Consumable { -- Microscopii
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
-        return { 
-            vars = 
+        return {
+            vars =
             {
                 G.GAME.hands[center.ability.hand_type].level,
                 localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
                 G.GAME.hands[center.ability.hand_type].l_chips,
                 colours = {
-                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
-                }  
-            },  
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
         }
     end,
-    in_pool = function(self, args) 
+    in_pool = function(self, args)
         if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
             return true
         end
@@ -5228,20 +5226,20 @@ SMODS.Consumable { -- Wasp
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
-        return { 
-            vars = 
+        return {
+            vars =
             {
                 G.GAME.hands[center.ability.hand_type].level,
                 localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
                 G.GAME.hands[center.ability.hand_type].l_chips,
                 colours = {
-                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
-                }  
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
             },
         }
     end,
-    in_pool = function(self, args) 
+    in_pool = function(self, args)
         if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
             return true
         end
@@ -5268,20 +5266,20 @@ SMODS.Consumable { -- Pegasi
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
-        return { 
-            vars = 
+        return {
+            vars =
             {
                 G.GAME.hands[center.ability.hand_type].level,
                 localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
                 G.GAME.hands[center.ability.hand_type].l_chips,
                 colours = {
-                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
-                }  
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
             },
         }
     end,
-    in_pool = function(self, args) 
+    in_pool = function(self, args)
         if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
             return true
         end
@@ -5307,20 +5305,20 @@ SMODS.Consumable { -- Trappist
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
-        return { 
-            vars = 
+        return {
+            vars =
             {
                 G.GAME.hands[center.ability.hand_type].level,
                 localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
                 G.GAME.hands[center.ability.hand_type].l_chips,
                 colours = {
-                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
-                }  
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
             },
         }
     end,
-    in_pool = function(self, args) 
+    in_pool = function(self, args)
         if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
             return true
         end
@@ -5346,20 +5344,20 @@ SMODS.Consumable { -- Corot
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
-        return { 
-            vars = 
+        return {
+            vars =
             {
                 G.GAME.hands[center.ability.hand_type].level,
                 localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
                 G.GAME.hands[center.ability.hand_type].l_chips,
                 colours = {
-                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
-                }  
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
             },
         }
     end,
-    in_pool = function(self, args) 
+    in_pool = function(self, args)
         if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
             return true
         end
@@ -5385,20 +5383,20 @@ SMODS.Consumable { -- Poltergeist
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
-        return { 
-            vars = 
+        return {
+            vars =
             {
                 G.GAME.hands[center.ability.hand_type].level,
                 localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
                 G.GAME.hands[center.ability.hand_type].l_chips,
                 colours = {
-                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
-                }  
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
             },
         }
     end,
-    in_pool = function(self, args) 
+    in_pool = function(self, args)
         if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
             return true
         end
@@ -5425,20 +5423,20 @@ SMODS.Consumable { -- Gliese
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
-        return { 
-            vars = 
+        return {
+            vars =
             {
                 G.GAME.hands[center.ability.hand_type].level,
                 localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
                 G.GAME.hands[center.ability.hand_type].l_chips,
                 colours = {
-                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
-                }  
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
             },
         }
     end,
-    in_pool = function(self, args) 
+    in_pool = function(self, args)
         if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
             return true
         end
@@ -5465,20 +5463,20 @@ SMODS.Consumable { -- Cancri
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
-        return { 
-            vars = 
+        return {
+            vars =
             {
                 G.GAME.hands[center.ability.hand_type].level,
                 localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
                 G.GAME.hands[center.ability.hand_type].l_chips,
                 colours = {
-                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
-                }  
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
             },
         }
     end,
-    in_pool = function(self, args) 
+    in_pool = function(self, args)
         if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
             return true
         end
@@ -5505,20 +5503,20 @@ SMODS.Consumable { -- Proxima Centauri
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
-        return { 
-            vars = 
+        return {
+            vars =
             {
                 G.GAME.hands[center.ability.hand_type].level,
                 localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
                 G.GAME.hands[center.ability.hand_type].l_chips,
                 colours = {
-                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
-                }  
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
             },
         }
     end,
-    in_pool = function(self, args) 
+    in_pool = function(self, args)
         if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
             return true
         end
@@ -5545,20 +5543,20 @@ SMODS.Consumable { -- Phobetor
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
-        return { 
-            vars = 
+        return {
+            vars =
             {
                 G.GAME.hands[center.ability.hand_type].level,
                 localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
                 G.GAME.hands[center.ability.hand_type].l_chips,
                 colours = {
-                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
-                }  
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
             },
         }
     end,
-    in_pool = function(self, args) 
+    in_pool = function(self, args)
         if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
             return true
         end
@@ -5585,20 +5583,20 @@ SMODS.Consumable { --Kepler
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
-        return { 
-            vars = 
+        return {
+            vars =
             {
                 G.GAME.hands[center.ability.hand_type].level,
                 localize(center.ability.hand_type, "poker_hands"),
                 G.GAME.hands[center.ability.hand_type].l_mult,
                 G.GAME.hands[center.ability.hand_type].l_chips,
                 colours = {
-                    (G.GAME.hands[center.ability.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
-                }  
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
             },
         }
     end,
-    in_pool = function(self, args) 
+    in_pool = function(self, args)
         if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
             return true
         end
