@@ -5569,8 +5569,7 @@ SMODS.Consumable { -- Proxima Centauri
         y = 0
     },
     config = {
-        hand_type = 'mxms_s_straight_f',
-        softlock = true
+        hand_type = 'mxms_s_straight_f'
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
