@@ -111,7 +111,7 @@ function Card:set_ability(center, initial, delay_sprites)
         self.config.center.no_suit = false
     end
     -- Hype Man
-    if center.set == "Enhanced" and G.STATE ~= G.STATES.STANDARD_PACK then
+    if center.set == "Enhanced" and G.STATE ~= G.STATES.STANDARD_PACK and not G.SETTINGS.paused then
         local hypes = SMODS.find_card('j_mxms_hypeman')
         if next(hypes) then
             for k, v in ipairs(hypes) do
