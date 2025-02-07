@@ -2346,7 +2346,7 @@ SMODS.Joker { -- Random Encounter
     rarity = 2,
     config = {
         extra = {
-            chance = 4
+            chance = 1
         }
     },
     blueprint_compat = true,
