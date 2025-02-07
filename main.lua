@@ -27,6 +27,20 @@ SMODS.Atlas { -- Main Voucher Atlas
     py = 95
 }
 
+SMODS.Atlas { -- Main Consumable Atlas
+    key = 'Consumables',
+    path = "Consumables.png",
+    px = 71,
+    py = 95
+}
+
+SMODS.Atlas { -- Main Back Atlas
+    key = 'Backs',
+    path = "Backs.png",
+    px = 71,
+    py = 95
+}
+
 --endregion
 
 --region Function Hooks
@@ -4722,6 +4736,11 @@ SMODS.Back { --Sixth Finger
         name = 'Sixth Finger Deck',
         text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
     },
+    atlas = 'Backs',
+    pos = {
+        x = 0,
+        y = 0
+    },
     apply = function(self, back)
         --Change highlight limit
         G.GAME.modifiers.mxms_highlight_limit = 6
@@ -4741,6 +4760,11 @@ SMODS.Back { --Nirvana
     loc_txt = {
         name = 'Nirvana Deck',
         text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
     },
     apply = function(self, back)
         --Change shop prices
@@ -4877,7 +4901,7 @@ SMODS.PokerHand {
 
 SMODS.PokerHand {
     key = 'double_triple',
-    mult = 60,
+    mult = 6,
     chips = 60,
     l_mult = 2,
     l_chips = 35,
@@ -5153,7 +5177,7 @@ SMODS.PokerHand {
 
     },
     loc_txt = {
-        name = 'Flush 6',
+        name = 'Flush Six',
         description = {
             "6 cards with the same rank with",
             "all cards sharing the same suit"
@@ -5181,6 +5205,11 @@ SMODS.Consumable { -- Microscopii
             "{C:mult}+#3#{} Mult and",
             "{C:chips}+#4#{} chips",
         },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 0,
+        y = 0
     },
     config = {
         hand_type = 'mxms_three_pair',
@@ -5221,6 +5250,11 @@ SMODS.Consumable { -- Wasp
             "{C:chips}+#4#{} chips",
         },
     },
+    atlas = 'Consumables',
+    pos = {
+        x = 1,
+        y = 0
+    },
     config = {
         hand_type = 'mxms_double_triple'
     },
@@ -5259,6 +5293,11 @@ SMODS.Consumable { -- Pegasi
             "{C:mult}+#3#{} Mult and",
             "{C:chips}+#4#{} chips",
         },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 2,
+        y = 0
     },
     config = {
         hand_type = 'mxms_6oak',
@@ -5300,6 +5339,11 @@ SMODS.Consumable { -- Trappist
             "{C:chips}+#4#{} chips",
         },
     },
+    atlas = 'Consumables',
+    pos = {
+        x = 3,
+        y = 0
+    },
     config = {
         hand_type = 'mxms_s_straight'
     },
@@ -5338,6 +5382,11 @@ SMODS.Consumable { -- Corot
             "{C:mult}+#3#{} Mult and",
             "{C:chips}+#4#{} chips",
         },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 4,
+        y = 0
     },
     config = {
         hand_type = 'mxms_s_flush'
@@ -5378,6 +5427,11 @@ SMODS.Consumable { -- Poltergeist
             "{C:chips}+#4#{} chips",
         },
     },
+    atlas = 'Consumables',
+    pos = {
+        x = 5,
+        y = 0
+    },
     config = {
         hand_type = 'mxms_house_party'
     },
@@ -5416,6 +5470,11 @@ SMODS.Consumable { -- Gliese
             "{C:mult}+#3#{} Mult and",
             "{C:chips}+#4#{} chips",
         },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 6,
+        y = 0
     },
     config = {
         hand_type = 'mxms_f_three_pair',
@@ -5457,6 +5516,11 @@ SMODS.Consumable { -- Cancri
             "{C:chips}+#4#{} chips",
         },
     },
+    atlas = 'Consumables',
+    pos = {
+        x = 7,
+        y = 0
+    },
     config = {
         hand_type = 'mxms_f_double_triple',
         softlock = true
@@ -5496,6 +5560,11 @@ SMODS.Consumable { -- Proxima Centauri
             "{C:mult}+#3#{} Mult and",
             "{C:chips}+#4#{} chips",
         },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 8,
+        y = 0
     },
     config = {
         hand_type = 'mxms_s_straight_f',
@@ -5537,6 +5606,11 @@ SMODS.Consumable { -- Phobetor
             "{C:chips}+#4#{} chips",
         },
     },
+    atlas = 'Consumables',
+    pos = {
+        x = 9,
+        y = 0
+    },
     config = {
         hand_type = 'mxms_f_party',
         softlock = true
@@ -5576,6 +5650,11 @@ SMODS.Consumable { --Kepler
             "{C:mult}+#3#{} Mult and",
             "{C:chips}+#4#{} chips",
         },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 10,
+        y = 0
     },
     config = {
         hand_type = 'mxms_f_6oak',
