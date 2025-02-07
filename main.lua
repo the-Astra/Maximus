@@ -5087,7 +5087,7 @@ SMODS.PokerHand {
 
     },
     loc_txt = {
-        name = 'Double Triple',
+        name = 'Flush Double Triple',
         description = {
             "Two 3 of a Kinds with",
             "all cards sharing the same suit"
