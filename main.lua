@@ -4772,6 +4772,23 @@ SMODS.Back { --Nirvana
     end
 }
 
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}round-th power{}' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
 --endregion
 
 --region Hand Parts
