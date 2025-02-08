@@ -1747,7 +1747,7 @@ SMODS.Joker { -- Hopscotch
                 G.GAME.probabilities.normal, 3)
             if chance_roll == 3 then
                 local _tag = G.GAME.skip_tag
-                if _tag then
+                if _tag and _tag.config then
                     play_sound('generic1')
                     card:juice_up(0.3, 0.4)
                     add_tag(_tag.config.ref_table)
@@ -5110,7 +5110,7 @@ SMODS.PokerHand { --Flush Double Triple
     },
     visible = false,
     evaluate = function(parts, hand)
-        return #parts._3 >= 2 and next(parts.mxms_s_flush) 
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
             and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
     end
 }
@@ -5140,7 +5140,7 @@ SMODS.PokerHand { --Super Straight Flush
     },
     visible = false,
     evaluate = function(parts, hand)
-        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush) 
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
             and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
     end
 }
@@ -5171,7 +5171,7 @@ SMODS.PokerHand { --Flush Party
     visible = false,
     evaluate = function(parts, hand)
         if #parts._4 < 1 or #parts._2 < 2 then return {} end
-        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush) 
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
             and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
     end
 }
@@ -5201,7 +5201,7 @@ SMODS.PokerHand { --Flush Six
     },
     visible = false,
     evaluate = function(parts, hand)
-        return next(parts.mxms_6) and next(parts.mxms_s_flush) 
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
             and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
     end
 }
@@ -5696,6 +5696,35 @@ SMODS.Consumable { --Kepler
         end
 
         return false
+    end
+}
+
+--endregion
+
+--region Boss Blinds
+
+SMODS.Blind {
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    boss_colour = HEX('56789A'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuff do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+        end
     end
 }
 
