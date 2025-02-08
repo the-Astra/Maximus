@@ -1643,7 +1643,7 @@ SMODS.Joker { -- Leftovers
     key = 'leftovers',
     loc_txt = {
         name = 'Leftovers',
-        text = { 'Creates a new copy of', 'a {C:attention}Food{} Joker when', 'depleated or destroyed',
+        text = { 'Creates a new copy of', 'a {C:attention}Food{} Joker when', 'depleted or destroyed',
             '{C:inactive}Self-destructs on copy{}' }
     },
     atlas = 'Jokers',
