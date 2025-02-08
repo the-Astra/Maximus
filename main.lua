@@ -1726,7 +1726,7 @@ SMODS.Joker { -- Hopscotch
     key = 'hopscotch',
     loc_txt = {
         name = 'Hopscotch',
-        text = { 'When selecting blind,', '{C:green}#1# out of 3{} chance to', 'receive associated skip tag' }
+        text = { 'When selecting blind,', '{C:green}#1# in 3{} chance to', 'receive associated skip tag' }
     },
     atlas = 'Jokers',
     pos = {
@@ -1996,7 +1996,7 @@ SMODS.Joker { -- Clown Car
     key = 'clown_car',
     loc_txt = {
         name = 'Clown Car',
-        text = { 'Gains {C:mult}+2{} Mult each time', 'a Joker is picked up', '{C:inactive}Currently: +#1#' }
+        text = { 'Gains {C:mult}+2{} Mult each time', 'a Joker is added to hand', '{C:inactive}Currently: +#1#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2104,7 +2104,7 @@ SMODS.Joker { -- Dark Room
     key = 'dark_room',
     loc_txt = {
         name = 'Dark Room',
-        text = { 'After 3 rounds, sell this', 'joker to upgrade a random', 'owned voucher' }
+        text = { 'After 3 rounds, sell this', 'Joker to upgrade a random', 'owned voucher' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2198,7 +2198,7 @@ SMODS.Joker { -- Man in the Mirror
     loc_txt = {
         name = 'Man in the Mirror',
         text = { 'Selling this joker', 'creates {C:dark_edition}Negative{} copies of',
-            'all non-Negative held consumeables' }
+            'all non-Negative held consumables' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2336,7 +2336,7 @@ SMODS.Joker { -- Random Encounter
     key = 'random_encounter',
     loc_txt = {
         name = 'Random Encounter',
-        text = { '{C:green}#1# in 4 chance{} of', 'scored playing cards', 'gain permanent {C:mult}+1{} Bonus Mult' }
+        text = { '{C:green}#1# in 4{} chance of', 'scored playing cards', 'gaining permanent {C:mult}+1{} Bonus Mult' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2387,8 +2387,7 @@ SMODS.Joker { -- Jackpot
     rarity = 2,
     config = {
         extra = {
-            money = 15,
-            sevens = 0
+            money = 15
         }
     },
     blueprint_compat = true,
@@ -2528,7 +2527,7 @@ SMODS.Joker { -- Loony Joker
     key = 'loony',
     loc_txt = {
         name = 'Loony Joker',
-        text = { "{C:red}+#1#{} Mult if played", "hand is", "a {C:attention}#2#" }
+        text = { "{C:mult}+#1#{} Mult if played", "hand is", "a {C:attention}#2#" }
     },
     atlas = 'Jokers',
     pos = {
@@ -2728,7 +2727,7 @@ SMODS.Joker { -- Marco Polo
     loc_txt = {
         name = 'Marco Polo',
         text = { '{C:mult}+12{} Mult if card is at secret placement', 'in Joker hand order. Given Mult is',
-            '{C:mult}subtracted by 3{} for', 'each card out of place', '{C:inactive}Position changes every round{}' }
+            '{C:red}subtracted by 3{} for', 'each card out of place', '{C:inactive}Position changes every round{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -3006,7 +3005,7 @@ SMODS.Joker { -- Poet
     key = 'poet',
     loc_txt = {
         name = 'Poet',
-        text = { 'If hand type is played {C:attention}exclusively{} with number ranks', 'matching the {C:attention}hand name{}, give Xmult equal to that rank', '{C:inactive}Two Pair must be played with a pair of 2s and', '{C:inactive}a pair of faces or aces' }
+        text = { 'If hand type is played {C:attention}exclusively{} with number ranks', 'matching the {C:attention}hand name{}, give {X:mult,C:white}Xmult{} equal to that rank', '{C:inactive}Two Pair must be played with a pair of 2s and', '{C:inactive}a pair of faces or aces' }
     },
     atlas = 'Jokers',
     pos = {
@@ -4028,7 +4027,7 @@ SMODS.Joker { -- Memory Game
     key = 'memory_game',
     loc_txt = {
         name = 'Memory Game',
-        text = { 'If played hand is', 'a {C:attention}Pair,{} convert', 'the first scoring card', 'into the second scoring card' }
+        text = { 'If played hand is', 'a {C:attention}Pair{}, convert', 'the first scoring card', 'into the second scoring card' }
     },
     atlas = 'Jokers',
     pos = {
@@ -4321,7 +4320,7 @@ SMODS.Voucher { -- Best Dressed
     key = 'best_dressed',
     loc_txt = {
         name = 'Best Dressed',
-        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:red,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
     },
     atlas = 'Vouchers',
     pos = {
@@ -4573,8 +4572,6 @@ SMODS.Challenge { -- Target Practice
         }
     },
     jokers = {
-        { id = 'j_mr_bones',      edition = 'negative' },
-        { id = 'j_mr_bones',      edition = 'negative' },
         { id = 'j_mr_bones',      edition = 'negative' },
         { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
     },
@@ -4871,7 +4868,7 @@ SMODS.PokerHandPart {
 
 --region Hand Types
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Three Pair
     key = 'three_pair',
     mult = 4,
     chips = 30,
@@ -4899,7 +4896,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Double Triple
     key = 'double_triple',
     mult = 6,
     chips = 60,
@@ -4927,7 +4924,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Six of a Kind
     key = '6oak',
     mult = 18,
     chips = 180,
@@ -4955,7 +4952,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Super Straight
     key = 's_straight',
     mult = 6,
     chips = 50,
@@ -4983,7 +4980,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Super Flush
     key = 's_flush',
     mult = 6,
     chips = 55,
@@ -5011,7 +5008,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --House Party
     key = 'house_party',
     mult = 8,
     chips = 70,
@@ -5041,7 +5038,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Flush Three Pair
     key = 'f_three_pair',
     mult = 14,
     chips = 150,
@@ -5071,7 +5068,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Flush Double Triple
     key = 'f_double_triple',
     mult = 16,
     chips = 170,
@@ -5101,7 +5098,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Super Straight Flush
     key = 's_straight_f',
     mult = 20,
     chips = 200,
@@ -5131,7 +5128,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Flush Party
     key = 'f_party',
     mult = 16,
     chips = 180,
@@ -5162,7 +5159,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Flush Six
     key = 'f_6oak',
     mult = 22,
     chips = 220,
