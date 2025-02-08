@@ -2701,9 +2701,9 @@ if G.GAME.modifiers.mxms_X_blind_size then
     self.chips = self.chips*G.GAME.modifiers.mxms_X_blind_size
 end
 if G.GAME.modifiers.mxms_nuclear_size then
-    if self.name == 'Small' then
+    if self.name == 'Small Blind' then
         blind_amt = blind_amt^G.GAME.round_resets.ante
-    elseif self.name == 'Big' then
+    elseif self.name == 'Big Blind' then
         blind_amt = blind_amt^(G.GAME.round_resets.ante*2)
     else
         blind_amt = blind_amt^(G.GAME.round_resets.ante*3)
