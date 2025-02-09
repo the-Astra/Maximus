@@ -953,7 +953,7 @@ SMODS.Joker { -- War
         x = 3,
         y = 0
     },
-    rarity = 3,
+    rarity = 2,
     config = {},
     blueprint_compat = false,
     cost = 8,
@@ -5703,7 +5703,7 @@ SMODS.Consumable { --Kepler
 
 --region Boss Blinds
 
-SMODS.Blind {
+SMODS.Blind { --The Rot
     key = 'rot',
     loc_txt = {
         name = 'The Rot',
