@@ -3273,7 +3273,7 @@ SMODS.Joker { -- Soil Joker
     key = 'soil',
     loc_txt = {
         name = 'Soil Joker',
-        text = { 'Scaling Jokers scale', '{C:attention}twice{} as fast' }
+        text = { 'Scaling Jokers gain', '{C:attention}twice{} as much value' }
     },
     atlas = 'Jokers',
     pos = {
