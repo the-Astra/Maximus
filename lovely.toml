@@ -843,13 +843,13 @@ if (context.other_card:get_id() == 8) then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
-                local groupchats = SMODS.find_card('j_mxms_group_chat')
-                if next(groupchats) then
-                    for kk, vv in pairs(groupchats) do
-                        vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                        vv:juice_up(0.3, 0.4)
+                    local groupchats = SMODS.find_card('j_mxms_group_chat')
+                    if next(groupchats) then
+                        for kk, vv in pairs(groupchats) do
+                            vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
+                            vv:juice_up(0.3, 0.4)
+                        end
                     end
-                end
                 return true; end
             }))
         end
@@ -895,13 +895,13 @@ context.other_card:is_face() then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
-                local groupchats = SMODS.find_card('j_mxms_group_chat')
-                if next(groupchats) then
-                    for kk, vv in pairs(groupchats) do
-                        vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                        vv:juice_up(0.3, 0.4)
+                    local groupchats = SMODS.find_card('j_mxms_group_chat')
+                    if next(groupchats) then
+                        for kk, vv in pairs(groupchats) do
+                            vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
+                            vv:juice_up(0.3, 0.4)
+                        end
                     end
-                end
                 return true; end
             }))
         end
@@ -943,13 +943,13 @@ context.other_card:is_suit("Hearts") then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
-                local groupchats = SMODS.find_card('j_mxms_group_chat')
-                if next(groupchats) then
-                    for kk, vv in pairs(groupchats) do
-                        vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                        vv:juice_up(0.3, 0.4)
+                    local groupchats = SMODS.find_card('j_mxms_group_chat')
+                    if next(groupchats) then
+                        for kk, vv in pairs(groupchats) do
+                            vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
+                            vv:juice_up(0.3, 0.4)
+                        end
                     end
-                end
                 return true; end
             }))
         end
@@ -1011,13 +1011,13 @@ context.other_card:is_face() then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
-                local groupchats = SMODS.find_card('j_mxms_group_chat')
-                if next(groupchats) then
-                    for kk, vv in pairs(groupchats) do
-                        vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                        vv:juice_up(0.3, 0.4)
+                    local groupchats = SMODS.find_card('j_mxms_group_chat')
+                    if next(groupchats) then
+                        for kk, vv in pairs(groupchats) do
+                            vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
+                            vv:juice_up(0.3, 0.4)
+                        end
                     end
-                end
                 return true; end
             }))
         end
@@ -1058,13 +1058,13 @@ if self.ability.name == 'Space Joker' then
                 trigger = 'after',
                 func = function()
                     v:juice_up(0.3, 0.4)
-                local groupchats = SMODS.find_card('j_mxms_group_chat')
-                if next(groupchats) then
-                    for kk, vv in pairs(groupchats) do
-                        vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                        vv:juice_up(0.3, 0.4)
+                    local groupchats = SMODS.find_card('j_mxms_group_chat')
+                    if next(groupchats) then
+                        for kk, vv in pairs(groupchats) do
+                            vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
+                            vv:juice_up(0.3, 0.4)
+                        end
                     end
-                end
                 return true; end
             }))
         end

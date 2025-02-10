@@ -1530,7 +1530,7 @@ SMODS.Joker { -- Trick or Treat
         x = 7,
         y = 1
     },
-    rarity = 2,
+    rarity = 1,
     config = {
         extra = {
             mult = 5
@@ -1733,7 +1733,7 @@ SMODS.Joker { -- Hopscotch
         x = 3,
         y = 2
     },
-    rarity = 2,
+    rarity = 1,
     blueprint_compat = false,
     cost = 5,
     loc_vars = function(self, info_queue, center)
@@ -2039,7 +2039,7 @@ SMODS.Joker { -- Gambler
         x = 1,
         y = 3
     },
-    rarity = 2,
+    rarity = 1,
     config = {},
     blueprint_compat = false,
     cost = 7,
@@ -2511,7 +2511,7 @@ SMODS.Joker { -- Coupon
         x = 1,
         y = 4
     },
-    rarity = 2,
+    rarity = 1,
     config = {
         extra = {
             odds = 1
@@ -4037,7 +4037,7 @@ SMODS.Joker { -- Memory Game
         x = 3,
         y = 9
     },
-    rarity = 2,
+    rarity = 1,
     blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
