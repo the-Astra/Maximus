@@ -2701,13 +2701,7 @@ if G.GAME.modifiers.mxms_X_blind_size then
     self.chips = self.chips*G.GAME.modifiers.mxms_X_blind_size
 end
 if G.GAME.modifiers.mxms_nuclear_size then
-    if self.name == 'Small Blind' then
-        self.chips = self.chips^G.GAME.round_resets.ante
-    elseif self.name == 'Big Blind' then
-        self.chips = self.chips^(G.GAME.round_resets.ante*2)
-    else
-        self.chips = self.chips^(G.GAME.round_resets.ante*3)
-    end
+    self.chips = self.chips^G.GAME.round_resets.ante
 end
 '''
 match_indent = true
@@ -2725,13 +2719,7 @@ if G.GAME.modifiers.mxms_X_blind_size then
     blind_amt = blind_amt*G.GAME.modifiers.mxms_X_blind_size
 end
 if G.GAME.modifiers.mxms_nuclear_size then
-    if type == 'Small' then
-        blind_amt = blind_amt^G.GAME.round_resets.ante
-    elseif type == 'Big' then
-        blind_amt = blind_amt^(G.GAME.round_resets.ante*2)
-    else
-        blind_amt = blind_amt^(G.GAME.round_resets.ante*3)
-    end
+    blind_amt = blind_amt^G.GAME.round_resets.ante
 end
 '''
 match_indent = true

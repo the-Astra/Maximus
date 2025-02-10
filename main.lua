@@ -2377,7 +2377,7 @@ SMODS.Joker { -- Jackpot
     key = 'jackpot',
     loc_txt = {
         name = 'Jackpot',
-        text = { 'Played hands containing at least', '{C:attention}three 7\'s{} give {C:money}$#1#' }
+        text = { 'Played hands containing at least', '{C:green}#1# in 3{} chance to give', '{C:attention}three 7\'s{} give {C:money}$#2#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2387,14 +2387,15 @@ SMODS.Joker { -- Jackpot
     rarity = 2,
     config = {
         extra = {
-            money = 15
+            money = 15,
+            odds = 3
         }
     },
     blueprint_compat = true,
     cost = 8,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { center.ability.extra.money }
+            vars = { G.GAME.probabilities.normal, center.ability.extra.money }
         }
     end,
     calculate = function(self, card, context)
@@ -2408,12 +2409,14 @@ SMODS.Joker { -- Jackpot
             end
 
             if sevens >= 3 then
-                ease_dollars(card.ability.extra.money)
-                return {
-                    message = 'Jackpot!',
-                    colour = G.C.money,
-                    card = card
-                }
+                if pseudorandom(pseudoseed('jackpot'..G.GAME.round_resets.ante)) < G.GAME.probabilities.normal/card.ability.extra.odds then
+                    ease_dollars(card.ability.extra.money)
+                    return {
+                        message = 'Jackpot!',
+                        colour = G.C.money,
+                        card = card
+                    }
+                end
             end
         end
     end
@@ -4776,7 +4779,7 @@ SMODS.Back { --Nuclear
     key = 'nuclear',
     loc_txt = {
         name = 'Nuclear Deck',
-        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}round-th power{}' }
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}' }
     },
     atlas = 'Backs',
     pos = {
