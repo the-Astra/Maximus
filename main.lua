@@ -5718,13 +5718,31 @@ SMODS.Blind { --The Rot
         for i = 1, #G.playing_cards / 4 do
             local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
             local j = 1
-            while card.debuff do
+            while card.debuffed_by_blind do
                 card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
                 j = j + 1
             end
-            card:set_debuff(true)
-            if card.debuff then card.debuffed_by_blind = true end
+            card.debuffed_by_blind = true
         end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in  pairs(G.playing_cards) do
+            if v.debuffed_by_blind then v:set_debuff(); v.debuffed_by_blind = nil end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in  pairs(G.playing_cards) do
+            if v.debuffed_by_blind then v:set_debuff(); v.debuffed_by_blind = nil end
+        end
+        self.triggered = false
     end
 }
 
