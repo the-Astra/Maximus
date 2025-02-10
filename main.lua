@@ -5764,7 +5764,7 @@ SMODS.Blind { --The Rot
         x = 0,
         y = 0
     },
-    boss_colour = HEX('56789A'),
+    boss_colour = HEX('A2CA4C'),
     set_blind = function(self)
         for i = 1, #G.playing_cards / 4 do
             local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
@@ -5816,7 +5816,7 @@ SMODS.Blind { --The Grinder
         x = 0,
         y = 1
     },
-    boss_colour = HEX('56789A'),
+    boss_colour = HEX('D9638D'),
     after_scoring = function(self)
         for k, v in ipairs(G.play.cards) do
             if v.ability.set == 'Enhanced' or v.seal or v.edition then
