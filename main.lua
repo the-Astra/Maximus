@@ -4822,7 +4822,7 @@ SMODS.Back { --Nuclear
     key = 'nuclear',
     loc_txt = {
         name = 'Nuclear Deck',
-        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}' }
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
     },
     atlas = 'Backs',
     pos = {
