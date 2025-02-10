@@ -5746,4 +5746,42 @@ SMODS.Blind { --The Rot
     end
 }
 
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    boss_colour = HEX('56789A'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.5, func = function()
+                    v:set_ability(G.P_CENTERS.c_base)
+                    v:set_seal(nil, nil, true)
+                    v:set_edition(nil, true)
+                    v:juice_up(0.3, 0.4)
+                    play_sound('tarot2')
+                    return true
+                end}))
+                card_eval_status_text(v, 'extra', nil, nil, nil, {message = 'Grinded'})
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
+
 --endregion
