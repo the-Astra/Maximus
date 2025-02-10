@@ -41,6 +41,15 @@ SMODS.Atlas { -- Main Back Atlas
     py = 95
 }
 
+SMODS.Atlas { -- Main Blind Atlas
+    key = 'Blinds',
+    path = "Blinds.png",
+    atlas_table = 'ANIMATION_ATLAS',
+    frames = 21,
+    px = 34,
+    py = 34
+}
+
 --endregion
 
 --region Function Hooks
@@ -5738,7 +5747,7 @@ SMODS.Consumable { --Kepler
 
 --endregion
 
---region Boss Blinds
+--region Blinds
 
 SMODS.Blind { --The Rot
     key = 'rot',
@@ -5749,6 +5758,11 @@ SMODS.Blind { --The Rot
     boss = {
         min = 1,
         max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
     },
     boss_colour = HEX('56789A'),
     set_blind = function(self)
@@ -5796,6 +5810,11 @@ SMODS.Blind { --The Grinder
     boss = {
         min = 1,
         max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
     },
     boss_colour = HEX('56789A'),
     after_scoring = function(self)
