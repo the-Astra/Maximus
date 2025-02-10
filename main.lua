@@ -2409,7 +2409,7 @@ SMODS.Joker { -- Jackpot
             end
 
             if sevens >= 3 then
-                if pseudorandom(pseudoseed('jackpot'..G.GAME.round_resets.ante)) < G.GAME.probabilities.normal/card.ability.extra.odds then
+                if pseudorandom(pseudoseed('jackpot' .. G.GAME.round_resets.ante)) < G.GAME.probabilities.normal / card.ability.extra.odds then
                     ease_dollars(card.ability.extra.money)
                     return {
                         message = 'Jackpot!',
@@ -4217,6 +4217,45 @@ SMODS.Joker { -- Hype Man
     end
 }
 
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{c:attention}6, 7, 8, 9,{} or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card == 6 or
+                context.other_card == 7 or
+                context.other_card == 8 or
+                context.other_card == 9 or
+                context.other_card == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
 --endregion
 
 --region Vouchers
@@ -5736,14 +5775,18 @@ SMODS.Blind { --The Rot
         end
     end,
     disable = function(self)
-        for k, v in  pairs(G.playing_cards) do
-            if v.debuffed_by_blind then v:set_debuff(); v.debuffed_by_blind = nil end
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
         end
         self.triggered = false
     end,
     defeat = function(self)
-        for k, v in  pairs(G.playing_cards) do
-            if v.debuffed_by_blind then v:set_debuff(); v.debuffed_by_blind = nil end
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
         end
         self.triggered = false
     end
@@ -5763,15 +5806,19 @@ SMODS.Blind { --The Grinder
     after_scoring = function(self)
         for k, v in ipairs(G.play.cards) do
             if v.ability.set == 'Enhanced' or v.seal or v.edition then
-                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.5, func = function()
-                    v:set_ability(G.P_CENTERS.c_base)
-                    v:set_seal(nil, nil, true)
-                    v:set_edition(nil, true)
-                    v:juice_up(0.3, 0.4)
-                    play_sound('tarot2')
-                    return true
-                end}))
-                card_eval_status_text(v, 'extra', nil, nil, nil, {message = 'Grinded'})
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
             end
         end
     end
