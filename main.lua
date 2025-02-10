@@ -4826,7 +4826,7 @@ SMODS.Back { --Nuclear
     },
     atlas = 'Backs',
     pos = {
-        x = 1,
+        x = 2,
         y = 0
     },
     apply = function(self, back)
