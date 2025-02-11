@@ -119,7 +119,7 @@ return {
                 "Only {C:red}Rare{} Jokers can show up in the shop"
             },
             ch_c_mxms_picky={
-                "A copy of {C:attention}Four-Course Meal{} spawns in hand at the start of each round if there's room"
+                "A copy of {C:attention}Four Course Meal{} spawns in hand at the start of each round if there's room"
             },
             ch_c_mxms_biggest_loser={
                 "{C:attention}Impractical Joker{} starts with {C:attention}Straight Flush{}"

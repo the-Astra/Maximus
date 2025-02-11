@@ -41,6 +41,15 @@ SMODS.Atlas { -- Main Back Atlas
     py = 95
 }
 
+SMODS.Atlas { -- Main Blind Atlas
+    key = 'Blinds',
+    path = "Blinds.png",
+    atlas_table = 'ANIMATION_ATLAS',
+    frames = 21,
+    px = 34,
+    py = 34
+}
+
 --endregion
 
 --region Function Hooks
@@ -111,7 +120,7 @@ function Card:set_ability(center, initial, delay_sprites)
         self.config.center.no_suit = false
     end
     -- Hype Man
-    if center.set == "Enhanced" and G.STATE ~= G.STATES.STANDARD_PACK then
+    if center.set == "Enhanced" and G.STATE ~= G.STATES.STANDARD_PACK and not G.SETTINGS.paused then
         local hypes = SMODS.find_card('j_mxms_hypeman')
         if next(hypes) then
             for k, v in ipairs(hypes) do
@@ -122,8 +131,8 @@ function Card:set_ability(center, initial, delay_sprites)
                     end
                 }))
                 card_eval_status_text(v, 'extra', nil, nil, nil,
-                    { message = '+' .. v.ability.extra.dollars * G.GAME.gambler_mod, colour = G.C.MONEY })
-                ease_dollars(v.ability.extra.dollars * G.GAME.gambler_mod)
+                    { message = '+' .. v.ability.extra.dollars, colour = G.C.MONEY })
+                ease_dollars(v.ability.extra.dollars)
             end
         end
     end
@@ -953,7 +962,7 @@ SMODS.Joker { -- War
         x = 3,
         y = 0
     },
-    rarity = 3,
+    rarity = 2,
     config = {},
     blueprint_compat = false,
     cost = 8,
@@ -1530,7 +1539,7 @@ SMODS.Joker { -- Trick or Treat
         x = 7,
         y = 1
     },
-    rarity = 2,
+    rarity = 1,
     config = {
         extra = {
             mult = 5
@@ -1643,7 +1652,7 @@ SMODS.Joker { -- Leftovers
     key = 'leftovers',
     loc_txt = {
         name = 'Leftovers',
-        text = { 'Creates a new copy of', 'a {C:attention}Food{} Joker when', 'depleated or destroyed',
+        text = { 'Creates a new copy of', 'a {C:attention}Food{} Joker when', 'depleted or destroyed',
             '{C:inactive}Self-destructs on copy{}' }
     },
     atlas = 'Jokers',
@@ -1726,14 +1735,14 @@ SMODS.Joker { -- Hopscotch
     key = 'hopscotch',
     loc_txt = {
         name = 'Hopscotch',
-        text = { 'When selecting blind,', '{C:green}#1# out of 3{} chance to', 'receive associated skip tag' }
+        text = { 'When selecting blind,', '{C:green}#1# in 3{} chance to', 'receive associated skip tag' }
     },
     atlas = 'Jokers',
     pos = {
         x = 3,
         y = 2
     },
-    rarity = 2,
+    rarity = 1,
     blueprint_compat = false,
     cost = 5,
     loc_vars = function(self, info_queue, center)
@@ -1747,7 +1756,7 @@ SMODS.Joker { -- Hopscotch
                 G.GAME.probabilities.normal, 3)
             if chance_roll == 3 then
                 local _tag = G.GAME.skip_tag
-                if _tag then
+                if _tag and _tag.config then
                     play_sound('generic1')
                     card:juice_up(0.3, 0.4)
                     add_tag(_tag.config.ref_table)
@@ -1996,7 +2005,7 @@ SMODS.Joker { -- Clown Car
     key = 'clown_car',
     loc_txt = {
         name = 'Clown Car',
-        text = { 'Gains {C:mult}+2{} Mult each time', 'a Joker is picked up', '{C:inactive}Currently: +#1#' }
+        text = { 'Gains {C:mult}+2{} Mult each time', 'a Joker is added to hand', '{C:inactive}Currently: +#1#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2039,7 +2048,7 @@ SMODS.Joker { -- Gambler
         x = 1,
         y = 3
     },
-    rarity = 2,
+    rarity = 1,
     config = {},
     blueprint_compat = false,
     cost = 7,
@@ -2104,7 +2113,7 @@ SMODS.Joker { -- Dark Room
     key = 'dark_room',
     loc_txt = {
         name = 'Dark Room',
-        text = { 'After 3 rounds, sell this', 'joker to upgrade a random', 'owned voucher' }
+        text = { 'After 3 rounds, sell this', 'Joker to upgrade a random', 'owned voucher' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2198,7 +2207,7 @@ SMODS.Joker { -- Man in the Mirror
     loc_txt = {
         name = 'Man in the Mirror',
         text = { 'Selling this joker', 'creates {C:dark_edition}Negative{} copies of',
-            'all non-Negative held consumeables' }
+            'all non-Negative held consumables' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2336,7 +2345,7 @@ SMODS.Joker { -- Random Encounter
     key = 'random_encounter',
     loc_txt = {
         name = 'Random Encounter',
-        text = { '{C:green}#1# in 4 chance{} of', 'scored playing cards', 'gain permanent {C:mult}+1{} Bonus Mult' }
+        text = { '{C:green}#1# in 4{} chance of', 'scored playing cards', 'gaining permanent {C:mult}+1{} Bonus Mult' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2346,7 +2355,7 @@ SMODS.Joker { -- Random Encounter
     rarity = 2,
     config = {
         extra = {
-            chance = 4
+            chance = 1
         }
     },
     blueprint_compat = true,
@@ -2377,7 +2386,7 @@ SMODS.Joker { -- Jackpot
     key = 'jackpot',
     loc_txt = {
         name = 'Jackpot',
-        text = { 'Played hands containing at least', '{C:attention}three 7\'s{} give {C:money}$#1#' }
+        text = { 'Played hands containing at least', '{C:green}#1# in 3{} chance to give', '{C:attention}three 7\'s{} give {C:money}$#2#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -2388,14 +2397,14 @@ SMODS.Joker { -- Jackpot
     config = {
         extra = {
             money = 15,
-            sevens = 0
+            odds = 3
         }
     },
     blueprint_compat = true,
     cost = 8,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { center.ability.extra.money }
+            vars = { G.GAME.probabilities.normal, center.ability.extra.money }
         }
     end,
     calculate = function(self, card, context)
@@ -2409,12 +2418,14 @@ SMODS.Joker { -- Jackpot
             end
 
             if sevens >= 3 then
-                ease_dollars(card.ability.extra.money)
-                return {
-                    message = 'Jackpot!',
-                    colour = G.C.money,
-                    card = card
-                }
+                if pseudorandom(pseudoseed('jackpot' .. G.GAME.round_resets.ante)) < G.GAME.probabilities.normal / card.ability.extra.odds then
+                    ease_dollars(card.ability.extra.money)
+                    return {
+                        message = 'Jackpot!',
+                        colour = G.C.money,
+                        card = card
+                    }
+                end
             end
         end
     end
@@ -2509,7 +2520,7 @@ SMODS.Joker { -- Coupon
         x = 1,
         y = 4
     },
-    rarity = 2,
+    rarity = 1,
     config = {
         extra = {
             odds = 1
@@ -2528,7 +2539,7 @@ SMODS.Joker { -- Loony Joker
     key = 'loony',
     loc_txt = {
         name = 'Loony Joker',
-        text = { "{C:red}+#1#{} Mult if played", "hand is", "a {C:attention}#2#" }
+        text = { "{C:mult}+#1#{} Mult if played", "hand is", "a {C:attention}#2#" }
     },
     atlas = 'Jokers',
     pos = {
@@ -2728,7 +2739,7 @@ SMODS.Joker { -- Marco Polo
     loc_txt = {
         name = 'Marco Polo',
         text = { '{C:mult}+12{} Mult if card is at secret placement', 'in Joker hand order. Given Mult is',
-            '{C:mult}subtracted by 3{} for', 'each card out of place', '{C:inactive}Position changes every round{}' }
+            '{C:red}subtracted by 3{} for', 'each card out of place', '{C:inactive}Position changes every round{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -3006,7 +3017,7 @@ SMODS.Joker { -- Poet
     key = 'poet',
     loc_txt = {
         name = 'Poet',
-        text = { 'If hand type is played {C:attention}exclusively{} with number ranks', 'matching the {C:attention}hand name{}, give Xmult equal to that rank', '{C:inactive}Two Pair must be played with a pair of 2s and', '{C:inactive}a pair of faces or aces' }
+        text = { 'If hand type is played {C:attention}exclusively{} with number ranks', 'matching the {C:attention}hand name{}, give {X:mult,C:white}Xmult{} equal to that rank', '{C:inactive}Two Pair must be played with a pair of 2s and', '{C:inactive}a pair of faces or aces' }
     },
     atlas = 'Jokers',
     pos = {
@@ -3274,7 +3285,7 @@ SMODS.Joker { -- Soil Joker
     key = 'soil',
     loc_txt = {
         name = 'Soil Joker',
-        text = { 'Scaling Jokers scale', '{C:attention}twice{} as fast' }
+        text = { 'Scaling Jokers gain', '{C:attention}twice{} as much scaling value' }
     },
     atlas = 'Jokers',
     pos = {
@@ -4028,14 +4039,14 @@ SMODS.Joker { -- Memory Game
     key = 'memory_game',
     loc_txt = {
         name = 'Memory Game',
-        text = { 'If played hand is', 'a {C:attention}Pair,{} convert', 'the first scoring card', 'into the second scoring card' }
+        text = { 'If played hand is', 'a {C:attention}Pair{}, convert', 'the first scoring card', 'into the second scoring card' }
     },
     atlas = 'Jokers',
     pos = {
         x = 3,
         y = 9
     },
-    rarity = 2,
+    rarity = 1,
     blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
@@ -4210,8 +4221,42 @@ SMODS.Joker { -- Hype Man
     cost = 6,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { center.ability.extra.dollars * G.GAME.gambler_mod }
+            vars = { center.ability.extra.dollars }
         }
+    end
+}
+
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 6 or
+                context.other_card:get_id() == 7 or
+                context.other_card:get_id() == 8 or
+                context.other_card:get_id() == 9 or
+                context.other_card:get_id() == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
     end
 }
 
@@ -4321,7 +4366,7 @@ SMODS.Voucher { -- Best Dressed
     key = 'best_dressed',
     loc_txt = {
         name = 'Best Dressed',
-        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:red,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
     },
     atlas = 'Vouchers',
     pos = {
@@ -4574,8 +4619,6 @@ SMODS.Challenge { -- Target Practice
     },
     jokers = {
         { id = 'j_mr_bones',      edition = 'negative' },
-        { id = 'j_mr_bones',      edition = 'negative' },
-        { id = 'j_mr_bones',      edition = 'negative' },
         { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
     },
     deck = {
@@ -4775,6 +4818,23 @@ SMODS.Back { --Nirvana
     end
 }
 
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
 --endregion
 
 --region Hand Parts
@@ -4871,7 +4931,7 @@ SMODS.PokerHandPart {
 
 --region Hand Types
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Three Pair
     key = 'three_pair',
     mult = 4,
     chips = 30,
@@ -4899,7 +4959,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Double Triple
     key = 'double_triple',
     mult = 6,
     chips = 60,
@@ -4927,7 +4987,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Six of a Kind
     key = '6oak',
     mult = 18,
     chips = 180,
@@ -4955,7 +5015,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Super Straight
     key = 's_straight',
     mult = 6,
     chips = 50,
@@ -4983,7 +5043,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Super Flush
     key = 's_flush',
     mult = 6,
     chips = 55,
@@ -5011,7 +5071,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --House Party
     key = 'house_party',
     mult = 8,
     chips = 70,
@@ -5041,7 +5101,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Flush Three Pair
     key = 'f_three_pair',
     mult = 14,
     chips = 150,
@@ -5071,7 +5131,7 @@ SMODS.PokerHand {
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Flush Double Triple
     key = 'f_double_triple',
     mult = 16,
     chips = 170,
@@ -5096,12 +5156,12 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        return #parts._3 >= 2 and next(parts.mxms_s_flush) 
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
             and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Super Straight Flush
     key = 's_straight_f',
     mult = 20,
     chips = 200,
@@ -5126,12 +5186,12 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush) 
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
             and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Flush Party
     key = 'f_party',
     mult = 16,
     chips = 180,
@@ -5157,12 +5217,12 @@ SMODS.PokerHand {
     visible = false,
     evaluate = function(parts, hand)
         if #parts._4 < 1 or #parts._2 < 2 then return {} end
-        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush) 
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
             and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
     end
 }
 
-SMODS.PokerHand {
+SMODS.PokerHand { --Flush Six
     key = 'f_6oak',
     mult = 22,
     chips = 220,
@@ -5187,7 +5247,7 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        return next(parts.mxms_6) and next(parts.mxms_s_flush) 
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
             and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
     end
 }
@@ -5569,8 +5629,7 @@ SMODS.Consumable { -- Proxima Centauri
         y = 0
     },
     config = {
-        hand_type = 'mxms_s_straight_f',
-        softlock = true
+        hand_type = 'mxms_s_straight_f'
     },
     cost = 4,
     loc_vars = function(self, info_queue, center)
@@ -5685,5 +5744,108 @@ SMODS.Consumable { --Kepler
         return false
     end
 }
+
+--endregion
+
+--region Blinds
+
+SMODS.Blind { --The Rot
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    boss_colour = HEX('A2CA4C'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuffed_by_blind do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card.debuffed_by_blind = true
+        end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end
+}
+
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    boss_colour = HEX('D9638D'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
 
 --endregion
