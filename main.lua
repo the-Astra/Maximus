@@ -669,7 +669,14 @@ SMODS.Joker { -- Fortune Cookie
                                     if next(groupchats) then
                                         for k, v in pairs(groupchats) do
                                             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                                            v:juice_up(0.3, 0.4)
+                                            G.E_MANAGER:add_event(Event({
+                                                trigger = 'after',
+                                                func = function()
+                                                    v:juice_up(0.3, 0.4)
+                                                
+                                                return true
+                                                end
+                                            }))
                                         end
                                     end
                                     return true;
@@ -838,7 +845,14 @@ SMODS.Joker { -- Poindexter
                         if next(groupchats) then
                             for k, v in pairs(groupchats) do
                                 v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                                v:juice_up(0.3, 0.4)
+                                G.E_MANAGER:add_event(Event({
+                                    trigger = 'after',
+                                    func = function()
+                                        v:juice_up(0.3, 0.4)
+                                    
+                                    return true
+                                    end
+                                }))
                             end
                         end
                         card:juice_up(0.3, 0.4)
@@ -1251,7 +1265,14 @@ SMODS.Joker { -- Streaker
                 if next(groupchats) then
                     for k, v in pairs(groupchats) do
                         v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                        v:juice_up(0.3, 0.4)
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                v:juice_up(0.3, 0.4)
+                            
+                            return true
+                            end
+                        }))
                     end
                 end
                 return {
@@ -1772,7 +1793,14 @@ SMODS.Joker { -- Hopscotch
                         if next(groupchats) then
                             for k, v in pairs(groupchats) do
                                 v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                                v:juice_up(0.3, 0.4)
+                                G.E_MANAGER:add_event(Event({
+                                    trigger = 'after',
+                                    func = function()
+                                        v:juice_up(0.3, 0.4)
+                                    
+                                    return true
+                                    end
+                                }))
                             end
                         end
                         G.E_MANAGER:add_event(Event({
@@ -1864,7 +1892,14 @@ SMODS.Joker { -- Bullseye
             if next(groupchats) then
                 for k, v in pairs(groupchats) do
                     v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                    v:juice_up(0.3, 0.4)
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        func = function()
+                            v:juice_up(0.3, 0.4)
+                        
+                        return true
+                        end
+                    }))
                 end
             end
             return {
@@ -2441,7 +2476,14 @@ SMODS.Joker { -- Jackpot
                                 if next(groupchats) then
                                     for k, v in pairs(groupchats) do
                                         v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                                        v:juice_up(0.3, 0.4)
+                                        G.E_MANAGER:add_event(Event({
+                                            trigger = 'after',
+                                            func = function()
+                                                v:juice_up(0.3, 0.4)
+                                            
+                                            return true
+                                            end
+                                        }))
                                     end
                                 end
                                 return true;
@@ -2750,7 +2792,14 @@ SMODS.Joker { -- Monk
             if next(groupchats) then
                 for k, v in pairs(groupchats) do
                     v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                    v:juice_up(0.3, 0.4)
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        func = function()
+                            v:juice_up(0.3, 0.4)
+                        
+                        return true
+                        end
+                    }))
                 end
             end
         end
@@ -2903,7 +2952,14 @@ SMODS.Joker { -- Don't Mind if I Do
                             if next(groupchats) then
                                 for k, v in pairs(groupchats) do
                                     v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                                    v:juice_up(0.3, 0.4)
+                                    G.E_MANAGER:add_event(Event({
+                                        trigger = 'after',
+                                        func = function()
+                                            v:juice_up(0.3, 0.4)
+                                        
+                                        return true
+                                        end
+                                    }))
                                 end
                             end
                             return true
@@ -3175,7 +3231,14 @@ SMODS.Joker { -- Hedonist
             if next(groupchats) then
                 for k, v in pairs(groupchats) do
                     v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                    v:juice_up(0.3, 0.4)
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        func = function()
+                            v:juice_up(0.3, 0.4)
+                        
+                        return true
+                        end
+                    }))
                 end
             end
         end

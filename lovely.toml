@@ -658,7 +658,13 @@ if next(pessimistics) then
                 if next(groupchats) then
                     for kk, vv in pairs(groupchats) do
                         vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                        vv:juice_up(0.3, 0.4)
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                vv:juice_up(0.3, 0.4)
+                            return true
+                            end
+                        }))
                     end
                 end
                 return true;
@@ -697,7 +703,13 @@ for k, v in ipairs(cards_destroyed) do
                         if next(groupchats) then
                             for kkk, vvv in pairs(groupchats) do
                                 vvv.ability.extra.chips = vvv.ability.extra.chips + 2 * G.GAME.soil_mod
-                                vvv:juice_up(0.3, 0.4)
+                                G.E_MANAGER:add_event(Event({
+                                trigger = 'after',
+                                func = function()
+                                    vvv:juice_up(0.3, 0.4)
+                                return true
+                                end
+                            }))
                             end
                         end
                     return true; end
@@ -744,7 +756,13 @@ elseif next(SMODS.find_card('j_mxms_pessimistic')) then
                 if next(groupchats) then
                     for kk, vv in pairs(groupchats) do
                         vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                        vv:juice_up(0.3, 0.4)
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                vv:juice_up(0.3, 0.4)
+                            return true
+                            end
+                        }))
                     end
                 end
             return true; end
@@ -776,7 +794,13 @@ if next(pessimistics) then
                 if next(groupchats) then
                     for kk, vv in pairs(groupchats) do
                         vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                        vv:juice_up(0.3, 0.4)
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                vv:juice_up(0.3, 0.4)
+                            return true
+                            end
+                        }))
                     end
                 end
                 return true;
@@ -847,7 +871,13 @@ if (context.other_card:get_id() == 8) then
                     if next(groupchats) then
                         for kk, vv in pairs(groupchats) do
                             vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                            vv:juice_up(0.3, 0.4)
+                            G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                vv:juice_up(0.3, 0.4)
+                            return true
+                            end
+                        }))
                         end
                     end
                 return true; end
@@ -899,7 +929,13 @@ context.other_card:is_face() then
                     if next(groupchats) then
                         for kk, vv in pairs(groupchats) do
                             vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                            vv:juice_up(0.3, 0.4)
+                            G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                vv:juice_up(0.3, 0.4)
+                            return true
+                            end
+                        }))
                         end
                     end
                 return true; end
@@ -947,7 +983,13 @@ context.other_card:is_suit("Hearts") then
                     if next(groupchats) then
                         for kk, vv in pairs(groupchats) do
                             vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                            vv:juice_up(0.3, 0.4)
+                            G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                vv:juice_up(0.3, 0.4)
+                            return true
+                            end
+                        }))
                         end
                     end
                 return true; end
@@ -1015,7 +1057,13 @@ context.other_card:is_face() then
                     if next(groupchats) then
                         for kk, vv in pairs(groupchats) do
                             vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                            vv:juice_up(0.3, 0.4)
+                            G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                vv:juice_up(0.3, 0.4)
+                            return true
+                            end
+                        }))
                         end
                     end
                 return true; end
@@ -1062,7 +1110,13 @@ if self.ability.name == 'Space Joker' then
                     if next(groupchats) then
                         for kk, vv in pairs(groupchats) do
                             vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                            vv:juice_up(0.3, 0.4)
+                            G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                vv:juice_up(0.3, 0.4)
+                            return true
+                            end
+                        }))
                         end
                     end
                 return true; end
@@ -1907,7 +1961,13 @@ if self.ability.name == 'Campfire' and not context.blueprint then
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -1931,7 +1991,13 @@ if self.ability.name == 'Flash Card' and not context.blueprint then
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -1955,7 +2021,13 @@ if self.ability.name == 'Red Card' and not context.blueprint then
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -1981,7 +2053,13 @@ if self.ability.name == 'Hologram' and (not context.blueprint)
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2005,7 +2083,13 @@ if self.ability.name == 'Madness' and not context.blueprint and not context.blin
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2027,7 +2111,13 @@ self.ability.mult = self.ability.mult + (sliced_card.sell_cost*2*G.GAME.soil_mod
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2049,7 +2139,13 @@ self.ability.caino_xmult = self.ability.caino_xmult + (faces*self.ability.extra*
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2069,7 +2165,13 @@ self.ability.caino_xmult = self.ability.caino_xmult + (face_cards*self.ability.e
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2091,7 +2193,13 @@ self.ability.x_mult = self.ability.x_mult + (self.ability.extra*glasses*G.GAME.s
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2111,7 +2219,13 @@ self.ability.x_mult = self.ability.x_mult + (self.ability.extra*glass_cards*G.GA
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2131,7 +2245,13 @@ self.ability.x_mult = self.ability.x_mult + (self.ability.extra*shattered_glass*
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2155,7 +2275,13 @@ if self.ability.name == 'Constellation' and not context.blueprint and context.co
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2183,7 +2309,13 @@ if self.ability.name == 'Yorick' and not context.blueprint then
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2207,7 +2339,13 @@ context.other_card:is_suit(G.GAME.current_round.castle_card.suit) and not contex
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2235,7 +2373,13 @@ context.other_card:get_id() == 11 and not context.blueprint then
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2259,7 +2403,13 @@ if self.ability.name == 'Rocket' and G.GAME.blind.boss then
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2283,7 +2433,13 @@ if self.ability.name == 'Egg' then
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2318,7 +2474,13 @@ for k, v in ipairs(G.jokers.cards) do
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
         v:set_cost()
@@ -2331,7 +2493,13 @@ for k, v in ipairs(G.consumeables.cards) do
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
         v:set_cost()
@@ -2358,7 +2526,13 @@ if self.ability.name == 'Lucky Cat' and context.other_card.lucky_trigger and not
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2384,7 +2558,13 @@ if self.ability.name == 'Wee Joker' and
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2408,7 +2588,13 @@ if self.ability.name == 'Spare Trousers' and (next(context.poker_hands['Two Pair
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2432,7 +2618,13 @@ if self.ability.name == 'Square Joker' and #context.full_hand == 4 and not conte
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2456,7 +2648,13 @@ if self.ability.name == 'Runner' and next(context.poker_hands['Straight']) and n
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2480,7 +2678,13 @@ if #enhanced > 0 then
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
@@ -2533,7 +2737,13 @@ if self.ability.name == 'Ride the Bus' and not context.blueprint then
         if next(groupchats) then
             for k, v in pairs(groupchats) do
                 v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                v:juice_up(0.3, 0.4)
+                G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
             end
         end
     end
@@ -2591,7 +2801,13 @@ if self.ability.name == 'Obelisk' and not context.blueprint then
         if next(groupchats) then
             for k, v in pairs(groupchats) do
                 v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                v:juice_up(0.3, 0.4)
+                G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
             end
         end
     end
@@ -2616,7 +2832,13 @@ if self.ability.name == 'Green Joker' and not context.blueprint then
     if next(groupchats) then
         for k, v in pairs(groupchats) do
             v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                return true
+                end
+            }))
         end
     end
 '''
