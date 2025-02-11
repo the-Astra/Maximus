@@ -2501,7 +2501,6 @@ SMODS.Joker { -- Loaded Gun
         if context.individual and context.cardarea == G.play and context.other_card.config.center == G.P_CENTERS.m_steel then
             return {
                 x_mult = card.ability.extra.Xmult,
-                message = 'X2',
                 colour = G.C.MULT,
                 card = card
             }
