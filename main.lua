@@ -4244,6 +4244,7 @@ SMODS.Joker { -- First Aid Kit
     },
     rarity = 1,
     blueprint_compat = false,
+    eternal_compat = false,
     cost = 5,
     calculate = function(self, card, context)
         if context.selling_self then
