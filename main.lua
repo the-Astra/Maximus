@@ -602,6 +602,7 @@ function Card:scale_value(applied_value, scalar)
                     trigger = 'after',
                     func = function()
                         v:juice_up(0.3, 0.4)
+                        play_sound('generic1')
                         return true
                     end
                 }))
@@ -612,40 +613,21 @@ function Card:scale_value(applied_value, scalar)
     return new_value
 end
 
-function Card:chance_roll(seed, probability, odds)
-    local success = pseudorandom(seed) < probability/odds
-
-    if not success then
-        local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-        if next(pessimistics) then
-            for k, v in pairs(pessimistics) do
-                v.ability.extra.mult = v:scale_value(v.ability.extra.mult, odds - probability)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        v:juice_up(0.3, 0.4)
-                        local groupchats = SMODS.find_card('j_mxms_group_chat')
-                        if next(groupchats) then
-                            for kk, vv in pairs(groupchats) do
-                                vv.ability.extra.chips = vv:scale_value(vv.ability.extra.chips, 2)
-                                G.E_MANAGER:add_event(Event({
-                                    trigger = 'after',
-                                    func = function()
-                                        vv:juice_up(0.3, 0.4)
-                                    return true
-                                    end
-                                }))
-                            end
-                        end
+function mxms_scale_pessimistics(probability, odds)
+    local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+    if next(pessimistics) then
+        for k, v in pairs(pessimistics) do
+            v.ability.extra.mult = v:scale_value(v.ability.extra.mult, odds - probability)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    v:juice_up(0.3, 0.4)
+                    play_sound('generic1')
                     return true;
-                    end
-                }))
-            end
+                end
+            }))
         end
     end
-
-    return success
-
 end
 
 --endregion
@@ -671,14 +653,14 @@ SMODS.Joker { -- Fortune Cookie
     cost = 4,
     config = {
         extra = {
-            chance = 10,
+            prob = 10,
             odds = 10
         }
     },
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { G.GAME.probabilities.normal, center.ability.extra.chance * G.GAME.fridge_mod,
-                center.ability.extra.chance * G.GAME.fridge_mod * G.GAME.probabilities.normal,
+            vars = { G.GAME.probabilities.normal, center.ability.extra.prob * G.GAME.fridge_mod,
+                center.ability.extra.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal,
                 center.ability.extra.odds * G.GAME.fridge_mod }
         }
     end,
@@ -686,15 +668,14 @@ SMODS.Joker { -- Fortune Cookie
         -- Activate ability before scoring if chance is higher than 0
         if context.before and card.ability.extra.chance > 0 then
             -- Roll chance and decrease by 1
-            local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante), 1,
-                10 * G.GAME.fridge_mod * G.GAME.probabilities.normal)
-            local chance_odds = (card.ability.extra.odds - card.ability.extra.chance) * G.GAME.fridge_mod
-            card.ability.extra.chance = card.ability.extra.chance - (1 / G.GAME.fridge_mod)
+            local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante)) <
+                card.ability.extra.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal / card.ability.extra.odds
+            card.ability.extra.prob = card.ability.extra.chance - (1 / G.GAME.fridge_mod)
 
             -- Check if Consumables is full
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                 -- Successful roll
-                if (chance_roll >= chance_odds) then
+                if (chance_roll) then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
@@ -717,35 +698,8 @@ SMODS.Joker { -- Fortune Cookie
 
                     -- Failed Roll
                 else
-                    local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-                    if next(pessimistics) then
-                        for k, v in pairs(pessimistics) do
-                            v.ability.extra.mult = v.ability.extra.mult +
-                                (card.ability.extra.odds - card.ability.extra.chance * G.GAME.probabilities.normal) *
-                                G.GAME.soil_mod
-                            G.E_MANAGER:add_event(Event({
-                                trigger = 'after',
-                                func = function()
-                                    v:juice_up(0.3, 0.4)
-                                    local groupchats = SMODS.find_card('j_mxms_group_chat')
-                                    if next(groupchats) then
-                                        for k, v in pairs(groupchats) do
-                                            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                                            G.E_MANAGER:add_event(Event({
-                                                trigger = 'after',
-                                                func = function()
-                                                    v:juice_up(0.3, 0.4)
-
-                                                    return true
-                                                end
-                                            }))
-                                        end
-                                    end
-                                    return true;
-                                end
-                            }))
-                        end
-                    end
+                    mxms_scale_pessimistics(card.ability.extra.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal,
+                        card.ability.extra.odds)
 
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
@@ -902,21 +856,7 @@ SMODS.Joker { -- Poindexter
                     trigger = 'after',
                     delay = 0.3,
                     func = function()
-                        card.ability.extra.Xmult = card.ability.extra.Xmult + ((glass * 0.25) * G.GAME.soil_mod)
-                        local groupchats = SMODS.find_card('j_mxms_group_chat')
-                        if next(groupchats) then
-                            for k, v in pairs(groupchats) do
-                                v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                                G.E_MANAGER:add_event(Event({
-                                    trigger = 'after',
-                                    func = function()
-                                        v:juice_up(0.3, 0.4)
-
-                                        return true
-                                    end
-                                }))
-                            end
-                        end
+                        card.ability.extra.Xmult = card:scale_value(card.ability.extra.Xmult, glass * 0.25)
                         card:juice_up(0.3, 0.4)
                         play_sound('tarot1')
                         return true;
@@ -1818,19 +1758,24 @@ SMODS.Joker { -- Hopscotch
     key = 'hopscotch',
     loc_txt = {
         name = 'Hopscotch',
-        text = { 'When selecting blind,', '{C:green}#1# in 3{} chance to', 'receive associated skip tag' }
+        text = { 'When selecting blind,', '{C:green}#1# in #2#{} chance to', 'receive associated skip tag' }
     },
     atlas = 'Jokers',
     pos = {
         x = 3,
         y = 2
     },
+    config = {
+        extra = {
+            odds = 3
+        }
+    },
     rarity = 1,
     blueprint_compat = false,
     cost = 5,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { G.GAME.probabilities.normal }
+            vars = { G.GAME.probabilities.normal, center.ability.extra.odds }
         }
     end,
     calculate = function(self, card, context)
@@ -1846,34 +1791,7 @@ SMODS.Joker { -- Hopscotch
                     G.GAME.skip_tag = ''
                 end
             else
-                local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-                if next(pessimistics) then
-                    for k, v in pairs(pessimistics) do
-                        v.ability.extra.mult = v.ability.extra.mult +
-                            (3 - G.GAME.probabilities.normal) * G.GAME.soil_mod
-                        local groupchats = SMODS.find_card('j_mxms_group_chat')
-                        if next(groupchats) then
-                            for k, v in pairs(groupchats) do
-                                v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                                G.E_MANAGER:add_event(Event({
-                                    trigger = 'after',
-                                    func = function()
-                                        v:juice_up(0.3, 0.4)
-
-                                        return true
-                                    end
-                                }))
-                            end
-                        end
-                        G.E_MANAGER:add_event(Event({
-                            trigger = 'after',
-                            func = function()
-                                v:juice_up(0.3, 0.4)
-                                return true;
-                            end
-                        }))
-                    end
-                end
+                mxms_scale_pessimistics(G.GAME.probabilities.normal, card.ability.extra.odds)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'before',
                     func = function()
@@ -1949,21 +1867,7 @@ SMODS.Joker { -- Bullseye
 
         if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and
             G.GAME.blind.chips == G.GAME.chips then
-            card.ability.extra.chips = card.ability.extra.chips + ((100 * G.GAME.round) * G.GAME.soil_mod)
-            local groupchats = SMODS.find_card('j_mxms_group_chat')
-            if next(groupchats) then
-                for k, v in pairs(groupchats) do
-                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        func = function()
-                            v:juice_up(0.3, 0.4)
-
-                            return true
-                        end
-                    }))
-                end
-            end
+            card.ability.extra.chips = card:scale_value(card.ability.extra.chips, 100 * G.GAME.round)
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.CHIPS,
@@ -2524,40 +2428,12 @@ SMODS.Joker { -- Jackpot
                     }
                 end
             else
-                local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-                if next(pessimistics) then
-                    for k, v in pairs(pessimistics) do
-                        v.ability.extra.mult = v.ability.extra.mult +
-                            (card.ability.extra.odds - card.ability.extra.chance * G.GAME.probabilities.normal) *
-                            G.GAME.soil_mod
-                        G.E_MANAGER:add_event(Event({
-                            trigger = 'after',
-                            func = function()
-                                v:juice_up(0.3, 0.4)
-                                local groupchats = SMODS.find_card('j_mxms_group_chat')
-                                if next(groupchats) then
-                                    for k, v in pairs(groupchats) do
-                                        v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                                        G.E_MANAGER:add_event(Event({
-                                            trigger = 'after',
-                                            func = function()
-                                                v:juice_up(0.3, 0.4)
-
-                                                return true
-                                            end
-                                        }))
-                                    end
-                                end
-                                return true;
-                            end
-                        }))
-                    end
-                    return {
-                        card = card,
-                        message = localize('k_nope_ex'),
-                        colour = G.C.SET.Tarot
-                    }
-                end
+                mxms_scale_pessimistics(G.GAME.probabilities.normal, card.ability.extra.odds)
+                return {
+                    card = card,
+                    message = localize('k_nope_ex'),
+                    colour = G.C.SET.Tarot
+                }
             end
         end
     end
@@ -2849,21 +2725,7 @@ SMODS.Joker { -- Monk
         if context.ending_shop and not card.ability.extra.purchase_made then
             card:juice_up(0.3, 0.4)
             play_sound('tarot1')
-            card.ability.extra.chips = card.ability.extra.chips + (25 * G.GAME.soil_mod)
-            local groupchats = SMODS.find_card('j_mxms_group_chat')
-            if next(groupchats) then
-                for k, v in pairs(groupchats) do
-                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        func = function()
-                            v:juice_up(0.3, 0.4)
-
-                            return true
-                        end
-                    }))
-                end
-            end
+            card.ability.extra.chips = card:scale_value(card.ability.extra.chips, 25)
         end
 
         if context.setting_blind then
@@ -3009,21 +2871,7 @@ SMODS.Joker { -- Don't Mind if I Do
                             card:juice_up(0.3, 0.3)
                             other_card:juice_up(0.3, 0.3)
                             other_card:set_seal(nil, nil, true)
-                            card.ability.extra.Xmult = card.ability.extra.Xmult + (0.25 * G.GAME.soil_mod)
-                            local groupchats = SMODS.find_card('j_mxms_group_chat')
-                            if next(groupchats) then
-                                for k, v in pairs(groupchats) do
-                                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                                    G.E_MANAGER:add_event(Event({
-                                        trigger = 'after',
-                                        func = function()
-                                            v:juice_up(0.3, 0.4)
-
-                                            return true
-                                        end
-                                    }))
-                                end
-                            end
+                            card.ability.extra.Xmult = card:scale_value(card.ability.extra.Xmult, 0.25)
                             return true
                         end
                     }))
@@ -3288,21 +3136,7 @@ SMODS.Joker { -- Hedonist
         if context.ending_shop and #G.shop_vouchers.cards == 0 and #G.shop_booster.cards == 0 and #G.shop_jokers.cards == 0 and not context.blueprint then
             card:juice_up(0.3, 0.4)
             play_sound('tarot1')
-            card.ability.extra.Xmult = card.ability.extra.Xmult + (0.25 * G.GAME.soil_mod)
-            local groupchats = SMODS.find_card('j_mxms_group_chat')
-            if next(groupchats) then
-                for k, v in pairs(groupchats) do
-                    v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        func = function()
-                            v:juice_up(0.3, 0.4)
-
-                            return true
-                        end
-                    }))
-                end
-            end
+            card.ability.extra.Xmult = card:scale_value(card.ability.extra.Xmult, 0.25)
         end
     end
 }

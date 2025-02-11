@@ -640,11 +640,25 @@ times = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' or pseudorandom('wheel_of_fortune') < G.GAME.probabilities.normal/self.ability.extra then
+G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+    attention_text({
+        text = localize('k_nope_ex'),
+        scale = 1.3, 
+        hold = 1.4,
+        major = used_tarot,
+        backdrop_colour = G.C.SECONDARY_SET.Tarot,
+        align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and 'tm' or 'cm',
+        offset = {x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0},
+        silent = true
+        })
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
+            play_sound('tarot2', 0.76, 0.4);return true end}))
+        play_sound('tarot2', 1, 0.4)
+        used_tarot:juice_up(0.3, 0.5)
 '''
-position = "at"
+position = "after"
 payload = '''
-if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' or self:chance_roll('wheel_of_fortune', G.GAME.probabilities.normal, self.ability.extra) then
+mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -661,21 +675,10 @@ end
 '''
 position = "at"
 payload = '''
-local pessimistics = SMODS.find_card('j_mxms_pessimistic')
 for k, v in ipairs(cards_destroyed) do
     if v.shattered then 
         glass_shattered[#glass_shattered+1] = v 
-            if next(pessimistics) and not next(SMODS.find_card('j_mxms_stone_thrower')) then
-            for kk, vv in pairs(pessimistics) do
-                vv.ability.extra.mult = vv.scale_value(vv.ability.extra.mult, ((v.ability.extra - G.GAME.probabilities.normal)))
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        vv:juice_up(0.3, 0.4)
-                    return true; end
-                }))
-            end
-        end
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, v.ability.extra)
     end
 end
 '''
@@ -689,10 +692,24 @@ times = 1
 target = "card.lua"
 pattern = '''
 if pseudorandom('halu'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/self.ability.extra then
+    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+    G.E_MANAGER:add_event(Event({
+        trigger = 'before',
+        delay = 0.0,
+        func = (function()
+                local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, 'hal')
+                card:add_to_deck()
+                G.consumeables:emplace(card)
+                G.GAME.consumeable_buffer = 0
+            return true
+        end)}))
+    card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})
+    return nil, true
 '''
-position = "at"
+position = "after"
 payload = '''
-if self:chance_roll('halu'..G.GAME.round_resets.ante, G.GAME.probabilities.normal, self.ability.extra) then
+else
+    mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -703,11 +720,44 @@ times = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if pseudorandom(self.ability.name == 'Cavendish' and 'cavendish' or 'gros_michel') < G.GAME.probabilities.normal/self.ability.extra.odds then 
+G.E_MANAGER:add_event(Event({
+    func = function()
+        play_sound('tarot1')
+        self.T.r = -0.2
+        self:juice_up(0.3, 0.4)
+        self.states.drag.is = true
+        self.children.center.pinch.x = true
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+            func = function()
+                    G.jokers:remove_card(self)
+                    self:remove()
+                    self = nil
+                return true; end})) 
+        return true
+    end
+})) 
+if self.ability.name == 'Gros Michel' then G.GAME.pool_flags.gros_michel_extinct = true end
 '''
 position = "at"
 payload = '''
-if self:chance_roll(self.ability.name == 'Cavendish' and 'cavendish' or 'gros_michel', G.GAME.probabilities.normal, self.ability.extra.odds) then 
+G.E_MANAGER:add_event(Event({
+    func = function()
+        play_sound('tarot1')
+        self.T.r = -0.2
+        self:juice_up(0.3, 0.4)
+        self.states.drag.is = true
+        self.children.center.pinch.x = true
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+            func = function()
+                    G.jokers:remove_card(self)
+                    self:remove()
+                    self = nil
+                    mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra.odds)
+                return true; end})) 
+        return true
+    end
+})) 
+if self.ability.name == 'Gros Michel' then G.GAME.pool_flags.gros_michel_extinct = true end
 '''
 match_indent = true
 times = 1
@@ -719,11 +769,50 @@ times = 1
 target = "card.lua"
 pattern = '''
 if (context.other_card:get_id() == 8) and (pseudorandom('8ball') < G.GAME.probabilities.normal/self.ability.extra) then
+    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+    return {
+        extra = {focus = self, message = localize('k_plus_tarot'), func = function()
+            G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                delay = 0.0,
+                func = (function()
+                        local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, '8ba')
+                        card:add_to_deck()
+                        G.consumeables:emplace(card)
+                        G.GAME.consumeable_buffer = 0
+                    return true
+                end)}))
+        end},
+        colour = G.C.SECONDARY_SET.Tarot,
+        card = self
+    }
 end
 '''
 position = "at"
 payload = '''
-if (context.other_card:get_id() == 8) and self:chance_roll('8ball', G.GAME.probabilities.normal, self.ability.extra) then
+if (context.other_card:get_id() == 8) then
+    if (pseudorandom('8ball') < G.GAME.probabilities.normal/self.ability.extra) then
+        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+        return {
+            extra = {focus = self, message = localize('k_plus_tarot'), func = function()
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    delay = 0.0,
+                    func = (function()
+                            local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, '8ba')
+                            card:add_to_deck()
+                            G.consumeables:emplace(card)
+                            G.GAME.consumeable_buffer = 0
+                        return true
+                    end)}))
+            end},
+            colour = G.C.SECONDARY_SET.Tarot,
+            card = self
+        }
+    else
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)
+    end
+end
 '''
 match_indent = true
 times = 1
@@ -734,11 +823,32 @@ times = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
+if self.ability.name == 'Business Card' and
+    context.other_card:is_face() and
+    pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + 2
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = 2,
+            card = self
+        }
+    end
 '''
 position = "at"
 payload = '''
-self:chance_roll('business', G.GAME.probabilities.normal, self.ability.extra) then
+if self.ability.name == 'Business Card' and
+context.other_card:is_face() then
+    if pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + 2
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = 2,
+            card = self
+        }
+    else
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)    
+    end
+end
 '''
 match_indent = true
 times = 1
@@ -749,11 +859,28 @@ times = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
+if self.ability.name ==  'Bloodstone' and
+context.other_card:is_suit("Hearts") and 
 pseudorandom('bloodstone') < G.GAME.probabilities.normal/self.ability.extra.odds then
+    return {
+        x_mult = self.ability.extra.Xmult,
+        card = self
+    }
+end
 '''
 position = "at"
 payload = '''
-self:chance_roll('bloodstone', G.GAME.probabilities.normal, self.ability.extra.odds) then
+if self.ability.name ==  'Bloodstone' and
+context.other_card:is_suit("Hearts") then 
+    if pseudorandom('bloodstone') < G.GAME.probabilities.normal/self.ability.extra.odds then
+        return {
+            x_mult = self.ability.extra.Xmult,
+            card = self
+        }
+    else
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra.odds)
+    end
+end
 '''
 match_indent = true
 times = 1
@@ -764,11 +891,48 @@ times = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
+if self.ability.name == 'Reserved Parking' and
+context.other_card:is_face() and
 pseudorandom('parking') < G.GAME.probabilities.normal/self.ability.extra.odds then
+    if context.other_card.debuff then
+        return {
+            message = localize('k_debuffed'),
+            colour = G.C.RED,
+            card = self,
+        }
+    else
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra.dollars
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = self.ability.extra.dollars,
+            card = self
+        }
+    end
+end
 '''
 position = "at"
 payload = '''
-self:chance_roll('parking', G.GAME.probabilities.normal, self.ability.extra.odds) then
+if self.ability.name == 'Reserved Parking' and
+context.other_card:is_face() then
+    if pseudorandom('parking') < G.GAME.probabilities.normal/self.ability.extra.odds then
+        if context.other_card.debuff then
+            return {
+                message = localize('k_debuffed'),
+                colour = G.C.RED,
+                card = self,
+            }
+        else
+            G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra.dollars
+            G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+            return {
+                dollars = self.ability.extra.dollars,
+                card = self
+            }
+        end
+    else
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra.odds)
+    end
+end
 '''
 match_indent = true
 times = 1
@@ -780,10 +944,26 @@ times = 1
 target = "card.lua"
 pattern = '''
 if self.ability.name == 'Space Joker' and pseudorandom('space') < G.GAME.probabilities.normal/self.ability.extra then
+    return {
+        card = self,
+        level_up = true,
+        message = localize('k_level_up_ex')
+    }
+end
 '''
 position = "at"
 payload = '''
-if self.ability.name == 'Space Joker' and self:chance_roll('space', G.GAME.probabilities.normal, self.ability.extra) then
+if self.ability.name == 'Space Joker' then
+    if pseudorandom('space') < G.GAME.probabilities.normal/self.ability.extra then
+        return {
+            card = self,
+            level_up = true,
+            message = localize('k_level_up_ex')
+        }
+    else
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)
+    end
+end
 '''
 match_indent = true
 times = 1
