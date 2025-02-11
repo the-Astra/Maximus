@@ -3600,7 +3600,7 @@ SMODS.Joker { -- Minimalist
             chips = 90
         }
     },
-    blueprint_compat = false,
+    blueprint_compat = true,
     cost = 4,
     loc_vars = function(self, info_queue, center)
         return {
