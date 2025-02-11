@@ -2426,6 +2426,34 @@ SMODS.Joker { -- Jackpot
                         card = card
                     }
                 end
+            else
+                local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+                if next(pessimistics) then
+                    for k, v in pairs(pessimistics) do
+                        v.ability.extra.mult = v.ability.extra.mult +
+                            (card.ability.extra.odds - card.ability.extra.chance * G.GAME.probabilities.normal) *
+                            G.GAME.soil_mod
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            func = function()
+                                v:juice_up(0.3, 0.4)
+                                local groupchats = SMODS.find_card('j_mxms_group_chat')
+                                if next(groupchats) then
+                                    for k, v in pairs(groupchats) do
+                                        v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
+                                        v:juice_up(0.3, 0.4)
+                                    end
+                                end
+                                return true;
+                            end
+                        }))
+                    end
+                    return {
+                        card = card,
+                        message = localize('k_nope_ex'),
+                        colour = G.C.SET.Tarot
+                    }
+                end
             end
         end
     end
