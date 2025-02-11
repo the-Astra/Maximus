@@ -588,6 +588,68 @@ end
 
 --endregion
 
+--region Helper Functions
+
+function Card:scale_value(applied_value, scalar)
+    local new_value = applied_value + (scalar * G.GAME.soil_mod)
+
+    if self.ability.name ~= 'j_mxms_group_chat' then
+        local groupchats = SMODS.find_card('j_mxms_group_chat')
+        if next(groupchats) then
+            for k, v in pairs(groupchats) do
+                v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    func = function()
+                        v:juice_up(0.3, 0.4)
+                        return true
+                    end
+                }))
+            end
+        end
+    end
+
+    return new_value
+end
+
+function Card:chance_roll(seed, probability, odds)
+    local success = pseudorandom(seed) < probability/odds
+
+    if not success then
+        local pessimistics = SMODS.find_card('j_mxms_pessimistic')
+        if next(pessimistics) then
+            for k, v in pairs(pessimistics) do
+                v.ability.extra.mult = v:scale_value(v.ability.extra.mult, odds - probability)
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    func = function()
+                        v:juice_up(0.3, 0.4)
+                        local groupchats = SMODS.find_card('j_mxms_group_chat')
+                        if next(groupchats) then
+                            for kk, vv in pairs(groupchats) do
+                                vv.ability.extra.chips = vv:scale_value(vv.ability.extra.chips, 2)
+                                G.E_MANAGER:add_event(Event({
+                                    trigger = 'after',
+                                    func = function()
+                                        vv:juice_up(0.3, 0.4)
+                                    return true
+                                    end
+                                }))
+                            end
+                        end
+                    return true;
+                    end
+                }))
+            end
+        end
+    end
+
+    return success
+
+end
+
+--endregion
+
 --region Jokers
 SMODS.Joker { -- Fortune Cookie
     key = 'fortune_cookie',
@@ -673,8 +735,8 @@ SMODS.Joker { -- Fortune Cookie
                                                 trigger = 'after',
                                                 func = function()
                                                     v:juice_up(0.3, 0.4)
-                                                
-                                                return true
+
+                                                    return true
                                                 end
                                             }))
                                         end
@@ -849,8 +911,8 @@ SMODS.Joker { -- Poindexter
                                     trigger = 'after',
                                     func = function()
                                         v:juice_up(0.3, 0.4)
-                                    
-                                    return true
+
+                                        return true
                                     end
                                 }))
                             end
@@ -1269,8 +1331,8 @@ SMODS.Joker { -- Streaker
                             trigger = 'after',
                             func = function()
                                 v:juice_up(0.3, 0.4)
-                            
-                            return true
+
+                                return true
                             end
                         }))
                     end
@@ -1797,8 +1859,8 @@ SMODS.Joker { -- Hopscotch
                                     trigger = 'after',
                                     func = function()
                                         v:juice_up(0.3, 0.4)
-                                    
-                                    return true
+
+                                        return true
                                     end
                                 }))
                             end
@@ -1896,8 +1958,8 @@ SMODS.Joker { -- Bullseye
                         trigger = 'after',
                         func = function()
                             v:juice_up(0.3, 0.4)
-                        
-                        return true
+
+                            return true
                         end
                     }))
                 end
@@ -2480,8 +2542,8 @@ SMODS.Joker { -- Jackpot
                                             trigger = 'after',
                                             func = function()
                                                 v:juice_up(0.3, 0.4)
-                                            
-                                            return true
+
+                                                return true
                                             end
                                         }))
                                     end
@@ -2796,8 +2858,8 @@ SMODS.Joker { -- Monk
                         trigger = 'after',
                         func = function()
                             v:juice_up(0.3, 0.4)
-                        
-                        return true
+
+                            return true
                         end
                     }))
                 end
@@ -2956,8 +3018,8 @@ SMODS.Joker { -- Don't Mind if I Do
                                         trigger = 'after',
                                         func = function()
                                             v:juice_up(0.3, 0.4)
-                                        
-                                        return true
+
+                                            return true
                                         end
                                     }))
                                 end
@@ -3235,8 +3297,8 @@ SMODS.Joker { -- Hedonist
                         trigger = 'after',
                         func = function()
                             v:juice_up(0.3, 0.4)
-                        
-                        return true
+
+                            return true
                         end
                     }))
                 end
