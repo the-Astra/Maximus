@@ -632,6 +632,14 @@ end
 
 --endregion
 
+--region Card Areas
+
+-- Horoscope card area; Heavily derived from Betmma Abilities
+
+
+
+--endregion
+
 --region Jokers
 SMODS.Joker { -- Fortune Cookie
     key = 'fortune_cookie',
@@ -3956,6 +3964,7 @@ SMODS.Joker { -- Four Course Meal
         }
     },
     blueprint_compat = true,
+    eternal_compat = false,
     cost = 8,
     calculate = function(self, card, context)
         if context.joker_main then
