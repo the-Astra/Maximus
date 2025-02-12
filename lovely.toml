@@ -2764,3 +2764,108 @@ if self.debuff.h_size_ge and #cards ~= self.debuff.h_size_ge then
 '''
 match_indent = true
 times = 1
+
+
+
+
+
+# ------------------------------------------ CARD AREAS ------------------------------------------
+
+# Add Horoscope Cardarea
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASSET_ATLAS["ui_1"], {x = 2, y = 0})'''
+position = "before"
+payload = '''
+
+self.mxms_horoscope_W = G.CARD_W*1.1
+self.mxms_horoscope_H = 0.95*G.CARD_H
+
+self.cs_alignments = CardArea(
+    G.consumeables.T.x + 2.25,
+    G.consumeables.T.y + G.consumeables.T.h + 1, 
+    self.mxms_horoscope_W, 
+    self.mxms_horoscope_H, 
+    {card_limit = 1, type = 'mxms_horoscope', highlight_limit = 0}
+)
+'''
+match_indent = true
+times = 1
+
+
+# Set Horoscope undiscovered sprite
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+                elseif self.config.center.consumeable and self.config.center.demo then 
+                    self.children.center = Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS["Tarot"], G.c_locked.pos)
+'''
+position = "after"
+payload = '''
+elseif not self.params.bypass_discovery_center and _center.set == 'Horoscope' and not _center.discovered then 
+    self.children.center = Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS[_center.atlas or _center.set], G.c_locked.pos)
+'''
+match_indent = true
+times = 1
+
+
+# Set Horosscope undiscovered desc
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+    if not self.bypass_lock and self.config.center.unlocked ~= false and
+    (self.ability.set == 'Joker' or self.ability.set == 'Edition' or self.ability.consumeable or self.ability.set == 'Voucher' or self.ability.set == 'Booster') and
+    not self.config.center.discovered and 
+    ((self.area ~= G.jokers and self.area ~= G.consumeables and self.area) or not self.area) then
+        card_type = 'Undiscovered'
+    end    
+'''
+position = "after"
+payload = '''
+if not self.bypass_lock and self.config.center.unlocked ~= false and
+self.ability.set == 'Horoscope' and
+not self.config.center.discovered and 
+((self.area ~= G.mxms_horoscope and self.area) or not self.area) then
+    card_type = 'Undiscovered'
+end    
+'''
+match_indent = true
+
+
+# Patch SMODS for horoscope CardArea
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+-- TARGET: add your own CardAreas for joker evaluation
+'''
+position = "after"
+payload = '''
+table.insert(t, G.mxms_horoscope)
+'''
+match_indent = true
+times = 1
+
+
+# Emplace horoscopes in their own area
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+elseif card.ability.set == 'Booster' then 
+'''
+position = "before"
+payload = '''
+elseif card.ability.set == 'Horoscope' then 
+    card:add_to_deck()
+    G.mxms_horoscope:emplace(card)
+    play_sound('card1', 0.8, 0.6)
+    play_sound('generic1')
+    dont_dissolve = true
+    delay_fac = 0.2
+'''
+match_indent = true
+times = 1

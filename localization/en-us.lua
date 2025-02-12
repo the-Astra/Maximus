@@ -96,6 +96,9 @@ return {
         labels = {
             posted_right="Posted"
         },
+        dictionary={
+            k_exoplanet="Exoplanet",
+        },
         v_text={
             ch_c_mxms_X_blind_size={
                 "{X:mult,C:white}X#1#{} blind size"

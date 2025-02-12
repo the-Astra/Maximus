@@ -632,14 +632,6 @@ end
 
 --endregion
 
---region Card Areas
-
--- Horoscope card area; Heavily derived from Betmma Abilities
-
-
-
---endregion
-
 --region Jokers
 SMODS.Joker { -- Fortune Cookie
     key = 'fortune_cookie',
@@ -5293,6 +5285,9 @@ SMODS.Consumable { -- Microscopii
         end
 
         return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }
 
@@ -5337,6 +5332,9 @@ SMODS.Consumable { -- Wasp
         end
 
         return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }
 
@@ -5382,6 +5380,9 @@ SMODS.Consumable { -- Pegasi
         end
 
         return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }
 
@@ -5426,6 +5427,9 @@ SMODS.Consumable { -- Trappist
         end
 
         return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }
 
@@ -5470,6 +5474,9 @@ SMODS.Consumable { -- Corot
         end
 
         return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }
 
@@ -5514,6 +5521,9 @@ SMODS.Consumable { -- Poltergeist
         end
 
         return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }
 
@@ -5559,6 +5569,9 @@ SMODS.Consumable { -- Gliese
         end
 
         return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }
 
@@ -5604,6 +5617,9 @@ SMODS.Consumable { -- Cancri
         end
 
         return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }
 
@@ -5648,6 +5664,9 @@ SMODS.Consumable { -- Proxima Centauri
         end
 
         return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }
 
@@ -5693,6 +5712,9 @@ SMODS.Consumable { -- Phobetor
         end
 
         return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }
 
@@ -5738,6 +5760,9 @@ SMODS.Consumable { --Kepler
         end
 
         return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }
 
