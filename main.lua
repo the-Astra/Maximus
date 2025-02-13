@@ -147,8 +147,35 @@ function Card:set_ability(center, initial, delay_sprites)
     end
 end
 
+-- Menu stuff
+if Maximus_config.Maximus.menu then
+    local oldfunc = Game.main_menu
+    Game.main_menu = function(change_context)
+        local ret = oldfunc(change_context)
+        -- adds a James to the main menu
+        local newcard = create_card('Joker', G.title_top, nil, nil, nil, nil, 'j_mxms_normal', 'astra')
+        -- recenter the title
+        G.title_top.T.w = G.title_top.T.w * 1.7675
+        G.title_top.T.x = G.title_top.T.x - 0.8
+        G.title_top:emplace(newcard)
+        -- make the card look the same way as the title screen Ace of Spades
+        newcard.T.w = newcard.T.w * 1.1 * 1.2
+        newcard.T.h = newcard.T.h * 1.1 * 1.2
+        newcard.no_ui = true
 
+        -- make the title screen use different background colors
+        G.SPLASH_BACK:define_draw_steps({{
+            shader = 'splash',
+            send = {
+                { name = 'time',       ref_table = G.TIMERS, ref_value = 'REAL_SHADER' },
+                { name = 'vort_speed', val = 0.4 },
+                { name = 'colour_1',   ref_table = G.C,      ref_value = 'MXMS_PRIMARY' },
+                { name = 'colour_2',   ref_table = G.C,      ref_value = 'MXMS_SECONDARY' },
+            }}})
 
+        return ret
+    end
+end
 --endregion
 
 --region Sounds
@@ -651,7 +678,7 @@ Maximus.Horoscope = SMODS.Center:extend {
     unlocked = true,
     set = "Horoscope",
     atlas = "Horoscopes",
-    required_params = { "key", "atlas", "pos"},
+    required_params = { "key", "atlas", "pos" },
     params = {
         bypass_discovery_center = false,
         bypass_discovery_ui = false,
@@ -1226,6 +1253,7 @@ SMODS.Joker { -- Normal Joker
         x = 4,
         y = 1
     },
+    order = 2,
     rarity = 1,
     config = {},
     blueprint_compat = true,

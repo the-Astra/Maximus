@@ -2751,7 +2751,6 @@ times = 1
 
 # New Psychic logic (hands over 5 no longer work) -----------------------------------------
 
-    # Modify shop costs
 [[patches]]
 [patches.pattern]
 target = "blind.lua"
@@ -2761,6 +2760,25 @@ if self.debuff.h_size_ge and #cards < self.debuff.h_size_ge then
 position = "at"
 payload = '''
 if self.debuff.h_size_ge and #cards ~= self.debuff.h_size_ge then
+'''
+match_indent = true
+times = 1
+
+
+
+
+# Add new colors -----------------------------------------
+
+[[patches]]
+[patches.pattern]
+target = "globals.lua"
+pattern = '''
+RENTAL = HEX('b18f43'),
+'''
+position = "after"
+payload = '''
+MXMS_PRIMARY = HEX('7855fc'),
+MXMS_SECONDARY = HEX('901b7f'),
 '''
 match_indent = true
 times = 1
@@ -2784,7 +2802,7 @@ payload = '''
 self.mxms_horoscope_W = G.CARD_W*1.1
 self.mxms_horoscope_H = 0.95*G.CARD_H
 
-self.cs_alignments = CardArea(
+self.mxms_horoscope = CardArea(
     G.consumeables.T.x + 2.25,
     G.consumeables.T.y + G.consumeables.T.h + 1, 
     self.mxms_horoscope_W, 
