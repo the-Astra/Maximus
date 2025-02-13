@@ -2769,7 +2769,9 @@ times = 1
 
 
 
-# ------------------------------------------ CARD AREAS ------------------------------------------
+# ------------------------------------------ HOROSCOPE ------------------------------------------
+
+# NOTE: All code relating to the Horoscope CardArea is heavily based on Baladrome's implementation 
 
 # Add Horoscope Cardarea
 [[patches]]
@@ -2811,7 +2813,7 @@ match_indent = true
 times = 1
 
 
-# Set Horosscope undiscovered desc
+# Set Horoscope undiscovered desc
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -2866,6 +2868,26 @@ elseif card.ability.set == 'Horoscope' then
     play_sound('generic1')
     dont_dissolve = true
     delay_fac = 0.2
+'''
+match_indent = true
+times = 1
+
+
+# Include shop rates for Horoscopes
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+local rates = {
+    {type = 'Joker', val = G.GAME.joker_rate},
+    {type = 'Tarot', val = G.GAME.tarot_rate},
+    {type = 'Planet', val = G.GAME.planet_rate},
+    {type = (G.GAME.used_vouchers["v_illusion"] and pseudorandom(pseudoseed('illusion')) > 0.6) and 'Enhanced' or 'Base', val = G.GAME.playing_card_rate},
+    {type = 'Spectral', val = G.GAME.spectral_rate},
+'''
+position = "after"
+payload = '''
+{type = 'Horoscope', val = G.GAME.horoscope_rate},
 '''
 match_indent = true
 times = 1

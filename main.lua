@@ -1,4 +1,5 @@
 -- Load config
+Maximus = SMODS.current_mod
 Maximus_config = SMODS.current_mod.config
 
 --region SMODS Optional Features
@@ -50,6 +51,13 @@ SMODS.Atlas { -- Main Blind Atlas
     py = 34
 }
 
+SMODS.Atlas { -- Mod Icon
+    key = "modicon",
+    path = "modicon.png",
+    px = 32,
+    py = 32
+}
+
 --endregion
 
 --region Function Hooks
@@ -71,6 +79,7 @@ Game.init_game_object = function(self)
     ret.last_bought = nil
     ret.v_destroy_reduction = 0
     ret.shop_price_multiplier = 1
+    ret.horoscope_rate = 0
 
     --Rotating Modifiers
     ret.current_round.impractical_hand = 'Straight Flush'
@@ -137,6 +146,8 @@ function Card:set_ability(center, initial, delay_sprites)
         end
     end
 end
+
+
 
 --endregion
 
@@ -628,6 +639,37 @@ function mxms_scale_pessimistics(probability, odds)
             }))
         end
     end
+end
+
+--endregion
+
+--region Classes
+
+Maximus.Horoscope = SMODS.Center:extend {
+    class_prefix = "horo",
+    discovered = false,
+    unlocked = true,
+    set = "Horoscope",
+    atlas = "Horoscopes",
+    required_params = { "key", "atlas", "pos"},
+    params = {
+        bypass_discovery_center = false,
+        bypass_discovery_ui = false,
+        discover = false
+    },
+    pre_inject_class = function(self)
+        G.P_CENTER_POOLS[self.set] = {}
+    end,
+    get_obj = function(self, key)
+        if key == nil then
+            return nil
+        end
+        return self.obj_table[key] or SMODS.Center:get_obj(key)
+    end
+}
+
+function Maximus.Horoscope:is_discovered()
+    return self.discovered or G.PROFILES[G.SETTINGS.profile].all_unlocked
 end
 
 --endregion
