@@ -4347,7 +4347,7 @@ SMODS.Joker { -- Ocham's Razor
         y = 9
     },
     rarity = 3,
-    blueprint_compat = false,
+    blueprint_compat = true,
     cost = 6,
     calculate = function(self, card, context)
         if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
@@ -4398,7 +4398,7 @@ SMODS.Joker { --Chekhov's Gun
         y = 10
     },
     rarity = 3,
-    blueprint_compat = false,
+    blueprint_compat = true,
     cost = 6,
     calculate = function(self, card, context)
         if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
