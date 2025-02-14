@@ -347,10 +347,10 @@ if self.ability.name == 'The Idol' and
 position = "at"
 payload = '''
 if self.ability.name == 'The Idol' then
-    if context.other_card:get_id() == G.GAME.current_round.idol_card.id
+    if (context.other_card:get_id() == G.GAME.current_round.idol_card.id
     or (next(SMODS.find_card('j_mxms_perspective')) and 
     ((context.other_card:get_id() == 9 and G.GAME.current_round.idol_card.id == 6) 
-    or (context.other_card:get_id() == 6 and G.GAME.current_round.idol_card.id == 9))) 
+    or (context.other_card:get_id() == 6 and G.GAME.current_round.idol_card.id == 9)))) 
     and context.other_card:is_suit(G.GAME.current_round.idol_card.suit) then
         return {
             x_mult = self.ability.extra,
@@ -2377,6 +2377,28 @@ target = '=[SMODS _ "src/utils.lua"]'
 pattern = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not card.debuff and pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) then'''
 position = "at"
 payload = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not card.debuff and (pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) or next(SMODS.find_card('j_mxms_stone_thrower'))) then'''
+match_indent = true
+times = 1
+
+
+
+
+
+
+# Add Schrodinger's Cat functionality
+
+    # Modify chances to guarantee break with Stone Thrower
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''
+function Card:calculate_joker(context)
+    if self.debuff then return nil end
+'''
+position = "after"
+payload = '''
+if SMODS.find_card('j_mxms_schrodinger') and self.ability.name ~= 'j_mxms_schrodinger' and pseudorandom('schro') < 1/2 then return nil end
+'''
 match_indent = true
 times = 1
 

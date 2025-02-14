@@ -3165,6 +3165,23 @@ SMODS.Joker { -- Poet
                     }
                 end
             end
+
+            if context.scoring_name == 'Six of a Kind' or context.scoring_name == 'Flush Six' then
+                for k, v in ipairs(context.scoring_hand) do
+                    if v:get_id() ~= 5 then
+                        same_rank = false
+                    end
+                end
+
+                if same_rank then
+                    return {
+                        message = 'X6',
+                        Xmult_mod = 6,
+                        colour = G.C.MULT,
+                        card = card
+                    }
+                end
+            end
         end
     end
 }
@@ -4315,6 +4332,90 @@ SMODS.Joker { -- Game Review
                 }
             end
         end
+    end
+}
+
+SMODS.Joker { -- Ocham's Razor
+    key = 'ocham',
+    loc_txt = {
+        name = 'Ocham\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 9
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
+            return {
+                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
+                message = 'x'..G.hand.config.highlighted_limit - #context.full_hand + 1,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Schrodinger's Cat
+    key = 'schrodinger',
+    loc_txt = {
+        name = 'Schrodinger\'s Cat',
+        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { --Chekhov's Gun
+    key = 'chekhov',
+    loc_txt = {
+        name = 'Chekhov\'s Gun',
+        text = { '{X:mult,C:white}X ante{} mult on antes', 'with a final boss' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
+            return {
+                Xmult_mod = G.GAME.round_resets.blind_ante,
+                message = 'x'..G.GAME.round_resets.blind_ante,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.blind_ante <= 4 then
+            return true
+        end
+
+        return false
     end
 }
 
