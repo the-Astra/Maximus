@@ -13,7 +13,7 @@ target = "card.lua"
 pattern = "G.GAME.pack_choices = self.config.center.config.choose or 1"
 position = "after"
 payload = '''
-G.GAME.pack_choices = G.GAME.pack_choices + G.GAME.choose_mod
+G.GAME.pack_choices = math.min(G.GAME.pack_choices + G.GAME.choose_mod, self.config.center.config.extra)
 '''
 match_indent = true
 times = 1
@@ -25,7 +25,7 @@ times = 1
 target = '=[SMODS _ "src/game_object.lua"]'
 pattern = 'vars = { cfg.choose, cfg.extra },'
 position = "at"
-payload = 'vars = { cfg.choose + G.GAME.choose_mod, cfg.extra },'
+payload = 'vars = { math.min(cfg.choose + G.GAME.choose_mod, cfg.extra), cfg.extra },'
 match_indent = true
 timer = 1
 
@@ -347,10 +347,10 @@ if self.ability.name == 'The Idol' and
 position = "at"
 payload = '''
 if self.ability.name == 'The Idol' then
-    if context.other_card:get_id() == G.GAME.current_round.idol_card.id
+    if (context.other_card:get_id() == G.GAME.current_round.idol_card.id
     or (next(SMODS.find_card('j_mxms_perspective')) and 
     ((context.other_card:get_id() == 9 and G.GAME.current_round.idol_card.id == 6) 
-    or (context.other_card:get_id() == 6 and G.GAME.current_round.idol_card.id == 9))) 
+    or (context.other_card:get_id() == 6 and G.GAME.current_round.idol_card.id == 9)))) 
     and context.other_card:is_suit(G.GAME.current_round.idol_card.suit) then
         return {
             x_mult = self.ability.extra,
@@ -633,7 +633,7 @@ times = 1
 
 
 
-# Add Pessimistic Functionality (including Soil Joker and Group Chat mods since Pessimistic scales ) ----------------------------------------
+# Add Pessimistic Functionality ----------------------------------------
 
     # Add flag to Wheel of Fortune
 [[patches]]
@@ -643,29 +643,22 @@ pattern = '''
 G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
     attention_text({
         text = localize('k_nope_ex'),
+        scale = 1.3, 
+        hold = 1.4,
+        major = used_tarot,
+        backdrop_colour = G.C.SECONDARY_SET.Tarot,
+        align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and 'tm' or 'cm',
+        offset = {x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0},
+        silent = true
+        })
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
+            play_sound('tarot2', 0.76, 0.4);return true end}))
+        play_sound('tarot2', 1, 0.4)
+        used_tarot:juice_up(0.3, 0.5)
 '''
-position = "before"
+position = "after"
 payload = '''
-local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-if next(pessimistics) then
-    for k, v in pairs(pessimistics) do
-        v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            func = function()
-                v:juice_up(0.3, 0.4)
-                local groupchats = SMODS.find_card('j_mxms_group_chat')
-                if next(groupchats) then
-                    for kk, vv in pairs(groupchats) do
-                        vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                        vv:juice_up(0.3, 0.4)
-                    end
-                end
-                return true;
-            end
-        }))
-    end
-end
+mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -682,28 +675,10 @@ end
 '''
 position = "at"
 payload = '''
-local pessimistics = SMODS.find_card('j_mxms_pessimistic')
 for k, v in ipairs(cards_destroyed) do
     if v.shattered then 
         glass_shattered[#glass_shattered+1] = v 
-            if next(pessimistics) and not next(SMODS.find_card('j_mxms_stone_thrower')) then
-            for kk, vv in pairs(pessimistics) do
-                vv.ability.extra.mult = vv.ability.extra.mult + ((v.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        vv:juice_up(0.3, 0.4)
-                        local groupchats = SMODS.find_card('j_mxms_group_chat')
-                        if next(groupchats) then
-                            for kkk, vvv in pairs(groupchats) do
-                                vvv.ability.extra.chips = vvv.ability.extra.chips + 2 * G.GAME.soil_mod
-                                vvv:juice_up(0.3, 0.4)
-                            end
-                        end
-                    return true; end
-                }))
-            end
-        end
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, v.ability.extra)
     end
 end
 '''
@@ -722,34 +697,19 @@ if pseudorandom('halu'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/
         trigger = 'before',
         delay = 0.0,
         func = (function()
-            local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, 'hal')
-            card:add_to_deck()
+                local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, 'hal')
+                card:add_to_deck()
                 G.consumeables:emplace(card)
                 G.GAME.consumeable_buffer = 0
             return true
         end)}))
     card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})
+    return nil, true
 '''
 position = "after"
 payload = '''
-elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-    local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-    for k, v in pairs(pessimistics) do
-        v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            func = function()
-                v:juice_up(0.3, 0.4)
-                local groupchats = SMODS.find_card('j_mxms_group_chat')
-                if next(groupchats) then
-                    for kk, vv in pairs(groupchats) do
-                        vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                        vv:juice_up(0.3, 0.4)
-                    end
-                end
-            return true; end
-        }))
-    end
+else
+    mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -760,30 +720,44 @@ times = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if pseudorandom(self.ability.name == 'Cavendish' and 'cavendish' or 'gros_michel') < G.GAME.probabilities.normal/self.ability.extra.odds then 
-'''
-position = "after"
-payload = '''
-local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-if next(pessimistics) then
-    for k, v in pairs(pessimistics) do
-        v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra.odds - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
+G.E_MANAGER:add_event(Event({
+    func = function()
+        play_sound('tarot1')
+        self.T.r = -0.2
+        self:juice_up(0.3, 0.4)
+        self.states.drag.is = true
+        self.children.center.pinch.x = true
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
             func = function()
-                v:juice_up(0.3, 0.4)
-                local groupchats = SMODS.find_card('j_mxms_group_chat')
-                if next(groupchats) then
-                    for kk, vv in pairs(groupchats) do
-                        vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                        vv:juice_up(0.3, 0.4)
-                    end
-                end
-                return true;
-            end
-        }))
+                    G.jokers:remove_card(self)
+                    self:remove()
+                    self = nil
+                return true; end})) 
+        return true
     end
-end
+})) 
+if self.ability.name == 'Gros Michel' then G.GAME.pool_flags.gros_michel_extinct = true end
+'''
+position = "at"
+payload = '''
+G.E_MANAGER:add_event(Event({
+    func = function()
+        play_sound('tarot1')
+        self.T.r = -0.2
+        self:juice_up(0.3, 0.4)
+        self.states.drag.is = true
+        self.children.center.pinch.x = true
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+            func = function()
+                    G.jokers:remove_card(self)
+                    self:remove()
+                    mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra.odds)
+                    self = nil
+                return true; end})) 
+        return true
+    end
+})) 
+if self.ability.name == 'Gros Michel' then G.GAME.pool_flags.gros_michel_extinct = true end
 '''
 match_indent = true
 times = 1
@@ -825,34 +799,18 @@ if (context.other_card:get_id() == 8) then
                     trigger = 'before',
                     delay = 0.0,
                     func = (function()
-                        local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, '8ba')
-                        card:add_to_deck()
-                        G.consumeables:emplace(card)
-                        G.GAME.consumeable_buffer = 0
-                    return true
-                end)}))
+                            local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, '8ba')
+                            card:add_to_deck()
+                            G.consumeables:emplace(card)
+                            G.GAME.consumeable_buffer = 0
+                        return true
+                    end)}))
             end},
             colour = G.C.SECONDARY_SET.Tarot,
             card = self
         }
-    elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-    local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-        for k, v in pairs(pessimistics) do
-            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    v:juice_up(0.3, 0.4)
-                    local groupchats = SMODS.find_card('j_mxms_group_chat')
-                    if next(groupchats) then
-                        for kk, vv in pairs(groupchats) do
-                            vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                            vv:juice_up(0.3, 0.4)
-                        end
-                    end
-                return true; end
-            }))
-        end
+    else
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)
     end
 end
 '''
@@ -887,24 +845,8 @@ context.other_card:is_face() then
             dollars = 2,
             card = self
         }
-    elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-        local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-        for k, v in pairs(pessimistics) do
-            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    v:juice_up(0.3, 0.4)
-                    local groupchats = SMODS.find_card('j_mxms_group_chat')
-                    if next(groupchats) then
-                        for kk, vv in pairs(groupchats) do
-                            vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                            vv:juice_up(0.3, 0.4)
-                        end
-                    end
-                return true; end
-            }))
-        end
+    else
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)    
     end
 end
 '''
@@ -935,24 +877,8 @@ context.other_card:is_suit("Hearts") then
             x_mult = self.ability.extra.Xmult,
             card = self
         }
-    elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-        local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-        for k, v in pairs(pessimistics) do
-            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    v:juice_up(0.3, 0.4)
-                    local groupchats = SMODS.find_card('j_mxms_group_chat')
-                    if next(groupchats) then
-                        for kk, vv in pairs(groupchats) do
-                            vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                            vv:juice_up(0.3, 0.4)
-                        end
-                    end
-                return true; end
-            }))
-        end
+    else
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra.odds)
     end
 end
 '''
@@ -1003,24 +929,8 @@ context.other_card:is_face() then
                 card = self
             }
         end
-    elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-        local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-        for k, v in pairs(pessimistics) do
-            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    v:juice_up(0.3, 0.4)
-                    local groupchats = SMODS.find_card('j_mxms_group_chat')
-                    if next(groupchats) then
-                        for kk, vv in pairs(groupchats) do
-                            vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                            vv:juice_up(0.3, 0.4)
-                        end
-                    end
-                return true; end
-            }))
-        end
+    else
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra.odds)
     end
 end
 '''
@@ -1050,24 +960,8 @@ if self.ability.name == 'Space Joker' then
             level_up = true,
             message = localize('k_level_up_ex')
         }
-    elseif next(SMODS.find_card('j_mxms_pessimistic')) then
-        local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-        for k, v in pairs(pessimistics) do
-            v.ability.extra.mult = v.ability.extra.mult + ((self.ability.extra - G.GAME.probabilities.normal) * G.GAME.soil_mod)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    v:juice_up(0.3, 0.4)
-                    local groupchats = SMODS.find_card('j_mxms_group_chat')
-                    if next(groupchats) then
-                        for kk, vv in pairs(groupchats) do
-                            vv.ability.extra.chips = vv.ability.extra.chips + 2 * G.GAME.soil_mod
-                            vv:juice_up(0.3, 0.4)
-                        end
-                    end
-                return true; end
-            }))
-        end
+    else
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)
     end
 end
 '''
@@ -1889,7 +1783,7 @@ times = 1
 
 
 
-# Add Soil and Group Chat Functionality (yes this really sucked to implement) -------------------------------------------------
+# Add Group Chat Functionality (yes this really sucked to implement) -------------------------------------------------
 
     # Hook into Campfire
 [[patches]]
@@ -1902,14 +1796,7 @@ if self.ability.name == 'Campfire' and not context.blueprint then
 position = "at"
 payload = '''
 if self.ability.name == 'Campfire' and not context.blueprint then
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -1926,14 +1813,7 @@ if self.ability.name == 'Flash Card' and not context.blueprint then
 position = "at"
 payload = '''
 if self.ability.name == 'Flash Card' and not context.blueprint then
-    self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.mult = self:scale_value(self.ability.mult, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -1950,14 +1830,7 @@ if self.ability.name == 'Red Card' and not context.blueprint then
 position = "at"
 payload = '''
 if self.ability.name == 'Red Card' and not context.blueprint then
-    self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.mult = self:scale_value(self.ability.mult, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -1976,14 +1849,7 @@ position = "at"
 payload = '''
 if self.ability.name == 'Hologram' and (not context.blueprint)
     and context.cards and context.cards[1] then
-        self.ability.x_mult = self.ability.x_mult + (#context.cards*self.ability.extra*G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+        self.ability.x_mult = self:scale_value(self.ability.x_mult, #context.cards*self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -2000,14 +1866,7 @@ if self.ability.name == 'Madness' and not context.blueprint and not context.blin
 position = "at"
 payload = '''
 if self.ability.name == 'Madness' and not context.blueprint and not context.blind.boss then
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -2022,14 +1881,7 @@ self.ability.mult = self.ability.mult + sliced_card.sell_cost*2
 '''
 position = "at"
 payload = '''
-self.ability.mult = self.ability.mult + (sliced_card.sell_cost*2*G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+self.ability.mult = self:scale_value(self.ability.mult, sliced_card.sell_cost*2)
 '''
 match_indent = true
 times = 1
@@ -2044,14 +1896,7 @@ self.ability.caino_xmult = self.ability.caino_xmult + faces*self.ability.extra
 '''
 position = "at"
 payload = '''
-self.ability.caino_xmult = self.ability.caino_xmult + (faces*self.ability.extra*G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+self.ability.caino_xmult = self:scale_value(self.ability.caino_xmult, faces*self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -2064,14 +1909,7 @@ self.ability.caino_xmult = self.ability.caino_xmult + face_cards*self.ability.ex
 '''
 position = "at"
 payload = '''
-self.ability.caino_xmult = self.ability.caino_xmult + (face_cards*self.ability.extra*G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+self.ability.caino_xmult = self:scale_value(self.ability.caino_xmult, face_cards*self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -2086,14 +1924,7 @@ self.ability.x_mult = self.ability.x_mult + self.ability.extra*glasses
 '''
 position = "at"
 payload = '''
-self.ability.x_mult = self.ability.x_mult + (self.ability.extra*glasses*G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra*glasses)
 '''
 match_indent = true
 times = 1
@@ -2106,14 +1937,7 @@ self.ability.x_mult = self.ability.x_mult + self.ability.extra*glass_cards
 '''
 position = "at"
 payload = '''
-self.ability.x_mult = self.ability.x_mult + (self.ability.extra*glass_cards*G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra*glass_cards)
 '''
 match_indent = true
 times = 1
@@ -2126,14 +1950,7 @@ self.ability.x_mult = self.ability.x_mult + self.ability.extra*shattered_glass
 '''
 position = "at"
 payload = '''
-self.ability.x_mult = self.ability.x_mult + (self.ability.extra*shattered_glass*G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra*shattered_glass)
 '''
 match_indent = true
 times = 1
@@ -2150,14 +1967,7 @@ if self.ability.name == 'Constellation' and not context.blueprint and context.co
 position = "at"
 payload = '''
 if self.ability.name == 'Constellation' and not context.blueprint and context.consumeable.ability.set == 'Planet' then
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -2178,14 +1988,7 @@ payload = '''
 if self.ability.name == 'Yorick' and not context.blueprint then
     if self.ability.yorick_discards <= 1 then
         self.ability.yorick_discards = self.ability.extra.discards
-        self.ability.x_mult = self.ability.x_mult + (self.ability.extra.xmult * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+        self.ability.x_mult = scale_value(self.ability.x_mult, self.ability.extra.xmult)
 '''
 match_indent = true
 times = 1
@@ -2202,14 +2005,7 @@ context.other_card:is_suit(G.GAME.current_round.castle_card.suit) and not contex
 position = "at"
 payload = '''
 context.other_card:is_suit(G.GAME.current_round.castle_card.suit) and not context.blueprint then
-    self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.extra.chips = self:scale_value(self.ability.extra.chips, self.ability.extra.chip_mod)
 '''
 match_indent = true
 times = 1
@@ -2230,14 +2026,7 @@ payload = '''
 if self.ability.name == 'Hit the Road' and
 not context.other_card.debuff and
 context.other_card:get_id() == 11 and not context.blueprint then
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -2254,14 +2043,7 @@ if self.ability.name == 'Rocket' and G.GAME.blind.boss then
 position = "at"
 payload = '''
 if self.ability.name == 'Rocket' and G.GAME.blind.boss then
-    self.ability.extra.dollars = self.ability.extra.dollars + (self.ability.extra.increase * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.extra.dollars = self:scale_value(self.ability.extra.dollars, self.ability.extra.increase)
 '''
 match_indent = true
 times = 1
@@ -2278,14 +2060,7 @@ if self.ability.name == 'Egg' then
 position = "at"
 payload = '''
 if self.ability.name == 'Egg' then
-    self.ability.extra_value = self.ability.extra_value + (self.ability.extra * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.extra_value = self_scale_value(self.ability.extra_value, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -2313,27 +2088,13 @@ position = "at"
 payload = '''
 for k, v in ipairs(G.jokers.cards) do
     if v.set_cost then 
-        v.ability.extra_value = (v.ability.extra_value or 0) + (self.ability.extra * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+        v.ability.extra_value = self:scale_value((v.ability.extra_value or 0), self.ability.extra)
         v:set_cost()
     end
 end
 for k, v in ipairs(G.consumeables.cards) do
     if v.set_cost then 
-        v.ability.extra_value = (v.ability.extra_value or 0) + (self.ability.extra * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+        v.ability.extra_value = self:scale_value((v.ability.extra_value or 0), self.ability.extra)
         v:set_cost()
     end
 end
@@ -2353,14 +2114,7 @@ if self.ability.name == 'Lucky Cat' and context.other_card.lucky_trigger and not
 position = "at"
 payload = '''
 if self.ability.name == 'Lucky Cat' and context.other_card.lucky_trigger and not context.blueprint then
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -2379,14 +2133,7 @@ position = "at"
 payload = '''
 if self.ability.name == 'Wee Joker' and
     context.other_card:get_id() == 2 and not context.blueprint then
-        self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+        self.ability.extra.chips = self:scale_value(self.ability.extra.chips, self.ability.extra.chip_mod)
 '''
 match_indent = true
 times = 1
@@ -2403,14 +2150,7 @@ if self.ability.name == 'Spare Trousers' and (next(context.poker_hands['Two Pair
 position = "at"
 payload = '''
 if self.ability.name == 'Spare Trousers' and (next(context.poker_hands['Two Pair']) or next(context.poker_hands['Full House'])) and not context.blueprint then
-    self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.mult = self:scale_value(self.ability.mult, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -2427,14 +2167,7 @@ if self.ability.name == 'Square Joker' and #context.full_hand == 4 and not conte
 position = "at"
 payload = '''
 if self.ability.name == 'Square Joker' and #context.full_hand == 4 and not context.blueprint then
-    self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.extra.chips = self:scale_value(self.ability.extra.chips, self.ability.extra.chip_mod)
 '''
 match_indent = true
 times = 1
@@ -2451,14 +2184,7 @@ if self.ability.name == 'Runner' and next(context.poker_hands['Straight']) and n
 position = "at"
 payload = '''
 if self.ability.name == 'Runner' and next(context.poker_hands['Straight']) and not context.blueprint then
-    self.ability.extra.chips = self.ability.extra.chips + (self.ability.extra.chip_mod * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.extra.chips = self:scale_value(self.ability.extra.chips, self.ability.extra.chip_mod)
 '''
 match_indent = true
 times = 1
@@ -2475,14 +2201,7 @@ if #enhanced > 0 then
 position = "at"
 payload = '''
 if #enhanced > 0 then 
-    self.ability.x_mult = self.ability.x_mult + (self.ability.extra*#enhanced*G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra*#enhanced)
 '''
 match_indent = true
 times = 1
@@ -2528,14 +2247,7 @@ if self.ability.name == 'Ride the Bus' and not context.blueprint then
             }
         end
     else
-        self.ability.mult = self.ability.mult + (self.ability.extra * G.GAME.soil_mod)
-        local groupchats = SMODS.find_card('j_mxms_group_chat')
-        if next(groupchats) then
-            for k, v in pairs(groupchats) do
-                v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                v:juice_up(0.3, 0.4)
-            end
-        end
+        self.ability.mult = self:scale_value(self.ability.mult, self.ability.extra)
     end
 '''
 match_indent = true
@@ -2586,14 +2298,7 @@ if self.ability.name == 'Obelisk' and not context.blueprint then
             }
         end
     else
-        self.ability.x_mult = self.ability.x_mult + (self.ability.extra * G.GAME.soil_mod)
-        local groupchats = SMODS.find_card('j_mxms_group_chat')
-        if next(groupchats) then
-            for k, v in pairs(groupchats) do
-                v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                v:juice_up(0.3, 0.4)
-            end
-        end
+        self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra)
     end
 '''
 match_indent = true
@@ -2611,14 +2316,7 @@ if self.ability.name == 'Green Joker' and not context.blueprint then
 position = "at"
 payload = '''
 if self.ability.name == 'Green Joker' and not context.blueprint then
-    self.ability.mult = self.ability.mult + (self.ability.extra.hand_add * G.GAME.soil_mod)
-    local groupchats = SMODS.find_card('j_mxms_group_chat')
-    if next(groupchats) then
-        for k, v in pairs(groupchats) do
-            v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-            v:juice_up(0.3, 0.4)
-        end
-    end
+    self.ability.mult = self:scale_value(self.ability.mult, self.ability.extra.hand_add)
 '''
 match_indent = true
 times = 1
@@ -2679,6 +2377,28 @@ target = '=[SMODS _ "src/utils.lua"]'
 pattern = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not card.debuff and pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) then'''
 position = "at"
 payload = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not card.debuff and (pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) or next(SMODS.find_card('j_mxms_stone_thrower'))) then'''
+match_indent = true
+times = 1
+
+
+
+
+
+
+# Add Schrodinger's Cat functionality
+
+    # Modify chances to guarantee break with Stone Thrower
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''
+function Card:calculate_joker(context)
+    if self.debuff then return nil end
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_schrodinger')) and self.ability.name ~= 'j_mxms_schrodinger' and pseudorandom('schro') < 1/2 then return nil end
+'''
 match_indent = true
 times = 1
 
@@ -3053,7 +2773,6 @@ times = 1
 
 # New Psychic logic (hands over 5 no longer work) -----------------------------------------
 
-    # Modify shop costs
 [[patches]]
 [patches.pattern]
 target = "blind.lua"
@@ -3063,6 +2782,373 @@ if self.debuff.h_size_ge and #cards < self.debuff.h_size_ge then
 position = "at"
 payload = '''
 if self.debuff.h_size_ge and #cards ~= self.debuff.h_size_ge then
+'''
+match_indent = true
+times = 1
+
+
+
+
+# Add new colors -----------------------------------------
+[[patches]]
+[patches.pattern]
+target = "globals.lua"
+pattern = '''
+RENTAL = HEX('b18f43'),
+'''
+position = "after"
+payload = '''
+MXMS_PRIMARY = HEX('7855fc'),
+MXMS_SECONDARY = HEX('901b7f'),
+HOROSCOPE = HEX('e86fa5'),
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "globals.lua"
+pattern = '''
+Voucher = HEX("424e54"),
+'''
+position = "after"
+payload = '''
+Horoscope = HEX('d9629c'),
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "globals.lua"
+pattern = '''
+Edition = HEX("4ca893"),
+'''
+position = "after"
+payload = '''
+Horoscope = HEX('a64d79'),
+'''
+match_indent = true
+times = 1
+
+
+
+
+
+# ------------------------------------------ HOROSCOPE ------------------------------------------
+
+# NOTE: All code relating to the Horoscope CardArea is heavily based on Baladrome's implementation 
+
+    # Add Horoscope Cardarea
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASSET_ATLAS["ui_1"], {x = 2, y = 0})'''
+position = "before"
+payload = '''
+
+self.mxms_horoscope_W = G.CARD_W*1.1
+self.mxms_horoscope_H = 0.95*G.CARD_H
+
+self.mxms_horoscope = CardArea(
+    G.consumeables.T.x + 2.25,
+    G.consumeables.T.y + G.consumeables.T.h + 1, 
+    self.mxms_horoscope_W, 
+    self.mxms_horoscope_H, 
+    {card_limit = 1, type = 'joker', highlight_limit = 1}
+)
+'''
+match_indent = true
+times = 1
+
+
+    # Patch SMODS for horoscope CardArea
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+-- TARGET: add your own CardAreas for joker evaluation
+'''
+position = "after"
+payload = '''
+table.insert(t, G.mxms_horoscope)
+'''
+match_indent = true
+times = 1
+
+
+    # Emplace horoscopes in their own area
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+elseif card.ability.set == 'Booster' then 
+'''
+position = "before"
+payload = '''
+elseif card.ability.set == 'Horoscope' then 
+    card:add_to_deck()
+    G.mxms_horoscope:emplace(card)
+    play_sound('card1', 0.8, 0.6)
+    play_sound('generic1')
+    dont_dissolve = true
+    delay_fac = 0.2
+'''
+match_indent = true
+times = 1
+
+
+# Derived from SDM_0's Stuff
+
+    # Prevent "BUY AND USE" button on Horoscopes in shop
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''return base_background'''
+position = "before"
+payload = '''
+if card.area == G.shop_jokers and G.shop_jokers then
+  if card.ability.consumeable and card.ability.set == "Horoscope" then
+    base_attach.children.buy_and_use = nil
+  end
+  base_attach.children.buy = G.UIDEF.card_focus_button{
+    card = card, parent = base_attach, type = 'buy',
+    func = 'can_buy', button = 'buy_from_shop', card_width = card_width, buy_and_use = buy_and_use
+  }
+end
+'''
+match_indent = true
+
+    # Prevent "USE" button on Horoscopes in deck
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''if card.ability.consumeable then'''
+position = "after"
+payload = '''
+if card.ability.set == "Horoscope" then
+    return {
+      n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
+        {n=G.UIT.C, config={padding = 0.15, align = 'cl'}, nodes={
+          {n=G.UIT.R, config={align = 'cl'}, nodes={
+            sell
+          }},
+        }},
+    }}
+end
+'''
+match_indent = true
+
+    # Force "SELECT" button on Horoscopes in packs
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''function G.UIDEF.use_and_sell_buttons(card)'''
+position = "after"
+payload = '''
+    if (card.area == G.pack_cards and G.pack_cards) and card.ability.consumeable then
+        if G.STATE == G.STATES.SMODS_BOOSTER_OPENED and (SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.config.center.kind == 'Horoscope') then
+            return {
+                n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
+                  {n=G.UIT.R, config={ref_table = card, r = 0.08, padding = 0.1, align = "bm", minw = 0.5*card.T.w - 0.15, maxw = 0.9*card.T.w - 0.15, minh = 0.3*card.T.h, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'use_card', func = 'can_pick_card'}, nodes={
+                    {n=G.UIT.T, config={text = localize('b_select'),colour = G.C.UI.TEXT_LIGHT, scale = 0.45, shadow = true}}
+                  }},
+              }}
+        end
+    end
+'''
+match_indent = true
+
+    # Hook into Card:highlight for card alignment
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+config = {align=
+        ((self.area == G.jokers) or (self.area == G.consumeables)) and "cr" or
+        "bmi"
+    , offset = 
+        ((self.area == G.jokers) or (self.area == G.consumeables)) and {x=x_off - 0.4,y=0} or
+        {x=0,y=0.65},
+    parent =self}
+'''
+position = "at"
+payload = '''
+config = {align=
+        ((self.area == G.jokers) or (self.area == G.consumeables) or (self.area == G.mxms_horoscope)) and "cr" or
+        "bmi"
+    , offset = 
+        ((self.area == G.jokers) or (self.area == G.consumeables) or (self.area == G.mxms_horoscope)) and {x=x_off - 0.4,y=0} or
+        {x=0,y=0.65},
+    parent =self}
+'''
+match_indent = true
+
+
+
+    # Apply next ante Horoscope effects
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})
+'''
+position = "before"
+payload = '''
+reset_horoscopes()
+apply_horoscope_effects()
+'''
+match_indent = true
+times = 1
+
+# Apply Libra effect
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+for i = 1, G.GAME.shop.joker_max - #G.shop_jokers.cards do
+    G.shop_jokers:emplace(create_card_for_shop(G.shop_jokers))
+end
+'''
+position = "at"
+payload = '''
+for i = 1, G.GAME.shop.joker_max - #G.shop_jokers.cards do
+    local shop_card = create_card_for_shop(G.shop_jokers)
+    if G.GAME.libra_bonus then
+        shop_card.cost = 0
+    end 
+    G.shop_jokers:emplace(shop_card)
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+for k, v in ipairs(G.shop_vouchers.cards) do
+    create_shop_card_ui(v)
+    v:start_materialize()
+end
+'''
+position = "at"
+payload = '''
+for k, v in ipairs(G.shop_vouchers.cards) do
+    if G.GAME.libra_bonus then
+        v.cost = 0
+    end 
+    create_shop_card_ui(v)
+    v:start_materialize()
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+local card = Card(G.shop_vouchers.T.x + G.shop_vouchers.T.w/2,
+G.shop_vouchers.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[G.GAME.current_round.voucher],{bypass_discovery_center = true, bypass_discovery_ui = true})
+'''
+position = "after"
+payload = '''
+if G.GAME.libra_bonus then
+    card.cost = 0
+end 
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+for k, v in ipairs(G.shop_booster.cards) do
+    create_shop_card_ui(v)
+    v:start_materialize()
+end
+'''
+position = "at"
+payload = '''
+for k, v in ipairs(G.shop_booster.cards) do
+    if G.GAME.libra_bonus then
+        v.cost = 0
+    end 
+    create_shop_card_ui(v)
+    v:start_materialize()
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+local card = Card(G.shop_booster.T.x + G.shop_booster.T.w/2,
+G.shop_booster.T.y, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[G.GAME.current_round.used_packs[i]], {bypass_discovery_center = true, bypass_discovery_ui = true})
+'''
+position = "after"
+payload = '''
+if G.GAME.libra_bonus then
+    card.cost = 0
+end 
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+    for i = 1, #G.GAME.tags do
+        G.GAME.tags[i]:apply_to_run({type = 'shop_final_pass'})
+    end
+end
+'''
+position = "after"
+payload = '''
+if G.GAME.libra_bonus then
+    G.GAME.libra_bonus = false
+end 
+'''
+match_indent = true
+times = 1
+
+
+    # Apply Aries effect
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+if G.GAME.modifiers.mxms_nuclear_size then
+    blind_amt = blind_amt^G.GAME.round_resets.ante
+end
+'''
+position = "after"
+payload = '''
+if G.GAME.aries_bonus then
+    blind_amt = blind_amt * 0.85
+end 
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "blind.lua"
+pattern = '''
+if G.GAME.modifiers.mxms_nuclear_size then
+    self.chips = self.chips^G.GAME.round_resets.ante
+end
+'''
+position = "after"
+payload = '''
+if G.GAME.aries_bonus then
+    self.chips = self.chips * 0.85
+end 
 '''
 match_indent = true
 times = 1
