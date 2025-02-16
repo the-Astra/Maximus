@@ -3956,6 +3956,27 @@ SMODS.Joker { -- Poet
                 end
             end
 
+            if context.scoring_name == 'Three Pair' then
+                local three_count = 0
+                local face_count = 0
+                for k, v in ipairs(context.scoring_hand) do
+                    if v:get_id() == 2 then
+                        three_count = three_count + 1
+                    elseif v:get_id() > 10 then
+                        face_count = face_count + 1
+                    end
+                end
+
+                if three_count == 2 and face_count == 4 then
+                    return {
+                        message = 'X3',
+                        Xmult_mod = 3,
+                        colour = G.C.MULT,
+                        card = card
+                    }
+                end
+            end
+
             if context.scoring_name == 'Three of a Kind' then
                 for k, v in ipairs(context.scoring_hand) do
                     if v:get_id() ~= 3 then
