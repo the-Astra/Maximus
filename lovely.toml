@@ -2959,6 +2959,32 @@ payload = '''
 '''
 match_indent = true
 
+    # Hook into Card:highlight for card alignment
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+config = {align=
+        ((self.area == G.jokers) or (self.area == G.consumeables)) and "cr" or
+        "bmi"
+    , offset = 
+        ((self.area == G.jokers) or (self.area == G.consumeables)) and {x=x_off - 0.4,y=0} or
+        {x=0,y=0.65},
+    parent =self}
+'''
+position = "at"
+payload = '''
+config = {align=
+        ((self.area == G.jokers) or (self.area == G.consumeables) or (self.area == G.mxms_horoscope)) and "cr" or
+        "bmi"
+    , offset = 
+        ((self.area == G.jokers) or (self.area == G.consumeables) or (self.area == G.mxms_horoscope)) and {x=x_off - 0.4,y=0} or
+        {x=0,y=0.65},
+    parent =self}
+'''
+match_indent = true
+
+
 
     # Apply next ante Horoscope effects
 [[patches]]
