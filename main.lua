@@ -53,6 +53,13 @@ SMODS.Atlas { -- Main Booster Atlas
     py = 95
 }
 
+SMODS.Atlas { -- Main Tag Atlas
+    key = "Tags",
+    path = "Tags.png",
+    px = 34,
+    py = 34
+}
+
 SMODS.Atlas { -- Main Blind Atlas
     key = 'Blinds',
     path = "Blinds.png",
@@ -1340,7 +1347,8 @@ SMODS.Consumable { -- Capricorn
                             play_sound('tarot1')
                             card:juice_up(0.3, 0.4)
 
-                            local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_immolate', 'cap')
+                            local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_immolate',
+                                'cap')
                             new_card:add_to_deck()
                             G.consumeables:emplace(new_card)
                             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
@@ -1372,7 +1380,8 @@ SMODS.Consumable { -- Capricorn
                             play_sound('tarot1')
                             card:juice_up(0.3, 0.4)
 
-                            local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_immolate', 'cap')
+                            local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_immolate',
+                                'cap')
                             new_card:add_to_deck()
                             G.consumeables:emplace(new_card)
                             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
@@ -1565,17 +1574,17 @@ SMODS.Consumable { -- Pisces
 }
 
 -- Horoscope Pack definitions
-SMODS.Booster {
+SMODS.Booster { -- Normal Zodiac 1
     key = "horoscope_normal_1",
     kind = "Horoscope",
     atlas = "Boosters",
     loc_txt = {
         name = 'Zodiac Pack',
         text = {
-                "Choose {C:attention}#1#{} of up to",
-                "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
-                "be used immediately",
-            },
+            "Choose {C:attention}#1#{} of up to",
+            "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
+            "be used immediately",
+        },
         group_name = 'Zodiac Pack'
     },
     pos = {
@@ -1596,21 +1605,21 @@ SMODS.Booster {
         ease_background_colour({ new_colour = G.C.SET.Horoscope, special_colour = G.C.BLACK, contrast = 2 })
     end,
     loc_vars = function(self, info_queue, card)
-        return { vars = {card.config.center.config.choose + G.GAME.choose_mod, card.ability.extra} }
+        return { vars = { card.config.center.config.choose + G.GAME.choose_mod, card.ability.extra } }
     end
 }
 
-SMODS.Booster {
+SMODS.Booster { --Normal Zodiac 2
     key = "horoscope_normal_2",
     kind = "Horoscope",
     atlas = "Boosters",
     loc_txt = {
         name = 'Zodiac Pack',
         text = {
-                "Choose {C:attention}#1#{} of up to",
-                "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
-                "be used immediately",
-            },
+            "Choose {C:attention}#1#{} of up to",
+            "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
+            "be used immediately",
+        },
         group_name = 'Zodiac Pack'
     },
     pos = {
@@ -1631,21 +1640,21 @@ SMODS.Booster {
         ease_background_colour({ new_colour = G.C.SET.Horoscope, special_colour = G.C.BLACK, contrast = 2 })
     end,
     loc_vars = function(self, info_queue, card)
-        return { vars = {card.config.center.config.choose + G.GAME.choose_mod, card.ability.extra} }
+        return { vars = { card.config.center.config.choose + G.GAME.choose_mod, card.ability.extra } }
     end
 }
 
-SMODS.Booster {
+SMODS.Booster { -- Jumbo Zodiac
     key = "horoscope_jumbo_1",
     kind = "Horoscope",
     atlas = "Boosters",
     loc_txt = {
         name = 'Jumbo Zodiac Pack',
         text = {
-                "Choose {C:attention}#1#{} of up to",
-                "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
-                "be used immediately",
-            },
+            "Choose {C:attention}#1#{} of up to",
+            "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
+            "be used immediately",
+        },
         group_name = 'Zodiac Pack'
     },
     pos = {
@@ -1666,21 +1675,21 @@ SMODS.Booster {
         ease_background_colour({ new_colour = G.C.SET.Horoscope, special_colour = G.C.BLACK, contrast = 2 })
     end,
     loc_vars = function(self, info_queue, card)
-        return { vars = {card.config.center.config.choose + G.GAME.choose_mod, card.ability.extra} }
+        return { vars = { card.config.center.config.choose + G.GAME.choose_mod, card.ability.extra } }
     end
 }
 
-SMODS.Booster {
+SMODS.Booster { -- Mega Zodiac
     key = "horoscope_mega_1",
     kind = "Horoscope",
     atlas = "Boosters",
     loc_txt = {
         name = 'Mega Zodiac Pack',
         text = {
-                "Choose {C:attention}#1#{} of up to",
-                "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
-                "be used immediately",
-            },
+            "Choose {C:attention}#1#{} of up to",
+            "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
+            "be used immediately",
+        },
         group_name = 'Zodiac Pack'
     },
     pos = {
@@ -1701,7 +1710,7 @@ SMODS.Booster {
         ease_background_colour({ new_colour = G.C.SET.Horoscope, special_colour = G.C.BLACK, contrast = 2 })
     end,
     loc_vars = function(self, info_queue, card)
-        return { vars = {card.config.center.config.choose + G.GAME.choose_mod, card.ability.extra} }
+        return { vars = { card.config.center.config.choose + G.GAME.choose_mod, card.ability.extra } }
     end
 }
 
@@ -7066,5 +7075,55 @@ G.FUNCS.draw_from_play_to_discard = function(e)
     end
     draw_discard(e)
 end
+
+--#endregion
+
+--#region Tags
+
+SMODS.Tag {
+    key = 'star',
+    loc_txt = {
+        name = 'Star Tag',
+        text = {
+            "Gives a free",
+            "{C:tarot}Mega Zodiac Pack",
+        },
+    },
+    atlas = 'Tags',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    min_ante = 2,
+    config = {
+        type = 'new_blind_choice'
+    },
+    loc_vars = function(self, info_queue)
+        info_queue[#info_queue + 1] = {set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = {1, 2} }
+    end,
+    apply = function(self, tag, context)
+        if context.type == "new_blind_choice" then
+			tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+				local key = "p_mxms_horoscope_mega_1"
+				local card = Card(
+					G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
+					G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,
+					G.CARD_W * 1.27,
+					G.CARD_H * 1.27,
+					G.P_CARDS.empty,
+					G.P_CENTERS[key],
+					{ bypass_discovery_center = true, bypass_discovery_ui = true }
+				)
+				card.cost = 0
+				card.from_tag = true
+				G.FUNCS.use_card({ config = { ref_table = card } })
+				card:start_materialize()
+				return true
+			end)
+			tag.triggered = true
+			return true
+		end
+    end
+}
 
 --#endregion
