@@ -770,7 +770,7 @@ SMODS.ConsumableType {
         },
     },
     collection_rows = { 3, 3 },
-    shop_rate = 0
+    shop_rate = 0.0
 }
 
 -- CardArea emplace hook
