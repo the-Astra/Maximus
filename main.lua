@@ -5426,7 +5426,7 @@ SMODS.Joker { --Chekhov's Gun
     key = 'chekhov',
     loc_txt = {
         name = 'Chekhov\'s Gun',
-        text = { '{X:mult,C:white}X ante{} mult on antes', 'with a final boss' }
+        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
     },
     atlas = 'Jokers',
     pos = {
@@ -7086,7 +7086,7 @@ SMODS.Tag {
         name = 'Star Tag',
         text = {
             "Gives a free",
-            "{C:tarot}Mega Zodiac Pack",
+            "{C:horoscope}Mega Zodiac Pack",
         },
     },
     atlas = 'Tags',
