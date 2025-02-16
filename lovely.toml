@@ -2060,7 +2060,7 @@ if self.ability.name == 'Egg' then
 position = "at"
 payload = '''
 if self.ability.name == 'Egg' then
-    self.ability.extra_value = self_scale_value(self.ability.extra_value, self.ability.extra)
+    self.ability.extra_value = self:scale_value(self.ability.extra_value, self.ability.extra)
 '''
 match_indent = true
 times = 1
