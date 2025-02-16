@@ -3,11 +3,13 @@ Maximus = SMODS.current_mod
 Maximus_config = SMODS.current_mod.config
 
 
---region SMODS Optional Features
-SMODS.current_mod.optional_features = { retrigger_joker = true }
---endregion
+--#region SMODS Optional Features
 
---region Atlases
+SMODS.current_mod.optional_features = { retrigger_joker = true }
+
+--#endregion
+
+--#region Atlases
 
 SMODS.Atlas { -- Main Joker Atlas
     key = 'Jokers',
@@ -60,9 +62,9 @@ SMODS.Atlas { -- Mod Icon
     py = 32
 }
 
---endregion
+--#endregion
 
---region Function Hooks
+--#region Function Hooks
 local igo = Game.init_game_object
 Game.init_game_object = function(self)
     local ret = igo(self)
@@ -193,9 +195,9 @@ if Maximus_config.Maximus.menu then
         return ret
     end
 end
---endregion
+--#endregion
 
---region Sounds
+--#region Sounds
 SMODS.Sound({
     key = 'perfect',
     path = 'perfect.ogg'
@@ -210,9 +212,9 @@ SMODS.Sound({
     key = 'hey',
     path = 'hey.ogg'
 })
---endregion
+--#endregion
 
---region Misc Variables
+--#region Misc Variables
 food_jokers = { {
     key = 'j_gros_michel',
     name = 'Gros Michel'
@@ -253,9 +255,9 @@ food_jokers = { {
     key = 'j_mxms_four_course_meal',
     name = 'Four Course Meal'
 } }
---endregion
+--#endregion
 
---region Round Changing Variables
+--#region Round Changing Variables
 function SMODS.current_mod.reset_game_globals(run_start)
     -- Impractical Joker
     if G.GAME.challenge == 'c_mxms_biggest_loser' then
@@ -362,9 +364,9 @@ function SMODS.current_mod.reset_game_globals(run_start)
     end
 end
 
---endregion
+--#endregion
 
---region Ownership Taking
+--#region Ownership Taking
 
 -- Make Editions scale with Power Creep
 SMODS.Edition:take_ownership('polychrome', {
@@ -593,9 +595,9 @@ SMODS.Consumable:take_ownership('hex', {
     },
     true)
 
---endregion
+--#endregion
 
---region Update Checks
+--#region Update Checks
 
 local upd = Game.update
 
@@ -641,9 +643,9 @@ function Game:update(dt)
     end
 end
 
---endregion
+--#endregion
 
---region Helper Functions
+--#region Helper Functions
 
 function Card:scale_value(applied_value, scalar)
     local new_value = applied_value + (scalar * G.GAME.soil_mod)
@@ -686,16 +688,26 @@ function mxms_scale_pessimistics(probability, odds)
 end
 
 function reset_horoscopes()
-    G.GAME.aries_bonus = false
+    if G.GAME.aries_bonus then
+        G.GAME.aries_bonus = false
+    end
 
-    G.GAME.cancer_bonus = false
-    ease_hands_played(-2)
+    if G.GAME.cancer_bonus then
+        G.GAME.cancer_bonus = false
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands - 2
+        ease_hands_played(-2)
+    end
 
-    G.GAME.leo_bonus = false
-    G.hand:change_size(-3)
+    if G.GAME.leo_bonus then
+        G.GAME.leo_bonus = false
+        G.hand:change_size(-3)
+    end
 
-    G.GAME.virgo_bonus = false
-    ease_discard(-3)
+    if G.GAME.virgo_bonus then
+        G.GAME.virgo_bonus = false
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards - 3
+        ease_discard(-3)
+    end
 end
 
 function apply_horoscope_effects()
@@ -705,6 +717,7 @@ function apply_horoscope_effects()
     end
     if G.GAME.next_ante_horoscopes["Cancer"] then
         G.GAME.cancer_bonus = true
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + 2
         ease_hands_played(2)
         G.GAME.next_ante_horoscopes["Cancer"] = false
     end
@@ -715,14 +728,15 @@ function apply_horoscope_effects()
     end
     if G.GAME.next_ante_horoscopes["Virgo"] then
         G.GAME.virgo_bonus = true
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + 3
         ease_discard(3)
         G.GAME.next_ante_horoscopes["Virgo"] = false
     end
 end
 
---endregion
+--#endregion
 
---region Horoscope
+--#region Horoscope
 
 -- Horoscope Type
 SMODS.ConsumableType {
@@ -740,7 +754,9 @@ SMODS.ConsumableType {
                 "unseeded run to",
                 "learn what it does", },
         },
-    }
+    },
+    collection_rows = {3, 3},
+    shop_rate = 0
 }
 
 -- CardArea emplace hook
@@ -768,7 +784,7 @@ SMODS.Consumable { -- Aries
         y = 1
     },
     calculate = function(self, card, context)
-        if G.GAME.blind.triggered then
+        if (context.joker_main or context.debuffed_hand) and G.GAME.blind.triggered then
             G.GAME.next_ante_horoscopes["Aries"] = true
             card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
             G.E_MANAGER:add_event(Event({
@@ -784,7 +800,8 @@ SMODS.Consumable { -- Aries
                     return true
                 end
             }))
-        else
+        end
+        if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
             card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
             G.E_MANAGER:add_event(Event({
                 func = function()
@@ -812,8 +829,8 @@ SMODS.Consumable { -- Taurus
     },
     atlas = 'Consumables',
     pos = {
-        x = 0,
-        y = 0
+        x = 1,
+        y = 1
     },
     config = {
         extra = {
@@ -846,24 +863,7 @@ SMODS.Consumable { -- Taurus
             end
 
             if card.ability.extra.times == 3 then
-                update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-                    {
-                        handname = localize(context.scoring_name, 'poker_hands'),
-                        chips = G.GAME.hands
-                            [context.scoring_name].chips,
-                        mult = G.GAME.hands[context.scoring_name].mult,
-                        level = G.GAME.hands
-                            [context.scoring_name].level
-                    })
                 level_up_hand(card, context.scoring_name, false, 5)
-                update_hand_text({ sound = 'button', volume = 0.7, pitch = 1.1, delay = 0 },
-                    { mult = 0, chips = 0, handname = '', level = '' })
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
             end
         end
     end
@@ -878,8 +878,8 @@ SMODS.Consumable { -- Gemini
     },
     atlas = 'Consumables',
     pos = {
-        x = 0,
-        y = 0
+        x = 2,
+        y = 1
     },
     config = {
         hands = {
@@ -901,48 +901,40 @@ SMODS.Consumable { -- Gemini
         }
     },
     calculate = function(self, card, context)
-        if card.ability.hands[context.scoring_name] then
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot2')
-                    return true
-                end
-            }))
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.RED }, nil, 1.6)
-                    return true
-                end
-            }))
-        else
-            card.ability.hands[context.scoring_name] = true
-            card.ability.extra.times = card.ability.extra.times + 11
-        end
-
-        if card.ability.extra.times == 3 then
-            for k, v in card.ability.hands do
-                if v then
-                    update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-                        {
-                            handname = localize(k, 'poker_hands'),
-                            chips = G.GAME.hands[k].chips,
-                            mult = G.GAME.hands[k]
-                                .mult,
-                            level = G.GAME.hands[k].level
-                        })
-                    level_up_hand(card, k, false, 5)
-                    update_hand_text({ sound = 'button', volume = 0.7, pitch = 1.1, delay = 0 },
-                        { mult = 0, chips = 0, handname = '', level = '' })
-                end
+        if context.before then
+            if card.ability.hands[context.scoring_name] then
+                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    func = function()
+                        card:start_dissolve({ G.C.RED }, nil, 1.6)
+                        return true
+                    end
+                }))
+            else
+                card.ability.hands[context.scoring_name] = true
+                card.ability.extra.times = card.ability.extra.times + 1
             end
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
+
+            if card.ability.extra.times == 3 then
+                for k, v in pairs(card.ability.hands) do
+                    if v then
+                        level_up_hand(card, k, false, 3)
+                    end
                 end
-            }))
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                        return true
+                    end
+                }))
+            end
         end
     end
 }
@@ -956,11 +948,11 @@ SMODS.Consumable { -- Cancer
     },
     atlas = 'Consumables',
     pos = {
-        x = 0,
-        y = 0
+        x = 3,
+        y = 1
     },
     calculate = function(self, card, context)
-        if context.end_of_round then
+        if context.end_of_round and not context.individual and not context.repetition then
             if G.GAME.current_round.hands_left == 0 then
                 G.GAME.next_ante_horoscopes["Cancer"] = true
                 card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
@@ -1002,47 +994,46 @@ SMODS.Consumable { -- Leo
     set = 'Horoscope',
     loc_txt = {
         name = 'Leo',
-        text = { 'Defeat the next blind in', '{C:attention}1 hand{} to', 'receive {C:attention}+3 hand size{} next ante' }
+        text = { 'Defeat the next blind in', '{C:attention}1 hand{} to receive', '{C:attention}+3 hand size{} next ante' }
     },
     atlas = 'Consumables',
     pos = {
-        x = 0,
-        y = 0
+        x = 4,
+        y = 1
     },
     calculate = function(self, card, context)
-        if context.after then
-            if G.GAME.chips - G.GAME.blind.chips >= 0 then
-                G.GAME.next_ante_horoscopes["Leo"] = true
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        return true
-                    end
-                }))
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-            else
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot2')
-                        return true
-                    end
-                }))
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-            end
+        if context.end_of_round and not context.individual and not context.repetition then
+            G.GAME.next_ante_horoscopes["Leo"] = true
+            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound('tarot1')
+                    return true
+                end
+            }))
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                    return true
+                end
+            }))
+        end
+        if context.before and G.GAME.current_round.hands_left ~= G.GAME.round_resets.hands - 1 then
+            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound('tarot2')
+                    return true
+                end
+            }))
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                    return true
+                end
+            }))
         end
     end
 }
@@ -1056,12 +1047,12 @@ SMODS.Consumable { -- Virgo
     },
     atlas = 'Consumables',
     pos = {
-        x = 0,
-        y = 0
+        x = 5,
+        y = 1
     },
     calculate = function(self, card, context)
-        if context.end_of_round then
-            if G.GAME.blind.chips / (G.GAME.chips + G.GAME.blind.chips) <= 0.25 then
+        if context.end_of_round and not context.individual and not context.repetition then
+            if G.GAME.blind.chips / G.GAME.chips >= 0.75 then
                 G.GAME.next_ante_horoscopes["Virgo"] = true
                 card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
                 G.E_MANAGER:add_event(Event({
@@ -1135,7 +1126,7 @@ SMODS.Consumable { -- Libra
                 }))
             end
         end
-        
+
         if context.ending_shop then
             card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
             G.E_MANAGER:add_event(Event({
@@ -1204,7 +1195,7 @@ SMODS.Consumable { -- Scorpio
             end
         end
 
-        if context.end_of_round and G.GAME.blind.boss then
+        if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
             card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
             G.E_MANAGER:add_event(Event({
                 func = function()
@@ -1369,7 +1360,7 @@ SMODS.Consumable { -- Capricorn
             end
         end
 
-        if context.end_of_round and G.GAME.blind.boss then
+        if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
             card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
             G.E_MANAGER:add_event(Event({
                 func = function()
@@ -1444,7 +1435,7 @@ SMODS.Consumable { -- Aquarius
             end
         end
 
-        if context.end_of_round and G.GAME.blind.boss then
+        if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
             card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
             G.E_MANAGER:add_event(Event({
                 func = function()
@@ -1518,7 +1509,7 @@ SMODS.Consumable { -- Pisces
             end
         end
 
-        if context.end_of_round and G.GAME.blind.boss then
+        if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
             card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
             G.E_MANAGER:add_event(Event({
                 func = function()
@@ -1540,9 +1531,9 @@ SMODS.Consumable { -- Pisces
 -- Horoscope Pack definitions
 
 
---endregion
+--#endregion
 
---region Jokers
+--#region Jokers
 SMODS.Joker { -- Fortune Cookie
     key = 'fortune_cookie',
     loc_txt = {
@@ -5281,9 +5272,9 @@ SMODS.Joker { --Chekhov's Gun
     end
 }
 
---endregion
+--#endregion
 
---region Vouchers
+--#region Vouchers
 
 SMODS.Voucher { -- Launch Code
     key = 'launch_code',
@@ -5453,9 +5444,9 @@ SMODS.Voucher { -- Guardian
     end
 }
 
---endregion
+--#endregion
 
---region Challenges
+--#region Challenges
 
 SMODS.Challenge { -- The 52 Commandments
     key = '52_commandments',
@@ -5790,9 +5781,9 @@ function Blind:debuff_card(card, from_blind)
     end
 end
 
---endregion
+--#endregion
 
---region Backs
+--#region Backs
 
 SMODS.Back { --Sixth Finger
     key = 'sixth_finger',
@@ -5856,9 +5847,9 @@ SMODS.Back { --Nuclear
     end
 }
 
---endregion
+--#endregion
 
---region Hand Parts
+--#region Hand Parts
 
 SMODS.PokerHandPart {
     key = '6',
@@ -5948,9 +5939,9 @@ SMODS.PokerHandPart {
     end
 }
 
---endregion
+--#endregion
 
---region Hand Types
+--#region Hand Types
 
 SMODS.PokerHand { --Three Pair
     key = 'three_pair',
@@ -6273,9 +6264,9 @@ SMODS.PokerHand { --Flush Six
     end
 }
 
---endregion
+--#endregion
 
---region Consumables
+--#region Consumables
 
 SMODS.Consumable { -- Microscopii
     key = 'microscopii',
@@ -6799,9 +6790,9 @@ SMODS.Consumable { --Kepler
     end
 }
 
---endregion
+--#endregion
 
---region Blinds
+--#region Blinds
 
 SMODS.Blind { --The Rot
     key = 'rot',
@@ -6902,4 +6893,4 @@ G.FUNCS.draw_from_play_to_discard = function(e)
     draw_discard(e)
 end
 
---endregion
+--#endregion

@@ -2800,7 +2800,7 @@ position = "after"
 payload = '''
 MXMS_PRIMARY = HEX('7855fc'),
 MXMS_SECONDARY = HEX('901b7f'),
-HOROSCOPE = HEX('e86fa5')
+HOROSCOPE = HEX('e86fa5'),
 '''
 match_indent = true
 times = 1
@@ -2822,7 +2822,7 @@ times = 1
 [patches.pattern]
 target = "globals.lua"
 pattern = '''
-Edition = HEX("e86fa5"),
+Edition = HEX("4ca893"),
 '''
 position = "after"
 payload = '''
