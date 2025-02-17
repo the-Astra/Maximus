@@ -953,12 +953,11 @@ SMODS.Consumable { -- Taurus
                 card.ability.extra.hand_type = context.scoring_name
                 card.ability.extra.times = card.ability.extra.times + 1
                 card_eval_status_text(card, 'extra', nil, nil, nil,
-                { message = card.ability.extra.times .. '/3', colour = G.C.HOROSCOPE })
-
+                    { message = card.ability.extra.times .. '/3', colour = G.C.HOROSCOPE })
             elseif card.ability.extra.hand_type == context.scoring_name then
                 card.ability.extra.times = card.ability.extra.times + 1
                 card_eval_status_text(card, 'extra', nil, nil, nil,
-                { message = card.ability.extra.times .. '/3', colour = G.C.HOROSCOPE })
+                    { message = card.ability.extra.times .. '/3', colour = G.C.HOROSCOPE })
             else
                 self:fail(card)
             end
@@ -1077,11 +1076,11 @@ SMODS.Consumable { -- Gemini
                 card.ability.hands[context.scoring_name] = true
                 card.ability.extra.times = card.ability.extra.times + 1
                 card_eval_status_text(card, 'extra', nil, nil, nil,
-                { message = card.ability.extra.times .. '/3', colour = G.C.HOROSCOPE })
+                    { message = card.ability.extra.times .. '/3', colour = G.C.HOROSCOPE })
             end
 
             if card.ability.extra.times == 3 then
-                self:succeed(card)
+                self:succeed(card, context)
             end
         end
 
@@ -1108,13 +1107,19 @@ SMODS.Consumable { -- Gemini
         end
         return true
     end,
-    succeed = function(self, card)
+    succeed = function(self, card, context)
         card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
         for k, v in pairs(card.ability.hands) do
             if v then
+                update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
+                    { handname = k, chips = G.GAME.hands[k].chips, mult = G.GAME.hands[k].mult, level = G.GAME.hands[k]
+                    .level })
                 level_up_hand(card, k, false, 3)
             end
         end
+        update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
+            { handname = context.scoring_name, chips = G.GAME.hands[context.scoring_name].chips, mult = G.GAME.hands
+            [context.scoring_name].mult, level = G.GAME.hands[context.scoring_name].level })
         G.E_MANAGER:add_event(Event({
             func = function()
                 card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
@@ -1588,10 +1593,10 @@ SMODS.Consumable { -- Scorpio
             else
                 card.ability.extra.hands = card.ability.extra.hands + 1
                 card_eval_status_text(card, 'extra', nil, nil, nil,
-                { message = card.ability.extra.hands .. '/4', colour = G.C.HOROSCOPE })
+                    { message = card.ability.extra.hands .. '/4', colour = G.C.HOROSCOPE })
 
                 if card.ability.extra.hands >= 4 then
-                    self:success(card)
+                    self:succeed(card, context)
                 end
             end
         end
@@ -1619,7 +1624,7 @@ SMODS.Consumable { -- Scorpio
         end
         return true
     end,
-    succeed = function(self, card)
+    succeed = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot1')
@@ -1627,7 +1632,15 @@ SMODS.Consumable { -- Scorpio
             end
         }))
         card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+        update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
+            { handname = G.GAME.current_round.most_played_poker_hand, chips = G.GAME.hands
+            [G.GAME.current_round.most_played_poker_hand].chips, mult = G.GAME.hands
+            [G.GAME.current_round.most_played_poker_hand].mult, level = G.GAME.hands
+            [G.GAME.current_round.most_played_poker_hand].level })
         level_up_hand(card, G.GAME.current_round.most_played_poker_hand, false, 5)
+        update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
+            { handname = context.scoring_name, chips = G.GAME.hands[context.scoring_name].chips, mult = G.GAME.hands
+            [context.scoring_name].mult, level = G.GAME.hands[context.scoring_name].level })
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
@@ -1810,7 +1823,7 @@ SMODS.Consumable { -- Capricorn
         end
 
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-           self:fail(card)
+            self:fail(card)
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
