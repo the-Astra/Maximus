@@ -6513,6 +6513,8 @@ SMODS.Challenge { -- Pay To Win
             { id = 'c_cryptid' },
             { id = 'c_soul' },
             { id = 'c_black_hole' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'c_mxms_aquarius' },
         },
     },
     deck = {
