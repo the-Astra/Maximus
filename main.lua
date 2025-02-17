@@ -847,54 +847,10 @@ SMODS.Consumable { -- Aries
     cost = 4,
     calculate = function(self, card, context)
         if (context.joker_main or context.debuffed_hand) and G.GAME.blind.triggered then
-            G.GAME.next_ante_horoscopes["Aries"] = true
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot1')
-                    return true
-                end
-            }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            zodiac_killer_pools["Aries"] = false
+            card:succeed()
         end
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot2')
-                    return true
-                end
-            }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            if G.GAME.modifiers.mxms_zodiac_killer then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.2,
-                    func = function()
-                        G.STATE = G.STATES.GAME_OVER
-                        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                        end
-                        G:save_settings()
-                        G.FILE_HANDLER.force = true
-                        G.STATE_COMPLETE = false
-                        return true
-                    end
-                }))
-            end
+            card:fail()
         end
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
             G.E_MANAGER:add_event(Event({
@@ -918,6 +874,56 @@ SMODS.Consumable { -- Aries
             return zodiac_killer_pools["Aries"]
         end
         return true
+    end,
+    succeed = function(self)
+        G.GAME.next_ante_horoscopes["Aries"] = true
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot1')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        zodiac_killer_pools["Aries"] = false
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -948,49 +954,11 @@ SMODS.Consumable { -- Taurus
             elseif card.ability.extra.hand_type == context.scoring_name then
                 card.ability.extra.times = card.ability.extra.times + 1
             else
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot2')
-                        return true
-                    end
-                }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                if G.GAME.modifiers.mxms_zodiac_killer then
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.2,
-                        func = function()
-                            G.STATE = G.STATES.GAME_OVER
-                            if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                                G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                            end
-                            G:save_settings()
-                            G.FILE_HANDLER.force = true
-                            G.STATE_COMPLETE = false
-                            return true
-                        end
-                    }))
-                end
+                card:fail()
             end
 
             if card.ability.extra.times == 3 then
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                level_up_hand(card, context.scoring_name, false, 5)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                zodiac_killer_pools["Taurus"] = false
+                card:succeed()
             end
 
             if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1016,6 +984,50 @@ SMODS.Consumable { -- Taurus
             return zodiac_killer_pools["Taurus"]
         end
         return true
+    end,
+    succeed = function(self)
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+        level_up_hand(card, context.scoring_name, false, 5)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        zodiac_killer_pools["Taurus"] = false
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -1054,55 +1066,14 @@ SMODS.Consumable { -- Gemini
     calculate = function(self, card, context)
         if context.before then
             if card.ability.hands[context.scoring_name] then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot2')
-                        return true
-                    end
-                }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.RED }, nil, 1.6)
-                        return true
-                    end
-                }))
-                if G.GAME.modifiers.mxms_zodiac_killer then
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.2,
-                        func = function()
-                            G.STATE = G.STATES.GAME_OVER
-                            if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                                G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                            end
-                            G:save_settings()
-                            G.FILE_HANDLER.force = true
-                            G.STATE_COMPLETE = false
-                            return true
-                        end
-                    }))
-                end
+                card:fail()
             else
                 card.ability.hands[context.scoring_name] = true
                 card.ability.extra.times = card.ability.extra.times + 1
             end
 
             if card.ability.extra.times == 3 then
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                for k, v in pairs(card.ability.hands) do
-                    if v then
-                        level_up_hand(card, k, false, 3)
-                    end
-                end
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                zodiac_killer_pools["Gemini"] = false
+                card:succeed()
             end
         end
 
@@ -1128,6 +1099,53 @@ SMODS.Consumable { -- Gemini
             return zodiac_killer_pools["Gemini"]
         end
         return true
+    end,
+    succeed = function(self)
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+        for k, v in pairs(card.ability.hands) do
+            if v then
+                level_up_hand(card, k, false, 3)
+            end
+        end
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        zodiac_killer_pools["Gemini"] = false
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.RED }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -1147,53 +1165,9 @@ SMODS.Consumable { -- Cancer
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
             if G.GAME.current_round.hands_left == 0 then
-                G.GAME.next_ante_horoscopes["Cancer"] = true
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        return true
-                    end
-                }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                zodiac_killer_pools["Cancer"] = false
+                card:succeed()
             else
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot2')
-                        return true
-                    end
-                }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                if G.GAME.modifiers.mxms_zodiac_killer then
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.2,
-                        func = function()
-                            G.STATE = G.STATES.GAME_OVER
-                            if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                                G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                            end
-                            G:save_settings()
-                            G.FILE_HANDLER.force = true
-                            G.STATE_COMPLETE = false
-                            return true
-                        end
-                    }))
-                end
+                card:fail()
             end
         end
 
@@ -1219,6 +1193,56 @@ SMODS.Consumable { -- Cancer
             return zodiac_killer_pools["Cancer"]
         end
         return true
+    end,
+    succeed = function(self)
+        G.GAME.next_ante_horoscopes["Cancer"] = true
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot1')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        zodiac_killer_pools["Cancer"] = false
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -1237,54 +1261,10 @@ SMODS.Consumable { -- Leo
     cost = 4,
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
-            G.GAME.next_ante_horoscopes["Leo"] = true
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot1')
-                    return true
-                end
-            }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            zodiac_killer_pools["Leo"] = false
+            card:succeed()
         end
         if context.before and G.GAME.current_round.hands_left ~= G.GAME.round_resets.hands - 1 then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot2')
-                    return true
-                end
-            }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            if G.GAME.modifiers.mxms_zodiac_killer then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.2,
-                    func = function()
-                        G.STATE = G.STATES.GAME_OVER
-                        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                        end
-                        G:save_settings()
-                        G.FILE_HANDLER.force = true
-                        G.STATE_COMPLETE = false
-                        return true
-                    end
-                }))
-            end
+            card:fail()
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1309,6 +1289,56 @@ SMODS.Consumable { -- Leo
             return zodiac_killer_pools["Aries"]
         end
         return true
+    end,
+    succeed = function(self)
+        G.GAME.next_ante_horoscopes["Leo"] = true
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot1')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        zodiac_killer_pools["Leo"] = false
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -1328,53 +1358,9 @@ SMODS.Consumable { -- Virgo
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
             if G.GAME.blind.chips / G.GAME.chips >= 0.75 then
-                G.GAME.next_ante_horoscopes["Virgo"] = true
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        return true
-                    end
-                }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                zodiac_killer_pools["Virgo"] = false
+                card:succeed()
             else
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot2')
-                        return true
-                    end
-                }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                if G.GAME.modifiers.mxms_zodiac_killer then
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.2,
-                        func = function()
-                            G.STATE = G.STATES.GAME_OVER
-                            if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                                G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                            end
-                            G:save_settings()
-                            G.FILE_HANDLER.force = true
-                            G.STATE_COMPLETE = false
-                            return true
-                        end
-                    }))
-                end
+                card:fail()
             end
         end
 
@@ -1400,6 +1386,56 @@ SMODS.Consumable { -- Virgo
             return zodiac_killer_pools["Virgo"]
         end
         return true
+    end,
+    succeed = function(self)
+        G.GAME.next_ante_horoscopes["Virgo"] = true
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot1')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        zodiac_killer_pools["Virgo"] = false
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -1425,77 +1461,19 @@ SMODS.Consumable { -- Libra
         if context.buying_card or context.open_booster then
             card.ability.extra.money_spent = card.ability.extra.money_spent + context.card.cost
             if card.ability.extra.money_spent >= 15 then
-                G.GAME.libra_bonus = true
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        return true
-                    end
-                }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
+                card:succeed()
             end
         end
 
         if context.reroll_shop then
             card.ability.extra.money_spent = card.ability.extra.money_spent + G.GAME.current_round.reroll_cost
             if card.ability.extra.money_spent >= 15 then
-                G.GAME.libra_bonus = true
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        return true
-                    end
-                }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                zodiac_killer_pools["Libra"] = false
+                card:succeed()
             end
         end
 
         if context.ending_shop then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot2')
-                    return true
-                end
-            }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            if G.GAME.modifiers.mxms_zodiac_killer then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.2,
-                    func = function()
-                        G.STATE = G.STATES.GAME_OVER
-                        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                        end
-                        G:save_settings()
-                        G.FILE_HANDLER.force = true
-                        G.STATE_COMPLETE = false
-                        return true
-                    end
-                }))
-            end
+            card:fail()
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1520,6 +1498,55 @@ SMODS.Consumable { -- Libra
             return zodiac_killer_pools["Libra"]
         end
         return true
+    end,
+    succeed = function(self)
+        G.GAME.libra_bonus = true
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot1')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -1544,56 +1571,12 @@ SMODS.Consumable { -- Scorpio
     calculate = function(self, card, context)
         if context.before then
             if card.ability.extra.hand_type == context.scoring_name then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        return true
-                    end
-                }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                level_up_hand(card, context.scoring_name, false, 5)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                zodiac_killer_pools["Scorpio"] = false
+                card:succeed()
             end
         end
 
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot2')
-                    return true
-                end
-            }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            if G.GAME.modifiers.mxms_zodiac_killer then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.2,
-                    func = function()
-                        G.STATE = G.STATES.GAME_OVER
-                        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                        end
-                        G:save_settings()
-                        G.FILE_HANDLER.force = true
-                        G.STATE_COMPLETE = false
-                        return true
-                    end
-                }))
-            end
+            card:fail()
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1629,6 +1612,56 @@ SMODS.Consumable { -- Scorpio
             return zodiac_killer_pools["Scorpio"]
         end
         return true
+    end,
+    succeed = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot1')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+        level_up_hand(card, context.scoring_name, false, 5)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        zodiac_killer_pools["Scorpio"] = false
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -1647,55 +1680,10 @@ SMODS.Consumable { -- Sagittarius
     cost = 4,
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot1')
-                    return true
-                end
-            }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-            card_eval_status_text(card, 'dollars', 20, nil, nil, nil)
-            ease_dollars(20)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            zodiac_killer_pools["Sagittarius"] = false
+            card:succeed()
         end
         if context.before and G.GAME.current_round.hands_left ~= G.GAME.round_resets.hands - 1 then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot2')
-                    return true
-                end
-            }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            if G.GAME.modifiers.mxms_zodiac_killer then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.2,
-                    func = function()
-                        G.STATE = G.STATES.GAME_OVER
-                        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                        end
-                        G:save_settings()
-                        G.FILE_HANDLER.force = true
-                        G.STATE_COMPLETE = false
-                        return true
-                    end
-                }))
-            end
+            card:fail()
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1720,6 +1708,57 @@ SMODS.Consumable { -- Sagittarius
             return zodiac_killer_pools["Sagittarius"]
         end
         return true
+    end,
+    succeed = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot1')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+        card_eval_status_text(card, 'dollars', 20, nil, nil, nil)
+        ease_dollars(20)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        zodiac_killer_pools["Sagittarius"] = false
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -1751,31 +1790,7 @@ SMODS.Consumable { -- Capricorn
                 { message = card.ability.extra.tally .. '/3', colour = G.C.HOROSCOPE })
 
             if card.ability.extra.tally >= 3 then
-                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                    card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'before',
-                        func = function()
-                            play_sound('tarot1')
-                            card:juice_up(0.3, 0.4)
-
-                            local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_immolate',
-                                'cap')
-                            new_card:add_to_deck()
-                            G.consumeables:emplace(new_card)
-                            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
-                            return true;
-                        end
-                    }))
-                end
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                zodiac_killer_pools["Capricorn"] = false
+                card:succeed()
             end
         end
 
@@ -1785,65 +1800,12 @@ SMODS.Consumable { -- Capricorn
                 { message = card.ability.extra.tally .. '/3', colour = G.C.HOROSCOPE })
 
             if card.ability.extra.tally == 3 then
-                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                    card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'before',
-                        func = function()
-                            play_sound('tarot1')
-                            card:juice_up(0.3, 0.4)
-
-                            local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_immolate',
-                                'cap')
-                            new_card:add_to_deck()
-                            G.consumeables:emplace(new_card)
-                            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
-                            return true;
-                        end
-                    }))
-                end
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                zodiac_killer_pools["Capricorn"] = false
+                card:succeed()
             end
         end
 
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot2')
-                    return true
-                end
-            }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            if G.GAME.modifiers.mxms_zodiac_killer then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.2,
-                    func = function()
-                        G.STATE = G.STATES.GAME_OVER
-                        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                        end
-                        G:save_settings()
-                        G.FILE_HANDLER.force = true
-                        G.STATE_COMPLETE = false
-                        return true
-                    end
-                }))
-            end
+           card:fail()
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1868,6 +1830,65 @@ SMODS.Consumable { -- Capricorn
             return zodiac_killer_pools["Capricorn"]
         end
         return true
+    end,
+    succeed = function(self)
+        if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+            G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                func = function()
+                    play_sound('tarot1')
+                    card:juice_up(0.3, 0.4)
+
+                    local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_immolate',
+                        'cap')
+                    new_card:add_to_deck()
+                    G.consumeables:emplace(new_card)
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
+                    return true;
+                end
+            }))
+        end
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        zodiac_killer_pools["Capricorn"] = false
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -1905,65 +1926,12 @@ SMODS.Consumable { -- Aquarius
                 { message = card.ability.extra.tally .. '/10', colour = G.C.HOROSCOPE })
 
             if card.ability.extra.tally >= 10 then
-                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                    card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'before',
-                        func = function()
-                            play_sound('tarot1')
-                            card:juice_up(0.3, 0.4)
-
-                            local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_black_hole',
-                                'aqu')
-                            new_card:add_to_deck()
-                            G.consumeables:emplace(new_card)
-                            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
-                            return true;
-                        end
-                    }))
-                    zodiac_killer_pools["Aquarius"] = false
-                end
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
+                card:succeed()
             end
         end
 
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot2')
-                    return true
-                end
-            }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            if G.GAME.modifiers.mxms_zodiac_killer then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.2,
-                    func = function()
-                        G.STATE = G.STATES.GAME_OVER
-                        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                        end
-                        G:save_settings()
-                        G.FILE_HANDLER.force = true
-                        G.STATE_COMPLETE = false
-                        return true
-                    end
-                }))
-            end
+            card:fail()
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1988,6 +1956,65 @@ SMODS.Consumable { -- Aquarius
             return zodiac_killer_pools["Aquarius"]
         end
         return true
+    end,
+    succeed = function(self)
+        if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+            G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                func = function()
+                    play_sound('tarot1')
+                    card:juice_up(0.3, 0.4)
+
+                    local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_black_hole',
+                        'aqu')
+                    new_card:add_to_deck()
+                    G.consumeables:emplace(new_card)
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
+                    return true;
+                end
+            }))
+            zodiac_killer_pools["Aquarius"] = false
+        end
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -2022,64 +2049,12 @@ SMODS.Consumable { -- Pisces
                 { message = card.ability.extra.tally .. '/5', colour = G.C.HOROSCOPE })
 
             if card.ability.extra.tally >= 5 then
-                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                    card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'before',
-                        func = function()
-                            play_sound('tarot1')
-                            card:juice_up(0.3, 0.4)
-
-                            local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, nil, 'pis')
-                            new_card:add_to_deck()
-                            G.consumeables:emplace(new_card)
-                            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
-                            return true;
-                        end
-                    }))
-                end
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-                zodiac_killer_pools["Pisces"] = false
+                card:succeed()
             end
         end
 
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('tarot2')
-                    return true
-                end
-            }))
-            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            if G.GAME.modifiers.mxms_zodiac_killer then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.2,
-                    func = function()
-                        G.STATE = G.STATES.GAME_OVER
-                        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                        end
-                        G:save_settings()
-                        G.FILE_HANDLER.force = true
-                        G.STATE_COMPLETE = false
-                        return true
-                    end
-                }))
-            end
+            card:fail()
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -2104,6 +2079,64 @@ SMODS.Consumable { -- Pisces
             return zodiac_killer_pools["Pisces"]
         end
         return true
+    end,
+    succeed = function(self)
+        if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+            card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
+            G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                func = function()
+                    play_sound('tarot1')
+                    card:juice_up(0.3, 0.4)
+
+                    local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, nil, 'pis')
+                    new_card:add_to_deck()
+                    G.consumeables:emplace(new_card)
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
+                    return true;
+                end
+            }))
+        end
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        zodiac_killer_pools["Pisces"] = false
+    end,
+    fail = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot2')
+                return true
+            end
+        }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Failed!', colour = G.C.RED })
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+        if G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end
 }
 
@@ -6707,6 +6740,19146 @@ SMODS.PokerHandPart {
     key = 's_straight',
     func = function(hand)
         if G.STAGE == G.STAGES.RUN and G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                local t = {}
+                local IDS = {}
+                for i = 1, #hand do
+                    local id = hand[i]:get_id()
+                    if id > 1 and id < 15 then
+                        if IDS[id] then
+                            IDS[id][#IDS[id] + 1] = hand[i]
+                        else
+                            IDS[id] = { hand[i] }
+                        end
+                    end
+                end
+
+                local straight_length = 0
+                local straight = false
+                local can_skip = next(find_joker('Shortcut'))
+                local skipped_rank = false
+                for j = 1, 14 do
+                    if IDS[j == 1 and 14 or j] then
+                        straight_length = straight_length + 1
+                        skipped_rank = false
+                        for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+                            t[#t + 1] = v
+                        end
+                    elseif can_skip and not skipped_rank and j ~= 14 then
+                        skipped_rank = true
+                    else
+                        straight_length = 0
+                        skipped_rank = false
+                        if not straight then t = {} end
+                        if straight then break end
+                    end
+                    if straight_length >= (6 - (four_fingers and 1 or 0)) then straight = true end
+                end
+                if not straight then return ret end
+                table.insert(ret, t)
+                return ret
+            end
+        end
+    end
+}
+
+--#endregion
+
+--#region Hand Types ----------------------------------------------------------------------------------------
+
+SMODS.PokerHand { --Three Pair
+    key = 'three_pair',
+    mult = 4,
+    chips = 30,
+    l_mult = 1,
+    l_chips = 25,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'S_6', true },
+        { 'D_6', true }
+
+    },
+    loc_txt = {
+        name = 'Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 >= 3 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Double Triple
+    key = 'double_triple',
+    mult = 6,
+    chips = 60,
+    l_mult = 2,
+    l_chips = 35,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'C_9', true }
+
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Six of a Kind
+    key = '6oak',
+    mult = 18,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 40,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'H_K', true },
+        { 'S_K', true },
+        { 'D_K', true }
+
+    },
+    loc_txt = {
+        name = 'Six of a Kind',
+        description = {
+            "6 cards with the same rank"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and parts.mxms_6 or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight
+    key = 's_straight',
+    mult = 6,
+    chips = 50,
+    l_mult = 3,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'D_K', true },
+        { 'C_Q', true },
+        { 'H_J', true },
+        { 'S_T', true },
+        { 'D_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards in a row (consecutive ranks)"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and parts.mxms_s_straight or {}
+    end
+}
+
+SMODS.PokerHand { --Super Flush
+    key = 's_flush',
+    mult = 6,
+    chips = 55,
+    l_mult = 2,
+    l_chips = 25,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_J', true },
+        { 'S_8', true },
+        { 'S_6', true },
+        { 'S_2', true }
+
+    },
+    loc_txt = {
+        name = 'Super Flush',
+        description = {
+            "6 cards that share the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}
+    end
+}
+
+SMODS.PokerHand { --House Party
+    key = 'house_party',
+    mult = 8,
+    chips = 70,
+    l_mult = 3,
+    l_chips = 40,
+    example = {
+
+        { 'S_A', true },
+        { 'D_A', true },
+        { 'C_A', true },
+        { 'H_A', true },
+        { 'S_T', true },
+        { 'D_T', true }
+
+    },
+    loc_txt = {
+        name = 'House Party',
+        description = {
+            "A 4 of a kind and a Pair"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and
+            { SMODS.merge_lists(parts._all_pairs) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Three Pair
+    key = 'f_three_pair',
+    mult = 14,
+    chips = 150,
+    l_mult = 3,
+    l_chips = 30,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_6', true },
+        { 'S_6', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 == 3 and next(parts.mxms_s_flush) and
+            { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Double Triple
+    key = 'f_double_triple',
+    mult = 16,
+    chips = 170,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Double Triple',
+        description = {
+            "Two 3 of a Kinds with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight Flush
+    key = 's_straight_f',
+    mult = 20,
+    chips = 200,
+    l_mult = 5,
+    l_chips = 55,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_Q', true },
+        { 'S_J', true },
+        { 'S_T', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight Flush',
+        description = {
+            "A 4 of a kind and a Pair with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Party
+    key = 'f_party',
+    mult = 16,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_T', true },
+        { 'S_T', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Party',
+        description = {
+            "6 cards in a row (consecutive ranks) with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Six
+    key = 'f_6oak',
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Six',
+        description = {
+            "6 cards with the same rank with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
+    end
+}
+
+--#endregion
+
+--#region Consumables ---------------------------------------------------------------------------------------
+
+SMODS.Consumable { -- Microscopii
+    key = 'microscopii',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Microscopii',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_three_pair',
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Wasp
+    key = 'wasp',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Wasp',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_double_triple'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Pegasi
+    key = 'pegasi',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Pegasi',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Trappist
+    key = 'trappist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Trappist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 3,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Corot
+    key = 'corot',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Corot',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 4,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_flush'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Poltergeist
+    key = 'poltergeist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Poltergeist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 5,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_house_party'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Gliese
+    key = 'gliese',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Gliese',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 6,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_three_pair',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Cancri
+    key = 'cancri',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Cancri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 7,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_double_triple',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Proxima Centauri
+    key = 'proxima',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Proxima Centauri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 8,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight_f'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Phobetor
+    key = 'phobetor',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Phobetor',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 9,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_party',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { --Kepler
+    key = 'kepler',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Kepler',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 10,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+--#endregion
+
+--#region Blinds --------------------------------------------------------------------------------------------
+
+SMODS.Blind { --The Rot
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    boss_colour = HEX('A2CA4C'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuffed_by_blind do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card.debuffed_by_blind = true
+        end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end
+}
+
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 3,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    boss_colour = HEX('D9638D'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
+
+--#endregion
+
+--#region Tags ----------------------------------------------------------------------------------------------
+
+SMODS.Tag {
+    key = 'star',
+    loc_txt = {
+        name = 'Star Tag',
+        text = {
+            "Gives a free",
+            "{C:horoscope}Mega Zodiac Pack",
+        },
+    },
+    atlas = 'Tags',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    min_ante = 2,
+    config = {
+        type = 'new_blind_choice'
+    },
+    loc_vars = function(self, info_queue)
+        info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
+    end,
+    apply = function(self, tag, context)
+        if context.type == "new_blind_choice" then
+            tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                local key = "p_mxms_horoscope_mega_1"
+                local card = Card(
+                    G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
+                    G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,
+                    G.CARD_W * 1.27,
+                    G.CARD_H * 1.27,
+                    G.P_CARDS.empty,
+                    G.P_CENTERS[key],
+                    { bypass_discovery_center = true, bypass_discovery_ui = true }
+                )
+                card.cost = 0
+                card.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = card } })
+                card:start_materialize()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end
+}
+
+--#endregion
+SMODS.Joker { -- Hype Man
+    key = 'hypeman',
+    loc_txt = {
+        name = 'Hype Man',
+        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            dollars = 1
+        }
+    },
+    blueprint_compat = false,
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars }
+        }
+    end
+}
+
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 6 or
+                context.other_card:get_id() == 7 or
+                context.other_card:get_id() == 8 or
+                context.other_card:get_id() == 9 or
+                context.other_card:get_id() == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Ocham's Razor
+    key = 'ocham',
+    loc_txt = {
+        name = 'Ocham\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 9
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
+            return {
+                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
+                message = 'x' .. G.hand.config.highlighted_limit - #context.full_hand + 1,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Schrodinger's Cat
+    key = 'schrodinger',
+    loc_txt = {
+        name = 'Schrodinger\'s Cat',
+        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { --Chekhov's Gun
+    key = 'chekhov',
+    loc_txt = {
+        name = 'Chekhov\'s Gun',
+        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
+            return {
+                Xmult_mod = G.GAME.round_resets.blind_ante,
+                message = 'x' .. G.GAME.round_resets.blind_ante,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.blind_ante <= 4 then
+            return true
+        end
+
+        return false
+    end
+}
+
+--#endregion
+
+--#region Vouchers ------------------------------------------------------------------------------------------
+
+SMODS.Voucher { -- Launch Code
+    key = 'launch_code',
+    loc_txt = {
+        name = 'Launch Code',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Warp Drive
+    key = 'warp_drive',
+    loc_txt = {
+        name = 'Warp Drive',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 2
+        }
+    },
+    requires = { 'v_mxms_launch_code' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Sharp Suit
+    key = 'sharp_suit',
+    loc_txt = {
+        name = 'Sharp Suit',
+        text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 0
+    },
+}
+
+SMODS.Voucher { -- Best Dressed
+    key = 'best_dressed',
+    loc_txt = {
+        name = 'Best Dressed',
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 1
+    },
+    config = {
+        extra = 0.2
+    },
+    requires = { 'v_mxms_sharp_suit' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
+            local suit_tally = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit(context.other_consumeable.ability.consumeable.suit_conv, false) then
+                    suit_tally = suit_tally + 1
+                end
+            end
+            if suit_tally > 0 then
+                return {
+                    x_mult = card.ability.extra * suit_tally + 1
+                }
+            end
+        end
+    end,
+}
+
+SMODS.Voucher { -- Shield
+    key = 'shield',
+    loc_txt = {
+        name = 'Shield',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+SMODS.Voucher { -- Guardian
+    key = 'guardian',
+    loc_txt = {
+        name = 'Guardian',
+        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 1
+    },
+    requires = { 'v_mxms_shield' },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+--#endregion
+
+--#region Challenges ----------------------------------------------------------------------------------------
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_psychic', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' },
+            { id = 'no_interest' }
+        },
+        modifiers = {
+            { id = 'dollars', value = 10 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'c_temperance' },
+            { id = 'c_hermit' },
+            { id = 'c_devil' },
+            { id = 'c_magician' },
+            { id = 'c_immolate' },
+            { id = 'c_talisman' },
+            { id = 'j_egg' },
+            { id = 'j_matador' },
+            { id = 'j_golden' },
+            { id = 'j_delayed_grat' },
+            { id = 'j_business' },
+            { id = 'j_faceless' },
+            { id = 'j_todo_list' },
+            { id = 'j_cloud_9' },
+            { id = 'j_rocket' },
+            { id = 'j_gift' },
+            { id = 'j_reserved_parking' },
+            { id = 'j_mail' },
+            { id = 'j_to_the_moon' },
+            { id = 'j_trading' },
+            { id = 'j_ticket' },
+            { id = 'j_rough_gem' },
+            { id = 'j_satellite' },
+            { id = 'j_mxms_gambler' },
+            { id = 'j_mxms_jackpot' },
+            { id = 'j_mxms_four_course_meal' },
+            { id = 'j_mxms_hypeman' },
+            { id = 'c_mxms_sagittarius' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'v_seed_money' },
+            { id = 'v_money_tree' },
+        },
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Tonight's Biggest Loser
+    key = 'biggest_loser',
+    loc_txt = {
+        name = 'Tonight\'s Biggest Loser'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_biggest_loser' }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_stop_sign',         edition = 'negative', eternal = true },
+        { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Picky Eater
+    key = 'picky',
+    loc_txt = {
+        name = 'Picky Eater'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_picky' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Fashion Disaster
+    key = 'fashion',
+    loc_txt = {
+        name = 'Fashion Disaster'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_random_suit_debuff' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_club',   type = 'blind' },
+            { id = 'bl_goad',   type = 'blind' },
+            { id = 'bl_head',   type = 'blind' },
+            { id = 'bl_window', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- All Stars
+    key = 'all_stars',
+    loc_txt = {
+        name = 'All Stars'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_all_rare' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'p_arcana_normal_1', ids = {
+                'p_arcana_normal_1', 'p_arcana_normal_2',
+                'p_arcana_normal_3', 'p_arcana_normal_4',
+                'p_arcana_jumbo_1', 'p_arcana_jumbo_2',
+                'p_arcana_mega_1', 'p_arcana_mega_2' }
+            },
+            { id = 'p_celestial_normal_1', ids = {
+                'p_celestial_normal_1', 'p_celestial_normal_2',
+                'p_celestial_normal_3', 'p_celestial_normal_4',
+                'p_celestial_jumbo_1', 'p_celestial_jumbo_2',
+                'p_celestial_mega_1', 'p_celestial_mega_2' }
+            },
+            { id = 'p_buffoon_normal_1', ids = {
+                'p_buffoon_normal_1', 'p_buffoon_normal_2',
+                'p_buffoon_jumbo_1', 'p_buffoon_mega_1' }
+            },
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Pay To Win
+    key = 'p2w',
+    loc_txt = {
+        name = 'Pay To Win'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_power_creep', eternal = true }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'c_fool' },
+            { id = 'c_magician' },
+            { id = 'c_high_priestess' },
+            { id = 'c_empress' },
+            { id = 'c_emperor' },
+            { id = 'c_heirophant' },
+            { id = 'c_lovers' },
+            { id = 'c_chariot' },
+            { id = 'c_justice' },
+            { id = 'c_hermit' },
+            { id = 'c_strength' },
+            { id = 'c_hanged_man' },
+            { id = 'c_death' },
+            { id = 'c_temperance' },
+            { id = 'c_devil' },
+            { id = 'c_tower' },
+            { id = 'c_star' },
+            { id = 'c_moon' },
+            { id = 'c_sun' },
+            { id = 'c_judgement' },
+            { id = 'c_world' },
+            { id = 'c_familiar' },
+            { id = 'c_grim' },
+            { id = 'c_incantation' },
+            { id = 'c_talisman' },
+            { id = 'c_wraith' },
+            { id = 'c_sigil' },
+            { id = 'c_ouija' },
+            { id = 'c_ectoplasm' },
+            { id = 'c_immolate' },
+            { id = 'c_ankh' },
+            { id = 'c_deja_vu' },
+            { id = 'c_hex' },
+            { id = 'c_trance' },
+            { id = 'c_medium' },
+            { id = 'c_cryptid' },
+            { id = 'c_soul' },
+            { id = 'c_black_hole' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'c_mxms_aquarius' },
+        },
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Zodiac Killer
+    key = 'killer',
+    loc_txt = {
+        name = 'Zodiac Killer'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_zodiac_killer' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        },
+        banned_tags = {
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+    if G.GAME.modifiers.mxms_zodiac_killer then
+        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+        new_card:add_to_deck()
+        G.mxms_horoscope:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+    end
+end
+
+local bsb = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    bsb(self, blind, reset, silent)
+    if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
+        new_card:add_to_deck()
+        G.jokers:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    end
+    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
+        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+            pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        for _, v in ipairs(G.playing_cards) do
+            self:debuff_card(v)
+        end
+    end
+end
+
+local bdc = Blind.debuff_card
+function Blind:debuff_card(card, from_blind)
+    bdc(self, card, from_blind)
+    if G.GAME.modifiers.mxms_random_suit_debuff and card.area ~= G.jokers then
+        if card:is_suit(G.GAME.modifiers.mxms_random_suit_debuff, true) then
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+            return
+        end
+    end
+end
+
+--#endregion
+
+--#region Backs ---------------------------------------------------------------------------------------------
+
+SMODS.Back { --Sixth Finger
+    key = 'sixth_finger',
+    loc_txt = {
+        name = 'Sixth Finger Deck',
+        text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change highlight limit
+        G.GAME.modifiers.mxms_highlight_limit = 6
+
+        -- Make non-secret hands visible
+        G.GAME.hands.mxms_three_pair.visible = true
+        G.GAME.hands.mxms_double_triple.visible = true
+        G.GAME.hands.mxms_s_straight.visible = true
+        G.GAME.hands.mxms_s_flush.visible = true
+        G.GAME.hands.mxms_house_party.visible = true
+        G.GAME.hands.mxms_s_straight_f.visible = true
+    end
+}
+
+SMODS.Back { --Nirvana
+    key = 'nirvana',
+    loc_txt = {
+        name = 'Nirvana Deck',
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change shop prices
+        G.GAME.shop_price_multiplier = 1.5
+
+        -- Change reroll starting price
+        G.GAME.starting_params.reroll_cost = 0
+    end
+}
+
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
+--#endregion
+
+--#region Hand Parts ----------------------------------------------------------------------------------------
+
+SMODS.PokerHandPart {
+    key = '6',
+    func = function(hand)
+        return get_X_same(6, hand)
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_flush',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            local suits = SMODS.Suit.obj_buffer
+            if #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                for j = 1, #suits do
+                    local t = {}
+                    local suit = suits[j]
+                    local flush_count = 0
+                    for i = 1, #hand do
+                        if hand[i]:is_suit(suit, nil, true) then
+                            flush_count = flush_count + 1; t[#t + 1] = hand[i]
+                        end
+                    end
+                    if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                        table.insert(ret, t)
+                        return ret
+                    end
+                end
+                return {}
+            end
+        end
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_straight',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                local t = {}
+                local IDS = {}
+                for i = 1, #hand do
+                    local id = hand[i]:get_id()
+                    if id > 1 and id < 15 then
+                        if IDS[id] then
+                            IDS[id][#IDS[id] + 1] = hand[i]
+                        else
+                            IDS[id] = { hand[i] }
+                        end
+                    end
+                end
+
+                local straight_length = 0
+                local straight = false
+                local can_skip = next(find_joker('Shortcut'))
+                local skipped_rank = false
+                for j = 1, 14 do
+                    if IDS[j == 1 and 14 or j] then
+                        straight_length = straight_length + 1
+                        skipped_rank = false
+                        for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+                            t[#t + 1] = v
+                        end
+                    elseif can_skip and not skipped_rank and j ~= 14 then
+                        skipped_rank = true
+                    else
+                        straight_length = 0
+                        skipped_rank = false
+                        if not straight then t = {} end
+                        if straight then break end
+                    end
+                    if straight_length >= (6 - (four_fingers and 1 or 0)) then straight = true end
+                end
+                if not straight then return ret end
+                table.insert(ret, t)
+                return ret
+            end
+        end
+    end
+}
+
+--#endregion
+
+--#region Hand Types ----------------------------------------------------------------------------------------
+
+SMODS.PokerHand { --Three Pair
+    key = 'three_pair',
+    mult = 4,
+    chips = 30,
+    l_mult = 1,
+    l_chips = 25,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'S_6', true },
+        { 'D_6', true }
+
+    },
+    loc_txt = {
+        name = 'Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 >= 3 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Double Triple
+    key = 'double_triple',
+    mult = 6,
+    chips = 60,
+    l_mult = 2,
+    l_chips = 35,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'C_9', true }
+
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Six of a Kind
+    key = '6oak',
+    mult = 18,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 40,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'H_K', true },
+        { 'S_K', true },
+        { 'D_K', true }
+
+    },
+    loc_txt = {
+        name = 'Six of a Kind',
+        description = {
+            "6 cards with the same rank"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and parts.mxms_6 or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight
+    key = 's_straight',
+    mult = 6,
+    chips = 50,
+    l_mult = 3,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'D_K', true },
+        { 'C_Q', true },
+        { 'H_J', true },
+        { 'S_T', true },
+        { 'D_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards in a row (consecutive ranks)"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and parts.mxms_s_straight or {}
+    end
+}
+
+SMODS.PokerHand { --Super Flush
+    key = 's_flush',
+    mult = 6,
+    chips = 55,
+    l_mult = 2,
+    l_chips = 25,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_J', true },
+        { 'S_8', true },
+        { 'S_6', true },
+        { 'S_2', true }
+
+    },
+    loc_txt = {
+        name = 'Super Flush',
+        description = {
+            "6 cards that share the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}
+    end
+}
+
+SMODS.PokerHand { --House Party
+    key = 'house_party',
+    mult = 8,
+    chips = 70,
+    l_mult = 3,
+    l_chips = 40,
+    example = {
+
+        { 'S_A', true },
+        { 'D_A', true },
+        { 'C_A', true },
+        { 'H_A', true },
+        { 'S_T', true },
+        { 'D_T', true }
+
+    },
+    loc_txt = {
+        name = 'House Party',
+        description = {
+            "A 4 of a kind and a Pair"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and
+            { SMODS.merge_lists(parts._all_pairs) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Three Pair
+    key = 'f_three_pair',
+    mult = 14,
+    chips = 150,
+    l_mult = 3,
+    l_chips = 30,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_6', true },
+        { 'S_6', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 == 3 and next(parts.mxms_s_flush) and
+            { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Double Triple
+    key = 'f_double_triple',
+    mult = 16,
+    chips = 170,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Double Triple',
+        description = {
+            "Two 3 of a Kinds with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight Flush
+    key = 's_straight_f',
+    mult = 20,
+    chips = 200,
+    l_mult = 5,
+    l_chips = 55,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_Q', true },
+        { 'S_J', true },
+        { 'S_T', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight Flush',
+        description = {
+            "A 4 of a kind and a Pair with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Party
+    key = 'f_party',
+    mult = 16,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_T', true },
+        { 'S_T', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Party',
+        description = {
+            "6 cards in a row (consecutive ranks) with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Six
+    key = 'f_6oak',
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Six',
+        description = {
+            "6 cards with the same rank with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
+    end
+}
+
+--#endregion
+
+--#region Consumables ---------------------------------------------------------------------------------------
+
+SMODS.Consumable { -- Microscopii
+    key = 'microscopii',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Microscopii',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_three_pair',
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Wasp
+    key = 'wasp',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Wasp',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_double_triple'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Pegasi
+    key = 'pegasi',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Pegasi',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Trappist
+    key = 'trappist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Trappist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 3,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Corot
+    key = 'corot',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Corot',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 4,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_flush'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Poltergeist
+    key = 'poltergeist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Poltergeist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 5,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_house_party'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Gliese
+    key = 'gliese',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Gliese',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 6,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_three_pair',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Cancri
+    key = 'cancri',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Cancri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 7,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_double_triple',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Proxima Centauri
+    key = 'proxima',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Proxima Centauri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 8,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight_f'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Phobetor
+    key = 'phobetor',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Phobetor',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 9,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_party',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { --Kepler
+    key = 'kepler',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Kepler',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 10,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+--#endregion
+
+--#region Blinds --------------------------------------------------------------------------------------------
+
+SMODS.Blind { --The Rot
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    boss_colour = HEX('A2CA4C'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuffed_by_blind do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card.debuffed_by_blind = true
+        end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end
+}
+
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 3,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    boss_colour = HEX('D9638D'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
+
+--#endregion
+
+--#region Tags ----------------------------------------------------------------------------------------------
+
+SMODS.Tag {
+    key = 'star',
+    loc_txt = {
+        name = 'Star Tag',
+        text = {
+            "Gives a free",
+            "{C:horoscope}Mega Zodiac Pack",
+        },
+    },
+    atlas = 'Tags',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    min_ante = 2,
+    config = {
+        type = 'new_blind_choice'
+    },
+    loc_vars = function(self, info_queue)
+        info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
+    end,
+    apply = function(self, tag, context)
+        if context.type == "new_blind_choice" then
+            tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                local key = "p_mxms_horoscope_mega_1"
+                local card = Card(
+                    G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
+                    G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,
+                    G.CARD_W * 1.27,
+                    G.CARD_H * 1.27,
+                    G.P_CARDS.empty,
+                    G.P_CENTERS[key],
+                    { bypass_discovery_center = true, bypass_discovery_ui = true }
+                )
+                card.cost = 0
+                card.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = card } })
+                card:start_materialize()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end
+}
+
+--#endregion
+SMODS.Joker { -- Hype Man
+    key = 'hypeman',
+    loc_txt = {
+        name = 'Hype Man',
+        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            dollars = 1
+        }
+    },
+    blueprint_compat = false,
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars }
+        }
+    end
+}
+
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 6 or
+                context.other_card:get_id() == 7 or
+                context.other_card:get_id() == 8 or
+                context.other_card:get_id() == 9 or
+                context.other_card:get_id() == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Ocham's Razor
+    key = 'ocham',
+    loc_txt = {
+        name = 'Ocham\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 9
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
+            return {
+                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
+                message = 'x' .. G.hand.config.highlighted_limit - #context.full_hand + 1,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Schrodinger's Cat
+    key = 'schrodinger',
+    loc_txt = {
+        name = 'Schrodinger\'s Cat',
+        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { --Chekhov's Gun
+    key = 'chekhov',
+    loc_txt = {
+        name = 'Chekhov\'s Gun',
+        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
+            return {
+                Xmult_mod = G.GAME.round_resets.blind_ante,
+                message = 'x' .. G.GAME.round_resets.blind_ante,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.blind_ante <= 4 then
+            return true
+        end
+
+        return false
+    end
+}
+
+--#endregion
+
+--#region Vouchers ------------------------------------------------------------------------------------------
+
+SMODS.Voucher { -- Launch Code
+    key = 'launch_code',
+    loc_txt = {
+        name = 'Launch Code',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Warp Drive
+    key = 'warp_drive',
+    loc_txt = {
+        name = 'Warp Drive',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 2
+        }
+    },
+    requires = { 'v_mxms_launch_code' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Sharp Suit
+    key = 'sharp_suit',
+    loc_txt = {
+        name = 'Sharp Suit',
+        text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 0
+    },
+}
+
+SMODS.Voucher { -- Best Dressed
+    key = 'best_dressed',
+    loc_txt = {
+        name = 'Best Dressed',
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 1
+    },
+    config = {
+        extra = 0.2
+    },
+    requires = { 'v_mxms_sharp_suit' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
+            local suit_tally = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit(context.other_consumeable.ability.consumeable.suit_conv, false) then
+                    suit_tally = suit_tally + 1
+                end
+            end
+            if suit_tally > 0 then
+                return {
+                    x_mult = card.ability.extra * suit_tally + 1
+                }
+            end
+        end
+    end,
+}
+
+SMODS.Voucher { -- Shield
+    key = 'shield',
+    loc_txt = {
+        name = 'Shield',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+SMODS.Voucher { -- Guardian
+    key = 'guardian',
+    loc_txt = {
+        name = 'Guardian',
+        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 1
+    },
+    requires = { 'v_mxms_shield' },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+--#endregion
+
+--#region Challenges ----------------------------------------------------------------------------------------
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_psychic', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' },
+            { id = 'no_interest' }
+        },
+        modifiers = {
+            { id = 'dollars', value = 10 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'c_temperance' },
+            { id = 'c_hermit' },
+            { id = 'c_devil' },
+            { id = 'c_magician' },
+            { id = 'c_immolate' },
+            { id = 'c_talisman' },
+            { id = 'j_egg' },
+            { id = 'j_matador' },
+            { id = 'j_golden' },
+            { id = 'j_delayed_grat' },
+            { id = 'j_business' },
+            { id = 'j_faceless' },
+            { id = 'j_todo_list' },
+            { id = 'j_cloud_9' },
+            { id = 'j_rocket' },
+            { id = 'j_gift' },
+            { id = 'j_reserved_parking' },
+            { id = 'j_mail' },
+            { id = 'j_to_the_moon' },
+            { id = 'j_trading' },
+            { id = 'j_ticket' },
+            { id = 'j_rough_gem' },
+            { id = 'j_satellite' },
+            { id = 'j_mxms_gambler' },
+            { id = 'j_mxms_jackpot' },
+            { id = 'j_mxms_four_course_meal' },
+            { id = 'j_mxms_hypeman' },
+            { id = 'c_mxms_sagittarius' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'v_seed_money' },
+            { id = 'v_money_tree' },
+        },
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Tonight's Biggest Loser
+    key = 'biggest_loser',
+    loc_txt = {
+        name = 'Tonight\'s Biggest Loser'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_biggest_loser' }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_stop_sign',         edition = 'negative', eternal = true },
+        { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Picky Eater
+    key = 'picky',
+    loc_txt = {
+        name = 'Picky Eater'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_picky' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Fashion Disaster
+    key = 'fashion',
+    loc_txt = {
+        name = 'Fashion Disaster'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_random_suit_debuff' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_club',   type = 'blind' },
+            { id = 'bl_goad',   type = 'blind' },
+            { id = 'bl_head',   type = 'blind' },
+            { id = 'bl_window', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- All Stars
+    key = 'all_stars',
+    loc_txt = {
+        name = 'All Stars'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_all_rare' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'p_arcana_normal_1', ids = {
+                'p_arcana_normal_1', 'p_arcana_normal_2',
+                'p_arcana_normal_3', 'p_arcana_normal_4',
+                'p_arcana_jumbo_1', 'p_arcana_jumbo_2',
+                'p_arcana_mega_1', 'p_arcana_mega_2' }
+            },
+            { id = 'p_celestial_normal_1', ids = {
+                'p_celestial_normal_1', 'p_celestial_normal_2',
+                'p_celestial_normal_3', 'p_celestial_normal_4',
+                'p_celestial_jumbo_1', 'p_celestial_jumbo_2',
+                'p_celestial_mega_1', 'p_celestial_mega_2' }
+            },
+            { id = 'p_buffoon_normal_1', ids = {
+                'p_buffoon_normal_1', 'p_buffoon_normal_2',
+                'p_buffoon_jumbo_1', 'p_buffoon_mega_1' }
+            },
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Pay To Win
+    key = 'p2w',
+    loc_txt = {
+        name = 'Pay To Win'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_power_creep', eternal = true }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'c_fool' },
+            { id = 'c_magician' },
+            { id = 'c_high_priestess' },
+            { id = 'c_empress' },
+            { id = 'c_emperor' },
+            { id = 'c_heirophant' },
+            { id = 'c_lovers' },
+            { id = 'c_chariot' },
+            { id = 'c_justice' },
+            { id = 'c_hermit' },
+            { id = 'c_strength' },
+            { id = 'c_hanged_man' },
+            { id = 'c_death' },
+            { id = 'c_temperance' },
+            { id = 'c_devil' },
+            { id = 'c_tower' },
+            { id = 'c_star' },
+            { id = 'c_moon' },
+            { id = 'c_sun' },
+            { id = 'c_judgement' },
+            { id = 'c_world' },
+            { id = 'c_familiar' },
+            { id = 'c_grim' },
+            { id = 'c_incantation' },
+            { id = 'c_talisman' },
+            { id = 'c_wraith' },
+            { id = 'c_sigil' },
+            { id = 'c_ouija' },
+            { id = 'c_ectoplasm' },
+            { id = 'c_immolate' },
+            { id = 'c_ankh' },
+            { id = 'c_deja_vu' },
+            { id = 'c_hex' },
+            { id = 'c_trance' },
+            { id = 'c_medium' },
+            { id = 'c_cryptid' },
+            { id = 'c_soul' },
+            { id = 'c_black_hole' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'c_mxms_aquarius' },
+        },
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Zodiac Killer
+    key = 'killer',
+    loc_txt = {
+        name = 'Zodiac Killer'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_zodiac_killer' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        },
+        banned_tags = {
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+    if G.GAME.modifiers.mxms_zodiac_killer then
+        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+        new_card:add_to_deck()
+        G.mxms_horoscope:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+    end
+end
+
+local bsb = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    bsb(self, blind, reset, silent)
+    if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
+        new_card:add_to_deck()
+        G.jokers:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    end
+    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
+        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+            pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        for _, v in ipairs(G.playing_cards) do
+            self:debuff_card(v)
+        end
+    end
+end
+
+local bdc = Blind.debuff_card
+function Blind:debuff_card(card, from_blind)
+    bdc(self, card, from_blind)
+    if G.GAME.modifiers.mxms_random_suit_debuff and card.area ~= G.jokers then
+        if card:is_suit(G.GAME.modifiers.mxms_random_suit_debuff, true) then
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+            return
+        end
+    end
+end
+
+--#endregion
+
+--#region Backs ---------------------------------------------------------------------------------------------
+
+SMODS.Back { --Sixth Finger
+    key = 'sixth_finger',
+    loc_txt = {
+        name = 'Sixth Finger Deck',
+        text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change highlight limit
+        G.GAME.modifiers.mxms_highlight_limit = 6
+
+        -- Make non-secret hands visible
+        G.GAME.hands.mxms_three_pair.visible = true
+        G.GAME.hands.mxms_double_triple.visible = true
+        G.GAME.hands.mxms_s_straight.visible = true
+        G.GAME.hands.mxms_s_flush.visible = true
+        G.GAME.hands.mxms_house_party.visible = true
+        G.GAME.hands.mxms_s_straight_f.visible = true
+    end
+}
+
+SMODS.Back { --Nirvana
+    key = 'nirvana',
+    loc_txt = {
+        name = 'Nirvana Deck',
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change shop prices
+        G.GAME.shop_price_multiplier = 1.5
+
+        -- Change reroll starting price
+        G.GAME.starting_params.reroll_cost = 0
+    end
+}
+
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
+--#endregion
+
+--#region Hand Parts ----------------------------------------------------------------------------------------
+
+SMODS.PokerHandPart {
+    key = '6',
+    func = function(hand)
+        return get_X_same(6, hand)
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_flush',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            local suits = SMODS.Suit.obj_buffer
+            if #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                for j = 1, #suits do
+                    local t = {}
+                    local suit = suits[j]
+                    local flush_count = 0
+                    for i = 1, #hand do
+                        if hand[i]:is_suit(suit, nil, true) then
+                            flush_count = flush_count + 1; t[#t + 1] = hand[i]
+                        end
+                    end
+                    if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                        table.insert(ret, t)
+                        return ret
+                    end
+                end
+                return {}
+            end
+        end
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_straight',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                local t = {}
+                local IDS = {}
+                for i = 1, #hand do
+                    local id = hand[i]:get_id()
+                    if id > 1 and id < 15 then
+                        if IDS[id] then
+                            IDS[id][#IDS[id] + 1] = hand[i]
+                        else
+                            IDS[id] = { hand[i] }
+                        end
+                    end
+                end
+
+                local straight_length = 0
+                local straight = false
+                local can_skip = next(find_joker('Shortcut'))
+                local skipped_rank = false
+                for j = 1, 14 do
+                    if IDS[j == 1 and 14 or j] then
+                        straight_length = straight_length + 1
+                        skipped_rank = false
+                        for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+                            t[#t + 1] = v
+                        end
+                    elseif can_skip and not skipped_rank and j ~= 14 then
+                        skipped_rank = true
+                    else
+                        straight_length = 0
+                        skipped_rank = false
+                        if not straight then t = {} end
+                        if straight then break end
+                    end
+                    if straight_length >= (6 - (four_fingers and 1 or 0)) then straight = true end
+                end
+                if not straight then return ret end
+                table.insert(ret, t)
+                return ret
+            end
+        end
+    end
+}
+
+--#endregion
+
+--#region Hand Types ----------------------------------------------------------------------------------------
+
+SMODS.PokerHand { --Three Pair
+    key = 'three_pair',
+    mult = 4,
+    chips = 30,
+    l_mult = 1,
+    l_chips = 25,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'S_6', true },
+        { 'D_6', true }
+
+    },
+    loc_txt = {
+        name = 'Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 >= 3 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Double Triple
+    key = 'double_triple',
+    mult = 6,
+    chips = 60,
+    l_mult = 2,
+    l_chips = 35,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'C_9', true }
+
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Six of a Kind
+    key = '6oak',
+    mult = 18,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 40,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'H_K', true },
+        { 'S_K', true },
+        { 'D_K', true }
+
+    },
+    loc_txt = {
+        name = 'Six of a Kind',
+        description = {
+            "6 cards with the same rank"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and parts.mxms_6 or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight
+    key = 's_straight',
+    mult = 6,
+    chips = 50,
+    l_mult = 3,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'D_K', true },
+        { 'C_Q', true },
+        { 'H_J', true },
+        { 'S_T', true },
+        { 'D_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards in a row (consecutive ranks)"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and parts.mxms_s_straight or {}
+    end
+}
+
+SMODS.PokerHand { --Super Flush
+    key = 's_flush',
+    mult = 6,
+    chips = 55,
+    l_mult = 2,
+    l_chips = 25,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_J', true },
+        { 'S_8', true },
+        { 'S_6', true },
+        { 'S_2', true }
+
+    },
+    loc_txt = {
+        name = 'Super Flush',
+        description = {
+            "6 cards that share the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}
+    end
+}
+
+SMODS.PokerHand { --House Party
+    key = 'house_party',
+    mult = 8,
+    chips = 70,
+    l_mult = 3,
+    l_chips = 40,
+    example = {
+
+        { 'S_A', true },
+        { 'D_A', true },
+        { 'C_A', true },
+        { 'H_A', true },
+        { 'S_T', true },
+        { 'D_T', true }
+
+    },
+    loc_txt = {
+        name = 'House Party',
+        description = {
+            "A 4 of a kind and a Pair"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and
+            { SMODS.merge_lists(parts._all_pairs) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Three Pair
+    key = 'f_three_pair',
+    mult = 14,
+    chips = 150,
+    l_mult = 3,
+    l_chips = 30,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_6', true },
+        { 'S_6', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 == 3 and next(parts.mxms_s_flush) and
+            { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Double Triple
+    key = 'f_double_triple',
+    mult = 16,
+    chips = 170,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Double Triple',
+        description = {
+            "Two 3 of a Kinds with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight Flush
+    key = 's_straight_f',
+    mult = 20,
+    chips = 200,
+    l_mult = 5,
+    l_chips = 55,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_Q', true },
+        { 'S_J', true },
+        { 'S_T', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight Flush',
+        description = {
+            "A 4 of a kind and a Pair with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Party
+    key = 'f_party',
+    mult = 16,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_T', true },
+        { 'S_T', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Party',
+        description = {
+            "6 cards in a row (consecutive ranks) with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Six
+    key = 'f_6oak',
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Six',
+        description = {
+            "6 cards with the same rank with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
+    end
+}
+
+--#endregion
+
+--#region Consumables ---------------------------------------------------------------------------------------
+
+SMODS.Consumable { -- Microscopii
+    key = 'microscopii',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Microscopii',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_three_pair',
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Wasp
+    key = 'wasp',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Wasp',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_double_triple'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Pegasi
+    key = 'pegasi',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Pegasi',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Trappist
+    key = 'trappist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Trappist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 3,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Corot
+    key = 'corot',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Corot',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 4,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_flush'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Poltergeist
+    key = 'poltergeist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Poltergeist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 5,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_house_party'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Gliese
+    key = 'gliese',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Gliese',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 6,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_three_pair',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Cancri
+    key = 'cancri',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Cancri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 7,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_double_triple',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Proxima Centauri
+    key = 'proxima',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Proxima Centauri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 8,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight_f'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Phobetor
+    key = 'phobetor',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Phobetor',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 9,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_party',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { --Kepler
+    key = 'kepler',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Kepler',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 10,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+--#endregion
+
+--#region Blinds --------------------------------------------------------------------------------------------
+
+SMODS.Blind { --The Rot
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    boss_colour = HEX('A2CA4C'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuffed_by_blind do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card.debuffed_by_blind = true
+        end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end
+}
+
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 3,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    boss_colour = HEX('D9638D'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
+
+--#endregion
+
+--#region Tags ----------------------------------------------------------------------------------------------
+
+SMODS.Tag {
+    key = 'star',
+    loc_txt = {
+        name = 'Star Tag',
+        text = {
+            "Gives a free",
+            "{C:horoscope}Mega Zodiac Pack",
+        },
+    },
+    atlas = 'Tags',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    min_ante = 2,
+    config = {
+        type = 'new_blind_choice'
+    },
+    loc_vars = function(self, info_queue)
+        info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
+    end,
+    apply = function(self, tag, context)
+        if context.type == "new_blind_choice" then
+            tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                local key = "p_mxms_horoscope_mega_1"
+                local card = Card(
+                    G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
+                    G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,
+                    G.CARD_W * 1.27,
+                    G.CARD_H * 1.27,
+                    G.P_CARDS.empty,
+                    G.P_CENTERS[key],
+                    { bypass_discovery_center = true, bypass_discovery_ui = true }
+                )
+                card.cost = 0
+                card.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = card } })
+                card:start_materialize()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end
+}
+
+--#endregion
+SMODS.Joker { -- Hype Man
+    key = 'hypeman',
+    loc_txt = {
+        name = 'Hype Man',
+        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            dollars = 1
+        }
+    },
+    blueprint_compat = false,
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars }
+        }
+    end
+}
+
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 6 or
+                context.other_card:get_id() == 7 or
+                context.other_card:get_id() == 8 or
+                context.other_card:get_id() == 9 or
+                context.other_card:get_id() == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Ocham's Razor
+    key = 'ocham',
+    loc_txt = {
+        name = 'Ocham\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 9
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
+            return {
+                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
+                message = 'x' .. G.hand.config.highlighted_limit - #context.full_hand + 1,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Schrodinger's Cat
+    key = 'schrodinger',
+    loc_txt = {
+        name = 'Schrodinger\'s Cat',
+        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { --Chekhov's Gun
+    key = 'chekhov',
+    loc_txt = {
+        name = 'Chekhov\'s Gun',
+        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
+            return {
+                Xmult_mod = G.GAME.round_resets.blind_ante,
+                message = 'x' .. G.GAME.round_resets.blind_ante,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.blind_ante <= 4 then
+            return true
+        end
+
+        return false
+    end
+}
+
+--#endregion
+
+--#region Vouchers ------------------------------------------------------------------------------------------
+
+SMODS.Voucher { -- Launch Code
+    key = 'launch_code',
+    loc_txt = {
+        name = 'Launch Code',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Warp Drive
+    key = 'warp_drive',
+    loc_txt = {
+        name = 'Warp Drive',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 2
+        }
+    },
+    requires = { 'v_mxms_launch_code' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Sharp Suit
+    key = 'sharp_suit',
+    loc_txt = {
+        name = 'Sharp Suit',
+        text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 0
+    },
+}
+
+SMODS.Voucher { -- Best Dressed
+    key = 'best_dressed',
+    loc_txt = {
+        name = 'Best Dressed',
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 1
+    },
+    config = {
+        extra = 0.2
+    },
+    requires = { 'v_mxms_sharp_suit' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
+            local suit_tally = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit(context.other_consumeable.ability.consumeable.suit_conv, false) then
+                    suit_tally = suit_tally + 1
+                end
+            end
+            if suit_tally > 0 then
+                return {
+                    x_mult = card.ability.extra * suit_tally + 1
+                }
+            end
+        end
+    end,
+}
+
+SMODS.Voucher { -- Shield
+    key = 'shield',
+    loc_txt = {
+        name = 'Shield',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+SMODS.Voucher { -- Guardian
+    key = 'guardian',
+    loc_txt = {
+        name = 'Guardian',
+        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 1
+    },
+    requires = { 'v_mxms_shield' },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+--#endregion
+
+--#region Challenges ----------------------------------------------------------------------------------------
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_psychic', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' },
+            { id = 'no_interest' }
+        },
+        modifiers = {
+            { id = 'dollars', value = 10 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'c_temperance' },
+            { id = 'c_hermit' },
+            { id = 'c_devil' },
+            { id = 'c_magician' },
+            { id = 'c_immolate' },
+            { id = 'c_talisman' },
+            { id = 'j_egg' },
+            { id = 'j_matador' },
+            { id = 'j_golden' },
+            { id = 'j_delayed_grat' },
+            { id = 'j_business' },
+            { id = 'j_faceless' },
+            { id = 'j_todo_list' },
+            { id = 'j_cloud_9' },
+            { id = 'j_rocket' },
+            { id = 'j_gift' },
+            { id = 'j_reserved_parking' },
+            { id = 'j_mail' },
+            { id = 'j_to_the_moon' },
+            { id = 'j_trading' },
+            { id = 'j_ticket' },
+            { id = 'j_rough_gem' },
+            { id = 'j_satellite' },
+            { id = 'j_mxms_gambler' },
+            { id = 'j_mxms_jackpot' },
+            { id = 'j_mxms_four_course_meal' },
+            { id = 'j_mxms_hypeman' },
+            { id = 'c_mxms_sagittarius' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'v_seed_money' },
+            { id = 'v_money_tree' },
+        },
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Tonight's Biggest Loser
+    key = 'biggest_loser',
+    loc_txt = {
+        name = 'Tonight\'s Biggest Loser'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_biggest_loser' }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_stop_sign',         edition = 'negative', eternal = true },
+        { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Picky Eater
+    key = 'picky',
+    loc_txt = {
+        name = 'Picky Eater'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_picky' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Fashion Disaster
+    key = 'fashion',
+    loc_txt = {
+        name = 'Fashion Disaster'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_random_suit_debuff' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_club',   type = 'blind' },
+            { id = 'bl_goad',   type = 'blind' },
+            { id = 'bl_head',   type = 'blind' },
+            { id = 'bl_window', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- All Stars
+    key = 'all_stars',
+    loc_txt = {
+        name = 'All Stars'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_all_rare' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'p_arcana_normal_1', ids = {
+                'p_arcana_normal_1', 'p_arcana_normal_2',
+                'p_arcana_normal_3', 'p_arcana_normal_4',
+                'p_arcana_jumbo_1', 'p_arcana_jumbo_2',
+                'p_arcana_mega_1', 'p_arcana_mega_2' }
+            },
+            { id = 'p_celestial_normal_1', ids = {
+                'p_celestial_normal_1', 'p_celestial_normal_2',
+                'p_celestial_normal_3', 'p_celestial_normal_4',
+                'p_celestial_jumbo_1', 'p_celestial_jumbo_2',
+                'p_celestial_mega_1', 'p_celestial_mega_2' }
+            },
+            { id = 'p_buffoon_normal_1', ids = {
+                'p_buffoon_normal_1', 'p_buffoon_normal_2',
+                'p_buffoon_jumbo_1', 'p_buffoon_mega_1' }
+            },
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Pay To Win
+    key = 'p2w',
+    loc_txt = {
+        name = 'Pay To Win'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_power_creep', eternal = true }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'c_fool' },
+            { id = 'c_magician' },
+            { id = 'c_high_priestess' },
+            { id = 'c_empress' },
+            { id = 'c_emperor' },
+            { id = 'c_heirophant' },
+            { id = 'c_lovers' },
+            { id = 'c_chariot' },
+            { id = 'c_justice' },
+            { id = 'c_hermit' },
+            { id = 'c_strength' },
+            { id = 'c_hanged_man' },
+            { id = 'c_death' },
+            { id = 'c_temperance' },
+            { id = 'c_devil' },
+            { id = 'c_tower' },
+            { id = 'c_star' },
+            { id = 'c_moon' },
+            { id = 'c_sun' },
+            { id = 'c_judgement' },
+            { id = 'c_world' },
+            { id = 'c_familiar' },
+            { id = 'c_grim' },
+            { id = 'c_incantation' },
+            { id = 'c_talisman' },
+            { id = 'c_wraith' },
+            { id = 'c_sigil' },
+            { id = 'c_ouija' },
+            { id = 'c_ectoplasm' },
+            { id = 'c_immolate' },
+            { id = 'c_ankh' },
+            { id = 'c_deja_vu' },
+            { id = 'c_hex' },
+            { id = 'c_trance' },
+            { id = 'c_medium' },
+            { id = 'c_cryptid' },
+            { id = 'c_soul' },
+            { id = 'c_black_hole' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'c_mxms_aquarius' },
+        },
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Zodiac Killer
+    key = 'killer',
+    loc_txt = {
+        name = 'Zodiac Killer'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_zodiac_killer' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        },
+        banned_tags = {
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+    if G.GAME.modifiers.mxms_zodiac_killer then
+        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+        new_card:add_to_deck()
+        G.mxms_horoscope:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+    end
+end
+
+local bsb = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    bsb(self, blind, reset, silent)
+    if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
+        new_card:add_to_deck()
+        G.jokers:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    end
+    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
+        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+            pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        for _, v in ipairs(G.playing_cards) do
+            self:debuff_card(v)
+        end
+    end
+end
+
+local bdc = Blind.debuff_card
+function Blind:debuff_card(card, from_blind)
+    bdc(self, card, from_blind)
+    if G.GAME.modifiers.mxms_random_suit_debuff and card.area ~= G.jokers then
+        if card:is_suit(G.GAME.modifiers.mxms_random_suit_debuff, true) then
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+            return
+        end
+    end
+end
+
+--#endregion
+
+--#region Backs ---------------------------------------------------------------------------------------------
+
+SMODS.Back { --Sixth Finger
+    key = 'sixth_finger',
+    loc_txt = {
+        name = 'Sixth Finger Deck',
+        text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change highlight limit
+        G.GAME.modifiers.mxms_highlight_limit = 6
+
+        -- Make non-secret hands visible
+        G.GAME.hands.mxms_three_pair.visible = true
+        G.GAME.hands.mxms_double_triple.visible = true
+        G.GAME.hands.mxms_s_straight.visible = true
+        G.GAME.hands.mxms_s_flush.visible = true
+        G.GAME.hands.mxms_house_party.visible = true
+        G.GAME.hands.mxms_s_straight_f.visible = true
+    end
+}
+
+SMODS.Back { --Nirvana
+    key = 'nirvana',
+    loc_txt = {
+        name = 'Nirvana Deck',
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change shop prices
+        G.GAME.shop_price_multiplier = 1.5
+
+        -- Change reroll starting price
+        G.GAME.starting_params.reroll_cost = 0
+    end
+}
+
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
+--#endregion
+
+--#region Hand Parts ----------------------------------------------------------------------------------------
+
+SMODS.PokerHandPart {
+    key = '6',
+    func = function(hand)
+        return get_X_same(6, hand)
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_flush',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            local suits = SMODS.Suit.obj_buffer
+            if #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                for j = 1, #suits do
+                    local t = {}
+                    local suit = suits[j]
+                    local flush_count = 0
+                    for i = 1, #hand do
+                        if hand[i]:is_suit(suit, nil, true) then
+                            flush_count = flush_count + 1; t[#t + 1] = hand[i]
+                        end
+                    end
+                    if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                        table.insert(ret, t)
+                        return ret
+                    end
+                end
+                return {}
+            end
+        end
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_straight',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                local t = {}
+                local IDS = {}
+                for i = 1, #hand do
+                    local id = hand[i]:get_id()
+                    if id > 1 and id < 15 then
+                        if IDS[id] then
+                            IDS[id][#IDS[id] + 1] = hand[i]
+                        else
+                            IDS[id] = { hand[i] }
+                        end
+                    end
+                end
+
+                local straight_length = 0
+                local straight = false
+                local can_skip = next(find_joker('Shortcut'))
+                local skipped_rank = false
+                for j = 1, 14 do
+                    if IDS[j == 1 and 14 or j] then
+                        straight_length = straight_length + 1
+                        skipped_rank = false
+                        for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+                            t[#t + 1] = v
+                        end
+                    elseif can_skip and not skipped_rank and j ~= 14 then
+                        skipped_rank = true
+                    else
+                        straight_length = 0
+                        skipped_rank = false
+                        if not straight then t = {} end
+                        if straight then break end
+                    end
+                    if straight_length >= (6 - (four_fingers and 1 or 0)) then straight = true end
+                end
+                if not straight then return ret end
+                table.insert(ret, t)
+                return ret
+            end
+        end
+    end
+}
+
+--#endregion
+
+--#region Hand Types ----------------------------------------------------------------------------------------
+
+SMODS.PokerHand { --Three Pair
+    key = 'three_pair',
+    mult = 4,
+    chips = 30,
+    l_mult = 1,
+    l_chips = 25,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'S_6', true },
+        { 'D_6', true }
+
+    },
+    loc_txt = {
+        name = 'Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 >= 3 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Double Triple
+    key = 'double_triple',
+    mult = 6,
+    chips = 60,
+    l_mult = 2,
+    l_chips = 35,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'C_9', true }
+
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Six of a Kind
+    key = '6oak',
+    mult = 18,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 40,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'H_K', true },
+        { 'S_K', true },
+        { 'D_K', true }
+
+    },
+    loc_txt = {
+        name = 'Six of a Kind',
+        description = {
+            "6 cards with the same rank"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and parts.mxms_6 or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight
+    key = 's_straight',
+    mult = 6,
+    chips = 50,
+    l_mult = 3,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'D_K', true },
+        { 'C_Q', true },
+        { 'H_J', true },
+        { 'S_T', true },
+        { 'D_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards in a row (consecutive ranks)"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and parts.mxms_s_straight or {}
+    end
+}
+
+SMODS.PokerHand { --Super Flush
+    key = 's_flush',
+    mult = 6,
+    chips = 55,
+    l_mult = 2,
+    l_chips = 25,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_J', true },
+        { 'S_8', true },
+        { 'S_6', true },
+        { 'S_2', true }
+
+    },
+    loc_txt = {
+        name = 'Super Flush',
+        description = {
+            "6 cards that share the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}
+    end
+}
+
+SMODS.PokerHand { --House Party
+    key = 'house_party',
+    mult = 8,
+    chips = 70,
+    l_mult = 3,
+    l_chips = 40,
+    example = {
+
+        { 'S_A', true },
+        { 'D_A', true },
+        { 'C_A', true },
+        { 'H_A', true },
+        { 'S_T', true },
+        { 'D_T', true }
+
+    },
+    loc_txt = {
+        name = 'House Party',
+        description = {
+            "A 4 of a kind and a Pair"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and
+            { SMODS.merge_lists(parts._all_pairs) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Three Pair
+    key = 'f_three_pair',
+    mult = 14,
+    chips = 150,
+    l_mult = 3,
+    l_chips = 30,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_6', true },
+        { 'S_6', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 == 3 and next(parts.mxms_s_flush) and
+            { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Double Triple
+    key = 'f_double_triple',
+    mult = 16,
+    chips = 170,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Double Triple',
+        description = {
+            "Two 3 of a Kinds with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight Flush
+    key = 's_straight_f',
+    mult = 20,
+    chips = 200,
+    l_mult = 5,
+    l_chips = 55,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_Q', true },
+        { 'S_J', true },
+        { 'S_T', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight Flush',
+        description = {
+            "A 4 of a kind and a Pair with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Party
+    key = 'f_party',
+    mult = 16,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_T', true },
+        { 'S_T', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Party',
+        description = {
+            "6 cards in a row (consecutive ranks) with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Six
+    key = 'f_6oak',
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Six',
+        description = {
+            "6 cards with the same rank with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
+    end
+}
+
+--#endregion
+
+--#region Consumables ---------------------------------------------------------------------------------------
+
+SMODS.Consumable { -- Microscopii
+    key = 'microscopii',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Microscopii',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_three_pair',
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Wasp
+    key = 'wasp',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Wasp',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_double_triple'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Pegasi
+    key = 'pegasi',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Pegasi',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Trappist
+    key = 'trappist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Trappist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 3,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Corot
+    key = 'corot',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Corot',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 4,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_flush'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Poltergeist
+    key = 'poltergeist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Poltergeist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 5,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_house_party'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Gliese
+    key = 'gliese',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Gliese',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 6,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_three_pair',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Cancri
+    key = 'cancri',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Cancri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 7,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_double_triple',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Proxima Centauri
+    key = 'proxima',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Proxima Centauri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 8,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight_f'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Phobetor
+    key = 'phobetor',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Phobetor',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 9,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_party',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { --Kepler
+    key = 'kepler',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Kepler',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 10,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+--#endregion
+
+--#region Blinds --------------------------------------------------------------------------------------------
+
+SMODS.Blind { --The Rot
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    boss_colour = HEX('A2CA4C'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuffed_by_blind do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card.debuffed_by_blind = true
+        end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end
+}
+
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 3,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    boss_colour = HEX('D9638D'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
+
+--#endregion
+
+--#region Tags ----------------------------------------------------------------------------------------------
+
+SMODS.Tag {
+    key = 'star',
+    loc_txt = {
+        name = 'Star Tag',
+        text = {
+            "Gives a free",
+            "{C:horoscope}Mega Zodiac Pack",
+        },
+    },
+    atlas = 'Tags',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    min_ante = 2,
+    config = {
+        type = 'new_blind_choice'
+    },
+    loc_vars = function(self, info_queue)
+        info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
+    end,
+    apply = function(self, tag, context)
+        if context.type == "new_blind_choice" then
+            tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                local key = "p_mxms_horoscope_mega_1"
+                local card = Card(
+                    G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
+                    G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,
+                    G.CARD_W * 1.27,
+                    G.CARD_H * 1.27,
+                    G.P_CARDS.empty,
+                    G.P_CENTERS[key],
+                    { bypass_discovery_center = true, bypass_discovery_ui = true }
+                )
+                card.cost = 0
+                card.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = card } })
+                card:start_materialize()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end
+}
+
+--#endregion
+SMODS.Joker { -- Hype Man
+    key = 'hypeman',
+    loc_txt = {
+        name = 'Hype Man',
+        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            dollars = 1
+        }
+    },
+    blueprint_compat = false,
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars }
+        }
+    end
+}
+
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 6 or
+                context.other_card:get_id() == 7 or
+                context.other_card:get_id() == 8 or
+                context.other_card:get_id() == 9 or
+                context.other_card:get_id() == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Ocham's Razor
+    key = 'ocham',
+    loc_txt = {
+        name = 'Ocham\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 9
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
+            return {
+                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
+                message = 'x' .. G.hand.config.highlighted_limit - #context.full_hand + 1,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Schrodinger's Cat
+    key = 'schrodinger',
+    loc_txt = {
+        name = 'Schrodinger\'s Cat',
+        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { --Chekhov's Gun
+    key = 'chekhov',
+    loc_txt = {
+        name = 'Chekhov\'s Gun',
+        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
+            return {
+                Xmult_mod = G.GAME.round_resets.blind_ante,
+                message = 'x' .. G.GAME.round_resets.blind_ante,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.blind_ante <= 4 then
+            return true
+        end
+
+        return false
+    end
+}
+
+--#endregion
+
+--#region Vouchers ------------------------------------------------------------------------------------------
+
+SMODS.Voucher { -- Launch Code
+    key = 'launch_code',
+    loc_txt = {
+        name = 'Launch Code',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Warp Drive
+    key = 'warp_drive',
+    loc_txt = {
+        name = 'Warp Drive',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 2
+        }
+    },
+    requires = { 'v_mxms_launch_code' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Sharp Suit
+    key = 'sharp_suit',
+    loc_txt = {
+        name = 'Sharp Suit',
+        text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 0
+    },
+}
+
+SMODS.Voucher { -- Best Dressed
+    key = 'best_dressed',
+    loc_txt = {
+        name = 'Best Dressed',
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 1
+    },
+    config = {
+        extra = 0.2
+    },
+    requires = { 'v_mxms_sharp_suit' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
+            local suit_tally = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit(context.other_consumeable.ability.consumeable.suit_conv, false) then
+                    suit_tally = suit_tally + 1
+                end
+            end
+            if suit_tally > 0 then
+                return {
+                    x_mult = card.ability.extra * suit_tally + 1
+                }
+            end
+        end
+    end,
+}
+
+SMODS.Voucher { -- Shield
+    key = 'shield',
+    loc_txt = {
+        name = 'Shield',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+SMODS.Voucher { -- Guardian
+    key = 'guardian',
+    loc_txt = {
+        name = 'Guardian',
+        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 1
+    },
+    requires = { 'v_mxms_shield' },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+--#endregion
+
+--#region Challenges ----------------------------------------------------------------------------------------
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_psychic', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' },
+            { id = 'no_interest' }
+        },
+        modifiers = {
+            { id = 'dollars', value = 10 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'c_temperance' },
+            { id = 'c_hermit' },
+            { id = 'c_devil' },
+            { id = 'c_magician' },
+            { id = 'c_immolate' },
+            { id = 'c_talisman' },
+            { id = 'j_egg' },
+            { id = 'j_matador' },
+            { id = 'j_golden' },
+            { id = 'j_delayed_grat' },
+            { id = 'j_business' },
+            { id = 'j_faceless' },
+            { id = 'j_todo_list' },
+            { id = 'j_cloud_9' },
+            { id = 'j_rocket' },
+            { id = 'j_gift' },
+            { id = 'j_reserved_parking' },
+            { id = 'j_mail' },
+            { id = 'j_to_the_moon' },
+            { id = 'j_trading' },
+            { id = 'j_ticket' },
+            { id = 'j_rough_gem' },
+            { id = 'j_satellite' },
+            { id = 'j_mxms_gambler' },
+            { id = 'j_mxms_jackpot' },
+            { id = 'j_mxms_four_course_meal' },
+            { id = 'j_mxms_hypeman' },
+            { id = 'c_mxms_sagittarius' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'v_seed_money' },
+            { id = 'v_money_tree' },
+        },
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Tonight's Biggest Loser
+    key = 'biggest_loser',
+    loc_txt = {
+        name = 'Tonight\'s Biggest Loser'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_biggest_loser' }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_stop_sign',         edition = 'negative', eternal = true },
+        { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Picky Eater
+    key = 'picky',
+    loc_txt = {
+        name = 'Picky Eater'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_picky' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Fashion Disaster
+    key = 'fashion',
+    loc_txt = {
+        name = 'Fashion Disaster'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_random_suit_debuff' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_club',   type = 'blind' },
+            { id = 'bl_goad',   type = 'blind' },
+            { id = 'bl_head',   type = 'blind' },
+            { id = 'bl_window', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- All Stars
+    key = 'all_stars',
+    loc_txt = {
+        name = 'All Stars'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_all_rare' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'p_arcana_normal_1', ids = {
+                'p_arcana_normal_1', 'p_arcana_normal_2',
+                'p_arcana_normal_3', 'p_arcana_normal_4',
+                'p_arcana_jumbo_1', 'p_arcana_jumbo_2',
+                'p_arcana_mega_1', 'p_arcana_mega_2' }
+            },
+            { id = 'p_celestial_normal_1', ids = {
+                'p_celestial_normal_1', 'p_celestial_normal_2',
+                'p_celestial_normal_3', 'p_celestial_normal_4',
+                'p_celestial_jumbo_1', 'p_celestial_jumbo_2',
+                'p_celestial_mega_1', 'p_celestial_mega_2' }
+            },
+            { id = 'p_buffoon_normal_1', ids = {
+                'p_buffoon_normal_1', 'p_buffoon_normal_2',
+                'p_buffoon_jumbo_1', 'p_buffoon_mega_1' }
+            },
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Pay To Win
+    key = 'p2w',
+    loc_txt = {
+        name = 'Pay To Win'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_power_creep', eternal = true }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'c_fool' },
+            { id = 'c_magician' },
+            { id = 'c_high_priestess' },
+            { id = 'c_empress' },
+            { id = 'c_emperor' },
+            { id = 'c_heirophant' },
+            { id = 'c_lovers' },
+            { id = 'c_chariot' },
+            { id = 'c_justice' },
+            { id = 'c_hermit' },
+            { id = 'c_strength' },
+            { id = 'c_hanged_man' },
+            { id = 'c_death' },
+            { id = 'c_temperance' },
+            { id = 'c_devil' },
+            { id = 'c_tower' },
+            { id = 'c_star' },
+            { id = 'c_moon' },
+            { id = 'c_sun' },
+            { id = 'c_judgement' },
+            { id = 'c_world' },
+            { id = 'c_familiar' },
+            { id = 'c_grim' },
+            { id = 'c_incantation' },
+            { id = 'c_talisman' },
+            { id = 'c_wraith' },
+            { id = 'c_sigil' },
+            { id = 'c_ouija' },
+            { id = 'c_ectoplasm' },
+            { id = 'c_immolate' },
+            { id = 'c_ankh' },
+            { id = 'c_deja_vu' },
+            { id = 'c_hex' },
+            { id = 'c_trance' },
+            { id = 'c_medium' },
+            { id = 'c_cryptid' },
+            { id = 'c_soul' },
+            { id = 'c_black_hole' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'c_mxms_aquarius' },
+        },
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Zodiac Killer
+    key = 'killer',
+    loc_txt = {
+        name = 'Zodiac Killer'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_zodiac_killer' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        },
+        banned_tags = {
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+    if G.GAME.modifiers.mxms_zodiac_killer then
+        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+        new_card:add_to_deck()
+        G.mxms_horoscope:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+    end
+end
+
+local bsb = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    bsb(self, blind, reset, silent)
+    if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
+        new_card:add_to_deck()
+        G.jokers:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    end
+    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
+        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+            pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        for _, v in ipairs(G.playing_cards) do
+            self:debuff_card(v)
+        end
+    end
+end
+
+local bdc = Blind.debuff_card
+function Blind:debuff_card(card, from_blind)
+    bdc(self, card, from_blind)
+    if G.GAME.modifiers.mxms_random_suit_debuff and card.area ~= G.jokers then
+        if card:is_suit(G.GAME.modifiers.mxms_random_suit_debuff, true) then
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+            return
+        end
+    end
+end
+
+--#endregion
+
+--#region Backs ---------------------------------------------------------------------------------------------
+
+SMODS.Back { --Sixth Finger
+    key = 'sixth_finger',
+    loc_txt = {
+        name = 'Sixth Finger Deck',
+        text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change highlight limit
+        G.GAME.modifiers.mxms_highlight_limit = 6
+
+        -- Make non-secret hands visible
+        G.GAME.hands.mxms_three_pair.visible = true
+        G.GAME.hands.mxms_double_triple.visible = true
+        G.GAME.hands.mxms_s_straight.visible = true
+        G.GAME.hands.mxms_s_flush.visible = true
+        G.GAME.hands.mxms_house_party.visible = true
+        G.GAME.hands.mxms_s_straight_f.visible = true
+    end
+}
+
+SMODS.Back { --Nirvana
+    key = 'nirvana',
+    loc_txt = {
+        name = 'Nirvana Deck',
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change shop prices
+        G.GAME.shop_price_multiplier = 1.5
+
+        -- Change reroll starting price
+        G.GAME.starting_params.reroll_cost = 0
+    end
+}
+
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
+--#endregion
+
+--#region Hand Parts ----------------------------------------------------------------------------------------
+
+SMODS.PokerHandPart {
+    key = '6',
+    func = function(hand)
+        return get_X_same(6, hand)
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_flush',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            local suits = SMODS.Suit.obj_buffer
+            if #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                for j = 1, #suits do
+                    local t = {}
+                    local suit = suits[j]
+                    local flush_count = 0
+                    for i = 1, #hand do
+                        if hand[i]:is_suit(suit, nil, true) then
+                            flush_count = flush_count + 1; t[#t + 1] = hand[i]
+                        end
+                    end
+                    if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                        table.insert(ret, t)
+                        return ret
+                    end
+                end
+                return {}
+            end
+        end
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_straight',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                local t = {}
+                local IDS = {}
+                for i = 1, #hand do
+                    local id = hand[i]:get_id()
+                    if id > 1 and id < 15 then
+                        if IDS[id] then
+                            IDS[id][#IDS[id] + 1] = hand[i]
+                        else
+                            IDS[id] = { hand[i] }
+                        end
+                    end
+                end
+
+                local straight_length = 0
+                local straight = false
+                local can_skip = next(find_joker('Shortcut'))
+                local skipped_rank = false
+                for j = 1, 14 do
+                    if IDS[j == 1 and 14 or j] then
+                        straight_length = straight_length + 1
+                        skipped_rank = false
+                        for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+                            t[#t + 1] = v
+                        end
+                    elseif can_skip and not skipped_rank and j ~= 14 then
+                        skipped_rank = true
+                    else
+                        straight_length = 0
+                        skipped_rank = false
+                        if not straight then t = {} end
+                        if straight then break end
+                    end
+                    if straight_length >= (6 - (four_fingers and 1 or 0)) then straight = true end
+                end
+                if not straight then return ret end
+                table.insert(ret, t)
+                return ret
+            end
+        end
+    end
+}
+
+--#endregion
+
+--#region Hand Types ----------------------------------------------------------------------------------------
+
+SMODS.PokerHand { --Three Pair
+    key = 'three_pair',
+    mult = 4,
+    chips = 30,
+    l_mult = 1,
+    l_chips = 25,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'S_6', true },
+        { 'D_6', true }
+
+    },
+    loc_txt = {
+        name = 'Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 >= 3 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Double Triple
+    key = 'double_triple',
+    mult = 6,
+    chips = 60,
+    l_mult = 2,
+    l_chips = 35,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'C_9', true }
+
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Six of a Kind
+    key = '6oak',
+    mult = 18,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 40,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'H_K', true },
+        { 'S_K', true },
+        { 'D_K', true }
+
+    },
+    loc_txt = {
+        name = 'Six of a Kind',
+        description = {
+            "6 cards with the same rank"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and parts.mxms_6 or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight
+    key = 's_straight',
+    mult = 6,
+    chips = 50,
+    l_mult = 3,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'D_K', true },
+        { 'C_Q', true },
+        { 'H_J', true },
+        { 'S_T', true },
+        { 'D_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards in a row (consecutive ranks)"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and parts.mxms_s_straight or {}
+    end
+}
+
+SMODS.PokerHand { --Super Flush
+    key = 's_flush',
+    mult = 6,
+    chips = 55,
+    l_mult = 2,
+    l_chips = 25,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_J', true },
+        { 'S_8', true },
+        { 'S_6', true },
+        { 'S_2', true }
+
+    },
+    loc_txt = {
+        name = 'Super Flush',
+        description = {
+            "6 cards that share the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}
+    end
+}
+
+SMODS.PokerHand { --House Party
+    key = 'house_party',
+    mult = 8,
+    chips = 70,
+    l_mult = 3,
+    l_chips = 40,
+    example = {
+
+        { 'S_A', true },
+        { 'D_A', true },
+        { 'C_A', true },
+        { 'H_A', true },
+        { 'S_T', true },
+        { 'D_T', true }
+
+    },
+    loc_txt = {
+        name = 'House Party',
+        description = {
+            "A 4 of a kind and a Pair"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and
+            { SMODS.merge_lists(parts._all_pairs) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Three Pair
+    key = 'f_three_pair',
+    mult = 14,
+    chips = 150,
+    l_mult = 3,
+    l_chips = 30,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_6', true },
+        { 'S_6', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 == 3 and next(parts.mxms_s_flush) and
+            { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Double Triple
+    key = 'f_double_triple',
+    mult = 16,
+    chips = 170,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Double Triple',
+        description = {
+            "Two 3 of a Kinds with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight Flush
+    key = 's_straight_f',
+    mult = 20,
+    chips = 200,
+    l_mult = 5,
+    l_chips = 55,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_Q', true },
+        { 'S_J', true },
+        { 'S_T', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight Flush',
+        description = {
+            "A 4 of a kind and a Pair with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Party
+    key = 'f_party',
+    mult = 16,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_T', true },
+        { 'S_T', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Party',
+        description = {
+            "6 cards in a row (consecutive ranks) with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Six
+    key = 'f_6oak',
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Six',
+        description = {
+            "6 cards with the same rank with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
+    end
+}
+
+--#endregion
+
+--#region Consumables ---------------------------------------------------------------------------------------
+
+SMODS.Consumable { -- Microscopii
+    key = 'microscopii',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Microscopii',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_three_pair',
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Wasp
+    key = 'wasp',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Wasp',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_double_triple'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Pegasi
+    key = 'pegasi',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Pegasi',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Trappist
+    key = 'trappist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Trappist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 3,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Corot
+    key = 'corot',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Corot',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 4,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_flush'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Poltergeist
+    key = 'poltergeist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Poltergeist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 5,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_house_party'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Gliese
+    key = 'gliese',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Gliese',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 6,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_three_pair',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Cancri
+    key = 'cancri',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Cancri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 7,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_double_triple',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Proxima Centauri
+    key = 'proxima',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Proxima Centauri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 8,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight_f'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Phobetor
+    key = 'phobetor',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Phobetor',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 9,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_party',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { --Kepler
+    key = 'kepler',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Kepler',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 10,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+--#endregion
+
+--#region Blinds --------------------------------------------------------------------------------------------
+
+SMODS.Blind { --The Rot
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    boss_colour = HEX('A2CA4C'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuffed_by_blind do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card.debuffed_by_blind = true
+        end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end
+}
+
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 3,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    boss_colour = HEX('D9638D'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
+
+--#endregion
+
+--#region Tags ----------------------------------------------------------------------------------------------
+
+SMODS.Tag {
+    key = 'star',
+    loc_txt = {
+        name = 'Star Tag',
+        text = {
+            "Gives a free",
+            "{C:horoscope}Mega Zodiac Pack",
+        },
+    },
+    atlas = 'Tags',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    min_ante = 2,
+    config = {
+        type = 'new_blind_choice'
+    },
+    loc_vars = function(self, info_queue)
+        info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
+    end,
+    apply = function(self, tag, context)
+        if context.type == "new_blind_choice" then
+            tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                local key = "p_mxms_horoscope_mega_1"
+                local card = Card(
+                    G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
+                    G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,
+                    G.CARD_W * 1.27,
+                    G.CARD_H * 1.27,
+                    G.P_CARDS.empty,
+                    G.P_CENTERS[key],
+                    { bypass_discovery_center = true, bypass_discovery_ui = true }
+                )
+                card.cost = 0
+                card.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = card } })
+                card:start_materialize()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end
+}
+
+--#endregion
+SMODS.Joker { -- Hype Man
+    key = 'hypeman',
+    loc_txt = {
+        name = 'Hype Man',
+        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            dollars = 1
+        }
+    },
+    blueprint_compat = false,
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars }
+        }
+    end
+}
+
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 6 or
+                context.other_card:get_id() == 7 or
+                context.other_card:get_id() == 8 or
+                context.other_card:get_id() == 9 or
+                context.other_card:get_id() == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Ocham's Razor
+    key = 'ocham',
+    loc_txt = {
+        name = 'Ocham\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 9
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
+            return {
+                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
+                message = 'x' .. G.hand.config.highlighted_limit - #context.full_hand + 1,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Schrodinger's Cat
+    key = 'schrodinger',
+    loc_txt = {
+        name = 'Schrodinger\'s Cat',
+        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { --Chekhov's Gun
+    key = 'chekhov',
+    loc_txt = {
+        name = 'Chekhov\'s Gun',
+        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
+            return {
+                Xmult_mod = G.GAME.round_resets.blind_ante,
+                message = 'x' .. G.GAME.round_resets.blind_ante,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.blind_ante <= 4 then
+            return true
+        end
+
+        return false
+    end
+}
+
+--#endregion
+
+--#region Vouchers ------------------------------------------------------------------------------------------
+
+SMODS.Voucher { -- Launch Code
+    key = 'launch_code',
+    loc_txt = {
+        name = 'Launch Code',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Warp Drive
+    key = 'warp_drive',
+    loc_txt = {
+        name = 'Warp Drive',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 2
+        }
+    },
+    requires = { 'v_mxms_launch_code' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Sharp Suit
+    key = 'sharp_suit',
+    loc_txt = {
+        name = 'Sharp Suit',
+        text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 0
+    },
+}
+
+SMODS.Voucher { -- Best Dressed
+    key = 'best_dressed',
+    loc_txt = {
+        name = 'Best Dressed',
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 1
+    },
+    config = {
+        extra = 0.2
+    },
+    requires = { 'v_mxms_sharp_suit' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
+            local suit_tally = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit(context.other_consumeable.ability.consumeable.suit_conv, false) then
+                    suit_tally = suit_tally + 1
+                end
+            end
+            if suit_tally > 0 then
+                return {
+                    x_mult = card.ability.extra * suit_tally + 1
+                }
+            end
+        end
+    end,
+}
+
+SMODS.Voucher { -- Shield
+    key = 'shield',
+    loc_txt = {
+        name = 'Shield',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+SMODS.Voucher { -- Guardian
+    key = 'guardian',
+    loc_txt = {
+        name = 'Guardian',
+        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 1
+    },
+    requires = { 'v_mxms_shield' },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+--#endregion
+
+--#region Challenges ----------------------------------------------------------------------------------------
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_psychic', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' },
+            { id = 'no_interest' }
+        },
+        modifiers = {
+            { id = 'dollars', value = 10 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'c_temperance' },
+            { id = 'c_hermit' },
+            { id = 'c_devil' },
+            { id = 'c_magician' },
+            { id = 'c_immolate' },
+            { id = 'c_talisman' },
+            { id = 'j_egg' },
+            { id = 'j_matador' },
+            { id = 'j_golden' },
+            { id = 'j_delayed_grat' },
+            { id = 'j_business' },
+            { id = 'j_faceless' },
+            { id = 'j_todo_list' },
+            { id = 'j_cloud_9' },
+            { id = 'j_rocket' },
+            { id = 'j_gift' },
+            { id = 'j_reserved_parking' },
+            { id = 'j_mail' },
+            { id = 'j_to_the_moon' },
+            { id = 'j_trading' },
+            { id = 'j_ticket' },
+            { id = 'j_rough_gem' },
+            { id = 'j_satellite' },
+            { id = 'j_mxms_gambler' },
+            { id = 'j_mxms_jackpot' },
+            { id = 'j_mxms_four_course_meal' },
+            { id = 'j_mxms_hypeman' },
+            { id = 'c_mxms_sagittarius' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'v_seed_money' },
+            { id = 'v_money_tree' },
+        },
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Tonight's Biggest Loser
+    key = 'biggest_loser',
+    loc_txt = {
+        name = 'Tonight\'s Biggest Loser'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_biggest_loser' }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_stop_sign',         edition = 'negative', eternal = true },
+        { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Picky Eater
+    key = 'picky',
+    loc_txt = {
+        name = 'Picky Eater'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_picky' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Fashion Disaster
+    key = 'fashion',
+    loc_txt = {
+        name = 'Fashion Disaster'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_random_suit_debuff' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_club',   type = 'blind' },
+            { id = 'bl_goad',   type = 'blind' },
+            { id = 'bl_head',   type = 'blind' },
+            { id = 'bl_window', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- All Stars
+    key = 'all_stars',
+    loc_txt = {
+        name = 'All Stars'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_all_rare' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'p_arcana_normal_1', ids = {
+                'p_arcana_normal_1', 'p_arcana_normal_2',
+                'p_arcana_normal_3', 'p_arcana_normal_4',
+                'p_arcana_jumbo_1', 'p_arcana_jumbo_2',
+                'p_arcana_mega_1', 'p_arcana_mega_2' }
+            },
+            { id = 'p_celestial_normal_1', ids = {
+                'p_celestial_normal_1', 'p_celestial_normal_2',
+                'p_celestial_normal_3', 'p_celestial_normal_4',
+                'p_celestial_jumbo_1', 'p_celestial_jumbo_2',
+                'p_celestial_mega_1', 'p_celestial_mega_2' }
+            },
+            { id = 'p_buffoon_normal_1', ids = {
+                'p_buffoon_normal_1', 'p_buffoon_normal_2',
+                'p_buffoon_jumbo_1', 'p_buffoon_mega_1' }
+            },
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Pay To Win
+    key = 'p2w',
+    loc_txt = {
+        name = 'Pay To Win'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_power_creep', eternal = true }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'c_fool' },
+            { id = 'c_magician' },
+            { id = 'c_high_priestess' },
+            { id = 'c_empress' },
+            { id = 'c_emperor' },
+            { id = 'c_heirophant' },
+            { id = 'c_lovers' },
+            { id = 'c_chariot' },
+            { id = 'c_justice' },
+            { id = 'c_hermit' },
+            { id = 'c_strength' },
+            { id = 'c_hanged_man' },
+            { id = 'c_death' },
+            { id = 'c_temperance' },
+            { id = 'c_devil' },
+            { id = 'c_tower' },
+            { id = 'c_star' },
+            { id = 'c_moon' },
+            { id = 'c_sun' },
+            { id = 'c_judgement' },
+            { id = 'c_world' },
+            { id = 'c_familiar' },
+            { id = 'c_grim' },
+            { id = 'c_incantation' },
+            { id = 'c_talisman' },
+            { id = 'c_wraith' },
+            { id = 'c_sigil' },
+            { id = 'c_ouija' },
+            { id = 'c_ectoplasm' },
+            { id = 'c_immolate' },
+            { id = 'c_ankh' },
+            { id = 'c_deja_vu' },
+            { id = 'c_hex' },
+            { id = 'c_trance' },
+            { id = 'c_medium' },
+            { id = 'c_cryptid' },
+            { id = 'c_soul' },
+            { id = 'c_black_hole' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'c_mxms_aquarius' },
+        },
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Zodiac Killer
+    key = 'killer',
+    loc_txt = {
+        name = 'Zodiac Killer'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_zodiac_killer' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        },
+        banned_tags = {
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+    if G.GAME.modifiers.mxms_zodiac_killer then
+        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+        new_card:add_to_deck()
+        G.mxms_horoscope:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+    end
+end
+
+local bsb = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    bsb(self, blind, reset, silent)
+    if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
+        new_card:add_to_deck()
+        G.jokers:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    end
+    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
+        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+            pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        for _, v in ipairs(G.playing_cards) do
+            self:debuff_card(v)
+        end
+    end
+end
+
+local bdc = Blind.debuff_card
+function Blind:debuff_card(card, from_blind)
+    bdc(self, card, from_blind)
+    if G.GAME.modifiers.mxms_random_suit_debuff and card.area ~= G.jokers then
+        if card:is_suit(G.GAME.modifiers.mxms_random_suit_debuff, true) then
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+            return
+        end
+    end
+end
+
+--#endregion
+
+--#region Backs ---------------------------------------------------------------------------------------------
+
+SMODS.Back { --Sixth Finger
+    key = 'sixth_finger',
+    loc_txt = {
+        name = 'Sixth Finger Deck',
+        text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change highlight limit
+        G.GAME.modifiers.mxms_highlight_limit = 6
+
+        -- Make non-secret hands visible
+        G.GAME.hands.mxms_three_pair.visible = true
+        G.GAME.hands.mxms_double_triple.visible = true
+        G.GAME.hands.mxms_s_straight.visible = true
+        G.GAME.hands.mxms_s_flush.visible = true
+        G.GAME.hands.mxms_house_party.visible = true
+        G.GAME.hands.mxms_s_straight_f.visible = true
+    end
+}
+
+SMODS.Back { --Nirvana
+    key = 'nirvana',
+    loc_txt = {
+        name = 'Nirvana Deck',
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change shop prices
+        G.GAME.shop_price_multiplier = 1.5
+
+        -- Change reroll starting price
+        G.GAME.starting_params.reroll_cost = 0
+    end
+}
+
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
+--#endregion
+
+--#region Hand Parts ----------------------------------------------------------------------------------------
+
+SMODS.PokerHandPart {
+    key = '6',
+    func = function(hand)
+        return get_X_same(6, hand)
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_flush',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            local suits = SMODS.Suit.obj_buffer
+            if #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                for j = 1, #suits do
+                    local t = {}
+                    local suit = suits[j]
+                    local flush_count = 0
+                    for i = 1, #hand do
+                        if hand[i]:is_suit(suit, nil, true) then
+                            flush_count = flush_count + 1; t[#t + 1] = hand[i]
+                        end
+                    end
+                    if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                        table.insert(ret, t)
+                        return ret
+                    end
+                end
+                return {}
+            end
+        end
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_straight',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                local t = {}
+                local IDS = {}
+                for i = 1, #hand do
+                    local id = hand[i]:get_id()
+                    if id > 1 and id < 15 then
+                        if IDS[id] then
+                            IDS[id][#IDS[id] + 1] = hand[i]
+                        else
+                            IDS[id] = { hand[i] }
+                        end
+                    end
+                end
+
+                local straight_length = 0
+                local straight = false
+                local can_skip = next(find_joker('Shortcut'))
+                local skipped_rank = false
+                for j = 1, 14 do
+                    if IDS[j == 1 and 14 or j] then
+                        straight_length = straight_length + 1
+                        skipped_rank = false
+                        for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+                            t[#t + 1] = v
+                        end
+                    elseif can_skip and not skipped_rank and j ~= 14 then
+                        skipped_rank = true
+                    else
+                        straight_length = 0
+                        skipped_rank = false
+                        if not straight then t = {} end
+                        if straight then break end
+                    end
+                    if straight_length >= (6 - (four_fingers and 1 or 0)) then straight = true end
+                end
+                if not straight then return ret end
+                table.insert(ret, t)
+                return ret
+            end
+        end
+    end
+}
+
+--#endregion
+
+--#region Hand Types ----------------------------------------------------------------------------------------
+
+SMODS.PokerHand { --Three Pair
+    key = 'three_pair',
+    mult = 4,
+    chips = 30,
+    l_mult = 1,
+    l_chips = 25,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'S_6', true },
+        { 'D_6', true }
+
+    },
+    loc_txt = {
+        name = 'Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 >= 3 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Double Triple
+    key = 'double_triple',
+    mult = 6,
+    chips = 60,
+    l_mult = 2,
+    l_chips = 35,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'C_9', true }
+
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Six of a Kind
+    key = '6oak',
+    mult = 18,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 40,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'H_K', true },
+        { 'S_K', true },
+        { 'D_K', true }
+
+    },
+    loc_txt = {
+        name = 'Six of a Kind',
+        description = {
+            "6 cards with the same rank"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and parts.mxms_6 or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight
+    key = 's_straight',
+    mult = 6,
+    chips = 50,
+    l_mult = 3,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'D_K', true },
+        { 'C_Q', true },
+        { 'H_J', true },
+        { 'S_T', true },
+        { 'D_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards in a row (consecutive ranks)"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and parts.mxms_s_straight or {}
+    end
+}
+
+SMODS.PokerHand { --Super Flush
+    key = 's_flush',
+    mult = 6,
+    chips = 55,
+    l_mult = 2,
+    l_chips = 25,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_J', true },
+        { 'S_8', true },
+        { 'S_6', true },
+        { 'S_2', true }
+
+    },
+    loc_txt = {
+        name = 'Super Flush',
+        description = {
+            "6 cards that share the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}
+    end
+}
+
+SMODS.PokerHand { --House Party
+    key = 'house_party',
+    mult = 8,
+    chips = 70,
+    l_mult = 3,
+    l_chips = 40,
+    example = {
+
+        { 'S_A', true },
+        { 'D_A', true },
+        { 'C_A', true },
+        { 'H_A', true },
+        { 'S_T', true },
+        { 'D_T', true }
+
+    },
+    loc_txt = {
+        name = 'House Party',
+        description = {
+            "A 4 of a kind and a Pair"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and
+            { SMODS.merge_lists(parts._all_pairs) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Three Pair
+    key = 'f_three_pair',
+    mult = 14,
+    chips = 150,
+    l_mult = 3,
+    l_chips = 30,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_6', true },
+        { 'S_6', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 == 3 and next(parts.mxms_s_flush) and
+            { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Double Triple
+    key = 'f_double_triple',
+    mult = 16,
+    chips = 170,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Double Triple',
+        description = {
+            "Two 3 of a Kinds with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight Flush
+    key = 's_straight_f',
+    mult = 20,
+    chips = 200,
+    l_mult = 5,
+    l_chips = 55,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_Q', true },
+        { 'S_J', true },
+        { 'S_T', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight Flush',
+        description = {
+            "A 4 of a kind and a Pair with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Party
+    key = 'f_party',
+    mult = 16,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_T', true },
+        { 'S_T', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Party',
+        description = {
+            "6 cards in a row (consecutive ranks) with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Six
+    key = 'f_6oak',
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Six',
+        description = {
+            "6 cards with the same rank with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
+    end
+}
+
+--#endregion
+
+--#region Consumables ---------------------------------------------------------------------------------------
+
+SMODS.Consumable { -- Microscopii
+    key = 'microscopii',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Microscopii',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_three_pair',
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Wasp
+    key = 'wasp',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Wasp',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_double_triple'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Pegasi
+    key = 'pegasi',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Pegasi',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Trappist
+    key = 'trappist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Trappist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 3,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Corot
+    key = 'corot',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Corot',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 4,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_flush'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Poltergeist
+    key = 'poltergeist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Poltergeist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 5,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_house_party'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Gliese
+    key = 'gliese',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Gliese',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 6,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_three_pair',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Cancri
+    key = 'cancri',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Cancri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 7,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_double_triple',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Proxima Centauri
+    key = 'proxima',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Proxima Centauri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 8,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight_f'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Phobetor
+    key = 'phobetor',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Phobetor',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 9,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_party',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { --Kepler
+    key = 'kepler',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Kepler',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 10,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+--#endregion
+
+--#region Blinds --------------------------------------------------------------------------------------------
+
+SMODS.Blind { --The Rot
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    boss_colour = HEX('A2CA4C'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuffed_by_blind do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card.debuffed_by_blind = true
+        end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end
+}
+
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 3,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    boss_colour = HEX('D9638D'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
+
+--#endregion
+
+--#region Tags ----------------------------------------------------------------------------------------------
+
+SMODS.Tag {
+    key = 'star',
+    loc_txt = {
+        name = 'Star Tag',
+        text = {
+            "Gives a free",
+            "{C:horoscope}Mega Zodiac Pack",
+        },
+    },
+    atlas = 'Tags',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    min_ante = 2,
+    config = {
+        type = 'new_blind_choice'
+    },
+    loc_vars = function(self, info_queue)
+        info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
+    end,
+    apply = function(self, tag, context)
+        if context.type == "new_blind_choice" then
+            tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                local key = "p_mxms_horoscope_mega_1"
+                local card = Card(
+                    G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
+                    G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,
+                    G.CARD_W * 1.27,
+                    G.CARD_H * 1.27,
+                    G.P_CARDS.empty,
+                    G.P_CENTERS[key],
+                    { bypass_discovery_center = true, bypass_discovery_ui = true }
+                )
+                card.cost = 0
+                card.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = card } })
+                card:start_materialize()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end
+}
+
+--#endregion
+SMODS.Joker { -- Hype Man
+    key = 'hypeman',
+    loc_txt = {
+        name = 'Hype Man',
+        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            dollars = 1
+        }
+    },
+    blueprint_compat = false,
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars }
+        }
+    end
+}
+
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 6 or
+                context.other_card:get_id() == 7 or
+                context.other_card:get_id() == 8 or
+                context.other_card:get_id() == 9 or
+                context.other_card:get_id() == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Ocham's Razor
+    key = 'ocham',
+    loc_txt = {
+        name = 'Ocham\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 9
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
+            return {
+                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
+                message = 'x' .. G.hand.config.highlighted_limit - #context.full_hand + 1,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Schrodinger's Cat
+    key = 'schrodinger',
+    loc_txt = {
+        name = 'Schrodinger\'s Cat',
+        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { --Chekhov's Gun
+    key = 'chekhov',
+    loc_txt = {
+        name = 'Chekhov\'s Gun',
+        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
+            return {
+                Xmult_mod = G.GAME.round_resets.blind_ante,
+                message = 'x' .. G.GAME.round_resets.blind_ante,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.blind_ante <= 4 then
+            return true
+        end
+
+        return false
+    end
+}
+
+--#endregion
+
+--#region Vouchers ------------------------------------------------------------------------------------------
+
+SMODS.Voucher { -- Launch Code
+    key = 'launch_code',
+    loc_txt = {
+        name = 'Launch Code',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Warp Drive
+    key = 'warp_drive',
+    loc_txt = {
+        name = 'Warp Drive',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 2
+        }
+    },
+    requires = { 'v_mxms_launch_code' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Sharp Suit
+    key = 'sharp_suit',
+    loc_txt = {
+        name = 'Sharp Suit',
+        text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 0
+    },
+}
+
+SMODS.Voucher { -- Best Dressed
+    key = 'best_dressed',
+    loc_txt = {
+        name = 'Best Dressed',
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 1
+    },
+    config = {
+        extra = 0.2
+    },
+    requires = { 'v_mxms_sharp_suit' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
+            local suit_tally = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit(context.other_consumeable.ability.consumeable.suit_conv, false) then
+                    suit_tally = suit_tally + 1
+                end
+            end
+            if suit_tally > 0 then
+                return {
+                    x_mult = card.ability.extra * suit_tally + 1
+                }
+            end
+        end
+    end,
+}
+
+SMODS.Voucher { -- Shield
+    key = 'shield',
+    loc_txt = {
+        name = 'Shield',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+SMODS.Voucher { -- Guardian
+    key = 'guardian',
+    loc_txt = {
+        name = 'Guardian',
+        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 1
+    },
+    requires = { 'v_mxms_shield' },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+--#endregion
+
+--#region Challenges ----------------------------------------------------------------------------------------
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_psychic', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' },
+            { id = 'no_interest' }
+        },
+        modifiers = {
+            { id = 'dollars', value = 10 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'c_temperance' },
+            { id = 'c_hermit' },
+            { id = 'c_devil' },
+            { id = 'c_magician' },
+            { id = 'c_immolate' },
+            { id = 'c_talisman' },
+            { id = 'j_egg' },
+            { id = 'j_matador' },
+            { id = 'j_golden' },
+            { id = 'j_delayed_grat' },
+            { id = 'j_business' },
+            { id = 'j_faceless' },
+            { id = 'j_todo_list' },
+            { id = 'j_cloud_9' },
+            { id = 'j_rocket' },
+            { id = 'j_gift' },
+            { id = 'j_reserved_parking' },
+            { id = 'j_mail' },
+            { id = 'j_to_the_moon' },
+            { id = 'j_trading' },
+            { id = 'j_ticket' },
+            { id = 'j_rough_gem' },
+            { id = 'j_satellite' },
+            { id = 'j_mxms_gambler' },
+            { id = 'j_mxms_jackpot' },
+            { id = 'j_mxms_four_course_meal' },
+            { id = 'j_mxms_hypeman' },
+            { id = 'c_mxms_sagittarius' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'v_seed_money' },
+            { id = 'v_money_tree' },
+        },
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Tonight's Biggest Loser
+    key = 'biggest_loser',
+    loc_txt = {
+        name = 'Tonight\'s Biggest Loser'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_biggest_loser' }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_stop_sign',         edition = 'negative', eternal = true },
+        { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Picky Eater
+    key = 'picky',
+    loc_txt = {
+        name = 'Picky Eater'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_picky' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Fashion Disaster
+    key = 'fashion',
+    loc_txt = {
+        name = 'Fashion Disaster'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_random_suit_debuff' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_club',   type = 'blind' },
+            { id = 'bl_goad',   type = 'blind' },
+            { id = 'bl_head',   type = 'blind' },
+            { id = 'bl_window', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- All Stars
+    key = 'all_stars',
+    loc_txt = {
+        name = 'All Stars'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_all_rare' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'p_arcana_normal_1', ids = {
+                'p_arcana_normal_1', 'p_arcana_normal_2',
+                'p_arcana_normal_3', 'p_arcana_normal_4',
+                'p_arcana_jumbo_1', 'p_arcana_jumbo_2',
+                'p_arcana_mega_1', 'p_arcana_mega_2' }
+            },
+            { id = 'p_celestial_normal_1', ids = {
+                'p_celestial_normal_1', 'p_celestial_normal_2',
+                'p_celestial_normal_3', 'p_celestial_normal_4',
+                'p_celestial_jumbo_1', 'p_celestial_jumbo_2',
+                'p_celestial_mega_1', 'p_celestial_mega_2' }
+            },
+            { id = 'p_buffoon_normal_1', ids = {
+                'p_buffoon_normal_1', 'p_buffoon_normal_2',
+                'p_buffoon_jumbo_1', 'p_buffoon_mega_1' }
+            },
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Pay To Win
+    key = 'p2w',
+    loc_txt = {
+        name = 'Pay To Win'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_power_creep', eternal = true }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'c_fool' },
+            { id = 'c_magician' },
+            { id = 'c_high_priestess' },
+            { id = 'c_empress' },
+            { id = 'c_emperor' },
+            { id = 'c_heirophant' },
+            { id = 'c_lovers' },
+            { id = 'c_chariot' },
+            { id = 'c_justice' },
+            { id = 'c_hermit' },
+            { id = 'c_strength' },
+            { id = 'c_hanged_man' },
+            { id = 'c_death' },
+            { id = 'c_temperance' },
+            { id = 'c_devil' },
+            { id = 'c_tower' },
+            { id = 'c_star' },
+            { id = 'c_moon' },
+            { id = 'c_sun' },
+            { id = 'c_judgement' },
+            { id = 'c_world' },
+            { id = 'c_familiar' },
+            { id = 'c_grim' },
+            { id = 'c_incantation' },
+            { id = 'c_talisman' },
+            { id = 'c_wraith' },
+            { id = 'c_sigil' },
+            { id = 'c_ouija' },
+            { id = 'c_ectoplasm' },
+            { id = 'c_immolate' },
+            { id = 'c_ankh' },
+            { id = 'c_deja_vu' },
+            { id = 'c_hex' },
+            { id = 'c_trance' },
+            { id = 'c_medium' },
+            { id = 'c_cryptid' },
+            { id = 'c_soul' },
+            { id = 'c_black_hole' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'c_mxms_aquarius' },
+        },
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Zodiac Killer
+    key = 'killer',
+    loc_txt = {
+        name = 'Zodiac Killer'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_zodiac_killer' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        },
+        banned_tags = {
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+    if G.GAME.modifiers.mxms_zodiac_killer then
+        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+        new_card:add_to_deck()
+        G.mxms_horoscope:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+    end
+end
+
+local bsb = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    bsb(self, blind, reset, silent)
+    if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
+        new_card:add_to_deck()
+        G.jokers:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    end
+    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
+        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+            pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        for _, v in ipairs(G.playing_cards) do
+            self:debuff_card(v)
+        end
+    end
+end
+
+local bdc = Blind.debuff_card
+function Blind:debuff_card(card, from_blind)
+    bdc(self, card, from_blind)
+    if G.GAME.modifiers.mxms_random_suit_debuff and card.area ~= G.jokers then
+        if card:is_suit(G.GAME.modifiers.mxms_random_suit_debuff, true) then
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+            return
+        end
+    end
+end
+
+--#endregion
+
+--#region Backs ---------------------------------------------------------------------------------------------
+
+SMODS.Back { --Sixth Finger
+    key = 'sixth_finger',
+    loc_txt = {
+        name = 'Sixth Finger Deck',
+        text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change highlight limit
+        G.GAME.modifiers.mxms_highlight_limit = 6
+
+        -- Make non-secret hands visible
+        G.GAME.hands.mxms_three_pair.visible = true
+        G.GAME.hands.mxms_double_triple.visible = true
+        G.GAME.hands.mxms_s_straight.visible = true
+        G.GAME.hands.mxms_s_flush.visible = true
+        G.GAME.hands.mxms_house_party.visible = true
+        G.GAME.hands.mxms_s_straight_f.visible = true
+    end
+}
+
+SMODS.Back { --Nirvana
+    key = 'nirvana',
+    loc_txt = {
+        name = 'Nirvana Deck',
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change shop prices
+        G.GAME.shop_price_multiplier = 1.5
+
+        -- Change reroll starting price
+        G.GAME.starting_params.reroll_cost = 0
+    end
+}
+
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
+--#endregion
+
+--#region Hand Parts ----------------------------------------------------------------------------------------
+
+SMODS.PokerHandPart {
+    key = '6',
+    func = function(hand)
+        return get_X_same(6, hand)
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_flush',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            local suits = SMODS.Suit.obj_buffer
+            if #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                for j = 1, #suits do
+                    local t = {}
+                    local suit = suits[j]
+                    local flush_count = 0
+                    for i = 1, #hand do
+                        if hand[i]:is_suit(suit, nil, true) then
+                            flush_count = flush_count + 1; t[#t + 1] = hand[i]
+                        end
+                    end
+                    if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                        table.insert(ret, t)
+                        return ret
+                    end
+                end
+                return {}
+            end
+        end
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_straight',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                local t = {}
+                local IDS = {}
+                for i = 1, #hand do
+                    local id = hand[i]:get_id()
+                    if id > 1 and id < 15 then
+                        if IDS[id] then
+                            IDS[id][#IDS[id] + 1] = hand[i]
+                        else
+                            IDS[id] = { hand[i] }
+                        end
+                    end
+                end
+
+                local straight_length = 0
+                local straight = false
+                local can_skip = next(find_joker('Shortcut'))
+                local skipped_rank = false
+                for j = 1, 14 do
+                    if IDS[j == 1 and 14 or j] then
+                        straight_length = straight_length + 1
+                        skipped_rank = false
+                        for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+                            t[#t + 1] = v
+                        end
+                    elseif can_skip and not skipped_rank and j ~= 14 then
+                        skipped_rank = true
+                    else
+                        straight_length = 0
+                        skipped_rank = false
+                        if not straight then t = {} end
+                        if straight then break end
+                    end
+                    if straight_length >= (6 - (four_fingers and 1 or 0)) then straight = true end
+                end
+                if not straight then return ret end
+                table.insert(ret, t)
+                return ret
+            end
+        end
+    end
+}
+
+--#endregion
+
+--#region Hand Types ----------------------------------------------------------------------------------------
+
+SMODS.PokerHand { --Three Pair
+    key = 'three_pair',
+    mult = 4,
+    chips = 30,
+    l_mult = 1,
+    l_chips = 25,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'S_6', true },
+        { 'D_6', true }
+
+    },
+    loc_txt = {
+        name = 'Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 >= 3 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Double Triple
+    key = 'double_triple',
+    mult = 6,
+    chips = 60,
+    l_mult = 2,
+    l_chips = 35,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'C_9', true }
+
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Six of a Kind
+    key = '6oak',
+    mult = 18,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 40,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'H_K', true },
+        { 'S_K', true },
+        { 'D_K', true }
+
+    },
+    loc_txt = {
+        name = 'Six of a Kind',
+        description = {
+            "6 cards with the same rank"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and parts.mxms_6 or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight
+    key = 's_straight',
+    mult = 6,
+    chips = 50,
+    l_mult = 3,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'D_K', true },
+        { 'C_Q', true },
+        { 'H_J', true },
+        { 'S_T', true },
+        { 'D_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards in a row (consecutive ranks)"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and parts.mxms_s_straight or {}
+    end
+}
+
+SMODS.PokerHand { --Super Flush
+    key = 's_flush',
+    mult = 6,
+    chips = 55,
+    l_mult = 2,
+    l_chips = 25,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_J', true },
+        { 'S_8', true },
+        { 'S_6', true },
+        { 'S_2', true }
+
+    },
+    loc_txt = {
+        name = 'Super Flush',
+        description = {
+            "6 cards that share the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}
+    end
+}
+
+SMODS.PokerHand { --House Party
+    key = 'house_party',
+    mult = 8,
+    chips = 70,
+    l_mult = 3,
+    l_chips = 40,
+    example = {
+
+        { 'S_A', true },
+        { 'D_A', true },
+        { 'C_A', true },
+        { 'H_A', true },
+        { 'S_T', true },
+        { 'D_T', true }
+
+    },
+    loc_txt = {
+        name = 'House Party',
+        description = {
+            "A 4 of a kind and a Pair"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and
+            { SMODS.merge_lists(parts._all_pairs) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Three Pair
+    key = 'f_three_pair',
+    mult = 14,
+    chips = 150,
+    l_mult = 3,
+    l_chips = 30,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_6', true },
+        { 'S_6', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 == 3 and next(parts.mxms_s_flush) and
+            { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Double Triple
+    key = 'f_double_triple',
+    mult = 16,
+    chips = 170,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Double Triple',
+        description = {
+            "Two 3 of a Kinds with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight Flush
+    key = 's_straight_f',
+    mult = 20,
+    chips = 200,
+    l_mult = 5,
+    l_chips = 55,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_Q', true },
+        { 'S_J', true },
+        { 'S_T', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight Flush',
+        description = {
+            "A 4 of a kind and a Pair with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Party
+    key = 'f_party',
+    mult = 16,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_T', true },
+        { 'S_T', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Party',
+        description = {
+            "6 cards in a row (consecutive ranks) with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Six
+    key = 'f_6oak',
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Six',
+        description = {
+            "6 cards with the same rank with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
+    end
+}
+
+--#endregion
+
+--#region Consumables ---------------------------------------------------------------------------------------
+
+SMODS.Consumable { -- Microscopii
+    key = 'microscopii',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Microscopii',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_three_pair',
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Wasp
+    key = 'wasp',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Wasp',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_double_triple'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Pegasi
+    key = 'pegasi',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Pegasi',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Trappist
+    key = 'trappist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Trappist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 3,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Corot
+    key = 'corot',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Corot',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 4,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_flush'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Poltergeist
+    key = 'poltergeist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Poltergeist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 5,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_house_party'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Gliese
+    key = 'gliese',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Gliese',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 6,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_three_pair',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Cancri
+    key = 'cancri',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Cancri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 7,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_double_triple',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Proxima Centauri
+    key = 'proxima',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Proxima Centauri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 8,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight_f'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Phobetor
+    key = 'phobetor',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Phobetor',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 9,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_party',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { --Kepler
+    key = 'kepler',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Kepler',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 10,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+--#endregion
+
+--#region Blinds --------------------------------------------------------------------------------------------
+
+SMODS.Blind { --The Rot
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    boss_colour = HEX('A2CA4C'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuffed_by_blind do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card.debuffed_by_blind = true
+        end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end
+}
+
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 3,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    boss_colour = HEX('D9638D'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
+
+--#endregion
+
+--#region Tags ----------------------------------------------------------------------------------------------
+
+SMODS.Tag {
+    key = 'star',
+    loc_txt = {
+        name = 'Star Tag',
+        text = {
+            "Gives a free",
+            "{C:horoscope}Mega Zodiac Pack",
+        },
+    },
+    atlas = 'Tags',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    min_ante = 2,
+    config = {
+        type = 'new_blind_choice'
+    },
+    loc_vars = function(self, info_queue)
+        info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
+    end,
+    apply = function(self, tag, context)
+        if context.type == "new_blind_choice" then
+            tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                local key = "p_mxms_horoscope_mega_1"
+                local card = Card(
+                    G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
+                    G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,
+                    G.CARD_W * 1.27,
+                    G.CARD_H * 1.27,
+                    G.P_CARDS.empty,
+                    G.P_CENTERS[key],
+                    { bypass_discovery_center = true, bypass_discovery_ui = true }
+                )
+                card.cost = 0
+                card.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = card } })
+                card:start_materialize()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end
+}
+
+--#endregion
+SMODS.Joker { -- Hype Man
+    key = 'hypeman',
+    loc_txt = {
+        name = 'Hype Man',
+        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            dollars = 1
+        }
+    },
+    blueprint_compat = false,
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars }
+        }
+    end
+}
+
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 6 or
+                context.other_card:get_id() == 7 or
+                context.other_card:get_id() == 8 or
+                context.other_card:get_id() == 9 or
+                context.other_card:get_id() == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Ocham's Razor
+    key = 'ocham',
+    loc_txt = {
+        name = 'Ocham\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 9
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
+            return {
+                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
+                message = 'x' .. G.hand.config.highlighted_limit - #context.full_hand + 1,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Schrodinger's Cat
+    key = 'schrodinger',
+    loc_txt = {
+        name = 'Schrodinger\'s Cat',
+        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { --Chekhov's Gun
+    key = 'chekhov',
+    loc_txt = {
+        name = 'Chekhov\'s Gun',
+        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
+            return {
+                Xmult_mod = G.GAME.round_resets.blind_ante,
+                message = 'x' .. G.GAME.round_resets.blind_ante,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.blind_ante <= 4 then
+            return true
+        end
+
+        return false
+    end
+}
+
+--#endregion
+
+--#region Vouchers ------------------------------------------------------------------------------------------
+
+SMODS.Voucher { -- Launch Code
+    key = 'launch_code',
+    loc_txt = {
+        name = 'Launch Code',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Warp Drive
+    key = 'warp_drive',
+    loc_txt = {
+        name = 'Warp Drive',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 2
+        }
+    },
+    requires = { 'v_mxms_launch_code' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Sharp Suit
+    key = 'sharp_suit',
+    loc_txt = {
+        name = 'Sharp Suit',
+        text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 0
+    },
+}
+
+SMODS.Voucher { -- Best Dressed
+    key = 'best_dressed',
+    loc_txt = {
+        name = 'Best Dressed',
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 1
+    },
+    config = {
+        extra = 0.2
+    },
+    requires = { 'v_mxms_sharp_suit' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
+            local suit_tally = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit(context.other_consumeable.ability.consumeable.suit_conv, false) then
+                    suit_tally = suit_tally + 1
+                end
+            end
+            if suit_tally > 0 then
+                return {
+                    x_mult = card.ability.extra * suit_tally + 1
+                }
+            end
+        end
+    end,
+}
+
+SMODS.Voucher { -- Shield
+    key = 'shield',
+    loc_txt = {
+        name = 'Shield',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+SMODS.Voucher { -- Guardian
+    key = 'guardian',
+    loc_txt = {
+        name = 'Guardian',
+        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 1
+    },
+    requires = { 'v_mxms_shield' },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+--#endregion
+
+--#region Challenges ----------------------------------------------------------------------------------------
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_psychic', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' },
+            { id = 'no_interest' }
+        },
+        modifiers = {
+            { id = 'dollars', value = 10 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'c_temperance' },
+            { id = 'c_hermit' },
+            { id = 'c_devil' },
+            { id = 'c_magician' },
+            { id = 'c_immolate' },
+            { id = 'c_talisman' },
+            { id = 'j_egg' },
+            { id = 'j_matador' },
+            { id = 'j_golden' },
+            { id = 'j_delayed_grat' },
+            { id = 'j_business' },
+            { id = 'j_faceless' },
+            { id = 'j_todo_list' },
+            { id = 'j_cloud_9' },
+            { id = 'j_rocket' },
+            { id = 'j_gift' },
+            { id = 'j_reserved_parking' },
+            { id = 'j_mail' },
+            { id = 'j_to_the_moon' },
+            { id = 'j_trading' },
+            { id = 'j_ticket' },
+            { id = 'j_rough_gem' },
+            { id = 'j_satellite' },
+            { id = 'j_mxms_gambler' },
+            { id = 'j_mxms_jackpot' },
+            { id = 'j_mxms_four_course_meal' },
+            { id = 'j_mxms_hypeman' },
+            { id = 'c_mxms_sagittarius' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'v_seed_money' },
+            { id = 'v_money_tree' },
+        },
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Tonight's Biggest Loser
+    key = 'biggest_loser',
+    loc_txt = {
+        name = 'Tonight\'s Biggest Loser'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_biggest_loser' }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_stop_sign',         edition = 'negative', eternal = true },
+        { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Picky Eater
+    key = 'picky',
+    loc_txt = {
+        name = 'Picky Eater'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_picky' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Fashion Disaster
+    key = 'fashion',
+    loc_txt = {
+        name = 'Fashion Disaster'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_random_suit_debuff' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_club',   type = 'blind' },
+            { id = 'bl_goad',   type = 'blind' },
+            { id = 'bl_head',   type = 'blind' },
+            { id = 'bl_window', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- All Stars
+    key = 'all_stars',
+    loc_txt = {
+        name = 'All Stars'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_all_rare' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'p_arcana_normal_1', ids = {
+                'p_arcana_normal_1', 'p_arcana_normal_2',
+                'p_arcana_normal_3', 'p_arcana_normal_4',
+                'p_arcana_jumbo_1', 'p_arcana_jumbo_2',
+                'p_arcana_mega_1', 'p_arcana_mega_2' }
+            },
+            { id = 'p_celestial_normal_1', ids = {
+                'p_celestial_normal_1', 'p_celestial_normal_2',
+                'p_celestial_normal_3', 'p_celestial_normal_4',
+                'p_celestial_jumbo_1', 'p_celestial_jumbo_2',
+                'p_celestial_mega_1', 'p_celestial_mega_2' }
+            },
+            { id = 'p_buffoon_normal_1', ids = {
+                'p_buffoon_normal_1', 'p_buffoon_normal_2',
+                'p_buffoon_jumbo_1', 'p_buffoon_mega_1' }
+            },
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Pay To Win
+    key = 'p2w',
+    loc_txt = {
+        name = 'Pay To Win'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_power_creep', eternal = true }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'c_fool' },
+            { id = 'c_magician' },
+            { id = 'c_high_priestess' },
+            { id = 'c_empress' },
+            { id = 'c_emperor' },
+            { id = 'c_heirophant' },
+            { id = 'c_lovers' },
+            { id = 'c_chariot' },
+            { id = 'c_justice' },
+            { id = 'c_hermit' },
+            { id = 'c_strength' },
+            { id = 'c_hanged_man' },
+            { id = 'c_death' },
+            { id = 'c_temperance' },
+            { id = 'c_devil' },
+            { id = 'c_tower' },
+            { id = 'c_star' },
+            { id = 'c_moon' },
+            { id = 'c_sun' },
+            { id = 'c_judgement' },
+            { id = 'c_world' },
+            { id = 'c_familiar' },
+            { id = 'c_grim' },
+            { id = 'c_incantation' },
+            { id = 'c_talisman' },
+            { id = 'c_wraith' },
+            { id = 'c_sigil' },
+            { id = 'c_ouija' },
+            { id = 'c_ectoplasm' },
+            { id = 'c_immolate' },
+            { id = 'c_ankh' },
+            { id = 'c_deja_vu' },
+            { id = 'c_hex' },
+            { id = 'c_trance' },
+            { id = 'c_medium' },
+            { id = 'c_cryptid' },
+            { id = 'c_soul' },
+            { id = 'c_black_hole' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'c_mxms_aquarius' },
+        },
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Zodiac Killer
+    key = 'killer',
+    loc_txt = {
+        name = 'Zodiac Killer'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_zodiac_killer' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        },
+        banned_tags = {
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+    if G.GAME.modifiers.mxms_zodiac_killer then
+        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+        new_card:add_to_deck()
+        G.mxms_horoscope:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+    end
+end
+
+local bsb = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    bsb(self, blind, reset, silent)
+    if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
+        new_card:add_to_deck()
+        G.jokers:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    end
+    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
+        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+            pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        for _, v in ipairs(G.playing_cards) do
+            self:debuff_card(v)
+        end
+    end
+end
+
+local bdc = Blind.debuff_card
+function Blind:debuff_card(card, from_blind)
+    bdc(self, card, from_blind)
+    if G.GAME.modifiers.mxms_random_suit_debuff and card.area ~= G.jokers then
+        if card:is_suit(G.GAME.modifiers.mxms_random_suit_debuff, true) then
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+            return
+        end
+    end
+end
+
+--#endregion
+
+--#region Backs ---------------------------------------------------------------------------------------------
+
+SMODS.Back { --Sixth Finger
+    key = 'sixth_finger',
+    loc_txt = {
+        name = 'Sixth Finger Deck',
+        text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change highlight limit
+        G.GAME.modifiers.mxms_highlight_limit = 6
+
+        -- Make non-secret hands visible
+        G.GAME.hands.mxms_three_pair.visible = true
+        G.GAME.hands.mxms_double_triple.visible = true
+        G.GAME.hands.mxms_s_straight.visible = true
+        G.GAME.hands.mxms_s_flush.visible = true
+        G.GAME.hands.mxms_house_party.visible = true
+        G.GAME.hands.mxms_s_straight_f.visible = true
+    end
+}
+
+SMODS.Back { --Nirvana
+    key = 'nirvana',
+    loc_txt = {
+        name = 'Nirvana Deck',
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change shop prices
+        G.GAME.shop_price_multiplier = 1.5
+
+        -- Change reroll starting price
+        G.GAME.starting_params.reroll_cost = 0
+    end
+}
+
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
+--#endregion
+
+--#region Hand Parts ----------------------------------------------------------------------------------------
+
+SMODS.PokerHandPart {
+    key = '6',
+    func = function(hand)
+        return get_X_same(6, hand)
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_flush',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            local suits = SMODS.Suit.obj_buffer
+            if #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                for j = 1, #suits do
+                    local t = {}
+                    local suit = suits[j]
+                    local flush_count = 0
+                    for i = 1, #hand do
+                        if hand[i]:is_suit(suit, nil, true) then
+                            flush_count = flush_count + 1; t[#t + 1] = hand[i]
+                        end
+                    end
+                    if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                        table.insert(ret, t)
+                        return ret
+                    end
+                end
+                return {}
+            end
+        end
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_straight',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                local t = {}
+                local IDS = {}
+                for i = 1, #hand do
+                    local id = hand[i]:get_id()
+                    if id > 1 and id < 15 then
+                        if IDS[id] then
+                            IDS[id][#IDS[id] + 1] = hand[i]
+                        else
+                            IDS[id] = { hand[i] }
+                        end
+                    end
+                end
+
+                local straight_length = 0
+                local straight = false
+                local can_skip = next(find_joker('Shortcut'))
+                local skipped_rank = false
+                for j = 1, 14 do
+                    if IDS[j == 1 and 14 or j] then
+                        straight_length = straight_length + 1
+                        skipped_rank = false
+                        for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+                            t[#t + 1] = v
+                        end
+                    elseif can_skip and not skipped_rank and j ~= 14 then
+                        skipped_rank = true
+                    else
+                        straight_length = 0
+                        skipped_rank = false
+                        if not straight then t = {} end
+                        if straight then break end
+                    end
+                    if straight_length >= (6 - (four_fingers and 1 or 0)) then straight = true end
+                end
+                if not straight then return ret end
+                table.insert(ret, t)
+                return ret
+            end
+        end
+    end
+}
+
+--#endregion
+
+--#region Hand Types ----------------------------------------------------------------------------------------
+
+SMODS.PokerHand { --Three Pair
+    key = 'three_pair',
+    mult = 4,
+    chips = 30,
+    l_mult = 1,
+    l_chips = 25,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'S_6', true },
+        { 'D_6', true }
+
+    },
+    loc_txt = {
+        name = 'Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 >= 3 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Double Triple
+    key = 'double_triple',
+    mult = 6,
+    chips = 60,
+    l_mult = 2,
+    l_chips = 35,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'C_9', true }
+
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Six of a Kind
+    key = '6oak',
+    mult = 18,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 40,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'H_K', true },
+        { 'S_K', true },
+        { 'D_K', true }
+
+    },
+    loc_txt = {
+        name = 'Six of a Kind',
+        description = {
+            "6 cards with the same rank"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and parts.mxms_6 or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight
+    key = 's_straight',
+    mult = 6,
+    chips = 50,
+    l_mult = 3,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'D_K', true },
+        { 'C_Q', true },
+        { 'H_J', true },
+        { 'S_T', true },
+        { 'D_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards in a row (consecutive ranks)"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and parts.mxms_s_straight or {}
+    end
+}
+
+SMODS.PokerHand { --Super Flush
+    key = 's_flush',
+    mult = 6,
+    chips = 55,
+    l_mult = 2,
+    l_chips = 25,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_J', true },
+        { 'S_8', true },
+        { 'S_6', true },
+        { 'S_2', true }
+
+    },
+    loc_txt = {
+        name = 'Super Flush',
+        description = {
+            "6 cards that share the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}
+    end
+}
+
+SMODS.PokerHand { --House Party
+    key = 'house_party',
+    mult = 8,
+    chips = 70,
+    l_mult = 3,
+    l_chips = 40,
+    example = {
+
+        { 'S_A', true },
+        { 'D_A', true },
+        { 'C_A', true },
+        { 'H_A', true },
+        { 'S_T', true },
+        { 'D_T', true }
+
+    },
+    loc_txt = {
+        name = 'House Party',
+        description = {
+            "A 4 of a kind and a Pair"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and
+            { SMODS.merge_lists(parts._all_pairs) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Three Pair
+    key = 'f_three_pair',
+    mult = 14,
+    chips = 150,
+    l_mult = 3,
+    l_chips = 30,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_6', true },
+        { 'S_6', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 == 3 and next(parts.mxms_s_flush) and
+            { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Double Triple
+    key = 'f_double_triple',
+    mult = 16,
+    chips = 170,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Double Triple',
+        description = {
+            "Two 3 of a Kinds with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight Flush
+    key = 's_straight_f',
+    mult = 20,
+    chips = 200,
+    l_mult = 5,
+    l_chips = 55,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_Q', true },
+        { 'S_J', true },
+        { 'S_T', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight Flush',
+        description = {
+            "A 4 of a kind and a Pair with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Party
+    key = 'f_party',
+    mult = 16,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_T', true },
+        { 'S_T', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Party',
+        description = {
+            "6 cards in a row (consecutive ranks) with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Six
+    key = 'f_6oak',
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Six',
+        description = {
+            "6 cards with the same rank with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
+    end
+}
+
+--#endregion
+
+--#region Consumables ---------------------------------------------------------------------------------------
+
+SMODS.Consumable { -- Microscopii
+    key = 'microscopii',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Microscopii',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_three_pair',
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Wasp
+    key = 'wasp',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Wasp',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_double_triple'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Pegasi
+    key = 'pegasi',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Pegasi',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Trappist
+    key = 'trappist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Trappist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 3,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Corot
+    key = 'corot',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Corot',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 4,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_flush'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Poltergeist
+    key = 'poltergeist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Poltergeist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 5,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_house_party'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Gliese
+    key = 'gliese',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Gliese',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 6,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_three_pair',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Cancri
+    key = 'cancri',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Cancri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 7,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_double_triple',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Proxima Centauri
+    key = 'proxima',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Proxima Centauri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 8,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight_f'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Phobetor
+    key = 'phobetor',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Phobetor',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 9,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_party',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { --Kepler
+    key = 'kepler',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Kepler',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 10,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+--#endregion
+
+--#region Blinds --------------------------------------------------------------------------------------------
+
+SMODS.Blind { --The Rot
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    boss_colour = HEX('A2CA4C'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuffed_by_blind do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card.debuffed_by_blind = true
+        end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end
+}
+
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 3,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    boss_colour = HEX('D9638D'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
+
+--#endregion
+
+--#region Tags ----------------------------------------------------------------------------------------------
+
+SMODS.Tag {
+    key = 'star',
+    loc_txt = {
+        name = 'Star Tag',
+        text = {
+            "Gives a free",
+            "{C:horoscope}Mega Zodiac Pack",
+        },
+    },
+    atlas = 'Tags',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    min_ante = 2,
+    config = {
+        type = 'new_blind_choice'
+    },
+    loc_vars = function(self, info_queue)
+        info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
+    end,
+    apply = function(self, tag, context)
+        if context.type == "new_blind_choice" then
+            tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                local key = "p_mxms_horoscope_mega_1"
+                local card = Card(
+                    G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
+                    G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,
+                    G.CARD_W * 1.27,
+                    G.CARD_H * 1.27,
+                    G.P_CARDS.empty,
+                    G.P_CENTERS[key],
+                    { bypass_discovery_center = true, bypass_discovery_ui = true }
+                )
+                card.cost = 0
+                card.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = card } })
+                card:start_materialize()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end
+}
+
+--#endregion
+SMODS.Joker { -- Hype Man
+    key = 'hypeman',
+    loc_txt = {
+        name = 'Hype Man',
+        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            dollars = 1
+        }
+    },
+    blueprint_compat = false,
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars }
+        }
+    end
+}
+
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 6 or
+                context.other_card:get_id() == 7 or
+                context.other_card:get_id() == 8 or
+                context.other_card:get_id() == 9 or
+                context.other_card:get_id() == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Ocham's Razor
+    key = 'ocham',
+    loc_txt = {
+        name = 'Ocham\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 9
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
+            return {
+                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
+                message = 'x' .. G.hand.config.highlighted_limit - #context.full_hand + 1,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Schrodinger's Cat
+    key = 'schrodinger',
+    loc_txt = {
+        name = 'Schrodinger\'s Cat',
+        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { --Chekhov's Gun
+    key = 'chekhov',
+    loc_txt = {
+        name = 'Chekhov\'s Gun',
+        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
+            return {
+                Xmult_mod = G.GAME.round_resets.blind_ante,
+                message = 'x' .. G.GAME.round_resets.blind_ante,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.blind_ante <= 4 then
+            return true
+        end
+
+        return false
+    end
+}
+
+--#endregion
+
+--#region Vouchers ------------------------------------------------------------------------------------------
+
+SMODS.Voucher { -- Launch Code
+    key = 'launch_code',
+    loc_txt = {
+        name = 'Launch Code',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Warp Drive
+    key = 'warp_drive',
+    loc_txt = {
+        name = 'Warp Drive',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 2
+        }
+    },
+    requires = { 'v_mxms_launch_code' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Sharp Suit
+    key = 'sharp_suit',
+    loc_txt = {
+        name = 'Sharp Suit',
+        text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 0
+    },
+}
+
+SMODS.Voucher { -- Best Dressed
+    key = 'best_dressed',
+    loc_txt = {
+        name = 'Best Dressed',
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 1
+    },
+    config = {
+        extra = 0.2
+    },
+    requires = { 'v_mxms_sharp_suit' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
+            local suit_tally = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit(context.other_consumeable.ability.consumeable.suit_conv, false) then
+                    suit_tally = suit_tally + 1
+                end
+            end
+            if suit_tally > 0 then
+                return {
+                    x_mult = card.ability.extra * suit_tally + 1
+                }
+            end
+        end
+    end,
+}
+
+SMODS.Voucher { -- Shield
+    key = 'shield',
+    loc_txt = {
+        name = 'Shield',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+SMODS.Voucher { -- Guardian
+    key = 'guardian',
+    loc_txt = {
+        name = 'Guardian',
+        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 1
+    },
+    requires = { 'v_mxms_shield' },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+--#endregion
+
+--#region Challenges ----------------------------------------------------------------------------------------
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_psychic', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' },
+            { id = 'no_interest' }
+        },
+        modifiers = {
+            { id = 'dollars', value = 10 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'c_temperance' },
+            { id = 'c_hermit' },
+            { id = 'c_devil' },
+            { id = 'c_magician' },
+            { id = 'c_immolate' },
+            { id = 'c_talisman' },
+            { id = 'j_egg' },
+            { id = 'j_matador' },
+            { id = 'j_golden' },
+            { id = 'j_delayed_grat' },
+            { id = 'j_business' },
+            { id = 'j_faceless' },
+            { id = 'j_todo_list' },
+            { id = 'j_cloud_9' },
+            { id = 'j_rocket' },
+            { id = 'j_gift' },
+            { id = 'j_reserved_parking' },
+            { id = 'j_mail' },
+            { id = 'j_to_the_moon' },
+            { id = 'j_trading' },
+            { id = 'j_ticket' },
+            { id = 'j_rough_gem' },
+            { id = 'j_satellite' },
+            { id = 'j_mxms_gambler' },
+            { id = 'j_mxms_jackpot' },
+            { id = 'j_mxms_four_course_meal' },
+            { id = 'j_mxms_hypeman' },
+            { id = 'c_mxms_sagittarius' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'v_seed_money' },
+            { id = 'v_money_tree' },
+        },
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Tonight's Biggest Loser
+    key = 'biggest_loser',
+    loc_txt = {
+        name = 'Tonight\'s Biggest Loser'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_biggest_loser' }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_stop_sign',         edition = 'negative', eternal = true },
+        { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Picky Eater
+    key = 'picky',
+    loc_txt = {
+        name = 'Picky Eater'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_picky' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Fashion Disaster
+    key = 'fashion',
+    loc_txt = {
+        name = 'Fashion Disaster'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_random_suit_debuff' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_club',   type = 'blind' },
+            { id = 'bl_goad',   type = 'blind' },
+            { id = 'bl_head',   type = 'blind' },
+            { id = 'bl_window', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- All Stars
+    key = 'all_stars',
+    loc_txt = {
+        name = 'All Stars'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_all_rare' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'p_arcana_normal_1', ids = {
+                'p_arcana_normal_1', 'p_arcana_normal_2',
+                'p_arcana_normal_3', 'p_arcana_normal_4',
+                'p_arcana_jumbo_1', 'p_arcana_jumbo_2',
+                'p_arcana_mega_1', 'p_arcana_mega_2' }
+            },
+            { id = 'p_celestial_normal_1', ids = {
+                'p_celestial_normal_1', 'p_celestial_normal_2',
+                'p_celestial_normal_3', 'p_celestial_normal_4',
+                'p_celestial_jumbo_1', 'p_celestial_jumbo_2',
+                'p_celestial_mega_1', 'p_celestial_mega_2' }
+            },
+            { id = 'p_buffoon_normal_1', ids = {
+                'p_buffoon_normal_1', 'p_buffoon_normal_2',
+                'p_buffoon_jumbo_1', 'p_buffoon_mega_1' }
+            },
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Pay To Win
+    key = 'p2w',
+    loc_txt = {
+        name = 'Pay To Win'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_power_creep', eternal = true }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'c_fool' },
+            { id = 'c_magician' },
+            { id = 'c_high_priestess' },
+            { id = 'c_empress' },
+            { id = 'c_emperor' },
+            { id = 'c_heirophant' },
+            { id = 'c_lovers' },
+            { id = 'c_chariot' },
+            { id = 'c_justice' },
+            { id = 'c_hermit' },
+            { id = 'c_strength' },
+            { id = 'c_hanged_man' },
+            { id = 'c_death' },
+            { id = 'c_temperance' },
+            { id = 'c_devil' },
+            { id = 'c_tower' },
+            { id = 'c_star' },
+            { id = 'c_moon' },
+            { id = 'c_sun' },
+            { id = 'c_judgement' },
+            { id = 'c_world' },
+            { id = 'c_familiar' },
+            { id = 'c_grim' },
+            { id = 'c_incantation' },
+            { id = 'c_talisman' },
+            { id = 'c_wraith' },
+            { id = 'c_sigil' },
+            { id = 'c_ouija' },
+            { id = 'c_ectoplasm' },
+            { id = 'c_immolate' },
+            { id = 'c_ankh' },
+            { id = 'c_deja_vu' },
+            { id = 'c_hex' },
+            { id = 'c_trance' },
+            { id = 'c_medium' },
+            { id = 'c_cryptid' },
+            { id = 'c_soul' },
+            { id = 'c_black_hole' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'c_mxms_aquarius' },
+        },
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Zodiac Killer
+    key = 'killer',
+    loc_txt = {
+        name = 'Zodiac Killer'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_zodiac_killer' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        },
+        banned_tags = {
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+    if G.GAME.modifiers.mxms_zodiac_killer then
+        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+        new_card:add_to_deck()
+        G.mxms_horoscope:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+    end
+end
+
+local bsb = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    bsb(self, blind, reset, silent)
+    if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
+        new_card:add_to_deck()
+        G.jokers:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    end
+    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
+        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+            pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        for _, v in ipairs(G.playing_cards) do
+            self:debuff_card(v)
+        end
+    end
+end
+
+local bdc = Blind.debuff_card
+function Blind:debuff_card(card, from_blind)
+    bdc(self, card, from_blind)
+    if G.GAME.modifiers.mxms_random_suit_debuff and card.area ~= G.jokers then
+        if card:is_suit(G.GAME.modifiers.mxms_random_suit_debuff, true) then
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+            return
+        end
+    end
+end
+
+--#endregion
+
+--#region Backs ---------------------------------------------------------------------------------------------
+
+SMODS.Back { --Sixth Finger
+    key = 'sixth_finger',
+    loc_txt = {
+        name = 'Sixth Finger Deck',
+        text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change highlight limit
+        G.GAME.modifiers.mxms_highlight_limit = 6
+
+        -- Make non-secret hands visible
+        G.GAME.hands.mxms_three_pair.visible = true
+        G.GAME.hands.mxms_double_triple.visible = true
+        G.GAME.hands.mxms_s_straight.visible = true
+        G.GAME.hands.mxms_s_flush.visible = true
+        G.GAME.hands.mxms_house_party.visible = true
+        G.GAME.hands.mxms_s_straight_f.visible = true
+    end
+}
+
+SMODS.Back { --Nirvana
+    key = 'nirvana',
+    loc_txt = {
+        name = 'Nirvana Deck',
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change shop prices
+        G.GAME.shop_price_multiplier = 1.5
+
+        -- Change reroll starting price
+        G.GAME.starting_params.reroll_cost = 0
+    end
+}
+
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
+--#endregion
+
+--#region Hand Parts ----------------------------------------------------------------------------------------
+
+SMODS.PokerHandPart {
+    key = '6',
+    func = function(hand)
+        return get_X_same(6, hand)
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_flush',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            local suits = SMODS.Suit.obj_buffer
+            if #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                for j = 1, #suits do
+                    local t = {}
+                    local suit = suits[j]
+                    local flush_count = 0
+                    for i = 1, #hand do
+                        if hand[i]:is_suit(suit, nil, true) then
+                            flush_count = flush_count + 1; t[#t + 1] = hand[i]
+                        end
+                    end
+                    if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                        table.insert(ret, t)
+                        return ret
+                    end
+                end
+                return {}
+            end
+        end
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_straight',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                local t = {}
+                local IDS = {}
+                for i = 1, #hand do
+                    local id = hand[i]:get_id()
+                    if id > 1 and id < 15 then
+                        if IDS[id] then
+                            IDS[id][#IDS[id] + 1] = hand[i]
+                        else
+                            IDS[id] = { hand[i] }
+                        end
+                    end
+                end
+
+                local straight_length = 0
+                local straight = false
+                local can_skip = next(find_joker('Shortcut'))
+                local skipped_rank = false
+                for j = 1, 14 do
+                    if IDS[j == 1 and 14 or j] then
+                        straight_length = straight_length + 1
+                        skipped_rank = false
+                        for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+                            t[#t + 1] = v
+                        end
+                    elseif can_skip and not skipped_rank and j ~= 14 then
+                        skipped_rank = true
+                    else
+                        straight_length = 0
+                        skipped_rank = false
+                        if not straight then t = {} end
+                        if straight then break end
+                    end
+                    if straight_length >= (6 - (four_fingers and 1 or 0)) then straight = true end
+                end
+                if not straight then return ret end
+                table.insert(ret, t)
+                return ret
+            end
+        end
+    end
+}
+
+--#endregion
+
+--#region Hand Types ----------------------------------------------------------------------------------------
+
+SMODS.PokerHand { --Three Pair
+    key = 'three_pair',
+    mult = 4,
+    chips = 30,
+    l_mult = 1,
+    l_chips = 25,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'S_6', true },
+        { 'D_6', true }
+
+    },
+    loc_txt = {
+        name = 'Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 >= 3 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Double Triple
+    key = 'double_triple',
+    mult = 6,
+    chips = 60,
+    l_mult = 2,
+    l_chips = 35,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'C_9', true }
+
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Six of a Kind
+    key = '6oak',
+    mult = 18,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 40,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'H_K', true },
+        { 'S_K', true },
+        { 'D_K', true }
+
+    },
+    loc_txt = {
+        name = 'Six of a Kind',
+        description = {
+            "6 cards with the same rank"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and parts.mxms_6 or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight
+    key = 's_straight',
+    mult = 6,
+    chips = 50,
+    l_mult = 3,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'D_K', true },
+        { 'C_Q', true },
+        { 'H_J', true },
+        { 'S_T', true },
+        { 'D_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards in a row (consecutive ranks)"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and parts.mxms_s_straight or {}
+    end
+}
+
+SMODS.PokerHand { --Super Flush
+    key = 's_flush',
+    mult = 6,
+    chips = 55,
+    l_mult = 2,
+    l_chips = 25,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_J', true },
+        { 'S_8', true },
+        { 'S_6', true },
+        { 'S_2', true }
+
+    },
+    loc_txt = {
+        name = 'Super Flush',
+        description = {
+            "6 cards that share the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}
+    end
+}
+
+SMODS.PokerHand { --House Party
+    key = 'house_party',
+    mult = 8,
+    chips = 70,
+    l_mult = 3,
+    l_chips = 40,
+    example = {
+
+        { 'S_A', true },
+        { 'D_A', true },
+        { 'C_A', true },
+        { 'H_A', true },
+        { 'S_T', true },
+        { 'D_T', true }
+
+    },
+    loc_txt = {
+        name = 'House Party',
+        description = {
+            "A 4 of a kind and a Pair"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and
+            { SMODS.merge_lists(parts._all_pairs) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Three Pair
+    key = 'f_three_pair',
+    mult = 14,
+    chips = 150,
+    l_mult = 3,
+    l_chips = 30,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_6', true },
+        { 'S_6', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 == 3 and next(parts.mxms_s_flush) and
+            { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Double Triple
+    key = 'f_double_triple',
+    mult = 16,
+    chips = 170,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Double Triple',
+        description = {
+            "Two 3 of a Kinds with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight Flush
+    key = 's_straight_f',
+    mult = 20,
+    chips = 200,
+    l_mult = 5,
+    l_chips = 55,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_Q', true },
+        { 'S_J', true },
+        { 'S_T', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight Flush',
+        description = {
+            "A 4 of a kind and a Pair with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Party
+    key = 'f_party',
+    mult = 16,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_T', true },
+        { 'S_T', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Party',
+        description = {
+            "6 cards in a row (consecutive ranks) with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Six
+    key = 'f_6oak',
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Six',
+        description = {
+            "6 cards with the same rank with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
+    end
+}
+
+--#endregion
+
+--#region Consumables ---------------------------------------------------------------------------------------
+
+SMODS.Consumable { -- Microscopii
+    key = 'microscopii',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Microscopii',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_three_pair',
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Wasp
+    key = 'wasp',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Wasp',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_double_triple'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Pegasi
+    key = 'pegasi',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Pegasi',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Trappist
+    key = 'trappist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Trappist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 3,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Corot
+    key = 'corot',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Corot',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 4,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_flush'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Poltergeist
+    key = 'poltergeist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Poltergeist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 5,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_house_party'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Gliese
+    key = 'gliese',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Gliese',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 6,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_three_pair',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Cancri
+    key = 'cancri',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Cancri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 7,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_double_triple',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Proxima Centauri
+    key = 'proxima',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Proxima Centauri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 8,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight_f'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Phobetor
+    key = 'phobetor',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Phobetor',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 9,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_party',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { --Kepler
+    key = 'kepler',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Kepler',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 10,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+--#endregion
+
+--#region Blinds --------------------------------------------------------------------------------------------
+
+SMODS.Blind { --The Rot
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    boss_colour = HEX('A2CA4C'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuffed_by_blind do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card.debuffed_by_blind = true
+        end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end
+}
+
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 3,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    boss_colour = HEX('D9638D'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
+
+--#endregion
+
+--#region Tags ----------------------------------------------------------------------------------------------
+
+SMODS.Tag {
+    key = 'star',
+    loc_txt = {
+        name = 'Star Tag',
+        text = {
+            "Gives a free",
+            "{C:horoscope}Mega Zodiac Pack",
+        },
+    },
+    atlas = 'Tags',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    min_ante = 2,
+    config = {
+        type = 'new_blind_choice'
+    },
+    loc_vars = function(self, info_queue)
+        info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
+    end,
+    apply = function(self, tag, context)
+        if context.type == "new_blind_choice" then
+            tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                local key = "p_mxms_horoscope_mega_1"
+                local card = Card(
+                    G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
+                    G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,
+                    G.CARD_W * 1.27,
+                    G.CARD_H * 1.27,
+                    G.P_CARDS.empty,
+                    G.P_CENTERS[key],
+                    { bypass_discovery_center = true, bypass_discovery_ui = true }
+                )
+                card.cost = 0
+                card.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = card } })
+                card:start_materialize()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end
+}
+
+--#endregion
+SMODS.Joker { -- Hype Man
+    key = 'hypeman',
+    loc_txt = {
+        name = 'Hype Man',
+        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            dollars = 1
+        }
+    },
+    blueprint_compat = false,
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars }
+        }
+    end
+}
+
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 6 or
+                context.other_card:get_id() == 7 or
+                context.other_card:get_id() == 8 or
+                context.other_card:get_id() == 9 or
+                context.other_card:get_id() == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Ocham's Razor
+    key = 'ocham',
+    loc_txt = {
+        name = 'Ocham\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 9
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
+            return {
+                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
+                message = 'x' .. G.hand.config.highlighted_limit - #context.full_hand + 1,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Schrodinger's Cat
+    key = 'schrodinger',
+    loc_txt = {
+        name = 'Schrodinger\'s Cat',
+        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { --Chekhov's Gun
+    key = 'chekhov',
+    loc_txt = {
+        name = 'Chekhov\'s Gun',
+        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
+            return {
+                Xmult_mod = G.GAME.round_resets.blind_ante,
+                message = 'x' .. G.GAME.round_resets.blind_ante,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.blind_ante <= 4 then
+            return true
+        end
+
+        return false
+    end
+}
+
+--#endregion
+
+--#region Vouchers ------------------------------------------------------------------------------------------
+
+SMODS.Voucher { -- Launch Code
+    key = 'launch_code',
+    loc_txt = {
+        name = 'Launch Code',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Warp Drive
+    key = 'warp_drive',
+    loc_txt = {
+        name = 'Warp Drive',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 2
+        }
+    },
+    requires = { 'v_mxms_launch_code' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Sharp Suit
+    key = 'sharp_suit',
+    loc_txt = {
+        name = 'Sharp Suit',
+        text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 0
+    },
+}
+
+SMODS.Voucher { -- Best Dressed
+    key = 'best_dressed',
+    loc_txt = {
+        name = 'Best Dressed',
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 1
+    },
+    config = {
+        extra = 0.2
+    },
+    requires = { 'v_mxms_sharp_suit' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
+            local suit_tally = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit(context.other_consumeable.ability.consumeable.suit_conv, false) then
+                    suit_tally = suit_tally + 1
+                end
+            end
+            if suit_tally > 0 then
+                return {
+                    x_mult = card.ability.extra * suit_tally + 1
+                }
+            end
+        end
+    end,
+}
+
+SMODS.Voucher { -- Shield
+    key = 'shield',
+    loc_txt = {
+        name = 'Shield',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+SMODS.Voucher { -- Guardian
+    key = 'guardian',
+    loc_txt = {
+        name = 'Guardian',
+        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 1
+    },
+    requires = { 'v_mxms_shield' },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+--#endregion
+
+--#region Challenges ----------------------------------------------------------------------------------------
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_psychic', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' },
+            { id = 'no_interest' }
+        },
+        modifiers = {
+            { id = 'dollars', value = 10 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'c_temperance' },
+            { id = 'c_hermit' },
+            { id = 'c_devil' },
+            { id = 'c_magician' },
+            { id = 'c_immolate' },
+            { id = 'c_talisman' },
+            { id = 'j_egg' },
+            { id = 'j_matador' },
+            { id = 'j_golden' },
+            { id = 'j_delayed_grat' },
+            { id = 'j_business' },
+            { id = 'j_faceless' },
+            { id = 'j_todo_list' },
+            { id = 'j_cloud_9' },
+            { id = 'j_rocket' },
+            { id = 'j_gift' },
+            { id = 'j_reserved_parking' },
+            { id = 'j_mail' },
+            { id = 'j_to_the_moon' },
+            { id = 'j_trading' },
+            { id = 'j_ticket' },
+            { id = 'j_rough_gem' },
+            { id = 'j_satellite' },
+            { id = 'j_mxms_gambler' },
+            { id = 'j_mxms_jackpot' },
+            { id = 'j_mxms_four_course_meal' },
+            { id = 'j_mxms_hypeman' },
+            { id = 'c_mxms_sagittarius' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'v_seed_money' },
+            { id = 'v_money_tree' },
+        },
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Tonight's Biggest Loser
+    key = 'biggest_loser',
+    loc_txt = {
+        name = 'Tonight\'s Biggest Loser'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_biggest_loser' }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_stop_sign',         edition = 'negative', eternal = true },
+        { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Picky Eater
+    key = 'picky',
+    loc_txt = {
+        name = 'Picky Eater'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_picky' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Fashion Disaster
+    key = 'fashion',
+    loc_txt = {
+        name = 'Fashion Disaster'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_random_suit_debuff' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_club',   type = 'blind' },
+            { id = 'bl_goad',   type = 'blind' },
+            { id = 'bl_head',   type = 'blind' },
+            { id = 'bl_window', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- All Stars
+    key = 'all_stars',
+    loc_txt = {
+        name = 'All Stars'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_all_rare' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'p_arcana_normal_1', ids = {
+                'p_arcana_normal_1', 'p_arcana_normal_2',
+                'p_arcana_normal_3', 'p_arcana_normal_4',
+                'p_arcana_jumbo_1', 'p_arcana_jumbo_2',
+                'p_arcana_mega_1', 'p_arcana_mega_2' }
+            },
+            { id = 'p_celestial_normal_1', ids = {
+                'p_celestial_normal_1', 'p_celestial_normal_2',
+                'p_celestial_normal_3', 'p_celestial_normal_4',
+                'p_celestial_jumbo_1', 'p_celestial_jumbo_2',
+                'p_celestial_mega_1', 'p_celestial_mega_2' }
+            },
+            { id = 'p_buffoon_normal_1', ids = {
+                'p_buffoon_normal_1', 'p_buffoon_normal_2',
+                'p_buffoon_jumbo_1', 'p_buffoon_mega_1' }
+            },
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Pay To Win
+    key = 'p2w',
+    loc_txt = {
+        name = 'Pay To Win'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_power_creep', eternal = true }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'c_fool' },
+            { id = 'c_magician' },
+            { id = 'c_high_priestess' },
+            { id = 'c_empress' },
+            { id = 'c_emperor' },
+            { id = 'c_heirophant' },
+            { id = 'c_lovers' },
+            { id = 'c_chariot' },
+            { id = 'c_justice' },
+            { id = 'c_hermit' },
+            { id = 'c_strength' },
+            { id = 'c_hanged_man' },
+            { id = 'c_death' },
+            { id = 'c_temperance' },
+            { id = 'c_devil' },
+            { id = 'c_tower' },
+            { id = 'c_star' },
+            { id = 'c_moon' },
+            { id = 'c_sun' },
+            { id = 'c_judgement' },
+            { id = 'c_world' },
+            { id = 'c_familiar' },
+            { id = 'c_grim' },
+            { id = 'c_incantation' },
+            { id = 'c_talisman' },
+            { id = 'c_wraith' },
+            { id = 'c_sigil' },
+            { id = 'c_ouija' },
+            { id = 'c_ectoplasm' },
+            { id = 'c_immolate' },
+            { id = 'c_ankh' },
+            { id = 'c_deja_vu' },
+            { id = 'c_hex' },
+            { id = 'c_trance' },
+            { id = 'c_medium' },
+            { id = 'c_cryptid' },
+            { id = 'c_soul' },
+            { id = 'c_black_hole' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'c_mxms_aquarius' },
+        },
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Zodiac Killer
+    key = 'killer',
+    loc_txt = {
+        name = 'Zodiac Killer'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_zodiac_killer' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        },
+        banned_tags = {
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+    if G.GAME.modifiers.mxms_zodiac_killer then
+        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+        new_card:add_to_deck()
+        G.mxms_horoscope:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+    end
+end
+
+local bsb = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    bsb(self, blind, reset, silent)
+    if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
+        new_card:add_to_deck()
+        G.jokers:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    end
+    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
+        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+            pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        for _, v in ipairs(G.playing_cards) do
+            self:debuff_card(v)
+        end
+    end
+end
+
+local bdc = Blind.debuff_card
+function Blind:debuff_card(card, from_blind)
+    bdc(self, card, from_blind)
+    if G.GAME.modifiers.mxms_random_suit_debuff and card.area ~= G.jokers then
+        if card:is_suit(G.GAME.modifiers.mxms_random_suit_debuff, true) then
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+            return
+        end
+    end
+end
+
+--#endregion
+
+--#region Backs ---------------------------------------------------------------------------------------------
+
+SMODS.Back { --Sixth Finger
+    key = 'sixth_finger',
+    loc_txt = {
+        name = 'Sixth Finger Deck',
+        text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change highlight limit
+        G.GAME.modifiers.mxms_highlight_limit = 6
+
+        -- Make non-secret hands visible
+        G.GAME.hands.mxms_three_pair.visible = true
+        G.GAME.hands.mxms_double_triple.visible = true
+        G.GAME.hands.mxms_s_straight.visible = true
+        G.GAME.hands.mxms_s_flush.visible = true
+        G.GAME.hands.mxms_house_party.visible = true
+        G.GAME.hands.mxms_s_straight_f.visible = true
+    end
+}
+
+SMODS.Back { --Nirvana
+    key = 'nirvana',
+    loc_txt = {
+        name = 'Nirvana Deck',
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change shop prices
+        G.GAME.shop_price_multiplier = 1.5
+
+        -- Change reroll starting price
+        G.GAME.starting_params.reroll_cost = 0
+    end
+}
+
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
+--#endregion
+
+--#region Hand Parts ----------------------------------------------------------------------------------------
+
+SMODS.PokerHandPart {
+    key = '6',
+    func = function(hand)
+        return get_X_same(6, hand)
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_flush',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            local suits = SMODS.Suit.obj_buffer
+            if #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                for j = 1, #suits do
+                    local t = {}
+                    local suit = suits[j]
+                    local flush_count = 0
+                    for i = 1, #hand do
+                        if hand[i]:is_suit(suit, nil, true) then
+                            flush_count = flush_count + 1; t[#t + 1] = hand[i]
+                        end
+                    end
+                    if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                        table.insert(ret, t)
+                        return ret
+                    end
+                end
+                return {}
+            end
+        end
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_straight',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                local t = {}
+                local IDS = {}
+                for i = 1, #hand do
+                    local id = hand[i]:get_id()
+                    if id > 1 and id < 15 then
+                        if IDS[id] then
+                            IDS[id][#IDS[id] + 1] = hand[i]
+                        else
+                            IDS[id] = { hand[i] }
+                        end
+                    end
+                end
+
+                local straight_length = 0
+                local straight = false
+                local can_skip = next(find_joker('Shortcut'))
+                local skipped_rank = false
+                for j = 1, 14 do
+                    if IDS[j == 1 and 14 or j] then
+                        straight_length = straight_length + 1
+                        skipped_rank = false
+                        for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+                            t[#t + 1] = v
+                        end
+                    elseif can_skip and not skipped_rank and j ~= 14 then
+                        skipped_rank = true
+                    else
+                        straight_length = 0
+                        skipped_rank = false
+                        if not straight then t = {} end
+                        if straight then break end
+                    end
+                    if straight_length >= (6 - (four_fingers and 1 or 0)) then straight = true end
+                end
+                if not straight then return ret end
+                table.insert(ret, t)
+                return ret
+            end
+        end
+    end
+}
+
+--#endregion
+
+--#region Hand Types ----------------------------------------------------------------------------------------
+
+SMODS.PokerHand { --Three Pair
+    key = 'three_pair',
+    mult = 4,
+    chips = 30,
+    l_mult = 1,
+    l_chips = 25,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'S_6', true },
+        { 'D_6', true }
+
+    },
+    loc_txt = {
+        name = 'Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 >= 3 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Double Triple
+    key = 'double_triple',
+    mult = 6,
+    chips = 60,
+    l_mult = 2,
+    l_chips = 35,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'S_9', true },
+        { 'D_9', true },
+        { 'C_9', true }
+
+    },
+    loc_txt = {
+        name = 'Double Triple',
+        description = {
+            "Two 3 of a Kinds"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and parts._all_pairs or {}
+    end
+}
+
+SMODS.PokerHand { --Six of a Kind
+    key = '6oak',
+    mult = 18,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 40,
+    example = {
+
+        { 'S_K', true },
+        { 'D_K', true },
+        { 'C_K', true },
+        { 'H_K', true },
+        { 'S_K', true },
+        { 'D_K', true }
+
+    },
+    loc_txt = {
+        name = 'Six of a Kind',
+        description = {
+            "6 cards with the same rank"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and parts.mxms_6 or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight
+    key = 's_straight',
+    mult = 6,
+    chips = 50,
+    l_mult = 3,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'D_K', true },
+        { 'C_Q', true },
+        { 'H_J', true },
+        { 'S_T', true },
+        { 'D_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight',
+        description = {
+            "6 cards in a row (consecutive ranks)"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and parts.mxms_s_straight or {}
+    end
+}
+
+SMODS.PokerHand { --Super Flush
+    key = 's_flush',
+    mult = 6,
+    chips = 55,
+    l_mult = 2,
+    l_chips = 25,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_J', true },
+        { 'S_8', true },
+        { 'S_6', true },
+        { 'S_2', true }
+
+    },
+    loc_txt = {
+        name = 'Super Flush',
+        description = {
+            "6 cards that share the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}
+    end
+}
+
+SMODS.PokerHand { --House Party
+    key = 'house_party',
+    mult = 8,
+    chips = 70,
+    l_mult = 3,
+    l_chips = 40,
+    example = {
+
+        { 'S_A', true },
+        { 'D_A', true },
+        { 'C_A', true },
+        { 'H_A', true },
+        { 'S_T', true },
+        { 'D_T', true }
+
+    },
+    loc_txt = {
+        name = 'House Party',
+        description = {
+            "A 4 of a kind and a Pair"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and
+            { SMODS.merge_lists(parts._all_pairs) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Three Pair
+    key = 'f_three_pair',
+    mult = 14,
+    chips = 150,
+    l_mult = 3,
+    l_chips = 30,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_6', true },
+        { 'S_6', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Three Pair',
+        description = {
+            "3 Pairs of cards with different ranks with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._2 == 3 and next(parts.mxms_s_flush) and
+            { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Double Triple
+    key = 'f_double_triple',
+    mult = 16,
+    chips = 170,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_9', true },
+        { 'S_9', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Double Triple',
+        description = {
+            "Two 3 of a Kinds with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return #parts._3 >= 2 and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Super Straight Flush
+    key = 's_straight_f',
+    mult = 20,
+    chips = 200,
+    l_mult = 5,
+    l_chips = 55,
+    example = {
+
+        { 'S_A', true },
+        { 'S_K', true },
+        { 'S_Q', true },
+        { 'S_J', true },
+        { 'S_T', true },
+        { 'S_9', true }
+
+    },
+    loc_txt = {
+        name = 'Super Straight Flush',
+        description = {
+            "A 4 of a kind and a Pair with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Party
+    key = 'f_party',
+    mult = 16,
+    chips = 180,
+    l_mult = 4,
+    l_chips = 50,
+    example = {
+
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_A', true },
+        { 'S_T', true },
+        { 'S_T', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Party',
+        description = {
+            "6 cards in a row (consecutive ranks) with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        if #parts._4 < 1 or #parts._2 < 2 then return {} end
+        return #hand >= 6 and next(parts._2) and next(parts._4) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts._all_pairs, parts.mxms_s_flush) } or {}
+    end
+}
+
+SMODS.PokerHand { --Flush Six
+    key = 'f_6oak',
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Six',
+        description = {
+            "6 cards with the same rank with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
+    end
+}
+
+--#endregion
+
+--#region Consumables ---------------------------------------------------------------------------------------
+
+SMODS.Consumable { -- Microscopii
+    key = 'microscopii',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Microscopii',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_three_pair',
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Wasp
+    key = 'wasp',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Wasp',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_double_triple'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Pegasi
+    key = 'pegasi',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Pegasi',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Trappist
+    key = 'trappist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Trappist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 3,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Corot
+    key = 'corot',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Corot',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 4,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_flush'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Poltergeist
+    key = 'poltergeist',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Poltergeist',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 5,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_house_party'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Gliese
+    key = 'gliese',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Gliese',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 6,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_three_pair',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Cancri
+    key = 'cancri',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Cancri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 7,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_double_triple',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Proxima Centauri
+    key = 'proxima',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Proxima Centauri',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 8,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_s_straight_f'
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { -- Phobetor
+    key = 'phobetor',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Phobetor',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 9,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_party',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+SMODS.Consumable { --Kepler
+    key = 'kepler',
+    set = 'Planet',
+    loc_txt = {
+        name = 'Kepler',
+        text = {
+            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+            "{C:attention}#2#",
+            "{C:mult}+#3#{} Mult and",
+            "{C:chips}+#4#{} chips",
+        },
+    },
+    atlas = 'Consumables',
+    pos = {
+        x = 10,
+        y = 0
+    },
+    config = {
+        hand_type = 'mxms_f_6oak',
+        softlock = true
+    },
+    cost = 4,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars =
+            {
+                G.GAME.hands[center.ability.hand_type].level,
+                localize(center.ability.hand_type, "poker_hands"),
+                G.GAME.hands[center.ability.hand_type].l_mult,
+                G.GAME.hands[center.ability.hand_type].l_chips,
+                colours = {
+                    (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                }
+            },
+        }
+    end,
+    in_pool = function(self, args)
+        if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            return true
+        end
+
+        return false
+    end,
+    set_card_type_badge = function(self, card, badges)
+        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+    end
+}
+
+--#endregion
+
+--#region Blinds --------------------------------------------------------------------------------------------
+
+SMODS.Blind { --The Rot
+    key = 'rot',
+    loc_txt = {
+        name = 'The Rot',
+        text = { '1/4 of cards in deck', 'are debuffed at random' }
+    },
+    boss = {
+        min = 1,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    boss_colour = HEX('A2CA4C'),
+    set_blind = function(self)
+        for i = 1, #G.playing_cards / 4 do
+            local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]
+            local j = 1
+            while card.debuffed_by_blind do
+                card = G.playing_cards[pseudorandom(pseudoseed('rotcard_reroll' .. j), 1, #G.playing_cards)]
+                j = j + 1
+            end
+            card.debuffed_by_blind = true
+        end
+    end,
+    recalc_debuff = function(self, card, from_blind)
+        if card.debuffed_by_blind then
+            return true
+        else
+            return false
+        end
+    end,
+    disable = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end,
+    defeat = function(self)
+        for k, v in pairs(G.playing_cards) do
+            if v.debuffed_by_blind then
+                v:set_debuff(); v.debuffed_by_blind = nil
+            end
+        end
+        self.triggered = false
+    end
+}
+
+SMODS.Blind { --The Grinder
+    key = 'grinder',
+    loc_txt = {
+        name = 'The Grinder',
+        text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
+    },
+    boss = {
+        min = 3,
+        max = 10
+    },
+    atlas = 'Blinds',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    boss_colour = HEX('D9638D'),
+    after_scoring = function(self)
+        for k, v in ipairs(G.play.cards) do
+            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        v:set_ability(G.P_CENTERS.c_base)
+                        v:set_seal(nil, nil, true)
+                        v:set_edition(nil, true)
+                        v:juice_up(0.3, 0.4)
+                        play_sound('tarot2')
+                        return true
+                    end
+                }))
+                card_eval_status_text(v, 'extra', nil, nil, nil, { message = 'Grinded' })
+            end
+        end
+    end
+}
+
+-- after_scoring hook; derived from Ortalab
+local draw_discard = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+    local obj = G.GAME.blind.config.blind
+    if obj.after_scoring and not G.GAME.blind.disabled then
+        obj:after_scoring()
+    end
+    draw_discard(e)
+end
+
+--#endregion
+
+--#region Tags ----------------------------------------------------------------------------------------------
+
+SMODS.Tag {
+    key = 'star',
+    loc_txt = {
+        name = 'Star Tag',
+        text = {
+            "Gives a free",
+            "{C:horoscope}Mega Zodiac Pack",
+        },
+    },
+    atlas = 'Tags',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    min_ante = 2,
+    config = {
+        type = 'new_blind_choice'
+    },
+    loc_vars = function(self, info_queue)
+        info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
+    end,
+    apply = function(self, tag, context)
+        if context.type == "new_blind_choice" then
+            tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                local key = "p_mxms_horoscope_mega_1"
+                local card = Card(
+                    G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
+                    G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,
+                    G.CARD_W * 1.27,
+                    G.CARD_H * 1.27,
+                    G.P_CARDS.empty,
+                    G.P_CENTERS[key],
+                    { bypass_discovery_center = true, bypass_discovery_ui = true }
+                )
+                card.cost = 0
+                card.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = card } })
+                card:start_materialize()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end
+}
+
+--#endregion
+SMODS.Joker { -- Hype Man
+    key = 'hypeman',
+    loc_txt = {
+        name = 'Hype Man',
+        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 6,
+        y = 9
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            dollars = 1
+        }
+    },
+    blueprint_compat = false,
+    cost = 6,
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.dollars }
+        }
+    end
+}
+
+SMODS.Joker { -- Game Review
+    key = 'review',
+    loc_txt = {
+        name = 'Game Review',
+        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 7,
+        y = 9
+    },
+    rarity = 2,
+    config = {
+        extra = 1
+    },
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_id() == 6 or
+                context.other_card:get_id() == 7 or
+                context.other_card:get_id() == 8 or
+                context.other_card:get_id() == 9 or
+                context.other_card:get_id() == 10 then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra,
+                    card = card
+                }
+            end
+        end
+    end
+}
+
+SMODS.Joker { -- Ocham's Razor
+    key = 'ocham',
+    loc_txt = {
+        name = 'Ocham\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 8,
+        y = 9
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
+            return {
+                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
+                message = 'x' .. G.hand.config.highlighted_limit - #context.full_hand + 1,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { -- Schrodinger's Cat
+    key = 'schrodinger',
+    loc_txt = {
+        name = 'Schrodinger\'s Cat',
+        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 0,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.ability then
+            return {
+                message = localize('k_again_ex'),
+                repetitions = 1,
+                card = card
+            }
+        end
+    end
+}
+
+SMODS.Joker { --Chekhov's Gun
+    key = 'chekhov',
+    loc_txt = {
+        name = 'Chekhov\'s Gun',
+        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 1,
+        y = 10
+    },
+    rarity = 3,
+    blueprint_compat = true,
+    cost = 6,
+    calculate = function(self, card, context)
+        if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
+            return {
+                Xmult_mod = G.GAME.round_resets.blind_ante,
+                message = 'x' .. G.GAME.round_resets.blind_ante,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.blind_ante <= 4 then
+            return true
+        end
+
+        return false
+    end
+}
+
+--#endregion
+
+--#region Vouchers ------------------------------------------------------------------------------------------
+
+SMODS.Voucher { -- Launch Code
+    key = 'launch_code',
+    loc_txt = {
+        name = 'Launch Code',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 1
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card, from_debuff)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Warp Drive
+    key = 'warp_drive',
+    loc_txt = {
+        name = 'Warp Drive',
+        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    config = {
+        extra = {
+            ante_mod = 1,
+            val_mod = 2
+        }
+    },
+    requires = { 'v_mxms_launch_code' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+        }
+    end,
+    redeem = function(self, card)
+        ease_ante(card.ability.extra.ante_mod)
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
+        ease_hands_played(card.ability.extra.val_mod)
+
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
+        ease_discard(card.ability.extra.val_mod)
+    end,
+    in_pool = function(self, args)
+        if G.GAME.round_resets.ante == G.GAME.win_ante then
+            return false
+        end
+
+        return true
+    end
+}
+
+SMODS.Voucher { -- Sharp Suit
+    key = 'sharp_suit',
+    loc_txt = {
+        name = 'Sharp Suit',
+        text = { '{C:attention}Arcana Packs{} always', 'contain the {C:tarot}Tarot{}', 'card for the {C:attention}most', '{C:attention}numerous suit{} in', 'your deck' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 0
+    },
+}
+
+SMODS.Voucher { -- Best Dressed
+    key = 'best_dressed',
+    loc_txt = {
+        name = 'Best Dressed',
+        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 1,
+        y = 1
+    },
+    config = {
+        extra = 0.2
+    },
+    requires = { 'v_mxms_sharp_suit' },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
+            local suit_tally = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit(context.other_consumeable.ability.consumeable.suit_conv, false) then
+                    suit_tally = suit_tally + 1
+                end
+            end
+            if suit_tally > 0 then
+                return {
+                    x_mult = card.ability.extra * suit_tally + 1
+                }
+            end
+        end
+    end,
+}
+
+SMODS.Voucher { -- Shield
+    key = 'shield',
+    loc_txt = {
+        name = 'Shield',
+        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+SMODS.Voucher { -- Guardian
+    key = 'guardian',
+    loc_txt = {
+        name = 'Guardian',
+        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
+    },
+    atlas = 'Vouchers',
+    pos = {
+        x = 2,
+        y = 1
+    },
+    requires = { 'v_mxms_shield' },
+    redeem = function(self, card, from_debuff)
+        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+    end
+}
+
+--#endregion
+
+--#region Challenges ----------------------------------------------------------------------------------------
+
+SMODS.Challenge { -- The 52 Commandments
+    key = '52_commandments',
+    loc_txt = {
+        name = 'The 52 Commandments'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_size', value = 2 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_hammer_and_chisel', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        enhancement = 'm_stone'
+    }
+}
+
+SMODS.Challenge { -- Stardust Crusaders
+    key = 'crusaders',
+    loc_txt = {
+        name = 'Stardust Crusaders'
+    },
+    rules = {},
+    jokers = {},
+    vouchers = {
+        { id = 'v_tarot_merchant' }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'v_magic_trick' },
+            { id = 'v_illusion' },
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'j_dna' },
+            { id = 'c_cryptid' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck',
+        cards = {
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" },
+            { s = "D", r = "K" }
+        }
+    }
+}
+
+SMODS.Challenge { -- Overgrowth
+    key = 'overgrowth',
+    loc_txt = {
+        name = 'Overgrowth'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_X_blind_scale', value = 8 }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_soil', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- It's Hip to be Square
+    key = 'square',
+    loc_txt = {
+        name = 'It\'s Hip to be Square'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_highlight_limit', value = 4 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_psychic', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Let's Go Gambling!
+    key = 'gambling',
+    loc_txt = {
+        name = 'Let\'s Go Gambling!'
+    },
+    rules = {
+        custom = {
+            { id = 'no_extra_hand_money' },
+            { id = 'no_reward' },
+            { id = 'no_interest' }
+        },
+        modifiers = {
+            { id = 'dollars', value = 10 }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'c_temperance' },
+            { id = 'c_hermit' },
+            { id = 'c_devil' },
+            { id = 'c_magician' },
+            { id = 'c_immolate' },
+            { id = 'c_talisman' },
+            { id = 'j_egg' },
+            { id = 'j_matador' },
+            { id = 'j_golden' },
+            { id = 'j_delayed_grat' },
+            { id = 'j_business' },
+            { id = 'j_faceless' },
+            { id = 'j_todo_list' },
+            { id = 'j_cloud_9' },
+            { id = 'j_rocket' },
+            { id = 'j_gift' },
+            { id = 'j_reserved_parking' },
+            { id = 'j_mail' },
+            { id = 'j_to_the_moon' },
+            { id = 'j_trading' },
+            { id = 'j_ticket' },
+            { id = 'j_rough_gem' },
+            { id = 'j_satellite' },
+            { id = 'j_mxms_gambler' },
+            { id = 'j_mxms_jackpot' },
+            { id = 'j_mxms_four_course_meal' },
+            { id = 'j_mxms_hypeman' },
+            { id = 'c_mxms_sagittarius' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'v_seed_money' },
+            { id = 'v_money_tree' },
+        },
+        banned_tags = {
+            { id = 'tag_uncommon' },
+            { id = 'tag_rare' },
+            { id = 'tag_negative' },
+            { id = 'tag_foil' },
+            { id = 'tag_holo' },
+            { id = 'tag_polychrome' },
+            { id = 'tag_voucher' },
+            { id = 'tag_boss' },
+            { id = 'tag_standard' },
+            { id = 'tag_charm' },
+            { id = 'tag_meteor' },
+            { id = 'tag_buffoon' },
+            { id = 'tag_handy' },
+            { id = 'tag_garbage' },
+            { id = 'tag_ethereal' },
+            { id = 'tag_coupon' },
+            { id = 'tag_double' },
+            { id = 'tag_juggle' },
+            { id = 'tag_d_six' },
+            { id = 'tag_top_up' },
+            { id = 'tag_orbital' },
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Target Practice
+    key = 'target_practice',
+    loc_txt = {
+        name = 'Target Practice'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_bullseye_requirement', value = 500 }
+        }
+    },
+    jokers = {
+        { id = 'j_mr_bones',      edition = 'negative' },
+        { id = 'j_mxms_bullseye', edition = 'negative', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Tonight's Biggest Loser
+    key = 'biggest_loser',
+    loc_txt = {
+        name = 'Tonight\'s Biggest Loser'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_biggest_loser' }
+        }
+    },
+    jokers = {
+        { id = 'j_mxms_stop_sign',         edition = 'negative', eternal = true },
+        { id = 'j_mxms_impractical_joker', edition = 'negative', eternal = true, posted = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Picky Eater
+    key = 'picky',
+    loc_txt = {
+        name = 'Picky Eater'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_picky' }
+        }
+    },
+    jokers = {},
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Fashion Disaster
+    key = 'fashion',
+    loc_txt = {
+        name = 'Fashion Disaster'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_random_suit_debuff' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_other = {
+            { id = 'bl_club',   type = 'blind' },
+            { id = 'bl_goad',   type = 'blind' },
+            { id = 'bl_head',   type = 'blind' },
+            { id = 'bl_window', type = 'blind' }
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- All Stars
+    key = 'all_stars',
+    loc_txt = {
+        name = 'All Stars'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_all_rare' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_standard_normal_1', ids = {
+                'p_standard_normal_1', 'p_standard_normal_2',
+                'p_standard_normal_3', 'p_standard_normal_4',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
+                'p_standard_mega_1', 'p_standard_mega_2' }
+            },
+            { id = 'p_arcana_normal_1', ids = {
+                'p_arcana_normal_1', 'p_arcana_normal_2',
+                'p_arcana_normal_3', 'p_arcana_normal_4',
+                'p_arcana_jumbo_1', 'p_arcana_jumbo_2',
+                'p_arcana_mega_1', 'p_arcana_mega_2' }
+            },
+            { id = 'p_celestial_normal_1', ids = {
+                'p_celestial_normal_1', 'p_celestial_normal_2',
+                'p_celestial_normal_3', 'p_celestial_normal_4',
+                'p_celestial_jumbo_1', 'p_celestial_jumbo_2',
+                'p_celestial_mega_1', 'p_celestial_mega_2' }
+            },
+            { id = 'p_buffoon_normal_1', ids = {
+                'p_buffoon_normal_1', 'p_buffoon_normal_2',
+                'p_buffoon_jumbo_1', 'p_buffoon_mega_1' }
+            },
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Pay To Win
+    key = 'p2w',
+    loc_txt = {
+        name = 'Pay To Win'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_power_creep', eternal = true }
+    },
+    restrictions = {
+        banned_cards = {
+            { id = 'c_fool' },
+            { id = 'c_magician' },
+            { id = 'c_high_priestess' },
+            { id = 'c_empress' },
+            { id = 'c_emperor' },
+            { id = 'c_heirophant' },
+            { id = 'c_lovers' },
+            { id = 'c_chariot' },
+            { id = 'c_justice' },
+            { id = 'c_hermit' },
+            { id = 'c_strength' },
+            { id = 'c_hanged_man' },
+            { id = 'c_death' },
+            { id = 'c_temperance' },
+            { id = 'c_devil' },
+            { id = 'c_tower' },
+            { id = 'c_star' },
+            { id = 'c_moon' },
+            { id = 'c_sun' },
+            { id = 'c_judgement' },
+            { id = 'c_world' },
+            { id = 'c_familiar' },
+            { id = 'c_grim' },
+            { id = 'c_incantation' },
+            { id = 'c_talisman' },
+            { id = 'c_wraith' },
+            { id = 'c_sigil' },
+            { id = 'c_ouija' },
+            { id = 'c_ectoplasm' },
+            { id = 'c_immolate' },
+            { id = 'c_ankh' },
+            { id = 'c_deja_vu' },
+            { id = 'c_hex' },
+            { id = 'c_trance' },
+            { id = 'c_medium' },
+            { id = 'c_cryptid' },
+            { id = 'c_soul' },
+            { id = 'c_black_hole' },
+            { id = 'c_mxms_capricorn' },
+            { id = 'c_mxms_aquarius' },
+        },
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+SMODS.Challenge { -- Zodiac Killer
+    key = 'killer',
+    loc_txt = {
+        name = 'Zodiac Killer'
+    },
+    rules = {
+        custom = {
+            { id = 'mxms_zodiac_killer' }
+        }
+    },
+    jokers = {},
+    restrictions = {
+        banned_cards = {
+            { id = 'p_mxms_horoscope_normal_1', ids = {
+                'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
+                'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
+            },
+        },
+        banned_tags = {
+            { id = 'tag_mxms_star' },
+        }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
+-- Custom Rule Hooks
+local gsr = G.start_run
+function Game:start_run(args)
+    gsr(self, args)
+    if G.GAME.modifiers.mxms_X_blind_scale then
+        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+    end
+    if G.GAME.modifiers.mxms_zodiac_killer then
+        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+        new_card:add_to_deck()
+        G.mxms_horoscope:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+    end
+end
+
+local bsb = Blind.set_blind
+function Blind:set_blind(blind, reset, silent)
+    bsb(self, blind, reset, silent)
+    if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
+        new_card:add_to_deck()
+        G.jokers:emplace(new_card)
+        new_card:juice_up(0.3, 0.4)
+        G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+    end
+    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
+        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+            pseudoseed('fashion' .. G.GAME.round_resets.ante))
+        for _, v in ipairs(G.playing_cards) do
+            self:debuff_card(v)
+        end
+    end
+end
+
+local bdc = Blind.debuff_card
+function Blind:debuff_card(card, from_blind)
+    bdc(self, card, from_blind)
+    if G.GAME.modifiers.mxms_random_suit_debuff and card.area ~= G.jokers then
+        if card:is_suit(G.GAME.modifiers.mxms_random_suit_debuff, true) then
+            card:set_debuff(true)
+            if card.debuff then card.debuffed_by_blind = true end
+            return
+        end
+    end
+end
+
+--#endregion
+
+--#region Backs ---------------------------------------------------------------------------------------------
+
+SMODS.Back { --Sixth Finger
+    key = 'sixth_finger',
+    loc_txt = {
+        name = 'Sixth Finger Deck',
+        text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change highlight limit
+        G.GAME.modifiers.mxms_highlight_limit = 6
+
+        -- Make non-secret hands visible
+        G.GAME.hands.mxms_three_pair.visible = true
+        G.GAME.hands.mxms_double_triple.visible = true
+        G.GAME.hands.mxms_s_straight.visible = true
+        G.GAME.hands.mxms_s_flush.visible = true
+        G.GAME.hands.mxms_house_party.visible = true
+        G.GAME.hands.mxms_s_straight_f.visible = true
+    end
+}
+
+SMODS.Back { --Nirvana
+    key = 'nirvana',
+    loc_txt = {
+        name = 'Nirvana Deck',
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change shop prices
+        G.GAME.shop_price_multiplier = 1.5
+
+        -- Change reroll starting price
+        G.GAME.starting_params.reroll_cost = 0
+    end
+}
+
+SMODS.Back { --Nuclear
+    key = 'nuclear',
+    loc_txt = {
+        name = 'Nuclear Deck',
+        text = { '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 2,
+        y = 0
+    },
+    apply = function(self, back)
+        --Change blind scaling
+        G.GAME.modifiers.mxms_nuclear_size = true
+    end
+}
+
+--#endregion
+
+--#region Hand Parts ----------------------------------------------------------------------------------------
+
+SMODS.PokerHandPart {
+    key = '6',
+    func = function(hand)
+        return get_X_same(6, hand)
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_flush',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
+            local ret = {}
+            local four_fingers = next(find_joker('Four Fingers'))
+            local suits = SMODS.Suit.obj_buffer
+            if #hand < (6 - (four_fingers and 1 or 0)) then
+                return ret
+            else
+                for j = 1, #suits do
+                    local t = {}
+                    local suit = suits[j]
+                    local flush_count = 0
+                    for i = 1, #hand do
+                        if hand[i]:is_suit(suit, nil, true) then
+                            flush_count = flush_count + 1; t[#t + 1] = hand[i]
+                        end
+                    end
+                    if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                        table.insert(ret, t)
+                        return ret
+                    end
+                end
+                return {}
+            end
+        end
+    end
+}
+
+SMODS.PokerHandPart {
+    key = 's_straight',
+    func = function(hand)
+        if G.hand.config.highlighted_limit >= 6 then
             local ret = {}
             local four_fingers = next(find_joker('Four Fingers'))
             if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
