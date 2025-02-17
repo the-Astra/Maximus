@@ -2,7 +2,6 @@
 Maximus = SMODS.current_mod
 Maximus_config = SMODS.current_mod.config
 
-
 --#region SMODS Optional Features ---------------------------------------------------------------------------
 
 SMODS.current_mod.optional_features = { retrigger_joker = true }
