@@ -6530,6 +6530,9 @@ SMODS.Challenge { -- Zodiac Killer
                 'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
             },
         },
+        banned_tags = {
+            { id = 'tag_mxms_star' },
+        }
     },
     deck = {
         type = 'Challenge Deck'
