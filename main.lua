@@ -6306,6 +6306,7 @@ SMODS.Challenge { -- Let's Go Gambling!
             { id = 'j_mxms_four_course_meal' },
             { id = 'j_mxms_hypeman' },
             { id = 'c_mxms_sagittarius' },
+            { id = 'c_mxms_capricorn' },
             { id = 'v_seed_money' },
             { id = 'v_money_tree' },
         },
