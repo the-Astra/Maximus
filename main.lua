@@ -120,6 +120,7 @@ Game.init_game_object = function(self)
     ret.leo_bonus = false
     ret.virgo_bonus = false
     ret.libra_bonus = false
+    ret.sagittarius_bonus = false
 
     return ret
 end
@@ -1075,6 +1076,8 @@ SMODS.Consumable { -- Gemini
             else
                 card.ability.hands[context.scoring_name] = true
                 card.ability.extra.times = card.ability.extra.times + 1
+                card_eval_status_text(card, 'extra', nil, nil, nil,
+                { message = card.ability.extra.times .. '/3', colour = G.C.HOROSCOPE })
             end
 
             if card.ability.extra.times == 3 then
@@ -1465,6 +1468,8 @@ SMODS.Consumable { -- Libra
     calculate = function(self, card, context)
         if context.buying_card or context.open_booster then
             card.ability.extra.money_spent = card.ability.extra.money_spent + context.card.cost
+            card_eval_status_text(card, 'extra', nil, nil, nil,
+                { message = card.ability.extra.money_spent .. '/15', colour = G.C.HOROSCOPE })
             if card.ability.extra.money_spent >= 15 then
                 self:succeed(card)
             end
@@ -1472,6 +1477,8 @@ SMODS.Consumable { -- Libra
 
         if context.reroll_shop then
             card.ability.extra.money_spent = card.ability.extra.money_spent + G.GAME.current_round.reroll_cost
+            card_eval_status_text(card, 'extra', nil, nil, nil,
+                { message = card.ability.extra.money_spent .. '/15', colour = G.C.HOROSCOPE })
             if card.ability.extra.money_spent >= 15 then
                 self:succeed(card)
             end
@@ -1581,7 +1588,7 @@ SMODS.Consumable { -- Scorpio
             else
                 card.ability.extra.hands = card.ability.extra.hands + 1
                 card_eval_status_text(card, 'extra', nil, nil, nil,
-                { message = card.ability.extra.hands .. '/5', colour = G.C.HOROSCOPE })
+                { message = card.ability.extra.hands .. '/4', colour = G.C.HOROSCOPE })
 
                 if card.ability.extra.hands >= 4 then
                     self:success(card)
@@ -1669,7 +1676,7 @@ SMODS.Consumable { -- Sagittarius
     set = 'Horoscope',
     loc_txt = {
         name = 'Sagittarius',
-        text = { 'Defeat the next', 'blind in {C:attention}1 hand{} to', 'receive {C:money}$20{}' }
+        text = { 'Do not use any', '{C:red}discards{} next blind to', 'make the next shops\'s,', 'rerolls start at {C:money}$0{}' }
     },
     atlas = 'Consumables',
     pos = {
@@ -1681,7 +1688,7 @@ SMODS.Consumable { -- Sagittarius
         if context.end_of_round and not context.individual and not context.repetition then
             self:succeed(card)
         end
-        if context.before and G.GAME.current_round.hands_left ~= G.GAME.round_resets.hands - 1 then
+        if context.discard then
             self:fail(card)
         end
 
@@ -1709,6 +1716,7 @@ SMODS.Consumable { -- Sagittarius
         return true
     end,
     succeed = function(self, card)
+        G.GAME.sagittarius_bonus = true
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot1')
@@ -1716,8 +1724,6 @@ SMODS.Consumable { -- Sagittarius
             end
         }))
         card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-        card_eval_status_text(card, 'dollars', 20, nil, nil, nil)
-        ease_dollars(20)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()

@@ -3167,3 +3167,18 @@ end
 '''
 match_indent = true
 times = 1
+
+
+    # Apply Sagittarius effect
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+if G.GAME.round_resets.temp_reroll_cost then G.GAME.round_resets.temp_reroll_cost = nil; calculate_reroll_cost(true) end
+'''
+position = "after"
+payload = '''
+if G.GAME.sagittarius_bonus then G.GAME.round_resets.temp_reroll_cost = 0; calculate_reroll_cost(true); G.GAME.sagittarius_bonus = false end
+'''
+match_indent = true
+times = 1
