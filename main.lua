@@ -750,7 +750,7 @@ end
 
 --Code from Betmma's Vouchers
 G.FUNCS.can_pick_card = function(e)
-    if #G.consumeables.cards < G.consumeables.config.card_limit then
+    if #G.mxms_horoscope.cards < G.mxms_horoscope.config.card_limit then
         e.config.colour = G.C.GREEN
         e.config.button = 'pick_card'
     else
