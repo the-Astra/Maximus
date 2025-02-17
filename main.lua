@@ -6676,7 +6676,7 @@ SMODS.PokerHandPart {
 SMODS.PokerHandPart {
     key = 's_flush',
     func = function(hand)
-        if G.hand.config.highlighted_limit >= 6 then
+        if G.STAGE == G.STAGES.RUN and G.hand.config.highlighted_limit >= 6 then
             local ret = {}
             local four_fingers = next(find_joker('Four Fingers'))
             local suits = SMODS.Suit.obj_buffer
@@ -6706,7 +6706,7 @@ SMODS.PokerHandPart {
 SMODS.PokerHandPart {
     key = 's_straight',
     func = function(hand)
-        if G.hand.config.highlighted_limit >= 6 then
+        if G.STAGE == G.STAGES.RUN and G.hand.config.highlighted_limit >= 6 then
             local ret = {}
             local four_fingers = next(find_joker('Four Fingers'))
             if #hand > 6 or #hand < (6 - (four_fingers and 1 or 0)) then
