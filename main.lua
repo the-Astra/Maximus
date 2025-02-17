@@ -1555,7 +1555,7 @@ SMODS.Consumable { -- Scorpio
     set = 'Horoscope',
     loc_txt = {
         name = 'Scorpio',
-        text = { 'Chooses a {C:attention}random hand type{}', 'without showing the player.', 'Play the hand type', 'within the ante to receive', '{C:attention}+5{} levels for that hand type' }
+        text = { 'Do not play your', '{C:attention}most played hand{} for', 'the next 4 hands to', 'receive {C:attention}5{} levels for', 'your {C:attention}most played hand{}' }
     },
     atlas = 'Consumables',
     pos = {
@@ -1564,19 +1564,24 @@ SMODS.Consumable { -- Scorpio
     },
     config = {
         extra = {
-            hand_type = nil
+            hand_type = nil,
+            hands = 0
         }
     },
     cost = 4,
     calculate = function(self, card, context)
         if context.before then
-            if card.ability.extra.hand_type == context.scoring_name then
-                self:succeed(card)
-            end
-        end
+            if G.GAME.current_round.most_played_poker_hand == context.scoring_name then
+                self:fail(card)
+            else
+                card.ability.extra.hands = card.ability.extra.hands + 1
+                card_eval_status_text(card, 'extra', nil, nil, nil,
+                { message = card.ability.extra.hands .. '/5', colour = G.C.HOROSCOPE })
 
-        if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-            self:fail(card)
+                if card.ability.extra.hands >= 4 then
+                    self:success(card)
+                end
+            end
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1596,17 +1601,6 @@ SMODS.Consumable { -- Scorpio
             }))
         end
     end,
-    add_to_deck = function(self, card, from_debuff)
-        local valid_hands = {}
-
-        for k, v in pairs(G.GAME.hands) do
-            if v.visible then
-                valid_hands[#valid_hands + 1] = k
-            end
-        end
-        card.ability.extra.hand_type = pseudorandom_element(valid_hands, pseudoseed('scorp' .. G.GAME.round_resets.ante))
-        sendDebugMessage(card.ability.extra.hand_type, 'MaximusDebug')
-    end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
             return zodiac_killer_pools["Scorpio"]
@@ -1621,7 +1615,7 @@ SMODS.Consumable { -- Scorpio
             end
         }))
         card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
-        level_up_hand(card, card.ability.extra.hand_type, false, 5)
+        level_up_hand(card, G.GAME.current_round.most_played_poker_hand, false, 5)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
