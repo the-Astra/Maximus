@@ -847,10 +847,10 @@ SMODS.Consumable { -- Aries
     cost = 4,
     calculate = function(self, card, context)
         if (context.joker_main or context.debuffed_hand) and G.GAME.blind.triggered then
-            card:succeed()
+            self:succeed(card, context)
         end
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-            card:fail()
+            self:fail(card, context)
         end
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
             G.E_MANAGER:add_event(Event({
@@ -875,7 +875,7 @@ SMODS.Consumable { -- Aries
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         G.GAME.next_ante_horoscopes["Aries"] = true
         G.E_MANAGER:add_event(Event({
             func = function()
@@ -893,7 +893,7 @@ SMODS.Consumable { -- Aries
         }))
         zodiac_killer_pools["Aries"] = false
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
@@ -954,11 +954,11 @@ SMODS.Consumable { -- Taurus
             elseif card.ability.extra.hand_type == context.scoring_name then
                 card.ability.extra.times = card.ability.extra.times + 1
             else
-                card:fail()
+                self:fail(card, context)
             end
 
             if card.ability.extra.times == 3 then
-                card:succeed()
+                self:succeed(card, context)
             end
 
             if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -985,7 +985,7 @@ SMODS.Consumable { -- Taurus
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
         level_up_hand(card, context.scoring_name, false, 5)
         G.E_MANAGER:add_event(Event({
@@ -997,7 +997,7 @@ SMODS.Consumable { -- Taurus
         }))
         zodiac_killer_pools["Taurus"] = false
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
@@ -1066,14 +1066,14 @@ SMODS.Consumable { -- Gemini
     calculate = function(self, card, context)
         if context.before then
             if card.ability.hands[context.scoring_name] then
-                card:fail()
+                self:fail(card, context)
             else
                 card.ability.hands[context.scoring_name] = true
                 card.ability.extra.times = card.ability.extra.times + 1
             end
 
             if card.ability.extra.times == 3 then
-                card:succeed()
+                self:succeed(card, context)
             end
         end
 
@@ -1100,7 +1100,7 @@ SMODS.Consumable { -- Gemini
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
         for k, v in pairs(card.ability.hands) do
             if v then
@@ -1115,7 +1115,7 @@ SMODS.Consumable { -- Gemini
         }))
         zodiac_killer_pools["Gemini"] = false
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
@@ -1165,9 +1165,9 @@ SMODS.Consumable { -- Cancer
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
             if G.GAME.current_round.hands_left == 0 then
-                card:succeed()
+                self:succeed(card, context)
             else
-                card:fail()
+                self:fail(card, context)
             end
         end
 
@@ -1194,7 +1194,7 @@ SMODS.Consumable { -- Cancer
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         G.GAME.next_ante_horoscopes["Cancer"] = true
         G.E_MANAGER:add_event(Event({
             func = function()
@@ -1212,7 +1212,7 @@ SMODS.Consumable { -- Cancer
         }))
         zodiac_killer_pools["Cancer"] = false
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
@@ -1261,10 +1261,10 @@ SMODS.Consumable { -- Leo
     cost = 4,
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
-            card:succeed()
+            self:succeed(card, context)
         end
         if context.before and G.GAME.current_round.hands_left ~= G.GAME.round_resets.hands - 1 then
-            card:fail()
+            self:fail(card, context)
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1290,7 +1290,7 @@ SMODS.Consumable { -- Leo
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         G.GAME.next_ante_horoscopes["Leo"] = true
         G.E_MANAGER:add_event(Event({
             func = function()
@@ -1308,7 +1308,7 @@ SMODS.Consumable { -- Leo
         }))
         zodiac_killer_pools["Leo"] = false
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
@@ -1358,9 +1358,9 @@ SMODS.Consumable { -- Virgo
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
             if G.GAME.blind.chips / G.GAME.chips >= 0.75 then
-                card:succeed()
+                self:succeed(card, context)
             else
-                card:fail()
+                self:fail(card, context)
             end
         end
 
@@ -1387,7 +1387,7 @@ SMODS.Consumable { -- Virgo
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         G.GAME.next_ante_horoscopes["Virgo"] = true
         G.E_MANAGER:add_event(Event({
             func = function()
@@ -1405,7 +1405,7 @@ SMODS.Consumable { -- Virgo
         }))
         zodiac_killer_pools["Virgo"] = false
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
@@ -1461,19 +1461,19 @@ SMODS.Consumable { -- Libra
         if context.buying_card or context.open_booster then
             card.ability.extra.money_spent = card.ability.extra.money_spent + context.card.cost
             if card.ability.extra.money_spent >= 15 then
-                card:succeed()
+                self:succeed(card, context)
             end
         end
 
         if context.reroll_shop then
             card.ability.extra.money_spent = card.ability.extra.money_spent + G.GAME.current_round.reroll_cost
             if card.ability.extra.money_spent >= 15 then
-                card:succeed()
+                self:succeed(card, context)
             end
         end
 
         if context.ending_shop then
-            card:fail()
+            self:fail(card, context)
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1499,7 +1499,7 @@ SMODS.Consumable { -- Libra
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         G.GAME.libra_bonus = true
         G.E_MANAGER:add_event(Event({
             func = function()
@@ -1516,7 +1516,7 @@ SMODS.Consumable { -- Libra
             end
         }))
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
@@ -1571,12 +1571,12 @@ SMODS.Consumable { -- Scorpio
     calculate = function(self, card, context)
         if context.before then
             if card.ability.extra.hand_type == context.scoring_name then
-                card:succeed()
+                self:succeed(card, context)
             end
         end
 
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-            card:fail()
+            self:fail(card, context)
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1613,7 +1613,7 @@ SMODS.Consumable { -- Scorpio
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot1')
@@ -1631,7 +1631,7 @@ SMODS.Consumable { -- Scorpio
         }))
         zodiac_killer_pools["Scorpio"] = false
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
@@ -1680,10 +1680,10 @@ SMODS.Consumable { -- Sagittarius
     cost = 4,
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
-            card:succeed()
+            self:succeed(card, context)
         end
         if context.before and G.GAME.current_round.hands_left ~= G.GAME.round_resets.hands - 1 then
-            card:fail()
+            self:fail(card, context)
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1709,7 +1709,7 @@ SMODS.Consumable { -- Sagittarius
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot1')
@@ -1728,7 +1728,7 @@ SMODS.Consumable { -- Sagittarius
         }))
         zodiac_killer_pools["Sagittarius"] = false
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
@@ -1790,7 +1790,7 @@ SMODS.Consumable { -- Capricorn
                 { message = card.ability.extra.tally .. '/3', colour = G.C.HOROSCOPE })
 
             if card.ability.extra.tally >= 3 then
-                card:succeed()
+                self:succeed(card, context)
             end
         end
 
@@ -1800,12 +1800,12 @@ SMODS.Consumable { -- Capricorn
                 { message = card.ability.extra.tally .. '/3', colour = G.C.HOROSCOPE })
 
             if card.ability.extra.tally == 3 then
-                card:succeed()
+                self:succeed(card, context)
             end
         end
 
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-           card:fail()
+           self:fail(card, context)
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1831,7 +1831,7 @@ SMODS.Consumable { -- Capricorn
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
             card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
@@ -1858,7 +1858,7 @@ SMODS.Consumable { -- Capricorn
         }))
         zodiac_killer_pools["Capricorn"] = false
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
@@ -1926,12 +1926,12 @@ SMODS.Consumable { -- Aquarius
                 { message = card.ability.extra.tally .. '/10', colour = G.C.HOROSCOPE })
 
             if card.ability.extra.tally >= 10 then
-                card:succeed()
+                self:succeed(card, context)
             end
         end
 
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-            card:fail()
+            self:fail(card, context)
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -1957,7 +1957,7 @@ SMODS.Consumable { -- Aquarius
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
             card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
@@ -1984,7 +1984,7 @@ SMODS.Consumable { -- Aquarius
             end
         }))
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
@@ -2049,12 +2049,12 @@ SMODS.Consumable { -- Pisces
                 { message = card.ability.extra.tally .. '/5', colour = G.C.HOROSCOPE })
 
             if card.ability.extra.tally >= 5 then
-                card:succeed()
+                self:succeed(card, context)
             end
         end
 
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
-            card:fail()
+            self:fail(card, context)
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -2080,7 +2080,7 @@ SMODS.Consumable { -- Pisces
         end
         return true
     end,
-    succeed = function(self)
+    succeed = function(self, card, context)
         if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
             card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
@@ -2106,7 +2106,7 @@ SMODS.Consumable { -- Pisces
         }))
         zodiac_killer_pools["Pisces"] = false
     end,
-    fail = function(self)
+    fail = function(self, card, context)
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot2')
