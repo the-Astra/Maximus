@@ -984,6 +984,13 @@ SMODS.Consumable { -- Taurus
             if card.ability.extra.times == 3 then
                 card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
                 level_up_hand(card, context.scoring_name, false, 5)
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    func = function()
+                        card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                        return true
+                    end
+                }))
                 zodiac_killer_pools["Taurus"] = false
             end
 
