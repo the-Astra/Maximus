@@ -2302,6 +2302,7 @@ SMODS.Booster { -- Mega Zodiac
 --#endregion
 
 --#region Jokers --------------------------------------------------------------------------------------------
+
 SMODS.Joker { -- Fortune Cookie
     key = 'fortune_cookie',
     loc_txt = {
@@ -2335,11 +2336,11 @@ SMODS.Joker { -- Fortune Cookie
     end,
     calculate = function(self, card, context)
         -- Activate ability before scoring if chance is higher than 0
-        if context.before and card.ability.extra.chance > 0 then
+        if context.before and card.ability.extra.odds > 0 then
             -- Roll chance and decrease by 1
             local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante)) <
                 card.ability.extra.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal / card.ability.extra.odds
-            card.ability.extra.prob = card.ability.extra.chance - (1 / G.GAME.fridge_mod)
+            card.ability.extra.prob = card.ability.extra.odds - (1 / G.GAME.fridge_mod)
 
             -- Check if Consumables is full
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
