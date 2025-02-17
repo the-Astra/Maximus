@@ -1988,7 +1988,7 @@ payload = '''
 if self.ability.name == 'Yorick' and not context.blueprint then
     if self.ability.yorick_discards <= 1 then
         self.ability.yorick_discards = self.ability.extra.discards
-        self.ability.x_mult = scale_value(self.ability.x_mult, self.ability.extra.xmult)
+        self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra.xmult)
 '''
 match_indent = true
 times = 1
