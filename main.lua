@@ -7666,7 +7666,7 @@ SMODS.Blind { --The Grinder
         text = { 'Enhancements, Seals, and Editions of', 'scored cards are removed after scoring' }
     },
     boss = {
-        min = 1,
+        min = 3,
         max = 10
     },
     atlas = 'Blinds',
