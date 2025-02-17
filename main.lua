@@ -1555,7 +1555,7 @@ SMODS.Consumable { -- Scorpio
     set = 'Horoscope',
     loc_txt = {
         name = 'Scorpio',
-        text = { 'Play a {C:attention}secret hand type{} ', 'within the ante to receive', '{C:attention}+5{} levels for that hand type' }
+        text = { 'Chooses a {C:attention}random hand type{}', 'without showing the player.', 'Play the hand type', 'within the ante to receive', '{C:attention}+5{} levels for that hand type' }
     },
     atlas = 'Consumables',
     pos = {
