@@ -2060,7 +2060,7 @@ if self.ability.name == 'Egg' then
 position = "at"
 payload = '''
 if self.ability.name == 'Egg' then
-    self.ability.extra_value = self_scale_value(self.ability.extra_value, self.ability.extra)
+    self.ability.extra_value = self:scale_value(self.ability.extra_value, self.ability.extra)
 '''
 match_indent = true
 times = 1
@@ -2986,7 +2986,7 @@ match_indent = true
 
 
 
-    # Apply next ante Horoscope effects
+    # Apply next ante Horoscope effects (create new Horoscope card if zodiac killer challenge)
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
@@ -2997,6 +2997,21 @@ position = "before"
 payload = '''
 reset_horoscopes()
 apply_horoscope_effects()
+
+if G.GAME.modifiers.mxms_zodiac_killer then
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.2,
+        func = function()
+            local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+            new_card:add_to_deck()
+            G.mxms_horoscope:emplace(new_card)
+            new_card:juice_up(0.3, 0.4)
+            return true
+        end
+    }))
+end
+
 '''
 match_indent = true
 times = 1
