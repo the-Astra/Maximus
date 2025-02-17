@@ -932,7 +932,7 @@ SMODS.Consumable { -- Taurus
     set = 'Horoscope',
     loc_txt = {
         name = 'Taurus',
-        text = { 'Play the same {C:attention}hand type{}', '3 times in a row to receive', '{C:attention}+5{} levels for that hand type' }
+        text = { 'Play the same {C:attention}hand type{}', '3 times in a row to receive', '{C:attention}+3{} levels for that hand type' }
     },
     atlas = 'Consumables',
     pos = {
@@ -951,8 +951,13 @@ SMODS.Consumable { -- Taurus
             if not card.ability.extra.hand_type then
                 card.ability.extra.hand_type = context.scoring_name
                 card.ability.extra.times = card.ability.extra.times + 1
+                card_eval_status_text(card, 'extra', nil, nil, nil,
+                { message = card.ability.extra.times .. '/3', colour = G.C.HOROSCOPE })
+
             elseif card.ability.extra.hand_type == context.scoring_name then
                 card.ability.extra.times = card.ability.extra.times + 1
+                card_eval_status_text(card, 'extra', nil, nil, nil,
+                { message = card.ability.extra.times .. '/3', colour = G.C.HOROSCOPE })
             else
                 self:fail(card)
             end
