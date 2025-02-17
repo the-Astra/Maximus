@@ -897,6 +897,22 @@ SMODS.Consumable { -- Aries
                 }))
             end
         end
+        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
@@ -969,6 +985,23 @@ SMODS.Consumable { -- Taurus
                 card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
                 level_up_hand(card, context.scoring_name, false, 5)
                 zodiac_killer_pools["Taurus"] = false
+            end
+
+            if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.2,
+                    func = function()
+                        G.STATE = G.STATES.GAME_OVER
+                        if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                            G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                        end
+                        G:save_settings()
+                        G.FILE_HANDLER.force = true
+                        G.STATE_COMPLETE = false
+                        return true
+                    end
+                }))
             end
         end
     end,
@@ -1066,6 +1099,23 @@ SMODS.Consumable { -- Gemini
                 zodiac_killer_pools["Gemini"] = false
             end
         end
+
+        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
@@ -1140,6 +1190,23 @@ SMODS.Consumable { -- Cancer
                 end
             end
         end
+
+        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
@@ -1212,6 +1279,23 @@ SMODS.Consumable { -- Leo
                     end
                 }))
             end
+        end
+
+        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
         end
     end,
     in_pool = function(self, args)
@@ -1286,6 +1370,23 @@ SMODS.Consumable { -- Virgo
                     }))
                 end
             end
+        end
+
+        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
         end
     end,
     in_pool = function(self, args)
@@ -1390,6 +1491,23 @@ SMODS.Consumable { -- Libra
                 }))
             end
         end
+
+        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
@@ -1470,6 +1588,23 @@ SMODS.Consumable { -- Scorpio
                     end
                 }))
             end
+        end
+
+        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
         end
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -1555,6 +1690,23 @@ SMODS.Consumable { -- Sagittarius
                     end
                 }))
             end
+        end
+
+        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
         end
     end,
     in_pool = function(self, args)
@@ -1687,6 +1839,23 @@ SMODS.Consumable { -- Capricorn
                 }))
             end
         end
+
+        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
@@ -1790,6 +1959,23 @@ SMODS.Consumable { -- Aquarius
                 }))
             end
         end
+
+        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
+        end
     end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
@@ -1888,6 +2074,23 @@ SMODS.Consumable { -- Pisces
                     end
                 }))
             end
+        end
+
+        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.STATE = G.STATES.GAME_OVER
+                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+                    end
+                    G:save_settings()
+                    G.FILE_HANDLER.force = true
+                    G.STATE_COMPLETE = false
+                    return true
+                end
+            }))
         end
     end,
     in_pool = function(self, args)

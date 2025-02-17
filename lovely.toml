@@ -2997,12 +2997,21 @@ position = "before"
 payload = '''
 reset_horoscopes()
 apply_horoscope_effects()
+
 if G.GAME.modifiers.mxms_zodiac_killer then
-    local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
-    new_card:add_to_deck()
-    G.mxms_horoscope:emplace(new_card)
-    new_card:juice_up(0.3, 0.4)
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.2,
+        func = function()
+            local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+            new_card:add_to_deck()
+            G.mxms_horoscope:emplace(new_card)
+            new_card:juice_up(0.3, 0.4)
+            return true
+        end
+    }))
 end
+
 '''
 match_indent = true
 times = 1
