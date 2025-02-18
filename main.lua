@@ -6701,7 +6701,7 @@ SMODS.Back { --Nirvana
     key = 'nirvana',
     loc_txt = {
         name = 'Nirvana Deck',
-        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost 1.5x as much' }
+        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost {X:mult,C:white}X1.5{} as much' }
     },
     atlas = 'Backs',
     pos = {
