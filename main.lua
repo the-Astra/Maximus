@@ -6676,7 +6676,7 @@ SMODS.Back { --Sixth Finger
     key = 'sixth_finger',
     loc_txt = {
         name = 'Sixth Finger Deck',
-        text = { 'Increases maximum highlight', 'limit to {C:attention}6 cards{}' }
+        text = { 'Allows {C:attention}6 playing cards{} to be played' }
     },
     atlas = 'Backs',
     pos = {
