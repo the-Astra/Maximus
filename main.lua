@@ -1041,7 +1041,7 @@ SMODS.Consumable { -- Gemini
     set = 'Horoscope',
     loc_txt = {
         name = 'Gemini',
-        text = { 'For the next three hands,', 'play no repeat hand types to', 'receive {C:attention}+3{} levels for', 'each played hand type' }
+        text = { 'For the next {C:blue}3{} hands,', 'play {C:red}no repeat hand types{} to', 'receive {C:attention}+3{} levels for', 'each played hand type' }
     },
     atlas = 'Consumables',
     pos = {
@@ -1112,14 +1112,24 @@ SMODS.Consumable { -- Gemini
         for k, v in pairs(card.ability.hands) do
             if v then
                 update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-                    { handname = k, chips = G.GAME.hands[k].chips, mult = G.GAME.hands[k].mult, level = G.GAME.hands[k]
-                    .level })
+                    {
+                        handname = k,
+                        chips = G.GAME.hands[k].chips,
+                        mult = G.GAME.hands[k].mult,
+                        level = G.GAME.hands[k]
+                            .level
+                    })
                 level_up_hand(card, k, false, 3)
             end
         end
         update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-            { handname = context.scoring_name, chips = G.GAME.hands[context.scoring_name].chips, mult = G.GAME.hands
-            [context.scoring_name].mult, level = G.GAME.hands[context.scoring_name].level })
+            {
+                handname = context.scoring_name,
+                chips = G.GAME.hands[context.scoring_name].chips,
+                mult = G.GAME.hands
+                    [context.scoring_name].mult,
+                level = G.GAME.hands[context.scoring_name].level
+            })
         G.E_MANAGER:add_event(Event({
             func = function()
                 card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
@@ -1167,7 +1177,7 @@ SMODS.Consumable { -- Cancer
     set = 'Horoscope',
     loc_txt = {
         name = 'Cancer',
-        text = { 'Defeat the next blind with', '{C:attention}0 remaining hands{} to', 'receive {C:blue}+2{} hands next ante' }
+        text = { 'Defeat the next blind with', '{C:blue}0{} {C:attention}remaining hands{} to', 'receive {C:blue}+2{} hands next ante' }
     },
     atlas = 'Consumables',
     pos = {
@@ -1264,7 +1274,7 @@ SMODS.Consumable { -- Leo
     set = 'Horoscope',
     loc_txt = {
         name = 'Leo',
-        text = { 'Defeat the next blind in', '{C:attention}1 hand{} to receive', '{C:attention}+3 hand size{} next ante' }
+        text = { 'Defeat the next blind in', '{C:blue}1{} hand to receive', '{C:attention}+3 hand size{} next ante' }
     },
     atlas = 'Consumables',
     pos = {
@@ -1572,7 +1582,7 @@ SMODS.Consumable { -- Scorpio
     set = 'Horoscope',
     loc_txt = {
         name = 'Scorpio',
-        text = { 'Do not play your', '{C:attention}most played hand{} for', 'the next 4 hands to', 'receive {C:attention}5{} levels for', 'your {C:attention}most played hand{}' }
+        text = { 'Do not play your', '{C:attention}most played hand{} for', 'the next {C:blue}4{} hands to', 'receive {C:attention}+5{} levels for', 'your {C:attention}most played hand{}' }
     },
     atlas = 'Consumables',
     pos = {
@@ -1633,14 +1643,24 @@ SMODS.Consumable { -- Scorpio
         }))
         card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Success!', colour = G.C.GREEN })
         update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-            { handname = G.GAME.current_round.most_played_poker_hand, chips = G.GAME.hands
-            [G.GAME.current_round.most_played_poker_hand].chips, mult = G.GAME.hands
-            [G.GAME.current_round.most_played_poker_hand].mult, level = G.GAME.hands
-            [G.GAME.current_round.most_played_poker_hand].level })
+            {
+                handname = G.GAME.current_round.most_played_poker_hand,
+                chips = G.GAME.hands
+                    [G.GAME.current_round.most_played_poker_hand].chips,
+                mult = G.GAME.hands
+                    [G.GAME.current_round.most_played_poker_hand].mult,
+                level = G.GAME.hands
+                    [G.GAME.current_round.most_played_poker_hand].level
+            })
         level_up_hand(card, G.GAME.current_round.most_played_poker_hand, false, 5)
         update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-            { handname = context.scoring_name, chips = G.GAME.hands[context.scoring_name].chips, mult = G.GAME.hands
-            [context.scoring_name].mult, level = G.GAME.hands[context.scoring_name].level })
+            {
+                handname = context.scoring_name,
+                chips = G.GAME.hands[context.scoring_name].chips,
+                mult = G.GAME.hands
+                    [context.scoring_name].mult,
+                level = G.GAME.hands[context.scoring_name].level
+            })
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
@@ -1689,7 +1709,7 @@ SMODS.Consumable { -- Sagittarius
     set = 'Horoscope',
     loc_txt = {
         name = 'Sagittarius',
-        text = { 'Do not use any', '{C:red}discards{} next blind to', 'make the next shops\'s,', 'rerolls start at {C:money}$0{}' }
+        text = { 'Do not use any', '{C:red}discards{} next blind to', 'make the next shop\'s,', 'rerolls start at {C:money}$0{}' }
     },
     atlas = 'Consumables',
     pos = {
@@ -1785,7 +1805,7 @@ SMODS.Consumable { -- Capricorn
     set = 'Horoscope',
     loc_txt = {
         name = 'Capricorn',
-        text = { 'Destroy {C:attention}3{} cards within', 'the next ante to', 'receive an {C:spectral}Immolate{}' }
+        text = { 'Destroy {C:attention}3{} cards within', 'the ante to', 'receive an {C:spectral}Immolate{}' }
     },
     atlas = 'Consumables',
     pos = {
@@ -1915,7 +1935,7 @@ SMODS.Consumable { -- Aquarius
     set = 'Horoscope',
     loc_txt = {
         name = 'Aquarius',
-        text = { 'Use {C:attention}10{} {C:planet}Planet{} cards', 'within the next ante', 'to receive a {C:spectral}Black Hole{}' }
+        text = { 'Use {C:attention}10{} {C:planet}Planet{} cards', 'within the ante', 'to receive a {C:spectral}Black Hole{}' }
     },
     atlas = 'Consumables',
     pos = {
@@ -2041,7 +2061,7 @@ SMODS.Consumable { -- Pisces
     set = 'Horoscope',
     loc_txt = {
         name = 'Pisces',
-        text = { 'Use {C:attention}5{} {C:tarot}Tarot{} cards within', 'the next ante to receive', 'a random {C:spectral}Spectral Card{}' }
+        text = { 'Use {C:attention}5{} {C:tarot}Tarot{} cards within', 'the ante to receive', 'a random {C:spectral}Spectral{} Card' }
     },
     atlas = 'Consumables',
     pos = {
