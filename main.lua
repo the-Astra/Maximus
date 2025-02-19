@@ -6424,6 +6424,7 @@ SMODS.Challenge { -- Pay To Win
             { id = 'c_black_hole' },
             { id = 'c_mxms_capricorn' },
             { id = 'c_mxms_aquarius' },
+            { id = 'c_mxms_pisces' },
         },
     },
     deck = {
