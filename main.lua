@@ -6473,6 +6473,22 @@ SMODS.Challenge { -- Down the Drain
     }
 }
 
+SMODS.Challenge { -- Thought Experiment
+    key = 'thougt',
+    loc_txt = {
+        name = 'Thought Experiment'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_mxms_shrodingers', eternal = true, edition = 'negative' },
+        { id = 'j_mxms_ochams', eternal = true, edition = 'negative' },
+        { id = 'j_mxms_chekhovs', eternal = true, edition = 'negative' },
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
 -- Custom Rule Hooks
 local gsr = G.start_run
 function Game:start_run(args)
