@@ -343,7 +343,6 @@ function SMODS.current_mod.reset_game_globals(run_start)
                 func = function()
                     play_sound('timpani')
                     delay(0.4)
-                    G.GAME.current_round.zombie_target:start_dissolve({ G.C.GREEN }, nil, 1.6)
                     local new_zombie = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_zombie',
                         'zombie')
                     new_zombie:start_materialize()
@@ -1774,11 +1773,11 @@ SMODS.Consumable { -- Capricorn
                     play_sound('tarot1')
                     card:juice_up(0.3, 0.4)
 
-                    local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_immolate',
-                        'cap')
-                    new_card:add_to_deck()
-                    G.consumeables:emplace(new_card)
-                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
+                    SMODS.add_card({
+                        set='Spectral',
+                        key = 'c_immolate',
+                        key_append = 'cap'
+                    })
                     return true;
                 end
             }))
@@ -1887,10 +1886,11 @@ SMODS.Consumable { -- Aquarius
                     play_sound('tarot1')
                     card:juice_up(0.3, 0.4)
 
-                    local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_black_hole',
-                        'aqu')
-                    new_card:add_to_deck()
-                    G.consumeables:emplace(new_card)
+                    SMODS.add_card({
+                        set='Spectral',
+                        key = 'c_black_hole',
+                        key_append = 'aqu'
+                    })
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
                     return true;
                 end
@@ -1997,9 +1997,10 @@ SMODS.Consumable { -- Pisces
                     play_sound('tarot1')
                     card:juice_up(0.3, 0.4)
 
-                    local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, nil, 'pis')
-                    new_card:add_to_deck()
-                    G.consumeables:emplace(new_card)
+                    SMODS.add_card({
+                        set='Spectral',
+                        key_append = 'pis'
+                    })
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
                     return true;
                 end
@@ -2235,9 +2236,10 @@ SMODS.Joker { -- Fortune Cookie
                         func = function()
                             card:juice_up(0.3, 0.4)
 
-                            local new_card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'fco')
-                            new_card:add_to_deck()
-                            G.consumeables:emplace(new_card)
+                            SMODS.add_card({
+                                set='Tarot',
+                                key_append = 'fco'
+                            })
                             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
                             return true;
                         end
@@ -3184,9 +3186,11 @@ SMODS.Joker { -- Chef
                 (chosen_joker.name == 'Cavendish' and not G.GAME.pool_flags.gros_michel_extinct) do
                 chosen_joker = pseudorandom_element(food_jokers, pseudoseed('chef' .. G.GAME.round_resets.ante))
             end
-            local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_joker.key, 'chef')
-            new_card:add_to_deck()
-            G.jokers:emplace(new_card)
+            SMODS.add_card({
+                set='Joker',
+                key = chosen_joker.key,
+                key_append = 'chef'
+            })
             card:juice_up(0.3, 0.4)
             G.GAME.joker_buffer = G.GAME.joker_buffer - 1
         end
@@ -3219,9 +3223,11 @@ SMODS.Joker { -- Leftovers
                 func = function()
                     play_sound('timpani')
 
-                    local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, respawn_key, 'lefto')
-                    new_card:add_to_deck()
-                    G.jokers:emplace(new_card)
+                    SMODS.add_card({
+                        set='Joker',
+                        key = respawn_key,
+                        key_append = 'lefto'
+                    })
 
                     card.T.r = -0.2
                     card:juice_up(0.3, 0.4)
@@ -3670,8 +3676,11 @@ SMODS.Joker { -- Dark Room
                 }
             end
 
-            local chosen_voucher = create_card('Voucher', nil, nil, nil, nil, nil,
-                pseudorandom_element(eligible_vouchers, pseudoseed('dark_room' .. G.GAME.round_resets.ante)), 'dark_room')
+            local chosen_voucher = SMODS.add_card({
+                set='Voucher',
+                key = pseudorandom_element(eligible_vouchers, pseudoseed('dark_room' .. G.GAME.round_resets.ante)),
+                key_append = 'dark_room'
+            })
             chosen_voucher.cost = 0
             chosen_voucher:redeem()
             G.E_MANAGER:add_event(Event({
@@ -4774,13 +4783,15 @@ SMODS.Joker { -- Coronation
                             func = function()
                                 local jimbo = SMODS.find_card('j_joker')[1]
 
-                                local new_jimbo = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_joker_plus',
-                                    'coron')
+                                local new_jimbo = SMODS.add_card({
+                                    set='Joker',
+                                    key = 'j_mxms_joker_plus',
+                                    key_append = 'coron'
+                                })
                                 if jimbo.edition then
                                     new_jimbo:set_edition(jimbo.edition, nil, true)
                                 end
                                 jimbo:start_dissolve({ G.C.YELLOW }, nil, 1.6)
-                                G.jokers:emplace(new_jimbo)
 
                                 play_sound('polychrome1')
                                 return true;
@@ -6455,9 +6466,10 @@ function Game:start_run(args)
         G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
     end
     if G.GAME.modifiers.mxms_zodiac_killer then
-        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
-        new_card:add_to_deck()
-        G.mxms_horoscope:emplace(new_card)
+        local new_card = SMODS.add_card({
+            set='Horoscope',
+            key_append = 'killer'
+        })
         new_card:juice_up(0.3, 0.4)
     end
 end
@@ -6467,9 +6479,11 @@ function Blind:set_blind(blind, reset, silent)
     bsb(self, blind, reset, silent)
     if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
         G.GAME.joker_buffer = G.GAME.joker_buffer + 1
-        local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, 'j_mxms_four_course_meal', 'picky')
-        new_card:add_to_deck()
-        G.jokers:emplace(new_card)
+        local new_card = SMODS.add_card({
+            set='Joker',
+            key = 'j_mxms_four_course_meal',
+            key_append = 'picky'
+        })
         new_card:juice_up(0.3, 0.4)
         G.GAME.joker_buffer = G.GAME.joker_buffer - 1
     end
