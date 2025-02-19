@@ -1988,7 +1988,7 @@ payload = '''
 if self.ability.name == 'Yorick' and not context.blueprint then
     if self.ability.yorick_discards <= 1 then
         self.ability.yorick_discards = self.ability.extra.discards
-        self.ability.x_mult = scale_value(self.ability.x_mult, self.ability.extra.xmult)
+        self.ability.x_mult = self:scale_value(self.ability.x_mult, self.ability.extra.xmult)
 '''
 match_indent = true
 times = 1
@@ -3164,6 +3164,21 @@ payload = '''
 if G.GAME.aries_bonus then
     self.chips = self.chips * 0.85
 end 
+'''
+match_indent = true
+times = 1
+
+
+    # Apply Sagittarius effect
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+if G.GAME.round_resets.temp_reroll_cost then G.GAME.round_resets.temp_reroll_cost = nil; calculate_reroll_cost(true) end
+'''
+position = "after"
+payload = '''
+if G.GAME.sagittarius_bonus then G.GAME.round_resets.temp_reroll_cost = 0; calculate_reroll_cost(true); G.GAME.sagittarius_bonus = false end
 '''
 match_indent = true
 times = 1
