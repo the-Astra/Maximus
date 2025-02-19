@@ -184,6 +184,7 @@ if Maximus_config.Maximus.menu then
             -- recenter the title
             G.title_top.T.w = G.title_top.T.w * 1.7675
             G.title_top.T.x = G.title_top.T.x - 0.8
+            newcard:start_materialize({G.C.WHITE, G.C.MXMS_SECONDARY}, true, 2.5)
             G.title_top:emplace(newcard)
             -- make the card look the same way as the title screen Ace of Spades
             newcard.T.w = newcard.T.w * 1.1 * 1.2
@@ -5085,7 +5086,8 @@ SMODS.Joker { -- Bootleg
             end
         end
 
-        if context.buying_card and context.card.config.center.blueprint_compat and (context.card ~= card or context.card.config.center.key ~= "j_mxms_bootleg") then
+        if context.buying_card and context.card.config.center.blueprint_compat 
+          and (context.card ~= card or context.card.config.center.key ~= "j_mxms_bootleg") then
             G.GAME.last_bought = context.card
             card:juice_up(0.3, 0.4)
         end
