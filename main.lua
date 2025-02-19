@@ -6458,6 +6458,21 @@ SMODS.Challenge { -- Zodiac Killer
     }
 }
 
+SMODS.Challenge { -- Down the Drain
+    key = 'drain',
+    loc_txt = {
+        name = 'Down the Drain'
+    },
+    rules = {},
+    jokers = {
+        { id = 'j_smeared', eternal = true },
+        { id = 'j_mxms_faded', eternal = true }
+    },
+    deck = {
+        type = 'Challenge Deck'
+    }
+}
+
 -- Custom Rule Hooks
 local gsr = G.start_run
 function Game:start_run(args)
