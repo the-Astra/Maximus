@@ -2233,7 +2233,6 @@ SMODS.Joker { -- Fortune Cookie
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
                         func = function()
-                            play_sound('tarot1')
                             card:juice_up(0.3, 0.4)
 
                             local new_card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'fco')
@@ -2244,6 +2243,7 @@ SMODS.Joker { -- Fortune Cookie
                         end
                     }))
                     return {
+                        sound = 'tarot1',
                         card = card,
                         message = 'FORTUNATE!',
                         colour = G.C.SECONDARY_SET.Tarot
@@ -2254,28 +2254,16 @@ SMODS.Joker { -- Fortune Cookie
                     mxms_scale_pessimistics(card.ability.extra.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal,
                         card.ability.extra.odds)
 
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'before',
-                        func = function()
-                            play_sound('tarot2')
-                            return true;
-                        end
-                    }))
                     return {
+                        sound = 'tarot2',
                         card = card,
                         message = localize('k_nope_ex'),
                         colour = G.C.SET.Tarot
                     }
                 end
             else
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'before',
-                    func = function()
-                        play_sound('tarot2')
-                        return true;
-                    end
-                }))
                 return {
+                    sound = 'tarot2',
                     card = card,
                     message = 'WASTED',
                     colour = G.C.SET.Tarot
@@ -2375,17 +2363,6 @@ SMODS.Joker { -- Poindexter
                         card.ability.extra.Xmult = 1
                         card.ability.extra.shattered = true
                     end
-                    if shattered then
-                        G.E_MANAGER:add_event(Event({
-                            trigger = 'after',
-                            delay = 0.3,
-                            func = function()
-                                play_sound('tarot2')
-                                card:juice_up(0.3, 0.4)
-                                return true;
-                            end
-                        }))
-                    end
                 end
             end
         end
@@ -2410,9 +2387,6 @@ SMODS.Joker { -- Poindexter
                     delay = 0.3,
                     func = function()
                         card.ability.extra.Xmult = card:scale_value(card.ability.extra.Xmult, glass * 0.25)
-                        card:juice_up(0.3, 0.4)
-                        play_sound('tarot1')
-                        return true;
                     end
                 }))
                 return {
@@ -2616,14 +2590,8 @@ SMODS.Joker { -- Combo Breaker
             -- Add retrigger count and multiply by 0.5 for mult
             card.ability.extra.Xmult = card.ability.extra.Xmult + (card.ability.extra.retriggers * 0.5)
 
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('mxms_perfect')
-                    return true;
-                end
-            }))
-
             return {
+                sound = 'mxms_perfect',
                 Xmult_mod = card.ability.extra.Xmult,
                 message = 'X' .. card.ability.extra.Xmult,
                 colour = G.C.MULT,
@@ -3238,6 +3206,7 @@ SMODS.Joker { -- Leftovers
         y = 2
     },
     blueprint_compat = false,
+    eternal_compat = false,
     cost = 4,
     rarity = 1,
     calculate = function(self, card, context)
@@ -3345,15 +3314,8 @@ SMODS.Joker { -- Hopscotch
                     G.GAME.skip_tag = ''
                 end
             else
-                mxms_scale_pessimistics(G.GAME.probabilities.normal, card.ability.extra.odds)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'before',
-                    func = function()
-                        play_sound('tarot2')
-                        return true;
-                    end
-                }))
                 return {
+                    sound = 'tarot2',
                     card = card,
                     message = localize('k_nope_ex'),
                     colour = G.C.SET.Tarot
@@ -5632,12 +5594,15 @@ SMODS.Joker { -- Memory Game
             play_sound('tarot1')
             card:juice_up(0.3, 0.5)
 
+            delay(0.2)
+
             for i = 1, 2 do
                 local percent = 1.15 - (i - 0.999) / (#context.scoring_hand - 0.998) * 0.3
                 context.scoring_hand[i]:flip();
                 play_sound('card1', percent);
                 context.scoring_hand[i]:juice_up(0.3, 0.3);
             end
+
             delay(0.2)
 
             copy_card(context.scoring_hand[2], context.scoring_hand[1])
