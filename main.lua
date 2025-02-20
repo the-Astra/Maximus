@@ -89,7 +89,6 @@ Game.init_game_object = function(self)
     ret.soy_mod = 1
     ret.purchased_jokers = {}
     ret.gambler_mod = 1
-    ret.spectrals_used = 0
     ret.creep_mod = 1
     ret.soil_mod = 1
     ret.skip_tag = ''
@@ -165,7 +164,8 @@ function Card:set_ability(center, initial, delay_sprites)
         local hypes = SMODS.find_card('j_mxms_hypeman')
         if next(hypes) then
             for k, v in ipairs(hypes) do
-                SMODS.calculate_effect({ message = '+' .. v.ability.extra.dollars, colour = G.C.MONEY, sound = 'mxms_hey' },
+                SMODS.calculate_effect(
+                    { message = '+' .. v.ability.extra.dollars, colour = G.C.MONEY, sound = 'mxms_hey' },
                     v)
                 ease_dollars(v.ability.extra.dollars)
             end
@@ -184,7 +184,7 @@ if Maximus_config.Maximus.menu then
             -- recenter the title
             G.title_top.T.w = G.title_top.T.w * 1.7675
             G.title_top.T.x = G.title_top.T.x - 0.8
-            newcard:start_materialize({G.C.WHITE, G.C.MXMS_SECONDARY}, true, 2.5)
+            newcard:start_materialize({ G.C.WHITE, G.C.MXMS_SECONDARY }, true, 2.5)
             G.title_top:emplace(newcard)
             -- make the card look the same way as the title screen Ace of Spades
             newcard.T.w = newcard.T.w * 1.1 * 1.2
@@ -1774,7 +1774,7 @@ SMODS.Consumable { -- Capricorn
                     card:juice_up(0.3, 0.4)
 
                     SMODS.add_card({
-                        set='Spectral',
+                        set = 'Spectral',
                         key = 'c_immolate',
                         key_append = 'cap'
                     })
@@ -1887,7 +1887,7 @@ SMODS.Consumable { -- Aquarius
                     card:juice_up(0.3, 0.4)
 
                     SMODS.add_card({
-                        set='Spectral',
+                        set = 'Spectral',
                         key = 'c_black_hole',
                         key_append = 'aqu'
                     })
@@ -1998,7 +1998,7 @@ SMODS.Consumable { -- Pisces
                     card:juice_up(0.3, 0.4)
 
                     SMODS.add_card({
-                        set='Spectral',
+                        set = 'Spectral',
                         key_append = 'pis'
                     })
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
@@ -2237,7 +2237,7 @@ SMODS.Joker { -- Fortune Cookie
                             card:juice_up(0.3, 0.4)
 
                             SMODS.add_card({
-                                set='Tarot',
+                                set = 'Tarot',
                                 key_append = 'fco'
                             })
                             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
@@ -3187,7 +3187,7 @@ SMODS.Joker { -- Chef
                 chosen_joker = pseudorandom_element(food_jokers, pseudoseed('chef' .. G.GAME.round_resets.ante))
             end
             SMODS.add_card({
-                set='Joker',
+                set = 'Joker',
                 key = chosen_joker.key,
                 key_append = 'chef'
             })
@@ -3224,7 +3224,7 @@ SMODS.Joker { -- Leftovers
                     play_sound('timpani')
 
                     SMODS.add_card({
-                        set='Joker',
+                        set = 'Joker',
                         key = respawn_key,
                         key_append = 'lefto'
                     })
@@ -3677,7 +3677,7 @@ SMODS.Joker { -- Dark Room
             end
 
             local chosen_voucher = SMODS.add_card({
-                set='Voucher',
+                set = 'Voucher',
                 key = pseudorandom_element(eligible_vouchers, pseudoseed('dark_room' .. G.GAME.round_resets.ante)),
                 key_append = 'dark_room'
             })
@@ -4155,17 +4155,26 @@ SMODS.Joker { -- Salt Circle
     cost = 5,
     loc_vars = function(self, info_queue, center)
         return {
-            vars = { G.GAME.spectrals_used * 30 }
+            vars = { G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.spectral * 30 or 0 }
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main and G.GAME.spectrals_used > 0 then
+        if context.joker_main and G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.spectral > 0 then
             return {
-                chip_mod = G.GAME.spectrals_used * 30,
-                message = '+' .. G.GAME.spectrals_used * 30,
+                chip_mod = G.GAME.consumeable_usage_total.spectral * 30,
+                message = '+' .. G.GAME.consumeable_usage_total.spectral * 30,
                 colour = G.C.MULT,
                 card = card
             }
+        end
+
+        if not context.blueprint and context.consumeable.ability.set == "Spectral" then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    SMODS.calculate_effect({message = localize { type = 'variable', key = 'a_chips', vars = { G.GAME.consumeable_usage_total.spectral * 30 }} }, card)
+                end
+            }))
+            return nil, true
         end
     end
 }
@@ -4784,7 +4793,7 @@ SMODS.Joker { -- Coronation
                                 local jimbo = SMODS.find_card('j_joker')[1]
 
                                 local new_jimbo = SMODS.add_card({
-                                    set='Joker',
+                                    set = 'Joker',
                                     key = 'j_mxms_joker_plus',
                                     key_append = 'coron'
                                 })
@@ -5059,8 +5068,8 @@ SMODS.Joker { -- Bootleg
             end
         end
 
-        if context.buying_card and context.card.config.center.blueprint_compat 
-          and (context.card ~= card or context.card.config.center.key ~= "j_mxms_bootleg") then
+        if context.buying_card and context.card.config.center.blueprint_compat
+            and (context.card ~= card or context.card.config.center.key ~= "j_mxms_bootleg") then
             G.GAME.last_bought = context.card
             card:juice_up(0.3, 0.4)
         end
@@ -6466,7 +6475,7 @@ SMODS.Challenge { -- Down the Drain
     },
     rules = {},
     jokers = {
-        { id = 'j_smeared', eternal = true },
+        { id = 'j_smeared',    eternal = true },
         { id = 'j_mxms_faded', eternal = true }
     },
     deck = {
@@ -6482,8 +6491,8 @@ SMODS.Challenge { -- Thought Experiment
     rules = {},
     jokers = {
         { id = 'j_mxms_shrodingers', eternal = true, edition = 'negative' },
-        { id = 'j_mxms_ochams', eternal = true, edition = 'negative' },
-        { id = 'j_mxms_chekhovs', eternal = true, edition = 'negative' },
+        { id = 'j_mxms_ochams',      eternal = true, edition = 'negative' },
+        { id = 'j_mxms_chekhovs',    eternal = true, edition = 'negative' },
     },
     deck = {
         type = 'Challenge Deck'
@@ -6499,7 +6508,7 @@ function Game:start_run(args)
     end
     if G.GAME.modifiers.mxms_zodiac_killer then
         local new_card = SMODS.add_card({
-            set='Horoscope',
+            set = 'Horoscope',
             key_append = 'killer'
         })
         new_card:juice_up(0.3, 0.4)
@@ -6512,7 +6521,7 @@ function Blind:set_blind(blind, reset, silent)
     if blind and blind.name and G.GAME.modifiers.mxms_picky and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
         G.GAME.joker_buffer = G.GAME.joker_buffer + 1
         local new_card = SMODS.add_card({
-            set='Joker',
+            set = 'Joker',
             key = 'j_mxms_four_course_meal',
             key_append = 'picky'
         })
