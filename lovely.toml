@@ -27,7 +27,7 @@ pattern = 'vars = { cfg.choose, cfg.extra },'
 position = "at"
 payload = 'vars = { math.min(cfg.choose + G.GAME.choose_mod, cfg.extra), cfg.extra },'
 match_indent = true
-timer = 1
+times = 1
 
 
 
