@@ -3,62 +3,6 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-# This could be deprecated in favor of using in_pool() functions for cards that use these
-
-    # Create modifier and tracker variables
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = '''
-elseif v.enhancement_gate then
-    add = nil
-    for kk, vv in pairs(G.playing_cards) do
-        if SMODS.has_enhancement(vv, v.enhancement_gate) then
-            add = true
-        end
-    end
-'''
-position = "after"
-payload = '''
-elseif v.enhancement_gate_set then
-    add = nil
-    for kk, vv in pairs(G.playing_cards) do
-        for kkk, vvv in pairs(v.enhancement_gate_set) do
-            if SMODS.has_enhancement(vv, vvv) then
-                add = true
-            end
-        end
-    end
-elseif v.edition_gate_set then
-    add = nil
-    for kk, vv in pairs(v.edition_gate_set) do
-        for kkk, vvv in pairs(G.playing_cards) do
-            if vvv.edition and vvv.edition.type == vv then
-                add = true
-            end
-        end
-        for kkk, vvv in ipairs(G.jokers) do
-            if vvv.edition and vvv.edition.type == vv then
-                add = true
-            end
-        end
-    end
-elseif v.seal_gate then
-    add = nil
-    for kk, vv in pairs(G.playing_cards) do
-        if v.seal then
-            add = true
-        end
-    end
-elseif v.joker_gate then
-    add = nil
-    if next(SMODS.find_card(v.joker_gate)) then
-        add = true
-    end
-'''
-match_indent = true
-times = 1
-
     # Modify shop costs for effects that multiply them
 [[patches]]
 [patches.pattern]

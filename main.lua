@@ -4194,10 +4194,6 @@ SMODS.Joker { -- Light Show
     config = {},
     blueprint_compat = true,
     cost = 5,
-    enhancement_gate_set = {
-        'm_bonus',
-        'm_mult'
-    },
     loc_vars = function(self, info_queue, center)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_bonus
         info_queue[#info_queue + 1] = G.P_CENTERS.m_mult
@@ -4213,6 +4209,15 @@ SMODS.Joker { -- Light Show
                 card = card
             }
         end
+    end,
+    in_pool = function(self, args)
+        for k, v in pairs(G.playing_cards) do
+            if SMODS.has_enhancement(v, 'm_bonus') or SMODS.has_enhancement(v, 'm_mult') then
+                return true
+            end
+        end
+
+        return false
     end
 }
 
@@ -4386,7 +4391,6 @@ SMODS.Joker { -- Don't Mind if I Do
             Xmult = 1
         }
     },
-    seal_gate = true,
     loc_vars = function(self, info_queue, center)
         return {
             vars = { center.ability.extra.Xmult }
@@ -4421,6 +4425,15 @@ SMODS.Joker { -- Don't Mind if I Do
                 card = card
             }
         end
+    end,
+    in_pool = function(self, args)
+        for k, v in pairs(G.playing_cards) do
+            if v.seal then
+                return true
+            end
+        end
+
+        return false
     end
 }
 
@@ -4478,17 +4491,30 @@ SMODS.Joker { -- Power Creep
     config = {},
     blueprint_compat = false,
     cost = 7,
-    edition_gate_set = {
-        'foil',
-        'holo',
-        'polychrome'
-    },
     add_to_deck = function(self, card, from_debuff)
         G.GAME.creep_mod = G.GAME.creep_mod * 2
     end,
 
     remove_from_deck = function(self, card, from_debuff)
         G.GAME.creep_mod = G.GAME.creep_mod / 2
+    end,
+    in_pool = function(self, args)
+        for k, v in pairs(G.playing_cards) do
+            if v.edition and (v.edition.type == 'foil' 
+                                or v.edition.type == 'holo' 
+                                or v.edition.type == 'polychrome') then
+                return true
+            end
+        end
+        for k, v in ipairs(G.jokers) do
+            if v.edition and (v.edition.type == 'foil' 
+            or v.edition.type == 'holo' 
+            or v.edition.type == 'polychrome') then
+                return true
+            end
+        end
+
+        return false
     end
 }
 
