@@ -1,0 +1,165 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+    #Blind Size Modifier
+[[patches]]
+[patches.pattern]
+target = 'blind.lua'
+pattern = '''
+self.chips = get_blind_amount(G.GAME.round_resets.ante)*self.mult*G.GAME.starting_params.ante_scaling
+'''
+position = "after"
+payload = '''
+if G.GAME.modifiers.mxms_X_blind_size then
+    self.chips = self.chips*G.GAME.modifiers.mxms_X_blind_size
+end
+if G.GAME.modifiers.mxms_nuclear_size then
+    self.chips = self.chips^G.GAME.round_resets.ante
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+local blind_amt = get_blind_amount(G.GAME.round_resets.blind_ante)*blind_choice.config.mult*G.GAME.starting_params.ante_scaling
+'''
+position = "after"
+payload = '''
+if G.GAME.modifiers.mxms_X_blind_size then
+    blind_amt = blind_amt*G.GAME.modifiers.mxms_X_blind_size
+end
+if G.GAME.modifiers.mxms_nuclear_size then
+    blind_amt = blind_amt^G.GAME.round_resets.ante
+end
+'''
+match_indent = true
+times = 1
+
+    #Change UI when Nuclear Deck is in use
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+{n=G.UIT.T, config={text = "X", lang = G.LANGUAGES['en-us'], scale = scale*2, colour = G.C.UI_MULT, shadow = true}},
+'''
+position = "at"
+payload = '''
+{n=G.UIT.T, config={text = G.GAME.modifiers.mxms_nuclear_size and "^" or "X", lang = G.LANGUAGES['en-us'], scale = scale*2, colour = G.C.UI_MULT, shadow = true}},
+'''
+match_indent = true
+times = 1
+
+    #Change final score calc to do exponent math if Nuclear Deck is in use
+
+#Don't set high score with Nuclear Deck
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',delay = 0.4,
+        func = (function()  update_hand_text({delay = 0, immediate = true}, {mult = 0, chips = 0, chip_total = math.floor(hand_chips*mult), level = '', handname = ''});play_sound('button', 0.9, 0.6);return true end)
+      }))
+      check_and_set_high_score('hand', hand_chips*mult)
+
+      check_for_unlock({type = 'chip_score', chips = math.floor(hand_chips*mult)})
+   
+    if hand_chips*mult > 0 then 
+        delay(0.8)
+        G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = (function() play_sound('chips2');return true end)
+        }))
+    end
+    G.E_MANAGER:add_event(Event({
+      trigger = 'ease',
+      blocking = false,
+      ref_table = G.GAME,
+      ref_value = 'chips',
+      ease_to = G.GAME.chips + math.floor(hand_chips*mult),
+      delay =  0.5,
+      func = (function(t) return math.floor(t) end)
+    }))
+'''
+position = "at"
+payload = '''
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',delay = 0.4,
+        func = (function()  update_hand_text({delay = 0, immediate = true}, {mult = 0, chips = 0, chip_total = math.floor(G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult), level = '', handname = ''});play_sound('button', 0.9, 0.6);return true end)
+      }))
+      check_and_set_high_score('hand', not G.GAME.modifiers.mxms_nuclear_size and hand_chips*mult)
+
+      check_for_unlock({type = 'chip_score', chips = math.floor(G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult)})
+   
+    if G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult > 0 then 
+        delay(0.8)
+        G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = (function() play_sound('chips2');return true end)
+        }))
+    end
+    G.E_MANAGER:add_event(Event({
+      trigger = 'ease',
+      blocking = false,
+      ref_table = G.GAME,
+      ref_value = 'chips',
+      ease_to = G.GAME.chips + math.floor(G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult),
+      delay =  0.5,
+      func = (function(t) return math.floor(t) end)
+    }))
+'''
+match_indent = true
+times = 1
+
+    #Target Practice Check
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''
+if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then
+    game_won = true
+    G.GAME.won = true
+end
+'''
+position = "at"
+payload = '''
+if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then
+    if G.GAME.modifiers.mxms_bullseye_requirement then
+        if next(SMODS.find_card('j_mxms_bullseye')) and G.GAME.modifiers.mxms_bullseye_requirement > SMODS.find_card('j_mxms_bullseye')[1].ability.extra.chips or not next(SMODS.find_card('j_mxms_bullseye')) then
+            game_over = true
+        end
+    else
+        game_won = true
+        G.GAME.won = true
+    end
+end
+'''
+match_indent = true
+times = 1
+
+
+    # All Rare check
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+if polled_rate > check_rate and polled_rate <= check_rate + v.val then
+    local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
+'''
+position = "at"
+payload = '''
+if polled_rate > check_rate and polled_rate <= check_rate + v.val then
+    local card = nil
+    if G.GAME.modifiers.mxms_all_rare and v.type == 'Joker' then
+        card = create_card(v.type, area, nil, 0.99, nil, nil, nil, 'sho')
+    else
+        card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
+    end
+'''
+match_indent = true
+times = 1

@@ -1,0 +1,108 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+    # Could be deprecated in favor of making this an SMODS.sticker
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "if v.pinned then _joker.pinned = true end"
+position = "after"
+payload = "if v.posted then _joker.posted = true end"
+match_indent = true
+times = 1
+
+#----- THIS IS VITAL TO MAKE POSTED WORK! DO NOT REMOVE!!
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = "table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*((a.pinned and not a.ignore_pinned) and a.sort_id or 0) < b.T.x + b.T.w/2 - 100*((b.pinned and not b.ignore_pinned) and b.sort_id or 0) end)"
+position = "at"
+payload = "table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*((a.pinned and not a.ignore_pinned or b.posted and not b.ignore_posted) and a.sort_id or 0) < b.T.x + b.T.w/2 - 100*((b.pinned and not b.ignore_pinned or a.posted and not a.ignore_posted) and b.sort_id or 0) end)"
+match_indent = true
+times = 1
+#-------------------------------------------------------
+
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/ui.lua"]'''
+pattern = "card.ignore_pinned = true"
+position = "after"
+payload = "card.ignore_posted = true"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "pinned_left = G.C.ORANGE,"
+position = "after"
+payload = "posted_right = G.C.ORANGE,"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "if v.pinned then card.pinned = true end"
+position = "after"
+payload = "if v.posted then card.posted = true end"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "new_card.pinned = other.pinned"
+position = "after"
+payload = "new_card.posted = other.posted"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if specific_vars and specific_vars.pinned then info_queue[#info_queue+1] = {key = 'pinned_left', set = 'Other'} end"
+position = "after"
+payload = "if specific_vars and specific_vars.posted then info_queue[#info_queue+1] = {key = 'posted_right', set = 'Other'} end"
+match_indent = true
+times = 2
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if v == 'pinned_left' then info_queue[#info_queue+1] = {key = 'pinned_left', set = 'Other'} end"
+position = "after"
+payload = "if v == 'posted_right' then info_queue[#info_queue+1] = {key = 'posted_right', set = 'Other'} end"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.pinned then badges[#badges + 1] = 'pinned_left' end"
+position = "after"
+payload = "if self.posted then badges[#badges + 1] = 'posted_right' end"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "pinned = self.pinned,"
+position = "after"
+payload = "posted = self.posted,"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "self.pinned = cardTable.pinned"
+position = "after"
+payload = "self.posted = cardTable.posted"
+match_indent = true
+times = 1

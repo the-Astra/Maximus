@@ -1,0 +1,23 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+    # Iterate spectrals_used if spectral card is used_tarot
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.consumeable.max_highlighted then
+    update_hand_text({immediate = true, nopulse = true, delay = 0}, {mult = 0, chips = 0, level = '', handname = ''})
+end
+    '''
+position = "after"
+payload = '''
+
+if self.ability.set == 'Spectral' then
+    G.GAME.spectrals_used = G.GAME.spectrals_used + 1
+end
+'''
+match_indent = true
+times = 1

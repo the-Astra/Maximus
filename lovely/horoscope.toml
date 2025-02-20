@@ -1,0 +1,350 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 2
+
+# NOTE: All code relating to the Horoscope CardArea is heavily based on Baladrome's implementation 
+
+    # Add Horoscope Cardarea
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASSET_ATLAS["ui_1"], {x = 2, y = 0})'''
+position = "before"
+payload = '''
+
+self.mxms_horoscope_W = G.CARD_W*1.1
+self.mxms_horoscope_H = 0.95*G.CARD_H
+
+self.mxms_horoscope = CardArea(
+    G.consumeables.T.x + 2.25,
+    G.consumeables.T.y + G.consumeables.T.h + 1, 
+    self.mxms_horoscope_W, 
+    self.mxms_horoscope_H, 
+    {card_limit = 1, type = 'joker', highlight_limit = 1}
+)
+'''
+match_indent = true
+times = 1
+
+
+    # Patch SMODS for horoscope CardArea
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+-- TARGET: add your own CardAreas for joker evaluation
+'''
+position = "after"
+payload = '''
+table.insert(t, G.mxms_horoscope)
+'''
+match_indent = true
+times = 1
+
+
+    # Emplace horoscopes in their own area
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+elseif card.ability.set == 'Booster' then 
+'''
+position = "before"
+payload = '''
+elseif card.ability.set == 'Horoscope' then 
+    card:add_to_deck()
+    G.mxms_horoscope:emplace(card)
+    play_sound('card1', 0.8, 0.6)
+    play_sound('generic1')
+    dont_dissolve = true
+    delay_fac = 0.2
+'''
+match_indent = true
+times = 1
+
+
+# Derived from SDM_0's Stuff
+
+    # Prevent "BUY AND USE" button on Horoscopes in shop
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''return base_background'''
+position = "before"
+payload = '''
+if card.area == G.shop_jokers and G.shop_jokers then
+  if card.ability.consumeable and card.ability.set == "Horoscope" then
+    base_attach.children.buy_and_use = nil
+  end
+  base_attach.children.buy = G.UIDEF.card_focus_button{
+    card = card, parent = base_attach, type = 'buy',
+    func = 'can_buy', button = 'buy_from_shop', card_width = card_width, buy_and_use = buy_and_use
+  }
+end
+'''
+match_indent = true
+
+    # Prevent "USE" button on Horoscopes in deck
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''if card.ability.consumeable then'''
+position = "after"
+payload = '''
+if card.ability.set == "Horoscope" then
+    return {
+      n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
+        {n=G.UIT.C, config={padding = 0.15, align = 'cl'}, nodes={
+          {n=G.UIT.R, config={align = 'cl'}, nodes={
+            sell
+          }},
+        }},
+    }}
+end
+'''
+match_indent = true
+
+    # Force "SELECT" button on Horoscopes in packs
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''function G.UIDEF.use_and_sell_buttons(card)'''
+position = "after"
+payload = '''
+    if (card.area == G.pack_cards and G.pack_cards) and card.ability.consumeable then
+        if G.STATE == G.STATES.SMODS_BOOSTER_OPENED and (SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.config.center.kind == 'Horoscope') then
+            return {
+                n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
+                  {n=G.UIT.R, config={ref_table = card, r = 0.08, padding = 0.1, align = "bm", minw = 0.5*card.T.w - 0.15, maxw = 0.9*card.T.w - 0.15, minh = 0.3*card.T.h, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'use_card', func = 'can_pick_card'}, nodes={
+                    {n=G.UIT.T, config={text = localize('b_select'),colour = G.C.UI.TEXT_LIGHT, scale = 0.45, shadow = true}}
+                  }},
+              }}
+        end
+    end
+'''
+match_indent = true
+
+    # Hook into Card:highlight for card alignment
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+config = {align=
+        ((self.area == G.jokers) or (self.area == G.consumeables)) and "cr" or
+        "bmi"
+    , offset = 
+        ((self.area == G.jokers) or (self.area == G.consumeables)) and {x=x_off - 0.4,y=0} or
+        {x=0,y=0.65},
+    parent =self}
+'''
+position = "at"
+payload = '''
+config = {align=
+        ((self.area == G.jokers) or (self.area == G.consumeables) or (self.area == G.mxms_horoscope)) and "cr" or
+        "bmi"
+    , offset = 
+        ((self.area == G.jokers) or (self.area == G.consumeables) or (self.area == G.mxms_horoscope)) and {x=x_off - 0.4,y=0} or
+        {x=0,y=0.65},
+    parent =self}
+'''
+match_indent = true
+
+
+
+    # Apply next ante Horoscope effects (create new Horoscope card if zodiac killer challenge)
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})
+'''
+position = "before"
+payload = '''
+reset_horoscopes()
+apply_horoscope_effects()
+
+if G.GAME.modifiers.mxms_zodiac_killer then
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.2,
+        func = function()
+            local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+            new_card:add_to_deck()
+            G.mxms_horoscope:emplace(new_card)
+            new_card:juice_up(0.3, 0.4)
+            return true
+        end
+    }))
+end
+
+'''
+match_indent = true
+times = 1
+
+# Apply Libra effect
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+for i = 1, G.GAME.shop.joker_max - #G.shop_jokers.cards do
+    G.shop_jokers:emplace(create_card_for_shop(G.shop_jokers))
+end
+'''
+position = "at"
+payload = '''
+for i = 1, G.GAME.shop.joker_max - #G.shop_jokers.cards do
+    local shop_card = create_card_for_shop(G.shop_jokers)
+    if G.GAME.libra_bonus then
+        shop_card.cost = 0
+    end 
+    G.shop_jokers:emplace(shop_card)
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+for k, v in ipairs(G.shop_vouchers.cards) do
+    create_shop_card_ui(v)
+    v:start_materialize()
+end
+'''
+position = "at"
+payload = '''
+for k, v in ipairs(G.shop_vouchers.cards) do
+    if G.GAME.libra_bonus then
+        v.cost = 0
+    end 
+    create_shop_card_ui(v)
+    v:start_materialize()
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+local card = Card(G.shop_vouchers.T.x + G.shop_vouchers.T.w/2,
+G.shop_vouchers.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[G.GAME.current_round.voucher],{bypass_discovery_center = true, bypass_discovery_ui = true})
+'''
+position = "after"
+payload = '''
+if G.GAME.libra_bonus then
+    card.cost = 0
+end 
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+for k, v in ipairs(G.shop_booster.cards) do
+    create_shop_card_ui(v)
+    v:start_materialize()
+end
+'''
+position = "at"
+payload = '''
+for k, v in ipairs(G.shop_booster.cards) do
+    if G.GAME.libra_bonus then
+        v.cost = 0
+    end 
+    create_shop_card_ui(v)
+    v:start_materialize()
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+local card = Card(G.shop_booster.T.x + G.shop_booster.T.w/2,
+G.shop_booster.T.y, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[G.GAME.current_round.used_packs[i]], {bypass_discovery_center = true, bypass_discovery_ui = true})
+'''
+position = "after"
+payload = '''
+if G.GAME.libra_bonus then
+    card.cost = 0
+end 
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+    for i = 1, #G.GAME.tags do
+        G.GAME.tags[i]:apply_to_run({type = 'shop_final_pass'})
+    end
+end
+'''
+position = "after"
+payload = '''
+if G.GAME.libra_bonus then
+    G.GAME.libra_bonus = false
+end 
+'''
+match_indent = true
+times = 1
+
+
+    # Apply Aries effect
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+if G.GAME.modifiers.mxms_nuclear_size then
+    blind_amt = blind_amt^G.GAME.round_resets.ante
+end
+'''
+position = "after"
+payload = '''
+if G.GAME.aries_bonus then
+    blind_amt = blind_amt * 0.85
+end 
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "blind.lua"
+pattern = '''
+if G.GAME.modifiers.mxms_nuclear_size then
+    self.chips = self.chips^G.GAME.round_resets.ante
+end
+'''
+position = "after"
+payload = '''
+if G.GAME.aries_bonus then
+    self.chips = self.chips * 0.85
+end 
+'''
+match_indent = true
+times = 1
+
+
+    # Apply Sagittarius effect
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+if G.GAME.round_resets.temp_reroll_cost then G.GAME.round_resets.temp_reroll_cost = nil; calculate_reroll_cost(true) end
+'''
+position = "after"
+payload = '''
+if G.GAME.sagittarius_bonus then G.GAME.round_resets.temp_reroll_cost = 0; calculate_reroll_cost(true); G.GAME.sagittarius_bonus = false end
+'''
+match_indent = true
+times = 1

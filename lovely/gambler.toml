@@ -1,0 +1,122 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+    # Apply modifier to Hermit
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+elseif _c.name == "The Hermit" then loc_vars = {cfg.extra}
+'''
+position = "at"
+payload = '''
+elseif _c.name == "The Hermit" then loc_vars = {(cfg.extra * G.GAME.gambler_mod)}
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'The Hermit' then
+    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+        play_sound('timpani')
+        used_tarot:juice_up(0.3, 0.5)
+        ease_dollars(math.max(0,math.min(G.GAME.dollars, self.ability.extra)), true)
+        return true end }))
+    delay(0.6)
+end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'The Hermit' then
+    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+        play_sound('timpani')
+        used_tarot:juice_up(0.3, 0.5)
+        ease_dollars(math.max(0,math.min(G.GAME.dollars, self.ability.extra * G.GAME.gambler_mod)), true)
+        return true end }))
+    delay(0.6)
+end
+'''
+match_indent = true
+times = 1
+
+
+    # Apply modifier to Temperance
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+elseif _c.name == "Temperance" then
+    local _money = 0
+    if G.jokers then
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i].ability.set == 'Joker' then
+                _money = _money + G.jokers.cards[i].sell_cost
+            end
+        end
+    end
+    loc_vars = {cfg.extra, math.min(cfg.extra, _money)}
+'''
+position = "at"
+payload = '''
+elseif _c.name == "Temperance" then
+    local _money = 0
+    if G.jokers then
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i].ability.set == 'Joker' then
+                _money = _money + G.jokers.cards[i].sell_cost
+            end
+        end
+    end
+    loc_vars = {(cfg.extra * G.GAME.gambler_mod), math.min((cfg.extra * G.GAME.gambler_mod), _money)}
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Temperance' then
+    self.ability.money = 0
+    for i = 1, #G.jokers.cards do
+        if G.jokers.cards[i].ability.set == 'Joker' then
+            self.ability.money = self.ability.money + G.jokers.cards[i].sell_cost
+        end
+    end
+    self.ability.money = math.min(self.ability.money, self.ability.extra)
+end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Temperance' then
+    self.ability.money = 0
+    for i = 1, #G.jokers.cards do
+        if G.jokers.cards[i].ability.set == 'Joker' then
+            self.ability.money = self.ability.money + G.jokers.cards[i].sell_cost
+        end
+    end
+    self.ability.money = math.min(self.ability.money, self.ability.extra * G.GAME.gambler_mod)
+end
+'''
+match_indent = true
+times = 1
+
+
+    # Apply modifier to Economy Tag
+[[patches]]
+[patches.pattern]
+target = "tag.lua"
+pattern = '''
+elseif name_to_check == 'Economy Tag' then loc_vars = {self.config.max}
+'''
+position = "at"
+payload = '''
+elseif name_to_check == 'Economy Tag' then loc_vars = {self.config.max * G.GAME.gambler_mod}
+'''
+match_indent = true
+times = 1

@@ -1,0 +1,181 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+
+    #Change limits and description for Trading Card
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then"
+position = "at"
+payload = "G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 * G.GAME.war_mod then"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.extra}"
+position = "at"
+payload = "elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.extra, self.ability.destroy * G.GAME.war_mod}"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+j_trading=          {order = 95,   unlocked = true, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Trading Card",set = "Joker", config = {extra = 3}, pos = {x=9,y=14}},
+'''
+position = "at"
+payload = '''
+j_trading=          {order = 95,   unlocked = true, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Trading Card",set = "Joker", config = {extra = 3, destroy = 1}, pos = {x=9,y=14}},
+'''
+match_indent = true
+
+
+    #Change limits and description for Sixth Sense (includes Perspective Functionality to reduce patches)
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.ability.name == 'Sixth Sense' and #context.full_hand == 1 and context.full_hand[1]:get_id() == 6 and G.GAME.current_round.hands_played == 0 then"
+position = "at"
+payload = '''
+    if self.ability.name == 'Sixth Sense' and #context.full_hand <= 1 * G.GAME.war_mod and G.GAME.current_round.hands_played == 0 then
+        for i = 1, #context.full_hand do
+            if not (context.full_hand[i]:get_id() == 6 or (next(SMODS.find_card('j_mxms_perspective')) and context.full_hand[1]:get_id() == 9)) then
+                return
+            end
+        end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif self.ability.name == 'Sixth Sense' then loc_vars = {}"
+position = "at"
+payload = "elseif self.ability.name == 'Sixth Sense' then loc_vars = {self.ability.destroy * G.GAME.war_mod}"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+j_sixth_sense=      {order = 54,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Sixth Sense', pos = {x = 8, y = 10}, set = 'Joker', config = {}},
+'''
+position = "at"
+payload = '''
+j_sixth_sense=      {order = 54,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Sixth Sense', pos = {x = 8, y = 10}, set = 'Joker', config = {destroy = 1}},
+'''
+match_indent = true
+times = 1
+
+
+    #Change limits and description for Immolate
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "for i = 1, self.ability.extra.destroy do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end"
+position = "at"
+payload = "for i = 1, self.ability.extra.destroy * G.GAME.war_mod do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "elseif _c.name == 'Immolate' then loc_vars = {cfg.extra.destroy, cfg.extra.dollars}"
+position = "at"
+payload = "elseif _c.name == 'Immolate' then loc_vars = {cfg.extra.destroy * G.GAME.war_mod, cfg.extra.dollars}"
+match_indent = true
+times = 1
+
+
+    #Change limits and description for Hanged Man
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.consumeable and self.ability.consumeable.max_highlighted then
+    self.ability.consumeable.mod_num = math.min(5, self.ability.consumeable.max_highlighted)
+end
+'''
+position = "at"
+payload = '''
+if self.ability.consumeable and self.ability.consumeable.max_highlighted then
+    if self.ability.name == 'The Hanged Man' then
+        self.ability.consumeable.mod_num = math.min(5, self.ability.consumeable.max_highlighted * G.GAME.war_mod)
+    else
+        self.ability.consumeable.mod_num = math.min(5, self.ability.consumeable.max_highlighted)
+    end
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+elseif _c.name == "The Hanged Man" then loc_vars = {cfg.max_highlighted}
+'''
+position = "at"
+payload = '''
+elseif _c.name == "The Hanged Man" then loc_vars = {cfg.max_highlighted * G.GAME.war_mod}
+'''
+match_indent = true
+times = 1
+
+
+    #Change limits for Grim, Incantation, and Familiar
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+local function random_destroy(used_tarot)
+    local destroyed_cards = {}
+    destroyed_cards[#destroyed_cards + 1] = pseudorandom_element(G.hand.cards, pseudoseed('random_destroy'))
+'''
+position = "at"
+payload = '''
+local function random_destroy(used_tarot)
+    local destroyed_cards = {}
+    for i = 1, used_tarot.ability.destroy * G.GAME.war_mod do
+        destroyed_cards[#destroyed_cards + 1] = pseudorandom_element(G.hand.cards, pseudoseed('random_destroy'..i))
+    end
+'''
+match_indent = true
+times = 1
+
+
+    #Change descriptions for Grim, Incantation, and Familiar
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra}"
+position = "at"
+payload = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra, cfg.destroy * G.GAME.war_mod}"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+c_familiar=         {order = 1,    discovered = false, cost = 4, consumeable = true, name = "Familiar", pos = {x=0,y=4}, set = "Spectral", config = {remove_card = true, extra = 3}},
+c_grim=             {order = 2,    discovered = false, cost = 4, consumeable = true, name = "Grim",     pos = {x=1,y=4}, set = "Spectral", config = {remove_card = true, extra = 2}},
+c_incantation=      {order = 3,    discovered = false, cost = 4, consumeable = true, name = "Incantation", pos = {x=2,y=4}, set = "Spectral", config = {remove_card = true, extra = 4}},
+'''
+position = "at"
+payload = '''
+c_familiar=         {order = 1,    discovered = false, cost = 4, consumeable = true, name = "Familiar", pos = {x=0,y=4}, set = "Spectral", config = {remove_card = true, extra = 3, destroy = 1}},
+c_grim=             {order = 2,    discovered = false, cost = 4, consumeable = true, name = "Grim",     pos = {x=1,y=4}, set = "Spectral", config = {remove_card = true, extra = 2, destroy = 1}},
+c_incantation=      {order = 3,    discovered = false, cost = 4, consumeable = true, name = "Incantation", pos = {x=2,y=4}, set = "Spectral", config = {remove_card = true, extra = 4, destroy = 1}},
+'''
+match_indent = true
+times = 1

@@ -1,0 +1,155 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+    #Create flag variable
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "pack_size = 2,"
+position = "after"
+payload = "destroyed_food = '',"
+match_indent = true
+times = 1
+
+
+    #Gros Michel/Cavendish flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if pseudorandom(self.ability.name == 'Cavendish' and 'cavendish' or 'gros_michel') < G.GAME.probabilities.normal/self.ability.extra.odds then "
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+times = 1
+
+
+    #Ramen flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+ if self.ability.name == 'Ramen' and not context.blueprint then
+    if self.ability.x_mult - self.ability.extra <= 1 then
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+times = 1
+
+
+    #Ice Cream flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Ice Cream' and not context.blueprint then
+    if self.ability.extra.chips - self.ability.extra.chip_mod <= 0 then
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+times = 1
+
+
+    #Turtle Bean flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Turtle Bean' and not context.blueprint then
+    if self.ability.extra.h_size - self.ability.extra.h_mod <= 0 then 
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+times = 1
+
+
+    #Diet Cola flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Diet Cola' then
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+times = 1
+
+
+    #Popcorn flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Popcorn' and not context.blueprint then
+    if self.ability.mult - self.ability.extra <= 0 then 
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+times = 1
+
+
+    #Seltzer flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Seltzer' and not context.blueprint then
+    if self.ability.extra - 1 <= 0 then 
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_leftovers')) then
+    G.GAME.destroyed_food = self.config.center.key
+end
+'''
+match_indent = true
+times = 1
+
+
+    #Egg flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+elseif context.selling_self then
+'''
+position = "after"
+payload = '''
+if self.ability.name == 'Egg' then
+    if next(SMODS.find_card('j_mxms_leftovers')) then
+        G.GAME.destroyed_food = self.config.center.key
+    end
+end
+'''
+match_indent = true
+times = 1

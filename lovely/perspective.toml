@@ -1,0 +1,183 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+
+    #Mail-in Rebate flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Mail-In Rebate' and
+not context.other_card.debuff and
+context.other_card:get_id() == G.GAME.current_round.mail_card.id then
+    ease_dollars(self.ability.extra)
+    return {
+        message = localize('$')..self.ability.extra,
+        colour = G.C.MONEY,
+        card = self
+    }
+end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Mail-In Rebate' and
+not context.other_card.debuff then
+    if context.other_card:get_id() == G.GAME.current_round.mail_card.id 
+    or (next(SMODS.find_card('j_mxms_perspective')) and 
+    ((context.other_card:get_id() == 9 and G.GAME.current_round.mail_card.id == 6) 
+    or (context.other_card:get_id() == 6 and G.GAME.current_round.mail_card.id == 9))) then
+        ease_dollars(self.ability.extra)
+        return {
+            message = localize('$')..self.ability.extra,
+            colour = G.C.MONEY,
+            card = self
+        }
+    end
+end
+'''
+match_indent = true
+times = 1
+
+
+    #The Idol flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'The Idol' and
+    context.other_card:get_id() == G.GAME.current_round.idol_card.id and 
+    context.other_card:is_suit(G.GAME.current_round.idol_card.suit) then
+        return {
+            x_mult = self.ability.extra,
+            colour = G.C.RED,
+            card = self
+        }
+    end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'The Idol' then
+    if (context.other_card:get_id() == G.GAME.current_round.idol_card.id
+    or (next(SMODS.find_card('j_mxms_perspective')) and 
+    ((context.other_card:get_id() == 9 and G.GAME.current_round.idol_card.id == 6) 
+    or (context.other_card:get_id() == 6 and G.GAME.current_round.idol_card.id == 9)))) 
+    and context.other_card:is_suit(G.GAME.current_round.idol_card.suit) then
+        return {
+            x_mult = self.ability.extra,
+            colour = G.C.RED,
+            card = self
+        }
+    end
+end
+'''
+match_indent = true
+times = 1
+
+
+    #Even Steven flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Even Steven' and
+context.other_card:get_id() <= 10 and 
+context.other_card:get_id() >= 0 and
+context.other_card:get_id()%2 == 0
+then
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Even Steven' and
+((context.other_card:get_id() <= 10 and 
+context.other_card:get_id() >= 0 and
+context.other_card:get_id()%2 == 0) or
+(next(SMODS.find_card('j_mxms_perspective')) and context.other_card:get_id() == 9))
+then
+'''
+match_indent = true
+times = 1
+
+
+    #Odd Todd flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Odd Todd' and
+((context.other_card:get_id() <= 10 and 
+context.other_card:get_id() >= 0 and
+context.other_card:get_id()%2 == 1) or
+(context.other_card:get_id() == 14))
+then
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Odd Todd' and
+(((context.other_card:get_id() <= 10 and 
+context.other_card:get_id() >= 0 and
+context.other_card:get_id()%2 == 1) or
+(context.other_card:get_id() == 14)) or
+(next(SMODS.find_card('j_mxms_perspective')) and context.other_card:get_id() == 6))
+then
+'''
+match_indent = true
+times = 1
+
+
+    #Cloud 9 flag
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if v:get_id() == 9 then self.ability.nine_tally = self.ability.nine_tally+1 end
+'''
+position = "at"
+payload = '''
+if v:get_id() == 9 or (next(SMODS.find_card('j_mxms_perspective')) and v:get_id() == 6) then self.ability.nine_tally = self.ability.nine_tally+1 end
+'''
+match_indent = true
+times = 1
+
+
+    #Hand detection functionality
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = '''
+function get_X_same(num, hand, or_more)
+  local vals = {}
+  for i = 1, SMODS.Rank.max_id.value do
+      vals[i] = {}
+  end
+  for i=#hand, 1, -1 do
+    local curr = {}
+    table.insert(curr, hand[i])
+    for j=1, #hand do
+      if hand[i]:get_id() == hand[j]:get_id() and i ~= j then
+        table.insert(curr, hand[j])
+      end
+    end
+'''
+position = "at"
+payload = '''
+function get_X_same(num, hand, or_more)
+  local vals = {}
+  local perspective = next(SMODS.find_card('j_mxms_perspective'))
+  for i = 1, SMODS.Rank.max_id.value do
+      vals[i] = {}
+  end
+  for i=#hand, 1, -1 do
+    local curr = {}
+    table.insert(curr, hand[i])
+    for j=1, #hand do
+      if perspective and hand[i]:get_id() == 9 and hand[j]:get_id() == 6 and i ~= j then
+        table.insert(curr, hand[j])
+      elseif hand[i]:get_id() == hand[j]:get_id() and i ~= j then
+        table.insert(curr, hand[j])
+      end
+    end
+'''
+match_indent = true
+times = 1
