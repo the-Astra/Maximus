@@ -10,7 +10,6 @@ SMODS.Joker {
         y = 6
     },
     rarity = 3,
-    config = {},
     blueprint_compat = false,
     cost = 8,
     add_to_deck = function(self, card, from_debuff)

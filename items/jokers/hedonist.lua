@@ -12,21 +12,24 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = {
-            Xmult = 1
+            Xmult = 1,
+            gain = 0.25
         }
     },
     blueprint_compat = true,
     cost = 7,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.Xmult }
+            vars = { stg.Xmult, stg.gain }
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main and card.ability.extra.Xmult > 1 then
+        local stg = card.ability.extra
+        if context.joker_main and stg.Xmult > 1 then
             return {
-                Xmult_mod = card.ability.extra.Xmult,
-                message = "X" .. card.ability.extra.Xmult,
+                Xmult_mod = stg.Xmult,
+                message = "X" .. stg.Xmult,
                 colour = G.C.MULT,
                 card = card
             }
@@ -35,7 +38,7 @@ SMODS.Joker {
         if context.ending_shop and #G.shop_vouchers.cards == 0 and #G.shop_booster.cards == 0 and #G.shop_jokers.cards == 0 and not context.blueprint then
             card:juice_up(0.3, 0.4)
             play_sound('tarot1')
-            card.ability.extra.Xmult = card:scale_value(card.ability.extra.Xmult, 0.25)
+            stg.Xmult = card:scale_value(stg.Xmult, stg.gain)
         end
     end
 }

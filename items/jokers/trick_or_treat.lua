@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'trick_or_treat',
     loc_txt = {
         name = 'Trick or Treat',
-        text = { 'When held, {C:attention}Booster packs{}', 'now let you take one more', 'card than usual' }
+        text = { 'When held, {C:attention}Booster packs{}', 'now let you take #1# more', 'card than usual' }
     },
     atlas = 'Jokers',
     pos = {
@@ -12,22 +12,25 @@ SMODS.Joker {
     rarity = 1,
     config = {
         extra = {
-            mult = 5
+            extra_choices = 1
         }
     },
     blueprint_compat = false,
     cost = 6,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.mult }
+            vars = { stg.extra_choices }
         }
     end,
     add_to_deck = function(self, card, from_debuff)
-        G.GAME.choose_mod = G.GAME.choose_mod + 1
+        local stg = card.ability.extra
+        G.GAME.choose_mod = G.GAME.choose_mod + stg.extra_choices
     end,
 
     remove_from_deck = function(self, card, from_debuff)
-        G.GAME.choose_mod = G.GAME.choose_mod - 1
+        local stg = card.ability.extra
+        G.GAME.choose_mod = G.GAME.choose_mod - stg.extra_choices
     end,
     calculate = function(self, card, context)
         if context.open_booster then

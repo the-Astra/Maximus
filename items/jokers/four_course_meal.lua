@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'four_course_meal',
     loc_txt = {
         name = 'Four Course Meal',
-        text = { 'For the next 4 hands,', 'give {C:chips}+150{} Chips, {C:mult}+30{} Mult,', '{X:mult,C:white}X3{} Mult, and {C:money}$10{}', 'respectively' }
+        text = { 'For the next 4 hands,', 'give {C:chips}+#1#{} Chips, {C:mult}+#2#{} Mult,', '{X:mult,C:white}X#3#{} Mult, and {C:money}$#4#{}', 'respectively' }
     },
     atlas = 'Jokers',
     pos = {
@@ -12,47 +12,56 @@ SMODS.Joker {
     rarity = 3,
     config = {
         extra = {
-            hands = 0
+            hands = 0,
+            chips = 150,
+            mult = 30,
+            Xmult = 3,
+            money = 10
         }
     },
     blueprint_compat = true,
     eternal_compat = false,
     cost = 8,
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        return { vars = { stg.chips, stg.mult, stg.Xmult, stg.money } }
+    end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.joker_main then
-            card.ability.extra.hands = card.ability.extra.hands + (1 * G.GAME.fridge_mod)
-            if card.ability.extra.hands <= 1 then
+            stg.hands = stg.hands + (1 * G.GAME.fridge_mod)
+            if stg.hands <= 1 then
                 return {
-                    message = '+150',
-                    chip_mod = 150,
+                    message = '+' .. stg.chips,
+                    chip_mod = stg.chips,
                     colour = G.C.chips,
                     card = card
                 }
-            elseif card.ability.extra.hands <= 2 then
+            elseif stg.hands <= 2 then
                 return {
-                    message = '+30',
-                    mult_mod = 30,
+                    message = '+' .. stg.mult,
+                    mult_mod = stg.mult,
                     colour = G.C.mult,
                     card = card
                 }
-            elseif card.ability.extra.hands <= 3 then
+            elseif stg.hands <= 3 then
                 return {
-                    message = 'X3',
-                    Xmult_mod = 3,
+                    message = 'X' .. stg.Xmult,
+                    Xmult_mod = stg.Xmult,
                     colour = G.C.mult,
                     card = card
                 }
-            elseif card.ability.extra.hands <= 4 then
-                ease_dollars(10)
+            elseif stg.hands <= 4 then
+                ease_dollars(stg.money)
                 return {
-                    message = '$10',
+                    message = '$'..stg.money,
                     colour = G.C.money,
                     card = card
                 }
             end
         end
 
-        if context.after and card.ability.extra.hands >= 4 then
+        if context.after and stg.hands >= 4 then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     play_sound('tarot1')

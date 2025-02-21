@@ -17,16 +17,18 @@ SMODS.Joker {
     },
     blueprint_compat = true,
     cost = 5,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.mult }
+            vars = { stg.mult }
         }
     end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.joker_main then
             return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
+                mult_mod = stg.mult,
+                message = '+' .. stg.mult,
                 colour = G.C.MULT,
                 card = card
             }

@@ -13,7 +13,7 @@ SMODS.Joker {
     config = {},
     blueprint_compat = true,
     cost = 3,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         if G.GAME.last_bought ~= nil then
             local copied_key = G.GAME.last_bought.config.center.key
             info_queue[#info_queue + 1] = G.P_CENTERS[copied_key]

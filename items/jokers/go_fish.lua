@@ -14,7 +14,7 @@ SMODS.Joker {
     config = {},
     blueprint_compat = true,
     cost = 4,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         return {
             vars = { G.GAME.current_round.go_fish.rank, G.GAME.current_round.go_fish.mult }
         }

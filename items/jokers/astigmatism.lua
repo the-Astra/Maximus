@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'astigmatism',
     loc_txt = {
         name = 'Astigmatism',
-        text = { '{X:chips,C:white}x2{} Chips' }
+        text = { '{X:chips,C:white}x#1#{} Chips' }
     },
     atlas = 'Jokers',
     pos = {
@@ -10,14 +10,25 @@ SMODS.Joker {
         y = 0
     },
     rarity = 3,
-    config = {},
+    config = {
+        extra = {
+            Xchips = 2
+        }
+    },
     blueprint_compat = true,
     cost = 9,
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        return {
+            vars = { stg.Xchips }
+        }
+    end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.joker_main then
             return {
-                Xchip_mod = 2,
-                message = 'x2',
+                Xchip_mod = stg.Xchips,
+                message = 'x'..stg.Xchips,
                 colour = G.C.CHIPS,
                 card = card
             }

@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'streaker',
     loc_txt = {
         name = 'Streaker',
-        text = { '{C:chips}+20{} Chips and {C:mult}+5{} Mult', 'for each consecutive {C:attention}blind{}',
+        text = { '{C:chips}+#5#{} Chips and {C:mult}+#6#{} Mult', 'for each consecutive {C:attention}blind{}',
             'beaten in {C:attention}one hand{}, {C:red}Resets{}', 'when streak is broken',
             '{C:inactive}Current streak: #1#',
             '{C:inactive}Currently: {C:chips}+#3# {C:inactive}Chips, {C:mult}+#4#{} Mult' }
@@ -18,22 +18,25 @@ SMODS.Joker {
             streak = 0,
             hands = 0, -- I know there's an tracker in vanilla but I can't access it at context.end_of_round
             chips = 0,
-            mult = 0
+            mult = 0,
+            chip_gain = 20,
+            mult_gain = 5
         }
     },
     blueprint_compat = true,
     cost = 8,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.streak, center.ability.extra.hands, center.ability.extra.chips,
-                center.ability.extra.mult }
+            vars = { stg.streak, stg.hands, stg.chips, stg.mult, stg.chip_gain * G.GAME.soil_mod, stg.mult_gain * G.GAME.soil_mod }
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main and card.ability.extra.streak > 0 then
+        local stg = card.ability.extra
+        if context.joker_main and stg.streak > 0 then
             return {
-                mult_mod = card.ability.extra.chips,
-                chip_mod = card.ability.extra.mult,
+                mult_mod = stg.chips,
+                chip_mod = stg.mult,
                 message = 'Streaked!',
                 colour = G.C.MULT,
                 card = card
@@ -41,11 +44,11 @@ SMODS.Joker {
         end
 
         if context.before and not context.blueprint then
-            card.ability.extra.hands = card.ability.extra.hands + 1
-            if card.ability.extra.hands > 1 and card.ability.extra.streak ~= 0 then
-                card.ability.extra.streak = 0
-                card.ability.extra.chips = 0
-                card.ability.extra.mult = 0
+            stg.hands = stg.hands + 1
+            if stg.hands > 1 and stg.streak ~= 0 then
+                stg.streak = 0
+                stg.chips = 0
+                stg.mult = 0
                 return {
                     message = localize('k_reset'),
                     colour = G.C.RED,
@@ -55,11 +58,11 @@ SMODS.Joker {
         end
 
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            if card.ability.extra.hands == 1 then
-                card.ability.extra.hands = 0
-                card.ability.extra.streak = card.ability.extra.streak + 1
-                card.ability.extra.chips = 20 * card.ability.extra.streak * G.GAME.soil_mod
-                card.ability.extra.mult = 5 * card.ability.extra.streak * G.GAME.soil_mod
+            if stg.hands == 1 then
+                stg.hands = 0
+                stg.streak = stg.streak + 1
+                stg.chips = stg.chip_gain * stg.streak * G.GAME.soil_mod
+                stg.mult = stg.mult_gain * stg.streak * G.GAME.soil_mod
                 local groupchats = SMODS.find_card('j_mxms_group_chat')
                 if next(groupchats) then
                     for k, v in pairs(groupchats) do
@@ -75,12 +78,12 @@ SMODS.Joker {
                     end
                 end
                 return {
-                    message = 'Streak ' .. card.ability.extra.streak,
+                    message = 'Streak ' .. stg.streak,
                     colour = G.C.CHIPS,
                     card = card
                 }
             else
-                card.ability.extra.hands = 0
+                stg.hands = 0
             end
         end
     end

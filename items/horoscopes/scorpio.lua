@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Scorpio',
-        text = { 'Do not play your', '{C:attention}most played hand{} for', 'the next {C:blue}4{} hands to', 'receive {C:attention}+5{} levels for', 'your {C:attention}most played hand{}' }
+        text = { 'Do not play your', '{C:attention}most played hand{} for', 'the next {C:blue}#1#{} hands to', 'receive {C:attention}+#2#{} levels for', 'your {C:attention}most played hand{}' }
     },
     atlas = 'Consumables',
     pos = {
@@ -13,19 +13,26 @@ SMODS.Consumable {
     config = {
         extra = {
             hand_type = nil,
-            hands = 0
+            hands = 0,
+            goal = 4,
+            upgrade = 5
         }
     },
     cost = 4,
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        return { vars = { stg.goal, stg.upgrade } }
+    end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.before then
             if G.GAME.current_round.most_played_poker_hand == context.scoring_name then
                 self:fail(card)
             else
-                card.ability.extra.hands = card.ability.extra.hands + 1
-                SMODS.calculate_effect({ message = card.ability.extra.hands .. "/4", colour = G.C.HOROSCOPE }, card)
+                stg.hands = stg.hands + 1
+                SMODS.calculate_effect({ message = stg.hands .. "/"..stg.goal, colour = G.C.HOROSCOPE }, card)
 
-                if card.ability.extra.hands >= 4 then
+                if stg.hands >= stg.goal then
                     self:succeed(card, context)
                 end
             end
@@ -55,6 +62,7 @@ SMODS.Consumable {
         return true
     end,
     succeed = function(self, card, context)
+        local stg = card.ability.extra
         SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
         update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
             {
@@ -66,7 +74,7 @@ SMODS.Consumable {
                 level = G.GAME.hands
                     [G.GAME.current_round.most_played_poker_hand].level
             })
-        level_up_hand(card, G.GAME.current_round.most_played_poker_hand, false, 5)
+        level_up_hand(card, G.GAME.current_round.most_played_poker_hand, false, stg.upgrade)
         update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
             {
                 handname = context.scoring_name,

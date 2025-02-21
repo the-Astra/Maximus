@@ -10,15 +10,8 @@ SMODS.Joker {
         y = 2
     },
     rarity = 2,
-    config = {},
     blueprint_compat = false,
     cost = 7,
-    loc_vars = function(self, info_queue, center)
-        info_queue[#info_queue + 1] = G.P_CENTERS.m_lucky
-        return {
-            vars = {}
-        }
-    end,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
             -- Code derived from Midas Mask

@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'rock_slide',
     loc_txt = {
         name = 'Rock Slide',
-        text = { 'If played hand is', '{C:attention}5 Stone Cards,{} add', '5 random Stone Card', 'to the deck' }
+        text = { 'If played hand is', '{C:attention}5 Stone Cards,{} add', '#1# random Stone Cards', 'to the deck' }
     },
     atlas = 'Jokers',
     pos = {
@@ -13,13 +13,20 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 6,
     enhancement_gate = 'm_stone',
-    loc_vars = function(self, info_queue, center)
+    config = {
+        extra = {
+            stones = 5
+        }
+    },
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
         return {
-            vars = {}
+            vars = { stg.stones }
         }
     end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.before and #context.scoring_hand == 5 then
             local stone_tally = 0
             for k, v in ipairs(context.scoring_hand) do
@@ -29,7 +36,7 @@ SMODS.Joker {
             end
 
             if stone_tally == 5 then
-                for i = 1, stone_tally do
+                for i = 1, stg.stones do
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             local front = pseudorandom_element(G.P_CARDS, pseudoseed('slide_fr'))

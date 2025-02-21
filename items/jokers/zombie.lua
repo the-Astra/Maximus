@@ -10,10 +10,9 @@ SMODS.Joker {
         y = 5
     },
     rarity = 2,
-    config = {},
     blueprint_compat = true,
     cost = 8,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         if G.GAME.current_round.zombie_target ~= nil then
             local copied_key = G.GAME.current_round.zombie_target.config.center.key
             info_queue[#info_queue + 1] = G.P_CENTERS[copied_key]

@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'dont_mind_if_i_do',
     loc_txt = {
         name = 'Don\'t Mind if I Do',
-        text = { 'Gains {X:mult,C:white}X0.25{} Mult for every', 'card scored with a seal at the cost of',
+        text = { 'Gains {X:mult,C:white}X#2#{} Mult for every', 'card scored with a seal at the cost of',
             'removing the seal', '{C:inactive}Currently: {X:mult,C:white}X#1#' }
     },
     atlas = 'Jokers',
@@ -15,15 +15,18 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = {
-            Xmult = 1
+            Xmult = 1,
+            gain = 0.25
         }
     },
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.Xmult }
+            vars = { stg.Xmult, stg.gain }
         }
     end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.before and not context.blueprint then
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i].seal then
@@ -36,18 +39,17 @@ SMODS.Joker {
                             card:juice_up(0.3, 0.3)
                             other_card:juice_up(0.3, 0.3)
                             other_card:set_seal(nil, nil, true)
-                            card.ability.extra.Xmult = card:scale_value(card.ability.extra.Xmult, 0.25)
-                            return true
+                            stg.Xmult = card:scale_value(stg.Xmult, stg.gain)
                         end
                     }))
                 end
             end
         end
 
-        if context.joker_main and card.ability.extra.Xmult > 1 then
+        if context.joker_main and stg.Xmult > 1 then
             return {
-                Xmult_mod = card.ability.extra.Xmult,
-                message = 'X' .. card.ability.extra.Xmult,
+                Xmult_mod = stg.Xmult,
+                message = 'X' .. stg.Xmult,
                 colour = G.C.MULT,
                 card = card
             }

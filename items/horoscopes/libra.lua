@@ -12,25 +12,31 @@ SMODS.Consumable {
     },
     config = {
         extra = {
-            money_spent = 0
+            money_spent = 0,
+            goal = 15
         }
     },
     cost = 4,
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        return { vars = { stg.goal } }
+    end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.buying_card or context.open_booster then
-            card.ability.extra.money_spent = card.ability.extra.money_spent + context.card.cost
-            SMODS.calculate_effect({ message = "$" .. card.ability.extra.money_spent .. "/$15", colour = G.C.HOROSCOPE },
+            stg.money_spent = stg.money_spent + context.card.cost
+            SMODS.calculate_effect({ message = "$" .. stg.money_spent .. "/$" .. stg.goal, colour = G.C.HOROSCOPE },
                 card)
-            if card.ability.extra.money_spent >= 15 then
+            if stg.money_spent >= stg.goal then
                 self:succeed(card)
             end
         end
 
         if context.reroll_shop then
-            card.ability.extra.money_spent = card.ability.extra.money_spent + G.GAME.current_round.reroll_cost
-            SMODS.calculate_effect({ message = "$" .. card.ability.extra.money_spent .. "/$15", colour = G.C.HOROSCOPE },
+            stg.money_spent = stg.money_spent + G.GAME.current_round.reroll_cost
+            SMODS.calculate_effect({ message = "$" .. stg.money_spent .. "/$" .. stg.goal, colour = G.C.HOROSCOPE },
                 card)
-            if card.ability.extra.money_spent >= 15 then
+            if stg.money_spent >= stg.goal then
                 self:succeed(card)
             end
         end

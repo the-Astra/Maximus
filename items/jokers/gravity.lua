@@ -18,12 +18,14 @@ SMODS.Joker {
     blueprint_compat = false,
     eternal_compat = false,
     cost = 6,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.rounds }
+            vars = { stg.rounds }
         }
     end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
                 { handname = localize('k_all_hands'), chips = '...', mult = '...', level = '' })
@@ -65,13 +67,13 @@ SMODS.Joker {
             end
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 1.1, delay = 0 },
                 { mult = 0, chips = 0, handname = '', level = '' })
-            card.ability.extra.rounds = card.ability.extra.rounds - 1
+            stg.rounds = stg.rounds - 1
 
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.9,
                 func = function()
-                    if card.ability.extra.rounds == 0 then
+                    if stg.rounds == 0 then
                         card:start_dissolve({ G.C.RED }, nil, 1.6)
                         SMODS.calculate_effect({ message = "Splat!", colour = G.C.RED }, card)
                     end
@@ -81,6 +83,7 @@ SMODS.Joker {
         end
     end,
     add_to_deck = function(self, card, from_debuff)
+        local stg = card.ability.extra
         update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
             { handname = localize('k_all_hands'), chips = '...', mult = '...', level = '' })
         G.E_MANAGER:add_event(Event({
@@ -117,13 +120,14 @@ SMODS.Joker {
         update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.9, delay = 0 }, { level = '+5' })
         delay(1.3)
         for k, v in pairs(G.GAME.hands) do
-            level_up_hand(self, k, true, 5)
+            level_up_hand(self, k, true, stg.rounds)
         end
         update_hand_text({ sound = 'button', volume = 0.7, pitch = 1.1, delay = 0 },
             { mult = 0, chips = 0, handname = '', level = '' })
     end,
     remove_from_deck = function(self, card, from_debuff)
-        if card.ability.extra.rounds > 0 then
+        local stg = card.ability.extra
+        if stg.rounds > 0 then
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
                 { handname = localize('k_all_hands'), chips = '...', mult = '...', level = '' })
             G.E_MANAGER:add_event(Event({
@@ -155,10 +159,10 @@ SMODS.Joker {
                 end
             }))
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.9, delay = 0 },
-                { level = '-' .. card.ability.extra.rounds })
+                { level = '-' .. stg.rounds })
             delay(1.3)
             for k, v in pairs(G.GAME.hands) do
-                level_up_hand(self, k, true, -(card.ability.extra.rounds))
+                level_up_hand(self, k, true, -(stg.rounds))
             end
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 1.1, delay = 0 },
                 { mult = 0, chips = 0, handname = '', level = '' })

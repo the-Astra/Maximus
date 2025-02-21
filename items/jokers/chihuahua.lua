@@ -20,6 +20,7 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 8,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.before then
             local ranks = {
                 ["2"] = { freq = 0, id = '2' },
@@ -46,21 +47,21 @@ SMODS.Joker {
 
             for k, v in pairs(ranks) do
                 if v.freq ~= 0 then
-                    if v.freq < card.ability.extra.least_count or card.ability.extra.least_count == 0 then
-                        card.ability.extra.least_id = v.id
-                        card.ability.extra.least_count = v.freq
-                        card.ability.extra.tie = false
-                    elseif v.freq == card.ability.extra.least_count then
-                        card.ability.extra.tie = true
+                    if v.freq < stg.least_count or stg.least_count == 0 then
+                        stg.least_id = v.id
+                        stg.least_count = v.freq
+                        stg.tie = false
+                    elseif v.freq == stg.least_count then
+                        stg.tie = true
                     end
                 end
             end
         end
 
-        if context.cardarea == G.play and context.repetition and tostring(context.other_card.base.id) == card.ability.extra.least_id and not card.ability.extra.tie then
+        if context.cardarea == G.play and context.repetition and tostring(context.other_card.base.id) == stg.least_id and not stg.tie then
             local reps
-            if card.ability.extra.least_count <= 10 then
-                reps = card.ability.extra.least_count
+            if stg.least_count <= 10 then
+                reps = stg.least_count
             else
                 reps = 10
             end
@@ -72,9 +73,9 @@ SMODS.Joker {
         end
 
         if context.after then
-            card.ability.extra.least_id = '0'
-            card.ability.extra.least_count = 0
-            card.ability.extra.tie = false
+            stg.least_id = '0'
+            stg.least_count = 0
+            stg.tie = false
         end
     end
 }

@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'clown_car',
     loc_txt = {
         name = 'Clown Car',
-        text = { 'Gains {C:mult}+2{} Mult each time', 'a Joker is added to hand', '{C:inactive}Currently: +#1#' }
+        text = { 'Gains {C:mult}+#2#{} Mult each time', 'a Joker is added to hand', '{C:inactive}Currently: +#1#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -12,21 +12,24 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = {
-            mult = 0
+            mult = 0,
+            gain = 2
         }
     },
     blueprint_compat = true,
     cost = 7,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.mult }
+            vars = { stg.mult. stg.gain }
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main and card.ability.extra.mult > 0 then
+        local stg = card.ability.extra
+        if context.joker_main and stg.mult > 0 then
             return {
-                mult_mod = card.ability.extra.mult,
-                message = '+' .. card.ability.extra.mult,
+                mult_mod = stg.mult,
+                message = '+' .. stg.mult,
                 colour = G.C.MULT,
                 card = card
             }

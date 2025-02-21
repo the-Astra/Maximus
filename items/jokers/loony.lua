@@ -16,16 +16,18 @@ SMODS.Joker {
     },
     blueprint_compat = true,
     cost = 3,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability
         return {
-            vars = { center.ability.mult, center.ability.type }
+            vars = { stg.mult, stg.type }
         }
     end,
     calculate = function(self, card, context)
+        local stg = card.ability
         if context.joker_main and context.scoring_name == 'High Card' then
             return {
-                mult_mod = card.ability.mult,
-                message = '+' .. card.ability.mult,
+                mult_mod = stg.mult,
+                message = '+' .. stg.mult,
                 colour = G.C.MULT,
                 card = card
             }

@@ -2,8 +2,8 @@ SMODS.Joker {
     key = 'marco_polo',
     loc_txt = {
         name = 'Marco Polo',
-        text = { '{C:mult}+12{} Mult if card is at secret placement', 'in Joker hand order. Given Mult is',
-            '{C:red}subtracted by 3{} for', 'each card out of place', '{C:inactive}Position changes every round{}' }
+        text = { '{C:mult}+#1#{} Mult if card is at secret placement', 'in Joker hand order. Given Mult is',
+            '{C:red}subtracted by #2#{} for', 'each card out of place', '{C:inactive}Position changes every round{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -11,10 +11,20 @@ SMODS.Joker {
         y = 4
     },
     rarity = 1,
-    config = {},
+    config = {
+        extra = {
+            base_mult = 12,
+            dMult = 3
+        }
+    },
     blueprint_compat = true,
     cost = 3,
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        return { vars = { stg.base_mult, stg.dMult } }
+    end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.joker_main then
             local position = 0
             for i = 0, #G.jokers.cards do
@@ -23,7 +33,7 @@ SMODS.Joker {
                 end
             end
 
-            local mult = 12 - (3 * (math.abs(position - G.GAME.current_round.marco_polo_pos)))
+            local mult = stg.base_mult - (stg.dMult * (math.abs(position - G.GAME.current_round.marco_polo_pos)))
 
             if mult < 0 then
                 mult = 0

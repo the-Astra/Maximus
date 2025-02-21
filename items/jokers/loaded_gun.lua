@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'loaded_gun',
     loc_txt = {
         name = 'Loaded Gun',
-        text = { 'Played {C:attention}Steel Cards{}', 'give {X:mult,C:white}X2{} Mult' }
+        text = { 'Played {C:attention}Steel Cards{}', 'give {X:mult,C:white}X#1#{} Mult' }
     },
     atlas = 'Jokers',
     pos = {
@@ -18,14 +18,16 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 8,
     enhancement_gate = 'm_steel',
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
-        return {}
+        return { vars = { stg.Xmult } }
     end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.individual and context.cardarea == G.play and context.other_card.config.center == G.P_CENTERS.m_steel then
             return {
-                x_mult = card.ability.extra.Xmult,
+                x_mult = stg.Xmult,
                 colour = G.C.MULT,
                 card = card
             }

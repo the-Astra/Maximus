@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'group_chat',
     loc_txt = {
         name = 'Group Chat',
-        text = { 'Gains {C:chips}+2{} Chips', 'whenever another Joker scales', '{C:inactive}Currently: {C:chips}+#1#' }
+        text = { 'Gains {C:chips}+#2#{} Chips', 'whenever another Joker scales', '{C:inactive}Currently: {C:chips}+#1#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -12,21 +12,24 @@ SMODS.Joker {
     rarity = 1,
     config = {
         extra = {
-            chips = 0
+            chips = 0,
+            gain = 2
         }
     },
     blueprint_compat = true,
     cost = 3,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.chips }
+            vars = { stg.chips, stg.gain }
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main and card.ability.extra.chips > 0 then
+        local stg = card.ability.extra
+        if context.joker_main and stg.chips > 0 then
             return {
-                chip_mod = card.ability.extra.chips,
-                message = '+' .. card.ability.extra.chips,
+                chip_mod = stg.chips,
+                message = '+' .. stg.chips,
                 colour = G.C.CHIPS,
                 card = card
             }

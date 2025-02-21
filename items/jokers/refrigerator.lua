@@ -10,11 +10,6 @@ SMODS.Joker { -- Refrigerator
         y = 2
     },
     rarity = 2,
-    config = {
-        extra = {
-            mult = 5
-        }
-    },
     blueprint_compat = false,
     cost = 6,
     add_to_deck = function(self, card, from_debuff)

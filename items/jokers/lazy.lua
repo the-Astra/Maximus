@@ -16,16 +16,18 @@ SMODS.Joker {
     },
     blueprint_compat = true,
     cost = 3,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability
         return {
-            vars = { center.ability.chips, center.ability.type }
+            vars = { stg.chips, stg.type }
         }
     end,
     calculate = function(self, card, context)
+        local stg = card.ability
         if context.joker_main and context.scoring_name == 'High Card' then
             return {
-                chip_mod = card.ability.chips,
-                message = '+' .. card.ability.chips,
+                chip_mod = stg.chips,
+                message = '+' .. stg.chips,
                 colour = G.C.CHIPS,
                 card = card
             }

@@ -18,7 +18,7 @@ SMODS.Joker {
     },
     blueprint_compat = true,
     cost = 7,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
         local calc = 3
         if G.playing_cards ~= nil then
             calc = 2 * math.exp(-(((#G.playing_cards - 52) ^ 2) / 250)) + 1
@@ -28,11 +28,12 @@ SMODS.Joker {
         }
     end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.joker_main then
-            card.ability.extra.Xmult = 2 * math.exp(-(((#G.playing_cards - 52) ^ 2) / 250)) + 1
+            stg.Xmult = 2 * math.exp(-(((#G.playing_cards - 52) ^ 2) / 250)) + 1
             return {
-                Xmult_mod = card.ability.extra.Xmult,
-                message = 'X' .. card.ability.extra.Xmult,
+                Xmult_mod = stg.Xmult,
+                message = 'X' .. stg.Xmult,
                 colour = G.C.MULT,
                 card = card
             }

@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'stone_thrower',
     loc_txt = {
         name = 'Stone Thrower',
-        text = { 'Gains {C:chips}+30{} Chips for every', 'scored {C:attention}glass card{}', 'Glass cards are {C:attention}guaranteed to break{}', '{C:inactive}Currently: {C:chips}+#1#' }
+        text = { 'Gains {C:chips}+#2#{} Chips for every', 'scored {C:attention}glass card{}', 'Glass cards are {C:attention}guaranteed to break{}', '{C:inactive}Currently: {C:chips}+#1#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -12,30 +12,33 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = {
-            chips = 0
+            chips = 0,
+            gain = 30
         }
     },
     blueprint_compat = false,
     enhancement_gate = 'm_glass',
     cost = 3,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
         return {
-            vars = { center.ability.extra.chips }
+            vars = { stg.chips, stg.gain }
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main and card.ability.extra.chips > 0 then
+        local stg = card.ability.extra
+        if context.joker_main and stg.chips > 0 then
             return {
-                chip_mod = card.ability.extra.chips,
-                message = '+' .. card.ability.extra.chips,
+                chip_mod = stg.chips,
+                message = '+' .. stg.chips,
                 colour = G.C.CHIPS,
                 card = card
             }
         end
 
         if context.individual and context.cardarea == G.play and context.other_card.config.center == G.P_CENTERS.m_glass then
-            card.ability.extra.chips = card.ability.extra.chips + 30 * G.GAME.soil_mod
+            stg.chips = stg.chips + stg.gain  * G.GAME.soil_mod
             SMODS.calculate_effect({ message = localize('k_upgrade_ex'), colour = G.C.CHIPS }, card)
         end
     end

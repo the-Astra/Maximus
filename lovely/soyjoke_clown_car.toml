@@ -22,7 +22,7 @@ if self.ability.set == 'Joker' then
             for k, v in pairs(G.jokers.cards) do
                 if v.config.center.key == 'j_mxms_clown_car' then
                 v:juice_up(0.1,0.1)
-                    v.ability.extra.mult = v.ability.extra.mult + (2 * G.GAME.soil_mod)
+                    v.ability.extra.mult = v.ability.extra.mult + (v.ability.extra.gain * G.GAME.soil_mod)
                     return true
                 end
             end
@@ -32,7 +32,7 @@ if self.ability.set == 'Joker' then
     G.E_MANAGER:add_event(Event({func = function()
         for k, v in pairs(G.GAME.purchased_jokers) do
             if v == self.ability.name then
-                G.GAME.soy_mod = G.GAME.soy_mod + 0.25
+                G.GAME.soy_mod = G.GAME.soy_mod + 1
                 return true
             end
         end

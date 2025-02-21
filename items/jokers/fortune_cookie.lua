@@ -22,20 +22,22 @@ SMODS.Joker {
             odds = 10
         }
     },
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { G.GAME.probabilities.normal, center.ability.extra.prob * G.GAME.fridge_mod,
-                center.ability.extra.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal,
-                center.ability.extra.odds * G.GAME.fridge_mod }
+            vars = { G.GAME.probabilities.normal, stg.prob * G.GAME.fridge_mod,
+                stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal,
+                stg.odds * G.GAME.fridge_mod }
         }
     end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         -- Activate ability before scoring if chance is higher than 0
-        if context.before and card.ability.extra.odds > 0 then
+        if context.before and stg.odds > 0 then
             -- Roll chance and decrease by 1
             local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante)) <
-                card.ability.extra.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal / card.ability.extra.odds
-            card.ability.extra.prob = card.ability.extra.odds - (1 / G.GAME.fridge_mod)
+                stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal / stg.odds
+            stg.prob = stg.odds - (1 / G.GAME.fridge_mod)
 
             -- Check if Consumables is full
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
@@ -64,8 +66,8 @@ SMODS.Joker {
 
                     -- Failed Roll
                 else
-                    mxms_scale_pessimistics(card.ability.extra.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal,
-                        card.ability.extra.odds)
+                    mxms_scale_pessimistics(stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal,
+                        stg.odds)
 
                     return {
                         sound = 'tarot2',
@@ -93,7 +95,7 @@ SMODS.Joker {
 
         -- "Crumble" card after scoring
         if context.after and not context.blueprint then
-            if card.ability.extra.odds <= 0 then
+            if stg.odds <= 0 then
                 G.GAME.destroyed_food = card.config.center.key
                 -- Code derived from Gros Michel/Cavendish
                 G.E_MANAGER:add_event(Event({

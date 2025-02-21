@@ -17,9 +17,10 @@ SMODS.Joker {
     },
     blueprint_compat = false,
     cost = 6,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.dollars }
+            vars = { stg.dollars }
         }
     end
 }

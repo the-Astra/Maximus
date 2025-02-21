@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Pisces',
-        text = { 'Use {C:attention}5{} {C:tarot}Tarot{} cards within', 'the ante to receive', 'a random {C:spectral}Spectral{} Card' }
+        text = { 'Use {C:attention}#1#{} {C:tarot}Tarot{} cards within', 'the ante to receive', 'a random {C:spectral}Spectral{} Card' }
     },
     atlas = 'Consumables',
     pos = {
@@ -12,16 +12,22 @@ SMODS.Consumable {
     },
     config = {
         extra = {
-            tally = 0
+            tally = 0,
+            goal = 5
         }
     },
     cost = 4,
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        return { vars = { stg.goal } }
+    end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.using_consumeable and context.consumeable.ability.set == "Tarot" then
-            card.ability.extra.tally = card.ability.extra.tally + 1
-            SMODS.calculate_effect({ message = card.ability.extra.tally .. "/5", colour = G.C.HOROSCOPE }, card)
+            stg.tally = stg.tally + 1
+            SMODS.calculate_effect({ message = stg.tally .. "/" .. stg.goal, colour = G.C.HOROSCOPE }, card)
 
-            if card.ability.extra.tally >= 5 then
+            if stg.tally >= stg.goal then
                 self:succeed(card)
             end
         end

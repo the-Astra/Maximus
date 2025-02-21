@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'dark_room',
     loc_txt = {
         name = 'Dark Room',
-        text = { 'After 3 rounds, sell this', 'Joker to upgrade a random', 'owned voucher' }
+        text = { 'After #1# rounds, sell this', 'Joker to upgrade a random', 'owned voucher' }
     },
     atlas = 'Jokers',
     pos = {
@@ -15,16 +15,19 @@ SMODS.Joker {
     cost = 7,
     config = {
         extra = {
-            rounds = 0
+            rounds = 0,
+            req = 3
         }
     },
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.rounds }
+            vars = { stg.req }
         }
     end,
     calculate = function(self, card, context)
-        if context.selling_self and card.ability.extra.rounds == 3 and not context.blueprint then
+        local stg = card.ability.extra
+        if context.selling_self and stg.rounds == 3 and not context.blueprint then
             local voucher_pool = get_current_pool('Voucher')
 
             local eligible_vouchers = {}
@@ -59,9 +62,9 @@ SMODS.Joker {
         end
 
         if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and
-            card.ability.extra.rounds < 3 then
-            card.ability.extra.rounds = card.ability.extra.rounds + 1
-            if card.ability.extra.rounds == 3 then
+            stg.rounds < 3 then
+            stg.rounds = stg.rounds + 1
+            if stg.rounds == 3 then
                 local eval = function(card)
                     return not card.REMOVED
                 end
@@ -69,7 +72,7 @@ SMODS.Joker {
             end
 
             return {
-                message = (card.ability.extra.rounds < 3) and (card.ability.extra.rounds .. '/3') or
+                message = (stg.rounds < 3) and (stg.rounds .. '/3') or
                     localize('k_active_ex'),
                 colour = G.C.FILTER,
                 card = card

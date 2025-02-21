@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Gemini',
-        text = { 'For the next {C:blue}3{} hands,', 'play {C:red}no repeat hand types{} to', 'receive {C:attention}+3{} levels for', 'each played hand type' }
+        text = { 'For the next {C:blue}#1#{} hands,', 'play {C:red}no repeat hand types{} to', 'receive {C:attention}+#2#{} levels for', 'each played hand type' }
     },
     atlas = 'Consumables',
     pos = {
@@ -26,21 +26,28 @@ SMODS.Consumable {
             ["High Card"] = false,
         },
         extra = {
-            times = 0
+            times = 0,
+            goal = 3,
+            upgrade = 3
         }
     },
     cost = 4,
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        return { vars = { stg.goal, stg.upgrade } }
+    end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.before then
             if card.ability.hands[context.scoring_name] then
                 self:fail(card)
             else
                 card.ability.hands[context.scoring_name] = true
-                card.ability.extra.times = card.ability.extra.times + 1
-                SMODS.calculate_effect({ message = card.ability.extra.times .. "/3", colour = G.C.HOROSCOPE }, card)
+                stg.times = stg.times + 1
+                SMODS.calculate_effect({ message = stg.times .. "/"..stg.goal, colour = G.C.HOROSCOPE }, card)
             end
 
-            if card.ability.extra.times == 3 then
+            if stg.times == stg.goal then
                 self:succeed(card, context)
             end
         end
@@ -69,6 +76,7 @@ SMODS.Consumable {
         return true
     end,
     succeed = function(self, card, context)
+        local stg = card.ability.extra
         SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
         for k, v in pairs(card.ability.hands) do
             if v then
@@ -80,7 +88,7 @@ SMODS.Consumable {
                         level = G.GAME.hands[k]
                             .level
                     })
-                level_up_hand(card, k, false, 3)
+                level_up_hand(card, k, false, stg.upgrade)
             end
         end
         update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },

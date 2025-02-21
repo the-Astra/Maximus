@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'combo_breaker',
     loc_txt = {
         name = 'Combo Breaker',
-        text = { 'Gains {X:mult,C:white}X0.5{} Mult', 'per retrigger',
+        text = { 'Gains {X:mult,C:white}X#1#{} Mult', 'per retrigger',
             '{C:inactive}Starts at {X:mult,C:white}X1{C:inactive} Mult, resets every hand{}' }
     },
     atlas = 'Jokers',
@@ -13,43 +13,42 @@ SMODS.Joker {
     rarity = 3,
     config = {
         extra = {
-            Xmult = 1.0,
+            gain = 0.5,
             retriggers = 0
         }
     },
     blueprint_compat = true,
     cost = 8,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.Xmult, center.ability.extra.retriggers }
+            vars = { stg.gain }
         }
     end,
 
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.post_trigger and context.other_context.retrigger_joker then
             -- Add retrigger to total
-            card.ability.extra.retriggers = card.ability.extra.retriggers + 1
+            stg.retriggers = stg.retriggers + 1
             return {
                 card = card
             }
         end
 
-        if context.joker_main and card.ability.extra.retriggers > 0 then
-            -- Add retrigger count and multiply by 0.5 for mult
-            card.ability.extra.Xmult = card.ability.extra.Xmult + (card.ability.extra.retriggers * 0.5)
+        if context.joker_main and stg.retriggers > 0 then
 
             return {
                 sound = 'mxms_perfect',
-                Xmult_mod = card.ability.extra.Xmult,
-                message = 'X' .. card.ability.extra.Xmult,
+                Xmult_mod = stg.retriggers * stg.gain,
+                message = 'X' .. stg.retriggers * stg.gain,
                 colour = G.C.MULT,
                 card = card
             }
         end
 
         if context.before or context.after then
-            card.ability.extra.retriggers = 0
-            card.ability.extra.Xmult = 1.0
+            stg.retriggers = 0
         end
     end
 }

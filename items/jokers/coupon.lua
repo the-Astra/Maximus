@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'coupon',
     loc_txt = {
         name = 'Coupon',
-        text = { '{C:green}#1# in 10{} chance for shop', 'Jokers to be free' }
+        text = { '{C:green}#1# in #2#{} chance for shop', 'Jokers to be free' }
     },
     atlas = 'Jokers',
     pos = {
@@ -12,14 +12,16 @@ SMODS.Joker {
     rarity = 1,
     config = {
         extra = {
-            odds = 1
+            prob = 1,
+            odds = 10
         }
     },
     blueprint_compat = false,
     cost = 5,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.odds * G.GAME.probabilities.normal }
+            vars = { stg.prob * G.GAME.probabilities.normal, stg.odds }
         }
     end
 }

@@ -2,7 +2,7 @@ SMODS.Joker {
     key = '4d',
     loc_txt = {
         name = '4D Joker',
-        text = { '{X:mult,C:white}X#1#{} Mult,', 'decreases by {X:mult,C:white}X0.01{}', 'every second' }
+        text = { '{X:mult,C:white}X#1#{} Mult,', 'decreases by {X:mult,C:white}X#2#{}', 'every second' }
     },
     atlas = '4D',
     pos = {
@@ -20,25 +20,28 @@ SMODS.Joker {
     cost = 6,
     config = {
         extra = {
-            Xmult = 4
+            Xmult = 4,
+            dXmult = 0.01
         }
     },
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.Xmult }
+            vars = { stg.Xmult, stg.dXmult }
         }
     end,
     calculate = function(self, card, context)
-        if context.joker_main and card.ability.extra.Xmult > 1 then
+        local stg = card.ability.extra
+        if context.joker_main and stg.Xmult > 1 then
             return {
-                Xmult_mod = card.ability.extra.Xmult,
-                message = 'X' .. card.ability.extra.Xmult,
+                Xmult_mod = stg.Xmult,
+                message = 'X' .. stg.Xmult,
                 colour = G.C.MULT,
                 card = card
             }
         end
 
-        if card.ability.extra.Xmult <= 1 then
+        if stg.Xmult <= 1 then
             card:start_dissolve({ G.C.BLUE }, nil, 1.6)
         end
     end
@@ -78,7 +81,7 @@ function Game:update(dt)
 
         for k, v in pairs(G.jokers.cards) do
             if v.config.center.key == 'j_mxms_4d' and v.ability.extra.Xmult > 1 then
-                v.ability.extra.Xmult = v.ability.extra.Xmult - 0.01
+                v.ability.extra.Xmult = v.ability.extra.Xmult - v.ability.extra.dXmult
                 v:juice_up(0.1, 0.2)
                 if Maximus_config.Maximus.four_d_ticks then
                     play_sound('generic1')

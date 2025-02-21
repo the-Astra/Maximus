@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Taurus',
-        text = { 'Play the same {C:attention}hand type{}', '3 times in a row to receive', '{C:attention}+3{} levels for that hand type' }
+        text = { 'Play the same {C:attention}hand type{}', '#1# times in a row to receive', '{C:attention}+#2#{} levels for that hand type' }
     },
     atlas = 'Consumables',
     pos = {
@@ -13,24 +13,31 @@ SMODS.Consumable {
     config = {
         extra = {
             hand_type = nil,
-            times = 0
+            times = 0,
+            goal = 3,
+            upgrade = 3
         }
     },
     cost = 4,
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        return { vars = { stg.goal, stg.upgrade } }
+    end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.before then
-            if not card.ability.extra.hand_type then
-                card.ability.extra.hand_type = context.scoring_name
-                card.ability.extra.times = card.ability.extra.times + 1
-                SMODS.calculate_effect({ message = card.ability.extra.times .. "/3", colour = G.C.HOROSCOPE }, card)
-            elseif card.ability.extra.hand_type == context.scoring_name then
-                card.ability.extra.times = card.ability.extra.times + 1
-                SMODS.calculate_effect({ message = card.ability.extra.times .. "/3", colour = G.C.HOROSCOPE }, card)
+            if not stg.hand_type then
+                stg.hand_type = context.scoring_name
+                stg.times = stg.times + 1
+                SMODS.calculate_effect({ message = stg.times .. "/"..stg.goal, colour = G.C.HOROSCOPE }, card)
+            elseif stg.hand_type == context.scoring_name then
+                stg.times = stg.times + 1
+                SMODS.calculate_effect({ message = stg.times .. "/"..stg.goal, colour = G.C.HOROSCOPE }, card)
             else
                 self:fail(card)
             end
 
-            if card.ability.extra.times == 3 then
+            if stg.times == stg.goal then
                 self:succeed(card)
             end
 
@@ -59,8 +66,9 @@ SMODS.Consumable {
         return true
     end,
     succeed = function(self, card)
+        local stg = card.ability.extra
         SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
-        level_up_hand(card, card.ability.extra.hand_type, false, 5)
+        level_up_hand(card, stg.hand_type, false, stg.upgrade)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()

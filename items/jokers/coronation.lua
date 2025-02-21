@@ -19,14 +19,16 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 7,
     joker_gate = 'j_joker',
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS.j_joker
     end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.end_of_round and not context.individual and not context.repetition and next(SMODS.find_card('j_joker')) then
-            if not card.ability.extra.skips_used then
+            if not stg.skips_used then
                 if G.GAME.round % 3 == 0 then
-                    if card.ability.extra.rounds == 3 then
+                    if stg.rounds == 3 then
                         G.E_MANAGER:add_event(Event({
                             trigger = 'after',
                             func = function()
@@ -47,8 +49,8 @@ SMODS.Joker {
                             end
                         }))
 
-                        card.ability.extra.rounds = 0
-                        card.ability.extra.skips_used = false
+                        stg.rounds = 0
+                        stg.skips_used = false
 
                         return {
                             message = 'Crowned',
@@ -56,9 +58,9 @@ SMODS.Joker {
                             card = card
                         }
                     end
-                elseif card.ability.extra.rounds > 0 then
+                elseif stg.rounds > 0 then
                     return {
-                        message = card.ability.extra.rounds .. '/3',
+                        message = stg.rounds .. '/3',
                         colour = G.C.YELLOW,
                         card = card
                     }
@@ -66,12 +68,12 @@ SMODS.Joker {
             end
         end
 
-        if context.setting_blind and (card.ability.extra.rounds > 0 or G.GAME.round % 3 == 1) then
-            card.ability.extra.rounds = card.ability.extra.rounds + 1
+        if context.setting_blind and (stg.rounds > 0 or G.GAME.round % 3 == 1) then
+            stg.rounds = stg.rounds + 1
         end
 
         if context.skip_blind then
-            card.ability.extra.skips_used = true
+            stg.skips_used = true
             return {
                 message = localize('k_reset'),
                 colour = G.C.YELLOW,

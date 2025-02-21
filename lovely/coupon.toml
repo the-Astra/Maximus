@@ -16,7 +16,7 @@ payload = '''
     local coupons = SMODS.find_card('j_mxms_coupon')
     if card.ability.set == 'Joker' and next(coupons) then
         for k, v in pairs(coupons) do
-            if pseudorandom('cou' .. G.GAME.round_resets.ante, 1 * G.GAME.probabilities.normal, 10) == 10 then
+            if pseudorandom('cou' .. G.GAME.round_resets.ante, v.ability.extra.prob * G.GAME.probabilities.normal, v.ability.extra.odds) == v.ability.extra.odds then
                 card.cost = 0
                 v:juice_up(0.3, 0.4)
                 break

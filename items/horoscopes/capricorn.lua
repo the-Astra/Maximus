@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Capricorn',
-        text = { 'Destroy {C:attention}3{} cards within', 'the ante to', 'receive an {C:spectral}Immolate{}' }
+        text = { 'Destroy {C:attention}#1#{} cards within', 'the ante to', 'receive an {C:spectral}Immolate{}' }
     },
     atlas = 'Consumables',
     pos = {
@@ -12,28 +12,32 @@ SMODS.Consumable {
     },
     config = {
         extra = {
-            tally = 0
+            tally = 0,
+            goal = 3
         }
     },
     cost = 4,
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS.c_immolate
+        return { vars = { stg.goal } }
     end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.remove_playing_cards then
-            card.ability.extra.tally = card.ability.extra.tally + #context.removed
-            SMODS.calculate_effect({ message = card.ability.extra.tally .. "/3", colour = G.C.HOROSCOPE }, card)
+            stg.tally = stg.tally + #context.removed
+            SMODS.calculate_effect({ message = stg.tally .. "/"..stg.goal, colour = G.C.HOROSCOPE }, card)
 
-            if card.ability.extra.tally >= 3 then
+            if stg.tally >= stg.goal then
                 self:succeed(card)
             end
         end
 
         if context.cards_destroyed then
-            card.ability.extra.tally = card.ability.extra.tally + #context.glass_shattered
-            SMODS.calculate_effect({ message = card.ability.extra.tally .. "/3", colour = G.C.HOROSCOPE }, card)
+            stg.tally = stg.tally + #context.glass_shattered
+            SMODS.calculate_effect({ message = stg.tally .. "/3", colour = G.C.HOROSCOPE }, card)
 
-            if card.ability.extra.tally == 3 then
+            if stg.tally == 3 then
                 self:succeed(card)
             end
         end

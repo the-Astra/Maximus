@@ -19,6 +19,7 @@ SMODS.Joker {
     blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
             -- Code derived from Sigil
             for i = 1, #context.scoring_hand do
@@ -64,7 +65,7 @@ SMODS.Joker {
                 }))
             end
             delay(0.5)
-            card.ability.extra.triggered = true
+            stg.triggered = true
             return {
                 message = 'how Unpleasant',
                 colour = G.C.PURPLE,
@@ -72,8 +73,8 @@ SMODS.Joker {
             }
         end
 
-        if context.after and card.ability.extra.triggered then
-            card.ability.extra.triggered = false
+        if context.after and stg.triggered then
+            stg.triggered = false
         end
     end
 }
