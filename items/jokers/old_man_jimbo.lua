@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'old_man_jimbo',
     loc_txt = {
         name = 'Old Man Jimbo',
-        text = { '{X:mult,C:white}X1{} Mult plus {X:mult,C:white}X0.5{}', 'for each remaining hand' }
+        text = { '{X:mult,C:white}X1{} Mult plus {X:mult,C:white}X#1#{}', 'for each remaining hand' }
     },
     atlas = 'Jokers',
     pos = {
@@ -12,18 +12,21 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = {
-            Xmult = 0
+            gain = 0.5
         }
     },
     blueprint_compat = true,
     cost = 6,
-
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        return { cars = { stg.gain } }
+    end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.joker_main then
-            card.ability.extra.Xmult = 1 + (0.5 * G.GAME.current_round.hands_left)
             return {
-                Xmult_mod = card.ability.extra.Xmult,
-                message = 'X' .. card.ability.extra.Xmult,
+                Xmult_mod = 1 + (stg.gain* G.GAME.current_round.hands_left),
+                message = 'X' .. 1 + (stg.gain* G.GAME.current_round.hands_left),
                 colour = G.C.MULT,
                 card = card
             }

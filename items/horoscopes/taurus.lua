@@ -29,10 +29,10 @@ SMODS.Consumable {
             if not stg.hand_type then
                 stg.hand_type = context.scoring_name
                 stg.times = stg.times + 1
-                SMODS.calculate_effect({ message = stg.times .. "/"..stg.goal, colour = G.C.HOROSCOPE }, card)
+                SMODS.calculate_effect({ message = stg.times .. "/" .. stg.goal, colour = G.C.HOROSCOPE }, card)
             elseif stg.hand_type == context.scoring_name then
                 stg.times = stg.times + 1
-                SMODS.calculate_effect({ message = stg.times .. "/"..stg.goal, colour = G.C.HOROSCOPE }, card)
+                SMODS.calculate_effect({ message = stg.times .. "/" .. stg.goal, colour = G.C.HOROSCOPE }, card)
             else
                 self:fail(card)
             end

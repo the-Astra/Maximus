@@ -1,4 +1,4 @@
-SMODS.Joker { 
+SMODS.Joker {
     key = 'fog',
     loc_txt = {
         name = 'Fog',

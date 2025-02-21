@@ -15,21 +15,23 @@ SMODS.Voucher {
             val_mod = 1
         }
     },
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra.ante_mod, center.ability.extra.val_mod }
+            vars = { stg.ante_mod, stg.val_mod }
         }
     end,
     redeem = function(self, card, from_debuff)
-        ease_ante(card.ability.extra.ante_mod)
+        local stg = card.ability.extra
+        ease_ante(stg.ante_mod)
         G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
-        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + card.ability.extra.ante_mod
+        G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + stg.ante_mod
 
-        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.val_mod
-        ease_hands_played(card.ability.extra.val_mod)
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + stg.val_mod
+        ease_hands_played(stg.val_mod)
 
-        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.val_mod
-        ease_discard(card.ability.extra.val_mod)
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + stg.val_mod
+        ease_discard(stg.val_mod)
     end,
     in_pool = function(self, args)
         if G.GAME.round_resets.ante == G.GAME.win_ante then

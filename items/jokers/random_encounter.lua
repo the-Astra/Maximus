@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'random_encounter',
     loc_txt = {
         name = 'Random Encounter',
-        text = { '{C:green}#1# in 4{} chance of', 'scored playing cards', 'gaining permanent {C:mult}+#2#{} Bonus Mult' }
+        text = { '{C:green}#1# in #2#{} chance of', 'scored playing cards', 'gaining permanent {C:mult}+#3#{} Bonus Mult' }
     },
     atlas = 'Jokers',
     pos = {
@@ -12,7 +12,8 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = {
-            chance = 1,
+            prob = 1,
+            odds = 4,
             mult = 1
         }
     },
@@ -21,17 +22,16 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.chance * G.GAME.probabilities.normal, stg.mult }
+            vars = { stg.prob * G.GAME.probabilities.normal, stg.odds, stg.mult }
         }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.individual and context.cardarea == G.play then
-            local chance_roll = pseudorandom(pseudoseed('rand_enc' .. G.GAME.round_resets.ante),
-                stg.chance * G.GAME.probabilities.normal, 4)
-            if chance_roll == 4 then
+            if pseudorandom(pseudoseed('rand_enc' .. G.GAME.round_resets.ante)) < stg.prob * G.GAME.probabilities.normal / stg.odds then
                 context.other_card.ability.mxms_mult_perma_bonus = context.other_card.ability.mxms_mult_perma_bonus or 0
-                context.other_card.ability.mxms_mult_perma_bonus = context.other_card.ability.mxms_mult_perma_bonus + stg.mult
+                context.other_card.ability.mxms_mult_perma_bonus = context.other_card.ability.mxms_mult_perma_bonus +
+                    stg.mult
                 return {
                     message = 'A random mult appears!',
                     colour = G.C.MULT,

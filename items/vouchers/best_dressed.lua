@@ -13,12 +13,14 @@ SMODS.Voucher {
         extra = 0.2
     },
     requires = { 'v_mxms_sharp_suit' },
-    loc_vars = function(self, info_queue, center)
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
         return {
-            vars = { center.ability.extra }
+            vars = { stg }
         }
     end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.other_consumeable and context.other_consumeable.ability.set == 'Tarot' and context.other_consumeable.ability.consumeable.suit_conv then
             local suit_tally = 0
             for i = 1, #context.scoring_hand do
@@ -28,7 +30,7 @@ SMODS.Voucher {
             end
             if suit_tally > 0 then
                 return {
-                    x_mult = card.ability.extra * suit_tally + 1
+                    x_mult = stg * suit_tally + 1
                 }
             end
         end

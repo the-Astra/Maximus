@@ -37,7 +37,6 @@ SMODS.Joker {
         end
 
         if context.joker_main and stg.retriggers > 0 then
-
             return {
                 sound = 'mxms_perfect',
                 Xmult_mod = stg.retriggers * stg.gain,

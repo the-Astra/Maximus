@@ -28,7 +28,7 @@ SMODS.Joker {
         if context.joker_main then
             return {
                 Xchip_mod = stg.Xchips,
-                message = 'x'..stg.Xchips,
+                message = 'x' .. stg.Xchips,
                 colour = G.C.CHIPS,
                 card = card
             }

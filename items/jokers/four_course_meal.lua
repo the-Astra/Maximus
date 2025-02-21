@@ -54,7 +54,7 @@ SMODS.Joker {
             elseif stg.hands <= 4 then
                 ease_dollars(stg.money)
                 return {
-                    message = '$'..stg.money,
+                    message = '$' .. stg.money,
                     colour = G.C.money,
                     card = card
                 }

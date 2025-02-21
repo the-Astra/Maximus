@@ -601,7 +601,7 @@ function Card:scale_value(applied_value, scalar)
         local groupchats = SMODS.find_card('j_mxms_group_chat')
         if next(groupchats) then
             for k, v in pairs(groupchats) do
-                v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
+                v.ability.extra.chips = v.ability.extra.chips + v.ability.extra.gain * G.GAME.soil_mod
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     func = function()
@@ -767,12 +767,12 @@ local ENABLED_HOROSCOPES = {
 
 for i = 1, #ENABLED_HOROSCOPES do
     local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path..'items/horoscopes/'..ENABLED_HOROSCOPES[i]..'.lua')()
+        return NFS.load(SMODS.current_mod.path .. 'items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua')()
     end)
     sendDebugMessage("Loaded horoscope: " .. ENABLED_HOROSCOPES[i], 'Maximus')
 
     if not status then
-        error(ENABLED_HOROSCOPES[i]..": "..err)
+        error(ENABLED_HOROSCOPES[i] .. ": " .. err)
     end
 end
 --#endregion
@@ -788,12 +788,12 @@ local ENABLED_BOOSTERS = {
 
 for i = 1, #ENABLED_BOOSTERS do
     local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path..'items/boosters/'..ENABLED_BOOSTERS[i]..'.lua')()
+        return NFS.load(SMODS.current_mod.path .. 'items/boosters/' .. ENABLED_BOOSTERS[i] .. '.lua')()
     end)
     sendDebugMessage("Loaded booster: " .. ENABLED_BOOSTERS[i], 'Maximus')
 
     if not status then
-        error(ENABLED_BOOSTERS[i]..": "..err)
+        error(ENABLED_BOOSTERS[i] .. ": " .. err)
     end
 end
 
@@ -882,12 +882,12 @@ local ENABLED_JOKERS = { -- Comment out item to disable
 
 for i = 1, #ENABLED_JOKERS do
     local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path..'items/jokers/'..ENABLED_JOKERS[i]..'.lua')()
+        return NFS.load(SMODS.current_mod.path .. 'items/jokers/' .. ENABLED_JOKERS[i] .. '.lua')()
     end)
     sendDebugMessage("Loaded joker: " .. ENABLED_JOKERS[i], 'Maximus')
 
     if not status then
-        error(ENABLED_JOKERS[i]..": "..err)
+        error(ENABLED_JOKERS[i] .. ": " .. err)
     end
 end
 
@@ -906,12 +906,12 @@ local ENABLED_VOUCHERS = {
 
 for i = 1, #ENABLED_VOUCHERS do
     local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path..'items/vouchers/'..ENABLED_VOUCHERS[i]..'.lua')()
+        return NFS.load(SMODS.current_mod.path .. 'items/vouchers/' .. ENABLED_VOUCHERS[i] .. '.lua')()
     end)
     sendDebugMessage("Loaded voucher: " .. ENABLED_VOUCHERS[i], 'Maximus')
 
     if not status then
-        error(ENABLED_VOUCHERS[i]..": "..err)
+        error(ENABLED_VOUCHERS[i] .. ": " .. err)
     end
 end
 
@@ -938,12 +938,12 @@ local ENABLED_CHALLENGES = {
 
 for i = 1, #ENABLED_CHALLENGES do
     local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path..'items/challenges/'..ENABLED_CHALLENGES[i]..'.lua')()
+        return NFS.load(SMODS.current_mod.path .. 'items/challenges/' .. ENABLED_CHALLENGES[i] .. '.lua')()
     end)
     sendDebugMessage("Loaded challenge: " .. ENABLED_CHALLENGES[i], 'Maximus')
 
     if not status then
-        error(ENABLED_CHALLENGES[i]..": "..err)
+        error(ENABLED_CHALLENGES[i] .. ": " .. err)
     end
 end
 
@@ -959,12 +959,12 @@ local ENABLED_BACKS = {
 
 for i = 1, #ENABLED_BACKS do
     local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path..'items/backs/'..ENABLED_BACKS[i]..'.lua')()
+        return NFS.load(SMODS.current_mod.path .. 'items/backs/' .. ENABLED_BACKS[i] .. '.lua')()
     end)
     sendDebugMessage("Loaded deck: " .. ENABLED_BACKS[i], 'Maximus')
 
     if not status then
-        error(ENABLED_BACKS[i]..": "..err)
+        error(ENABLED_BACKS[i] .. ": " .. err)
     end
 end
 
@@ -980,12 +980,12 @@ local ENABLED_HAND_PARTS = {
 
 for i = 1, #ENABLED_HAND_PARTS do
     local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path..'items/handtypes/parts/'..ENABLED_HAND_PARTS[i]..'.lua')()
+        return NFS.load(SMODS.current_mod.path .. 'items/handtypes/parts/' .. ENABLED_HAND_PARTS[i] .. '.lua')()
     end)
     sendDebugMessage("Loaded hand part: " .. ENABLED_HAND_PARTS[i], 'Maximus')
 
     if not status then
-        error(ENABLED_HAND_PARTS[i]..": "..err)
+        error(ENABLED_HAND_PARTS[i] .. ": " .. err)
     end
 end
 
@@ -1009,12 +1009,12 @@ local ENABLED_HANDS = {
 
 for i = 1, #ENABLED_HANDS do
     local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path..'items/handtypes/'..ENABLED_HANDS[i]..'.lua')()
+        return NFS.load(SMODS.current_mod.path .. 'items/handtypes/' .. ENABLED_HANDS[i] .. '.lua')()
     end)
     sendDebugMessage("Loaded hand type: " .. ENABLED_HANDS[i], 'Maximus')
 
     if not status then
-        error(ENABLED_HANDS[i]..": "..err)
+        error(ENABLED_HANDS[i] .. ": " .. err)
     end
 end
 
@@ -1038,12 +1038,12 @@ local ENABLED_CONSUMABLES = {
 
 for i = 1, #ENABLED_CONSUMABLES do
     local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path..'items/consumables/'..ENABLED_CONSUMABLES[i]..'.lua')()
+        return NFS.load(SMODS.current_mod.path .. 'items/consumables/' .. ENABLED_CONSUMABLES[i] .. '.lua')()
     end)
     sendDebugMessage("Loaded consumable: " .. ENABLED_CONSUMABLES[i], 'Maximus')
 
     if not status then
-        error(ENABLED_CONSUMABLES[i]..": "..err)
+        error(ENABLED_CONSUMABLES[i] .. ": " .. err)
     end
 end
 
@@ -1059,12 +1059,12 @@ local ENABLED_BLINDS = {
 
 for i = 1, #ENABLED_BLINDS do
     local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path..'items/blinds/'..ENABLED_BLINDS[i]..'.lua')()
+        return NFS.load(SMODS.current_mod.path .. 'items/blinds/' .. ENABLED_BLINDS[i] .. '.lua')()
     end)
     sendDebugMessage("Loaded blind: " .. ENABLED_BLINDS[i], 'Maximus')
 
     if not status then
-        error(ENABLED_BLINDS[i]..": "..err)
+        error(ENABLED_BLINDS[i] .. ": " .. err)
     end
 end
 
@@ -1078,12 +1078,12 @@ local ENABLED_TAGS = {
 
 for i = 1, #ENABLED_TAGS do
     local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path..'items/tags/'..ENABLED_TAGS[i]..'.lua')()
+        return NFS.load(SMODS.current_mod.path .. 'items/tags/' .. ENABLED_TAGS[i] .. '.lua')()
     end)
     sendDebugMessage("Loaded tag: " .. ENABLED_TAGS[i], 'Maximus')
 
     if not status then
-        error(ENABLED_TAGS[i]..": "..err)
+        error(ENABLED_TAGS[i] .. ": " .. err)
     end
 end
 

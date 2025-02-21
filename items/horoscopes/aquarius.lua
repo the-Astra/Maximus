@@ -26,7 +26,7 @@ SMODS.Consumable {
         local stg = card.ability.extra
         if context.using_consumeable and context.consumeable.ability.set == "Planet" then
             stg.tally = stg.tally + 1
-            SMODS.calculate_effect({ message = stg.tally .. "/".. stg.goal, colour = G.C.HOROSCOPE }, card)
+            SMODS.calculate_effect({ message = stg.tally .. "/" .. stg.goal, colour = G.C.HOROSCOPE }, card)
 
             if stg.tally >= stg.goal then
                 self:succeed(card)

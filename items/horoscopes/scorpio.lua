@@ -30,7 +30,7 @@ SMODS.Consumable {
                 self:fail(card)
             else
                 stg.hands = stg.hands + 1
-                SMODS.calculate_effect({ message = stg.hands .. "/"..stg.goal, colour = G.C.HOROSCOPE }, card)
+                SMODS.calculate_effect({ message = stg.hands .. "/" .. stg.goal, colour = G.C.HOROSCOPE }, card)
 
                 if stg.hands >= stg.goal then
                     self:succeed(card, context)

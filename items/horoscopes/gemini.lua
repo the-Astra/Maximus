@@ -44,7 +44,7 @@ SMODS.Consumable {
             else
                 card.ability.hands[context.scoring_name] = true
                 stg.times = stg.times + 1
-                SMODS.calculate_effect({ message = stg.times .. "/"..stg.goal, colour = G.C.HOROSCOPE }, card)
+                SMODS.calculate_effect({ message = stg.times .. "/" .. stg.goal, colour = G.C.HOROSCOPE }, card)
             end
 
             if stg.times == stg.goal then

@@ -19,15 +19,17 @@ SMODS.Joker {
     cost = 6,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-        return { 
+        return {
             vars = { stg.slots }
-    }
+        }
     end,
     add_to_deck = function(self, card, from_debuff)
-        change_shop_size(card.ability.extra.slots)
+        local stg = card.ability.extra
+        change_shop_size(stg.slots)
     end,
 
     remove_from_deck = function(self, card, from_debuff)
-        change_shop_size(-card.ability.extra.slots)
+        local stg = card.ability.extra
+        change_shop_size(-stg.slots)
     end
 }
