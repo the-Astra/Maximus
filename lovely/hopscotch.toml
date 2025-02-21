@@ -1,0 +1,17 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+    # Intercept skip tag from blind selection card
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if G.blind_select then "
+position = "after"
+payload = '''
+    local _tag = e.UIBox:get_UIE_by_ID('tag_container')
+    G.GAME.skip_tag = _tag
+'''
+match_indent = true
+times = 2

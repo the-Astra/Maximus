@@ -1,0 +1,19 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+    # Modify shop costs for effects that multiply them
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.area and self.ability.couponed and (self.area == G.shop_jokers or self.area == G.shop_booster) then self.cost = 0 end
+self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost
+'''
+position = "after"
+payload = '''
+    self.cost = self.cost * G.GAME.shop_price_multiplier * G.GAME.creep_mod
+'''
+match_indent = true
+times = 1

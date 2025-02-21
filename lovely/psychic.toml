@@ -1,0 +1,17 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+[[patches]]
+[patches.pattern]
+target = "blind.lua"
+pattern = '''
+if self.debuff.h_size_ge and #cards < self.debuff.h_size_ge then
+'''
+position = "at"
+payload = '''
+if self.debuff.h_size_ge and #cards ~= self.debuff.h_size_ge then
+'''
+match_indent = true
+times = 1

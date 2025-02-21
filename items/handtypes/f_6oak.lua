@@ -1,0 +1,29 @@
+SMODS.PokerHand {
+    key = 'f_6oak',
+    mult = 22,
+    chips = 220,
+    l_mult = 5,
+    l_chips = 50,
+    example = {
+
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true },
+        { 'S_K', true }
+
+    },
+    loc_txt = {
+        name = 'Flush Six',
+        description = {
+            "6 cards with the same rank with",
+            "all cards sharing the same suit"
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        return next(parts.mxms_6) and next(parts.mxms_s_flush)
+            and { SMODS.merge_lists(parts.mxms_6, parts.mxms_s_flush) } or {}
+    end
+}

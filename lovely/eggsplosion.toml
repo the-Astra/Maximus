@@ -1,0 +1,33 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+    # Change egg to have chance to explode when retriggered by Microwave
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Egg' then
+    self.ability.extra_value = self.ability.extra_value + self.ability.extra
+    self:set_cost()
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card('j_mxms_microwave')) and pseudorandom('eggsplode' .. G.GAME.round_resets.ante, 1, 20) == 1 then
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            play_sound('mxms_eggsplosion')
+            ease_dollars(self.sell_cost)
+            self:start_dissolve({G.C.ORANGE}, nil, 1.6)
+            return true;
+        end
+    }))
+    return {
+        message = 'Exploded...',
+        colour = G.C.MONEY
+    }
+end
+'''
+match_indent = true
+times = 1
