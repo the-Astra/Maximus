@@ -1,0 +1,89 @@
+SMODS.Joker {
+    key = '4d',
+    loc_txt = {
+        name = '4D Joker',
+        text = { '{X:mult,C:white}X#1#{} Mult,', 'decreases by {X:mult,C:white}X0.01{}', 'every second' }
+    },
+    atlas = '4D',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    soul_pos = {
+        x = 1,
+        y = 7
+    },
+    rarity = 2,
+    perishable_compat = false,
+    eternal_compat = false,
+    blueprint_compat = true,
+    cost = 6,
+    config = {
+        extra = {
+            Xmult = 4
+        }
+    },
+    loc_vars = function(self, info_queue, center)
+        return {
+            vars = { center.ability.extra.Xmult }
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main and card.ability.extra.Xmult > 1 then
+            return {
+                Xmult_mod = card.ability.extra.Xmult,
+                message = 'X' .. card.ability.extra.Xmult,
+                colour = G.C.MULT,
+                card = card
+            }
+        end
+
+        if card.ability.extra.Xmult <= 1 then
+            card:start_dissolve({ G.C.BLUE }, nil, 1.6)
+        end
+    end
+}
+
+local upd = Game.update
+
+mxms_4d_dt_anim = 0
+mxms_4d_dt_mod = 0
+
+function Game:update(dt)
+    upd(self, dt)
+
+    mxms_4d_dt_anim = mxms_4d_dt_anim + dt
+    if next(SMODS.find_card('j_mxms_4d')) and not G.SETTINGS.paused then
+        mxms_4d_dt_mod = mxms_4d_dt_mod + dt
+    end
+
+    -- 4D Patches (Derived from Jimball animation code)
+    if G.P_CENTERS and G.P_CENTERS.j_mxms_4d and mxms_4d_dt_anim > 0.05 then
+        mxms_4d_dt_anim = 0
+
+        local obj = G.P_CENTERS.j_mxms_4d
+
+        if obj.pos.x == 0 and obj.pos.y == 7 then
+            obj.pos.x = 0
+            obj.pos.y = 0
+        elseif obj.pos.x < 9 then
+            obj.pos.x = obj.pos.x + 1
+        elseif obj.pos.y < 7 then
+            obj.pos.x = 0
+            obj.pos.y = obj.pos.y + 1
+        end
+    end
+    if next(SMODS.find_card('j_mxms_4d')) and mxms_4d_dt_mod > 1 then
+        mxms_4d_dt_mod = 0
+
+        for k, v in pairs(G.jokers.cards) do
+            if v.config.center.key == 'j_mxms_4d' and v.ability.extra.Xmult > 1 then
+                v.ability.extra.Xmult = v.ability.extra.Xmult - 0.01
+                v:juice_up(0.1, 0.2)
+                if Maximus_config.Maximus.four_d_ticks then
+                    play_sound('generic1')
+                end
+            end
+        end
+    end
+end
