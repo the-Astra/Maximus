@@ -5,9 +5,9 @@ SMODS.Challenge {
     },
     rules = {},
     jokers = {
-        { id = 'j_mxms_shrodingers', eternal = true, edition = 'negative' },
-        { id = 'j_mxms_ochams',      eternal = true, edition = 'negative' },
-        { id = 'j_mxms_chekhovs',    eternal = true, edition = 'negative' },
+        { id = 'j_mxms_schrodinger', eternal = true, edition = 'negative' },
+        { id = 'j_mxms_ocham',      eternal = true, edition = 'negative' },
+        { id = 'j_mxms_chekhov',    eternal = true, edition = 'negative' },
     },
     deck = {
         type = 'Challenge Deck'

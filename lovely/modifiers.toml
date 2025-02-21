@@ -40,6 +40,11 @@ end
 match_indent = true
 times = 1
 
+
+
+
+
+
     #Change UI when Nuclear Deck is in use
 [[patches]]
 [patches.pattern]
@@ -54,67 +59,74 @@ payload = '''
 match_indent = true
 times = 1
 
-    #Change final score calc to do exponent math if Nuclear Deck is in use
 
-#Don't set high score with Nuclear Deck
+
+
+
+
+#Change final score calc to do exponent math if Nuclear Deck is in use
+
+    #Don't set high score with Nuclear Deck
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua'
 pattern = '''
-    G.E_MANAGER:add_event(Event({
-        trigger = 'after',delay = 0.4,
-        func = (function()  update_hand_text({delay = 0, immediate = true}, {mult = 0, chips = 0, chip_total = math.floor(hand_chips*mult), level = '', handname = ''});play_sound('button', 0.9, 0.6);return true end)
-      }))
-      check_and_set_high_score('hand', hand_chips*mult)
-
-      check_for_unlock({type = 'chip_score', chips = math.floor(hand_chips*mult)})
-   
-    if hand_chips*mult > 0 then 
-        delay(0.8)
-        G.E_MANAGER:add_event(Event({
-        trigger = 'immediate',
-        func = (function() play_sound('chips2');return true end)
-        }))
-    end
-    G.E_MANAGER:add_event(Event({
-      trigger = 'ease',
-      blocking = false,
-      ref_table = G.GAME,
-      ref_value = 'chips',
-      ease_to = G.GAME.chips + math.floor(hand_chips*mult),
-      delay =  0.5,
-      func = (function(t) return math.floor(t) end)
-    }))
+check_and_set_high_score('hand', hand_chips*mult)
 '''
 position = "at"
 payload = '''
-    G.E_MANAGER:add_event(Event({
-        trigger = 'after',delay = 0.4,
-        func = (function()  update_hand_text({delay = 0, immediate = true}, {mult = 0, chips = 0, chip_total = math.floor(G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult), level = '', handname = ''});play_sound('button', 0.9, 0.6);return true end)
-      }))
-      check_and_set_high_score('hand', not G.GAME.modifiers.mxms_nuclear_size and hand_chips*mult)
-
-      check_for_unlock({type = 'chip_score', chips = math.floor(G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult)})
-   
-    if G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult > 0 then 
-        delay(0.8)
-        G.E_MANAGER:add_event(Event({
-        trigger = 'immediate',
-        func = (function() play_sound('chips2');return true end)
-        }))
-    end
-    G.E_MANAGER:add_event(Event({
-      trigger = 'ease',
-      blocking = false,
-      ref_table = G.GAME,
-      ref_value = 'chips',
-      ease_to = G.GAME.chips + math.floor(G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult),
-      delay =  0.5,
-      func = (function(t) return math.floor(t) end)
-    }))
+if not G.GAME.modifiers.mxms_nuclear_size then
+    check_and_set_high_score('hand',  hand_chips*mult)
+end
 '''
 match_indent = true
 times = 1
+
+
+    #Other calc patches
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''
+func = (function()  update_hand_text({delay = 0, immediate = true}, {mult = 0, chips = 0, chip_total = math.floor(hand_chips*mult), level = '', handname = ''});play_sound('button', 0.9, 0.6);return true end)
+'''
+position = "at"
+payload = '''
+func = (function()  update_hand_text({delay = 0, immediate = true}, {mult = 0, chips = 0, chip_total = math.floor(G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult), level = '', handname = ''});play_sound('button', 0.9, 0.6);return true end)
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''
+if to_big(hand_chips)*mult > to_big(0) then
+'''
+position = "at"
+payload = '''
+if G.GAME.modifiers.mxms_nuclear_size and to_big(hand_chips)^mult or to_big(hand_chips)*mult > to_big(0) then
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''
+ease_to = G.GAME.chips + math.floor(hand_chips*mult),
+'''
+position = "at"
+payload = '''
+ease_to = to_big(G.GAME.chips) + math.floor(G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult),
+'''
+match_indent = true
+times = 1
+
+
+
+
+
 
     #Target Practice Check
 [[patches]]
@@ -141,6 +153,10 @@ end
 '''
 match_indent = true
 times = 1
+
+
+
+
 
 
     # All Rare check

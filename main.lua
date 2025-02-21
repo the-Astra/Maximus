@@ -9,6 +9,14 @@ SMODS.current_mod.optional_features = { retrigger_joker = true }
 
 --#endregion
 
+--#region Talisman compat
+
+to_big = to_big or function(num)
+    return num
+end
+
+--#endregion
+
 --#region Atlases -------------------------------------------------------------------------------------------
 
 SMODS.Atlas { -- Main Joker Atlas

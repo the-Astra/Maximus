@@ -38,7 +38,7 @@ SMODS.Joker {
         end
 
         if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and
-            G.GAME.blind.chips == G.GAME.chips then
+            to_big(G.GAME.blind.chips) == to_big(G.GAME.chips) then
             card.ability.extra.chips = card:scale_value(card.ability.extra.chips, 100 * G.GAME.round)
             return {
                 message = localize('k_upgrade_ex'),

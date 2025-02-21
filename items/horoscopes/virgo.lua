@@ -13,7 +13,7 @@ SMODS.Consumable {
     cost = 4,
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
-            if G.GAME.blind.chips / G.GAME.chips >= 0.75 then
+            if to_big(G.GAME.blind.chips) / to_big(G.GAME.chips) >= to_big(0.75) then
                 self:succeed(card)
             else
                 self:fail(card)

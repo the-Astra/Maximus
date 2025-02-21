@@ -195,7 +195,7 @@ if self.ability.name == 'Business Card' and
     context.other_card:is_face() and
     pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
         G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + 2
-        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        if not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
         return {
             dollars = 2,
             card = self
@@ -208,13 +208,13 @@ if self.ability.name == 'Business Card' and
 context.other_card:is_face() then
     if pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
         G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + 2
-        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        if not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
         return {
             dollars = 2,
             card = self
         }
     else
-        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)    
+        mxms_scale_pessimistics(G.GAME.probabilities.normal, self.ability.extra)
     end
 end
 '''
@@ -270,7 +270,7 @@ pseudorandom('parking') < G.GAME.probabilities.normal/self.ability.extra.odds th
         }
     else
         G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra.dollars
-        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        if not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
         return {
             dollars = self.ability.extra.dollars,
             card = self
@@ -291,7 +291,7 @@ context.other_card:is_face() then
             }
         else
             G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra.dollars
-            G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+            if not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
             return {
                 dollars = self.ability.extra.dollars,
                 card = self
