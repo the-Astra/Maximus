@@ -196,46 +196,32 @@ SMODS.Sound({
 --#endregion
 
 --#region Misc Variables ------------------------------------------------------------------------------------
-food_jokers = { {
-    key = 'j_gros_michel',
-    name = 'Gros Michel'
-}, {
-    key = 'j_egg',
-    name = 'Egg'
-}, {
-    key = 'j_ice_cream',
-    name = 'Ice Cream'
-}, {
-    key = 'j_cavendish',
-    name = 'Cavendish'
-}, {
-    key = 'j_turtle_bean',
-    name = 'Turtle Bean'
-}, {
-    key = 'j_diet_cola',
-    name = 'Diet Cola'
-}, {
-    key = 'j_popcorn',
-    name = 'Popcorn'
-}, {
-    key = 'j_ramen',
-    name = 'Ramen'
-}, {
-    key = 'j_selzer',
-    name = 'Seltzer'
-}, {
-    key = 'j_mxms_fortune_cookie',
-    name = 'Fortune Cookie'
-}, {
-    key = 'j_mxms_leftovers',
-    name = 'Leftovers'
-}, {
-    key = 'j_mxms_breadsticks',
-    name = 'Endless Breadsticks'
-}, {
-    key = 'j_mxms_four_course_meal',
-    name = 'Four Course Meal'
-} }
+mxms_vanilla_food = {
+	j_gros_michel = true,
+	j_egg = true,
+	j_ice_cream = true,
+	j_cavendish = true,
+	j_turtle_bean = true,
+	j_diet_cola = true,
+	j_popcorn = true,
+	j_ramen = true,
+	j_selzer = true,
+}
+
+if not SMODS.ObjectTypes.Food then
+    SMODS.ObjectType {
+      key = 'Food',
+      default = 'j_egg',
+      cards = {},
+      inject = function(self)
+        SMODS.ObjectType.inject(self)
+        -- Insert base game food jokers
+        for k, _ in pairs(mxms_vanilla_food) do
+          self:inject_card(G.P_CENTERS[k])
+        end
+      end
+    }
+  end
 
 zodiac_killer_pools = {
     ['Aries'] = true,
@@ -680,6 +666,25 @@ function apply_horoscope_effects()
         G.GAME.next_ante_horoscopes["Virgo"] = false
     end
 end
+
+---Checks if a provided card is classified as a "Food Joker"
+function mxms_is_food(card)
+	local center = type(card) == "string"
+		and G.P_CENTERS[card]
+		or (card.config and card.config.center)
+  
+	if not center then
+	  return false
+	end
+  
+	-- If the center has the Food pool in its definition
+	if center.pools and center.pools.Food then
+	  return true
+	end
+  
+	-- If it doesn't, we check if this is a vanilla food joker
+	return mxms_vanilla_food[center.key]
+  end
 
 --Code from Betmma's Vouchers
 G.FUNCS.can_pick_card = function(e)
