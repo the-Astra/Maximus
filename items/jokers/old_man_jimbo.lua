@@ -19,7 +19,7 @@ SMODS.Joker {
     cost = 6,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-        return { cars = { stg.gain } }
+        return { vars = { stg.gain } }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
