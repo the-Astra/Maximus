@@ -13,6 +13,9 @@ SMODS.Joker {
     blueprint_compat = false,
     eternal_compat = false,
     cost = 4,
+    pools = {
+        Food = true
+    },
     rarity = 1,
     calculate = function(self, card, context)
         if G.GAME.destroyed_food ~= '' and not context.blueprint then
