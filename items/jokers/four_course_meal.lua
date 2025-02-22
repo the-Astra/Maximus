@@ -22,6 +22,9 @@ SMODS.Joker {
     blueprint_compat = true,
     eternal_compat = false,
     cost = 8,
+    pools = {
+        Food = true
+    },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return { vars = { stg.chips, stg.mult, stg.Xmult, stg.money } }
