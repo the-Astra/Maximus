@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Virgo',
-        text = { 'Defeat the next blind with a score', 'within {C:attention}25%{} of requirement to', 'receive {C:red}+3{} discards next ante' }
+        text = { 'Defeat the next blind with a score', 'within {C:attention}25%{} of requirement to', 'receive {C:red}+3{} discards next ante', '{C:inactive}Requirement: <= #1# Chips' }
     },
     atlas = 'Consumables',
     pos = {
@@ -11,6 +11,10 @@ SMODS.Consumable {
         y = 1
     },
     cost = 4,
+    loc_vars = function(self, info_queue, card)
+        local ceiling = G.GAME.blind and to_big(G.GAME.blind.chips) * 1.25 or 0
+        return { vars = { ceiling } }
+    end,
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
             if to_big(G.GAME.blind.chips) / to_big(G.GAME.chips) >= to_big(0.75) then

@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Aquarius',
-        text = { 'Use {C:attention}#1#{} {C:planet}Planet{} cards', 'within the ante', 'to receive a {C:spectral}Black Hole{}' }
+        text = { 'Use {C:attention}#1#{} {C:planet}Planet{} cards', 'within the ante', 'to receive a {C:spectral}Black Hole{}', '{C:inactive}Currently: #2#/#1#' }
     },
     atlas = 'Consumables',
     pos = {
@@ -20,7 +20,7 @@ SMODS.Consumable {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS.c_black_hole
-        return { vars = { stg.goal } }
+        return { vars = { stg.goal, stg.tally } }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
