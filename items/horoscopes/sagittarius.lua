@@ -11,12 +11,18 @@ SMODS.Consumable {
         y = 1
     },
     cost = 4,
+    config = {
+        triggered = false
+    },
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
             self:succeed(card)
         end
         if context.discard then
-            self:fail(card)
+            if not card.ability.triggered then
+                self:fail(card)
+                card.ability.triggered = true
+            end
         end
 
         if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then

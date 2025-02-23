@@ -16,8 +16,5 @@ SMODS.Joker {
     pools = {
         Food = true
     },
-    rarity = 1,
-    calculate = function(self, card, context)
-        
-    end
+    rarity = 1
 }

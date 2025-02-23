@@ -36,11 +36,11 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         -- Activate ability before scoring if chance is higher than 0
-        if context.before and stg.odds > 0 then
+        if context.before and stg.prob > 0 then
             -- Roll chance and decrease by 1
             local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante)) <
                 stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal / stg.odds
-            stg.prob = stg.odds - (1 / G.GAME.fridge_mod)
+            stg.prob = stg.prob - (1 / G.GAME.fridge_mod)
 
             -- Check if Consumables is full
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then

@@ -39,8 +39,8 @@ SMODS.Joker {
         if context.joker_main and stg.retriggers > 0 then
             return {
                 sound = 'mxms_perfect',
-                Xmult_mod = stg.retriggers * stg.gain,
-                message = 'X' .. stg.retriggers * stg.gain,
+                Xmult_mod = stg.retriggers * stg.gain + 1,
+                message = 'X' .. stg.retriggers * stg.gain + 1,
                 colour = G.C.MULT,
                 card = card
             }

@@ -95,7 +95,7 @@ Game.init_game_object = function(self)
     ret.choose_mod = 0
     ret.war_mod = 1
     ret.fridge_mod = 1
-    ret.soy_mod = 1
+    ret.soy_mod = 0
     ret.purchased_jokers = {}
     ret.gambler_mod = 1
     ret.creep_mod = 1
@@ -197,7 +197,9 @@ function Card.remove(self)
             first_leftovers:juice_up(0.3, 0.4)
             first_leftovers.states.drag.is = true
             first_leftovers.children.center.pinch.x = true
-            card_eval_status_text(first_leftovers, 'extra', nil, nil, nil, {message = "Saved for later!"})
+
+            SMODS.calculate_effect({ message = "Saved for later!", colour = G.C.FILTER, sound = 'tarot1' }, first_leftovers)
+
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.3,

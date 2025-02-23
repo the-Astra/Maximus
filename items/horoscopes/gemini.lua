@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Gemini',
-        text = { 'For the next {C:blue}#1#{} hands,', 'play {C:red}no repeat hand types{} to', 'receive {C:attention}+#2#{} levels for', 'each played hand type' }
+        text = { 'For the next {C:blue}#1#{} hands,', 'play {C:red}no repeat hand types{} to', 'receive {C:attention}+#2#{} levels for', 'each played hand type', '{C:inactive}Currently: #3#/#1#' }
     },
     atlas = 'Consumables',
     pos = {
@@ -34,7 +34,7 @@ SMODS.Consumable {
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-        return { vars = { stg.goal, stg.upgrade } }
+        return { vars = { stg.goal, stg.upgrade, stg.times } }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
