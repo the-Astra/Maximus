@@ -99,7 +99,6 @@ SMODS.Joker {
         -- "Crumble" card after scoring
         if context.after and not context.blueprint then
             if stg.odds <= 0 then
-                G.GAME.destroyed_food = card.config.center.key
                 -- Code derived from Gros Michel/Cavendish
                 G.E_MANAGER:add_event(Event({
                     func = function()
