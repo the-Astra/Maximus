@@ -5,12 +5,15 @@ SMODS.Challenge {
     },
     rules = {
         custom = {
-            { id = 'mxms_X_blind_size', value = 3 }
+            { id = 'mxms_hand_decay', value = "Flush" }
         }
     },
     jokers = {
         { id = 'j_smeared',    eternal = true },
         { id = 'j_mxms_faded', eternal = true }
+    },
+    vouchers = {
+        { id = 'v_telescope' }
     },
     deck = {
         type = 'Challenge Deck'

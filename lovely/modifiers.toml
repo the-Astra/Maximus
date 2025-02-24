@@ -198,3 +198,25 @@ if self.ability.name == 'Matador' and G.GAME.blind.boss then
 '''
 match_indent = true
 times = 2
+
+
+
+    # Hand Decay function
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})
+'''
+position = "before"
+payload = '''
+reset_horoscopes()
+apply_horoscope_effects()
+
+if G.GAME.modifiers.mxms_hand_decay then
+    level_up_hand(nil, G.GAME.modifiers.mxms_hand_decay, nil, -5)
+end
+
+'''
+match_indent = true
+times = 1

@@ -130,6 +130,9 @@ return {
             ch_c_mxms_zodiac_killer = {
                 "Creates a {C:horoscope}Horoscope Card{} at the start of each ante. Failing the Horoscope {C:red}loses the run{}"
             },
+            ch_c_mxms_hand_decay = {
+                "{C:attention}#1#{} loses {C:red}5{} levels after every ante {C:inactive}Cannot go below 0{}"
+            }
         }
     }
 }
