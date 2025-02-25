@@ -3,7 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-    # Hook into rotating cards in common_events
+    # Prevent reset function calls if stop sign is in hand
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
