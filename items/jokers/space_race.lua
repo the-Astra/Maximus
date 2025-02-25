@@ -15,9 +15,27 @@ SMODS.Joker {
     cost = 7,
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.before then
+            local hand_is_highest = false
 
-            if context.scoring_name ~= G.GAME.current_round.most_played_poker_hand 
-                or G.GAME.hands[context.scoring_name].played ~= G.GAME.hands[G.GAME.current_round.most_played_poker_hand].played then
+            local hand, level, highest = nil, 0, {}
+
+            for k, v in pairs(G.GAME.hands) do
+                if v.visible and v.level > level then
+                    hand = k
+                    level = v.level
+                    highest = { hand }
+                elseif v.visible and v.level == level then
+                    highest[#highest + 1] = k
+                end
+            end
+
+            for i = 1, #highest do
+                if context.scoring_name == highest[i] then
+                    hand_is_highest = true
+                end
+            end
+
+            if not hand_is_highest then
                 return {
                     card = card,
                     level_up = true,
