@@ -980,6 +980,7 @@ local ENABLED_CHALLENGES = {
     'killer',
     'drain',
     'thought',
+    'love_and_war',
 }
 
 for i = 1, #ENABLED_CHALLENGES do
