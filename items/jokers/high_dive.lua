@@ -6,8 +6,8 @@ SMODS.Joker {
     },
     atlas = 'Jokers',
     pos = {
-        x = 3,
-        y = 1
+        x = 2,
+        y = 10
     },
     rarity = 2,
     config = {
