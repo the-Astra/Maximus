@@ -1,0 +1,18 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+    # Change egg to have chance to explode when retriggered by Microwave
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+local splashed = SMODS.always_scores(G.play.cards[i]) or next(find_joker('Splash'))
+'''
+position = "at"
+payload = '''
+local splashed = SMODS.always_scores(G.play.cards[i]) or next(find_joker('Splash')) or (next(SMODS.find_card('j_mxms_high_dive')) and text == 'High Card')
+'''
+match_indent = true
+times = 1
