@@ -132,6 +132,9 @@ return {
             },
             ch_c_mxms_hand_decay = {
                 "{C:attention}#1#{} loses {C:red}5{} levels after every ante {C:inactive}Cannot go below 0{}"
+            },
+            ch_c_mxms_deck_size_req = {
+                "Deck must consist of #1# card(s) by the end of the ante 8 boss"
             }
         }
     }

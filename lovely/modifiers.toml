@@ -128,7 +128,7 @@ times = 1
 
 
 
-    #Target Practice Check
+    #Target Practice and Love and War Check
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua'
@@ -145,6 +145,8 @@ if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'B
         if next(SMODS.find_card('j_mxms_bullseye')) and G.GAME.modifiers.mxms_bullseye_requirement > SMODS.find_card('j_mxms_bullseye')[1].ability.extra.chips or not next(SMODS.find_card('j_mxms_bullseye')) then
             game_over = true
         end
+    elseif G.GAME.modifiers.mxms_deck_size_req and #G.GAME.playing_cards ~= G.GAME.modifiers.mxms_deck_size_req then
+        game_over = true
     else
         game_won = true
         G.GAME.won = true
@@ -198,6 +200,9 @@ if self.ability.name == 'Matador' and G.GAME.blind.boss then
 '''
 match_indent = true
 times = 2
+
+
+
 
 
 
