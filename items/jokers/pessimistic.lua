@@ -39,7 +39,7 @@ SMODS.Joker {
 
         if context.individual and context.other_card.ability.effect == 'Lucky Card' and not context.after and not context.end_of_round and
             not context.other_card.lucky_trigger and not context.blueprint then
-            stg.mult = stg.mult + card.ability.exctra.lucky_gain
+            stg.mult = stg.mult + card.ability.extra.lucky_gain
             card:juice_up(0.3, 0.4)
         end
     end
