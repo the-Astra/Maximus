@@ -16,6 +16,22 @@ match_indent = true
 times = 1
 
 
+    # Apply modifier to pack choice
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "G.GAME.pack_choices = self.ability.choose or self.config.center.config.choose or 1"
+position = "after"
+payload = '''
+local cards = SMODS.find_card('YOUR JOKER KEY') -- local variable name can be changed
+if self.kind == 'Arcana' and next(cards) then
+    G.GAME.pack_choices = math.min(G.GAME.pack_choices + #cards, self.config.center.config.extra)
+end
+'''
+match_indent = true
+times = 1
+
+
     # Add modifier to definitions
 [[patches]]
 [patches.pattern]
