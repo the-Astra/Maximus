@@ -902,6 +902,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'hedonist',
     'zombie',
     'coronation',
+    'crowned',
     'soil',
     'stop_sign',
     'chihuahua',

@@ -1,37 +1,40 @@
 SMODS.Joker {
-    key = 'joker_plus',
+    key = 'crowned',
     loc_txt = {
-        name = 'Joker+',
-        text = { '{C:mult}+#1#{} Mult' }
+        name = 'Crowned Joker',
+        text = { '{X:mult,C:white}X#1#{} Mult' }
     },
     atlas = 'Jokers',
     pos = {
         x = 3,
-        y = 1
+        y = 10
     },
-    rarity = 3,
+    rarity = 1,
     config = {
         extra = {
-            mult = 5
+            Xmult = 6
         }
     },
     blueprint_compat = true,
-    cost = 5,
+    cost = 2,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.mult }
+            vars = { stg.Xmult }
         }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.joker_main then
             return {
-                mult_mod = stg.mult,
-                message = '+' .. stg.mult,
+                Xmult_mod = stg.Xmult,
+                message = 'X' .. stg.Xmult,
                 colour = G.C.MULT,
                 card = card
             }
         end
+    end,
+    in_pool = function(self, args)
+        return false
     end
 }
