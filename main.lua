@@ -925,6 +925,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'schrodinger',
     'chekhov',
     'high_dive',
+    'hangman',
 }
 
 for i = 1, #ENABLED_JOKERS do
