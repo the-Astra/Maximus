@@ -64,9 +64,19 @@ function get_straight(hand)
 			if init_vals[val] and not initial then br = true end
 			if RANKS[val] then
 				straight_length = straight_length + 1
-                if straight_pairs[val] then straight_length = straight_length + 1 end
 				skipped_rank = false
 				for _, vv in ipairs(RANKS[val]) do
+					t[#t + 1] = vv
+				end
+				vals = SMODS.Ranks[val].next
+				initial = false
+				end_iter = true
+				break
+			elseif (SMODS.Ranks[val].face or SMODS.Ranks[val].shorthand == 'A') and not has_face_filled then
+				straight_length = straight_length + 1
+				skipped_rank = false
+				has_face_filled = true
+				for _, vv in ipairs(SMODS.Ranks[val]) do
 					t[#t + 1] = vv
 				end
 				vals = SMODS.Ranks[val].next
@@ -85,16 +95,6 @@ function get_straight(hand)
 			vals = new_vals
 			if can_skip and not skipped_rank then
 				skipped_rank = true
-            elseif not has_face_filled then
-                for _, val in ipairs(vals) do
-                  if SMODS.Ranks[val].face or SMODS.Ranks[val].shorthand == 'A' then
-                    straight_length = straight_length + 1
-                    has_face_filled = true
-                    for _, r in ipairs(SMODS.Ranks[val].next) do
-                      table.insert(new_vals, r)
-                    end
-                  end
-                end
 			else
 				straight_length = 0
 				skipped_rank = false
