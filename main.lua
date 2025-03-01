@@ -26,6 +26,13 @@ SMODS.Atlas { -- Main Joker Atlas
     py = 95
 }
 
+SMODS.Atlas { -- Placeholder Atlas
+    key = 'Placeholder',
+    path = "placeholders.png",
+    px = 71,
+    py = 95
+}
+
 SMODS.Atlas { -- 4D Joker Atlas
     key = '4D',
     path = "4d_joker.png",
@@ -925,7 +932,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'schrodinger',
     'chekhov',
     'high_dive',
-    
+    'golden_rings',
 }
 
 for i = 1, #ENABLED_JOKERS do
