@@ -121,6 +121,7 @@ Game.init_game_object = function(self)
         mult = 8
     }
     ret.current_round.zombie_target = nil
+    ret.current_round.jello_suit = 'Spades'
 
     --Horoscope
     ret.next_ante_horoscopes = {
@@ -389,6 +390,15 @@ function SMODS.current_mod.reset_game_globals(run_start)
                 return true
             end
         }))
+    end
+
+    -- Jello
+    if not next(SMODS.find_card('j_mxms_stop_sign')) then
+        local jello_suits = {}
+        for k, v in ipairs({'Spades','Hearts','Clubs','Diamonds'}) do
+            if v ~= G.GAME.current_round.ajello_suits then jello_suits[#jello_suits + 1] = v end
+        end
+        G.GAME.current_round.jello_suit = pseudorandom_element(jello_suits, pseudoseed('jel'..G.GAME.round_resets.ante))
     end
 end
 
@@ -936,6 +946,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'caterpillar',
     'chrysalis',
     'butterfly',
+    'jello',
 }
 
 for i = 1, #ENABLED_JOKERS do

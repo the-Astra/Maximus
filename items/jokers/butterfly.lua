@@ -16,7 +16,7 @@ SMODS.Joker {
             goal = 6
         }
     },
-    blueprint_compat = false,
+    blueprint_compat = true,
     cost = 2,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
@@ -39,6 +39,8 @@ SMODS.Joker {
                             set = 'Spectral',
                             key_append = 'butterfly'
                         })
+
+                        stg.consumables = 0
 
                         return true;
                     end
