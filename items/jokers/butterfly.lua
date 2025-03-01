@@ -27,9 +27,11 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.using_consumeable and not context.blueprint then
-            stg.consumables = stg.consumables + 1
-            SMODS.calculate_effect({ message = stg.consumables .. '/' .. stg.goal, colour = G.C.PLANET }, card)
+        if context.using_consumeable then
+            if not context.blueprint then
+                stg.consumables = stg.consumables + 1
+                SMODS.calculate_effect({ message = stg.consumables .. '/' .. stg.goal, colour = G.C.PLANET }, card)
+            end
 
             if stg.consumables >= stg.goal then
                 G.E_MANAGER:add_event(Event({
