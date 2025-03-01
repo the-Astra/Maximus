@@ -9,12 +9,12 @@ priority = 1
 target = "card.lua"
 pattern = '''
 --If the card has a front, draw that next
-    if self.children.front and (self.ability.delayed or (self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card)) then
+    if self.children.front and self.ability.effect ~= 'Stone Card' then
 '''
 position = "at"
 payload = '''
 --If the card has a front, draw that next
-    if self.children.front and (self.ability.delayed or (self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel')) and not self.config.center.replace_base_card)) then
+    if self.children.front and (self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel'))) then
 '''
 match_indent = true
 times = 1

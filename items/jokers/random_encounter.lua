@@ -29,9 +29,8 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.individual and context.cardarea == G.play then
             if pseudorandom(pseudoseed('rand_enc' .. G.GAME.round_resets.ante)) < stg.prob * G.GAME.probabilities.normal / stg.odds then
-                context.other_card.ability.mxms_mult_perma_bonus = context.other_card.ability.mxms_mult_perma_bonus or 0
-                context.other_card.ability.mxms_mult_perma_bonus = context.other_card.ability.mxms_mult_perma_bonus +
-                    stg.mult
+                context.other_card.ability.perma_mult = context.other_card.ability.perma_mult or 0
+                context.other_card.ability.perma_mult = context.other_card.ability.perma_mult + stg.mult
                 return {
                     message = 'A random mult appears!',
                     colour = G.C.MULT,
@@ -41,15 +40,3 @@ SMODS.Joker {
         end
     end
 }
-
--- Get Chip Mult hook for perma mult
-local cgcm = Card.get_chip_mult
-function Card.get_chip_mult(self)
-    local ret = cgcm(self)
-    if not self.debuff and not (self.ability.set == "Joker") then
-        if self.ability.mxms_mult_perma_bonus then
-            ret = ret + self.ability.mxms_mult_perma_bonus
-        end
-    end
-    return ret
-end
