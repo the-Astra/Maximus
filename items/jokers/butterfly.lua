@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'butterfly',
     loc_txt = {
         name = 'Butterfly',
-        text = { 'Creates a {C:spectral}Spectral{} Card,', 'every {C:attention}#2#{} consumables used', '{C:inactive}Currently: #1#/#2#' }
+        text = { 'Creates a {C:spectral}Spectral{} Card', 'every {C:attention}#2#{} consumables used', '{C:inactive}Currently: #1#/#2#' }
     },
     atlas = 'Placeholder',
     pos = {
