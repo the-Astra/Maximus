@@ -933,6 +933,9 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'chekhov',
     'high_dive',
     'golden_rings',
+    'caterpillar',
+    'chrysalis',
+    'butterfly',
 }
 
 for i = 1, #ENABLED_JOKERS do
