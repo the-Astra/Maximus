@@ -35,7 +35,7 @@ SMODS.Joker {
             }
         end
 
-        if not context.blueprint and context.consumeable.ability.set == "Spectral" then
+        if not context.blueprint and context.using_consumeable and context.consumeable.ability.set == "Spectral" then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     SMODS.calculate_effect(
