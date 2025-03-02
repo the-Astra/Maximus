@@ -41,6 +41,7 @@ SMODS.Joker {
                     SMODS.calculate_effect(
                     { message = localize { type = 'variable', key = 'a_chips', vars = { G.GAME.consumeable_usage_total.spectral * 30 } } },
                         card)
+                    return true
                 end
             }))
             return nil, true
