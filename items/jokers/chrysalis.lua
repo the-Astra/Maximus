@@ -2,7 +2,8 @@ SMODS.Joker {
     key = 'chrysalis',
     loc_txt = {
         name = 'Chrysalis',
-        text = { 'After using {C:attention}#2# {C:planet}Planet{} Cards,', 'sell this Joker to create a', '{C:attention}Butterfly', '{C:inactive}Currently: #1#/#2#' }
+        text = { 'After using {C:attention}#2# {C:planet}Planet{} Cards,', 'sell this Joker to create a', '{C:attention}Butterfly', '{C:inactive}Currently: #1#/#2#' },
+        unlock = { 'Fulfill the requirements of', 'and sell a {C:attention}Caterpillar{}' }
     },
     atlas = 'Placeholder',
     pos = {
@@ -17,6 +18,7 @@ SMODS.Joker {
         }
     },
     blueprint_compat = false,
+    unlocked = false,
     cost = 2,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
@@ -57,5 +59,8 @@ SMODS.Joker {
     end,
     in_pool = function(self, args)
         return false
+    end,
+    check_for_unlock = function(self, args)
+        return next(SMODS.find_card('j_mxms_chrysalis'))
     end
 }

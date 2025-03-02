@@ -2,7 +2,8 @@ SMODS.Joker {
     key = 'crowned',
     loc_txt = {
         name = 'Crowned Joker',
-        text = { '{X:mult,C:white}X#1#{} Mult' }
+        text = { '{X:mult,C:white}X#1#{} Mult' },
+        unlock = { 'Trigger a {C:attention}Coronation{}' }
     },
     atlas = 'Jokers',
     pos = {
@@ -16,6 +17,7 @@ SMODS.Joker {
         }
     },
     blueprint_compat = true,
+    unlocked = false,
     cost = 2,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
@@ -36,5 +38,8 @@ SMODS.Joker {
     end,
     in_pool = function(self, args)
         return false
+    end,
+    check_for_unlock = function(self, args)
+        return next(SMODS.find_card('j_mxms_crowned'))
     end
 }

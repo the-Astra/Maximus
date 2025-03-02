@@ -946,7 +946,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'caterpillar',
     'chrysalis',
     'butterfly',
-    'jello',
+    'gelatin',
 }
 
 for i = 1, #ENABLED_JOKERS do

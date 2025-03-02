@@ -1,15 +1,15 @@
 SMODS.Joker {
-    key = 'jello',
+    key = 'gelatin',
     loc_txt = {
-        name = 'Jello',
+        name = 'Gelatin',
         text = { 'Retriggers the next', '{C:attention}#1#{} scored {C:attention}#2#{}', '{C:inactive}Suit changes each round' }
     },
     atlas = 'Placeholder',
     pos = {
-        x = 0,
+        x = 1,
         y = 0
     },
-    rarity = 1,
+    rarity = 2,
     config = {
         extra = {
             cards_left = 50
