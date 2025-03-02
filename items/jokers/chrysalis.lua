@@ -22,7 +22,9 @@ SMODS.Joker {
     cost = 2,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-        info_queue[#info_queue + 1] = G.P_CENTERS.j_mxms_butterfly
+        if not card.fake_card then
+            info_queue[#info_queue + 1] = G.P_CENTERS.j_mxms_butterfly
+        end
         return {
             vars = { stg.planets, stg.goal }
         }
