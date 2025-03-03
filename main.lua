@@ -152,7 +152,7 @@ G.FUNCS.draw_from_play_to_discard = function(e)
 end
 
 -- Menu stuff
-if Maximus_config.Maximus.menu then
+if Maximus_config.Maximus["menu"] then
     local oldfunc = Game.main_menu
     Game.main_menu = function(change_context)
         local ret = oldfunc(change_context)
@@ -827,6 +827,7 @@ local ENABLED_HOROSCOPES = {
     'pisces',
 }
 
+sendDebugMessage("Loading Horoscopes...", 'Maximus')
 for i = 1, #ENABLED_HOROSCOPES do
     local status, err = pcall(function()
         return NFS.load(SMODS.current_mod.path .. 'items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua')()
@@ -837,6 +838,7 @@ for i = 1, #ENABLED_HOROSCOPES do
         error(ENABLED_HOROSCOPES[i] .. ": " .. err)
     end
 end
+sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Boosters
@@ -848,6 +850,7 @@ local ENABLED_BOOSTERS = {
     'horoscope_mega_1',
 }
 
+sendDebugMessage("Loading Boosters...", 'Maximus')
 for i = 1, #ENABLED_BOOSTERS do
     local status, err = pcall(function()
         return NFS.load(SMODS.current_mod.path .. 'items/boosters/' .. ENABLED_BOOSTERS[i] .. '.lua')()
@@ -858,6 +861,7 @@ for i = 1, #ENABLED_BOOSTERS do
         error(ENABLED_BOOSTERS[i] .. ": " .. err)
     end
 end
+sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -941,20 +945,24 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'schrodinger',
     'chekhov',
     'high_dive',
+
+    -- Legendary Jokers
+    'ledger',
+}
+
+local EXPERIMENTAL_JOKERS = {
     'golden_rings',
     'caterpillar',
     'chrysalis',
     'butterfly',
     'gelatin',
-
-    -- Legendary Jokers
-    'ledger',
     'romero',
     'leto',
     'nicholson',
     'galifianakis',
 }
 
+sendDebugMessage("Loading Jokers...", 'Maximus')
 for i = 1, #ENABLED_JOKERS do
     local status, err = pcall(function()
         return NFS.load(SMODS.current_mod.path .. 'items/jokers/' .. ENABLED_JOKERS[i] .. '.lua')()
@@ -965,6 +973,24 @@ for i = 1, #ENABLED_JOKERS do
         error(ENABLED_JOKERS[i] .. ": " .. err)
     end
 end
+sendDebugMessage("", 'Maximus')
+
+if Maximus_config.Maximus["experimental_features"] then
+    sendDebugMessage("Loading Experimental Jokers...", 'Maximus')
+    for i = 1, #EXPERIMENTAL_JOKERS do
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/jokers/' .. EXPERIMENTAL_JOKERS[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded joker: " .. EXPERIMENTAL_JOKERS[i], 'Maximus')
+    
+        if not status then
+            error(EXPERIMENTAL_JOKERS[i] .. ": " .. err)
+        end
+    end
+else
+    sendDebugMessage("Experimental Features disabled; Skipping Jokers...", 'Maximus')
+end
+sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -979,6 +1005,7 @@ local ENABLED_VOUCHERS = {
     'guardian'
 }
 
+sendDebugMessage("Loading Vouchers...", 'Maximus')
 for i = 1, #ENABLED_VOUCHERS do
     local status, err = pcall(function()
         return NFS.load(SMODS.current_mod.path .. 'items/vouchers/' .. ENABLED_VOUCHERS[i] .. '.lua')()
@@ -989,6 +1016,7 @@ for i = 1, #ENABLED_VOUCHERS do
         error(ENABLED_VOUCHERS[i] .. ": " .. err)
     end
 end
+sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -1012,6 +1040,7 @@ local ENABLED_CHALLENGES = {
     'love_and_war',
 }
 
+sendDebugMessage("Loading Challenges...", 'Maximus')
 for i = 1, #ENABLED_CHALLENGES do
     local status, err = pcall(function()
         return NFS.load(SMODS.current_mod.path .. 'items/challenges/' .. ENABLED_CHALLENGES[i] .. '.lua')()
@@ -1022,6 +1051,7 @@ for i = 1, #ENABLED_CHALLENGES do
         error(ENABLED_CHALLENGES[i] .. ": " .. err)
     end
 end
+sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -1033,6 +1063,7 @@ local ENABLED_BACKS = {
     'nuclear'
 }
 
+sendDebugMessage("Loading Backs...", 'Maximus')
 for i = 1, #ENABLED_BACKS do
     local status, err = pcall(function()
         return NFS.load(SMODS.current_mod.path .. 'items/backs/' .. ENABLED_BACKS[i] .. '.lua')()
@@ -1043,6 +1074,7 @@ for i = 1, #ENABLED_BACKS do
         error(ENABLED_BACKS[i] .. ": " .. err)
     end
 end
+sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -1054,6 +1086,7 @@ local ENABLED_HAND_PARTS = {
     's_straight'
 }
 
+sendDebugMessage("Loading Hand Parts...", 'Maximus')
 for i = 1, #ENABLED_HAND_PARTS do
     local status, err = pcall(function()
         return NFS.load(SMODS.current_mod.path .. 'items/handtypes/parts/' .. ENABLED_HAND_PARTS[i] .. '.lua')()
@@ -1064,6 +1097,7 @@ for i = 1, #ENABLED_HAND_PARTS do
         error(ENABLED_HAND_PARTS[i] .. ": " .. err)
     end
 end
+sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -1083,6 +1117,7 @@ local ENABLED_HANDS = {
     'f_6oak',
 }
 
+sendDebugMessage("Loading Hand Types...", 'Maximus')
 for i = 1, #ENABLED_HANDS do
     local status, err = pcall(function()
         return NFS.load(SMODS.current_mod.path .. 'items/handtypes/' .. ENABLED_HANDS[i] .. '.lua')()
@@ -1093,6 +1128,7 @@ for i = 1, #ENABLED_HANDS do
         error(ENABLED_HANDS[i] .. ": " .. err)
     end
 end
+sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -1112,6 +1148,7 @@ local ENABLED_CONSUMABLES = {
     'kepler',
 }
 
+sendDebugMessage("Loading Consumables...", 'Maximus')
 for i = 1, #ENABLED_CONSUMABLES do
     local status, err = pcall(function()
         return NFS.load(SMODS.current_mod.path .. 'items/consumables/' .. ENABLED_CONSUMABLES[i] .. '.lua')()
@@ -1122,7 +1159,7 @@ for i = 1, #ENABLED_CONSUMABLES do
         error(ENABLED_CONSUMABLES[i] .. ": " .. err)
     end
 end
-
+sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -1133,6 +1170,7 @@ local ENABLED_BLINDS = {
     'grinder',
 }
 
+sendDebugMessage("Loading Blinds...", 'Maximus')
 for i = 1, #ENABLED_BLINDS do
     local status, err = pcall(function()
         return NFS.load(SMODS.current_mod.path .. 'items/blinds/' .. ENABLED_BLINDS[i] .. '.lua')()
@@ -1143,6 +1181,7 @@ for i = 1, #ENABLED_BLINDS do
         error(ENABLED_BLINDS[i] .. ": " .. err)
     end
 end
+sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -1152,6 +1191,7 @@ local ENABLED_TAGS = {
     'star',
 }
 
+sendDebugMessage("Loading Tags...", 'Maximus')
 for i = 1, #ENABLED_TAGS do
     local status, err = pcall(function()
         return NFS.load(SMODS.current_mod.path .. 'items/tags/' .. ENABLED_TAGS[i] .. '.lua')()
@@ -1162,5 +1202,6 @@ for i = 1, #ENABLED_TAGS do
         error(ENABLED_TAGS[i] .. ": " .. err)
     end
 end
+sendDebugMessage("", 'Maximus')
 
 --#endregion
