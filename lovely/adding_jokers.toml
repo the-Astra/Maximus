@@ -21,8 +21,20 @@ if self.ability.set == 'Joker' then
         G.E_MANAGER:add_event(Event({func = function()
             for k, v in pairs(G.jokers.cards) do
                 if v.config.center.key == 'j_mxms_clown_car' then
-                v:juice_up(0.1,0.1)
+                    v:juice_up(0.1,0.1)
                     v.ability.extra.mult = v.ability.extra.mult + (v.ability.extra.gain * G.GAME.soil_mod)
+                    return true
+                end
+            end
+            G.GAME.purchased_jokers[#G.GAME.purchased_jokers + 1] = self.ability.name
+        return true end }))
+    end
+    if next(SMODS.find_card('j_mxms_romero')) then
+        G.E_MANAGER:add_event(Event({func = function()
+            for k, v in pairs(G.jokers.cards) do
+                if v.config.center.key == 'j_mxms_romero' then
+                    v:juice_up(0.1,0.1)
+                    v.ability.extra.Xmult = v.ability.extra.Xmult + (v.ability.extra.gain * G.GAME.soil_mod)
                     return true
                 end
             end

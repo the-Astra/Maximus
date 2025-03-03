@@ -923,7 +923,6 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'soil',
     'stop_sign',
     'chihuahua',
-    'ledger',
     'bootleg',
     'group_chat',
     'minimalist',
@@ -947,6 +946,13 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'chrysalis',
     'butterfly',
     'gelatin',
+
+    -- Legendary Jokers
+    'ledger',
+    'romero',
+    'leto',
+    'nicholson',
+    'galifianakis',
 }
 
 for i = 1, #ENABLED_JOKERS do
