@@ -152,7 +152,7 @@ G.FUNCS.draw_from_play_to_discard = function(e)
 end
 
 -- Menu stuff
-if Maximus_config.Maximus["menu"] then
+if Maximus_config.menu then
     local oldfunc = Game.main_menu
     Game.main_menu = function(change_context)
         local ret = oldfunc(change_context)
@@ -975,7 +975,7 @@ for i = 1, #ENABLED_JOKERS do
 end
 sendDebugMessage("", 'Maximus')
 
-if Maximus_config.Maximus["experimental_features"] then
+if Maximus_config.experimental_features then
     sendDebugMessage("Loading Experimental Jokers...", 'Maximus')
     for i = 1, #EXPERIMENTAL_JOKERS do
         local status, err = pcall(function()
@@ -1148,6 +1148,10 @@ local ENABLED_CONSUMABLES = {
     'kepler',
 }
 
+local EXPERIMENTAL_CONSUMABLES = {
+    'doppelganger',
+}
+
 sendDebugMessage("Loading Consumables...", 'Maximus')
 for i = 1, #ENABLED_CONSUMABLES do
     local status, err = pcall(function()
@@ -1158,6 +1162,23 @@ for i = 1, #ENABLED_CONSUMABLES do
     if not status then
         error(ENABLED_CONSUMABLES[i] .. ": " .. err)
     end
+end
+sendDebugMessage("", 'Maximus')
+
+if Maximus_config.experimental_features then
+    sendDebugMessage("Loading Experimental Consumables...", 'Maximus')
+    for i = 1, #EXPERIMENTAL_CONSUMABLES do
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/consumables/' .. EXPERIMENTAL_CONSUMABLES[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded consumable: " .. EXPERIMENTAL_CONSUMABLES[i], 'Maximus')
+    
+        if not status then
+            error(EXPERIMENTAL_CONSUMABLES[i] .. ": " .. err)
+        end
+    end
+else
+    sendDebugMessage("Experimental Features disabled; Skipping Consumables...", 'Maximus')
 end
 sendDebugMessage("", 'Maximus')
 

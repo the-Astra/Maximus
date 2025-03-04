@@ -15,7 +15,8 @@ SMODS.Consumable {
             hand_type = nil,
             hands = 0,
             goal = 4,
-            upgrade = 5
+            upgrade = 5,
+            last_scoring_hand = nil
         }
     },
     cost = 4,
@@ -75,14 +76,24 @@ SMODS.Consumable {
                     [G.GAME.current_round.most_played_poker_hand].level
             })
         level_up_hand(card, G.GAME.current_round.most_played_poker_hand, false, stg.upgrade)
-        update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-            {
-                handname = context.scoring_name,
-                chips = G.GAME.hands[context.scoring_name].chips,
-                mult = G.GAME.hands
-                    [context.scoring_name].mult,
-                level = G.GAME.hands[context.scoring_name].level
-            })
+        if context then
+            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
+                {
+                    handname = context.scoring_name,
+                    chips = G.GAME.hands[context.scoring_name].chips,
+                    mult = G.GAME.hands
+                        [context.scoring_name].mult,
+                    level = G.GAME.hands[context.scoring_name].level
+                })
+        else
+            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
+                {
+                    handname = '',
+                    chips = 0,
+                    mult = 0,
+                    level = ''
+                })
+        end
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
