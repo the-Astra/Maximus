@@ -3,7 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-    # Change rendering code for stone cards to include rank and suit
+    # Change rendering code for stone cards show include rank and suit with Hammer and Chisel
 [[patches]]
 [patches.pattern]
 target = "card.lua"
