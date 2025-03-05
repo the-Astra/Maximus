@@ -1,12 +1,14 @@
--- Load config
+--#region Config
 Maximus = SMODS.current_mod
 Maximus_path = SMODS.current_mod.path
 Maximus_config = SMODS.current_mod.config
 
+-- Config Menu
 Maximus.config_tab = function()
     return {n = G.UIT.ROOT, config = {align = "m", r = 0.1, padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 6}, nodes = {
         {n = G.UIT.R, config = {align = "cl", padding = 0, minh = 0.1}, nodes = {}},
 
+        -- 4D Ticking Toggle
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "four_d_ticks" },
@@ -18,6 +20,7 @@ Maximus.config_tab = function()
 
         {n=G.UIT.R, config = {minh = 0.04, minw = 4, colour = G.C.L_BLACK}},
 
+        -- Custom Menu Toggle
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "menu" },
@@ -27,6 +30,7 @@ Maximus.config_tab = function()
             }},
         }},
 
+        -- Experimental Features Toggle
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "experimental_features" },
@@ -42,6 +46,7 @@ Maximus.config_tab = function()
 
     }}
 end
+--#endregion
 
 --#region SMODS Optional Features ---------------------------------------------------------------------------
 
