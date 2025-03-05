@@ -6,15 +6,21 @@ priority = 1
     # Change rendering code for stone cards show include rank and suit with Hammer and Chisel
 [[patches]]
 [patches.pattern]
-target = "card.lua"
+target = '''=[SMODS _ "src/card_draw.lua"]'''
 pattern = '''
---If the card has a front, draw that next
-    if self.children.front and self.ability.effect ~= 'Stone Card' then
+-- Don't render base dissolve shader.
+    elseif not self.greyed then
+        if self.children.front and (self.ability.delayed or (self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card)) then
+            self.children.front:draw_shader('dissolve')
+        end
 '''
 position = "at"
 payload = '''
---If the card has a front, draw that next
-    if self.children.front and (self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel'))) then
+-- Don't render base dissolve shader.
+    elseif not self.greyed then
+        if self.children.front and (self.ability.delayed or ((self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel')))  and not self.config.center.replace_base_card)) then
+            self.children.front:draw_shader('dissolve')
+        end
 '''
 match_indent = true
 times = 1
