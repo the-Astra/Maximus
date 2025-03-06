@@ -13,6 +13,6 @@
 	"dependencies": [
 		"Steamodded (>=1.0.0~ALPHA-1428f-STEAMODDED)",
 		"Lovely (>=0.7.1)",
-		"Talisman (==2.0.2)"
+		"Talisman (=>2.1.0)"
 	]
 }
