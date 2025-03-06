@@ -230,11 +230,11 @@ times = 1
 [patches.pattern]
 target = "game.lua"
 pattern = '''
-local card = Card(G.shop_vouchers.T.x + G.shop_vouchers.T.w/2,
-G.shop_vouchers.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[G.GAME.current_round.voucher],{bypass_discovery_center = true, bypass_discovery_ui = true})
+SMODS.add_voucher_to_shop(key)
 '''
-position = "after"
+position = "at"
 payload = '''
+local card = SMODS.add_voucher_to_shop(key)
 if G.GAME.libra_bonus then
     card.cost = 0
 end 

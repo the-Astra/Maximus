@@ -128,7 +128,7 @@ times = 1
 
 
 
-    #Target Practice Check
+    #Target Practice and Love and War Check
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua'
@@ -145,6 +145,8 @@ if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'B
         if next(SMODS.find_card('j_mxms_bullseye')) and G.GAME.modifiers.mxms_bullseye_requirement > SMODS.find_card('j_mxms_bullseye')[1].ability.extra.chips or not next(SMODS.find_card('j_mxms_bullseye')) then
             game_over = true
         end
+    elseif G.GAME.modifiers.mxms_deck_size_req and #G.GAME.playing_cards ~= G.GAME.modifiers.mxms_deck_size_req then
+        game_over = true
     else
         game_won = true
         G.GAME.won = true
@@ -176,6 +178,52 @@ if polled_rate > check_rate and polled_rate <= check_rate + v.val then
     else
         card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
     end
+'''
+match_indent = true
+times = 1
+
+
+
+
+
+
+    # Change Matador to not trigger on every hand on Fashion Disaster
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Matador' then
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Matador' and G.GAME.blind.boss then
+'''
+match_indent = true
+times = 2
+
+
+
+
+
+
+    # Hand Decay function
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})
+'''
+position = "before"
+payload = '''
+reset_horoscopes()
+apply_horoscope_effects()
+
+if G.GAME.modifiers.mxms_hand_decay then
+    update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(G.GAME.modifiers.mxms_hand_decay, 'poker_hands'),chips = G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].chips, mult = G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].mult, level=G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].level})
+    level_up_hand(nil, G.GAME.modifiers.mxms_hand_decay, nil, -5)
+    update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+end
+
 '''
 match_indent = true
 times = 1

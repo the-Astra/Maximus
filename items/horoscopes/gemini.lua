@@ -91,14 +91,24 @@ SMODS.Consumable {
                 level_up_hand(card, k, false, stg.upgrade)
             end
         end
-        update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-            {
-                handname = context.scoring_name,
-                chips = G.GAME.hands[context.scoring_name].chips,
-                mult = G.GAME.hands
-                    [context.scoring_name].mult,
-                level = G.GAME.hands[context.scoring_name].level
-            })
+        if context then
+            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
+                {
+                    handname = context.scoring_name,
+                    chips = G.GAME.hands[context.scoring_name].chips,
+                    mult = G.GAME.hands
+                        [context.scoring_name].mult,
+                    level = G.GAME.hands[context.scoring_name].level
+                })
+        else
+            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
+                {
+                    handname = '',
+                    chips = 0,
+                    mult = 0,
+                    level = ''
+                })
+        end
         G.E_MANAGER:add_event(Event({
             func = function()
                 card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)

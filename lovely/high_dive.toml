@@ -1,0 +1,17 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+local splashed = SMODS.always_scores(G.play.cards[i]) or next(find_joker('Splash'))
+'''
+position = "after"
+payload = '''
+splashed = next(SMODS.find_card('j_mxms_high_dive')) and text == 'High Card' or splashed
+'''
+match_indent = true
+times = 1

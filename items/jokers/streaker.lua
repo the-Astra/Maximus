@@ -35,8 +35,8 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.streak > 0 then
             return {
-                mult_mod = stg.chips,
-                chip_mod = stg.mult,
+                mult_mod = stg.mult,
+                chip_mod = stg.chips,
                 message = 'Streaked!',
                 colour = G.C.MULT,
                 card = card

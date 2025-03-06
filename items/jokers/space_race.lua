@@ -18,6 +18,7 @@ SMODS.Joker {
             local hand_is_highest = false
 
             local hand, level, highest = nil, 0, {}
+
             for k, v in pairs(G.GAME.hands) do
                 if v.visible and v.level > level then
                     hand = k

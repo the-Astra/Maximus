@@ -19,6 +19,9 @@ SMODS.Challenge {
                 'p_standard_mega_1', 'p_standard_mega_2' }
             },
             { id = 'j_dna' },
+            { id = 'j_certificate' },
+            { id = 'j_marble' },
+            { id = 'j_mxms_rock_slide' },
             { id = 'c_cryptid' },
         }
     },

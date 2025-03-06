@@ -83,7 +83,7 @@ function Game:update(dt)
             if v.config.center.key == 'j_mxms_4d' and v.ability.extra.Xmult > 1 then
                 v.ability.extra.Xmult = v.ability.extra.Xmult - v.ability.extra.dXmult
                 v:juice_up(0.1, 0.2)
-                if Maximus_config.Maximus.four_d_ticks then
+                if Maximus_config.four_d_ticks then
                     play_sound('generic1')
                 end
             end

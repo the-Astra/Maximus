@@ -1,3 +1,5 @@
 return {
-    ["Maximus"] = { ["four_d_ticks"] = true, ["menu"] = true }
+    four_d_ticks = true,
+    menu = true,
+    experimental_features = false
 }

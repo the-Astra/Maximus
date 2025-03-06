@@ -3,6 +3,8 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
+    # New Colors
+
 [[patches]]
 [patches.pattern]
 target = "globals.lua"
@@ -40,6 +42,22 @@ Edition = HEX("4ca893"),
 position = "after"
 payload = '''
 Horoscope = HEX('a64d79'),
+'''
+match_indent = true
+times = 1
+
+
+    # Prevent unlock check while in menu
+    
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+if args.type == 'have_edition' then
+'''
+position = "at"
+payload = '''
+if args.type == 'have_edition' and G.STAGE == G.STAGES.RUN then
 '''
 match_indent = true
 times = 1
