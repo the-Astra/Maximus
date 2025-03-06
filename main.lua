@@ -5,46 +5,90 @@ Maximus_config = SMODS.current_mod.config
 
 -- Config Menu
 Maximus.config_tab = function()
-    return {n = G.UIT.ROOT, config = {align = "m", r = 0.1, padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 6}, nodes = {
-        {n = G.UIT.R, config = {align = "cl", padding = 0, minh = 0.1}, nodes = {}},
+    return {
+        n = G.UIT.ROOT,
+        config = { align = "m", r = 0.1, padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 6 },
+        nodes = {
+            { n = G.UIT.R, config = { align = "cl", padding = 0, minh = 0.1 },    nodes = {} },
 
-        -- 4D Ticking Toggle
-        {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
-            {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
-                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "four_d_ticks" },
-            }},
-            {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Enable 4D Joker Ticking Sounds", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
-            }},
-        }},
+            -- 4D Ticking Toggle
+            {
+                n = G.UIT.R,
+                config = { align = "cl", padding = 0 },
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { align = "cl", padding = 0.05 },
+                        nodes = {
+                            create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "four_d_ticks" },
+                        }
+                    },
+                    {
+                        n = G.UIT.C,
+                        config = { align = "c", padding = 0 },
+                        nodes = {
+                            { n = G.UIT.T, config = { text = "Enable 4D Joker Ticking Sounds", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                        }
+                    },
+                }
+            },
 
-        {n=G.UIT.R, config = {minh = 0.04, minw = 4, colour = G.C.L_BLACK}},
+            { n = G.UIT.R, config = { minh = 0.04, minw = 4, colour = G.C.L_BLACK } },
 
-        -- Custom Menu Toggle
-        {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
-            {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
-                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "menu" },
-            }},
-            {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Enable Custom Menu", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
-            }},
-        }},
+            -- Custom Menu Toggle
+            {
+                n = G.UIT.R,
+                config = { align = "cl", padding = 0 },
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { align = "cl", padding = 0.05 },
+                        nodes = {
+                            create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "menu" },
+                        }
+                    },
+                    {
+                        n = G.UIT.C,
+                        config = { align = "c", padding = 0 },
+                        nodes = {
+                            { n = G.UIT.T, config = { text = "Enable Custom Menu", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                        }
+                    },
+                }
+            },
 
-        -- Experimental Features Toggle
-        {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
-            {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
-                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "experimental_features" },
-            }},
-            {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Enable Experimental Features", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
-            }},
-        }},
+            -- Experimental Features Toggle
+            {
+                n = G.UIT.R,
+                config = { align = "cl", padding = 0 },
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { align = "cl", padding = 0.05 },
+                        nodes = {
+                            create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "experimental_features" },
+                        }
+                    },
+                    {
+                        n = G.UIT.C,
+                        config = { align = "c", padding = 0 },
+                        nodes = {
+                            { n = G.UIT.T, config = { text = "Enable Experimental Features", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                        }
+                    },
+                }
+            },
 
-        {n = G.UIT.R, config = {align = "cm", padding = 0.5}, nodes = {
-            {n = G.UIT.T, config = {text = "(Must restart to apply changes)", scale = 0.40, colour = G.C.UI.TEXT_LIGHT}},
-        }},
+            {
+                n = G.UIT.R,
+                config = { align = "cm", padding = 0.5 },
+                nodes = {
+                    { n = G.UIT.T, config = { text = "(Must restart to apply changes)", scale = 0.40, colour = G.C.UI.TEXT_LIGHT } },
+                }
+            },
 
-    }}
+        }
+    }
 end
 --#endregion
 
@@ -183,6 +227,9 @@ Game.init_game_object = function(self)
     ret.libra_bonus = false
     ret.sagittarius_bonus = false
 
+    --Pool Flags
+    ret.pool_flags.cavendish_removed = false
+
     return ret
 end
 
@@ -233,11 +280,11 @@ end
 --Leftovers food detection
 local remove_ref = Card.remove
 function Card.remove(self)
-	if self.added_to_deck and self.ability.set == 'Joker' and not G.CONTROLLER.locks.selling_card and self.config.center_key ~= 'j_mxms_leftovers' then
+    if self.added_to_deck and self.ability.set == 'Joker' and not G.CONTROLLER.locks.selling_card and self.config.center_key ~= 'j_mxms_leftovers' then
         local first_leftovers = SMODS.find_card('j_mxms_leftovers')[1]
         if first_leftovers and mxms_is_food(self) then
             local respawn_key = self.config.center.key
-            
+
             play_sound('timpani')
 
             SMODS.add_card({
@@ -251,7 +298,8 @@ function Card.remove(self)
             first_leftovers.states.drag.is = true
             first_leftovers.children.center.pinch.x = true
 
-            SMODS.calculate_effect({ message = "Saved for later!", colour = G.C.FILTER, sound = 'tarot1' }, first_leftovers)
+            SMODS.calculate_effect({ message = "Saved for later!", colour = G.C.FILTER, sound = 'tarot1' },
+                first_leftovers)
 
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -265,10 +313,11 @@ function Card.remove(self)
                 end
             }))
         end
-	end
-	
-	return remove_ref(self)
+    end
+
+    return remove_ref(self)
 end
+
 --#endregion
 
 --#region Sounds --------------------------------------------------------------------------------------------
@@ -290,31 +339,31 @@ SMODS.Sound({
 
 --#region Misc Variables ------------------------------------------------------------------------------------
 mxms_vanilla_food = {
-	j_gros_michel = true,
-	j_egg = true,
-	j_ice_cream = true,
-	j_cavendish = true,
-	j_turtle_bean = true,
-	j_diet_cola = true,
-	j_popcorn = true,
-	j_ramen = true,
-	j_selzer = true,
+    j_gros_michel = true,
+    j_egg = true,
+    j_ice_cream = true,
+    j_cavendish = true,
+    j_turtle_bean = true,
+    j_diet_cola = true,
+    j_popcorn = true,
+    j_ramen = true,
+    j_selzer = true,
 }
 
 if not SMODS.ObjectTypes.Food then
     SMODS.ObjectType {
-      key = 'Food',
-      default = 'j_egg',
-      cards = {},
-      inject = function(self)
-        SMODS.ObjectType.inject(self)
-        -- Insert base game food jokers
-        for k, _ in pairs(mxms_vanilla_food) do
-          self:inject_card(G.P_CENTERS[k])
+        key = 'Food',
+        default = 'j_egg',
+        cards = {},
+        inject = function(self)
+            SMODS.ObjectType.inject(self)
+            -- Insert base game food jokers
+            for k, _ in pairs(mxms_vanilla_food) do
+                self:inject_card(G.P_CENTERS[k])
+            end
         end
-      end
     }
-  end
+end
 
 zodiac_killer_pools = {
     ['Aries'] = true,
@@ -440,10 +489,10 @@ function SMODS.current_mod.reset_game_globals(run_start)
     -- Jello
     if not next(SMODS.find_card('j_mxms_stop_sign')) then
         local jello_suits = {}
-        for k, v in ipairs({'Spades','Hearts','Clubs','Diamonds'}) do
+        for k, v in ipairs({ 'Spades', 'Hearts', 'Clubs', 'Diamonds' }) do
             if v ~= G.GAME.current_round.ajello_suits then jello_suits[#jello_suits + 1] = v end
         end
-        G.GAME.current_round.jello_suit = pseudorandom_element(jello_suits, pseudoseed('jel'..G.GAME.round_resets.ante))
+        G.GAME.current_round.jello_suit = pseudorandom_element(jello_suits, pseudoseed('jel' .. G.GAME.round_resets.ante))
     end
 end
 
@@ -678,6 +727,13 @@ SMODS.Consumable:take_ownership('hex', {
     },
     true)
 
+SMODS.Joker:take_ownership('j_cavendish', {
+    remove_from_deck = function(self, args)
+        G.GAME.pool_flags.cavendish_removed = true
+    end
+},
+true)
+
 --#endregion
 
 --#region Helper Functions ----------------------------------------------------------------------------------
@@ -771,22 +827,22 @@ end
 
 ---Checks if a provided card is classified as a "Food Joker"
 function mxms_is_food(card)
-	local center = type(card) == "string"
-		and G.P_CENTERS[card]
-		or (card.config and card.config.center)
-  
-	if not center then
-	  return false
-	end
-  
-	-- If the center has the Food pool in its definition
-	if center.pools and center.pools.Food then
-	  return true
-	end
-  
-	-- If it doesn't, we check if this is a vanilla food joker
-	return mxms_vanilla_food[center.key]
-  end
+    local center = type(card) == "string"
+        and G.P_CENTERS[card]
+        or (card.config and card.config.center)
+
+    if not center then
+        return false
+    end
+
+    -- If the center has the Food pool in its definition
+    if center.pools and center.pools.Food then
+        return true
+    end
+
+    -- If it doesn't, we check if this is a vanilla food joker
+    return mxms_vanilla_food[center.key]
+end
 
 --Code from Betmma's Vouchers
 G.FUNCS.can_pick_card = function(e)
@@ -1005,6 +1061,7 @@ local EXPERIMENTAL_JOKERS = {
     'leto',
     'nicholson',
     'galifianakis',
+    'comedian',
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')
@@ -1027,7 +1084,7 @@ if Maximus_config.experimental_features then
             return NFS.load(SMODS.current_mod.path .. 'items/jokers/' .. EXPERIMENTAL_JOKERS[i] .. '.lua')()
         end)
         sendDebugMessage("Loaded joker: " .. EXPERIMENTAL_JOKERS[i], 'Maximus')
-    
+
         if not status then
             error(EXPERIMENTAL_JOKERS[i] .. ": " .. err)
         end
@@ -1217,7 +1274,7 @@ if Maximus_config.experimental_features then
             return NFS.load(SMODS.current_mod.path .. 'items/consumables/' .. EXPERIMENTAL_CONSUMABLES[i] .. '.lua')()
         end)
         sendDebugMessage("Loaded consumable: " .. EXPERIMENTAL_CONSUMABLES[i], 'Maximus')
-    
+
         if not status then
             error(EXPERIMENTAL_CONSUMABLES[i] .. ": " .. err)
         end
