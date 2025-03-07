@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'comedian',
     loc_txt = {
         name = 'Comedian',
-        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult', 'after every round', '{C:green}#3# in #4# chance this', 'card is destroyed at', 'end of round' }
+        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult', 'after every round', '{C:green}#3# in #4# chance{} this', 'card is destroyed at', 'end of round' }
     },
     atlas = 'Placeholder',
     pos = {
