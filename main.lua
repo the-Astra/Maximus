@@ -1063,6 +1063,7 @@ local EXPERIMENTAL_JOKERS = {
     'galifianakis',
     'comedian',
     'pngoker',
+    'kings_rook',
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')
