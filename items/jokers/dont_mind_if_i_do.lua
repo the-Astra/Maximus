@@ -40,6 +40,7 @@ SMODS.Joker {
                             other_card:juice_up(0.3, 0.3)
                             other_card:set_seal(nil, nil, true)
                             stg.Xmult = card:scale_value(stg.Xmult, stg.gain)
+                            return true
                         end
                     }))
                 end
