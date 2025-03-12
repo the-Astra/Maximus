@@ -4,10 +4,10 @@ SMODS.Joker {
         name = 'PNGoker',
         text = { 'All cards in your', '{C:attention}first played hand{}', 'become {C:attention}glass{}' }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 4,
+        y = 10
     },
     rarity = 2,
     blueprint_compat = false,

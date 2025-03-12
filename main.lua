@@ -1046,6 +1046,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'schrodinger',
     'chekhov',
     'high_dive',
+    'pngoker',
 
     -- Legendary Jokers
     'ledger',
@@ -1062,7 +1063,6 @@ local EXPERIMENTAL_JOKERS = {
     'nicholson',
     'galifianakis',
     'comedian',
-    'pngoker',
     'kings_rook',
 }
 
