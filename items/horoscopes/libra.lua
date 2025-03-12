@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Libra',
-        text = { 'Spend at least {C:money}$15{} during the', 'next shop to make the next', 'shop\'s offerings {C:money}free{}', '{C:inactive}Currently: #2#/#1#' }
+        text = { 'Spend at least {C:money}$#1#{} during the', 'next shop to make the next', 'shop\'s offerings {C:money}free{}', '{C:inactive}Currently: #2#/#1#' }
     },
     atlas = 'Consumables',
     pos = {
@@ -23,19 +23,16 @@ SMODS.Consumable {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.buying_card or context.open_booster then
-            stg.money_spent = stg.money_spent + context.card.cost
-            SMODS.calculate_effect({ message = stg.money_spent .. "/" .. stg.goal, colour = G.C.HOROSCOPE },
-                card)
-            if stg.money_spent >= stg.goal then
-                self:succeed(card)
+        if context.buying_card or context.open_booster or context.reroll_shop then
+            if context.buying_card or context.open_booster then
+                stg.money_spent = stg.money_spent + context.card.cost
+            elseif context.reroll_shop then
+                stg.money_spent = stg.money_spent + context.cost
             end
-        end
 
-        if context.reroll_shop then
-            stg.money_spent = stg.money_spent + G.GAME.current_round.reroll_cost
             SMODS.calculate_effect({ message = stg.money_spent .. "/" .. stg.goal, colour = G.C.HOROSCOPE },
                 card)
+
             if stg.money_spent >= stg.goal then
                 self:succeed(card)
             end
