@@ -7,8 +7,8 @@ priority = 1
 [[patches]]
 [patches.pattern]
 target = '=[SMODS _ "src/utils.lua"]'
-pattern = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not card.debuff and pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) then'''
+pattern = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and card:can_calculate() and pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) then'''
 position = "at"
-payload = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and not card.debuff and (pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) or next(SMODS.find_card('j_mxms_stone_thrower'))) then'''
+payload = '''if scoring_hand and SMODS.has_enhancement(card, 'm_glass') and card:can_calculate() and (pseudorandom('glass') < G.GAME.probabilities.normal/(card.ability.name == 'Glass Card' and card.ability.extra or G.P_CENTERS.m_glass.config.extra) or next(SMODS.find_card('j_mxms_stone_thrower'))) then'''
 match_indent = true
 times = 1
