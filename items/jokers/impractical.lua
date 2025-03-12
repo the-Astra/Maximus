@@ -24,7 +24,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.fails, stg.Xmult, stg.fail_Xmult, G.GAME.current_round.impractical_hand }
+            vars = { stg.fails, stg.Xmult, stg.fail_Xmult, G.localization.misc.poker_hands[G.GAME.current_round.impractical_hand] }
         }
     end,
     calculate = function(self, card, context)
