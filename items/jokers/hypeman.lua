@@ -28,7 +28,7 @@ SMODS.Joker {
 local csa = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites)
     csa(self, center, initial, delay_sprites)
-    if center.set == "Enhanced" and G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED and G.STATE ~= G.STATES.SHOP and not G.SETTINGS.paused then
+    if center.set == "Enhanced" and (G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED and G.STATE ~= G.STATES.SHOP and not G.SETTINGS.paused or G.TAROT_INTERRUPT) then
         local hypes = SMODS.find_card('j_mxms_hypeman')
         if next(hypes) then
             for k, v in ipairs(hypes) do

@@ -61,4 +61,16 @@
         ],
         "description": "Shortcut for a SMODS.calculate_effect skeleton"
     },
+    "Event Manager Skeleton":  {
+        "prefix": "event",
+        "body": [
+            "G.E_MANAGER:add_event(Event({",
+            "   func = function()",
+            "       $0",
+            "       return true;",
+            "   end",
+            "}))",
+        ],
+        "description": "Shortcut for a SMODS.calculate_effect skeleton"
+    },
 }
