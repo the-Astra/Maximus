@@ -30,16 +30,16 @@ SMODS.Joker {
         if context.before and not context.blueprint then
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i].seal then
+                    local other_card = context.scoring_hand[i]
+                    other_card:set_seal(nil, nil, true)
+                    stg.Xmult = card:scale_value(stg.Xmult, stg.gain)
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
                         delay = 0.50,
                         func = function()
-                            local other_card = context.scoring_hand[i]
                             play_sound('card1')
                             card:juice_up(0.3, 0.3)
                             other_card:juice_up(0.3, 0.3)
-                            other_card:set_seal(nil, nil, true)
-                            stg.Xmult = card:scale_value(stg.Xmult, stg.gain)
                             return true
                         end
                     }))
