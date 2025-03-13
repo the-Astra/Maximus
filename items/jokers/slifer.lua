@@ -1,5 +1,5 @@
 SMODS.Joker {
-    key = 'dragon',
+    key = 'slifer',
     loc_txt = {
         name = 'Slifer the Sky Dragon',
         text = { 'Gives {X:mult,C:white}Xmult{} equal to the number', 'of cards {C:attention}held{} in your hand' }

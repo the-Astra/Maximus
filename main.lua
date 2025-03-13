@@ -1047,7 +1047,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'chekhov',
     'high_dive',
     'pngoker',
-    'dragon',
+    'slifer',
 
     -- Legendary Jokers
     'ledger',
