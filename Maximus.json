@@ -9,10 +9,10 @@
 	"priority": 0,
 	"badge_colour": "f51bbc",
 	"badge_text_colour": "f8a100",
-	"version": "0.5.0-beta",
+	"version": "0.5.1-beta",
 	"dependencies": [
-		"Steamodded (>=1.0.0~ALPHA-1428f-STEAMODDED)",
+		"Steamodded (>=1.0.0~BETA-0311c-STEAMODDED)",
 		"Lovely (>=0.7.1)",
-		"Talisman (=>2.1.0)"
+		"Talisman (>=2.1.0~dev)"
 	]
 }
