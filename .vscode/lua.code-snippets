@@ -50,7 +50,7 @@
         "body": [
             "for k,v in pairs($1) do",
             "   $2",
-            "end,"
+            "end"
         ],
         "description": "Shortcut for a simple card loop"
     },
