@@ -9,7 +9,7 @@ SMODS.Joker {
         x = 8,
         y = 10
     },
-    rarity = 1,
+    rarity = 2,
     config = {
         extra = {
             Xmult = 1,
