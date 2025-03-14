@@ -4,10 +4,10 @@ SMODS.Joker {
         name = 'Gelatin',
         text = { 'Retriggers the next', '{C:attention}#1#{} scored {C:attention}#2#{}', '{C:inactive}Suit changes each round' }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 6,
+        y = 10
     },
     rarity = 2,
     config = {

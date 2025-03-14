@@ -4,10 +4,10 @@ SMODS.Joker {
         name = 'King\'s Rook',
         text = { 'If played hand has a', '{C:attention}scoring King{} and a {C:attention}scoring 5{},', '{C:attention}retrigger{} all {C:attention}Kings{} and {C:attention}5s{}.' }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 7,
+        y = 10
     },
     rarity = 1,
     config = {

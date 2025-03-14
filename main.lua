@@ -1072,6 +1072,8 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'high_dive',
     'pngoker',
     'slifer',
+    'gelatin',
+    'kings_rook',
 
     -- Legendary Jokers
     'ledger',
@@ -1082,13 +1084,11 @@ local EXPERIMENTAL_JOKERS = {
     'caterpillar',
     'chrysalis',
     'butterfly',
-    'gelatin',
     'romero',
     'leto',
     'nicholson',
     'galifianakis',
     'comedian',
-    'kings_rook',
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')
