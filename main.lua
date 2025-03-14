@@ -1277,40 +1277,23 @@ local ENABLED_CONSUMABLES = {
     'proxima',
     'phobetor',
     'kepler',
-}
-
-local EXPERIMENTAL_CONSUMABLES = {
     'doppelganger',
 }
 
 sendDebugMessage("Loading Consumables...", 'Maximus')
 for i = 1, #ENABLED_CONSUMABLES do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/consumables/' .. ENABLED_CONSUMABLES[i] .. '.lua')()
-    end)
-    sendDebugMessage("Loaded consumable: " .. ENABLED_CONSUMABLES[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_CONSUMABLES[i] .. ": " .. err)
-    end
-end
-sendDebugMessage("", 'Maximus')
-
-if Maximus_config.experimental_features then
-    sendDebugMessage("Loading Experimental Consumables...", 'Maximus')
-    for i = 1, #EXPERIMENTAL_CONSUMABLES do
+    if ENABLED_CONSUMABLES[i] ~= 'doppelganger' or ENABLED_CONSUMABLES[i] == 'doppelganger' and Maximus_config.horoscopes then
         local status, err = pcall(function()
-            return NFS.load(SMODS.current_mod.path .. 'items/consumables/' .. EXPERIMENTAL_CONSUMABLES[i] .. '.lua')()
+            return NFS.load(SMODS.current_mod.path .. 'items/consumables/' .. ENABLED_CONSUMABLES[i] .. '.lua')()
         end)
-        sendDebugMessage("Loaded consumable: " .. EXPERIMENTAL_CONSUMABLES[i], 'Maximus')
+        sendDebugMessage("Loaded consumable: " .. ENABLED_CONSUMABLES[i], 'Maximus')
 
         if not status then
-            error(EXPERIMENTAL_CONSUMABLES[i] .. ": " .. err)
+            error(ENABLED_CONSUMABLES[i] .. ": " .. err)
         end
     end
-else
-    sendDebugMessage("Experimental Features disabled; Skipping Consumables...", 'Maximus')
 end
+
 sendDebugMessage("", 'Maximus')
 
 --#endregion
