@@ -79,6 +79,28 @@ Maximus.config_tab = function()
                 }
             },
 
+            -- Horoscopes Toggle
+            {
+                n = G.UIT.R,
+                config = { align = "cl", padding = 0 },
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { align = "cl", padding = 0.05 },
+                        nodes = {
+                            create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "horoscopes" },
+                        }
+                    },
+                    {
+                        n = G.UIT.C,
+                        config = { align = "c", padding = 0 },
+                        nodes = {
+                            { n = G.UIT.T, config = { text = "Enable Horoscopes", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                        }
+                    },
+                }
+            },
+
             {
                 n = G.UIT.R,
                 config = { align = "cm", padding = 0.5 },
@@ -882,64 +904,66 @@ end
 --#region Horoscope -----------------------------------------------------------------------------------------
 
 -- Horoscope Type
-SMODS.ConsumableType {
-    key = 'Horoscope',
-    primary_colour = G.C.SET.Horoscope,
-    secondary_colour = G.C.SECONDARY_SET.Horoscope,
-    default = 'c_mxms_taurus',
-    loc_txt = {
-        name = 'Horoscope',
-        collection = 'Horoscope Cards',
-        undiscovered = {
-            name = 'Not Discovered',
-            text = { "Purchase this",
-                "card in an",
-                "unseeded run to",
-                "learn what it does", },
+if Maximus_config.horoscopes then
+    SMODS.ConsumableType {
+        key = 'Horoscope',
+        primary_colour = G.C.SET.Horoscope,
+        secondary_colour = G.C.SECONDARY_SET.Horoscope,
+        default = 'c_mxms_taurus',
+        loc_txt = {
+            name = 'Horoscope',
+            collection = 'Horoscope Cards',
+            undiscovered = {
+                name = 'Not Discovered',
+                text = { "Purchase this",
+                    "card in an",
+                    "unseeded run to",
+                    "learn what it does", },
+            },
         },
-    },
-    collection_rows = { 3, 3 },
-    shop_rate = 0.0
-}
+        collection_rows = { 3, 3 },
+        shop_rate = 0.0
+    }
 
--- CardArea emplace hook
-local cae = CardArea.emplace
-function CardArea:emplace(card, location, stay_flipped)
-    if self == G.consumeables and card.ability.set == "Horoscope" then
-        G.mxms_horoscope:emplace(card, location, stay_flipped)
-        return
+    -- CardArea emplace hook
+    local cae = CardArea.emplace
+    function CardArea:emplace(card, location, stay_flipped)
+        if self == G.consumeables and card.ability.set == "Horoscope" then
+            G.mxms_horoscope:emplace(card, location, stay_flipped)
+            return
+        end
+
+        cae(self, card, location, stay_flipped)
     end
 
-    cae(self, card, location, stay_flipped)
-end
+    local ENABLED_HOROSCOPES = {
+        'aries',
+        'taurus',
+        'gemini',
+        'cancer',
+        'leo',
+        'virgo',
+        'libra',
+        'scorpio',
+        'sagittarius',
+        'capricorn',
+        'aquarius',
+        'pisces',
+    }
 
-local ENABLED_HOROSCOPES = {
-    'aries',
-    'taurus',
-    'gemini',
-    'cancer',
-    'leo',
-    'virgo',
-    'libra',
-    'scorpio',
-    'sagittarius',
-    'capricorn',
-    'aquarius',
-    'pisces',
-}
+    sendDebugMessage("Loading Horoscopes...", 'Maximus')
+    for i = 1, #ENABLED_HOROSCOPES do
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded horoscope: " .. ENABLED_HOROSCOPES[i], 'Maximus')
 
-sendDebugMessage("Loading Horoscopes...", 'Maximus')
-for i = 1, #ENABLED_HOROSCOPES do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua')()
-    end)
-    sendDebugMessage("Loaded horoscope: " .. ENABLED_HOROSCOPES[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_HOROSCOPES[i] .. ": " .. err)
+        if not status then
+            error(ENABLED_HOROSCOPES[i] .. ": " .. err)
+        end
     end
+    sendDebugMessage("", 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Boosters
@@ -1147,13 +1171,15 @@ local ENABLED_CHALLENGES = {
 
 sendDebugMessage("Loading Challenges...", 'Maximus')
 for i = 1, #ENABLED_CHALLENGES do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/challenges/' .. ENABLED_CHALLENGES[i] .. '.lua')()
-    end)
-    sendDebugMessage("Loaded challenge: " .. ENABLED_CHALLENGES[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_CHALLENGES[i] .. ": " .. err)
+    if ENABLED_CHALLENGES[i] ~= 'killer' or ENABLED_CHALLENGES[i] == 'killer' and Maximus_config.horoscopes then
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/challenges/' .. ENABLED_CHALLENGES[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded challenge: " .. ENABLED_CHALLENGES[i], 'Maximus')
+    
+        if not status then
+            error(ENABLED_CHALLENGES[i] .. ": " .. err)
+        end
     end
 end
 sendDebugMessage("", 'Maximus')

@@ -13,16 +13,18 @@ pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASS
 position = "before"
 payload = '''
 
-self.mxms_horoscope_W = G.CARD_W*1.1
-self.mxms_horoscope_H = 0.95*G.CARD_H
+if Maximus_config.horoscopes then
+    self.mxms_horoscope_W = G.CARD_W*1.1
+    self.mxms_horoscope_H = 0.95*G.CARD_H
 
-self.mxms_horoscope = CardArea(
-    G.consumeables.T.x + 2.25,
-    G.consumeables.T.y + G.consumeables.T.h + 1, 
-    self.mxms_horoscope_W, 
-    self.mxms_horoscope_H, 
-    {card_limit = 1, type = 'joker', highlight_limit = 1}
-)
+    self.mxms_horoscope = CardArea(
+        G.consumeables.T.x + 2.25,
+        G.consumeables.T.y + G.consumeables.T.h + 1, 
+        self.mxms_horoscope_W, 
+        self.mxms_horoscope_H, 
+        {card_limit = 1, type = 'joker', highlight_limit = 1}
+    )
+end
 '''
 match_indent = true
 times = 1
@@ -37,7 +39,9 @@ pattern = '''
 '''
 position = "after"
 payload = '''
-table.insert(t, G.mxms_horoscope)
+if Maximus_config.horoscopes then
+    table.insert(t, G.mxms_horoscope)
+end
 '''
 match_indent = true
 times = 1
