@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'hippie',
     loc_txt = {
         name = 'Hippie',
-        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult', 'after a {C:horoscope}horoscope{} card', 'is fulfilled' }
+        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult', 'after a {C:horoscope}Horoscope{} card', 'is fulfilled' }
     },
     atlas = 'Jokers',
     pos = {
@@ -27,7 +27,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.beat_horoscope then
+        if context.beat_horoscope and not context.blueprint then
             stg.Xmult = stg.Xmult + stg.gain
             SMODS.calculate_effect({ message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } } },
                 card)

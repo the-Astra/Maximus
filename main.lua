@@ -1075,6 +1075,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'gelatin',
     'kings_rook',
     'hippie',
+    'cheat_day',
 
     -- Legendary Jokers
     'ledger',
