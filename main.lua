@@ -1074,6 +1074,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'slifer',
     'gelatin',
     'kings_rook',
+    'hippie',
 
     -- Legendary Jokers
     'ledger',

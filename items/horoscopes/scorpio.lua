@@ -102,6 +102,7 @@ SMODS.Consumable {
             end
         }))
         zodiac_killer_pools["Scorpio"] = false
+        SMODS.calculate_context({beat_horoscope = true})
     end,
     fail = function(self, card)
         SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)

@@ -38,7 +38,7 @@ SMODS.Consumable {
     end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
-            return zodiac_killer_pools["Aries"]
+            return zodiac_killer_pools["Leo"]
         end
         return true
     end,
@@ -53,6 +53,7 @@ SMODS.Consumable {
             end
         }))
         zodiac_killer_pools["Leo"] = false
+        SMODS.calculate_context({beat_horoscope = true})
     end,
     fail = function(self, card)
         SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)

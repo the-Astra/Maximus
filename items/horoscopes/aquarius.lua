@@ -80,6 +80,7 @@ SMODS.Consumable {
                 end
             }))
             zodiac_killer_pools["Aquarius"] = false
+            SMODS.calculate_context({beat_horoscope = true})
         end
         G.E_MANAGER:add_event(Event({
             func = function()
