@@ -33,8 +33,7 @@ function Card:set_ability(center, initial, delay_sprites)
         if next(hypes) then
             for k, v in ipairs(hypes) do
                 SMODS.calculate_effect(
-                    { message = '+' .. v.ability.extra.dollars, colour = G.C.MONEY, sound = 'mxms_hey' },
-                    v)
+                    { message = '$' .. v.ability.extra.dollars, colour = G.C.MONEY, sound = 'mxms_hey' }, v)
                 ease_dollars(v.ability.extra.dollars)
             end
         end

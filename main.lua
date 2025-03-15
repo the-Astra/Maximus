@@ -235,6 +235,8 @@ Game.init_game_object = function(self)
     ret.current_round.jello_suit = 'Spades'
 
     --Horoscope
+    ret.horoscope_buffer = 0
+
     ret.next_ante_horoscopes = {
         ["Aries"] = false,
         ["Cancer"] = false,
@@ -1091,6 +1093,8 @@ local EXPERIMENTAL_JOKERS = {
     'nicholson',
     'galifianakis',
     'comedian',
+    'letter',
+    'paycheck',
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')
