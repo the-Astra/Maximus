@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'paycheck',
     loc_txt = {
         name = 'Paycheck',
-        text = { '$#1# at end of round for', 'every held {C:horoscope}Horoscope{} card' }
+        text = { '{C:money}$#1#{} at end of round for', 'every held {C:horoscope}Horoscope{} card' }
     },
     atlas = 'Placeholder',
     pos = {

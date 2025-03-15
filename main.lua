@@ -1095,6 +1095,7 @@ local EXPERIMENTAL_JOKERS = {
     'comedian',
     'letter',
     'paycheck',
+    'slippery_slope',
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')
