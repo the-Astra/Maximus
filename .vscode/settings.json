@@ -54,6 +54,7 @@
         "mxms_vanilla_food",
         "get_straight",
         "get_flush",
-        "create_playing_card"
+        "create_playing_card",
+        "mxms_is_food"
     ]
 }

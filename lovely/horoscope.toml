@@ -56,7 +56,7 @@ elseif card.ability.set == 'Booster' then
 '''
 position = "before"
 payload = '''
-elseif card.ability.set == 'Horoscope' then 
+elseif card.ability.set == 'Horoscope' or card.config.center.key == 'c_mxms_ophiucus' then 
     card:add_to_deck()
     G.mxms_horoscope:emplace(card)
     play_sound('card1', 0.8, 0.6)
@@ -78,7 +78,7 @@ pattern = '''return base_background'''
 position = "before"
 payload = '''
 if card.area == G.shop_jokers and G.shop_jokers then
-  if card.ability.consumeable and card.ability.set == "Horoscope" then
+  if card.ability.consumeable and (card.ability.set == "Horoscope" or card.config.center.key == 'c_mxms_ophiucus') then
     base_attach.children.buy_and_use = nil
   end
   base_attach.children.buy = G.UIDEF.card_focus_button{
@@ -96,7 +96,7 @@ target = "functions/UI_definitions.lua"
 pattern = '''if card.ability.consumeable then'''
 position = "after"
 payload = '''
-if card.ability.set == "Horoscope" then
+if card.ability.set == "Horoscope" or card.config.center.key == 'c_mxms_ophiucus' then
     return {
       n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
         {n=G.UIT.C, config={padding = 0.15, align = 'cl'}, nodes={
@@ -349,6 +349,30 @@ if G.GAME.round_resets.temp_reroll_cost then G.GAME.round_resets.temp_reroll_cos
 position = "after"
 payload = '''
 if G.GAME.sagittarius_bonus then G.GAME.round_resets.temp_reroll_cost = 0; calculate_reroll_cost(true); G.GAME.sagittarius_bonus = false end
+'''
+match_indent = true
+times = 1
+
+
+    # Ophiucus spawn chance
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+if (_type == 'Planet' or _type == 'Spectral') and
+    not (G.GAME.used_jokers['c_black_hole'] and not next(find_joker("Showman")))  then 
+        if pseudorandom('soul_'.._type..G.GAME.round_resets.ante) > 0.997 then
+            forced_key = 'c_black_hole'
+        end
+    end
+'''
+position = "after"
+payload = '''
+if (_type == 'Horoscope' or _type == 'Spectral') then 
+        if pseudorandom('soul_'.._type..G.GAME.round_resets.ante) > 0.997 then
+            forced_key = 'c_mxms_ophiucus'
+        end
+    end
 '''
 match_indent = true
 times = 1

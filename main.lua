@@ -890,7 +890,7 @@ if Maximus_config.horoscopes then
     -- CardArea emplace hook
     local cae = CardArea.emplace
     function CardArea:emplace(card, location, stay_flipped)
-        if self == G.consumeables and card.ability.set == "Horoscope" then
+        if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center.key == 'c_mxms_ophiucus') then
             G.mxms_horoscope:emplace(card, location, stay_flipped)
             return
         end
@@ -911,6 +911,7 @@ if Maximus_config.horoscopes then
         'capricorn',
         'aquarius',
         'pisces',
+        'ophiucus',
     }
 
     sendDebugMessage("Loading Horoscopes...", 'Maximus')
