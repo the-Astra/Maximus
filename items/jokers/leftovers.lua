@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Leftovers',
         text = { 'Creates a new copy of', 'a {C:attention}Food{} Joker when', 'depleted or destroyed',
-            '{C:inactive}Self-destructs on copy{}' }
+            '{s:0.8,C:inactive}Self-destructs on copy' }
     },
     atlas = 'Jokers',
     pos = {

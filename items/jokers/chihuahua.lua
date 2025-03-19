@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'chihuahua',
     loc_txt = {
         name = 'Chihuahua',
-        text = { 'Retriggers cards with ranks that appear', 'the least number of times in the deck the', 'same number of times that rank appears', '{C:inactive}Does not activate if there is a tie{}', '{C:inactive}Limit of 10 retriggers{}' }
+        text = { '{C:attention}Retriggers{} cards with ranks that appear', 'the {C:attention}least{} number of times in the deck the', 'same number of times that rank appears', '{s:0.8,C:inactive}Does not activate if there is a tie', '{s:0.8,C:inactive}Limit of 10 retriggers' }
     },
     atlas = 'Jokers',
     pos = {

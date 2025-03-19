@@ -2,8 +2,8 @@ SMODS.Joker {
     key = 'poindexter',
     loc_txt = {
         name = "Poindexter",
-        text = { '{X:mult,C:white}X#2#{} Mult for every', 'scoring {C:attention}glass card{} that',
-            'remains intact; {C:red}Resets{} on break', '{C:inactive}Currently: {X:mult,C:white}X#1#{}' }
+        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult for every', 'scoring {C:attention}Glass Card{} that',
+            'remains intact', '{s:0.8,C:inactive}Resets on Glass Card break',  }
     },
     atlas = 'Jokers',
     rarity = 2,

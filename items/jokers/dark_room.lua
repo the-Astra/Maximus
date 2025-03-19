@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'dark_room',
     loc_txt = {
         name = 'Dark Room',
-        text = { 'After #1# rounds, sell this', 'Joker to upgrade a random', 'owned voucher' }
+        text = { 'After {C:attention}#1# rounds{}, sell this', 'Joker to upgrade a {C:green}random', 'owned {C:attention}voucher' }
     },
     atlas = 'Jokers',
     pos = {
