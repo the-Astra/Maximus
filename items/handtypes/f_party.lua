@@ -4,6 +4,8 @@ SMODS.PokerHand {
     chips = 180,
     l_mult = 4,
     l_chips = 50,
+    atlas = 'poker_hands',
+    pos = { x = 0, y = 9 },
     example = {
 
         { 'S_A', true },
