@@ -37,8 +37,13 @@ SMODS.Joker {
 
         if context.scaling_card and not context.blueprint then
             stg.chips = stg.chips + stg.gain * G.GAME.soil_mod
-            SMODS.calculate_effect({ message = localize { type = 'variable', key = 'a_chips', vars = { stg.chips } } },
-            card)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    card:juice_up(0.3, 0.4)
+                    return true
+                end
+            }))
         end
     end
 }
