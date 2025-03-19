@@ -45,7 +45,7 @@ SMODS.Joker {
                     }
                 end
             else
-                mxms_scale_pessimistics(G.GAME.probabilities.normal, stg.odds)
+                SMODS.calculate_context({failed_prob = true, odds = stg.odds - G.GAME.probabilities.normal})
                 return {
                     card = card,
                     message = localize('k_nope_ex'),

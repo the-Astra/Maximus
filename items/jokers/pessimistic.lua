@@ -40,7 +40,16 @@ SMODS.Joker {
         if context.individual and context.other_card.ability.effect == 'Lucky Card' and not context.after and not context.end_of_round and
             not context.other_card.lucky_trigger and not context.blueprint then
             stg.mult = stg.mult + card.ability.extra.lucky_gain
-            card:juice_up(0.3, 0.4)
+            SMODS.calculate_effect({ message = localize { type = 'variable', key = 'a_mult', vars = { stg.mult } } },
+                card)
+            SMODS.calculate_context({ scaling_card = true })
+        end
+
+        if context.failed_prob and not context.blueprint then
+            stg.mult = stg.mult + context.odds
+            SMODS.calculate_effect({ message = localize { type = 'variable', key = 'a_mult', vars = { stg.mult } } },
+                card)
+            SMODS.calculate_context({ scaling_card = true })
         end
     end
 }

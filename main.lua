@@ -762,46 +762,6 @@ true)
 
 --#region Helper Functions ----------------------------------------------------------------------------------
 
-function Card:scale_value(applied_value, scalar)
-    local new_value = applied_value + (scalar * G.GAME.soil_mod)
-
-    if self.ability.name ~= 'j_mxms_group_chat' then
-        local groupchats = SMODS.find_card('j_mxms_group_chat')
-        if next(groupchats) then
-            for k, v in pairs(groupchats) do
-                v.ability.extra.chips = v.ability.extra.chips + v.ability.extra.gain * G.GAME.soil_mod
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        v:juice_up(0.3, 0.4)
-                        play_sound('generic1')
-                        return true
-                    end
-                }))
-            end
-        end
-    end
-
-    return new_value
-end
-
-function mxms_scale_pessimistics(probability, odds)
-    local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-    if next(pessimistics) then
-        for k, v in pairs(pessimistics) do
-            v.ability.extra.mult = v:scale_value(v.ability.extra.mult, odds - probability)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    v:juice_up(0.3, 0.4)
-                    play_sound('generic1')
-                    return true;
-                end
-            }))
-        end
-    end
-end
-
 function reset_horoscopes()
     if G.GAME.aries_bonus then
         G.GAME.aries_bonus = false
@@ -1068,7 +1028,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'first_aid_kit',
     'hypeman',
     'game_review',
-    'ocham',
+    'occam',
     'schrodinger',
     'chekhov',
     'high_dive',

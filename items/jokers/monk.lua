@@ -41,13 +41,14 @@ SMODS.Joker {
             stg.purchase_made = true
         end
 
-        if context.ending_shop and not stg.purchase_made then
-            card:juice_up(0.3, 0.4)
-            play_sound('tarot1')
-            stg.chips = card:scale_value(stg.chips, stg.gain)
-        end
-
-        if context.setting_blind then
+        if context.ending_shop then
+            if not stg.purchase_made then
+                stg.chips = stg.chips + stg.gain
+                SMODS.calculate_effect(
+                    { message = localize { type = 'variable', key = 'a_chips', vars = { stg.chips } } },
+                    card)
+                SMODS.calculate_context({ scaling_card = true })
+            end
             stg.purchase_made = false
         end
     end

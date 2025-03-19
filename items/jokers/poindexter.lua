@@ -67,7 +67,8 @@ SMODS.Joker {
                     trigger = 'after',
                     delay = 0.3,
                     func = function()
-                        stg.Xmult = card:scale_value(stg.Xmult, glass * stg.gain)
+                        stg.Xmult = stg.Xmult + glass * stg.gain
+                        SMODS.calculate_context({scaling_card = true})
                     end
                 }))
                 return {

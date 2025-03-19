@@ -31,6 +31,7 @@ SMODS.Joker {
             stg.Xmult = stg.Xmult + stg.gain
             SMODS.calculate_effect({ message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } } },
                 card)
+            SMODS.calculate_context({scaling_card = true})
         end
 
         if context.joker_main and stg.Xmult > 1 then

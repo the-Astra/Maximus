@@ -34,5 +34,11 @@ SMODS.Joker {
                 card = card
             }
         end
+
+        if context.scaling_card and not context.blueprint then
+            stg.chips = stg.chips + stg.gain * G.GAME.soil_mod
+            SMODS.calculate_effect({ message = localize { type = 'variable', key = 'a_chips', vars = { stg.chips } } },
+            card)
+        end
     end
 }
