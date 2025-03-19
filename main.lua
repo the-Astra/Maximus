@@ -143,6 +143,15 @@ SMODS.Atlas { -- Main Consumable Atlas
     py = 95
 }
 
+if next(SMODS.find_mod("AntePreview")) then
+    SMODS.Atlas {
+        key = 'poker_hands',
+        path = "Poker Hands.png",
+        px = 53,
+        py = 13
+    }
+end
+
 SMODS.Atlas { -- Main Back Atlas
     key = 'Backs',
     path = "Backs.png",
