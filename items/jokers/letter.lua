@@ -4,10 +4,10 @@ SMODS.Joker {
         name = 'Letter of Recommendation',
         text = { 'Creates a random {C:horoscope}Horoscope{}', 'card after one {C:attention}succeeds{}' }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
         x = 1,
-        y = 0
+        y = 11
     },
     rarity = 2,
     blueprint_compat = true,

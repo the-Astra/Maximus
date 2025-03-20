@@ -1039,6 +1039,9 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'kings_rook',
     'hippie',
     'cheat_day',
+    'letter',
+    'employee',
+    'slippery_slope',
 
     -- Legendary Jokers
     'ledger',
@@ -1054,9 +1057,6 @@ local EXPERIMENTAL_JOKERS = {
     'nicholson',
     'galifianakis',
     'comedian',
-    'letter',
-    'paycheck',
-    'slippery_slope',
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')
@@ -1099,7 +1099,9 @@ local ENABLED_VOUCHERS = {
     'sharp_suit',
     'best_dressed',
     'shield',
-    'guardian'
+    'guardian',
+    'multitask',
+    'workaholic',
 }
 
 sendDebugMessage("Loading Vouchers...", 'Maximus')

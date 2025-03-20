@@ -4,10 +4,10 @@ SMODS.Joker {
         name = 'Slippery Slope',
         text = { 'If hand contains {C:attention}more than one{} hand', 'type, add {C:chips}chips{} and {C:mult}mult{} from {C:attention}all{}', 'contained hand types to score' }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 3,
+        y = 11
     },
     rarity = 2,
     blueprint_compat = true,

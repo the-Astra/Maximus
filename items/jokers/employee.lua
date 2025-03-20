@@ -1,13 +1,13 @@
 SMODS.Joker {
-    key = 'paycheck',
+    key = 'employee',
     loc_txt = {
-        name = 'Paycheck',
+        name = 'Employee',
         text = { '{C:money}$#1#{} at end of round for', 'every held {C:horoscope}Horoscope{} card' }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 2,
+        y = 11
     },
     rarity = 2,
     config = {
