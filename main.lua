@@ -1052,11 +1052,13 @@ local EXPERIMENTAL_JOKERS = {
     'caterpillar',
     'chrysalis',
     'butterfly',
+    'comedian',
+    
     'romero',
     'leto',
     'nicholson',
     'galifianakis',
-    'comedian',
+    'phoenix',
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')
