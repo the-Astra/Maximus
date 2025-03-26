@@ -55,6 +55,7 @@
         "get_straight",
         "get_flush",
         "create_playing_card",
-        "mxms_is_food"
+        "mxms_is_food",
+        "faded_check"
     ]
 }

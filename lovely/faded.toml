@@ -7,13 +7,13 @@ priority = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if next(find_joker('Smeared Joker')) and (self.base.suit == 'Hearts' or self.base.suit == 'Diamonds') == (suit == 'Hearts' or suit == 'Diamonds') then
+if next(find_joker('Smeared Joker')) and SMODS.smeared_check(self, suit) then
     return true
 end
 '''
 position = "after"
 payload = '''
-if next(SMODS.find_card('j_mxms_faded')) and (self.base.suit == 'Spades' or self.base.suit == 'Diamonds') == (suit == 'Spades' or suit == 'Diamonds') then
+if next(SMODS.find_card('j_mxms_faded')) and faded_check(self, suit) then
     return true
 end
 '''
@@ -24,7 +24,7 @@ times = 2
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if next(find_joker('Smeared Joker')) and (self.base.suit == 'Hearts' or self.base.suit == 'Diamonds') == (suit == 'Hearts' or suit == 'Diamonds') then
+if next(find_joker('Smeared Joker')) and SMODS.smeared_check(self, suit) then
     return true
 end
 '''
