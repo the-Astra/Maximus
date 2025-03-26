@@ -9,7 +9,7 @@ Maximus.config_tab = function()
         n = G.UIT.ROOT,
         config = { align = "m", r = 0.1, padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 6 },
         nodes = {
-            { n = G.UIT.R, config = { align = "cl", padding = 0, minh = 0.1 },    nodes = {} },
+            { n = G.UIT.R, config = { align = "cl", padding = 0, minh = 0.1 },      nodes = {} },
 
             -- 4D Ticking Toggle
             {
@@ -74,6 +74,28 @@ Maximus.config_tab = function()
                         config = { align = "c", padding = 0 },
                         nodes = {
                             { n = G.UIT.T, config = { text = "Enable Experimental Features", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                        }
+                    },
+                }
+            },
+
+            -- Horoscopes Toggle
+            {
+                n = G.UIT.R,
+                config = { align = "cl", padding = 0 },
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { align = "cl", padding = 0.05 },
+                        nodes = {
+                            create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "horoscopes" },
+                        }
+                    },
+                    {
+                        n = G.UIT.C,
+                        config = { align = "c", padding = 0 },
+                        nodes = {
+                            { n = G.UIT.T, config = { text = "Enable Horoscopes", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
                         }
                     },
                 }
@@ -222,6 +244,8 @@ Game.init_game_object = function(self)
     ret.current_round.jello_suit = 'Spades'
 
     --Horoscope
+    ret.horoscope_buffer = 0
+
     ret.next_ante_horoscopes = {
         ["Aries"] = false,
         ["Cancer"] = false,
@@ -737,55 +761,15 @@ SMODS.Consumable:take_ownership('hex', {
     true)
 
 SMODS.Joker:take_ownership('j_cavendish', {
-    remove_from_deck = function(self, args)
-        G.GAME.pool_flags.cavendish_removed = true
-    end
-},
-true)
+        remove_from_deck = function(self, args)
+            G.GAME.pool_flags.cavendish_removed = true
+        end
+    },
+    true)
 
 --#endregion
 
 --#region Helper Functions ----------------------------------------------------------------------------------
-
-function Card:scale_value(applied_value, scalar)
-    local new_value = applied_value + (scalar * G.GAME.soil_mod)
-
-    if self.ability.name ~= 'j_mxms_group_chat' then
-        local groupchats = SMODS.find_card('j_mxms_group_chat')
-        if next(groupchats) then
-            for k, v in pairs(groupchats) do
-                v.ability.extra.chips = v.ability.extra.chips + v.ability.extra.gain * G.GAME.soil_mod
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        v:juice_up(0.3, 0.4)
-                        play_sound('generic1')
-                        return true
-                    end
-                }))
-            end
-        end
-    end
-
-    return new_value
-end
-
-function mxms_scale_pessimistics(probability, odds)
-    local pessimistics = SMODS.find_card('j_mxms_pessimistic')
-    if next(pessimistics) then
-        for k, v in pairs(pessimistics) do
-            v.ability.extra.mult = v:scale_value(v.ability.extra.mult, odds - probability)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    v:juice_up(0.3, 0.4)
-                    play_sound('generic1')
-                    return true;
-                end
-            }))
-        end
-    end
-end
 
 function reset_horoscopes()
     if G.GAME.aries_bonus then
@@ -891,64 +875,67 @@ end
 --#region Horoscope -----------------------------------------------------------------------------------------
 
 -- Horoscope Type
-SMODS.ConsumableType {
-    key = 'Horoscope',
-    primary_colour = G.C.SET.Horoscope,
-    secondary_colour = G.C.SECONDARY_SET.Horoscope,
-    default = 'c_mxms_taurus',
-    loc_txt = {
-        name = 'Horoscope',
-        collection = 'Horoscope Cards',
-        undiscovered = {
-            name = 'Not Discovered',
-            text = { "Purchase this",
-                "card in an",
-                "unseeded run to",
-                "learn what it does", },
+if Maximus_config.horoscopes then
+    SMODS.ConsumableType {
+        key = 'Horoscope',
+        primary_colour = G.C.SET.Horoscope,
+        secondary_colour = G.C.SECONDARY_SET.Horoscope,
+        default = 'c_mxms_taurus',
+        loc_txt = {
+            name = 'Horoscope',
+            collection = 'Horoscope Cards',
+            undiscovered = {
+                name = 'Not Discovered',
+                text = { "Purchase this",
+                    "card in an",
+                    "unseeded run to",
+                    "learn what it does", },
+            },
         },
-    },
-    collection_rows = { 3, 3 },
-    shop_rate = 0.0
-}
+        collection_rows = { 3, 3 },
+        shop_rate = 0.0
+    }
 
--- CardArea emplace hook
-local cae = CardArea.emplace
-function CardArea:emplace(card, location, stay_flipped)
-    if self == G.consumeables and card.ability.set == "Horoscope" then
-        G.mxms_horoscope:emplace(card, location, stay_flipped)
-        return
+    -- CardArea emplace hook
+    local cae = CardArea.emplace
+    function CardArea:emplace(card, location, stay_flipped)
+        if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center.key == 'c_mxms_ophiucus') then
+            G.mxms_horoscope:emplace(card, location, stay_flipped)
+            return
+        end
+
+        cae(self, card, location, stay_flipped)
     end
 
-    cae(self, card, location, stay_flipped)
-end
+    local ENABLED_HOROSCOPES = {
+        'aries',
+        'taurus',
+        'gemini',
+        'cancer',
+        'leo',
+        'virgo',
+        'libra',
+        'scorpio',
+        'sagittarius',
+        'capricorn',
+        'aquarius',
+        'pisces',
+        'ophiucus',
+    }
 
-local ENABLED_HOROSCOPES = {
-    'aries',
-    'taurus',
-    'gemini',
-    'cancer',
-    'leo',
-    'virgo',
-    'libra',
-    'scorpio',
-    'sagittarius',
-    'capricorn',
-    'aquarius',
-    'pisces',
-}
+    sendDebugMessage("Loading Horoscopes...", 'Maximus')
+    for i = 1, #ENABLED_HOROSCOPES do
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded horoscope: " .. ENABLED_HOROSCOPES[i], 'Maximus')
 
-sendDebugMessage("Loading Horoscopes...", 'Maximus')
-for i = 1, #ENABLED_HOROSCOPES do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua')()
-    end)
-    sendDebugMessage("Loaded horoscope: " .. ENABLED_HOROSCOPES[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_HOROSCOPES[i] .. ": " .. err)
+        if not status then
+            error(ENABLED_HOROSCOPES[i] .. ": " .. err)
+        end
     end
+    sendDebugMessage("", 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Boosters
@@ -960,18 +947,23 @@ local ENABLED_BOOSTERS = {
     'horoscope_mega_1',
 }
 
-sendDebugMessage("Loading Boosters...", 'Maximus')
-for i = 1, #ENABLED_BOOSTERS do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/boosters/' .. ENABLED_BOOSTERS[i] .. '.lua')()
-    end)
-    sendDebugMessage("Loaded booster: " .. ENABLED_BOOSTERS[i], 'Maximus')
+if Maximus_config.horoscopes then
+    sendDebugMessage("Loading Boosters...", 'Maximus')
+    for i = 1, #ENABLED_BOOSTERS do
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/boosters/' .. ENABLED_BOOSTERS[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded booster: " .. ENABLED_BOOSTERS[i], 'Maximus')
 
-    if not status then
-        error(ENABLED_BOOSTERS[i] .. ": " .. err)
+        if not status then
+            error(ENABLED_BOOSTERS[i] .. ": " .. err)
+        end
     end
+else
+    sendDebugMessage("Horoscopes disabled; Skipping Boosters...", 'Maximus')
 end
 sendDebugMessage("", 'Maximus')
+
 
 --#endregion
 
@@ -1051,13 +1043,25 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'first_aid_kit',
     'hypeman',
     'game_review',
-    'ocham',
+    'occam',
     'schrodinger',
     'chekhov',
     'high_dive',
+    'pngoker',
+    'slifer',
+    'gelatin',
+    'kings_rook',
+    'slippery_slope',
 
     -- Legendary Jokers
     'ledger',
+}
+
+local HOROSCOPE_JOKERS = {
+    'hippie',
+    'cheat_day',
+    'letter',
+    'employee',
 }
 
 local EXPERIMENTAL_JOKERS = {
@@ -1065,12 +1069,13 @@ local EXPERIMENTAL_JOKERS = {
     'caterpillar',
     'chrysalis',
     'butterfly',
-    'gelatin',
+    'comedian',
+
     'romero',
     'leto',
     'nicholson',
     'galifianakis',
-    'comedian',
+    'phoenix',
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')
@@ -1083,6 +1088,23 @@ for i = 1, #ENABLED_JOKERS do
     if not status then
         error(ENABLED_JOKERS[i] .. ": " .. err)
     end
+end
+sendDebugMessage("", 'Maximus')
+
+if Maximus_config.horoscopes then
+    sendDebugMessage("Loading Horoscope Jokers...", 'Maximus')
+    for i = 1, #HOROSCOPE_JOKERS do
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/jokers/' .. HOROSCOPE_JOKERS[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded joker: " .. HOROSCOPE_JOKERS[i], 'Maximus')
+
+        if not status then
+            error(HOROSCOPE_JOKERS[i] .. ": " .. err)
+        end
+    end
+else
+    sendDebugMessage("Horoscopes disabled; Skipping Horoscope Jokers...", 'Maximus')
 end
 sendDebugMessage("", 'Maximus')
 
@@ -1099,7 +1121,7 @@ if Maximus_config.experimental_features then
         end
     end
 else
-    sendDebugMessage("Experimental Features disabled; Skipping Jokers...", 'Maximus')
+    sendDebugMessage("Experimental Features disabled; Skipping Experimental Jokers...", 'Maximus')
 end
 sendDebugMessage("", 'Maximus')
 
@@ -1113,7 +1135,12 @@ local ENABLED_VOUCHERS = {
     'sharp_suit',
     'best_dressed',
     'shield',
-    'guardian'
+    'guardian',
+}
+
+local HOROSCOPE_VOUCHERS = {
+    'multitask',
+    'workaholic',
 }
 
 sendDebugMessage("Loading Vouchers...", 'Maximus')
@@ -1126,6 +1153,23 @@ for i = 1, #ENABLED_VOUCHERS do
     if not status then
         error(ENABLED_VOUCHERS[i] .. ": " .. err)
     end
+end
+sendDebugMessage("", 'Maximus')
+
+if Maximus_config.horoscopes then
+    sendDebugMessage("Loading Horoscope Vouchers...", 'Maximus')
+    for i = 1, #HOROSCOPE_VOUCHERS do
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/vouchers/' .. HOROSCOPE_VOUCHERS[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded voucher: " .. HOROSCOPE_VOUCHERS[i], 'Maximus')
+
+        if not status then
+            error(HOROSCOPE_VOUCHERS[i] .. ": " .. err)
+        end
+    end
+else
+    sendDebugMessage("Horoscopes disabled; Skipping Horoscope Vouchers...", 'Maximus')
 end
 sendDebugMessage("", 'Maximus')
 
@@ -1153,13 +1197,15 @@ local ENABLED_CHALLENGES = {
 
 sendDebugMessage("Loading Challenges...", 'Maximus')
 for i = 1, #ENABLED_CHALLENGES do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/challenges/' .. ENABLED_CHALLENGES[i] .. '.lua')()
-    end)
-    sendDebugMessage("Loaded challenge: " .. ENABLED_CHALLENGES[i], 'Maximus')
+    if ENABLED_CHALLENGES[i] ~= 'killer' or ENABLED_CHALLENGES[i] == 'killer' and Maximus_config.horoscopes then
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/challenges/' .. ENABLED_CHALLENGES[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded challenge: " .. ENABLED_CHALLENGES[i], 'Maximus')
 
-    if not status then
-        error(ENABLED_CHALLENGES[i] .. ": " .. err)
+        if not status then
+            error(ENABLED_CHALLENGES[i] .. ": " .. err)
+        end
     end
 end
 sendDebugMessage("", 'Maximus')
@@ -1257,40 +1303,23 @@ local ENABLED_CONSUMABLES = {
     'proxima',
     'phobetor',
     'kepler',
-}
-
-local EXPERIMENTAL_CONSUMABLES = {
     'doppelganger',
 }
 
 sendDebugMessage("Loading Consumables...", 'Maximus')
 for i = 1, #ENABLED_CONSUMABLES do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/consumables/' .. ENABLED_CONSUMABLES[i] .. '.lua')()
-    end)
-    sendDebugMessage("Loaded consumable: " .. ENABLED_CONSUMABLES[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_CONSUMABLES[i] .. ": " .. err)
-    end
-end
-sendDebugMessage("", 'Maximus')
-
-if Maximus_config.experimental_features then
-    sendDebugMessage("Loading Experimental Consumables...", 'Maximus')
-    for i = 1, #EXPERIMENTAL_CONSUMABLES do
+    if ENABLED_CONSUMABLES[i] ~= 'doppelganger' or ENABLED_CONSUMABLES[i] == 'doppelganger' and Maximus_config.horoscopes then
         local status, err = pcall(function()
-            return NFS.load(SMODS.current_mod.path .. 'items/consumables/' .. EXPERIMENTAL_CONSUMABLES[i] .. '.lua')()
+            return NFS.load(SMODS.current_mod.path .. 'items/consumables/' .. ENABLED_CONSUMABLES[i] .. '.lua')()
         end)
-        sendDebugMessage("Loaded consumable: " .. EXPERIMENTAL_CONSUMABLES[i], 'Maximus')
+        sendDebugMessage("Loaded consumable: " .. ENABLED_CONSUMABLES[i], 'Maximus')
 
         if not status then
-            error(EXPERIMENTAL_CONSUMABLES[i] .. ": " .. err)
+            error(ENABLED_CONSUMABLES[i] .. ": " .. err)
         end
     end
-else
-    sendDebugMessage("Experimental Features disabled; Skipping Consumables...", 'Maximus')
 end
+
 sendDebugMessage("", 'Maximus')
 
 --#endregion
@@ -1322,18 +1351,19 @@ sendDebugMessage("", 'Maximus')
 local ENABLED_TAGS = {
     'star',
 }
+if Maximus_config.horoscopes then
+    sendDebugMessage("Loading Tags...", 'Maximus')
+    for i = 1, #ENABLED_TAGS do
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/tags/' .. ENABLED_TAGS[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded tag: " .. ENABLED_TAGS[i], 'Maximus')
 
-sendDebugMessage("Loading Tags...", 'Maximus')
-for i = 1, #ENABLED_TAGS do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/tags/' .. ENABLED_TAGS[i] .. '.lua')()
-    end)
-    sendDebugMessage("Loaded tag: " .. ENABLED_TAGS[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_TAGS[i] .. ": " .. err)
+        if not status then
+            error(ENABLED_TAGS[i] .. ": " .. err)
+        end
     end
+    sendDebugMessage("", 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 
 --#endregion

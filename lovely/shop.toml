@@ -13,7 +13,9 @@ self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost
 '''
 position = "after"
 payload = '''
+if Maximus then
     self.cost = self.cost * G.GAME.shop_price_multiplier * G.GAME.creep_mod
+end
 '''
 match_indent = true
 times = 1

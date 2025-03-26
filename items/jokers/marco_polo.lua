@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Marco Polo',
         text = { '{C:mult}+#1#{} Mult if card is at secret placement', 'in Joker hand order. Given Mult is',
-            '{C:red}subtracted by #2#{} for', 'each card out of place', '{C:inactive}Position changes every round{}' }
+            '{C:red}subtracted by #2#{} for', 'each card out of place', '{s:0.8,C:inactive}Position changes every round{}' }
     },
     atlas = 'Jokers',
     pos = {

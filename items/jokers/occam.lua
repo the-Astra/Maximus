@@ -1,8 +1,8 @@
 SMODS.Joker {
-    key = 'ocham',
+    key = 'occam',
     loc_txt = {
-        name = 'Ocham\'s Razor',
-        text = { '{X:mult,C:white}Xmult{} equal to', 'number of cards played plus 1', 'below max highlight limit played' }
+        name = 'Occam\'s Razor',
+        text = { '{X:mult,C:white}Xmult{} equal to the', 'number of cards played plus 1', 'below max highlight limit played' }
     },
     atlas = 'Jokers',
     pos = {

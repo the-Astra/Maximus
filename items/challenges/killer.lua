@@ -15,6 +15,8 @@ SMODS.Challenge { -- Zodiac Killer
                 'p_mxms_horoscope_normal_1', 'p_mxms_horoscope_normal_2',
                 'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
             },
+            { id = 'j_mxms_cheat_day' },
+            { id = 'c_mxms_ophiucus' },
         },
         banned_tags = {
             { id = 'tag_mxms_star' },

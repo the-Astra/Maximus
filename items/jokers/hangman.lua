@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'hangman',
     loc_txt = {
         name = 'Hangman',
-        text = { '{C:attention}Aces{} and {C:attention}Face Cards{} can', 'fill in one gap in', 'a {C:attention}Straight{}', '{C:inactive}ex. 9 8 7 Q 5' }
+        text = { '{C:attention}Aces{} and {C:attention}Face Cards{} can', 'fill in one gap in', 'a {C:attention}Straight{}', '{s:0.8,C:inactive}ex. 9 8 7 Q 5' }
     },
     atlas = 'Jokers',
     pos = {

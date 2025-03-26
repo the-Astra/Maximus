@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'comedian',
     loc_txt = {
         name = 'Comedian',
-        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult', 'after every round', '{C:green}#3# in #4# chance this', 'card is destroyed at', 'end of round' }
+        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult', 'after every round', '{C:green}#3# in #4# chance{} this', 'card is destroyed at', 'end of round' }
     },
     atlas = 'Placeholder',
     pos = {
@@ -42,7 +42,7 @@ SMODS.Joker {
                             func = function()
                                 G.jokers:remove_card(card)
                                 card:remove()
-                                mxms_scale_pessimistics(G.GAME.probabilities.normal, stg.odds)
+                                SMODS.calculate_context({failed_prob = true, odds = stg.odds - G.GAME.probabilities.normal})
                                 card = nil
                                 return true;
                             end
@@ -54,13 +54,14 @@ SMODS.Joker {
                     message = localize('k_extinct_ex')
                 }
             else
-                stg.Xmult = card:scale_value(stg.Xmult, stg.gain)
+                stg.Xmult = stg.Xmult + stg.gain
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         SMODS.calculate_effect({message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } }, colour = G.C.MULT}, card)
                         return true
                     end
                 }))
+                SMODS.calculate_context({scaling_card = true})
             end
         end
 

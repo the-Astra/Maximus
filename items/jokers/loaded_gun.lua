@@ -25,7 +25,7 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.individual and context.cardarea == G.play and context.other_card.config.center == G.P_CENTERS.m_steel then
+        if context.individual and context.cardarea == G.play and SMODS.has_enhancement(context.other_card, 'm_steel') then
             return {
                 x_mult = stg.Xmult,
                 colour = G.C.MULT,

@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Bullseye',
         text = { 'If {C:attention}blind\'s{} Chip requirement', 'is met {C:attention}exactly{}, this joker',
-            'gains {C:chips}+#1#{} Chips', '{C:inactive}Gain is equal to 100 x Round', '{C:inactive}Currently: {C:chips}+#2#' }
+            'gains {C:chips}+#1#{} Chips', '{s:0.8,C:inactive}Gain is equal to 100 x Round', '{C:inactive}Currently: {C:chips}+#2#' }
     },
     atlas = 'Jokers',
     pos = {
@@ -42,7 +42,8 @@ SMODS.Joker {
 
         if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and
             to_big(G.GAME.blind.chips) == to_big(G.GAME.chips) then
-            stg.chips = card:scale_value(stg.chips, stg.base_gain * G.GAME.round)
+            stg.chips = stg.chips + stg.base_gain * G.GAME.round
+            SMODS.calculate_context({scaling_card = true})
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.CHIPS,

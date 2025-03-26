@@ -7,8 +7,8 @@ return {
                     "Gains {C:money}$#1#{} of",
                     "{C:attention}sell value{} at",
                     "end of round",
-                    "{C:inactive}Just maybe don't leave it",
-                    "{C:inactive} in the microwave for too long..."
+                    "{s:0.8,C:inactive}Just maybe don't leave it",
+                    "{s:0.8,C:inactive} in the microwave for too long..."
                 },
             },
             j_trading = {

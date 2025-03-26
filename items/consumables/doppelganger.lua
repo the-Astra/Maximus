@@ -4,20 +4,22 @@ SMODS.Consumable {
     loc_txt = {
         name = 'Doppelganger',
         text = {
-            "{C:attemtion}Immediately{} fulfill {C:attention}1{} selected", "{C:horoscope}Horoscope{} card's requirement",
+            "{C:attention}Immediately{} fulfill {C:attention}all{} held", "{C:horoscope}Horoscope{} card requirements",
         },
     },
-    atlas = 'Placeholder',
+    atlas = 'Consumables',
     pos = {
-        x = 2,
-        y = 2
+        x = 0,
+        y = 3
     },
     cost = 4,
     use = function(self, card, area, copier)
-        G.mxms_horoscope.highlighted[1].config.center:succeed(G.mxms_horoscope.highlighted[1])
+        for k,v in pairs(G.mxms_horoscope.cards) do
+            v.config.center:succeed(v)
+        end
     end,
     can_use = function(self, card)
-        if G.mxms_horoscope and #G.mxms_horoscope.highlighted == 1 and G.mxms_horoscope.highlighted[1] then
+        if #G.mxms_horoscope.cards >= 1 then
             return true
         end
         return false

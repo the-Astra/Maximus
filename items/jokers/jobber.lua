@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Jobber',
         text = { 'If hand is played with only', '{C:red}debuffed{} cards, destroy this',
-            'Joker and create a random copy', 'of another held Joker', '{C:inactive}Removes negative from copy' }
+            'Joker and create a random copy', 'of another held Joker', '{s:0.8,C:inactive}Removes negative from copy' }
     },
     atlas = 'Jokers',
     pos = {

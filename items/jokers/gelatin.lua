@@ -2,12 +2,12 @@ SMODS.Joker {
     key = 'gelatin',
     loc_txt = {
         name = 'Gelatin',
-        text = { 'Retriggers the next', '{C:attention}#1#{} scored {C:attention}#2#{}', '{C:inactive}Suit changes each round' }
+        text = { 'Retriggers the next', '{C:attention}#1#{} scored {V:1}#2#{}', '{s:0.8,C:inactive}Suit changes each round' }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 6,
+        y = 10
     },
     rarity = 2,
     config = {
@@ -23,7 +23,9 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.cards_left, G.GAME.current_round.jello_suit }
+            vars = { stg.cards_left, G.GAME.current_round.jello_suit,
+                colours = {G.C.SUITS[G.GAME.current_round.jello_suit]} 
+            }
         }
     end,
     calculate = function(self, card, context)

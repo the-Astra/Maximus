@@ -5,7 +5,7 @@ SMODS.Joker {
         text = { '{C:chips}+#5#{} Chips and {C:mult}+#6#{} Mult', 'for each consecutive {C:attention}blind{}',
             'beaten in {C:attention}one hand{}, {C:red}Resets{}', 'when streak is broken',
             '{C:inactive}Current streak: #1#',
-            '{C:inactive}Currently: {C:chips}+#3# {C:inactive}Chips, {C:mult}+#4#{} Mult' }
+            '{C:inactive}Currently: {C:chips}+#3# {C:inactive}Chips, {C:mult}+#4# {C:inactive}Mult' }
     },
     atlas = 'Jokers',
     pos = {
@@ -63,20 +63,7 @@ SMODS.Joker {
                 stg.streak = stg.streak + 1
                 stg.chips = stg.chip_gain * stg.streak * G.GAME.soil_mod
                 stg.mult = stg.mult_gain * stg.streak * G.GAME.soil_mod
-                local groupchats = SMODS.find_card('j_mxms_group_chat')
-                if next(groupchats) then
-                    for k, v in pairs(groupchats) do
-                        v.ability.extra.chips = v.ability.extra.chips + 2 * G.GAME.soil_mod
-                        G.E_MANAGER:add_event(Event({
-                            trigger = 'after',
-                            func = function()
-                                v:juice_up(0.3, 0.4)
-
-                                return true
-                            end
-                        }))
-                    end
-                end
+                SMODS.calculate_context({scaling_card = true})
                 return {
                     message = 'Streak ' .. stg.streak,
                     colour = G.C.CHIPS,

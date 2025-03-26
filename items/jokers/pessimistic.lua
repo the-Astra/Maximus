@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Pessimistic Joker',
         text = { 'After each failed probability check,', 'this Joker gains {C:mult}Mult{} equal to the',
-            'odds of failing the check', '{C:inactive}+#2# for missed Lucky Card',
+            'odds of failing the check', '{s:0.8,C:inactive}+#2# for missed Lucky Card',
             '{C:inactive}Currently: {C:mult}+#1# {C:inactive}Mult' }
     },
     atlas = 'Jokers',
@@ -40,7 +40,27 @@ SMODS.Joker {
         if context.individual and context.other_card.ability.effect == 'Lucky Card' and not context.after and not context.end_of_round and
             not context.other_card.lucky_trigger and not context.blueprint then
             stg.mult = stg.mult + card.ability.extra.lucky_gain
-            card:juice_up(0.3, 0.4)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    card:juice_up(0.3, 0.4)
+                    play_sound('generic1')
+                    return true
+                end
+            }))
+            SMODS.calculate_context({ scaling_card = true })
+        end
+
+        if context.failed_prob and not context.blueprint then
+            stg.mult = stg.mult + context.odds
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    card:juice_up(0.3, 0.4)
+                    return true
+                end
+            }))
+            SMODS.calculate_context({ scaling_card = true })
         end
     end
 }

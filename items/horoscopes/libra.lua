@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Libra',
-        text = { 'Spend at least {C:money}$15{} during the', 'next shop to make the next', 'shop\'s offerings {C:money}free{}', '{C:inactive}Currently: #2#/#1#' }
+        text = { 'Spend at least {C:money}$#1#{} during the', 'next shop to make the next', 'shop\'s offerings {C:money}free{}', '{C:inactive}Currently: #2#/#1#' }
     },
     atlas = 'Consumables',
     pos = {
@@ -23,19 +23,16 @@ SMODS.Consumable {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.buying_card or context.open_booster then
-            stg.money_spent = stg.money_spent + context.card.cost
-            SMODS.calculate_effect({ message = stg.money_spent .. "/" .. stg.goal, colour = G.C.HOROSCOPE },
-                card)
-            if stg.money_spent >= stg.goal then
-                self:succeed(card)
+        if context.buying_card or context.open_booster or context.reroll_shop then
+            if context.buying_card or context.open_booster then
+                stg.money_spent = stg.money_spent + context.card.cost
+            elseif context.reroll_shop then
+                stg.money_spent = stg.money_spent + context.cost
             end
-        end
 
-        if context.reroll_shop then
-            stg.money_spent = stg.money_spent + G.GAME.current_round.reroll_cost
             SMODS.calculate_effect({ message = stg.money_spent .. "/" .. stg.goal, colour = G.C.HOROSCOPE },
                 card)
+
             if stg.money_spent >= stg.goal then
                 self:succeed(card)
             end
@@ -78,16 +75,23 @@ SMODS.Consumable {
                 return true
             end
         }))
+        zodiac_killer_pools["Libra"] = false
+        SMODS.calculate_context({beat_horoscope = true})
     end,
     fail = function(self, card)
+        local stg = card.ability.extra
         SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            func = function()
-                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                return true
-            end
-        }))
+        if not next(SMODS.find_card('j_mxms_cheat_day')) then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                    return true
+                end
+            }))
+        else
+            stg.money_spent = 0
+        end
         if G.GAME.modifiers.mxms_zodiac_killer then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -104,5 +108,6 @@ SMODS.Consumable {
                 end
             }))
         end
+        SMODS.calculate_context({failed_horoscope = true})
     end
 }

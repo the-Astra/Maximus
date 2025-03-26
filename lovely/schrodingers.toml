@@ -9,7 +9,6 @@ priority = 1
 target = 'card.lua'
 pattern = '''
 function Card:calculate_joker(context)
-    if self.debuff then return nil end
 '''
 position = "after"
 payload = '''

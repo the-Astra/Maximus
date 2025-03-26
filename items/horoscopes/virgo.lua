@@ -58,16 +58,19 @@ SMODS.Consumable {
             end
         }))
         zodiac_killer_pools["Virgo"] = false
+        SMODS.calculate_context({beat_horoscope = true})
     end,
     fail = function(self, card)
         SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            func = function()
-                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
-                return true
-            end
-        }))
+        if not next(SMODS.find_card('j_mxms_cheat_day')) then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                    return true
+                end
+            }))
+        end
         if G.GAME.modifiers.mxms_zodiac_killer then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -84,5 +87,6 @@ SMODS.Consumable {
                 end
             }))
         end
+        SMODS.calculate_context({failed_horoscope = true})
     end
 }

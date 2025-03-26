@@ -2,8 +2,8 @@ SMODS.Joker {
     key = 'poindexter',
     loc_txt = {
         name = "Poindexter",
-        text = { '{X:mult,C:white}X#2#{} Mult for every', 'scoring {C:attention}glass card{} that',
-            'remains intact; {C:red}Resets{} on break', '{C:inactive}Currently: {X:mult,C:white}X#1#{}' }
+        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult for every', 'scoring {C:attention}Glass Card{} that',
+            'remains intact', '{s:0.8,C:inactive}Resets on Glass Card break',  }
     },
     atlas = 'Jokers',
     rarity = 2,
@@ -14,8 +14,7 @@ SMODS.Joker {
     config = {
         extra = {
             Xmult = 1.0,
-            gain = 0.25,
-            shattered = false
+            gain = 0.25
         }
     },
     blueprint_compat = true,
@@ -39,17 +38,15 @@ SMODS.Joker {
             }
         end
 
-        if context.before and not context.blueprint then
-            stg.shattered = false
-        end
-
         if context.remove_playing_cards and not context.blueprint then
             -- Check for shattered glass
             if context.removed ~= nil then
                 for k, v in ipairs(context.removed) do
-                    if v.config.center_key == 'm_glass' and not v.debuff then
+                    if SMODS.has_enhancement(v, 'm_glass') and not v.debuff then
                         stg.Xmult = 1
                         stg.shattered = true
+                        SMODS.calculate_effect({ message = 'Errrrmmm...', colour =  G.C.RED},card)
+                        break
                     end
                 end
             end
@@ -57,16 +54,12 @@ SMODS.Joker {
 
         if context.after and not context.blueprint then
             if stg.shattered then
-                return {
-                    card = card,
-                    message = 'Errrrmmm...',
-                    colour = G.C.RED
-                }
+                stg.shattered = false
             else
                 -- If no shattered glass, add to mult
                 local glass = 0
-                for k, val in ipairs(context.scoring_hand) do
-                    if val.config.center_key == 'm_glass' then
+                for k, v in ipairs(context.scoring_hand) do
+                    if SMODS.has_enhancement(v,'m_glass') then
                         glass = glass + 1
                     end
                 end
@@ -74,7 +67,8 @@ SMODS.Joker {
                     trigger = 'after',
                     delay = 0.3,
                     func = function()
-                        stg.Xmult = card:scale_value(stg.Xmult, glass * stg.gain)
+                        stg.Xmult = stg.Xmult + glass * stg.gain
+                        SMODS.calculate_context({scaling_card = true})
                     end
                 }))
                 return {

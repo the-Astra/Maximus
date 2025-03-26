@@ -38,15 +38,14 @@ SMODS.Joker {
 
             if sevens >= 3 then
                 if pseudorandom(pseudoseed('jackpot' .. G.GAME.round_resets.ante)) < G.GAME.probabilities.normal / stg.odds then
-                    ease_dollars(stg.money)
+                    SMODS.calculate_effect({ message = 'Jackpot!', colour = G.C.MONEY },card)
                     return {
-                        message = 'Jackpot!',
-                        colour = G.C.money,
+                        dollars = stg.money,
                         card = card
                     }
                 end
             else
-                mxms_scale_pessimistics(G.GAME.probabilities.normal, stg.odds)
+                SMODS.calculate_context({failed_prob = true, odds = stg.odds - G.GAME.probabilities.normal})
                 return {
                     card = card,
                     message = localize('k_nope_ex'),

@@ -4,7 +4,7 @@ SMODS.Joker {
         name = 'Fortune Cookie',
         text = { '{C:green}#3# out of #4#{} chance to receive', 'a random {C:tarot}Tarot{} card when',
             ' playing a hand {C:inactive}(Must have room){}',
-            '{C:inactive}Chance reduces by #1# for every played hand' }
+            '{s:0.8,C:inactive}Chance reduces by #1# for every played hand' }
     },
     atlas = 'Jokers',
     pos = {
@@ -69,8 +69,7 @@ SMODS.Joker {
 
                     -- Failed Roll
                 else
-                    mxms_scale_pessimistics(stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal,
-                        stg.odds)
+                    SMODS.calculate_context({failed_prob = true, odds = stg.odds - stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal})
 
                     return {
                         sound = 'tarot2',
