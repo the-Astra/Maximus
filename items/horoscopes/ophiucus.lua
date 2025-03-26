@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Spectral',
     loc_txt = {
         name = 'Ophiucus',
-        text = { 'Play every non-secret hand type', 'within the next {C:attention}#2#{} antes to', ' create a {C:dark_edition}Negative {C:spectral}Soul', '{C:inactive}Currently: #1#/9' }
+        text = { 'Play every non-secret hand type', 'within the next {C:attention}#2#{} antes to', 'create a {C:dark_edition}Negative {C:spectral}Soul', '{C:inactive}Currently: #1#/9' }
     },
     atlas = 'Consumables',
     pos = {
