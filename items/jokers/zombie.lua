@@ -13,8 +13,8 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 8,
     loc_vars = function(self, info_queue, card)
-        if G.GAME.current_round.zombie_target ~= nil then
-            local copied_key = G.GAME.current_round.zombie_target.config.center.key
+        if G.GAME.current_round.zombie_target.card ~= nil then
+            local copied_key = G.GAME.current_round.zombie_target.card.config.center.key
             info_queue[#info_queue + 1] = G.P_CENTERS[copied_key]
             return {
                 vars = { G.localization.descriptions.Joker[copied_key].name }
@@ -26,10 +26,10 @@ SMODS.Joker {
         end
     end,
     calculate = function(self, card, context)
-        if G.GAME.current_round.zombie_target and not context.no_blueprint then
+        if G.GAME.current_round.zombie_target.card and not context.no_blueprint then
             context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
             context.blueprint_card = context.blueprint_card or card
-            local zombie_target_ret = G.GAME.current_round.zombie_target:calculate_joker(context)
+            local zombie_target_ret = G.GAME.current_round.zombie_target.card:calculate_joker(context)
             context.blueprint = nil
             local eff_card = context.blueprint_card or self
             context.blueprint_card = nil

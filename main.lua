@@ -228,7 +228,10 @@ Game.init_game_object = function(self)
     ret.creep_mod = 1
     ret.soil_mod = 1
     ret.skip_tag = ''
-    ret.last_bought = nil
+    ret.last_bought = {
+        card = nil,
+        pos = nil
+    }
     ret.v_destroy_reduction = 0
     ret.shop_price_multiplier = 1
     ret.horoscope_rate = 0
@@ -240,7 +243,10 @@ Game.init_game_object = function(self)
         rank = "Ace",
         mult = 8
     }
-    ret.current_round.zombie_target = nil
+    ret.current_round.zombie_target = {
+        card = nil,
+        pos = nil
+    }
     ret.current_round.jello_suit = 'Spades'
 
     --Horoscope
@@ -310,45 +316,48 @@ if Maximus_config.menu then
     end
 end
 
---Leftovers food detection
-local remove_ref = Card.remove
-function Card.remove(self)
-    if self.added_to_deck and self.ability.set == 'Joker' and not G.CONTROLLER.locks.selling_card and self.config.center_key ~= 'j_mxms_leftovers' then
-        local first_leftovers = SMODS.find_card('j_mxms_leftovers')[1]
-        if first_leftovers and mxms_is_food(self) then
-            local respawn_key = self.config.center.key
-
-            play_sound('timpani')
-
-            SMODS.add_card({
-                set = 'Joker',
-                key = respawn_key,
-                key_append = 'lefto'
-            })
-
-            first_leftovers.T.r = -0.2
-            first_leftovers:juice_up(0.3, 0.4)
-            first_leftovers.states.drag.is = true
-            first_leftovers.children.center.pinch.x = true
-
-            SMODS.calculate_effect({ message = "Saved for later!", colour = G.C.FILTER, sound = 'tarot1' },
-                first_leftovers)
-
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                delay = 0.3,
-                blockable = false,
-                func = function()
-                    G.jokers:remove_card(first_leftovers)
-                    first_leftovers:remove()
-                    first_leftovers = nil
-                    return true;
-                end
-            }))
+local save_r = save_run
+save_run = function(self)
+    if G.GAME.current_round.zombie_target and G.GAME.current_round.zombie_target.card then
+        print('Saving zombie target pos')
+        local pos = 1
+        for k, v in pairs(G.jokers.cards) do
+            if v == G.GAME.current_round.zombie_target.card then
+                G.GAME.current_round.zombie_target.pos = pos
+                break
+            end
+            pos = pos + 1
         end
     end
 
-    return remove_ref(self)
+    if G.GAME.last_bought and G.GAME.last_bought.card then
+        print('Saving bootleg target pos')
+        local pos = 1
+        for k, v in pairs(G.jokers.cards) do
+            if v == G.GAME.last_bought.card then
+                G.GAME.last_bought.pos = pos
+                break
+            end
+            pos = pos + 1
+        end
+    end
+
+    save_r(self)
+end
+
+local start_r = Game.start_run
+Game.start_run = function(self, args)
+    start_r(self, args)
+
+    if G.GAME.last_bought and G.GAME.last_bought.pos then
+        G.GAME.last_bought.card = G.jokers.cards[G.GAME.last_bought.pos]
+        G.GAME.last_bought.pos = nil
+    end
+
+    if G.GAME.current_round.zombie_target and G.GAME.current_round.zombie_target.pos then
+        G.GAME.current_round.zombie_target.card = G.jokers.cards[G.GAME.current_round.zombie_target.pos]
+        G.GAME.current_round.zombie_target.pos = nil
+    end
 end
 
 --#endregion
@@ -468,7 +477,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
     end
 
     -- Zombie
-    if next(SMODS.find_card('j_mxms_zombie')) and G.GAME.current_round.zombie_target ~= nil then
+    if next(SMODS.find_card('j_mxms_zombie')) and G.GAME.current_round.zombie_target.card ~= nil then
         if not G.GAME.current_round.zombie_target.ability.eternal then
             G.E_MANAGER:add_event(Event({
                 func = function()
@@ -492,7 +501,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
             trigger = 'after',
             func = function()
                 local eligible_jokers = {}
-                local new_target = G.GAME.current_round.zombie_target
+                local new_target = G.GAME.current_round.zombie_target.card
                 if #G.jokers.cards <= 1 or not next(SMODS.find_card('j_mxms_zombie')) then
                     new_target = nil
                 else
@@ -509,10 +518,10 @@ function SMODS.current_mod.reset_game_globals(run_start)
                     end
                 end
 
-                G.GAME.current_round.zombie_target = new_target
-                if G.GAME.current_round.zombie_target ~= nil then
-                    SMODS.calculate_effect({ message = "Infected!", colour = G.C.HOROSCOPE },
-                        G.GAME.current_round.zombie_target)
+                G.GAME.current_round.zombie_target.card = new_target
+                if G.GAME.current_round.zombie_target.card ~= nil then
+                    SMODS.calculate_effect({ message = "Infected!", colour = G.C.GREEN },
+                        G.GAME.current_round.zombie_target.card)
                 end
                 return true
             end

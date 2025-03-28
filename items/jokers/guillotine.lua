@@ -2,7 +2,7 @@ SMODS.Joker {
     key = 'guillotine',
     loc_txt = {
         name = 'Guillotine',
-        text = { 'Scored {C:attention}Face{} or {C:attention}Ace{} cards', 'have their rank demoted',
+        text = { 'Scored {C:attention}Face{} or {C:attention}Ace{} cards', 'have their rank set',
             'to {C:attention}10{}' }
     },
     atlas = 'Jokers',
@@ -22,11 +22,9 @@ SMODS.Joker {
                         trigger = 'before',
                         delay = 0.50,
                         func = function()
-                            local other_card = context.scoring_hand[i]
                             play_sound('slice1')
-                            other_card:juice_up(0.3, 0.3)
-                            local suit_prefix = string.sub(other_card.base.suit, 1, 1) .. '_'
-                            other_card:set_base(G.P_CARDS[suit_prefix .. 'T'])
+                            SMODS.change_base(context.scoring_hand[i], nil, '10')
+                            context.scoring_hand[i]:juice_up(0.3, 0.3)
                             return true
                         end
                     }))
