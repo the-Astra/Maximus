@@ -97,7 +97,7 @@ SMODS.Joker {
 
         -- "Crumble" card after scoring
         if context.after and not context.blueprint then
-            if stg.odds <= 0 then
+            if stg.prob <= 0 then
                 -- Code derived from Gros Michel/Cavendish
                 G.E_MANAGER:add_event(Event({
                     func = function()

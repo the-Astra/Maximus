@@ -36,6 +36,7 @@ SMODS.Joker {
                     G.GAME.skip_tag = ''
                 end
             else
+                SMODS.calculate_context({failed_prob = true, odds = stg.odds - (stg.prob * G.GAME.probabilities.normal)})
                 return {
                     sound = 'tarot2',
                     card = card,
