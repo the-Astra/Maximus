@@ -1052,9 +1052,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'gelatin',
     'kings_rook',
     'slippery_slope',
-
-    -- Legendary Jokers
-    'ledger',
+    'smoker',
 }
 
 local HOROSCOPE_JOKERS = {
@@ -1062,6 +1060,10 @@ local HOROSCOPE_JOKERS = {
     'cheat_day',
     'letter',
     'employee',
+}
+
+local LEGENDARY_JOKERS = {
+    'ledger',
 }
 
 local EXPERIMENTAL_JOKERS = {
@@ -1105,6 +1107,19 @@ if Maximus_config.horoscopes then
     end
 else
     sendDebugMessage("Horoscopes disabled; Skipping Horoscope Jokers...", 'Maximus')
+end
+sendDebugMessage("", 'Maximus')
+
+sendDebugMessage("Loading Legendary Jokers...", 'Maximus')
+for i = 1, #LEGENDARY_JOKERS do
+    local status, err = pcall(function()
+        return NFS.load(SMODS.current_mod.path .. 'items/jokers/' .. LEGENDARY_JOKERS[i] .. '.lua')()
+    end)
+    sendDebugMessage("Loaded joker: " .. LEGENDARY_JOKERS[i], 'Maximus')
+
+    if not status then
+        error(LEGENDARY_JOKERS[i] .. ": " .. err)
+    end
 end
 sendDebugMessage("", 'Maximus')
 
