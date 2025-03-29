@@ -24,3 +24,21 @@ payload = '''
 '''
 match_indent = true
 times = 1
+
+    # Rewrite stone card scoring functionality
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.effect == 'Stone Card' or self.config.center.replace_base_card then
+    return self.ability.bonus + (self.ability.perma_bonus or 0)
+end
+'''
+position = "at"
+payload = '''
+if (self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel'))) or self.config.center.replace_base_card then
+    return self.ability.bonus + (self.ability.perma_bonus or 0)
+end
+'''
+match_indent = true
+times = 1

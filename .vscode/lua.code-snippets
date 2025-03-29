@@ -2,7 +2,7 @@
     "Calculate function skeleton":  {
         "prefix": "calc",
         "body": [
-            "calculate = (self, card, context)",
+            "calculate = function(self, card, context)",
             "   local stg = card.ability.extra",
             "",
             "   $0",
@@ -13,7 +13,7 @@
     "Add To Deck function skeleton":  {
         "prefix": "atd",
         "body": [
-            "add_to_deck = (self, card, from_debuff)",
+            "add_to_deck = function(self, card, from_debuff)",
             "   local stg = card.ability.extra",
             "",
             "   $0",
@@ -24,7 +24,7 @@
     "Remove From Deck function skeleton":  {
         "prefix": "rfd",
         "body": [
-            "remove_from_deck = (self, card, from_debuff)",
+            "remove_from_deck = function(self, card, from_debuff)",
             "   local stg = card.ability.extra",
             "",
             "   $0",
@@ -36,7 +36,7 @@
     "Loc Vars function skeleton":  {
         "prefix": "locvars",
         "body": [
-            "loc_vars = (self, info_queue, card)",
+            "loc_vars = function(self, info_queue, card)",
             "   local stg = card.ability.extra",
             "",
             "   $1",

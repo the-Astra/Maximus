@@ -310,7 +310,6 @@ end
 local save_r = save_run
 save_run = function(self)
     if G.GAME.current_round.zombie_target and G.GAME.current_round.zombie_target.card then
-        print('Saving zombie target pos')
         local pos = 1
         for k, v in pairs(G.jokers.cards) do
             if v == G.GAME.current_round.zombie_target.card then
@@ -322,7 +321,6 @@ save_run = function(self)
     end
 
     if G.GAME.last_bought and G.GAME.last_bought.card then
-        print('Saving bootleg target pos')
         local pos = 1
         for k, v in pairs(G.jokers.cards) do
             if v == G.GAME.last_bought.card then
