@@ -90,6 +90,24 @@ return {
                     "rightmost position",
                 },
             },
+            purple_seal={
+                name="Purple Seal",
+                text={
+                    "Creates a {C:tarot}Tarot{} card",
+                    "when {C:attention}discarded",
+                    "{C:inactive}(Must have room)",
+                    "{s:0.8,C:inactive}Activates on trigger for Jokers",
+                },
+            },
+            gold_seal={
+                name="Gold Seal",
+                text={
+                    "Earn {C:money}$3{} when this",
+                    "card is played",
+                    "and scores",
+                    "{s:0.8,C:inactive}Activates on trigger for Jokers",
+                },
+            },
         }
     },
     misc = {
