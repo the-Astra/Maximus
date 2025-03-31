@@ -116,7 +116,7 @@ end
 
 --#region SMODS Optional Features ---------------------------------------------------------------------------
 
-SMODS.current_mod.optional_features = { retrigger_joker = true }
+SMODS.current_mod.optional_features = { retrigger_joker = true, post_trigger = true }
 
 --#endregion
 
@@ -1070,6 +1070,7 @@ local EXPERIMENTAL_JOKERS = {
     'chrysalis',
     'butterfly',
     'comedian',
+    'vulture',
 
     'romero',
     'leto',
