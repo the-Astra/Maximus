@@ -24,11 +24,11 @@ if not next(SMODS.find_card('j_mxms_stop_sign')) then
     reset_idol_card()
     reset_mail_rank()
     reset_ancient_card()
-    reset_castle_card() 
-end                    
-for _, mod in ipairs(SMODS.mod_list) do
-    if mod.reset_game_globals and type(mod.reset_game_globals) == 'function' then
-        mod.reset_game_globals(false)
+    reset_castle_card()                 
+    for _, mod in ipairs(SMODS.mod_list) do
+        if mod.reset_game_globals and type(mod.reset_game_globals) == 'function' then
+            mod.reset_game_globals(false)
+        end
     end
 end
 '''
