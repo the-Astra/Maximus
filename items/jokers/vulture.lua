@@ -4,14 +4,14 @@ SMODS.Joker {
         name = 'Vulture',
         text = { 'If a {C:attention}destroyed card{} has a seal,', 'apply the seal to a {C:attention}random', '{C:attention}held joker' }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 2,
-        y = 0
+        x = 5,
+        y = 11
     },
     rarity = 3,
     blueprint_compat = true,
-    cost = 4,
+    cost = 7,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
