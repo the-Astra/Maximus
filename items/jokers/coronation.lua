@@ -28,26 +28,15 @@ SMODS.Joker {
         if context.end_of_round and not context.individual and not context.repetition and not context.blueprint and next(SMODS.find_card('j_joker')) then
 
             stg.rounds = stg.rounds  + 1
-            SMODS.calculate_effect({ message = stg.rounds .. '/3', colour = G.C.YELLOW },card)
+            SMODS.calculate_effect({ message = stg.rounds .. '/3', colour = G.C.GOLD },card)
 
             if stg.rounds == stg.goal then
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     func = function()
                         local jimbo = SMODS.find_card('j_joker')[1]
-
-                        local new_jimbo = SMODS.add_card({
-                            set = 'Joker',
-                            key = 'j_mxms_crowned',
-                            key_append = 'coron'
-                        })
-
-                        if jimbo.edition then
-                            new_jimbo:set_edition(jimbo.edition, nil, true)
-                        end
-
-                        jimbo:start_dissolve({ G.C.YELLOW }, nil, 1.6)
-
+                        jimbo:set_ability(G.P_CENTERS['j_mxms_crowned'])
+                        jimbo:juice_up(0.8, 0.8)
                         return true;
                     end
                 }))
@@ -57,7 +46,7 @@ SMODS.Joker {
                 return {
                     sound = 'polychrome1',
                     message = 'Crowned',
-                    colour = G.C.YELLOW,
+                    colour = G.C.GOLD,
                     card = card
                 }
             end
@@ -67,7 +56,7 @@ SMODS.Joker {
             stg.rounds = 0
             return {
                 message = localize('k_reset'),
-                colour = G.C.YELLOW,
+                colour = G.C.GOLD,
                 card = card
             }
         end
