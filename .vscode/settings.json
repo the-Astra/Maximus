@@ -56,6 +56,8 @@
         "get_flush",
         "create_playing_card",
         "mxms_is_food",
-        "faded_check"
+        "faded_check",
+        "mod_chips",
+        "mod_mult"
     ]
 }

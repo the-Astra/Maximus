@@ -20,13 +20,13 @@ SMODS.Joker {
         if context.cardarea == G.jokers and context.before then
             local hand_is_highest = false
 
-            local level, highest = 0, {}
+            local level, highest = to_big(0), {}
 
             for k, v in pairs(G.GAME.hands) do
-                if v.visible and v.level > level then
-                    level = v.level
+                if v.visible and to_big(v.level) > level then
+                    level = to_big(v.level)
                     highest = { k }
-                elseif v.visible and v.level == level then
+                elseif v.visible and to_big(v.level) == level then
                     highest[#highest + 1] = k
                 end
             end

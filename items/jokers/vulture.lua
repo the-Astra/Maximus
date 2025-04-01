@@ -1,3 +1,4 @@
+---@diagnostic disable: need-check-nil
 SMODS.Joker {
     key = 'vulture',
     loc_txt = {

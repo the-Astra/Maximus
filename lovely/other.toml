@@ -61,3 +61,25 @@ if args.type == 'have_edition' and G.STAGE == G.STAGES.RUN then
 '''
 match_indent = true
 times = 1
+
+
+    # Post Handtype Scoring context
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+-- TARGET: effects before scoring starts
+
+mult = mod_mult(G.GAME.hands[text].mult)
+hand_chips = mod_chips(G.GAME.hands[text].chips)
+
+'''
+position = "after"
+payload = '''
+-- calculations after handtype scoring
+SMODS.calculate_context({scoring_name = text, post_handtype_scoring = true})
+
+'''
+match_indent = true
+times = 1
