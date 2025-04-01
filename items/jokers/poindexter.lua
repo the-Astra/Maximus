@@ -7,7 +7,7 @@ SMODS.Joker {
             'scoring {C:attention}Glass Card{} that',
             'remains intact', 
             '{s:0.8,C:inactive}Resets on Glass Card break', 
-            '{C:inactive}(Currently: {X:mult,C:white}X#1# {C:inactive}Mult)'  
+            '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'  
         }
     },
     atlas = 'Jokers',

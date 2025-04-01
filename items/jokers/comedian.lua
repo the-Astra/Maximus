@@ -8,7 +8,7 @@ SMODS.Joker {
             '{C:green}#3# in #4# chance{} this', 
             'card is destroyed at', 
             'end of round', 
-            '{C:inactive}(Currently: {X:mult,C:white}X#1# {C:inactive}Mult)' 
+            '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)' 
         }
     },
     atlas = 'Placeholder',

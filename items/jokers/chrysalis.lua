@@ -6,7 +6,7 @@ SMODS.Joker {
             'After using {C:attention}#2# {C:planet}Planet{} Cards,', 
             'sell this Joker to create a', 
             '{C:attention}Butterfly', 
-            '{C:inactive}(Currently: #1#/#2#' 
+            '{C:inactive}(Currently: #1#/#2#)' 
         },
         unlock = { 
             'Fulfill the requirements of', 

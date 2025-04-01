@@ -6,7 +6,7 @@ SMODS.Joker {
             'Gains {X:mult,C:white}X#2#{} Mult', 
             'if shop is cleared out', 
             'when exiting', 
-            '{C:inactive}(Currently: {X:mult,C:white}X#1# {C:inactive}Mult)' 
+            '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)' 
         }
     },
     atlas = 'Jokers',

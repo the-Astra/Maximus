@@ -6,7 +6,7 @@ SMODS.Joker {
             'Gains {X:mult,C:white}X#2#{} Mult', 
             'every time a Joker', 
             'is re-added to hand', 
-            '{C:inactive}(Currently: {X:mult,C:white}X#1# {C:inactive}Mult)' 
+            '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)' 
         }
     },
     atlas = 'Jokers',
