@@ -2,7 +2,12 @@ SMODS.Joker {
     key = 'memory_game',
     loc_txt = {
         name = 'Memory Game',
-        text = { 'If played hand is', 'a {C:attention}Pair{}, convert', 'the first scoring card', 'into the second scoring card' }
+        text = { 
+            'If played hand is', 
+            'a {C:attention}Pair{}, convert', 
+            'the first scoring card', 
+            'into the second scoring card' 
+        }
     },
     atlas = 'Jokers',
     pos = {

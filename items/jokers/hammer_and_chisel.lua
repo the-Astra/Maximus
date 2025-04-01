@@ -2,7 +2,10 @@ SMODS.Joker {
     key = 'hammer_and_chisel',
     loc_txt = {
         name = 'Hammer and Chisel',
-        text = { 'Stone cards retain', '{C:attention}rank{} and {C:attention}suit{}' }
+        text = { 
+            'Stone cards retain', 
+            '{C:attention}rank{} and {C:attention}suit{}' 
+        }
     },
     atlas = 'Jokers',
     pos = {

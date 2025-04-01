@@ -2,8 +2,16 @@ SMODS.Joker {
     key = 'chrysalis',
     loc_txt = {
         name = 'Chrysalis',
-        text = { 'After using {C:attention}#2# {C:planet}Planet{} Cards,', 'sell this Joker to create a', '{C:attention}Butterfly', '{C:inactive}Currently: #1#/#2#' },
-        unlock = { 'Fulfill the requirements of', 'and sell a {C:attention}Caterpillar{}' }
+        text = { 
+            'After using {C:attention}#2# {C:planet}Planet{} Cards,', 
+            'sell this Joker to create a', 
+            '{C:attention}Butterfly', 
+            '{C:inactive}(Currently: #1#/#2#' 
+        },
+        unlock = { 
+            'Fulfill the requirements of', 
+            'and sell a {C:attention}Caterpillar{}' 
+        }
     },
     atlas = 'Placeholder',
     pos = {

@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'hopscotch',
     loc_txt = {
         name = 'Hopscotch',
-        text = { 'When selecting blind,', '{C:green}#1# in #2#{} chance to', 'receive associated skip tag' }
+        text = { 
+            'When selecting blind,', 
+            '{C:green}#1# in #2#{} chance to', 
+            'receive associated skip tag' 
+        }
     },
     atlas = 'Jokers',
     pos = {

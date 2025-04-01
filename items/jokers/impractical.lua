@@ -2,9 +2,13 @@ SMODS.Joker {
     key = 'impractical_joker',
     loc_txt = {
         name = 'Impractical Joker',
-        text = { 'If a {C:attention}#4#{} is played,', '{X:mult,C:white}X#2#{} Mult. If three hands in a',
-            'row are not this hand type, {X:mult,C:white}X#3#{} Mult', '{s:0.8,C:inactive}Hand rotates every round',
-            '{C:inactive}Fail streak: #1#' }
+        text = { 
+            'If a {C:attention}#4#{} is played,', 
+            '{X:mult,C:white}X#2#{} Mult. If three hands in a',
+            'row are not this hand type, {X:mult,C:white}X#3#{} Mult', 
+            '{s:0.8,C:inactive}Hand rotates every round',
+            '{C:inactive}(Fail streak: #1#)' 
+        }
     },
     atlas = 'Jokers',
     pos = {

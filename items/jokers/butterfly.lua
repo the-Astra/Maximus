@@ -2,8 +2,15 @@ SMODS.Joker {
     key = 'butterfly',
     loc_txt = {
         name = 'Butterfly',
-        text = { 'Creates a {C:spectral}Spectral{} Card', 'every {C:attention}#2#{} consumables used', '{C:inactive}Currently: #1#/#2#' },
-        unlock = { 'Fulfill the requirements of', 'and sell a {C:attention}Chrysalis{}' }
+        text = { 
+            'Creates a {C:spectral}Spectral{} Card', 
+            'every {C:attention}#2#{} consumables used', 
+            '{C:inactive}(Currently: #1#/#2#)' 
+        },
+        unlock = { 
+            'Fulfill the requirements of', 
+            'and sell a {C:attention}Chrysalis{}' 
+        }
     },
     atlas = 'Placeholder',
     pos = {

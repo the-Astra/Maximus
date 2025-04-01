@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'minimalist',
     loc_txt = {
         name = 'Minimalist',
-        text = { '{C:chips}+#1#{} Chips, {C:chips}-#3#{} for', 'every enhanced card in full deck', '{C:inactive}Currently: {C:chips}+#2#' }
+        text = { 
+            '{C:chips}+#1#{} Chips, {C:chips}-#3#{} for', 
+            'every enhanced card in full deck', 
+            '{C:inactive}(Currently: {C:chips}+#2# {C:inactive}Chips)' 
+        }
     },
     atlas = 'Jokers',
     pos = {

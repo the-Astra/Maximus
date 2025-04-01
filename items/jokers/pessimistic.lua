@@ -2,9 +2,13 @@ SMODS.Joker {
     key = 'pessimistic',
     loc_txt = {
         name = 'Pessimistic Joker',
-        text = { 'After each failed probability check,', 'this Joker gains {C:mult}Mult{} equal to the',
-            'odds of failing the check', '{s:0.8,C:inactive}+#2# for missed Lucky Card',
-            '{C:inactive}Currently: {C:mult}+#1# {C:inactive}Mult' }
+        text = { 
+            'After each failed probability check,', 
+            'this Joker gains {C:mult}Mult{} equal to the',
+            'odds of failing the check', 
+            '{s:0.8,C:inactive}+#2# for missed Lucky Card',
+            '{C:inactive}(Currently: {C:mult}+#1# {C:inactive}Mult)' 
+        }
     },
     atlas = 'Jokers',
     pos = {

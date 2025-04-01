@@ -2,8 +2,11 @@ SMODS.Joker {
     key = 'combo_breaker',
     loc_txt = {
         name = 'Combo Breaker',
-        text = { 'Gains {X:mult,C:white}X#1#{} Mult', 'per retrigger',
-            '{s:0.8,C:inactive}Starts at {s:0.8,X:mult,C:white}X1{s:0.8,C:inactive} Mult, resets every hand' }
+        text = { 
+            'Gains {X:mult,C:white}X#1#{} Mult', 
+            'per retrigger',
+            '{s:0.8,C:inactive}Starts at {s:0.8,X:mult,C:white}X1{s:0.8,C:inactive} Mult, resets every hand' 
+        }
     },
     atlas = 'Jokers',
     pos = {

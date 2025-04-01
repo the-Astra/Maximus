@@ -3,7 +3,11 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Aries',
-        text = { '{C:attention}Trigger{} the Boss Blind', 'to cut {C:attention}15%{} off all blind', 'requirements the following ante' }
+        text = { 
+            '{C:attention}Trigger{} the Boss Blind', 
+            'to cut {C:attention}15%{} off all blind', 
+            'requirements the following ante' 
+        }
     },
     atlas = 'Consumables',
     pos = {

@@ -2,7 +2,10 @@ SMODS.Joker {
     key = 'chekhov',
     loc_txt = {
         name = 'Chekhov\'s Gun',
-        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
+        text = { 
+            '{X:mult,C:white}Xante{} mult on antes', 
+            'with a final boss' 
+        }
     },
     atlas = 'Jokers',
     pos = {

@@ -2,7 +2,10 @@ SMODS.Joker {
     key = 'cheat_day',
     loc_txt = {
         name = 'Cheat Day',
-        text = { '{C:horoscope}Horoscope{} cards do not', 'get destroyed after failing' }
+        text = { 
+            '{C:horoscope}Horoscope{} cards do not', 
+            'get destroyed after failing' 
+        }
     },
     atlas = 'Jokers',
     pos = {

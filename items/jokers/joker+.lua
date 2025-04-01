@@ -2,7 +2,9 @@ SMODS.Joker {
     key = 'joker_plus',
     loc_txt = {
         name = 'Joker+',
-        text = { '{C:mult}+#1#{} Mult' }
+        text = { 
+            '{C:mult}+#1#{} Mult' 
+        }
     },
     atlas = 'Jokers',
     pos = {

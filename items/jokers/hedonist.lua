@@ -2,7 +2,12 @@ SMODS.Joker {
     key = 'hedonist',
     loc_txt = {
         name = 'Hedonist',
-        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult', 'if shop is cleared out', 'when exiting' }
+        text = { 
+            'Gains {X:mult,C:white}X#2#{} Mult', 
+            'if shop is cleared out', 
+            'when exiting', 
+            '{C:inactive}(Currently: {X:mult,C:white}X#1# {C:inactive}Mult)' 
+        }
     },
     atlas = 'Jokers',
     pos = {

@@ -2,7 +2,10 @@ SMODS.Joker { -- Refrigerator
     key = 'refrigerator',
     loc_txt = {
         name = 'Refrigerator',
-        text = { '{C:attention}Food{} Jokers degrade', 'half as fast' }
+        text = { 
+            '{C:attention}Food{} Jokers degrade', 
+            'half as fast' 
+        }
     },
     atlas = 'Jokers',
     pos = {

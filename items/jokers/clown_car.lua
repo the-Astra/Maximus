@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'clown_car',
     loc_txt = {
         name = 'Clown Car',
-        text = { 'Gains {C:mult}+#2#{} Mult each time', 'a Joker is added to hand', '{C:inactive}Currently: +#1#' }
+        text = { 
+            'Gains {C:mult}+#2#{} Mult each time', 
+            'a Joker is added to hand', 
+            '{C:inactive}Currently: {C:mult}+#1# {C:inactive}Mult' 
+        }
     },
     atlas = 'Jokers',
     pos = {
@@ -31,6 +35,16 @@ SMODS.Joker {
                 mult_mod = stg.mult,
                 message = '+' .. stg.mult,
                 colour = G.C.MULT,
+                card = card
+            }
+        end
+
+        if context.card_added and context.card.ability.set == 'Joker' then
+            stg.mult = stg.mult + (stg.gain * G.GAME.soil_mod)
+            SMODS.calculate_context({scaling_card = true})
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.ATTENTION,
                 card = card
             }
         end

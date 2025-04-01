@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'lazy',
     loc_txt = {
         name = 'Lazy Joker',
-        text = { "{C:chips}+#1#{} Chips if played", "hand is", "a {C:attention}#2#" }
+        text = { 
+            '{C:chips}+#1#{} Chips if played', 
+            'hand is', 
+            'a {C:attention}#2#' 
+        }
     },
     atlas = 'Jokers',
     pos = {

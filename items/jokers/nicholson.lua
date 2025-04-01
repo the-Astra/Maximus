@@ -2,7 +2,10 @@ SMODS.Joker {
     key = 'nicholson',
     loc_txt = {
         name = 'Nicholson',
-        text = { 'Retrigger any card', 'with an {C:attention}Edition{}' }
+        text = { 
+            'Retrigger any card', 
+            'with an {C:attention}Edition{}' 
+        }
     },
     atlas = 'Placeholder',
     pos = {

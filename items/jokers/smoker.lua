@@ -2,7 +2,12 @@ SMODS.Joker {
     key = 'smoker',
     loc_txt = {
         name = 'Smoker',
-        text = { 'If played hand is a {C:attention}High Card{},', 'gains {C:chips}chips{} equal to each scoring', 'card\'s {C:chips}chip{} value', '{C:inactive}Currently: {C:chips}+#1# {C:inactive}chips' }
+        text = { 
+            'If played hand is a {C:attention}High Card{},', 
+            'gains {C:chips}chips{} equal to each scoring', 
+            'card\'s {C:chips}chip{} value', 
+            '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)' 
+        }
     },
     atlas = 'Jokers',
     pos = {

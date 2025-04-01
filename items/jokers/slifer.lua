@@ -2,7 +2,10 @@ SMODS.Joker {
     key = 'slifer',
     loc_txt = {
         name = 'Slifer the Sky Dragon',
-        text = { 'Gives {X:mult,C:white}Xmult{} equal to the number', 'of cards {C:attention}held{} in your hand' }
+        text = { 
+            'Gives {X:mult,C:white}Xmult{} equal to the number', 
+            'of cards {C:attention}held{} in your hand' 
+        }
     },
     atlas = 'Jokers',
     pos = {

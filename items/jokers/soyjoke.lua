@@ -2,7 +2,12 @@ SMODS.Joker {
     key = 'soyjoke',
     loc_txt = {
         name = 'Soyjoke',
-        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult', 'every time a Joker', 'is re-added to hand' }
+        text = { 
+            'Gains {X:mult,C:white}X#2#{} Mult', 
+            'every time a Joker', 
+            'is re-added to hand', 
+            '{C:inactive}(Currently: {X:mult,C:white}X#1# {C:inactive}Mult)' 
+        }
     },
     atlas = 'Jokers',
     pos = {

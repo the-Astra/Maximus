@@ -349,6 +349,12 @@ Game.start_run = function(self, args)
     end
 end
 
+local csc = Card.set_cost
+function Card:set_cost() 
+    csc(self)
+    self.cost = self.cost * G.GAME.shop_price_multiplier * G.GAME.creep_mod
+end
+
 --#endregion
 
 --#region Sounds --------------------------------------------------------------------------------------------

@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'schrodinger',
     loc_txt = {
         name = 'Schrodinger\'s Cat',
-        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
+        text = { 
+            '{C:green}50/50 chance{} for each joker', 
+            'to be retriggered or', 
+            'not trigger at all ' 
+        }
     },
     atlas = 'Jokers',
     pos = {
@@ -22,3 +26,9 @@ SMODS.Joker {
         end
     end
 }
+
+local ccj = Card.calculate_joker
+function Card:calculate_joker(context)
+    if next(SMODS.find_card('j_mxms_schrodinger')) and self.ability.name ~= 'j_mxms_schrodinger' and pseudorandom('schro') < 0.5 then return nil end
+    return ccj(self, context)
+end

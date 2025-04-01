@@ -2,7 +2,10 @@ SMODS.Joker {
     key = 'letter',
     loc_txt = {
         name = 'Letter of Recommendation',
-        text = { 'Creates a random {C:horoscope}Horoscope{}', 'card after one {C:attention}succeeds{}' }
+        text = { 
+            'Creates a random {C:horoscope}Horoscope{}', 
+            'card after one {C:attention}succeeds{}' 
+        }
     },
     atlas = 'Jokers',
     pos = {

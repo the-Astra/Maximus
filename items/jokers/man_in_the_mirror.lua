@@ -2,8 +2,11 @@ SMODS.Joker { -- Man in the Mirror
     key = 'man_in_the_mirror',
     loc_txt = {
         name = 'Man in the Mirror',
-        text = { 'Selling this joker', 'creates {C:dark_edition}Negative{} copies of',
-            'all non-Negative held consumables' }
+        text = { 
+            'Selling this joker', 
+            'creates {C:dark_edition}Negative{} copies of',
+            'all non-Negative held consumables' 
+        }
     },
     atlas = 'Jokers',
     pos = {

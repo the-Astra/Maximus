@@ -3,7 +3,13 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Gemini',
-        text = { 'For the next {C:blue}#1#{} hands,', 'play {C:red}no repeat hand types{} to', 'receive {C:attention}+#2#{} levels for', 'each played hand type', '{C:inactive}Currently: #3#/#1#' }
+        text = { 
+            'For the next {C:blue}#1#{} hands,', 
+            'play {C:red}no repeat hand types{} to', 
+            'receive {C:attention}+#2#{} levels for', 
+            'each played hand type', 
+            '{C:inactive}Currently: #3#/#1#' 
+        }
     },
     atlas = 'Consumables',
     pos = {

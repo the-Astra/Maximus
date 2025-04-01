@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'hypeman',
     loc_txt = {
         name = 'Hype Man',
-        text = { 'Gives {C:money}$#1#{} every', 'time a card is', '{C:attention}enhanced{}' }
+        text = { 
+            'Gives {C:money}$#1#{} every', 
+            'time a card is', 
+            '{C:attention}enhanced{}' 
+        }
     },
     atlas = 'Jokers',
     pos = {

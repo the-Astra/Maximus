@@ -2,8 +2,12 @@ SMODS.Joker {
     key = 'crowned',
     loc_txt = {
         name = 'Crowned Joker',
-        text = { '{X:mult,C:white}X#1#{} Mult' },
-        unlock = { 'Trigger a {C:attention}Coronation{}' }
+        text = { 
+            '{X:mult,C:white}X#1#{} Mult' 
+        },
+        unlock = { 
+            'Trigger a {C:attention}Coronation{}' 
+        }
     },
     atlas = 'Jokers',
     pos = {

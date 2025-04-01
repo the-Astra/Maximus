@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'harmony',
     loc_txt = {
         name = 'Harmony',
-        text = { '{C:mult}+#1#{} Mult if played', 'hand contains at least', '{C:attention}3{} different scoring ranks' }
+        text = { 
+            '{C:mult}+#1#{} Mult if played', 
+            'hand contains at least', 
+            '{C:attention}3{} different scoring ranks' 
+        }
     },
     atlas = 'Jokers',
     pos = {

@@ -3,7 +3,12 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Libra',
-        text = { 'Spend at least {C:money}$#1#{} during the', 'next shop to make the next', 'shop\'s offerings {C:money}free{}', '{C:inactive}Currently: #2#/#1#' }
+        text = { 
+            'Spend at least {C:money}$#1#{} during the', 
+            'next shop to make the next', 
+            'shop\'s offerings {C:money}free{}', 
+            '{C:inactive}Currently: #2#/#1#' 
+        }
     },
     atlas = 'Consumables',
     pos = {

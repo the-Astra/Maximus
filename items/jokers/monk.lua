@@ -2,8 +2,11 @@ SMODS.Joker {
     key = 'monk',
     loc_txt = {
         name = 'Monk',
-        text = { 'Gains {C:chips}+#2#{} chips for every', 'shop exited without purchase',
-            '{C:inactive}Currently: {C:chips}+#1#{}' }
+        text = { 
+            'Gains {C:chips}+#2#{} chips for every', 
+            'shop exited without purchase',
+            '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)' 
+        }
     },
     atlas = 'Jokers',
     pos = {

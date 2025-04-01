@@ -2,7 +2,9 @@ SMODS.Voucher {
     key = 'workaholic',
     loc_txt = {
         name = 'Workaholic',
-        text = { '{C:attention}+1{} horoscope slot' }
+        text = { 
+            '{C:attention}+1{} horoscope slot' 
+        }
     },
     atlas = 'Vouchers',
     pos = {

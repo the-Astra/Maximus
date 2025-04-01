@@ -2,7 +2,12 @@ SMODS.Joker {
     key = 'dark_room',
     loc_txt = {
         name = 'Dark Room',
-        text = { 'After {C:attention}#1# rounds{}, sell this', 'Joker to upgrade a {C:green}random', 'owned {C:attention}voucher' }
+        text = { 
+            'After {C:attention}#1# rounds{}, sell this', 
+            'Joker to upgrade a {C:green}random', 
+            'owned {C:attention}voucher', 
+            '{C:inactive}(Currently: #1#/#2#)' 
+        }
     },
     atlas = 'Jokers',
     pos = {
@@ -22,7 +27,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.req }
+            vars = { stg.rounds, stg.req }
         }
     end,
     calculate = function(self, card, context)

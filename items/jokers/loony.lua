@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'loony',
     loc_txt = {
         name = 'Loony Joker',
-        text = { "{C:mult}+#1#{} Mult if played", "hand is", "a {C:attention}#2#" }
+        text = { 
+            '{C:mult}+#1#{} Mult if played', 
+            'hand is', 
+            'a {C:attention}#2#' 
+        }
     },
     atlas = 'Jokers',
     pos = {

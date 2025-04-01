@@ -2,8 +2,10 @@ SMODS.Joker {
     key = 'power_creep',
     loc_txt = {
         name = 'Power Creep',
-        text = { '{C:attention}Scoring Editions{} are {C:attention}twice{} as potent',
-            'Shop prices are {C:attention}doubled' }
+        text = { 
+            '{C:attention}Scoring Editions{} are {C:attention}twice{} as potent',
+            'Shop prices are {C:attention}doubled' 
+        }
     },
     atlas = 'Jokers',
     pos = {

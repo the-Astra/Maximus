@@ -2,8 +2,12 @@ SMODS.Joker {
     key = 'dont_mind_if_i_do',
     loc_txt = {
         name = 'Don\'t Mind if I Do',
-        text = { 'Gains {X:mult,C:white}X#2#{} Mult for every', 'card scored with a seal at the',
-            'cost of removing the seal', '{C:inactive}Currently: {X:mult,C:white}X#1#' }
+        text = { 
+            'Gains {X:mult,C:white}X#2#{} Mult for every', 
+            'card scored with a seal at the',
+            'cost of removing the seal', 
+            '{C:inactive}(Currently: {X:mult,C:white}X#1# {C:inactive}Mult)'
+        }
     },
     atlas = 'Jokers',
     pos = {

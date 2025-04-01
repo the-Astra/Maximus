@@ -2,7 +2,9 @@ SMODS.Joker {
     key = 'template',
     loc_txt = {
         name = 'Template',
-        text = { 'I\'m a template!' }
+        text = { 
+            'I\'m a template!'
+        }
     },
     atlas = 'Placeholder',
     pos = {

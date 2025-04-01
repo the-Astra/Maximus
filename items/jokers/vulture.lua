@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'vulture',
     loc_txt = {
         name = 'Vulture',
-        text = { 'If a {C:attention}destroyed card{} has a seal,', 'apply the seal to a {C:attention}random', '{C:attention}held joker' }
+        text = { 
+            'If a {C:attention}destroyed card{} has a seal,', 
+            'apply the seal to a {C:attention}random', 
+            '{C:attention}held joker' 
+        }
     },
     atlas = 'Jokers',
     pos = {

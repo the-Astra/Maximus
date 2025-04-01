@@ -3,7 +3,14 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Scorpio',
-        text = { 'Do not play your', '{C:attention}most played hand{} for', 'the next {C:blue}#1#{} hands to', 'receive {C:attention}+#2#{} levels for', 'your {C:attention}most played hand{}', '{C:inactive}Currently: #3#/#1#' }
+        text = { 
+            'Do not play your', 
+            '{C:attention}most played hand{} for', 
+            'the next {C:blue}#1#{} hands to', 
+            'receive {C:attention}+#2#{} levels for', 
+            'your {C:attention}most played hand{}', 
+            '{C:inactive}Currently: #3#/#1#' 
+        }
     },
     atlas = 'Consumables',
     pos = {

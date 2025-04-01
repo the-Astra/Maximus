@@ -2,7 +2,10 @@ SMODS.Joker {
     key = 'ledger',
     loc_txt = {
         name = 'Ledger',
-        text = { 'At the end of every ante, one', 'random Joker becomes {C:dark_edition}Negative{}' }
+        text = { 
+            'At the end of every ante, one', 
+            'random Joker becomes {C:dark_edition}Negative{}' 
+        }
     },
     atlas = 'Jokers',
     pos = {

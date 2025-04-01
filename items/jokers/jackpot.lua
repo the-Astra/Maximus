@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'jackpot',
     loc_txt = {
         name = 'Jackpot',
-        text = { 'Played hands containing at least', '{C:attention}three 7\'s{}, {C:green}#1# in #3#{} chance', 'to give {C:money}$#2#' }
+        text = { 
+            'Played hands containing at least', 
+            '{C:attention}three 7\'s{}, {C:green}#1# in #3#{} chance', 
+            'to give {C:money}$#2#' 
+        }
     },
     atlas = 'Jokers',
     pos = {

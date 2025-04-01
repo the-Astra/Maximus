@@ -2,7 +2,9 @@ SMODS.Joker {
     key = 'astigmatism',
     loc_txt = {
         name = 'Astigmatism',
-        text = { '{X:chips,C:white}x#1#{} Chips' }
+        text = { 
+            '{X:chips,C:white}x#1#{} Chips' 
+        }
     },
     atlas = 'Jokers',
     pos = {

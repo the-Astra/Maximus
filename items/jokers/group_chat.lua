@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'group_chat',
     loc_txt = {
         name = 'Group Chat',
-        text = { 'Gains {C:chips}+#2#{} Chips', 'whenever another Joker scales', '{C:inactive}Currently: {C:chips}+#1#' }
+        text = { 
+            'Gains {C:chips}+#2#{} Chips', 
+            'whenever another Joker scales', 
+            '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)' 
+        }
     },
     atlas = 'Jokers',
     pos = {

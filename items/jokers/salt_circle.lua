@@ -2,8 +2,11 @@ SMODS.Joker {
     key = 'salt_circle',
     loc_txt = {
         name = 'Salt Circle',
-        text = { 'Gains {C:chips}+#2#{} Chips for', 'for every {C:spectral}Spectral{} card used',
-            '{C:inactive}Currently: {C:chips}+#1#' }
+        text = { 
+            'Gains {C:chips}+#2#{} Chips for', 
+            'for every {C:spectral}Spectral{} card used',
+            '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)' 
+        }
     },
     atlas = 'Jokers',
     pos = {

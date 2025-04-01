@@ -2,7 +2,9 @@ SMODS.Back {
     key = 'sixth_finger',
     loc_txt = {
         name = 'Sixth Finger Deck',
-        text = { 'Allows {C:attention}6 playing cards{} to be played' }
+        text = { 
+            'Allows {C:attention}6 playing cards{} to be played' 
+        }
     },
     atlas = 'Backs',
     pos = {

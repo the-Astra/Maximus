@@ -4,7 +4,8 @@ SMODS.Consumable {
     loc_txt = {
         name = 'Doppelganger',
         text = {
-            "{C:attention}Immediately{} fulfill {C:attention}all{} held", "{C:horoscope}Horoscope{} card requirements",
+            '{C:attention}Immediately{} fulfill {C:attention}all{} held', 
+            '{C:horoscope}Horoscope{} card requirements',
         },
     },
     atlas = 'Consumables',

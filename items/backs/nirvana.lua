@@ -2,7 +2,10 @@ SMODS.Back {
     key = 'nirvana',
     loc_txt = {
         name = 'Nirvana Deck',
-        text = { 'Rerolls start at {C:money}$0{}', 'Shop items cost {X:mult,C:white}X1.5{} as much' }
+        text = { 
+            'Rerolls start at {C:money}$0{}', 
+            'Shop items cost {X:mult,C:white}X1.5{} as much' 
+        }
     },
     atlas = 'Backs',
     pos = {

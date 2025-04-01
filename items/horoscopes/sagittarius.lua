@@ -3,7 +3,12 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Sagittarius',
-        text = { 'Do not use any', '{C:red}discards{} next blind to', 'make the next shop\'s,', 'rerolls start at {C:money}$0{}' }
+        text = { 
+            'Do not use any', 
+            '{C:red}discards{} next blind to', 
+            'make the next shop\'s,', 
+            'rerolls start at {C:money}$0{}' 
+        }
     },
     atlas = 'Consumables',
     pos = {

@@ -2,7 +2,10 @@ SMODS.Joker {
     key = 'secret_society',
     loc_txt = {
         name = 'Secret Society',
-        text = { '{C:chips}Chip{} values of ranks', 'are {C:attention}swapped and doubled{}' }
+        text = { 
+            '{C:chips}Chip{} values of ranks', 
+            'are {C:attention}swapped and doubled{}' 
+        }
     },
     atlas = 'Jokers',
     pos = {

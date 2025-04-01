@@ -2,8 +2,13 @@ SMODS.Joker {
     key = 'bullseye',
     loc_txt = {
         name = 'Bullseye',
-        text = { 'If {C:attention}blind\'s{} Chip requirement', 'is met {C:attention}exactly{}, this joker',
-            'gains {C:chips}+#1#{} Chips', '{s:0.8,C:inactive}Gain is equal to 100 x Round', '{C:inactive}Currently: {C:chips}+#2#' }
+        text = { 
+            'If {C:attention}blind\'s{} Chip requirement', 
+            'is met {C:attention}exactly{}, this joker',
+            'gains {C:chips}+#1#{} Chips', 
+            '{s:0.8,C:inactive}Gain is equal to 100 x Round', 
+            '{C:inactive}(Currently: {C:chips}+#2# {C:inactive}Chips)' 
+        }
     },
     atlas = 'Jokers',
     pos = {

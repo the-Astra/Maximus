@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'trick_or_treat',
     loc_txt = {
         name = 'Trick or Treat',
-        text = { 'When held, {C:attention}Booster packs{}', 'now let you take #1# more', 'card than usual' }
+        text = { 
+            'When held, {C:attention}Booster packs{}', 
+            'now let you take #1# more', 
+            'card than usual' 
+        }
     },
     atlas = 'Jokers',
     pos = {

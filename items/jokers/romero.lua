@@ -2,7 +2,12 @@ SMODS.Joker {
     key = 'romero',
     loc_txt = {
         name = 'Romero',
-        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult', 'every time a Joker', 'is added to hand' }
+        text = { 
+            'Gains {X:mult,C:white}X#2#{} Mult', 
+            'every time a Joker', 
+            'is added to hand',
+            '{C:inactive}(Currently: {X:mult,C:white}X#1# {C:inactive}Mult)'
+        }
     },
     atlas = 'Placeholder',
     pos = {
@@ -32,6 +37,16 @@ SMODS.Joker {
                 Xmult_mod = stg.Xmult,
                 message = 'X' .. stg.Xmult,
                 colour = G.C.MULT,
+                card = card
+            }
+        end
+
+        if context.card_added and context.card.ability.set == 'Joker' then
+            stg.Xmult = stg.Xmult + (stg.gain * G.GAME.soil_mod)
+            SMODS.calculate_context({scaling_card = true})
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.ATTENTION,
                 card = card
             }
         end

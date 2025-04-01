@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'bootleg',
     loc_txt = {
         name = 'Bootleg',
-        text = { 'Copies the effect of the', '{C:attention}most recently purchased Joker', 'Current effect: {C:red}#1#{}' }
+        text = { 
+            'Copies the effect of the', 
+            '{C:attention}most recently purchased Joker', 
+            'Current effect: {C:red}#1#{}' 
+        }
     },
     atlas = 'Jokers',
     pos = {

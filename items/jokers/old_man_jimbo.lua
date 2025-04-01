@@ -2,7 +2,10 @@ SMODS.Joker {
     key = 'old_man_jimbo',
     loc_txt = {
         name = 'Old Man Jimbo',
-        text = { '{X:mult,C:white}X1{} Mult plus {X:mult,C:white}X#1#{}', 'for each remaining hand' }
+        text = { 
+            '{X:mult,C:white}X1{} Mult plus {X:mult,C:white}X#1#{}', 
+            'for each remaining hand' 
+        }
     },
     atlas = 'Jokers',
     pos = {

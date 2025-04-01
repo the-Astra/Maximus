@@ -3,7 +3,12 @@ SMODS.Consumable {
     set = 'Horoscope',
     loc_txt = {
         name = 'Pisces',
-        text = { 'Use {C:attention}#1#{} {C:tarot}Tarot{} cards within', 'the ante to receive', 'a random {C:spectral}Spectral{} Card', '{C:inactive}Currently: #2#/#1#' }
+        text = { 
+            'Use {C:attention}#1#{} {C:tarot}Tarot{} cards within', 
+            'the ante to receive', 
+            'a random {C:spectral}Spectral{} Card', 
+            '{C:inactive}Currently: #2#/#1#' 
+        }
     },
     atlas = 'Consumables',
     pos = {

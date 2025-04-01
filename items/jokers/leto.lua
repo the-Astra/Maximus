@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'leto',
     loc_txt = {
         name = 'Leto',
-        text = { 'At the start of each round,', 'add a randomly enhanced {C:attention}Queen{}', 'to the deck' }
+        text = { 
+            'At the start of each round,', 
+            'add a randomly enhanced {C:attention}Queen{}', 
+            'to the deck' 
+        }
     },
     atlas = 'Placeholder',
     pos = {

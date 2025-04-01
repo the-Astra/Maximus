@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'random_encounter',
     loc_txt = {
         name = 'Random Encounter',
-        text = { '{C:green}#1# in #2#{} chance of', 'scored playing cards', 'gaining permanent {C:mult}+#3#{} Bonus Mult' }
+        text = { 
+            '{C:green}#1# in #2#{} chance of', 
+            'scored playing cards', 
+            'gaining permanent {C:mult}+#3#{} Bonus Mult' 
+        }
     },
     atlas = 'Jokers',
     pos = {

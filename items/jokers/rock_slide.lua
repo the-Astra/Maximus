@@ -2,7 +2,12 @@ SMODS.Joker {
     key = 'rock_slide',
     loc_txt = {
         name = 'Rock Slide',
-        text = { 'If played hand is', '{C:attention}5 Stone Cards,{} add', '#1# random Stone Cards', 'to the deck' }
+        text = { 
+            'If played hand is', 
+            '{C:attention}5 Stone Cards,{} add', 
+            '#1# random Stone Cards', 
+            'to the deck' 
+        }
     },
     atlas = 'Jokers',
     pos = {

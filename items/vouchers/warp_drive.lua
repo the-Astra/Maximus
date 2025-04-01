@@ -2,7 +2,12 @@ SMODS.Voucher {
     key = 'warp_drive',
     loc_txt = {
         name = 'Warp Drive',
-        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
+        text = { 
+            '{C:attention}+#1#{} ante,', 
+            '{C:blue}+#2#{} hands and', 
+            '{C:red}+#2#{} discards', 
+            'each round' 
+        }
     },
     atlas = 'Vouchers',
     pos = {

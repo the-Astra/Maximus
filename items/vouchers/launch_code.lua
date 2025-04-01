@@ -2,7 +2,12 @@ SMODS.Voucher {
     key = 'launch_code',
     loc_txt = {
         name = 'Launch Code',
-        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
+        text = { 
+            '{C:attention}+#1#{} ante,', 
+            '{C:blue}+#2#{} hand and', 
+            '{C:red}+#2#{} discard', 
+            'each round' 
+        }
     },
     atlas = 'Vouchers',
     pos = {

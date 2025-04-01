@@ -2,7 +2,10 @@ SMODS.Joker {
     key = 'stop_sign',
     loc_txt = {
         name = 'Stop Sign',
-        text = { 'Jokers that have rotating', 'requirements {C:attention}no longer change{}' }
+        text = { 
+            'Jokers that have rotating', 
+            'requirements {C:attention}no longer change' 
+        }
     },
     atlas = 'Jokers',
     pos = {

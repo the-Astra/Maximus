@@ -2,7 +2,12 @@ SMODS.Joker {
     key = 'four_course_meal',
     loc_txt = {
         name = 'Four Course Meal',
-        text = { 'For the next 4 hands,', 'give {C:chips}+#1#{} Chips, {C:mult}+#2#{} Mult,', '{X:mult,C:white}X#3#{} Mult, and {C:money}$#4#{}', 'respectively' }
+        text = { 
+            'For the next 4 hands,', 
+            'give {C:chips}+#1#{} Chips, {C:mult}+#2#{} Mult,', 
+            '{X:mult,C:white}X#3#{} Mult, and {C:money}$#4#{}', 
+            'respectively' 
+        }
     },
     atlas = 'Jokers',
     pos = {

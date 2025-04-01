@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'virus',
     loc_txt = {
         name = 'Virus',
-        text = { 'All single-suit hands', 'with more than one card are', 'treated as a {C:attention}Flush{}' }
+        text = { 
+            'All single-suit hands', 
+            'with more than one card are', 
+            'treated as a {C:attention}Flush' 
+        }
     },
     atlas = 'Jokers',
     pos = {

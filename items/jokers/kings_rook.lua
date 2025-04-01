@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'kings_rook',
     loc_txt = {
         name = 'King\'s Rook',
-        text = { 'If played hand has a', '{C:attention}scoring King{} and a {C:attention}scoring 5{},', '{C:attention}retrigger{} all {C:attention}Kings{} and {C:attention}5s{}' }
+        text = { 
+            'If played hand has a', 
+            '{C:attention}scoring King{} and a {C:attention}scoring 5{},', 
+            '{C:attention}retrigger{} all {C:attention}Kings{} and {C:attention}5s{}' 
+        }
     },
     atlas = 'Jokers',
     pos = {

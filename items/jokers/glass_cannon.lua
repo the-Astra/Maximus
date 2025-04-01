@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'glass_cannon',
     loc_txt = {
         name = 'Glass Cannon',
-        text = { 'All Joker {X:mult,C:white}XMult{} is {C:attention}retriggered', '{C:attention}Shatters{} if blind isn\'t', 'beaten in 2 hands' }
+        text = { 
+            'All Joker {X:mult,C:white}XMult{} is {C:attention}retriggered', 
+            '{C:attention}Shatters{} if blind isn\'t', 
+            'beaten in 2 hands' 
+        }
     },
     atlas = 'Jokers',
     pos = {

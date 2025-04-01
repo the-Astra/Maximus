@@ -2,7 +2,11 @@ SMODS.Voucher {
     key = 'shield',
     loc_txt = {
         name = 'Shield',
-        text = { '{C:spectral}Spectral{} cards that destroy Jokers', 'only have a {C:green}1 in 2{} chance', 'to destroy each Joker' }
+        text = { 
+            '{C:spectral}Spectral{} cards that destroy Jokers', 
+            'only have a {C:green}1 in 2{} chance', 
+            'to destroy each Joker' 
+        }
     },
     atlas = 'Vouchers',
     pos = {

@@ -2,8 +2,11 @@ SMODS.Joker {
     key = 'normal',
     loc_txt = {
         name = 'Normal Joker',
-        text = { 'Played cards without an', 'enchancement, edition, or seal',
-            ' give {C:mult}+2{} Mult and {C:chips}+15{} Chips' }
+        text = { 
+            'Played cards without an', 
+            'enchancement, edition, or seal',
+            'give {C:mult}+2{} Mult and {C:chips}+15{} Chips' 
+        }
     },
     atlas = 'Jokers',
     pos = {

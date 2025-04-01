@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'high_dive',
     loc_txt = {
         name = 'High Dive',
-        text = { 'If played hand is a {C:attention}High Card,', '{C:attention}score{} and {C:attention}retrigger{}', 'every played card' }
+        text = { 
+            'If played hand is a {C:attention}High Card,', 
+            '{C:attention}score{} and {C:attention}retrigger{}', 
+            'every played card' 
+        }
     },
     atlas = 'Jokers',
     pos = {

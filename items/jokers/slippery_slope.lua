@@ -2,7 +2,11 @@ SMODS.Joker {
     key = 'slippery_slope',
     loc_txt = {
         name = 'Slippery Slope',
-        text = { 'If hand contains {C:attention}more than one{} hand', 'type, add {C:chips}chips{} and {C:mult}mult{} from {C:attention}all{}', 'contained hand types to score' }
+        text = { 
+            'If hand contains {C:attention}more than one{} hand', 
+            'type, add {C:chips}chips{} and {C:mult}mult{} from {C:attention}all{}', 
+            'contained hand types to score' 
+        }
     },
     atlas = 'Jokers',
     pos = {

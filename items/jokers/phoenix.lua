@@ -2,7 +2,12 @@ SMODS.Joker {
     key = 'phoenix',
     loc_txt = {
         name = 'Phoenix',
-        text = { 'After scoring, all scored {C:attention}Face{} cards', 'are {C:red}destroyed{};', 'If any face cards are destroyed, give', 'a {C:attention}Red Seal{} to all other scoring cards' }
+        text = { 
+            'After scoring, all scored {C:attention}Face{} cards', 
+            'are {C:red}destroyed{};', 
+            'If any face cards are destroyed, give', 
+            'a {C:attention}Red Seal{} to all other scoring cards' 
+        }
     },
     atlas = 'Placeholder',
     pos = {
