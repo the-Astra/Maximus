@@ -4,7 +4,7 @@ SMODS.Joker {
         name = 'Slippery Slope',
         text = { 
             'If hand contains {C:attention}more than one{} hand', 
-            'type, add {C:chips}chips{} and {C:mult}mult{} from {C:attention}all{}', 
+            'type, add {C:chips}Chips{} and {C:mult}Mult{} from {C:attention}all{}', 
             'contained hand types to score' 
         }
     },

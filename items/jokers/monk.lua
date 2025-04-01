@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Monk',
         text = { 
-            'Gains {C:chips}+#2#{} chips for every', 
+            'Gains {C:chips}+#2#{} Chips for every', 
             'shop exited without purchase',
             '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)' 
         }

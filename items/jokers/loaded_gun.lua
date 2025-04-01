@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Loaded Gun',
         text = { 
-            'Played {C:attention}Steel Cards{}', 
+            'Scoring {C:attention}Steel Cards{}', 
             'give {X:mult,C:white}X#1#{} Mult' 
         }
     },

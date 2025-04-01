@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Chekhov\'s Gun',
         text = { 
-            '{X:mult,C:white}Xante{} mult on antes', 
+            '{X:mult,C:white}Xante{} Mult on antes', 
             'with a final boss' 
         }
     },

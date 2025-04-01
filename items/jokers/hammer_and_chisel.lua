@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field
 SMODS.Joker {
     key = 'hammer_and_chisel',
     loc_txt = {
