@@ -125,7 +125,8 @@ SMODS.Joker {
                 }))
                 return {
                     card = card,
-                    message = 'Crumbled'
+                    message = 'Crumbled',
+                    colour = G.C.FILTER
                 }
             end
         end

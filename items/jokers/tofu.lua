@@ -1,36 +1,35 @@
 SMODS.Joker {
-    key = 'little_brother',
+    key = 'tofu',
     loc_txt = {
-        name = 'Little Brother',
+        name = 'Tofu',
         text = {
-            'Copies ability of {C:attention}Joker{} to the left',
-            '{C:attention}#1#{} time(s) per hand',
-            'Times copied {C:attention}raises by 1{} for',
-            'every hand played in a row that',
-            'copies {C:attention}the same Joker{}'
+            'Copies ability of',
+            '{C:attention}Joker{} to the right',
+            'for the next {C:attention}#1#{} hands'
         }
     },
-    atlas = 'Jokers',
+    atlas = 'Placeholder',
     pos = {
-        x = 7,
-        y = 11
+        x = 1,
+        y = 0
     },
     rarity = 2,
     config = {
         extra = {
-            current_triggers = 0,
-            trigger_limit = 1,
-            copied_key = nil
+            triggers_left = 5,
         }
     },
     blueprint_compat = true,
-    cost = 10,
+    cost = 7,
+    pools = {
+        Food = true
+    },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         card.ability.blueprint_compat_ui = card.ability.blueprint_compat_ui or ''
         card.ability.blueprint_compat_check = nil
         return {
-            vars = { stg.trigger_limit },
+            vars = { stg.triggers_left },
             main_end = (card.area and card.area == G.jokers) and {
                 {
                     n = G.UIT.C,
@@ -75,12 +74,8 @@ SMODS.Joker {
             end
         end
 
-        if my_pos > 1 and stg.current_triggers < stg.trigger_limit then
-            local other_joker = G.jokers.cards[my_pos - 1]
-            if other_joker.config.center.key ~= stg.copied_key then
-                stg.copied_key = other_joker.config.center.key
-                stg.trigger_limit = 1
-            end
+        if my_pos < #G.jokers.cards and stg.triggers_left > 0 then
+            local other_joker = G.jokers.cards[my_pos + 1]
 
             if other_joker and other_joker ~= card and not context.no_blueprint then
                 context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
@@ -92,23 +87,50 @@ SMODS.Joker {
                 if other_joker_ret then
                     other_joker_ret.card = eff_card
                     other_joker_ret.colour = G.C.BLUE
-                    stg.current_triggers = stg.current_triggers + 1
                     return other_joker_ret
                 end
             end
         end
 
         if context.after then
-            stg.current_triggers = 0
-            stg.trigger_limit = stg.trigger_limit + 1
+            stg.triggers_left = stg.triggers_left - 1
+            SMODS.calculate_effect({ message = stg.triggers_left .. ' left...', colour = G.C.RED }, card)
+            if stg.triggers_left <= 0 then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot2')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            delay = 0.3,
+                            blockable = false,
+                            func = function()
+                                G.jokers:remove_card(card)
+                                card:remove()
+                                card = nil
+                                return true;
+                            end
+                        }))
+                        return true
+                    end
+                }))
+                return {
+                    card = card,
+                    message = localize('k_eaten_ex'),
+                    colour = G.C.FILTER
+                }
+            end
         end
     end,
     update = function(self, card, front)
         if G.STAGE == G.STAGES.RUN then
             local other_joker = nil
             for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] == card and i > 1 then
-                    other_joker = G.jokers.cards[i - 1]
+                if G.jokers.cards[i] == card then
+                    other_joker = G.jokers.cards[i + 1]
                 end
             end
             if other_joker and other_joker ~= card and other_joker.config.center.blueprint_compat then
