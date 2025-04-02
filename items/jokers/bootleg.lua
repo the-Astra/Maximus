@@ -36,7 +36,7 @@ SMODS.Joker {
             context.blueprint_card = context.blueprint_card or card
             local bootleg_target_ret = G.GAME.last_bought.card:calculate_joker(context)
             context.blueprint = nil
-            local eff_card = context.blueprint_card or self
+            local eff_card = context.blueprint_card or card
             context.blueprint_card = nil
             if bootleg_target_ret then
                 bootleg_target_ret.card = eff_card

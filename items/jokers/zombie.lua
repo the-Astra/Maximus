@@ -38,7 +38,7 @@ SMODS.Joker {
             context.blueprint_card = context.blueprint_card or card
             local zombie_target_ret = G.GAME.current_round.zombie_target.card:calculate_joker(context)
             context.blueprint = nil
-            local eff_card = context.blueprint_card or self
+            local eff_card = context.blueprint_card or card
             context.blueprint_card = nil
             if zombie_target_ret then
                 zombie_target_ret.card = eff_card

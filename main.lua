@@ -1074,6 +1074,7 @@ local EXPERIMENTAL_JOKERS = {
     'chrysalis',
     'butterfly',
     'comedian',
+    'little_brother',
 
     'romero',
     'leto',
