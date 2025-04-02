@@ -970,6 +970,25 @@ sendDebugMessage("", 'Maximus')
 --#region Jokers --------------------------------------------------------------------------------------------
 
 local ENABLED_JOKERS = { -- Comment out item to disable
+
+    --[[ TODO: Organize collection better
+    Joker categories (No particular order):
+    - Misc
+    - Food-Related
+    - Royals (Coronation, Crowned)
+    - Space
+    - Blueprint-like
+    - Thought Experiments
+    - God Cards
+    - Metamorphosis Trio
+    - High Card Duo
+    - Shoppers
+    - Moneymakers
+    - Glass Gang
+
+    Also try to order cards within each category by rarity unless it doesn't make sense to
+    ]]
+
     'fortune_cookie',
     'poindexter',
     'abyss',
