@@ -25,6 +25,7 @@ SMODS.Joker { -- Man in the Mirror
     end,
     calculate = function(self, card, context)
         if context.selling_self and not context.blueprint then
+            card:shatter()
             -- Fail if no held consumeables
             if next(G.consumeables.cards) == nil then
                 return {

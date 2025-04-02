@@ -971,111 +971,122 @@ sendDebugMessage("", 'Maximus')
 
 local ENABLED_JOKERS = { -- Comment out item to disable
 
-    --[[ TODO: Organize collection better
-    Joker categories (No particular order):
-    - Misc
-    - Food-Related
-    - Royals (Coronation, Crowned)
-    - Space
-    - Blueprint-like
-    - Thought Experiments
-    - God Cards
-    - Metamorphosis Trio
-    - High Card Duo
-    - Shoppers
-    - Moneymakers
-    - Glass Gang
-
-    Also try to order cards within each category by rarity unless it doesn't make sense to
-    ]]
-
-    'fortune_cookie',
-    'poindexter',
-    'abyss',
-    'war',
-    'microwave',
-    'combo_breaker',
-    'faded',
-    'old_man_jimbo',
-    'joker+',
+    --Misc
+        --Common
     'normal',
-    'streaker',
-    'jobber',
-    'astigmatism',
     'perspective',
     'harmony',
-    'impractical',
     'trick_or_treat',
-    'pessimistic',
-    'chef',
-    'leftovers',
-    'refrigerator',
     'hopscotch',
+    'salt_circle',
+    'light_show',
+    'marco_polo',
+    'go_fish',
+    'group_chat',
+    'minimalist',
+    'memory_game',
+    'first_aid_kit',
+    'kings_rook',
+    'smoker',
+
+        --Uncommon
+    'war',
+    'faded',
+    'old_man_jimbo',
+    'impractical',
+    'pessimistic',
     'secret_society',
     'bullseye',
     'hammer_and_chisel',
     'four_leaf_clover',
     'soyjoke',
     'clown_car',
-    'gambler',
     '4d',
-    'dark_room',
     'virus',
     'man_in_the_mirror',
     'unpleasant_gradient',
     'random_encounter',
-    'jackpot',
     'bell_curve',
     'loaded_gun',
-    'coupon',
-    'loony',
-    'lazy',
-    'salt_circle',
-    'light_show',
-    'monk',
-    'marco_polo',
-    'go_fish',
-    'sleuth',
     'dont_mind_if_i_do',
-    'guillotine',
-    'power_creep',
-    'space_race',
     'poet',
-    'hedonist',
-    'zombie',
-    'coronation',
-    'crowned',
+    'gravity',
+    'fog',
+    'rock_slide',
+    'game_review',
+    'slippery_slope',
+
+        --Rare
+    'abyss',
+    'combo_breaker',
+    'joker+',
+    'streaker',
+    'jobber',
+    'astigmatism',
+    'dark_room',
+    'guillotine',
     'soil',
     'stop_sign',
     'chihuahua',
-    'bootleg',
-    'group_chat',
-    'minimalist',
+    'high_dive',
+    'vulture',
+
+    --High Card Duo
+    'loony',
+    'lazy',
+
+    --Food-Related
+    'fortune_cookie',
     'breadsticks',
-    'glass_cannon',
-    'gravity',
-    'fog',
-    'stone_thrower',
+    'gelatin',
+    'leftovers',
+    'tofu',
+    'microwave',
+    'refrigerator',
+    'chef',
     'four_course_meal',
-    'memory_game',
-    'rock_slide',
-    'first_aid_kit',
-    'hypeman',
-    'game_review',
+
+    --Glass Gang
+    'poindexter',
+    'stone_thrower',
+    'pngoker',
+    'glass_cannon',
+
+    --Royals
+    'coronation',
+    'crowned',
+
+    --Space
+    'moon_landing',
+    'space_race',
+
+    --Blueprint-like
+    'little_brother',
+    'zombie',
+    'bootleg',
+
+    --Thought Experiments
     'occam',
     'schrodinger',
     'chekhov',
-    'high_dive',
-    'pngoker',
+
+    --God Cards
     'slifer',
-    'gelatin',
-    'kings_rook',
-    'slippery_slope',
-    'smoker',
-    'vulture',
-    'moon_landing',
-    'little_brother',
-    'tofu',
+
+    --Metamorphosis Trio
+
+    --Shoppers
+    'coupon',
+    'monk',
+    'sleuth',
+    'hedonist',
+    'power_creep',
+
+    --Moneymakers
+    'gambler',
+    'jackpot',
+    'hypeman',
+
 }
 
 local HOROSCOPE_JOKERS = {
