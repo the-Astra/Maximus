@@ -8,10 +8,10 @@ SMODS.Joker {
             'for the next {C:attention}#1#{} hands'
         }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 8,
+        y = 11
     },
     rarity = 2,
     config = {

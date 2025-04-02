@@ -1075,6 +1075,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'vulture',
     'moon_landing',
     'little_brother',
+    'tofu',
 }
 
 local HOROSCOPE_JOKERS = {
@@ -1094,7 +1095,6 @@ local EXPERIMENTAL_JOKERS = {
     'chrysalis',
     'butterfly',
     'comedian',
-    'tofu',
 
     'romero',
     'leto',
