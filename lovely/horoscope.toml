@@ -368,7 +368,8 @@ if (_type == 'Planet' or _type == 'Spectral') and
 '''
 position = "after"
 payload = '''
-if (_type == 'Horoscope' or _type == 'Spectral') then 
+if (_type == 'Horoscope' or _type == 'Spectral') 
+not (G.GAME.used_jokers['c_mxms_ophiucus'] and not next(find_joker("Showman"))) then 
         if pseudorandom('soul_'.._type..G.GAME.round_resets.ante) > 0.997 then
             forced_key = 'c_mxms_ophiucus'
         end
