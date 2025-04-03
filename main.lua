@@ -1072,6 +1072,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
 
     --God Cards
     'slifer',
+    'obelisk',
 
     --Metamorphosis Trio
 
@@ -1105,7 +1106,6 @@ local EXPERIMENTAL_JOKERS = {
     'chrysalis',
     'butterfly',
     'comedian',
-    'obelisk',
 
     'romero',
     'leto',
