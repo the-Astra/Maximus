@@ -17,7 +17,7 @@ SMODS.PokerHand {
     loc_txt = {
         name = 'Super Straight Flush',
         description = {
-            "A 4 of a kind and a Pair with",
+            "6 cards in a row (consecutive ranks) with",
             "all cards sharing the same suit"
         }
     },

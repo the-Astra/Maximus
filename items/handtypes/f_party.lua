@@ -17,7 +17,7 @@ SMODS.PokerHand {
     loc_txt = {
         name = 'Flush Party',
         description = {
-            "6 cards in a row (consecutive ranks) with",
+            "A 4 of a kind and a Pair with",
             "all cards sharing the same suit"
         }
     },
