@@ -49,6 +49,7 @@ SMODS.Joker {
             else
                 stg.chips = stg.chips + stg.dChips * G.GAME.soil_mod
                 stg.d_tally = 0
+                SMODS.calculate_context({scaling_card = true})
                 return {
                     delay = 0.2,
                     message = localize('k_upgrade_ex'),

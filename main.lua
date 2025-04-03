@@ -116,7 +116,7 @@ end
 
 --#region SMODS Optional Features ---------------------------------------------------------------------------
 
-SMODS.current_mod.optional_features = { retrigger_joker = true, post_trigger = true }
+SMODS.current_mod.optional_features = { retrigger_joker = true, post_trigger = true, cardareas = {unscored = true} }
 
 --#endregion
 
@@ -1086,7 +1086,6 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'gambler',
     'jackpot',
     'hypeman',
-
 }
 
 local HOROSCOPE_JOKERS = {
@@ -1106,6 +1105,7 @@ local EXPERIMENTAL_JOKERS = {
     'chrysalis',
     'butterfly',
     'comedian',
+    'obelisk',
 
     'romero',
     'leto',
