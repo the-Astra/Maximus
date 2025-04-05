@@ -58,6 +58,10 @@
         "mxms_is_food",
         "faded_check",
         "mod_chips",
-        "mod_mult"
+        "mod_mult",
+        "poll_edition"
+    ],
+    "Lua.diagnostics.disable": [
+        "need-check-nil"
     ]
 }

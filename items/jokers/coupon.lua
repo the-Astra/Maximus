@@ -2,9 +2,9 @@ SMODS.Joker {
     key = 'coupon',
     loc_txt = {
         name = 'Coupon',
-        text = { 
-            '{C:green}#1# in #2#{} chance for shop', 
-            'Jokers to be free' 
+        text = {
+            '{C:green}#1# in #2#{} chance for shop',
+            'Jokers to be free'
         }
     },
     atlas = 'Jokers',
@@ -26,5 +26,11 @@ SMODS.Joker {
         return {
             vars = { stg.prob * G.GAME.probabilities.normal, stg.odds }
         }
+    end,
+    set_ability = function(self, card, inital, delay_sprites)
+        local W = card.T.w
+        W = W * (63 / 71)
+        card.children.center.scale.x = card.children.center.scale.x * (63 / 71)
+        card.T.w = W
     end
 }

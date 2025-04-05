@@ -116,7 +116,7 @@ end
 
 --#region SMODS Optional Features ---------------------------------------------------------------------------
 
-SMODS.current_mod.optional_features = { retrigger_joker = true, post_trigger = true, cardareas = {unscored = true} }
+SMODS.current_mod.optional_features = { retrigger_joker = true, post_trigger = true, cardareas = { unscored = true } }
 
 --#endregion
 
@@ -227,6 +227,7 @@ Game.init_game_object = function(self)
     ret.v_destroy_reduction = 0
     ret.shop_price_multiplier = 1
     ret.horoscope_rate = 0
+    ret.base_planet_levels = 1
 
     --Rotating Modifiers
     ret.current_round.impractical_hand = 'Straight Flush'
@@ -351,7 +352,7 @@ Game.start_run = function(self, args)
 end
 
 local csc = Card.set_cost
-function Card:set_cost() 
+function Card:set_cost()
     csc(self)
     self.cost = self.cost * G.GAME.shop_price_multiplier * G.GAME.creep_mod
 end
@@ -973,7 +974,7 @@ sendDebugMessage("", 'Maximus')
 local ENABLED_JOKERS = { -- Comment out item to disable
 
     --Misc
-        --Common
+    --Common
     'normal',
     'perspective',
     'harmony',
@@ -989,8 +990,9 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'first_aid_kit',
     'kings_rook',
     'smoker',
+    'cleaner',
 
-        --Uncommon
+    --Uncommon
     'war',
     'faded',
     'old_man_jimbo',
@@ -1017,7 +1019,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'game_review',
     'slippery_slope',
 
-        --Rare
+    --Rare
     'abyss',
     'combo_breaker',
     'joker+',
@@ -1042,6 +1044,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'gelatin',
     'leftovers',
     'tofu',
+    'comedian',
     'microwave',
     'refrigerator',
     'chef',
@@ -1106,7 +1109,9 @@ local EXPERIMENTAL_JOKERS = {
     'caterpillar',
     'chrysalis',
     'butterfly',
-    'comedian',
+    'vinyl_record',
+    'celestial_deity',
+    'prince',
 
     'romero',
     'leto',

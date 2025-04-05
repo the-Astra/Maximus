@@ -2,10 +2,10 @@ SMODS.Joker {
     key = 'group_chat',
     loc_txt = {
         name = 'Group Chat',
-        text = { 
-            'Gains {C:chips}+#2#{} Chips', 
-            'whenever another Joker scales', 
-            '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)' 
+        text = {
+            'Gains {C:chips}+#2#{} Chips',
+            'whenever another Joker scales',
+            '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)'
         }
     },
     atlas = 'Jokers',
@@ -49,5 +49,11 @@ SMODS.Joker {
                 end
             }))
         end
+    end,
+    set_ability = function(self, card, inital, delay_sprites)
+        local W = card.T.w
+        W = W * (66 / 71)
+        card.children.center.scale.x = card.children.center.scale.x * (66 / 71)
+        card.T.w = W
     end
 }

@@ -227,3 +227,23 @@ end
 '''
 match_indent = true
 times = 1
+
+
+
+
+
+    # Change Matador to not trigger on every hand on Fashion Disaster
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+level_up_hand(used_tarot, self.ability.consumeable.hand_type)
+'''
+position = "at"
+payload = '''
+for i = 1, G.GAME.base_planet_levels do
+    level_up_hand(used_tarot, self.ability.consumeable.hand_type)
+end
+'''
+match_indent = true
+times = 1
