@@ -40,7 +40,7 @@
             "   local stg = card.ability.extra",
             "",
             "   $1",
-            "   return = { vars = { $2 } }",
+            "   return { vars = { $2 } }",
             "end,"
         ],
         "description": "Shortcut for a loc_vars function skeleton"

@@ -8,16 +8,16 @@ SMODS.Joker {
             '{C:inactive}(Currently: #4#/#5#)'
         }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 4,
+        y = 12
     },
     rarity = 1,
     config = {
         extra = {
             side = 'A-Side',
-            hands = 9,
+            hands = 0,
             hand_limit = 10,
             mult = 15,
             chips = 150
@@ -70,6 +70,8 @@ SMODS.Joker {
             stg.hands = stg.hands + 1
             SMODS.calculate_effect({ message = stg.hands .. '/' .. stg.hand_limit, colour = G.C.ATTENTION }, card)
             if stg.hands >= stg.hand_limit then
+                local color
+                local sound
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     delay = 0.25,
@@ -86,12 +88,16 @@ SMODS.Joker {
                         --insert atlas changes here
                         if stg.side == 'A-Side' then
                             stg.side = 'B-Side'
-                            card.children.center:set_sprite_pos({ x = 0, y = 0 })
+                            card.children.center:set_sprite_pos({ x = 5, y = 12 })
+                            color = G.C.CHIPS
+                            sound = 'chips1'
                         elseif stg.side == 'B-Side' then
                             stg.side = 'A-Side'
-                            card.children.center:set_sprite_pos({ x = 1, y = 0 })
+                            card.children.center:set_sprite_pos({ x = 4, y = 12 })
+                            color = G.C.MULT
+                            sound = 'multhit1'
                         end
-                        stg.hands = 9
+                        stg.hands = 0
                         return true;
                     end
                 }))
@@ -101,10 +107,18 @@ SMODS.Joker {
                     func = function()
                         card:flip()
                         play_sound('card1')
+                        SMODS.calculate_effect({ message = stg.side .. '!', colour = color, sound = sound },card)
                         return true;
                     end
                 }))
             end
         end
+    end,
+    set_ability = function(self, card, inital, delay_sprites)
+        local W, H = card.T.w, card.T.h
+        H = W
+        card.T.h = H
+        card.T.w = W
+        card.children.center.scale.y = card.children.center.scale.x
     end
 }

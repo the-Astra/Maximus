@@ -8,10 +8,14 @@ SMODS.Joker {
             'becomes {C:dark_edition}Negative{}' 
         }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 3,
-        y = 0
+        x = 1,
+        y = 7
+    },
+    soul_pos = {
+        x = 1,
+        y = 8
     },
     rarity = 4,
     blueprint_compat = true,

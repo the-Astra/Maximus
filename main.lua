@@ -991,6 +991,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'kings_rook',
     'smoker',
     'cleaner',
+    'vinyl_record',
 
     --Uncommon
     'war',
@@ -1018,6 +1019,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'rock_slide',
     'game_review',
     'slippery_slope',
+    'celestial_deity',
 
     --Rare
     'abyss',
@@ -1033,6 +1035,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'chihuahua',
     'high_dive',
     'vulture',
+    'prince',
 
     --High Card Duo
     'loony',
@@ -1102,6 +1105,7 @@ local HOROSCOPE_JOKERS = {
 
 local LEGENDARY_JOKERS = {
     'ledger',
+    'galifianakis',
 }
 
 local EXPERIMENTAL_JOKERS = {
@@ -1109,15 +1113,14 @@ local EXPERIMENTAL_JOKERS = {
     'caterpillar',
     'chrysalis',
     'butterfly',
-    'vinyl_record',
-    'celestial_deity',
-    'prince',
+    'wild_buddy',
+    'brainwashed',
 
     'romero',
     'leto',
     'nicholson',
-    'galifianakis',
     'phoenix',
+    'hamill',
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')
