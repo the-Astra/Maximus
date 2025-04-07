@@ -47,7 +47,8 @@ for k, v in ipairs(cards_destroyed) do
     if v.shattered then 
         glass_shattered[#glass_shattered+1] = v 
         if not next(SMODS.find_card('j_mxms_stone_thrower')) then
-            SMODS.calculate_context({failed_prob = true, odds = v.ability.extra - G.GAME.probabilities.normal})
+            local card_odds = (type(v.ability.extra) == "number" and v.ability.extra) or (v.ability.extra.odds and type(v.ability.extra.odds) == "number" and v.ability.extra.odds) or 1
+            SMODS.calculate_context({failed_prob = true, odds = card_odds})
         end
     end
 end
