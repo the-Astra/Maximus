@@ -8,7 +8,7 @@ SMODS.Blind {
         }
     },
     boss = {
-        min = 3,
+        min = 6,
         max = 10
     },
     atlas = 'Blinds',
