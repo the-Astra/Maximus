@@ -18,7 +18,7 @@ SMODS.Blind {
     },
     boss_colour = HEX('E87250'),
     calculate = function(self, card, context)
-        if context.after then
+        if context.after and not G.GAME.blind.disabled then
             for k, v in pairs(context.scoring_hand) do
                 G.E_MANAGER:add_event(Event({
                     func = function()
