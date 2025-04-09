@@ -1393,6 +1393,8 @@ local ENABLED_BLINDS = {
     'cheat',
     'hurdle',
     'spring',
+    'bird',
+    'maze',
 }
 
 sendDebugMessage("Loading Blinds...", 'Maximus')

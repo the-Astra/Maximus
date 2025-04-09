@@ -24,6 +24,9 @@ SMODS.Blind {
                     func = function()
                         v:start_dissolve()
                         SMODS.juice_up_blind()
+                        if not self.triggered then
+                            self.triggered = true
+                        end
                         return true;
                     end
                 }))

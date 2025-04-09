@@ -29,6 +29,9 @@ SMODS.Blind {
             }))
             delay(0.23)
             ease_dollars(-1)
+            if not self.triggered then
+                self.triggered = true
+            end
         end
     end
 }
