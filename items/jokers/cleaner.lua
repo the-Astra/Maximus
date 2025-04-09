@@ -59,5 +59,13 @@ SMODS.Joker {
                 }
             end
         end
+    end,
+    in_pool = function(self, args)
+        for k, v in pairs(G.jokers.cards) do
+            if v.edition then
+                return true
+            end
+        end
+        return false
     end
 }
