@@ -1388,6 +1388,7 @@ local ENABLED_BLINDS = {
     'rot',
     'grinder',
     'envy',
+    'flame'
 }
 
 sendDebugMessage("Loading Blinds...", 'Maximus')
