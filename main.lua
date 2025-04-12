@@ -1115,6 +1115,7 @@ local EXPERIMENTAL_JOKERS = {
     'butterfly',
     'wild_buddy',
     'brainwashed',
+    'god_hand',
 
     'romero',
     'leto',
