@@ -3,7 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-    # New Colors
+# New Colors
 
 [[patches]]
 [patches.pattern]
@@ -47,8 +47,8 @@ match_indent = true
 times = 1
 
 
-    # Prevent unlock check while in menu
-    
+# Prevent unlock check while in menu
+
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
@@ -63,7 +63,7 @@ match_indent = true
 times = 1
 
 
-    # Post Handtype Scoring context
+# Post Handtype Scoring context
 
 [[patches]]
 [patches.pattern]

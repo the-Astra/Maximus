@@ -73,4 +73,12 @@
         ],
         "description": "Shortcut for a SMODS.calculate_effect skeleton"
     },
+    "Info Queue Card Skeleton":  {
+        "prefix": "iq",
+        "body": [
+            "info_queue[#info_queue + 1] = $0"
+        ],
+        "description": "Shortcut for an info_queue card skeleton"
+    },
 }
+

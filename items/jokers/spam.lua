@@ -1,0 +1,42 @@
+SMODS.Joker {
+    key = 'spam',
+    loc_txt = {
+        name = 'Spam',
+        text = {
+            'Hand size is set to {C:attention}1{},',
+            'Gain {C:blue}hands{} equal to amount',
+            'of hand size lost'
+        }
+    },
+    atlas = 'Placeholder',
+    pos = {
+        x = 0,
+        y = 0
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            hands = 0
+        }
+    },
+    blueprint_compat = false,
+    cost = 4,
+    add_to_deck = function(self, card, from_debuff)
+        local stg = card.ability.extra
+
+        if G.hand.config.card_limit - 1 > 0 then
+            stg.hands = G.hand.config.card_limit - 1
+            G.hand:change_size(-stg.hands)
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands + stg.hands
+            ease_hands_played(stg.hands)
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        local stg = card.ability.extra
+        if stg.hands > 0 then
+            G.hand:change_size(stg.hands)
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands - stg.hands
+            ease_hands_played(-stg.hands)
+        end
+    end,
+}
