@@ -8,10 +8,10 @@ SMODS.Joker {
             'of hand size lost'
         }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 7,
+        y = 12
     },
     rarity = 1,
     config = {
