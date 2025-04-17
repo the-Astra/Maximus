@@ -3,8 +3,10 @@ SMODS.Joker {
     loc_txt = {
         name = 'Chef',
         text = {
-            'Creates a random {C:attention}Food{} Joker',
-            'when blind is selected'
+            'Creates a {C:green}random', 
+            '{C:attention}Food{} Joker',
+            'when blind', 
+            'is selected'
         }
     },
     atlas = 'Jokers',

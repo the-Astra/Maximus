@@ -4,7 +4,7 @@ SMODS.Joker {
         name = 'Coupon',
         text = {
             '{C:green}#1# in #2#{} chance for shop',
-            'Jokers to be free'
+            'Jokers to be {C:attention}free'
         }
     },
     atlas = 'Jokers',

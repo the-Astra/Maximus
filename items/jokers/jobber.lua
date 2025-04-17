@@ -4,9 +4,9 @@ SMODS.Joker {
         name = 'Jobber',
         text = { 
             'If hand is played with only', 
-            '{C:red}debuffed{} cards, destroy this',
-            'Joker and create a random copy', 
-            'of another held Joker', 
+            '{C:red}debuffed{} cards, {C:red}destroy{} this',
+            'Joker and create a {C:attention}copy', 
+            'of {C:green}random {C:attention}held Joker', 
             '{s:0.8,C:inactive}Removes negative from copy' 
         }
     },

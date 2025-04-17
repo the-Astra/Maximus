@@ -6,10 +6,10 @@ SMODS.Joker {
         text = { 
             '{C:chips}+#5#{} Chips and {C:mult}+#6#{} Mult', 
             'for each consecutive {C:attention}blind{}',
-            'beaten in {C:attention}one hand{}, {C:red}Resets{}', 
-            'when streak is broken',
-            '{C:inactive}Current streak: #1#',
-            '{C:inactive}Currently: {C:chips}+#3# {C:inactive}Chips, {C:mult}+#4# {C:inactive}Mult' 
+            'beaten in {C:attention}one hand{}', 
+            '{C:red}Resets{} when streak is broken',
+            '{C:inactive}(Current streak: #1#)',
+            '{C:inactive}(Currently: {C:chips}+#3# {C:inactive}Chips, {C:mult}+#4# {C:inactive}Mult)' 
         }
     },
     atlas = 'Jokers',

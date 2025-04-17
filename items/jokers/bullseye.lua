@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Bullseye',
         text = { 
-            'If {C:attention}blind\'s{} Chip requirement', 
+            'If blind\'s {C:chips}Chip {C:attention}requirement', 
             'is met {C:attention}exactly{}, this joker',
             'gains {C:chips}+#1#{} Chips', 
             '{s:0.8,C:inactive}Gain is equal to 100 x Round', 

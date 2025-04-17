@@ -5,7 +5,8 @@ SMODS.Joker {
         text = { 
             'Gains {C:chips}+#2#{} Chips for every', 
             'scored {C:attention}glass card{}', 
-            'Glass cards are {C:attention}guaranteed to break{}', 
+            'Glass cards are',
+            '{C:attention}guaranteed{} to break', 
             '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)' 
         }
     },

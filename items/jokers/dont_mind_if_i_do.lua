@@ -4,8 +4,8 @@ SMODS.Joker {
         name = 'Don\'t Mind if I Do',
         text = { 
             'Gains {X:mult,C:white}X#2#{} Mult for every', 
-            'card scored with a seal at the',
-            'cost of removing the seal', 
+            'card scored {C:attention}with a seal{} at the',
+            'cost of {C:red}removing{} the seal', 
             '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'
         }
     },

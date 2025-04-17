@@ -4,8 +4,8 @@ SMODS.Joker {
         name = 'Schrodinger\'s Cat',
         text = { 
             '{C:green}50/50 chance{} for each joker', 
-            'to be retriggered or', 
-            'not trigger at all ' 
+            'to be {C:attention}retriggered{} or', 
+            '{C:red}not trigger at all ' 
         }
     },
     atlas = 'Jokers',

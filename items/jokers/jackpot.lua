@@ -3,8 +3,9 @@ SMODS.Joker {
     loc_txt = {
         name = 'Jackpot',
         text = { 
-            'Played hands containing at least', 
-            '{C:attention}three 7\'s{}, {C:green}#1# in #3#{} chance', 
+            'Played hands containing',
+            'at least {C:attention}three 7\'s{} have', 
+            'a {C:green}#1# in #3#{} chance', 
             'to give {C:money}$#2#' 
         }
     },

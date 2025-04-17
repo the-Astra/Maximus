@@ -4,7 +4,8 @@ SMODS.Joker {
         name = 'Minimalist',
         text = { 
             '{C:chips}+#1#{} Chips, {C:chips}-#3#{} for', 
-            'every enhanced card in full deck', 
+            'every {C:attention}enhanced card{}', 
+            'in full deck', 
             '{C:inactive}(Currently: {C:chips}+#2# {C:inactive}Chips)' 
         }
     },

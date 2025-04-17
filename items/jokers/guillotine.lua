@@ -3,9 +3,9 @@ SMODS.Joker {
     loc_txt = {
         name = 'Guillotine',
         text = { 
-            'Scored {C:attention}Face{} or {C:attention}Ace{} cards', 
-            'have their rank set',
-            'to {C:attention}10{}' 
+            'Scored {C:attention}Face{} or {C:attention}Ace', 
+            'cards have their',
+            'rank set to {C:attention}10{}' 
         }
     },
     atlas = 'Jokers',

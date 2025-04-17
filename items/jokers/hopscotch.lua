@@ -5,7 +5,7 @@ SMODS.Joker {
         text = { 
             'When selecting blind,', 
             '{C:green}#1# in #2#{} chance to', 
-            'receive associated skip tag' 
+            'receive associated {C:attention}skip tag{}' 
         }
     },
     atlas = 'Jokers',

@@ -3,8 +3,8 @@ SMODS.Joker {
     loc_txt = {
         name = 'Gravity',
         text = { 
-            '{C:attention}+#1#{} levels to all Poker hands', 
-            '{C:attention}-1{} level every round' 
+            '{C:attention}+#1#{} levels to {C:attention}all Poker hands', 
+            '{C:red}-1{} level every round' 
         }
     },
     atlas = 'Jokers',

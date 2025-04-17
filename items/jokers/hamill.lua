@@ -4,8 +4,8 @@ SMODS.Joker {
         name = 'Hamill',
         text = {
             '{C:attention}+#1#{} level for your',
-            '{C:attention}most played hand{} every',
-            'time it is played',
+            '{C:attention}most played hand',
+            'every time it is played',
             '{C:inactive}(Currently: {C:red}#2#{C:inactive})'
         }
     },

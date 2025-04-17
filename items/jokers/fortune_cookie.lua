@@ -3,10 +3,12 @@ SMODS.Joker {
     loc_txt = {
         name = 'Fortune Cookie',
         text = { 
-            '{C:green}#3# out of #4#{} chance to receive', 
-            'a random {C:tarot}Tarot{} card when',
-            'playing a hand {C:inactive}(Must have room){}',
-            '{s:0.8,C:inactive}Chance reduces by #1# for every played hand' 
+            '{C:green}#3# out of #4#{} chance to', 
+            'receive a {C:green}random {C:tarot}Tarot{}',
+            'card when playing a hand', 
+            '{s:0.8,C:inactive}(Must have room)',
+            '{s:0.8,C:inactive}Chance reduces by #1#', 
+            '{s:0.8,C:inactive}for every played hand' 
         }
     },
     atlas = 'Jokers',

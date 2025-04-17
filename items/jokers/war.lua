@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'War',
         text = { 
-            'Means of destroying cards', 
+            'Means of {C:red}destroying{} cards', 
             'have their limits {C:attention}doubled' 
         }
     },

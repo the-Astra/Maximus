@@ -4,8 +4,8 @@ SMODS.Joker {
         name = 'Hedonist',
         text = { 
             'Gains {X:mult,C:white}X#2#{} Mult', 
-            'if shop is cleared out', 
-            'when exiting', 
+            'if shop is {C:attention}cleared', 
+            'when {C:attention}exiting', 
             '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)' 
         }
     },

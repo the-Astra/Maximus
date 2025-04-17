@@ -5,7 +5,7 @@ SMODS.Joker {
         text = { 
             'Gains {X:mult,C:white}X#2#{} Mult', 
             'every time a Joker', 
-            'is re-added to hand', 
+            'is {C:attention}re-added{} to hand', 
             '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)' 
         }
     },

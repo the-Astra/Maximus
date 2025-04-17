@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Dark Room',
         text = { 
-            'After {C:attention}#1# rounds{}, sell this', 
+            'After {C:attention}#2# rounds{}, sell this', 
             'Joker to upgrade a {C:green}random', 
             'owned {C:attention}voucher', 
             '{C:inactive}(Currently: #1#/#2#)' 

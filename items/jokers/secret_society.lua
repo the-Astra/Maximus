@@ -4,7 +4,7 @@ SMODS.Joker {
         name = 'Secret Society',
         text = { 
             '{C:chips}Chip{} values of ranks', 
-            'are {C:attention}swapped and doubled{}' 
+            'are {C:attention}swapped{} and {C:attention}doubled{}' 
         }
     },
     atlas = 'Jokers',

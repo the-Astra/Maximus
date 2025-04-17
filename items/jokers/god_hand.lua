@@ -3,12 +3,12 @@ SMODS.Joker {
     loc_txt = {
         name = 'God Hand',
         text = {
-            'Chooses a {C:attention}random playing card{}',
+            'Chooses a {C:green}random{} playing card',
             'in full deck when added to hand',
             'While a card with that rank and',
-            'suit is held in hand, {X:mult,C:white}X#1#{} Mult',
+            'suit is {C:attention}held in hand, {X:mult,C:white}X#1#{} Mult',
             'Otherwise, {X:mult,C:white}X#2#{} Mult',
-            '{C:inactive}Currently:{} #3##4#{V:1}#5#{}'
+            '{C:inactive}Target:{} #3##4#{V:1}#5#{}'
         }
     },
     atlas = 'Placeholder',

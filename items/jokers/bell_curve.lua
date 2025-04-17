@@ -4,9 +4,9 @@ SMODS.Joker {
         name = 'Bell Curve',
         text = { 
             'Approximately {X:mult,C:white}X#1#{} Mult,', 
-            'Changes sigmoidially according to',
-            'deck size\'s deviation', 
-            'from {C:attention}52{}' 
+            'Changes {C:attention}sigmoidially',
+            'according to deck size\'s', 
+            'deviation from {C:attention}52{}' 
         }
     },
     atlas = 'Jokers',

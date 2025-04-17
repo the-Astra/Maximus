@@ -5,8 +5,9 @@ SMODS.Joker {
         text = { 
             'If played hand is', 
             'a {C:attention}Pair{}, convert', 
-            'the first scoring card', 
-            'into the second scoring card' 
+            'the {C:attention}first scoring', 
+            '{C:attention}card{} into the {C:attention}second',
+            '{C:attention}scoring card' 
         }
     },
     atlas = 'Jokers',

@@ -3,7 +3,7 @@ SMODS.Joker {
     loc_txt = {
         name = 'Four Course Meal',
         text = { 
-            'For the next 4 hands,', 
+            'For the next {C:attention}4{} hands,', 
             'give {C:chips}+#1#{} Chips, {C:mult}+#2#{} Mult,', 
             '{X:mult,C:white}X#3#{} Mult, and {C:money}$#4#{}', 
             'respectively' 

@@ -993,6 +993,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'cleaner',
     'vinyl_record',
     'spam',
+    'messiah',
 
     --Uncommon
     'war',
@@ -1116,7 +1117,6 @@ local EXPERIMENTAL_JOKERS = {
     'butterfly',
     'wild_buddy',
     'conveyor_belt',
-    'messiah',
     'abyss_angel',
     'brainwashed',
     'god_hand',

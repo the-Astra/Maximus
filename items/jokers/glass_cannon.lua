@@ -3,7 +3,8 @@ SMODS.Joker {
     loc_txt = {
         name = 'Glass Cannon',
         text = { 
-            'All Joker {X:mult,C:white}XMult{} is {C:attention}retriggered', 
+            'All Joker {X:mult,C:white}XMult',
+            'is {C:attention}retriggered', 
             '{C:attention}Shatters{} if blind isn\'t', 
             'beaten in 2 hands' 
         }

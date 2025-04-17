@@ -4,7 +4,8 @@ SMODS.Joker {
         name = 'Go Fish',
         text = { 
             '{C:mult}+2{} Mult for each {C:attention}#1#{}', 
-            'in full deck at start of round',
+            'in full deck',
+            'at start of round',
             '{s:0.8,C:inactive}Rank changes every round', 
             '{C:inactive}(Currently: {C:mult}+#2# {C:inactive}Mult)' 
         }

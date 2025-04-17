@@ -5,7 +5,7 @@ SMODS.Joker {
         text = { 
             '{X:mult,C:white}X#1#{} Mult,', 
             'decreases by {X:mult,C:white}X#2#{}', 
-            'every second' 
+            '{C:attention}every second' 
         }
     },
     atlas = '4D',

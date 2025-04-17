@@ -4,7 +4,7 @@ SMODS.Joker {
         name = 'Normal Joker',
         text = { 
             'Played cards without an', 
-            'enchancement, edition, or seal',
+            '{C:attention}enchancement{}, {C:attention}edition{}, or {C:attention}seal',
             'give {C:mult}+2{} Mult and {C:chips}+15{} Chips' 
         }
     },

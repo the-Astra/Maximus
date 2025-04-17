@@ -3,8 +3,9 @@ SMODS.Joker {
     loc_txt = {
         name = 'Ledger',
         text = { 
-            'At the end of every ante, one', 
-            'random Joker becomes {C:dark_edition}Negative{}' 
+            'At the end of every',
+            'ante, {C:attention}one random Joker',
+            'becomes {C:dark_edition}Negative{}' 
         }
     },
     atlas = 'Jokers',

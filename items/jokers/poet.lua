@@ -3,10 +3,12 @@ SMODS.Joker {
     loc_txt = {
         name = 'Poet',
         text = { 
-            'If hand type is played {C:attention}exclusively{} with number ranks', 
-            'matching the {C:attention}hand name{}, give {X:mult,C:white}Xmult{} equal to that rank', 
-            '{s:0.8,C:inactive}Two Pair must be played with a pair of 2s and', 
-            '{s:0.8,C:inactive}a pair of faces or aces' 
+            'If hand type is played', 
+            '{C:attention}exclusively{} with number ranks', 
+            'matching the {C:attention}hand name,', 
+            'give {X:mult,C:white}Xmult{} equal to that rank', 
+            '{s:0.8,C:inactive}Two Pair must be played with a pair', 
+            '{s:0.8,C:inactive}of 2s and a pair of faces or aces' 
         }
     },
     atlas = 'Jokers',

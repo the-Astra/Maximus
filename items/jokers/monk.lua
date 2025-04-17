@@ -4,7 +4,8 @@ SMODS.Joker {
         name = 'Monk',
         text = { 
             'Gains {C:chips}+#2#{} Chips for every', 
-            'shop exited without purchase',
+            'shop exited {C:attention}without{}',
+            'making a purchase',
             '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)' 
         }
     },

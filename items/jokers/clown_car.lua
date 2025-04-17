@@ -4,8 +4,8 @@ SMODS.Joker {
         name = 'Clown Car',
         text = { 
             'Gains {C:mult}+#2#{} Mult each time', 
-            'a Joker is added to hand', 
-            '{C:inactive}Currently: {C:mult}+#1# {C:inactive}Mult' 
+            'a Joker is {C:attention}added{} to hand', 
+            '{C:inactive}(Currently: {C:mult}+#1# {C:inactive}Mult)' 
         }
     },
     atlas = 'Jokers',

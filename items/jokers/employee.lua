@@ -3,8 +3,9 @@ SMODS.Joker {
     loc_txt = {
         name = 'Employee',
         text = { 
-            '{C:money}$#1#{} at end of round for', 
-            'every held {C:horoscope}Horoscope{} card' 
+            '{C:money}$#1#{} at end of round', 
+            'for every held',
+            '{C:horoscope}Horoscope{} card' 
         }
     },
     atlas = 'Jokers',

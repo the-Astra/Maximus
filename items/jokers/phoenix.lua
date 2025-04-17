@@ -5,8 +5,9 @@ SMODS.Joker {
         text = {
             'After scoring, all scored',
             '{C:attention}Face{} cards are {C:red}destroyed{}',
-            'If any face cards are destroyed, give',
-            'a {C:attention}Red Seal{} to all other scoring cards'
+            'If any face cards are,',
+            '{C:red}destroyed{}, give a {C:attention}Red Seal',
+            'to all other scoring cards'
         }
     },
     atlas = 'Placeholder',

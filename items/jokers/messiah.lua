@@ -8,10 +8,10 @@ SMODS.Joker {
             '{C:inactive}(Currently: {C:mult}+#2#{C:inactive} Mult)'
         }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
         x = 0,
-        y = 0
+        y = 13
     },
     rarity = 1,
     config = {

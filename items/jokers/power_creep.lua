@@ -3,7 +3,8 @@ SMODS.Joker {
     loc_txt = {
         name = 'Power Creep',
         text = { 
-            '{C:attention}Scoring Editions{} are {C:attention}twice{} as potent',
+            '{C:attention}Scoring Editions{} are',
+            '{C:attention}twice{} as potent',
             'Shop prices are {C:attention}doubled' 
         }
     },

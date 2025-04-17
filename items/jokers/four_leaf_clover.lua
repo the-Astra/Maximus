@@ -3,8 +3,9 @@ SMODS.Joker {
     loc_txt = {
         name = 'Four-Leaf Clover',
         text = { 
-            'If scored hand has exactly 4 cards,', 
-            'convert them all to {C:attention}Lucky{}' 
+            'If scored hand has exactly',
+            '{C:attention}4 cards, convert them', 
+            'all to {C:attention}Lucky' 
         }
     },
     atlas = 'Jokers',

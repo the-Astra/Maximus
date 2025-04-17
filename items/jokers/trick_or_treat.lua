@@ -4,7 +4,7 @@ SMODS.Joker {
         name = 'Trick or Treat',
         text = { 
             'When held, {C:attention}Booster packs{}', 
-            'now let you take #1# more', 
+            'now let you take {C:attention}#1#{} more', 
             'card than usual' 
         }
     },

@@ -3,8 +3,10 @@ SMODS.Joker {
     loc_txt = {
         name = 'Gambler',
         text = { 
-            'Capped sources of money generation', 
-            'have their limits {C:attention}doubled{}' 
+            'Capped sources of',
+            'money generation', 
+            'have their limits',
+            '{C:attention}doubled{}' 
         }
     },
     atlas = 'Jokers',

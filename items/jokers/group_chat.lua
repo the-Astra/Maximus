@@ -4,7 +4,8 @@ SMODS.Joker {
         name = 'Group Chat',
         text = {
             'Gains {C:chips}+#2#{} Chips',
-            'whenever another Joker scales',
+            'whenever another', 
+            'Joker scales',
             '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)'
         }
     },

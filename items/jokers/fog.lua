@@ -3,9 +3,12 @@ SMODS.Joker {
     loc_txt = {
         name = 'Fog',
         text = { 
-            '{C:attention}Four of a Kinds{} contain {C:attention}Two Pairs{}', 
-            'Two Pairs with a {C:attention}1-rank difference{} count', 
-            'as Four of a Kinds {C:inactive}(ex. 6 6 5 5)' 
+            '{C:attention}Four of a Kinds', 
+            'contain {C:attention}Two Pairs', 
+            'Two Pairs with a {C:attention}1-rank', 
+            '{C:attention}difference{} count', 
+            'as Four of a Kinds', 
+            '{C:inactive}(ex. 6 6 5 5)' 
         }
     },
     atlas = 'Jokers',

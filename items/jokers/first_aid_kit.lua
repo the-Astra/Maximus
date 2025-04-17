@@ -5,7 +5,7 @@ SMODS.Joker {
         text = { 
             'Sell this card for', 
             '{C:blue}+#1#{} hands and {C:red}+#2#{} discards', 
-            'for the current round' 
+            'for the {C:attention}current round' 
         }
     },
     atlas = 'Jokers',

@@ -4,7 +4,7 @@ SMODS.Joker {
         name = 'Old Man Jimbo',
         text = { 
             '{X:mult,C:white}X1{} Mult plus {X:mult,C:white}X#1#{}', 
-            'for each remaining hand' 
+            'for each remaining {C:blue}hand{}' 
         }
     },
     atlas = 'Jokers',

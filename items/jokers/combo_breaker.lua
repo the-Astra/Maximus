@@ -5,7 +5,8 @@ SMODS.Joker {
         text = { 
             'Gains {X:mult,C:white}X#1#{} Mult', 
             'per retrigger',
-            '{s:0.8,C:inactive}Starts at {s:0.8,X:mult,C:white}X1{s:0.8,C:inactive} Mult, resets every hand' 
+            '{s:0.8,C:inactive}Starts at {s:0.8,X:mult,C:white}X1{s:0.8,C:inactive} Mult', 
+            '{s:0.8,C:inactive}Resets every hand' 
         }
     },
     atlas = 'Jokers',

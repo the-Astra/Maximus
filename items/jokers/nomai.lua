@@ -5,7 +5,7 @@ SMODS.Joker {
         text = {
             'Generates a {C:horoscope}Horoscope{} Card',
             'when a {C:planet}Planet{} Card is used',
-            '{C:inactive}(Must have room)'
+            '{s:0.8,C:inactive}(Must have room)'
         }
     },
     atlas = 'Placeholder',

@@ -5,7 +5,7 @@ SMODS.Joker {
         text = {
             'Selling this Joker {C:attention}rerolls',
             'the edition of one', 
-            '{C:attention}random{} held Joker',
+            '{C:green}random{} held Joker',
             '{C:inactive,s:0.8}(Will not choose current edition)'
         }
     },

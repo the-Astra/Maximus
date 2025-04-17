@@ -4,8 +4,8 @@ SMODS.Joker {
         name = 'Hippie',
         text = { 
             'Gains {X:mult,C:white}X#2#{} Mult', 
-            'after a {C:horoscope}Horoscope{} card', 
-            'is fulfilled', 
+            'after a {C:horoscope}Horoscope', 
+            'card is fulfilled', 
             '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)' 
         }
     },

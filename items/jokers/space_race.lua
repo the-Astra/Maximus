@@ -3,9 +3,12 @@ SMODS.Joker {
     loc_txt = {
         name = 'Space Race',
         text = { 
-            'If played hand is not the highest', 
-            'level hand, upgrade hand by one level',
-            '{s:0.8,C:inactive}Hands tied for highest do not upgrade{}' 
+            'If played hand is', 
+            '{C:red}not{} the highest', 
+            'level hand, {C:attention}upgrade',
+            'hand by {C:attention}1{} level',
+            '{s:0.8,C:inactive}Hands tied for highest', 
+            '{s:0.8,C:inactive}level do not upgrade' 
         }
     },
     atlas = 'Jokers',

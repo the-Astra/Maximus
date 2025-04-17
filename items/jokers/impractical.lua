@@ -5,7 +5,8 @@ SMODS.Joker {
         text = { 
             'If a {C:attention}#4#{} is played,', 
             '{X:mult,C:white}X#2#{} Mult. If three hands in a',
-            'row are not this hand type, {X:mult,C:white}X#3#{} Mult', 
+            'row are not this hand', 
+            'type, {X:mult,C:white}X#3#{} Mult', 
             '{s:0.8,C:inactive}Hand rotates every round',
             '{C:inactive}(Fail streak: #1#)' 
         }

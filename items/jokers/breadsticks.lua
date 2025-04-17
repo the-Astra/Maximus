@@ -4,9 +4,10 @@ SMODS.Joker {
         name = 'Endless Breadsticks',
         text = { 
             'Gains {C:chips}+#3#{} Chips every {C:attention}#1#{} cards', 
-            'discarded this round. Discard requirement', 
-            'increases by {C:attention}1{} and resets {C:chips}Chips{}', 
-            'each round', 
+            '{C:red}discarded{} this round', 
+            '{C:red}Discard{} requirement increases', 
+            'by {C:attention}1{} and resets', 
+            '{C:chips}Chips{}each round', 
             '{C:inactive}(Currently: {C:chips}+#2# {C:inactive}Chips)' 
         }
     },

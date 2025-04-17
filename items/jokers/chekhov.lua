@@ -4,7 +4,7 @@ SMODS.Joker {
         name = 'Chekhov\'s Gun',
         text = { 
             '{X:mult,C:white}Xante{} Mult on antes', 
-            'with a final boss' 
+            'with a {C:attention}final boss' 
         }
     },
     atlas = 'Jokers',
