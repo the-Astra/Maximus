@@ -143,6 +143,24 @@ end
 match_indent = true
 times = 1
 
+#Flames for Nuclear deck
+[[patches]]
+[patches.pattern]
+target = 'functions/misc_functions.lua'
+pattern = '''
+G.ARGS.score_intensity.earned_score = G.GAME.current_round.current_hand.chips*G.GAME.current_round.current_hand.mult
+'''
+position = "at"
+payload = '''
+if not G.GAME.modifiers.mxms_nuclear_size then
+    G.ARGS.score_intensity.earned_score = G.GAME.current_round.current_hand.chips*G.GAME.current_round.current_hand.mult
+else
+    G.ARGS.score_intensity.earned_score = G.GAME.current_round.current_hand.chips^G.GAME.current_round.current_hand.mult
+end
+'''
+match_indent = true
+times = 1
+
 
 #Target Practice and Love and War Check
 [[patches]]
