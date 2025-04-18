@@ -1357,6 +1357,7 @@ sendDebugMessage("", 'Maximus')
 --#region Consumables ---------------------------------------------------------------------------------------
 
 local ENABLED_CONSUMABLES = {
+    -- Planets
     'microscopii',
     'wasp',
     'pegasi',
@@ -1368,6 +1369,8 @@ local ENABLED_CONSUMABLES = {
     'proxima',
     'phobetor',
     'kepler',
+
+    -- Spectrals
     'doppelganger',
 }
 
