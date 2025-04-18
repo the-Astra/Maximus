@@ -11,6 +11,7 @@ SMODS.Voucher {
         x = 3,
         y = 1
     },
+    requires = { 'v_mxms_multitask' },
     redeem = function(self, card, from_debuff)
         G.mxms_horoscope.config.card_limit = G.mxms_horoscope.config.card_limit + 1
     end
