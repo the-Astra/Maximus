@@ -14,7 +14,7 @@ SMODS.Joker {
         x = 0,
         y = 12
     },
-    rarity = 1,
+    rarity = 3,
     config = {
         extra = {
             gain = 1,

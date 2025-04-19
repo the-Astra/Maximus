@@ -12,7 +12,7 @@ SMODS.Joker {
     },
     atlas = 'Placeholder',
     pos = {
-        x = 0,
+        x = 1,
         y = 0
     },
     rarity = 2,

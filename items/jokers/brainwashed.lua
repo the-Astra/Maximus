@@ -14,7 +14,7 @@ SMODS.Joker {
         x = 1,
         y = 0
     },
-    rarity = 1,
+    rarity = 2,
     config = {
         extra = {
             odds = 2

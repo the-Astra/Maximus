@@ -1022,6 +1022,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'game_review',
     'slippery_slope',
     'celestial_deity',
+    'high_dive',
 
     --Rare
     'abyss',
@@ -1035,7 +1036,6 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'soil',
     'stop_sign',
     'chihuahua',
-    'high_dive',
     'vulture',
     'prince',
 
@@ -1044,15 +1044,15 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'lazy',
 
     --Food-Related
+    'chef',
     'fortune_cookie',
     'breadsticks',
-    'gelatin',
     'leftovers',
-    'tofu',
     'comedian',
+    'gelatin',
+    'tofu',
     'microwave',
     'refrigerator',
-    'chef',
     'four_course_meal',
 
     --Glass Gang
@@ -1094,8 +1094,8 @@ local ENABLED_JOKERS = { -- Comment out item to disable
 
     --Moneymakers
     'gambler',
-    'jackpot',
     'hypeman',
+    'jackpot',
 }
 
 local HOROSCOPE_JOKERS = {
