@@ -9,10 +9,10 @@ SMODS.Joker {
             'flush\'s suit after scoring'
         }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
         x = 1,
-        y = 0
+        y = 13
     },
     rarity = 2,
     config = {

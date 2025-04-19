@@ -994,6 +994,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'vinyl_record',
     'spam',
     'messiah',
+    'wild_buddy',
 
     --Uncommon
     'war',
@@ -1023,6 +1024,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'slippery_slope',
     'celestial_deity',
     'high_dive',
+    'brainwashed',
 
     --Rare
     'abyss',
@@ -1049,6 +1051,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'breadsticks',
     'leftovers',
     'comedian',
+    'pizza',
     'gelatin',
     'tofu',
     'microwave',
@@ -1115,10 +1118,8 @@ local EXPERIMENTAL_JOKERS = {
     'caterpillar',
     'chrysalis',
     'butterfly',
-    'wild_buddy',
     'conveyor_belt',
     'abyss_angel',
-    'brainwashed',
     'god_hand',
     'sisyphus',
     'nomai',

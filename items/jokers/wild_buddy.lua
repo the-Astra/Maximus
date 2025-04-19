@@ -7,10 +7,10 @@ SMODS.Joker {
             '{C:attention}non-Boss{} Blinds'
         }
     },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 2,
+        y = 13
     },
     rarity = 1,
     config = {
