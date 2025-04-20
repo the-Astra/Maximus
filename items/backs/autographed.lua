@@ -1,0 +1,39 @@
+SMODS.Back {
+    key = 'autographed',
+    loc_txt = {
+        name = 'Autographed Deck',
+        text = {
+            'Start run with',
+            '{C:attention}three{} Aces, Kings,',
+            'Queens, and Jacks {C:attention}per suit{}'
+        }
+    },
+    atlas = 'Backs',
+    pos = {
+        x = 5,
+        y = 0
+    },
+    apply = function(self, back)
+        local extra_cards = {}
+        for i, v in pairs(SMODS.Suits) do
+            if type(v) == 'table' and type(v.in_pool) == 'function' and v.in_pool then
+                if v:in_pool({initial_deck = true}) then
+                    for j = 1, 2 do
+                        extra_cards[#extra_cards+1] = {s = v.card_key, r = 'J'}
+                        extra_cards[#extra_cards+1] = {s = v.card_key, r = 'Q'}
+                        extra_cards[#extra_cards+1] = {s = v.card_key, r = 'K'}
+                        extra_cards[#extra_cards+1] = {s = v.card_key, r = 'A'}
+                    end
+                end
+            else
+                for j = 1, 2 do
+                    extra_cards[#extra_cards+1] = {s = v.card_key, r = 'J'}
+                    extra_cards[#extra_cards+1] = {s = v.card_key, r = 'Q'}
+                    extra_cards[#extra_cards+1] = {s = v.card_key, r = 'K'}
+                    extra_cards[#extra_cards+1] = {s = v.card_key, r = 'A'}
+                end
+            end
+        end
+        G.GAME.starting_params.extra_cards = extra_cards
+    end
+}

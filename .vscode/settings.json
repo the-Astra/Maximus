@@ -60,7 +60,8 @@
         "mod_chips",
         "mod_mult",
         "poll_edition",
-        "mxms_get_most_played_hand"
+        "mxms_get_most_played_hand",
+        "create_UIBox_blind_tag"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil"

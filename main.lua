@@ -1283,7 +1283,10 @@ sendDebugMessage("", 'Maximus')
 local ENABLED_BACKS = {
     'sixth_finger',
     'nirvana',
-    'nuclear'
+    'nuclear',
+    'professional',
+    'grilled',
+    'autographed',
 }
 
 sendDebugMessage("Loading Backs...", 'Maximus')
