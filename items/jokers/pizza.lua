@@ -19,7 +19,7 @@ SMODS.Joker {
             cards_left = 8
         }
     },
-    blueprint_compat = true,
+    blueprint_compat = false,
     cost = 4,
     pools = {
         Food = true
@@ -33,7 +33,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.before then
+        if context.before and not context.blueprint then
             for k, v in ipairs(context.scoring_hand) do
                 if not v.seal and not v.debuff and not v.pizza_sealed and stg.cards_left > 0 then
                     v.pizza_sealed = true
@@ -48,7 +48,7 @@ SMODS.Joker {
                         end
                     }))
 
-                    if stg.cards_left <= 0 and not context.blueprint then
+                    if stg.cards_left <= 0 then
                         G.E_MANAGER:add_event(Event({
                             trigger = 'after',
                             delay = 0.2,
