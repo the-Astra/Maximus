@@ -130,7 +130,7 @@ match_indent = true
 times = 1
 
 
-# Change Matador to not trigger on every hand on Fashion Disaster
+# Change planet level up method to include extra levels
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -142,6 +142,21 @@ payload = '''
 for i = 1, G.GAME.base_planet_levels do
     level_up_hand(used_tarot, self.ability.consumeable.hand_type)
 end
+'''
+match_indent = true
+times = 1
+
+
+# Add all faces param check
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+if self.GAME.starting_params.no_faces and SMODS.Ranks[v.value].face then keep = false end
+'''
+position = "at"
+payload = '''
+if self.GAME.starting_params.all_faces and not SMODS.Ranks[v.value].face then keep = false end
 '''
 match_indent = true
 times = 1
