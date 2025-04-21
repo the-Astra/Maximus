@@ -115,10 +115,23 @@ SMODS.Joker {
         end
     end,
     set_ability = function(self, card, inital, delay_sprites)
-        local W, H = card.T.w, card.T.h
-        H = W
-        card.T.h = H
-        card.T.w = W
-        card.children.center.scale.y = card.children.center.scale.x
+        if card.config.center.discovered or card.bypass_discovery_center then
+            local W, H = card.T.w, card.T.h
+            H = W
+            card.T.h = H
+            card.T.w = W
+        end
+    end,
+    set_sprites = function(self, card, front)
+        if card.config.center.discovered or card.bypass_discovery_center then
+            card.children.center.scale.y = card.children.center.scale.x
+        end
+    end,
+    load = function(self, card, card_table, other_card)
+        local W, H, scale = card.T.w, card.T.h, 1
+
+        H = W 
+        card.T.h = H*scale
+        card.T.w = W*scale
     end
 }

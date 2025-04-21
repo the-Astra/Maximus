@@ -995,6 +995,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'spam',
     'messiah',
     'wild_buddy',
+    'bones_jr',
 
     --Uncommon
     'war',
