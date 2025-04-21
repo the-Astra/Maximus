@@ -38,7 +38,7 @@ SMODS.Joker {
                 if not v.seal and not v.debuff and not v.pizza_sealed and stg.cards_left > 0 then
                     v.pizza_sealed = true
                     v:set_seal(SMODS.poll_seal({ guaranteed = true, type_key = 'pza' }))
-                    stg.cards_left = stg.cards_left - 1
+                    stg.cards_left = stg.cards_left - (1 / G.GAME.fridge_mod)
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             v:juice_up()

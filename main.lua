@@ -1025,6 +1025,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'celestial_deity',
     'high_dive',
     'brainwashed',
+    'whos_on_first',
 
     --Rare
     'abyss',

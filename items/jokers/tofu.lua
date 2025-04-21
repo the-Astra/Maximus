@@ -93,7 +93,7 @@ SMODS.Joker {
         end
 
         if context.after then
-            stg.triggers_left = stg.triggers_left - 1
+            stg.triggers_left = stg.triggers_left - (1 / G.GAME.fridge_mod)
             SMODS.calculate_effect({ message = stg.triggers_left .. ' left...', colour = G.C.RED }, card)
             if stg.triggers_left <= 0 then
                 G.E_MANAGER:add_event(Event({

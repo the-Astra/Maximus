@@ -28,13 +28,13 @@ SMODS.Joker {
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-        return { vars = { stg.Xmult, stg.gain, G.GAME.probabilities.normal, stg.odds } }
+        return { vars = { stg.Xmult, stg.gain, G.GAME.probabilities.normal, stg.odds * G.GAME.fridge_mod } }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            if pseudorandom('comedian') < G.GAME.probabilities.normal / stg.odds then
+            if pseudorandom('comedian') < G.GAME.probabilities.normal / stg.odds * G.GAME.fridge_mod then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
