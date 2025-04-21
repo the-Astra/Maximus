@@ -2,10 +2,11 @@ SMODS.Joker {
     key = 'kings_rook',
     loc_txt = {
         name = 'King\'s Rook',
-        text = { 
-            'If played hand has a', 
-            '{C:attention}scoring King{} and a {C:attention}scoring 5{},', 
-            '{C:attention}retrigger{} all {C:attention}Kings{} and {C:attention}5s{}' 
+        text = {
+            'The first scoring {C:attention}King{} or {C:attention}5{}',
+            'in a hand gives {X:mult,C:white}X#1#{} Mult',
+            'Mult increases to {X:mult,C:white}X#2#{} if',
+            '{C:attention}both{} ranks are scoring'
         }
     },
     atlas = 'Jokers',
@@ -15,30 +16,52 @@ SMODS.Joker {
     },
     rarity = 1,
     config = {
-        extra = 1
+        extra = {
+            base_xmult = 1.5,
+            better_xmult = 2,
+            both_ranks = false
+        }
     },
     blueprint_compat = false,
     cost = 5,
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        return { vars = { stg.base_xmult, stg.better_xmult } }
+    end,
     calculate = function(self, card, context)
-        if context.repetition and context.cardarea == G.play then
-            local kings = false
-            local fives = false
+        local stg = card.ability.extra
 
-            for k, v in pairs(context.scoring_hand) do
-                if v:get_id() == 13 then
-                    kings = true
-                elseif v:get_id() == 5 then
+        if context.before then
+            local fives = false
+            local kings = false
+
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:get_id() == 5 then
                     fives = true
+                elseif context.scoring_hand[i]:get_id() == 13 then
+                    kings = true
+                    
                 end
             end
 
-            if kings and fives and
-                (context.other_card:get_id() == 13 or
-                    context.other_card:get_id() == 5) then
+            stg.both_ranks = fives and kings
+        end
+
+        if context.individual and context.cardarea == G.play then
+            local first_five = nil
+            local first_king = nil
+
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:get_id() == 5 and not first_five then
+                    first_five = context.scoring_hand[i]
+                elseif context.scoring_hand[i]:get_id() == 13 and not first_king then
+                    first_king = context.scoring_hand[i]
+                end
+            end
+
+            if context.other_card == first_five or context.other_card == first_king then
                 return {
-                    message = localize('k_again_ex'),
-                    repetitions = card.ability.extra,
-                    card = card
+                    x_mult = stg.both_ranks and stg.better_xmult or stg.base_xmult
                 }
             end
         end
