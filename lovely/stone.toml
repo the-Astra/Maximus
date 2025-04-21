@@ -50,9 +50,9 @@ target = '''=[SMODS _ "src/utils.lua"]'''
 pattern = '''
 if k == 'm_stone' or G.P_CENTERS[k].no_suit then is_stone = true end
 '''
-position = "at"
+position = "before"
 payload = '''
-if k == 'm_stone' and not next(SMODS.find_card('j_mxms_rock_candy')) or G.P_CENTERS[k].no_suit then is_stone = true end
+if k == 'm_stone' and next(SMODS.find_card('j_mxms_rock_candy')) then is_wild = true end
 '''
 match_indent = true
 times = 1
