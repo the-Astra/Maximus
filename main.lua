@@ -1124,6 +1124,7 @@ local EXPERIMENTAL_JOKERS = {
     'god_hand',
     'sisyphus',
     'nomai',
+    'rock_candy',
 
     'romero',
     'leto',

@@ -21,8 +21,8 @@ SMODS.Joker {
             tally = 0
         }
     },
-    blueprint_compat = true,
-    cost = 4,
+    blueprint_compat = false,
+    cost = 6,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS.m_gold

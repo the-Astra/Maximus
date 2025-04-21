@@ -42,3 +42,31 @@ end
 '''
 match_indent = true
 times = 1
+
+    # Change has_no_suit check to exclude stone cards with rock candy
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+if k == 'm_stone' or G.P_CENTERS[k].no_suit then is_stone = true end
+'''
+position = "at"
+payload = '''
+if k == 'm_stone' and not next(SMODS.find_card('j_mxms_rock_candy')) or G.P_CENTERS[k].no_suit then is_stone = true end
+'''
+match_indent = true
+times = 1
+
+    # Change has_any_suit check to include stone cards with rock candy
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+if k == 'm_wild' or G.P_CENTERS[k].any_suit then return true end
+'''
+position = "after"
+payload = '''
+if k == 'm_stone' and next(SMODS.find_card('j_mxms_rock_candy')) then return true end
+'''
+match_indent = true
+times = 1
