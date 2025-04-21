@@ -1098,6 +1098,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     --Moneymakers
     'gambler',
     'hypeman',
+    'fools_gold',
     'jackpot',
 }
 

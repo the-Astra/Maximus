@@ -1,0 +1,49 @@
+SMODS.Joker {
+    key = 'fools_gold',
+    loc_txt = {
+        name = 'Fool\'s Gold',
+        text = {
+            "Earn {C:money}$#1#{} for each",
+            "{C:money}Gold{} Card in your {C:attention}full deck",
+            "at end of round",
+            "{C:inactive}(Currently {C:money}$#2#{}{C:inactive})"
+        }
+    },
+    atlas = 'Jokers',
+    pos = {
+        x = 4,
+        y = 13
+    },
+    rarity = 1,
+    config = {
+        extra = {
+            money = 1,
+            tally = 0
+        }
+    },
+    blueprint_compat = true,
+    cost = 4,
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        info_queue[#info_queue + 1] = G.P_CENTERS.m_gold
+        return {
+            vars = { stg.money, stg.tally * stg.money }
+        }
+    end,
+    calc_dollar_bonus = function(self, card)
+        return card.ability.extra.tally * card.ability.extra.money
+    end,
+    update = function(self, card, dt)
+        local stg = card.ability.extra
+        if G.STAGE == G.STAGES.RUN then
+            local gold_cards = 0
+            for k, v in pairs(G.playing_cards) do
+                if SMODS.has_enhancement(v, 'm_gold') then
+                    gold_cards = gold_cards + 1
+                end
+            end
+
+            stg.tally = math.floor(gold_cards / 2)
+        end
+    end
+}
