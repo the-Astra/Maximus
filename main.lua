@@ -333,6 +333,18 @@ save_run = function(self)
         end
     end
 
+    local blockbusters = SMODS.find_card('j_mxms_blockbuster')
+    if next(blockbusters) then
+        for i = 1, #blockbusters do
+            for k, v in ipairs(G.jokers.cards) do
+                if blockbusters[i].ability.extra.card and v == blockbusters[i].ability.extra.card then
+                    blockbusters[i].ability.extra.pos = k
+                    break
+                end
+            end
+        end
+    end
+
     save_r(self)
 end
 
@@ -348,6 +360,16 @@ Game.start_run = function(self, args)
     if G.GAME.current_round.zombie_target and G.GAME.current_round.zombie_target.pos then
         G.GAME.current_round.zombie_target.card = G.jokers.cards[G.GAME.current_round.zombie_target.pos]
         G.GAME.current_round.zombie_target.pos = nil
+    end
+
+    local blockbusters = SMODS.find_card('j_mxms_blockbuster')
+    if next(blockbusters) then
+        for i = 1, #blockbusters do
+            if blockbusters[i].ability.extra.pos then
+                blockbusters[i].ability.extra.card = G.jokers.cards[blockbusters[i].ability.extra.pos]
+                blockbusters[i].ability.extra.pos = nil
+            end
+        end
     end
 end
 
@@ -1127,6 +1149,7 @@ local EXPERIMENTAL_JOKERS = {
     'sisyphus',
     'nomai',
     'rock_candy',
+    'blockbuster',
 
     'romero',
     'leto',
