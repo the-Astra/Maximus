@@ -200,6 +200,41 @@ if self.ability.name == 'Business Card' and
     context.other_card:is_face() and
     pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
         G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + 2
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = 2,
+            card = self
+        }
+    end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Business Card' and
+context.other_card:is_face() then
+    if pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + 2
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = 2,
+            card = self
+        }
+    else
+        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal})
+    end
+end
+'''
+match_indent = true
+times = 1
+
+    #Talisman version of Business Card patch
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Business Card' and
+    context.other_card:is_face() and
+    pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + 2
         if not Talisman.config_file.disable_anims then G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)})) else G.GAME.dollar_buffer = 0 end
         return {
             dollars = 2,
@@ -260,6 +295,57 @@ times = 1
 
 
     # Add flag to Reserved Parking
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Reserved Parking' and
+context.other_card:is_face() and
+pseudorandom('parking') < G.GAME.probabilities.normal/self.ability.extra.odds then
+    if context.other_card.debuff then
+        return {
+            message = localize('k_debuffed'),
+            colour = G.C.RED,
+            card = self,
+        }
+    else
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra.dollars
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = self.ability.extra.dollars,
+            card = self
+        }
+    end
+end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Reserved Parking' and
+context.other_card:is_face() then
+    if pseudorandom('parking') < G.GAME.probabilities.normal/self.ability.extra.odds then
+        if context.other_card.debuff then
+            return {
+                message = localize('k_debuffed'),
+                colour = G.C.RED,
+                card = self,
+            }
+        else
+            G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra.dollars
+            G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+            return {
+                dollars = self.ability.extra.dollars,
+                card = self
+            }
+        end
+    else
+        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal})
+    end
+end
+'''
+match_indent = true
+times = 1
+
+    #Talisman version of Reserved Parking patch
 [[patches]]
 [patches.pattern]
 target = "card.lua"

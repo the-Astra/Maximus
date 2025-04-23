@@ -38,7 +38,7 @@ SMODS.Joker {
             card.ability.extra.hands = card.ability.extra.hands + 1
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    if card.ability.extra.hands == 2 and TalisHelper(G.GAME.chips) - TalisHelper(G.GAME.blind.chips) < TalisHelper(0) then
+                    if card.ability.extra.hands == 2 and to_big(G.GAME.chips) - to_big(G.GAME.blind.chips) < to_big(0) then
                         card:shatter()
                     end
                     return true

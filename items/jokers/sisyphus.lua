@@ -35,7 +35,7 @@ SMODS.Joker {
         if context.after and not context.blueprint then
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    if TalisHelper(G.GAME.chips) - TalisHelper(G.GAME.blind.chips) < TalisHelper(0) then
+                    if to_big(G.GAME.chips) - to_big(G.GAME.blind.chips) < to_big(0) then
                         SMODS.calculate_effect(
                             {
                                 message = localize('k_upgrade_ex'),

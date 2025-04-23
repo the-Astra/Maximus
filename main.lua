@@ -126,14 +126,6 @@ to_big = to_big or function(num)
     return num
 end
 
-function TalisHelper(num)
-    if next(SMODS.find_mod('Talisman')) then
-        return to_big(num)
-    else
-        return num
-    end
-end
-
 --#endregion
 
 --#region Atlases -------------------------------------------------------------------------------------------

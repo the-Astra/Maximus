@@ -17,12 +17,12 @@ SMODS.Consumable {
     },
     cost = 4,
     loc_vars = function(self, info_queue, card)
-        local ceiling = G.GAME.blind and TalisHelper(G.GAME.blind.chips) * 1.25 or 0
+        local ceiling = G.GAME.blind and to_big(G.GAME.blind.chips) * 1.25 or 0
         return { vars = { ceiling } }
     end,
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
-            if TalisHelper(G.GAME.blind.chips) / TalisHelper(G.GAME.chips) >= TalisHelper(0.75) then
+            if to_big(G.GAME.blind.chips) / to_big(G.GAME.chips) >= to_big(0.75) then
                 self:succeed(card)
             else
                 self:fail(card)

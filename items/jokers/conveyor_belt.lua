@@ -32,7 +32,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.before and TalisHelper(stg.chips) > TalisHelper(0) and TalisHelper(stg.mult) > TalisHelper(0) then
+        if context.before and to_big(stg.chips) > to_big(0) and to_big(stg.mult) > to_big(0) then
             SMODS.calculate_effect({ chips = stg.chips }, card)
             SMODS.calculate_effect({ mult = stg.mult }, card)
         end
