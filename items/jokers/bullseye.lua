@@ -46,7 +46,7 @@ SMODS.Joker {
         end
 
         if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and
-            to_big(G.GAME.blind.chips) == to_big(G.GAME.chips) then
+            TalisHelper(G.GAME.blind.chips) == TalisHelper(G.GAME.chips) then
             stg.chips = stg.chips + stg.base_gain * G.GAME.round
             SMODS.calculate_context({scaling_card = true})
             return {

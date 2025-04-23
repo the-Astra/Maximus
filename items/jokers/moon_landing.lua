@@ -22,18 +22,18 @@ SMODS.Joker {
         if context.post_handtype_scoring then
 
             local hand_is_second = false
-            local high_level, second_level, highest, second = to_big(0), to_big(0), {}, {}
+            local high_level, second_level, highest, second = TalisHelper(0), TalisHelper(0), {}, {}
 
             for k, v in pairs(G.GAME.hands) do
-                if v.visible and to_big(v.level) > high_level then
-                    high_level = to_big(v.level)
+                if v.visible and TalisHelper(v.level) > high_level then
+                    high_level = TalisHelper(v.level)
                     highest = { k }
-                elseif v.visible and to_big(v.level) == highest then
+                elseif v.visible and TalisHelper(v.level) == highest then
                     highest[#highest + 1] = k
-                elseif v.visible and to_big(v.level) > second_level and to_big(v.level) < high_level then
-                    second_level = to_big(v.level)
+                elseif v.visible and TalisHelper(v.level) > second_level and TalisHelper(v.level) < high_level then
+                    second_level = TalisHelper(v.level)
                     second = { k }
-                elseif v.visible and to_big(v.level) == second_level then
+                elseif v.visible and TalisHelper(v.level) == second_level then
                     second[#second + 1] = k
                 end
             end
@@ -46,11 +46,11 @@ SMODS.Joker {
 
             if hand_is_second then
                 local best_choice
-                local best_value = to_big(0)
+                local best_value = TalisHelper(0)
 
                 for i = 1, #highest do
-                    if to_big(G.GAME.hands[highest[i]].chips * G.GAME.hands[highest[i]].mult) > best_value then
-                        best_value = to_big(G.GAME.hands[highest[i]].chips * G.GAME.hands[highest[i]].mult)
+                    if TalisHelper(G.GAME.hands[highest[i]].chips * G.GAME.hands[highest[i]].mult) > best_value then
+                        best_value = TalisHelper(G.GAME.hands[highest[i]].chips * G.GAME.hands[highest[i]].mult)
                         best_choice = highest[i]
                     end
                 end

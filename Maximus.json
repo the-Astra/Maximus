@@ -12,7 +12,6 @@
 	"version": "1.0.0",
 	"dependencies": [
 		"Steamodded (>=1.0.0~BETA-0323b)",
-		"Lovely (>=0.7.1)",
-		"Talisman (>=2.1.0~dev)"
+		"Lovely (>=0.7.1)"
 	]
 }

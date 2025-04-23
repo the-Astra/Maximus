@@ -17,8 +17,8 @@ SMODS.Joker {
     rarity = 1,
     config = {
         extra = {
-            chips = to_big(0),
-            mult = to_big(0)
+            chips = 0,
+            mult = 0
         }
     },
     blueprint_compat = true,
@@ -32,7 +32,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.before and stg.chips > to_big(0) and stg.mult > to_big(0) then
+        if context.before and TalisHelper(stg.chips) > TalisHelper(0) and TalisHelper(stg.mult) > TalisHelper(0) then
             SMODS.calculate_effect({ chips = stg.chips }, card)
             SMODS.calculate_effect({ mult = stg.mult }, card)
         end
