@@ -43,7 +43,8 @@ return {
             b_mxms_sixth_finger = {
                 name = 'Sixth Finger Deck',
                 text = {
-                    'Allows {C:attention}6 playing cards{} to be played'
+                    'Allows {C:attention}6 playing cards',
+                    'to be played'
                 }
             },
         },
@@ -160,7 +161,7 @@ return {
                     'play {C:red}no repeat hand types{} to',
                     'receive {C:attention}+#2#{} levels for',
                     'each played hand type',
-                    '{C:inactive}Currently: #3#/#1#' 
+                    '{C:inactive}Currently: #3#/#1#'
                 }
             },
             c_mxms_leo = {
@@ -1595,7 +1596,7 @@ return {
             },
             c_mxms_immortality = {
                 name = "Immortality",
-                text={
+                text = {
                     "Add a {X:black,C:white}Black{} {X:black,C:white}Seal{}",
                     "to {C:attention}1{} selected",
                     "card in your hand",
