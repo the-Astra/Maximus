@@ -36,6 +36,7 @@ SMODS.Joker {
         if context.individual and context.cardarea == G.play and context.other_card.config.center == G.P_CENTERS.m_glass then
             stg.chips = stg.chips + stg.gain * G.GAME.soil_mod
             SMODS.calculate_effect({ message = localize('k_upgrade_ex'), colour = G.C.CHIPS }, card)
+            SMODS.calculate_context({scaling_card = true})
         end
     end
 }

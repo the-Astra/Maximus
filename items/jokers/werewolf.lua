@@ -1,9 +1,9 @@
 SMODS.Joker {
-    key = 'messiah',
-    atlas = 'Jokers',
+    key = 'werewolf',
+    atlas = 'Placeholder',
     pos = {
         x = 0,
-        y = 13
+        y = 0
     },
     rarity = 1,
     config = {
@@ -16,7 +16,7 @@ SMODS.Joker {
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-        info_queue[#info_queue + 1] = G.P_CENTERS['c_sun']
+        info_queue[#info_queue + 1] = G.P_CENTERS['c_moon']
         return {
             vars = { stg.gain, stg.mult }
         }
@@ -24,7 +24,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.using_consumeable and context.consumeable.config.center.key == 'c_sun' and not context.blueprint then
+        if context.using_consumeable and context.consumeable.config.center.key == 'c_moon' and not context.blueprint then
             stg.mult = stg.mult + stg.gain
             SMODS.calculate_effect(
                 { message = localize { type = 'variable', key = 'a_mult', vars = { stg.mult } }, colour = G.C.MULT },

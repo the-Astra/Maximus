@@ -1,0 +1,26 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+    # Prevent reset function calls if stop sign is in hand
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+G.STATE = G.STATES.SHOP
+G.GAME.shop_free = nil
+G.GAME.shop_d6ed = nil
+'''
+position = "at"
+payload = '''
+if not next(SMODS.find_card('j_mxms_severed_floor')) then
+    G.STATE = G.STATES.SHOP
+    G.GAME.shop_free = nil
+    G.GAME.shop_d6ed = nil
+else
+    G.STATE = G.STATES.BLIND_SELECT
+    G.CONTROLLER.locks.toggle_shop = nil
+end
+'''
+match_indent = true

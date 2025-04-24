@@ -24,6 +24,7 @@ if self.ability.set == 'Joker' then
                 if next(soyjokes) then
                     for i = 1, #soyjokes do
                         SMODS.calculate_effect({ message = localize('k_upgrade_ex'), colour = G.C.ATTENTION },soyjokes[i])
+                        SMODS.calculate_context({scaling_card = true})
                     end
                 end
                 return true

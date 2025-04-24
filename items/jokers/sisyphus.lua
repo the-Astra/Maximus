@@ -34,6 +34,7 @@ SMODS.Joker {
                                 func = function()
                                     stg.Xmult = stg.Xmult +
                                         stg.gain
+                                    SMODS.calculate_context({ scaling_card = true })
                                 end
                             }, card)
                     end

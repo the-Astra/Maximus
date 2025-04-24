@@ -282,6 +282,24 @@ return {
                     '{X:chips,C:white}x#1#{} Chips'
                 }
             },
+            j_mxms_bankrupt = {
+                name = 'Bankrupt',
+                text = {
+                    'Gains {C:mult}+#1#{} Mult',
+                    'every time {C:tarot}Wheel',
+                    '{C:tarot}of Fortune{} fails',
+                    '{C:inactive}(Currently: {C:mult}+#2#{C:inactive} Mult)'
+                }
+            },
+            j_mxms_bear = {
+                name = 'Bear',
+                text = {
+                    'Gains {X:mult,C:white}X#1#{} Mult',
+                    'for every {C:money}$1',
+                    'you are in debt',
+                    '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)'
+                }
+            },
             j_mxms_bell_curve = {
                 name = 'Bell Curve',
                 text = {
@@ -338,6 +356,14 @@ return {
                     'by {C:attention}1{} and resets',
                     '{C:chips}Chips{}each round',
                     '{C:inactive}(Currently: {C:chips}+#2# {C:inactive}Chips)'
+                }
+            },
+            j_mxms_brown = {
+                name = 'Brown Joker',
+                text = {
+                    'Gains {X:mult,C:white}X#1#{} Mult every',
+                    'time hand size {C:attention}decreases',
+                    '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)'
                 }
             },
             j_mxms_bullseye = {
@@ -767,6 +793,15 @@ return {
                     'to give {C:money}$#2#'
                 }
             },
+            j_mxms_jestcoin = {
+                name = 'JestCoin',
+                text = {
+                    'Earn {C:money}$#1#{} at end of round,',
+                    'Cash out scales by {X:mult,C:white}^2{} after each round,',
+                    '{C:green}#2# in #3#{} chance of setting money',
+                    'to {C:money}$0{} and resetting cash out'
+                }
+            },
             j_mxms_jobber = {
                 name = 'Jobber',
                 text = {
@@ -1110,6 +1145,13 @@ return {
                     '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)'
                 }
             },
+            j_mxms_severed_floor = {
+                name = 'Severed Floor',
+                text = {
+                    'Earn {C:money}$#1#{} at end of round',
+                    'Shop is {C:attention}skipped{}'
+                }
+            },
             j_mxms_schrodinger = {
                 name = 'Schrodinger\'s Cat',
                 text = {
@@ -1228,6 +1270,15 @@ return {
                     '{C:inactive}(Currently: {C:chips}+#3# {C:inactive}Chips, {C:mult}+#4# {C:inactive}Mult)'
                 }
             },
+            j_mxms_teddy_bear = {
+                name = 'Teddy Bear',
+                text = {
+                    'On {C:attention}final hand{} of round',
+                    'create a {C:planet}Planet{} card',
+                    'of the played hand',
+                    "{s:0.8,C:inactive}(Must have room)"
+                }
+            },
             j_mxms_tofu = {
                 name = 'Tofu',
                 text = {
@@ -1283,6 +1334,15 @@ return {
                 text = {
                     'Means of {C:red}destroying{} cards',
                     'have their limits {C:attention}doubled'
+                }
+            },
+            
+            j_mxms_werewolf = {
+                name = 'Werewolf',
+                text = {
+                    'Gains {C:mult}+#1#{} Mult every',
+                    'time {C:tarot}The Moon{} is used',
+                    '{C:inactive}(Currently: {C:mult}+#2#{C:inactive} Mult)'
                 }
             },
             j_mxms_whos_on_first = {
@@ -1633,6 +1693,7 @@ return {
         dictionary = {
             k_mxms_a_side_ex = "A-Side!",
             k_mxms_b_side_ex = "B-Side!",
+            k_mxms_crashed_ex = "Crashed!",
             k_mxms_crowned = "Crowned",
             k_mxms_crumbled = "Crumbled",
             k_mxms_deserved_ex = "Deserved!",

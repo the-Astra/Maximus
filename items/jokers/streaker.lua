@@ -56,11 +56,11 @@ SMODS.Joker {
                 stg.streak = stg.streak + 1
                 stg.chips = stg.chip_gain * stg.streak * G.GAME.soil_mod
                 stg.mult = stg.mult_gain * stg.streak * G.GAME.soil_mod
-                SMODS.calculate_context({ scaling_card = true })
                 return {
                     message = 'Streak ' .. stg.streak,
                     colour = G.C.CHIPS,
-                    card = card
+                    card = card,
+                    func = function() SMODS.calculate_context({scaling_card = true}) end
                 }
             else
                 stg.hands = 0

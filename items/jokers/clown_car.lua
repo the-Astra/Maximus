@@ -30,11 +30,11 @@ SMODS.Joker {
 
         if context.card_added and context.card.ability.set == 'Joker' then
             stg.mult = stg.mult + (stg.gain * G.GAME.soil_mod)
-            SMODS.calculate_context({scaling_card = true})
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.ATTENTION,
-                card = card
+                card = card,
+                func = function() SMODS.calculate_context({ scaling_card = true }) end
             }
         end
     end

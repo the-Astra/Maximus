@@ -60,13 +60,13 @@ SMODS.Joker {
                     delay = 0.3,
                     func = function()
                         stg.Xmult = stg.Xmult + glass * stg.gain
-                        SMODS.calculate_context({scaling_card = true})
                     end
                 }))
                 return {
                     card = card,
                     message = localize('k_mxms_eureka_ex'),
-                    colour = G.C.MULT
+                    colour = G.C.MULT,
+                    func = function() SMODS.calculate_context({ scaling_card = true }) end
                 }
             end
         end

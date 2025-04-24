@@ -42,7 +42,8 @@ SMODS.Joker {
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.CHIPS,
-                card = card
+                card = card,
+                func = function() SMODS.calculate_context({scaling_card = true}) end
             }
         end
         

@@ -36,12 +36,12 @@ SMODS.Joker {
             else
                 stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
                 stg.unscoring_cards = 0
-                SMODS.calculate_context({scaling_card = true})
                 return {
                     delay = 0.4,
                     message = localize('k_mxms_tribute_ex'),
                     colour = G.C.CHIPS,
-                    card = card
+                    card = card,
+                    func = function() SMODS.calculate_context({ scaling_card = true }) end
                 }
             end
         end

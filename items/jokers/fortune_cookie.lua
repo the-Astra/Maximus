@@ -63,7 +63,7 @@ SMODS.Joker {
 
                     -- Failed Roll
                 else
-                    SMODS.calculate_context({failed_prob = true, odds = stg.odds - stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal})
+                    SMODS.calculate_context({failed_prob = true, odds = stg.odds - stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal, card = card})
 
                     return {
                         sound = 'tarot2',
