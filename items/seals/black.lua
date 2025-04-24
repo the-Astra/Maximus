@@ -84,7 +84,7 @@ Card.start_dissolve = function(self, dissolve_colours, silent, dissolve_time_fac
     if self.seal == 'mxms_Black' and (G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED and G.STATE ~= G.STATES.SHOP and not G.SETTINGS.paused or G.TAROT_INTERRUPT) then
         SMODS.calculate_effect({ message = localize('k_mxms_destroy_block_ex'), colour = G.C.RED }, self)
         if self.ability.set == 'Default' or self.ability.set == 'Enhanced' then
-            if G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK then
+            if G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
                 draw_card(self.area, G.deck, nil, 'down', false, self)
             else
                 draw_card(self.area, G.discard, nil, 'down', false, self)
@@ -109,7 +109,7 @@ Card.shatter = function(self)
     if self.seal == 'mxms_Black' and (G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED and G.STATE ~= G.STATES.SHOP and not G.SETTINGS.paused or G.TAROT_INTERRUPT) then
         SMODS.calculate_effect({ message = localize('k_mxms_destroy_block_ex'), colour = G.C.RED }, self)
         if self.ability.set == 'Default' or self.ability.set == 'Enhanced' then
-            if G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK then
+            if G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
                 draw_card(self.area, G.deck, nil, 'down', false, self)
             else
                 draw_card(self.area, G.discard, nil, 'down', false, self)
