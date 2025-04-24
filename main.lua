@@ -1146,6 +1146,7 @@ local ENABLED_CONSUMABLES = {
 
     -- Spectrals
     'doppelganger',
+    'immortality'
 }
 
 sendDebugMessage("Loading Consumables...", 'Maximus')

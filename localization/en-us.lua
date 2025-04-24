@@ -1593,6 +1593,14 @@ return {
                     "each remaining Joker",
                 },
             },
+            c_mxms_immortality = {
+                name = "Immortality",
+                text={
+                    "Add a {X:black,C:white}Black{} {X:black,C:white}Seal{}",
+                    "to {C:attention}1{} selected",
+                    "card in your hand",
+                },
+            },
             c_incantation = {
                 name = "Incantation",
                 text = {
