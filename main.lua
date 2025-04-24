@@ -101,6 +101,28 @@ Maximus.config_tab = function()
                 }
             },
 
+            -- New Handtypes Toggle
+            {
+                n = G.UIT.R,
+                config = { align = "cl", padding = 0 },
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { align = "cl", padding = 0.05 },
+                        nodes = {
+                            create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "new_handtypes" },
+                        }
+                    },
+                    {
+                        n = G.UIT.C,
+                        config = { align = "c", padding = 0 },
+                        nodes = {
+                            { n = G.UIT.T, config = { text = "Enable New Handtypes", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                        }
+                    },
+                }
+            },
+
             {
                 n = G.UIT.R,
                 config = { align = "cm", padding = 0.5 },
@@ -1050,55 +1072,59 @@ sendDebugMessage("", 'Maximus')
 
 --#region Hand Parts ----------------------------------------------------------------------------------------
 
-local ENABLED_HAND_PARTS = {
-    '_6',
-    's_flush',
-    's_straight'
-}
+if Maximus_config.new_handtypes then
+    local ENABLED_HAND_PARTS = {
+        '_6',
+        's_flush',
+        's_straight'
+    }
 
-sendDebugMessage("Loading Hand Parts...", 'Maximus')
-for i = 1, #ENABLED_HAND_PARTS do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/handtypes/parts/' .. ENABLED_HAND_PARTS[i] .. '.lua')()
-    end)
-    sendDebugMessage("Loaded hand part: " .. ENABLED_HAND_PARTS[i], 'Maximus')
+    sendDebugMessage("Loading Hand Parts...", 'Maximus')
+    for i = 1, #ENABLED_HAND_PARTS do
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/handtypes/parts/' .. ENABLED_HAND_PARTS[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded hand part: " .. ENABLED_HAND_PARTS[i], 'Maximus')
 
-    if not status then
-        error(ENABLED_HAND_PARTS[i] .. ": " .. err)
+        if not status then
+            error(ENABLED_HAND_PARTS[i] .. ": " .. err)
+        end
     end
+    sendDebugMessage("", 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 
 --#endregion
 
 --#region Hand Types ----------------------------------------------------------------------------------------
 
-local ENABLED_HANDS = {
-    'three_pair',
-    'double_triple',
-    '6oak',
-    's_straight',
-    's_flush',
-    'house_party',
-    'f_three_pair',
-    'f_double_triple',
-    's_straight_f',
-    'f_party',
-    'f_6oak',
-}
+if Maximus_config.new_handtypes then
+    local ENABLED_HANDS = {
+        'three_pair',
+        'double_triple',
+        '6oak',
+        's_straight',
+        's_flush',
+        'house_party',
+        'f_three_pair',
+        'f_double_triple',
+        's_straight_f',
+        'f_party',
+        'f_6oak',
+    }
 
-sendDebugMessage("Loading Hand Types...", 'Maximus')
-for i = 1, #ENABLED_HANDS do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/handtypes/' .. ENABLED_HANDS[i] .. '.lua')()
-    end)
-    sendDebugMessage("Loaded hand type: " .. ENABLED_HANDS[i], 'Maximus')
+    sendDebugMessage("Loading Hand Types...", 'Maximus')
+    for i = 1, #ENABLED_HANDS do
+        local status, err = pcall(function()
+            return NFS.load(SMODS.current_mod.path .. 'items/handtypes/' .. ENABLED_HANDS[i] .. '.lua')()
+        end)
+        sendDebugMessage("Loaded hand type: " .. ENABLED_HANDS[i], 'Maximus')
 
-    if not status then
-        error(ENABLED_HANDS[i] .. ": " .. err)
+        if not status then
+            error(ENABLED_HANDS[i] .. ": " .. err)
+        end
     end
+    sendDebugMessage("", 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 
 --#endregion
 
