@@ -1,13 +1,5 @@
 SMODS.Voucher {
     key = 'guardian',
-    loc_txt = {
-        name = 'Guardian',
-        text = { 
-            '{C:spectral}Spectral{} cards that', 
-            'destroy Jokers', 
-            'no longer do so' 
-        }
-    },
     atlas = 'Vouchers',
     pos = {
         x = 2,

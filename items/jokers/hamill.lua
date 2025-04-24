@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'hamill',
-    loc_txt = {
-        name = 'Hamill',
-        text = {
-            '{C:attention}+#1#{} level for your',
-            '{C:attention}most played hand',
-            'every time it is played',
-            '{C:inactive}(Currently: {C:red}#2#{C:inactive})'
-        }
-    },
     atlas = 'Placeholder',
     pos = {
         x = 3,

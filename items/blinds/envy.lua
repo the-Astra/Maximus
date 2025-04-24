@@ -1,12 +1,5 @@
 SMODS.Blind {
     key = 'envy',
-    loc_txt = {
-        name = 'The Envy',
-        text = {
-            '{C:money}-$1{} for every',
-            'Joker trigger'
-        }
-    },
     boss = {
         min = 5,
         max = 10

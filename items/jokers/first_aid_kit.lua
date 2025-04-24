@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'first_aid_kit',
-    loc_txt = {
-        name = 'First Aid Kit',
-        text = { 
-            'Sell this card for', 
-            '{C:blue}+#1#{} hands and {C:red}+#2#{} discards', 
-            'for the {C:attention}current round' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,

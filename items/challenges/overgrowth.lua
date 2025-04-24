@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'overgrowth',
-    loc_txt = {
-        name = 'Overgrowth'
-    },
     rules = {
         custom = {
             { id = 'mxms_X_blind_scale', value = 8 }

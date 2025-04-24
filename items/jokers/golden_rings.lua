@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'golden_rings',
-    loc_txt = {
-        name = 'Five Golden Rings',
-        text = { 
-            'A hand made entirely', 
-            'of {C:attention}enhanced cards{}', 
-            'counts as a {C:attention}Flush{}' 
-        }
-    },
     atlas = 'Placeholder',
     pos = {
         x = 0,

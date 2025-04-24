@@ -1,15 +1,6 @@
 SMODS.Consumable {
     key = 'pisces',
     set = 'Horoscope',
-    loc_txt = {
-        name = 'Pisces',
-        text = { 
-            'Use {C:attention}#1#{} {C:tarot}Tarot{} cards within', 
-            'the ante to receive', 
-            'a random {C:spectral}Spectral{} Card', 
-            '{C:inactive}Currently: #2#/#1#' 
-        }
-    },
     atlas = 'Consumables',
     pos = {
         x = 0,
@@ -67,7 +58,7 @@ SMODS.Consumable {
     succeed = function(self, card)
         if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-            SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
+            SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1' }, card)
             G.E_MANAGER:add_event(Event({
                 trigger = 'before',
                 func = function()
@@ -94,7 +85,7 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_falied_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',

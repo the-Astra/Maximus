@@ -1,15 +1,5 @@
 SMODS.Joker {
     key = 'little_brother',
-    loc_txt = {
-        name = 'Little Brother',
-        text = {
-            'Copies ability of {C:attention}Joker{} to the left',
-            'up to {C:attention}#1#{} time(s) per hand',
-            'Times copied {C:attention}raises by 1{} for',
-            'every hand played in a row that',
-            'copies {C:attention}the same Joker{}'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 7,

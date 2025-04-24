@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'salt_circle',
-    loc_txt = {
-        name = 'Salt Circle',
-        text = { 
-            'Gains {C:chips}+#2#{} Chips for', 
-            'for every {C:spectral}Spectral{} card used',
-            '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 4,
@@ -31,10 +23,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.spectral > 0 then
             return {
-                chip_mod = G.GAME.consumeable_usage_total.spectral * stg.gain,
-                message = '+' .. G.GAME.consumeable_usage_total.spectral * stg.gain,
-                colour = G.C.MULT,
-                card = card
+                chips = G.GAME.consumeable_usage_total.spectral * stg.gain
             }
         end
 

@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'group_chat',
-    loc_txt = {
-        name = 'Group Chat',
-        text = {
-            'Gains {C:chips}+#2#{} Chips',
-            'whenever another', 
-            'Joker scales',
-            '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 4,
@@ -33,10 +24,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.chips > 0 then
             return {
-                chip_mod = stg.chips,
-                message = '+' .. stg.chips,
-                colour = G.C.CHIPS,
-                card = card
+                chips = stg.chips
             }
         end
 

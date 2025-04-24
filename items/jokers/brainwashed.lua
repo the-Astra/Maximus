@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'brainwashed',
-    loc_txt = {
-        name = 'Brainwashed',
-        text = {
-            'If played hand contains a {C:attention}Flush{},',
-            '{C:green}#1# in #2#{} chance to convert',
-            'a {C:green}random {C:attention}card held in hand{} to',
-            'flush\'s suit after scoring'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 1,

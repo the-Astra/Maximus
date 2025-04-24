@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'fools_gold',
-    loc_txt = {
-        name = 'Fool\'s Gold',
-        text = {
-            "Earn {C:money}$#1#{} for every {C:attention}2",
-            "{C:money}Gold{} Cards in your {C:attention}full deck",
-            "at end of round",
-            "{C:inactive}(Currently {C:money}$#2#{}{C:inactive})"
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 4,

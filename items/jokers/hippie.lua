@@ -1,15 +1,6 @@
 if Maximus_config.horoscopes then
     SMODS.Joker {
         key = 'hippie',
-        loc_txt = {
-            name = 'Hippie',
-            text = {
-                'Gains {X:mult,C:white}X#2#{} Mult',
-                'after a {C:horoscope}Horoscope',
-                'card is fulfilled',
-                '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'
-            }
-        },
         atlas = 'Jokers',
         pos = {
             x = 8,
@@ -43,10 +34,7 @@ if Maximus_config.horoscopes then
 
             if context.joker_main and stg.Xmult > 1 then
                 return {
-                    Xmult_mod = stg.Xmult,
-                    message = 'x' .. stg.Xmult,
-                    colour = G.C.MULT,
-                    card = card
+                    x_mult = stg.Xmult
                 }
             end
         end

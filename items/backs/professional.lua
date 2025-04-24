@@ -1,12 +1,5 @@
 SMODS.Back {
     key = 'professional',
-    loc_txt = {
-        name = 'Professional Deck',
-        text = {
-            'Skipping blinds is {C:red}disabled',
-            '{C:red}X1.25{} base Blind size'
-        }
-    },
     atlas = 'Backs',
     pos = {
         x = 3,

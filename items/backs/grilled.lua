@@ -1,12 +1,5 @@
 SMODS.Back {
     key = 'grilled',
-    loc_txt = {
-        name = 'Grilled Deck',
-        text = { 
-            '{C:attention}Even{} rank cards give', 
-            '{C:mult}Mult{} instead of {C:chips}Chips' 
-        }
-    },
     atlas = 'Backs',
     pos = {
         x = 4,

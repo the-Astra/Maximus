@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'pizza',
-    loc_txt = {
-        name = 'Pizza',
-        text = {
-            'Adds a {C:green}random{} seal to',
-            'every {C:attention}scoring{} card',
-            'Gets eaten after {C:attention}#1#{} cards'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,

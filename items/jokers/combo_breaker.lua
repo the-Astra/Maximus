@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'combo_breaker',
-    loc_txt = {
-        name = 'Combo Breaker',
-        text = { 
-            'Gains {X:mult,C:white}X#1#{} Mult', 
-            'per retrigger',
-            '{s:0.8,C:inactive}Starts at {s:0.8,X:mult,C:white}X1{s:0.8,C:inactive} Mult', 
-            '{s:0.8,C:inactive}Resets every hand' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
@@ -43,10 +34,7 @@ SMODS.Joker {
         if context.joker_main and stg.retriggers > 0 then
             return {
                 sound = 'mxms_perfect',
-                Xmult_mod = stg.retriggers * stg.gain + 1,
-                message = 'X' .. stg.retriggers * stg.gain + 1,
-                colour = G.C.MULT,
-                card = card
+                x_mult = stg.retriggers * stg.gain + 1
             }
         end
 

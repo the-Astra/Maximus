@@ -14,12 +14,6 @@ SMODS.PokerHand {
         { 'D_K', true }
 
     },
-    loc_txt = {
-        name = 'Six of a Kind',
-        description = {
-            "6 cards with the same rank"
-        }
-    },
     visible = false,
     evaluate = function(parts, hand)
         return next(parts.mxms_6) and parts.mxms_6 or {}

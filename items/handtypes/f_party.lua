@@ -14,13 +14,6 @@ SMODS.PokerHand {
         { 'S_T', true }
 
     },
-    loc_txt = {
-        name = 'Flush Party',
-        description = {
-            "A 4 of a kind and a Pair with",
-            "all cards sharing the same suit"
-        }
-    },
     visible = false,
     evaluate = function(parts, hand)
         if #parts._4 < 1 or #parts._2 < 2 then return {} end

@@ -1,15 +1,5 @@
 SMODS.Voucher {
     key = 'best_dressed',
-    loc_txt = {
-        name = 'Best Dressed',
-        text = { 
-            'Suit-Changing {C:tarot}Tarot{} cards in', 
-            'your {C:attention}consumable{} area give', 
-            '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 
-            'for each {C:attention}played card{}', 
-            'matching its suit' 
-        }
-    },
     atlas = 'Vouchers',
     pos = {
         x = 1,

@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'moon_landing',
-    loc_txt = {
-        name = 'Moon Landing',
-        text = {
-            'The {C:attention}second highest level{} hand',
-            'type gives {C:chips}Chips{} and {C:mult}Mult{} equal to',
-            'the {C:attention}highest level{} hand type'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
@@ -61,7 +53,7 @@ SMODS.Joker {
                 )
 
                 return {
-                    message = 'One Small Step',
+                    message = localize('k_mxms_step_el'),
                     colour = G.C.ATTENTION,
                     card = card,
                     func = function()

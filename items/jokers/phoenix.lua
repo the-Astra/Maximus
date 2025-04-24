@@ -1,15 +1,5 @@
 SMODS.Joker {
     key = 'phoenix',
-    loc_txt = {
-        name = 'Phoenix',
-        text = {
-            'After scoring, all scored',
-            '{C:attention}Face{} cards are {C:red}destroyed{}',
-            'If any face cards are,',
-            '{C:red}destroyed{}, give a {C:attention}Red Seal',
-            'to all other scoring cards'
-        }
-    },
     atlas = 'Placeholder',
     pos = {
         x = 3,
@@ -57,7 +47,7 @@ SMODS.Joker {
                     end
                 end
                 return {
-                    message = 'Deserved!',
+                    message = localize('k_mxms_deserved_ex'),
                     colour = G.C.RED
                 }
             end

@@ -1,16 +1,5 @@
 SMODS.Joker {
     key = 'comedian',
-    loc_txt = {
-        name = 'Comedian',
-        text = { 
-            'Gains {X:mult,C:white}X#2#{} Mult', 
-            'after every round', 
-            '{C:green}#3# in #4# chance{} this', 
-            'card is destroyed at', 
-            'end of round', 
-            '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 1,
@@ -49,7 +38,8 @@ SMODS.Joker {
                             func = function()
                                 G.jokers:remove_card(card)
                                 card:remove()
-                                SMODS.calculate_context({failed_prob = true, odds = stg.odds - G.GAME.probabilities.normal})
+                                SMODS.calculate_context({ failed_prob = true, odds = stg.odds -
+                                G.GAME.probabilities.normal })
                                 card = nil
                                 return true;
                             end
@@ -64,19 +54,19 @@ SMODS.Joker {
                 stg.Xmult = stg.Xmult + stg.gain
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        SMODS.calculate_effect({message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } }, colour = G.C.MULT}, card)
+                        SMODS.calculate_effect(
+                        { message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } }, colour = G.C
+                        .MULT }, card)
                         return true
                     end
                 }))
-                SMODS.calculate_context({scaling_card = true})
+                SMODS.calculate_context({ scaling_card = true })
             end
         end
 
         if context.joker_main and stg.Xmult > 1 then
             return {
-                Xmult_mod = stg.Xmult,
-                message = 'x' .. stg.Xmult,
-                colour = G.C.MULT
+                x_mult = stg.Xmult
             }
         end
     end,
@@ -84,3 +74,10 @@ SMODS.Joker {
         return G.GAME.pool_flags.cavendish_removed
     end
 }
+
+SMODS.Joker:take_ownership('j_cavendish', {
+        remove_from_deck = function(self, args)
+            G.GAME.pool_flags.cavendish_removed = true
+        end
+    },
+    true)

@@ -1,12 +1,5 @@
 SMODS.Joker {
     key = 'war',
-    loc_txt = {
-        name = 'War',
-        text = { 
-            'Means of {C:red}destroying{} cards', 
-            'have their limits {C:attention}doubled' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,

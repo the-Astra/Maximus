@@ -1,15 +1,5 @@
 SMODS.Joker {
     key = 'poindexter',
-    loc_txt = {
-        name = "Poindexter",
-        text = { 
-            'Gains {X:mult,C:white}X#2#{} Mult for every', 
-            'scoring {C:attention}Glass Card{} that',
-            'remains intact', 
-            '{s:0.8,C:inactive}Resets on Glass Card break', 
-            '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'  
-        }
-    },
     atlas = 'Jokers',
     rarity = 2,
     pos = {
@@ -36,10 +26,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.Xmult > 1 then
             return {
-                card = card,
-                Xmult_mod = stg.Xmult,
-                message = 'X' .. stg.Xmult,
-                colour = G.C.MULT
+                x_mult = stg.Xmult
             }
         end
 
@@ -50,7 +37,7 @@ SMODS.Joker {
                     if SMODS.has_enhancement(v, 'm_glass') and not v.debuff then
                         stg.Xmult = 1
                         stg.shattered = true
-                        SMODS.calculate_effect({ message = 'Errrrmmm...', colour =  G.C.RED},card)
+                        SMODS.calculate_effect({ message = localize('k_mxms_erm_el'), colour =  G.C.RED},card)
                         break
                     end
                 end
@@ -78,7 +65,7 @@ SMODS.Joker {
                 }))
                 return {
                     card = card,
-                    message = 'Eureka!',
+                    message = localize('k_mxms_eureka_ex'),
                     colour = G.C.MULT
                 }
             end

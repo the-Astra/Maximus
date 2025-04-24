@@ -1,13 +1,6 @@
 if Maximus_config.horoscopes then
     SMODS.Joker {
         key = 'letter',
-        loc_txt = {
-            name = 'Letter of Recommendation',
-            text = {
-                'Creates a random {C:horoscope}Horoscope{}',
-                'card after one {C:attention}succeeds{}'
-            }
-        },
         atlas = 'Jokers',
         pos = {
             x = 1,
@@ -31,7 +24,7 @@ if Maximus_config.horoscopes then
                         return true;
                     end
                 }))
-                SMODS.calculate_effect({ message = '+ Horoscope', colour = G.C.HOROSCOPE },
+                SMODS.calculate_effect({ message = localize('k_mxms_plus_horoscope'), colour = G.C.HOROSCOPE },
                     context.blueprint_card or card)
             end
         end

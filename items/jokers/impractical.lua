@@ -1,16 +1,5 @@
 SMODS.Joker {
     key = 'impractical_joker',
-    loc_txt = {
-        name = 'Impractical Joker',
-        text = { 
-            'If a {C:attention}#4#{} is played,', 
-            '{X:mult,C:white}X#2#{} Mult. If three hands in a',
-            'row are not this hand', 
-            'type, {X:mult,C:white}X#3#{} Mult', 
-            '{s:0.8,C:inactive}Hand rotates every round',
-            '{C:inactive}(Fail streak: #1#)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
@@ -42,10 +31,7 @@ SMODS.Joker {
                 end
 
                 return {
-                    message = 'X' .. stg.Xmult,
-                    Xmult_mod = stg.Xmult,
-                    colour = G.C.MULT,
-                    card = card
+                    x_mult = stg.Xmult,
                 }
 
                 -- If incorrect hand is played
@@ -57,7 +43,7 @@ SMODS.Joker {
                 -- If below 3 fails
                 if stg.fails < 3 then
                     return {
-                        message = 'Fail ' .. stg.fails,
+                        message = localize('k_mxms_fail') .. ' ' .. stg.fails,
                         colour = G.C.RED,
                         card = card
                     }

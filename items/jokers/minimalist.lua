@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'minimalist',
-    loc_txt = {
-        name = 'Minimalist',
-        text = { 
-            '{C:chips}+#1#{} Chips, {C:chips}-#3#{} for', 
-            'every {C:attention}enhanced card{}', 
-            'in full deck', 
-            '{C:inactive}(Currently: {C:chips}+#2# {C:inactive}Chips)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
@@ -34,10 +25,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.chips > 0 then
             return {
-                chip_mod = stg.chips,
-                message = '+' .. stg.chips,
-                colour = G.C.CHIPS,
-                card = card
+                chips = stg.chips
             }
         end
     end,

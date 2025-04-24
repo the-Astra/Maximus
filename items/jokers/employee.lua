@@ -1,14 +1,6 @@
 if Maximus_config.horoscopes then
     SMODS.Joker {
         key = 'employee',
-        loc_txt = {
-            name = 'Employee',
-            text = { 
-                '{C:money}$#1#{} at end of round', 
-                'for every held',
-                '{C:horoscope}Horoscope{} card' 
-            }
-        },
         atlas = 'Jokers',
         pos = {
             x = 2,

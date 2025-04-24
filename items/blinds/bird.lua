@@ -1,12 +1,5 @@
 SMODS.Blind {
     key = 'bird',
-    loc_txt = {
-        name = 'The Bird',
-        text = {
-            'Hands are -2',
-            'levels weaker'
-        }
-    },
     boss = {
         min = 4,
         max = 10

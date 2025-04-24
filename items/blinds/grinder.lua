@@ -1,12 +1,5 @@
 SMODS.Blind { --The Grinder
     key = 'grinder',
-    loc_txt = {
-        name = 'The Grinder',
-        text = { 
-            'Enhancements, Seals, and Editions of', 
-            'scored cards are removed after scoring' 
-        }
-    },
     boss = {
         min = 3,
         max = 10

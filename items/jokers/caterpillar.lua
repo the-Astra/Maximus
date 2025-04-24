@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'caterpillar',
-    loc_txt = {
-        name = 'Caterpillar',
-        text = { 
-            'After using {C:attention}#2# {C:tarot}Tarot{} Cards,', 
-            'sell this Joker to create a', 
-            '{C:attention}Chrysalis', 
-            '{C:inactive}(Currently: #1#/#2#)' 
-        }
-    },
     atlas = 'Placeholder',
     pos = {
         x = 0,

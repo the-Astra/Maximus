@@ -1,15 +1,6 @@
 SMODS.Consumable {
     key = 'taurus',
     set = 'Horoscope',
-    loc_txt = {
-        name = 'Taurus',
-        text = { 
-            'Play the same {C:attention}hand type{}', 
-            '#1# times in a row to receive', 
-            '{C:attention}+#2#{} levels for that hand type', 
-            '{C:inactive}Currently: #3#/#1#' 
-        }
-    },
     atlas = 'Consumables',
     pos = {
         x = 1,
@@ -72,7 +63,7 @@ SMODS.Consumable {
     end,
     succeed = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1' }, card)
         level_up_hand(card, stg.hand_type, false, stg.upgrade)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
@@ -86,7 +77,7 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_falied_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',

@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'spam',
-    loc_txt = {
-        name = 'Spam',
-        text = {
-            'Hand size is set to {C:attention}1{},',
-            'Gain {C:blue}hands{} equal to amount',
-            'of hand size lost'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 7,

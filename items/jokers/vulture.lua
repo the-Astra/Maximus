@@ -1,15 +1,6 @@
 ---@diagnostic disable: need-check-nil
 SMODS.Joker {
     key = 'vulture',
-    loc_txt = {
-        name = 'Vulture',
-        text = { 
-            'If a {C:red}destroyed card',
-            'has a seal,', 
-            'apply the seal to', 
-            'a {C:green}random {C:attention}held Joker' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
@@ -50,7 +41,7 @@ SMODS.Joker {
                                     end
                                 }))
                                 SMODS.calculate_effect(
-                                    { message = 'Plucked!', colour = G.C.ATTENTION, }, card)
+                                    { message = localize('k_mxms_plucked_ex'), colour = G.C.ATTENTION, }, card)
                             end
                             return true;
                         end

@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'ledger',
-    loc_txt = {
-        name = 'Ledger',
-        text = { 
-            'At the end of every',
-            'ante, {C:attention}one random Joker',
-            'becomes {C:dark_edition}Negative{}' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
@@ -34,7 +26,7 @@ SMODS.Joker {
             if next(eligible_jokers) == nil then
                 return {
                     extra = {
-                        message = 'No target...',
+                        message = localize('k_mxms_no_target_el'),
                         colour = G.C.PURPLE
                     },
                     card = card
@@ -53,7 +45,7 @@ SMODS.Joker {
                     }, true)
                     return {
                         extra = {
-                            message = 'Why so serious?',
+                            message = localize('k_mxms_serious_q'),
                             colour = G.C.PURPLE
                         },
                         card = card

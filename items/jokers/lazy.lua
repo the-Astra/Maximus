@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'lazy',
-    loc_txt = {
-        name = 'Lazy Joker',
-        text = { 
-            '{C:chips}+#1#{} Chips if played', 
-            'hand is', 
-            'a {C:attention}#2#' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,
@@ -30,10 +22,7 @@ SMODS.Joker {
         local stg = card.ability
         if context.joker_main and context.scoring_name == 'High Card' then
             return {
-                chip_mod = stg.chips,
-                message = '+' .. stg.chips,
-                colour = G.C.CHIPS,
-                card = card
+                chips = stg.chips
             }
         end
     end

@@ -1,12 +1,5 @@
 SMODS.Joker {
     key = 'gravity',
-    loc_txt = {
-        name = 'Gravity',
-        text = { 
-            '{C:attention}+#1#{} levels to {C:attention}all Poker hands', 
-            '{C:red}-1{} level every round' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 8,
@@ -78,7 +71,7 @@ SMODS.Joker {
                 func = function()
                     if stg.rounds == 0 then
                         card:start_dissolve({ G.C.RED }, nil, 1.6)
-                        SMODS.calculate_effect({ message = "Splat!", colour = G.C.RED }, card)
+                        SMODS.calculate_effect({ message = localize('k_mxms_splat_ex'), colour = G.C.RED }, card)
                     end
                     return true
                 end

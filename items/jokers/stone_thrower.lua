@@ -1,15 +1,5 @@
 SMODS.Joker {
     key = 'stone_thrower',
-    loc_txt = {
-        name = 'Stone Thrower',
-        text = { 
-            'Gains {C:chips}+#2#{} Chips for every', 
-            'scored {C:attention}glass card{}', 
-            'Glass cards are',
-            '{C:attention}guaranteed{} to break', 
-            '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 1,

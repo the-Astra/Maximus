@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'kings_rook',
-    loc_txt = {
-        name = 'King\'s Rook',
-        text = {
-            'The first scoring {C:attention}King{} or {C:attention}5{}',
-            'in a hand gives {X:mult,C:white}X#1#{} Mult',
-            'Mult increases to {X:mult,C:white}X#2#{} if',
-            '{C:attention}both{} ranks are scoring'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 7,

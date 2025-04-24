@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'crowned',
-    loc_txt = {
-        name = 'Crowned Joker',
-        text = { 
-            '{X:mult,C:white}X#1#{} Mult' 
-        },
-        unlock = { 
-            'Trigger a {C:attention}Coronation{}' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,
@@ -33,10 +24,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main then
             return {
-                Xmult_mod = stg.Xmult,
-                message = 'X' .. stg.Xmult,
-                colour = G.C.MULT,
-                card = card
+                x_mult = stg.Xmult
             }
         end
     end,

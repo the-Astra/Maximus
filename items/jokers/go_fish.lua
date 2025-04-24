@@ -1,15 +1,5 @@
 SMODS.Joker {
     key = 'go_fish',
-    loc_txt = {
-        name = 'Go Fish',
-        text = { 
-            '{C:mult}+2{} Mult for each {C:attention}#1#{}', 
-            'in full deck',
-            'at start of round',
-            '{s:0.8,C:inactive}Rank changes every round', 
-            '{C:inactive}(Currently: {C:mult}+#2# {C:inactive}Mult)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 8,
@@ -27,10 +17,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         if context.joker_main then
             return {
-                mult_mod = G.GAME.current_round.go_fish.mult,
-                message = '+' .. G.GAME.current_round.go_fish.mult,
-                colour = G.C.MULT,
-                card = card
+                mult = G.GAME.current_round.go_fish.mult
             }
         end
     end

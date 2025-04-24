@@ -1,9 +1,6 @@
 if Maximus_config.horoscopes then
     SMODS.Challenge { -- Zodiac Killer
         key = 'killer',
-        loc_txt = {
-            name = 'Zodiac Killer'
-        },
         rules = {
             custom = {
                 { id = 'mxms_zodiac_killer' }

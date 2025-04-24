@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'obelisk',
-    loc_txt = {
-        name = 'Obelisk the Tormentor',
-        text = { 
-            'Gains {X:mult,C:white}X#1#{} Mult for every',
-            '{C:attention}#3#{} played and unscored cards',
-            '{s:0.8,C:inactive}Mult resets at end of round{}',
-            '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
@@ -48,7 +39,7 @@ SMODS.Joker {
                 SMODS.calculate_context({scaling_card = true})
                 return {
                     delay = 0.4,
-                    message = localize('Tribute!'),
+                    message = localize('k_mxms_tribute_ex'),
                     colour = G.C.CHIPS,
                     card = card
                 }
@@ -57,10 +48,7 @@ SMODS.Joker {
 
         if context.joker_main and stg.Xmult > 1 then
             return {
-                Xmult_mod = stg.Xmult,
-                message = 'X' .. stg.Xmult,
-                colour = G.C.MULT,
-                card = card
+                x_mult = stg.Xmult
             }
         end
 

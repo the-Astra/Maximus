@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'tofu',
-    loc_txt = {
-        name = 'Tofu',
-        text = {
-            'Copies ability of',
-            '{C:attention}Joker{} to the right',
-            'for the next {C:attention}#1#{} hands'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 8,
@@ -94,7 +86,7 @@ SMODS.Joker {
 
         if context.after then
             stg.triggers_left = stg.triggers_left - (1 / G.GAME.fridge_mod)
-            SMODS.calculate_effect({ message = stg.triggers_left .. ' left...', colour = G.C.RED }, card)
+            SMODS.calculate_effect({ message = stg.triggers_left .. ' ' .. localize('k_mxms_left_el'), colour = G.C.RED }, card)
             if stg.triggers_left <= 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()

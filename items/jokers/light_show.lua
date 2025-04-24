@@ -1,12 +1,5 @@
 SMODS.Joker {
     key = 'light_show',
-    loc_txt = {
-        name = 'Light Show',
-        text = { 
-            'Retriggers all {C:mult}Mult{}', 
-            'and {C:chips}Bonus{} cards' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,

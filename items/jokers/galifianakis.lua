@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'galifianakis',
-    loc_txt = {
-        name = 'Galifianakis',
-        text = { 
-            'The {C:attention}last scoring card', 
-            'in a played hand', 
-            'becomes {C:dark_edition}Negative{}' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 1,

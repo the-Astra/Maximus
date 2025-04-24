@@ -1,12 +1,5 @@
 SMODS.Joker {
     key = 'coupon',
-    loc_txt = {
-        name = 'Coupon',
-        text = {
-            '{C:green}#1# in #2#{} chance for shop',
-            'Jokers to be {C:attention}free'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 1,

@@ -1,12 +1,5 @@
 SMODS.Joker {
     key = 'slifer',
-    loc_txt = {
-        name = 'Slifer the Sky Dragon',
-        text = { 
-            'Gives {X:mult,C:white}Xmult{} equal to the number', 
-            'of cards {C:attention}held{} in your hand' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
@@ -21,7 +14,7 @@ SMODS.Joker {
     cost = 8,
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { }
+            vars = {}
         }
     end,
     calculate = function(self, card, context)
@@ -29,10 +22,7 @@ SMODS.Joker {
 
         if context.joker_main and #G.hand.cards > 0 then
             return {
-                Xmult_mod = #G.hand.cards,
-                message = 'x' .. #G.hand.cards,
-                colour = G.C.MULT,
-                card = card
+                x_mult = #G.hand.cards
             }
         end
     end

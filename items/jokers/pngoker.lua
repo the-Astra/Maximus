@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'pngoker',
-    loc_txt = {
-        name = 'PNGoker',
-        text = { 
-            'All cards in your', 
-            '{C:attention}first played hand{}', 
-            'become {C:attention}glass{}' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 4,
@@ -31,7 +23,7 @@ SMODS.Joker {
                 })) 
             end
             return {
-                message = "Glassed",
+                message = localize('k_mxms_glassed'),
                 colour = G.C.FILTER,
                 card = card
             }

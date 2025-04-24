@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'harmony',
-    loc_txt = {
-        name = 'Harmony',
-        text = { 
-            '{C:mult}+#1#{} Mult if played', 
-            'hand contains at least', 
-            '{C:attention}3{} different scoring ranks' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
@@ -46,10 +38,7 @@ SMODS.Joker {
 
             if #ranks >= 3 then
                 return {
-                    mult_mod = stg.mult,
-                    message = '+' .. stg.mult,
-                    colour = G.C.MULT,
-                    card = card
+                    mult = stg.mult
                 }
             end
         end

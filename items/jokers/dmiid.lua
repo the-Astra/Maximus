@@ -1,14 +1,5 @@
 SMODS.Joker {
-    key = 'dont_mind_if_i_do',
-    loc_txt = {
-        name = 'Don\'t Mind if I Do',
-        text = { 
-            'Gains {X:mult,C:white}X#2#{} Mult for every', 
-            'card scored {C:attention}with a seal{} at the',
-            'cost of {C:red}removing{} the seal', 
-            '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'
-        }
-    },
+    key = 'dmiid',
     atlas = 'Jokers',
     pos = {
         x = 1,
@@ -54,10 +45,7 @@ SMODS.Joker {
 
         if context.joker_main and stg.Xmult > 1 then
             return {
-                Xmult_mod = stg.Xmult,
-                message = 'X' .. stg.Xmult,
-                colour = G.C.MULT,
-                card = card
+                x_mult = stg.Xmult
             }
         end
     end,

@@ -1,15 +1,6 @@
 SMODS.Consumable {
     key = 'trappist',
     set = 'Planet',
-    loc_txt = {
-        name = 'Trappist',
-        text = {
-            "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
-            "{C:attention}#2#",
-            "{C:mult}+#3#{} Mult and",
-            "{C:chips}+#4#{} chips",
-        },
-    },
     atlas = 'Consumables',
     pos = {
         x = 3,
@@ -41,6 +32,6 @@ SMODS.Consumable {
         return false
     end,
     set_card_type_badge = function(self, card, badges)
-        badges[#badges + 1] = create_badge(localize('k_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
+        badges[#badges + 1] = create_badge(localize('k_mxms_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
     end
 }

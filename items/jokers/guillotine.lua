@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'guillotine',
-    loc_txt = {
-        name = 'Guillotine',
-        text = { 
-            'Scored {C:attention}Face{} or {C:attention}Ace', 
-            'cards have their',
-            'rank set to {C:attention}10{}' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 2,

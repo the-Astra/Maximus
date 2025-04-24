@@ -1,12 +1,5 @@
 SMODS.Blind {
     key = 'cheat',
-    loc_txt = {
-        name = 'The Cheat',
-        text = { 
-            'All playing cards with an enhancement,', 
-            'edition, or seal are debuffed' 
-        }
-    },
     boss = {
         min = 4,
         max = 10

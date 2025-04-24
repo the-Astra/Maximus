@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'nomai',
-    loc_txt = {
-        name = 'Nomai',
-        text = {
-            'Generates a {C:horoscope}Horoscope{} Card',
-            'when a {C:planet}Planet{} Card is used',
-            '{s:0.8,C:inactive}(Must have room)'
-        }
-    },
     atlas = 'Placeholder',
     pos = {
         x = 1,
@@ -45,7 +37,7 @@ SMODS.Joker {
                 end
             }))
             return {
-                message = '+1 Horoscope',
+                message = localize('k_mxms_plus_horoscope'),
                 colour = G.C.horoscope
             }
         end

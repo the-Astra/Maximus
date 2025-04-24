@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'crusaders',
-    loc_txt = {
-        name = 'Stardust Crusaders'
-    },
     rules = {},
     jokers = {},
     vouchers = {

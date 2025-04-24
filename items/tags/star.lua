@@ -1,13 +1,6 @@
 if Maximus_config.horoscopes then
     SMODS.Tag {
         key = 'star',
-        loc_txt = {
-            name = 'Star Tag',
-            text = {
-                "Gives a free",
-                "{C:horoscope}Mega Zodiac Pack",
-            },
-        },
         atlas = 'Tags',
         pos = {
             x = 0,

@@ -1,12 +1,5 @@
 SMODS.Joker {
     key = 'prince',
-    loc_txt = {
-        name = 'The Prince',
-        text = {
-            '{C:dark_edition}Polychrome{} {C:attention}face{} cards held',
-            'in hand give {X:mult,C:white}X#1#{} Mult'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,

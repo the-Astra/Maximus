@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'picky',
-    loc_txt = {
-        name = 'Picky Eater'
-    },
     rules = {
         custom = {
             { id = 'mxms_picky' }

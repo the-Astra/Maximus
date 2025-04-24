@@ -1,12 +1,5 @@
 SMODS.Joker {
     key = 'wild_buddy',
-    loc_txt = {
-        name = 'Wild Buddy',
-        text = { 
-            '{X:mult,C:white}X#1#{} Mult during',
-            '{C:attention}non-Boss{} Blinds'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 2,
@@ -31,10 +24,7 @@ SMODS.Joker {
         
         if context.joker_main and not G.GAME.blind.boss then
             return {
-                Xmult_mod = stg.Xmult,
-                message = 'X'..stg.Xmult,
-                colour = G.C.MULT,
-                card = card
+                x_mult = stg.Xmult
             }
         end
     end

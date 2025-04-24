@@ -1,12 +1,5 @@
 SMODS.Blind {
     key = 'hurdle',
-    loc_txt = {
-        name = 'The Hurdle',
-        text = {
-            'The first scoring card in',
-            'played hand is debuffed'
-        }
-    },
     boss = {
         min = 1,
         max = 10

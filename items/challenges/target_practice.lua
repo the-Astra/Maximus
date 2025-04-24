@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'target_practice',
-    loc_txt = {
-        name = 'Target Practice'
-    },
     rules = {
         custom = {
             { id = 'mxms_bullseye_requirement', value = 500 }

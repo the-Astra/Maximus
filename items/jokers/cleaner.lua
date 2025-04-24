@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'cleaner',
-    loc_txt = {
-        name = 'The Cleaner',
-        text = {
-            'Selling this Joker {C:attention}rerolls',
-            'the edition of one', 
-            '{C:green}random{} held Joker',
-            '{C:inactive,s:0.8}(Will not choose current edition)'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 2,
@@ -52,7 +43,7 @@ SMODS.Joker {
                 }))
             else
                 return {
-                    message = 'No target...',
+                    message = localize('k_mxms_no_target_el'),
                     colour = G.C.FILTER,
                     sound = 'tarot2',
                     card = card

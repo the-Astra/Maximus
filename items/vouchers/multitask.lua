@@ -1,12 +1,6 @@
 if Maximus_config.horoscopes then
     SMODS.Voucher {
         key = 'multitask',
-        loc_txt = {
-            name = 'Multitask',
-            text = { 
-                '{C:attention}+1{} horoscope slot' 
-            }
-        },
         atlas = 'Vouchers',
         pos = {
             x = 3,

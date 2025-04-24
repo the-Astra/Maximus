@@ -1,12 +1,5 @@
 SMODS.Blind {
     key = 'rot',
-    loc_txt = {
-        name = 'The Rot',
-        text = { 
-            '1/4 of cards in deck', 
-            'are debuffed at random' 
-        }
-    },
     boss = {
         min = 1,
         max = 10

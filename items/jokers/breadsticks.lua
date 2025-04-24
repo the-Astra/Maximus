@@ -1,16 +1,5 @@
 SMODS.Joker {
     key = 'breadsticks',
-    loc_txt = {
-        name = 'Endless Breadsticks',
-        text = { 
-            'Gains {C:chips}+#3#{} Chips every {C:attention}#1#{} cards', 
-            '{C:red}discarded{} this round', 
-            '{C:red}Discard{} requirement increases', 
-            'by {C:attention}1{} and resets', 
-            '{C:chips}Chips{}each round', 
-            '{C:inactive}(Currently: {C:chips}+#2# {C:inactive}Chips)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
@@ -62,10 +51,7 @@ SMODS.Joker {
 
         if context.joker_main and stg.chips > 0 then
             return {
-                chip_mod = stg.chips,
-                message = '+' .. stg.chips,
-                colour = G.C.CHIPS,
-                card = card
+                chips = stg.chips
             }
         end
 
@@ -74,7 +60,7 @@ SMODS.Joker {
             stg.chips = 0
             stg.d_requirement = stg.d_requirement + 1
             return {
-                message = 'More Please!',
+                message = localize('k_mxms_more_ex'),
                 colour = G.C.CHIPS,
                 card = card
             }

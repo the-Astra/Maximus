@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'bones_jr',
-    loc_txt = {
-        name = 'Bones Jr.',
-        text = {
-            'If played hand scores less than',
-            'blind requirement divided by {C:blue}#1#{},',
-            'gives {C:blue}+#2#{} hand for the {C:attention}current',
-            '{C:attention}round{} and {C:red}self destructs'
-        }
-    },
     pos = {
         x = 3,
         y = 4
@@ -49,7 +40,7 @@ SMODS.Joker {
                 end
             }))
             return {
-                message = '+' .. stg.extra_hands .. ' hand',
+                message = localize('k_mxms_plus_hand'),
                 colour = G.C.BLUE
             }
         end

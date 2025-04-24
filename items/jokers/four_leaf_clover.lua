@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'four_leaf_clover',
-    loc_txt = {
-        name = 'Four-Leaf Clover',
-        text = { 
-            'If scored hand has exactly',
-            '{C:attention}4 cards, convert them', 
-            'all to {C:attention}Lucky' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 7,
@@ -32,7 +24,7 @@ SMODS.Joker {
             end
 
             return {
-                message = 'Lucky',
+                message = localize('k_mxms_lucky'),
                 colour = G.C.GREEN,
                 card = card
             }

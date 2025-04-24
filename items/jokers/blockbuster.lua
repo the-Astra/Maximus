@@ -1,16 +1,5 @@
 SMODS.Joker {
     key = 'blockbuster',
-    loc_txt = {
-        name = 'Blockbuster',
-        text = {
-            'Creates a new {C:attention}Joker{}',
-            'at the beginning of every round',
-            '{C:red}Destroy{} the created Joker at',
-            'the end of the round',
-            '{s:0.8,C:inactive}Must have room',
-            'Current card: {C:red}#1#{}'
-        }
-    },
     atlas = 'Placeholder',
     pos = {
         x = 1,
@@ -34,7 +23,7 @@ SMODS.Joker {
             }
         else
             return {
-                vars = { 'None' }
+                vars = { localize('k_none') }
             }
         end
     end,

@@ -1,15 +1,5 @@
 SMODS.Joker {
     key = 'jobber',
-    loc_txt = {
-        name = 'Jobber',
-        text = { 
-            'If hand is played with only', 
-            '{C:red}debuffed{} cards, {C:red}destroy{} this',
-            'Joker and create a {C:attention}copy', 
-            'of {C:green}random {C:attention}held Joker', 
-            '{s:0.8,C:inactive}Removes negative from copy' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
@@ -46,7 +36,7 @@ SMODS.Joker {
                 if next(eligible_jokers) == nil then
                     return {
                         extra = {
-                            message = 'No target...',
+                            message = localize('k_mxms_no_target_el'),
                             colour = G.C.PURPLE
                         },
                         card = card
@@ -77,7 +67,7 @@ SMODS.Joker {
                     G.jokers:emplace(new_card)
                     return {
                         extra = {
-                            message = 'Jobbed',
+                            message = localize('k_mxms_jobbed'),
                             colour = G.C.YELLOW
                         },
                         card = card

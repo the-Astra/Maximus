@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'leftovers',
-    loc_txt = {
-        name = 'Leftovers',
-        text = { 
-            'Creates a new copy of', 
-            'a {C:attention}Food{} Joker when', 
-            'depleted or destroyed',
-            '{s:0.8,C:inactive}Self-destructs on copy' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 1,
@@ -44,7 +35,7 @@ function Card.remove(self)
             first_leftovers.states.drag.is = true
             first_leftovers.children.center.pinch.x = true
 
-            SMODS.calculate_effect({ message = "Saved for later!", colour = G.C.FILTER, sound = 'tarot1' },
+            SMODS.calculate_effect({ message = localize('k_mxms_saved_later_ex'), colour = G.C.FILTER, sound = 'tarot1' },
                 first_leftovers)
 
             G.E_MANAGER:add_event(Event({

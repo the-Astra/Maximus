@@ -1,15 +1,6 @@
 SMODS.Consumable {
     key = 'ophiucus',
     set = 'Spectral',
-    loc_txt = {
-        name = 'Ophiucus',
-        text = { 
-            'Play every non-secret hand type', 
-            'within the next {C:attention}#2#{} antes to', 
-            'create a {C:dark_edition}Negative {C:spectral}Soul', 
-            '{C:inactive}Currently: #1#/9' 
-        }
-    },
     atlas = 'Consumables',
     pos = {
         x = 1,
@@ -69,7 +60,7 @@ SMODS.Consumable {
         end
     end,
     succeed = function(self, card)
-        SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1' }, card)
         G.E_MANAGER:add_event(Event({
             trigger = 'before',
             func = function()
@@ -95,7 +86,7 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         local stg = card.ability
-        SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_falied_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',

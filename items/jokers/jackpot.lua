@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'jackpot',
-    loc_txt = {
-        name = 'Jackpot',
-        text = { 
-            'Played hands containing',
-            'at least {C:attention}three 7\'s{} have', 
-            'a {C:green}#1# in #3#{} chance', 
-            'to give {C:money}$#2#' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 7,
@@ -43,7 +34,7 @@ SMODS.Joker {
 
             if sevens >= 3 then
                 if pseudorandom(pseudoseed('jackpot' .. G.GAME.round_resets.ante)) < G.GAME.probabilities.normal / stg.odds then
-                    SMODS.calculate_effect({ message = 'Jackpot!', colour = G.C.MONEY },card)
+                    SMODS.calculate_effect({ message = localize('k_mxms_jackpot_ex'), colour = G.C.MONEY },card)
                     return {
                         dollars = stg.money,
                         card = card

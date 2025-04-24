@@ -1,13 +1,6 @@
+---@diagnostic disable: undefined-field
 SMODS.Joker {
     key = 'hopscotch',
-    loc_txt = {
-        name = 'Hopscotch',
-        text = { 
-            'When selecting blind,', 
-            '{C:green}#1# in #2#{} chance to', 
-            'receive associated {C:attention}skip tag{}' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,

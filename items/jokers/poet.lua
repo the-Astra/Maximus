@@ -1,16 +1,5 @@
 SMODS.Joker {
     key = 'poet',
-    loc_txt = {
-        name = 'Poet',
-        text = { 
-            'If hand type is played', 
-            '{C:attention}exclusively{} with number ranks', 
-            'matching the {C:attention}hand name,', 
-            'give {X:mult,C:white}Xmult{} equal to that rank', 
-            '{s:0.8,C:inactive}Two Pair must be played with a pair', 
-            '{s:0.8,C:inactive}of 2s and a pair of faces or aces' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
@@ -35,10 +24,7 @@ SMODS.Joker {
 
                 if two_count == 2 and face_count == 2 then
                     return {
-                        message = 'X2',
-                        Xmult_mod = 2,
-                        colour = G.C.MULT,
-                        card = card
+                        x_mult = 2
                     }
                 end
             end
@@ -56,10 +42,7 @@ SMODS.Joker {
 
                 if three_count == 2 and face_count == 4 then
                     return {
-                        message = 'X3',
-                        Xmult_mod = 3,
-                        colour = G.C.MULT,
-                        card = card
+                        x_mult = 3,
                     }
                 end
             end
@@ -73,10 +56,7 @@ SMODS.Joker {
 
                 if same_rank then
                     return {
-                        message = 'X3',
-                        Xmult_mod = 3,
-                        colour = G.C.MULT,
-                        card = card
+                        x_mult = 3
                     }
                 end
             end
@@ -90,10 +70,7 @@ SMODS.Joker {
 
                 if same_rank then
                     return {
-                        message = 'X4',
-                        Xmult_mod = 4,
-                        colour = G.C.MULT,
-                        card = card
+                        x_mult = 4
                     }
                 end
             end
@@ -107,10 +84,7 @@ SMODS.Joker {
 
                 if same_rank then
                     return {
-                        message = 'X5',
-                        Xmult_mod = 5,
-                        colour = G.C.MULT,
-                        card = card
+                        x_mult = 5,
                     }
                 end
             end
@@ -124,10 +98,7 @@ SMODS.Joker {
 
                 if same_rank then
                     return {
-                        message = 'X6',
-                        Xmult_mod = 6,
-                        colour = G.C.MULT,
-                        card = card
+                        x_mult = 6,
                     }
                 end
             end

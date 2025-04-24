@@ -1,15 +1,5 @@
 SMODS.Joker {
     key = 'abyss_angel',
-    loc_txt = {
-        name = 'Abyss Angel',
-        text = {
-            'Gains {X:mult,C:white}X#1#{} Mult for every',
-            '{C:chips}#2#{} Chips scored',
-            'from playing cards',
-            '{C:inactive}(Currently: {C:chips}#3#{C:inactive}/#2# Chips,',
-            '{X:mult,C:white}X#4#{C:inactive} Mult)'
-        }
-    },
     atlas = 'Placeholder',
     pos = {
         x = 1,
@@ -18,7 +8,7 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = {
-            gain = 1,
+            gain = 0.5,
             target_chips = 200,
             accrued_chips = 0,
             Xmult = 1

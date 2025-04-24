@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'sisyphus',
-    loc_txt = {
-        name = 'Sisyphus',
-        text = {
-            'Gains {X:mult,C:white}X#1#{} Mult for',
-            'every hand played',
-            '{s:0.8,C:inactive}Resets at end of round',
-            '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)'
-        }
-    },
     atlas = 'Placeholder',
     pos = {
         x = 1,

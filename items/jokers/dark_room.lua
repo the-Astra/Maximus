@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'dark_room',
-    loc_txt = {
-        name = 'Dark Room',
-        text = { 
-            'After {C:attention}#2# rounds{}, sell this', 
-            'Joker to upgrade a {C:green}random', 
-            'owned {C:attention}voucher', 
-            '{C:inactive}(Currently: #1#/#2#)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 2,
@@ -44,7 +35,7 @@ SMODS.Joker {
 
             if #eligible_vouchers == 0 then
                 return {
-                    message = 'None Valid',
+                    message = localize('k_mxms_no_target_el'),
                     colour = G.C.FILTER,
                     card = card
                 }

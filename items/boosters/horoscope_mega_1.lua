@@ -2,15 +2,7 @@ SMODS.Booster {
     key = "horoscope_mega_1",
     kind = "Horoscope",
     atlas = "Boosters",
-    loc_txt = {
-        name = 'Mega Zodiac Pack',
-        text = {
-            "Choose {C:attention}#1#{} of up to",
-            "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
-            "be used immediately",
-        },
-        group_name = 'Zodiac Pack'
-    },
+    group_key = "k_mxms_zodiac_pack",
     pos = {
         x = 3,
         y = 0

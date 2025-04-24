@@ -14,13 +14,6 @@ SMODS.PokerHand {
         { 'S_9', true }
 
     },
-    loc_txt = {
-        name = 'Super Straight Flush',
-        description = {
-            "6 cards in a row (consecutive ranks) with",
-            "all cards sharing the same suit"
-        }
-    },
     visible = false,
     evaluate = function(parts, hand)
         return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)

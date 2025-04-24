@@ -14,12 +14,6 @@ SMODS.PokerHand {
         { 'S_2', true }
 
     },
-    loc_txt = {
-        name = 'Super Flush',
-        description = {
-            "6 cards that share the same suit"
-        }
-    },
     visible = false,
     evaluate = function(parts, hand)
         return next(parts.mxms_s_flush) and parts.mxms_s_flush or {}

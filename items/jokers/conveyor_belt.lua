@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'conveyor_belt',
-    loc_txt = {
-        name = 'Conveyor Belt',
-        text = {
-            'Gives {C:attention}15%{} of {C:chips}Chips{} and {C:mult}Mult{}',
-            'from previous hand at',
-            'beginning of the following hand',
-            '{C:inactive}(Currently: {C:chips}+#1#{C:inactive} Chips,','{C:mult}+#2#{C:inactive} Mult)'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 8,
@@ -41,7 +32,7 @@ SMODS.Joker {
             stg.chips = mod_chips(hand_chips * 0.15)
             stg.mult = mod_mult(mult * 0.15)
             return {
-                message = 'Pushed!',
+                message = localize('k_mxms_pushed_ex'),
                 colour = G.C.ATTENTION
             }
         end

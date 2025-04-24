@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'schrodinger',
-    loc_txt = {
-        name = 'Schrodinger\'s Cat',
-        text = { 
-            '{C:green}50/50 chance{} for each joker', 
-            'to be {C:attention}retriggered{} or', 
-            '{C:red}not trigger at all ' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,

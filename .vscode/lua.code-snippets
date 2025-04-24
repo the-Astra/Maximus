@@ -80,5 +80,16 @@
         ],
         "description": "Shortcut for an info_queue card skeleton"
     },
+    "Maximus Localization Skeleton": {
+        "prefix": "mxmsloc",
+        "body": [
+            "$1_mxms_$2 = {",
+            "    name = '$3',",
+            "    text = {",
+            "        '$4',",
+            "    },",
+            "},"
+        ]
+    }
 }
 

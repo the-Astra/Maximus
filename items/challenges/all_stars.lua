@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'all_stars',
-    loc_txt = {
-        name = 'All Stars'
-    },
     rules = {
         custom = {
             { id = 'mxms_all_rare' }

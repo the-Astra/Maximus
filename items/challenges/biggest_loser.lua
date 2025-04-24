@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'biggest_loser',
-    loc_txt = {
-        name = 'Tonight\'s Biggest Loser'
-    },
     rules = {
         custom = {
             { id = 'mxms_biggest_loser' }

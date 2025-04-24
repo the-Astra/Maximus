@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'p2w',
-    loc_txt = {
-        name = 'Pay To Win'
-    },
     rules = {},
     jokers = {
         { id = 'j_mxms_power_creep', eternal = true }

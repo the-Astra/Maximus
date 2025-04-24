@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'hedonist',
-    loc_txt = {
-        name = 'Hedonist',
-        text = { 
-            'Gains {X:mult,C:white}X#2#{} Mult', 
-            'if shop is {C:attention}cleared', 
-            'when {C:attention}exiting', 
-            '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
@@ -33,10 +24,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.Xmult > 1 then
             return {
-                Xmult_mod = stg.Xmult,
-                message = "X" .. stg.Xmult,
-                colour = G.C.MULT,
-                card = card
+                x_mult = stg.Xmult
             }
         end
 

@@ -1,12 +1,5 @@
 SMODS.Joker {
     key = 'whos_on_first',
-    loc_txt = {
-        name = 'Who\'s on First?',
-        text = { 
-            'Jokers trigger {C:attention}before{}',
-            'card scoring'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,

@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'messiah',
-    loc_txt = {
-        name = 'Messiah',
-        text = {
-            'Gains {C:mult}+#1#{} Mult every',
-            'time {C:tarot}The Sun{} is used',
-            '{C:inactive}(Currently: {C:mult}+#2#{C:inactive} Mult)'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,

@@ -1,15 +1,5 @@
 SMODS.Joker {
     key = 'bullseye',
-    loc_txt = {
-        name = 'Bullseye',
-        text = { 
-            'If blind\'s {C:chips}Chip {C:attention}requirement', 
-            'is met {C:attention}exactly{}, this joker',
-            'gains {C:chips}+#1#{} Chips', 
-            '{s:0.8,C:inactive}Gain is equal to 100 x Round', 
-            '{C:inactive}(Currently: {C:chips}+#2# {C:inactive}Chips)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
@@ -38,10 +28,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.chips > 0 then
             return {
-                chip_mod = stg.chips,
-                message = '+' .. stg.chips,
-                colour = G.C.CHIPS,
-                card = card
+                chips = stg.chips
             }
         end
 

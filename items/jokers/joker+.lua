@@ -1,11 +1,5 @@
 SMODS.Joker {
     key = 'joker_plus',
-    loc_txt = {
-        name = 'Joker+',
-        text = { 
-            '{C:mult}+#1#{} Mult' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,
@@ -29,10 +23,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main then
             return {
-                mult_mod = stg.mult,
-                message = '+' .. stg.mult,
-                colour = G.C.MULT,
-                card = card
+                mult = stg.mult
             }
         end
     end

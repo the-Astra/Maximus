@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'gelatin',
-    loc_txt = {
-        name = 'Gelatin',
-        text = { 
-            'Retriggers the next', 
-            '{C:attention}#1#{} scored {V:1}#2#{}', 
-            '{s:0.8,C:inactive}Suit changes each round' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
@@ -70,7 +62,7 @@ SMODS.Joker {
                     end
                 }))
                 return {
-                    message = 'Eaten'
+                    message = localize('k_eaten_ex')
                 }
             end
         end

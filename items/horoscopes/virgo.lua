@@ -1,15 +1,6 @@
 SMODS.Consumable {
     key = 'virgo',
     set = 'Horoscope',
-    loc_txt = {
-        name = 'Virgo',
-        text = { 
-            'Defeat the next blind with a score', 
-            'within {C:attention}25%{} of requirement to', 
-            'receive {C:red}+3{} discards next ante', 
-            '{C:inactive}Requirement: <= #1# Chips' 
-        }
-    },
     atlas = 'Consumables',
     pos = {
         x = 5,
@@ -54,7 +45,7 @@ SMODS.Consumable {
     end,
     succeed = function(self, card)
         G.GAME.next_ante_horoscopes["Virgo"] = true
-        SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1' }, card)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
@@ -66,7 +57,7 @@ SMODS.Consumable {
         SMODS.calculate_context({beat_horoscope = true})
     end,
     fail = function(self, card)
-        SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_falied_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',

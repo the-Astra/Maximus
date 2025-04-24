@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = '4d',
-    loc_txt = {
-        name = '4D Joker',
-        text = { 
-            '{X:mult,C:white}X#1#{} Mult,', 
-            'decreases by {X:mult,C:white}X#2#{}', 
-            '{C:attention}every second' 
-        }
-    },
     atlas = '4D',
     pos = {
         x = 0,
@@ -38,10 +30,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.Xmult > 1 then
             return {
-                Xmult_mod = stg.Xmult,
-                message = 'X' .. stg.Xmult,
-                colour = G.C.MULT,
-                card = card
+                x_mult = stg.Xmult,
             }
         end
 

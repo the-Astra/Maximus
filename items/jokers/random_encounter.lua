@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'random_encounter',
-    loc_txt = {
-        name = 'Random Encounter',
-        text = { 
-            '{C:green}#1# in #2#{} chance of', 
-            'scored playing cards', 
-            'gaining permanent', 
-            '{C:mult}+#3#{} Bonus Mult' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
@@ -37,7 +28,7 @@ SMODS.Joker {
                 context.other_card.ability.perma_mult = context.other_card.ability.perma_mult or 0
                 context.other_card.ability.perma_mult = context.other_card.ability.perma_mult + stg.mult
                 return {
-                    message = 'A random mult appears!',
+                    message = localize('k_mxms_r_mult_ex'),
                     colour = G.C.MULT,
                     card = card
                 }

@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'gambling',
-    loc_txt = {
-        name = 'Let\'s Go Gambling!'
-    },
     rules = {
         custom = {
             { id = 'no_extra_hand_money' },

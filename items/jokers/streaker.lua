@@ -1,17 +1,5 @@
-
 SMODS.Joker {
     key = 'streaker',
-    loc_txt = {
-        name = 'Streaker',
-        text = { 
-            '{C:chips}+#5#{} Chips and {C:mult}+#6#{} Mult', 
-            'for each consecutive {C:attention}blind{}',
-            'beaten in {C:attention}one hand{}', 
-            '{C:red}Resets{} when streak is broken',
-            '{C:inactive}(Current streak: #1#)',
-            '{C:inactive}(Currently: {C:chips}+#3# {C:inactive}Chips, {C:mult}+#4# {C:inactive}Mult)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
@@ -42,7 +30,7 @@ SMODS.Joker {
             return {
                 mult_mod = stg.mult,
                 chip_mod = stg.chips,
-                message = 'Streaked!',
+                message = localize('k_mxms_streaked_ex'),
                 colour = G.C.MULT,
                 card = card
             }
@@ -68,7 +56,7 @@ SMODS.Joker {
                 stg.streak = stg.streak + 1
                 stg.chips = stg.chip_gain * stg.streak * G.GAME.soil_mod
                 stg.mult = stg.mult_gain * stg.streak * G.GAME.soil_mod
-                SMODS.calculate_context({scaling_card = true})
+                SMODS.calculate_context({ scaling_card = true })
                 return {
                     message = 'Streak ' .. stg.streak,
                     colour = G.C.CHIPS,

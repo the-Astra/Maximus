@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'vinyl_record',
-    loc_txt = {
-        name = 'Vinyl Record',
-        text = {
-            '{C:attention}#1#:{} {V:1}+#2#{} #3#',
-            'Changes side every {C:attention}#5#{} hands',
-            '{C:inactive}(Currently: #4#/#5#)'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 4,
@@ -16,7 +8,7 @@ SMODS.Joker {
     rarity = 1,
     config = {
         extra = {
-            side = 'A-Side',
+            side = 'a_side',
             hands = 0,
             hand_limit = 10,
             mult = 15,
@@ -31,7 +23,7 @@ SMODS.Joker {
         local text
         local value
         local colour
-        if stg.side == 'A-Side' then
+        if stg.side == 'a_side' then
             value = stg.mult
             text = 'Mult'
             colour = G.C.MULT
@@ -49,19 +41,13 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.joker_main then
-            if stg.side == 'A-Side' then
+            if stg.side == 'a_side' then
                 return {
-                    message = '+' .. stg.mult,
-                    colour = G.C.MULT,
-                    mult_mod = stg.mult,
-                    card = card
+                    mult = stg.mult,
                 }
-            elseif stg.side == 'B-Side' then
+            elseif stg.side == 'b_side' then
                 return {
-                    message = '+' .. stg.chips,
-                    colour = G.C.CHIPS,
-                    chip_mod = stg.chips,
-                    card = card
+                    chips = stg.chips
                 }
             end
         end
@@ -86,13 +72,13 @@ SMODS.Joker {
                     delay = 0.25,
                     func = function()
                         --insert atlas changes here
-                        if stg.side == 'A-Side' then
-                            stg.side = 'B-Side'
+                        if stg.side == 'a_side' then
+                            stg.side = 'b_side'
                             card.children.center:set_sprite_pos({ x = 5, y = 12 })
                             color = G.C.CHIPS
                             sound = 'chips1'
-                        elseif stg.side == 'B-Side' then
-                            stg.side = 'A-Side'
+                        elseif stg.side == 'b_side' then
+                            stg.side = 'a_side'
                             card.children.center:set_sprite_pos({ x = 4, y = 12 })
                             color = G.C.MULT
                             sound = 'multhit1'
@@ -107,7 +93,7 @@ SMODS.Joker {
                     func = function()
                         card:flip()
                         play_sound('card1')
-                        SMODS.calculate_effect({ message = stg.side .. '!', colour = color, sound = sound },card)
+                        SMODS.calculate_effect({ message = localize('k_mxms_'..stg.side..'_ex'), colour = color, sound = sound },card)
                         return true;
                     end
                 }))

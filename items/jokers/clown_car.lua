@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'clown_car',
-    loc_txt = {
-        name = 'Clown Car',
-        text = { 
-            'Gains {C:mult}+#2#{} Mult each time', 
-            'a Joker is {C:attention}added{} to hand', 
-            '{C:inactive}(Currently: {C:mult}+#1# {C:inactive}Mult)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
@@ -32,10 +24,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.mult > 0 then
             return {
-                mult_mod = stg.mult,
-                message = '+' .. stg.mult,
-                colour = G.C.MULT,
-                card = card
+                mult = stg.mult,
             }
         end
 

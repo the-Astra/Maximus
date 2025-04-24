@@ -1,12 +1,5 @@
 SMODS.Blind {
     key = 'maze',
-    loc_txt = {
-        name = 'The Maze',
-        text = {
-            'Cards held in hand are',
-            'debuffed after scoring'
-        }
-    },
     boss = {
         min = 5,
         max = 10

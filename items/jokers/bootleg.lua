@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'bootleg',
-    loc_txt = {
-        name = 'Bootleg',
-        text = { 
-            'Copies the effect of the', 
-            '{C:attention}most recently purchased Joker', 
-            'Current effect: {C:red}#1#{}' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,
@@ -26,7 +18,7 @@ SMODS.Joker {
             }
         else
             return {
-                vars = { 'None' }
+                vars = { localize('k_none') }
             }
         end
     end,

@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'fashion',
-    loc_txt = {
-        name = 'Fashion Disaster'
-    },
     rules = {
         custom = {
             { id = 'mxms_random_suit_debuff' }

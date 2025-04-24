@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'coronation',
-    loc_txt = {
-        name = 'Coronation',
-        text = { 
-            'If {C:attention}Joker{} is in hand after', 
-            '{C:attention}#2# rounds{} without skipping,', 
-            'upgrade {C:attention}Joker{} to {C:attention}Crowned Joker{}', 
-            '{C:inactive}(Currently: #1#/#2#)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 8,
@@ -51,7 +42,7 @@ SMODS.Joker {
 
                 return {
                     sound = 'polychrome1',
-                    message = 'Crowned',
+                    message = localize('k_mxms_crowned'),
                     colour = G.C.GOLD,
                     card = card
                 }

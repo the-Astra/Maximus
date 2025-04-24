@@ -1,16 +1,5 @@
 SMODS.Joker {
     key = 'fortune_cookie',
-    loc_txt = {
-        name = 'Fortune Cookie',
-        text = { 
-            '{C:green}#3# out of #4#{} chance to', 
-            'receive a {C:green}random {C:tarot}Tarot{}',
-            'card when playing a hand', 
-            '{s:0.8,C:inactive}(Must have room)',
-            '{s:0.8,C:inactive}Chance reduces by #1#', 
-            '{s:0.8,C:inactive}for every played hand' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
@@ -68,7 +57,7 @@ SMODS.Joker {
                     return {
                         sound = 'tarot1',
                         card = card,
-                        message = 'FORTUNATE!',
+                        message = localize('k_mxms_fortunate_ex'),
                         colour = G.C.SECONDARY_SET.Tarot
                     }
 
@@ -87,7 +76,7 @@ SMODS.Joker {
                 return {
                     sound = 'tarot2',
                     card = card,
-                    message = 'WASTED',
+                    message = localize('k_mxms_wasted'),
                     colour = G.C.SET.Tarot
                 }
             end
@@ -127,7 +116,7 @@ SMODS.Joker {
                 }))
                 return {
                     card = card,
-                    message = 'Crumbled',
+                    message = localize('k_mxms_crumbled'),
                     colour = G.C.FILTER
                 }
             end

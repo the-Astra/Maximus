@@ -1,12 +1,5 @@
 SMODS.Joker {
     key = 'celestial_deity',
-    loc_txt = {
-        name = 'Celestial Deity',
-        text = { 
-            '{C:planet}Planet{} cards give',
-            '{C:attention}+#1#{} extra level'
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,

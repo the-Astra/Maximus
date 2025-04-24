@@ -1,12 +1,5 @@
 SMODS.Joker {
     key = 'perspective',
-    loc_txt = {
-        name = 'Perspective',
-        text = { 
-            '{C:attention}6\'s{} are treated as {C:attention}9\'s{}', 
-            'and vice-versa' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 8,
@@ -17,3 +10,12 @@ SMODS.Joker {
     blueprint_compat = false,
     cost = 3,
 }
+
+-- Change Full House to not interfere with Perspective
+SMODS.PokerHand:take_ownership('Full House', {
+        evaluate = function(parts, hand)
+            if #parts._3 < 1 or #parts._2 < 2 or #hand < 5 then return {} end
+            return parts._all_pairs
+        end
+    },
+    true)

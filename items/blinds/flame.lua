@@ -1,12 +1,5 @@
 SMODS.Blind {
     key = 'flame',
-    loc_txt = {
-        name = 'The Flame',
-        text = {
-            'All scored cards are',
-            'destroyed after scoring'
-        }
-    },
     boss = {
         min = 6,
         max = 10

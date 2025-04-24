@@ -1,15 +1,6 @@
 SMODS.Consumable {
     key = 'libra',
     set = 'Horoscope',
-    loc_txt = {
-        name = 'Libra',
-        text = { 
-            'Spend at least {C:money}$#1#{} during the', 
-            'next shop to make the next', 
-            'shop\'s offerings {C:money}free{}', 
-            '{C:inactive}Currently: #2#/#1#' 
-        }
-    },
     atlas = 'Consumables',
     pos = {
         x = 6,
@@ -72,7 +63,7 @@ SMODS.Consumable {
     end,
     succeed = function(self, card)
         G.GAME.libra_bonus = true
-        SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1' }, card)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
@@ -85,7 +76,7 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_falied_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',

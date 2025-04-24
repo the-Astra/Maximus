@@ -1,13 +1,5 @@
 SMODS.Joker {
     key = 'occam',
-    loc_txt = {
-        name = 'Occam\'s Razor',
-        text = { 
-            '{X:mult,C:white}Xmult{} equal to the', 
-            'number of cards played plus 1', 
-            'below max highlight limit played' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 8,
@@ -19,10 +11,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         if context.joker_main and #context.full_hand ~= G.hand.config.highlighted_limit then
             return {
-                Xmult_mod = G.hand.config.highlighted_limit - #context.full_hand + 1,
-                message = 'x' .. G.hand.config.highlighted_limit - #context.full_hand + 1,
-                colour = G.C.MULT,
-                card = card
+                x_mult = G.hand.config.highlighted_limit - #context.full_hand + 1
             }
         end
     end

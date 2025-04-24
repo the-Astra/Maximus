@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'love_and_war',
-    loc_txt = {
-        name = 'All\'s Fair in Love and War'
-    },
     rules = {
         custom = {
             { id = 'mxms_deck_size_req', value = 1 }

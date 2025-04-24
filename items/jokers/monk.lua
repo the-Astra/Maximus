@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'monk',
-    loc_txt = {
-        name = 'Monk',
-        text = { 
-            'Gains {C:chips}+#2#{} Chips for every', 
-            'shop exited {C:attention}without{}',
-            'making a purchase',
-            '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
@@ -34,10 +25,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.chips > 0 then
             return {
-                chip_mod = stg.chips,
-                message = '+' .. stg.chips,
-                colour = G.C.MULT,
-                card = card
+                chips = stg.chips
             }
         end
 

@@ -1,14 +1,5 @@
 SMODS.Joker {
     key = 'four_course_meal',
-    loc_txt = {
-        name = 'Four Course Meal',
-        text = { 
-            'For the next {C:attention}4{} hands,', 
-            'give {C:chips}+#1#{} Chips, {C:mult}+#2#{} Mult,', 
-            '{X:mult,C:white}X#3#{} Mult, and {C:money}$#4#{}', 
-            'respectively' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 2,
@@ -40,29 +31,20 @@ SMODS.Joker {
             stg.hands = stg.hands + (1 * G.GAME.fridge_mod)
             if stg.hands <= 1 then
                 return {
-                    message = '+' .. stg.chips,
-                    chip_mod = stg.chips,
-                    colour = G.C.chips,
-                    card = card
+                    chips = stg.chips,
                 }
             elseif stg.hands <= 2 then
                 return {
-                    message = '+' .. stg.mult,
-                    mult_mod = stg.mult,
-                    colour = G.C.mult,
-                    card = card
+                    mult = stg.mult
                 }
             elseif stg.hands <= 3 then
                 return {
-                    message = 'X' .. stg.Xmult,
-                    Xmult_mod = stg.Xmult,
-                    colour = G.C.mult,
-                    card = card
+                    x_mult = stg.Xmult
                 }
             elseif stg.hands <= 4 then
                 ease_dollars(stg.money)
                 return {
-                    message = '$' .. stg.money,
+                    message = localize('$') .. stg.money,
                     colour = G.C.money,
                     card = card
                 }

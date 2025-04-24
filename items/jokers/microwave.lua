@@ -1,12 +1,5 @@
 SMODS.Joker {
     key = 'microwave',
-    loc_txt = {
-        name = 'Microwave',
-        text = { 
-            '{C:red}Food{} Jokers are', 
-            '{C:attention}retriggered' 
-        }
-    },
     atlas = 'Jokers',
     pos = {
         x = 4,

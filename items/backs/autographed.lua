@@ -1,13 +1,5 @@
 SMODS.Back {
     key = 'autographed',
-    loc_txt = {
-        name = 'Autographed Deck',
-        text = {
-            'Starting deck consists of',
-            '{C:attention}three{} Aces, Kings, Queens,',
-            'and Jacks {C:attention}per suit{}'
-        }
-    },
     atlas = 'Backs',
     pos = {
         x = 5,

@@ -1,16 +1,5 @@
 SMODS.Joker {
     key = 'abyss',
-    loc_txt = {
-        name = "Abyss",
-        text = { 
-            'When blind is selected, {C:green}50/50{}', 
-            '{C:green}chance{} of making a {C:green}random{} held',
-            'non-negative Joker {C:dark_edition}Negative{} or', 
-            '{C:red}destroying{} a {C;green}random', 
-            'held non-negative Joker',
-            '{s:0.8,C:inactive}Can override other editions{}' 
-        }
-    },
     atlas = 'Jokers',
     rarity = 3,
     pos = {

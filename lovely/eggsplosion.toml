@@ -28,7 +28,7 @@ if next(SMODS.find_card('j_mxms_microwave')) and pseudorandom('eggsplode' .. G.G
         end
     }))
     return {
-        message = 'Exploded...',
+        message = localize('k_mxms_exploded_el'),
         colour = G.C.MONEY
     }
 end

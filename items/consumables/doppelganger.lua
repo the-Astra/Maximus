@@ -2,13 +2,6 @@ if Maximus_config.horoscopes then
     SMODS.Consumable {
         key = 'doppelganger',
         set = 'Spectral',
-        loc_txt = {
-            name = 'Doppelganger',
-            text = {
-                '{C:attention}Immediately{} fulfill {C:attention}all{} held',
-                '{C:horoscope}Horoscope{} card requirements',
-            },
-        },
         atlas = 'Consumables',
         pos = {
             x = 0,

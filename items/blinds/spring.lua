@@ -1,12 +1,5 @@
 SMODS.Blind {
     key = 'spring',
-    loc_txt = {
-        name = 'The Spring',
-        text = {
-            '-1 hand size',
-            'per hand played'
-        }
-    },
     boss = {
         min = 1,
         max = 10
