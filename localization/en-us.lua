@@ -1439,6 +1439,14 @@ return {
                     "{s:0.8,C:inactive}Activates on trigger for Jokers",
                 },
             },
+            mxms_black_seal = {
+                name = "Black Seal",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult,",
+                    "Card cannot be {C:attention}modified",
+                    "or {C:attention}destroyed"
+                }
+            }
         },
         Planet = {
             c_mxms_cancri = {
@@ -1706,6 +1714,7 @@ return {
             k_mxms_crowned = "Crowned",
             k_mxms_crumbled = "Crumbled",
             k_mxms_deserved_ex = "Deserved!",
+            k_mxms_destroy_block_ex = "Destroy blocked!",
             k_mxms_erm_el = "Errrrmmm...",
             k_mxms_eureka_ex = "Eureka!",
             k_mxms_exploded_el = "Exploded...",
@@ -1738,7 +1747,8 @@ return {
             k_mxms_zodiac_pack = "Zodiac Pack",
         },
         labels = {
-            posted_right = "Posted"
+            posted_right = "Posted",
+            mxms_black_seal = "Black Seal",
         },
         poker_hands = {
             ["mxms_6oak"] = "Six of a Kind",

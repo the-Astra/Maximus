@@ -1188,3 +1188,24 @@ sendDebugMessage("", 'Maximus')
 
 
 --#endregion
+
+--#region Seals ----------------------------------------------------------------------------------------------
+
+local ENABLED_SEALS = {
+    'black',
+}
+sendDebugMessage("Loading Seals...", 'Maximus')
+for i = 1, #ENABLED_SEALS do
+    local status, err = pcall(function()
+        return NFS.load(SMODS.current_mod.path .. 'items/seals/' .. ENABLED_SEALS[i] .. '.lua')()
+    end)
+    sendDebugMessage("Loaded tag: " .. ENABLED_SEALS[i], 'Maximus')
+
+    if not status then
+        error(ENABLED_SEALS[i] .. ": " .. err)
+    end
+end
+sendDebugMessage("", 'Maximus')
+
+
+--#endregion

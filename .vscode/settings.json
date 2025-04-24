@@ -67,7 +67,8 @@
         "remove_nils",
         "delay_fac",
         "create_toggle",
-        "mult"
+        "mult",
+        "draw_card"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

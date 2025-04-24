@@ -70,6 +70,11 @@ function Card:calculate_seal(context)
                     dollars = 3,
                     card = self
                 }
+            elseif self.seal == 'mxms_Black' then
+                return {
+                    x_mult = self.ability.seal.extra.Xmult,
+                    card = self
+                }
             elseif self.seal == 'Purple'
                 and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
