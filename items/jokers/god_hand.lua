@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'god_hand',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 8,
+        y = 13
     },
     rarity = 2,
     config = {

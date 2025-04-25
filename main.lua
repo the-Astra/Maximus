@@ -804,6 +804,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'wild_buddy',
     'bones_jr',
     'conveyor_belt',
+    'icosahedron',
 
     --Uncommon
     'war',
@@ -835,6 +836,8 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'high_dive',
     'brainwashed',
     'whos_on_first',
+    'abyss_angel',
+    'god_hand',
 
     --Rare
     'abyss',
@@ -933,8 +936,6 @@ local EXPERIMENTAL_JOKERS = {
     'bankrupt',
     'teddy_bear',
 
-    'abyss_angel',
-    'god_hand',
     'sisyphus',
     'nomai',
     'rock_candy',

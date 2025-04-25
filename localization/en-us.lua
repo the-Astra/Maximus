@@ -783,6 +783,15 @@ return {
                     '{C:attention}enhanced{}'
                 }
             },
+            j_mxms_icosahedron = {
+                name = 'Icosahedron',
+                text = {
+                    'Every {C:attention}#1#th{} played {C:diamonds}Diamond',
+                    'card permanently gains',
+                    '{X:mult,C:white}X#2#{} Mult when scored',
+                    '{C:inactive}(Currently: {C:diamonds}#3#{C:inactive}/#1#)'
+                }
+            },
             j_mxms_impractical_joker = {
                 name = 'Impractical Joker',
                 text = {
