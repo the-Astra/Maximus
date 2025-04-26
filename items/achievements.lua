@@ -173,3 +173,16 @@ SMODS.Achievement {
         end
     end
 }
+
+
+
+SMODS.Achievement {
+    key = 'laughing',
+    hidden_name = false,
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        if args.type == 'modify_jokers' and G.jokers then
+            return next(SMODS.find_card('j_mxms_comedian'))
+        end
+    end
+}

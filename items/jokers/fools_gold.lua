@@ -16,25 +16,31 @@ SMODS.Joker {
     cost = 6,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
+
+        local gold_cards = 0
+        for k, v in pairs(G.playing_cards) do
+            if SMODS.has_enhancement(v, 'm_gold') then
+                gold_cards = gold_cards + 1
+            end
+        end
+
+        stg.tally = math.floor(gold_cards / 2)
+
         info_queue[#info_queue + 1] = G.P_CENTERS.m_gold
         return {
             vars = { stg.money, stg.tally * stg.money }
         }
     end,
     calc_dollar_bonus = function(self, card)
-        return card.ability.extra.tally * card.ability.extra.money
-    end,
-    update = function(self, card, dt)
         local stg = card.ability.extra
-        if G.STAGE == G.STAGES.RUN then
-            local gold_cards = 0
-            for k, v in pairs(G.playing_cards) do
-                if SMODS.has_enhancement(v, 'm_gold') then
-                    gold_cards = gold_cards + 1
-                end
+        local gold_cards = 0
+        for k, v in pairs(G.playing_cards) do
+            if SMODS.has_enhancement(v, 'm_gold') then
+                gold_cards = gold_cards + 1
             end
-
-            stg.tally = math.floor(gold_cards / 2)
         end
+
+        stg.tally = math.floor(gold_cards / 2)
+        return card.ability.extra.tally * card.ability.extra.money
     end
 }

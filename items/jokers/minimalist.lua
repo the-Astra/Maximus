@@ -17,27 +17,32 @@ SMODS.Joker {
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
+
+        stg.chips = stg.base_chips
+        for k, v in pairs(G.playing_cards) do
+            if next(SMODS.get_enhancements(v)) and stg.chips > 0 then
+                stg.chips = stg.chips - stg.dChips
+            end
+        end
+
         return {
             vars = { stg.base_chips, stg.chips, stg.dChips }
         }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
+
+        stg.chips = stg.base_chips
+        for k, v in pairs(G.playing_cards) do
+            if next(SMODS.get_enhancements(v)) and stg.chips > 0 then
+                stg.chips = stg.chips - stg.dChips
+            end
+        end
+
         if context.joker_main and stg.chips > 0 then
             return {
                 chips = stg.chips
             }
-        end
-    end,
-    update = function(self, card, dt)
-        local stg = card.ability.extra
-        if G.STAGE == G.STAGES.RUN then
-            stg.chips = stg.base_chips
-            for k, v in pairs(G.playing_cards) do
-                if next(SMODS.get_enhancements(v)) and stg.chips > 0 then
-                    stg.chips = stg.chips - stg.dChips
-                end
-            end
         end
     end
 }
