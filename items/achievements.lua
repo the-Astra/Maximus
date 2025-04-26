@@ -1,10 +1,11 @@
 SMODS.Achievement {
     key = 'stargazer',
+    hidden_name = false,
     unlock_condition = function(self, args)
         if args.type == "all_horoscopes" then
-            local horoscopeTallies = getMaximusTallies("Horoscope")
+            local horoscopeTallies = getMaximusTallies(G.P_CENTER_POOLS["Horoscope"])
             -- +1 to account for Ophiucus
-            if horoscopeTallies.of/(#G.PROFILES[G.SETTINGS.profile].horoscope_completions + 1) >= 1 then
+            if #G.PROFILES[G.SETTINGS.profile].horoscope_completions/(horoscopeTallies.of + 1) >= 1 then
                 return true
             end
         end
@@ -15,6 +16,7 @@ SMODS.Achievement {
 
 SMODS.Achievement {
     key = 'maximum_effort',
+    hidden_name = false,
     unlock_condition = function(self, args)
         if args.type == 'win_challenge' then
             local _c = true
@@ -49,6 +51,7 @@ SMODS.Achievement {
 
 SMODS.Achievement {
     key = 'king',
+    hidden_name = false,
     hidden_text = true,
     unlock_condition = function(self, args)
         if args.type == 'crowned' then
@@ -61,6 +64,7 @@ SMODS.Achievement {
 
 SMODS.Achievement {
     key = 'apocalypse',
+    hidden_name = false,
     hidden_text = true,
     unlock_condition = function(self, args)
         if args.type == 'zombified' and #SMODS.find_joker('j_mxms_zombie') == G.jokers.card_limit then
@@ -73,12 +77,99 @@ SMODS.Achievement {
 
 SMODS.Achievement {
     key = 'disciple',
+    hidden_name = false,
     unlock_condition = function(self, args)
         if args.type == 'discover_amount' then
-            local mxmsTallies = getMaximusTallies("Joker")
+            local mxmsTallies = getMaximusTallies(G.P_CENTER_POOLS["Joker"])
             if mxmsTallies.tally/mxmsTallies.of >= 1 then
                 return true
             end
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
+    key = 'metamorphosis',
+    hidden_name = false,
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        if args.type == 'modify_jokers' and G.jokers then
+            return next(SMODS.find_card('j_mxms_butterfly'))
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
+    key = 'commitment',
+    hidden_name = false,
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        if args.type == 'modify_deck' then
+            local _c = true
+            for k, v in pairs(G.playing_cards) do
+                if v.seal and not v.seal == 'mxms_Black' then
+                    _c = false
+                end
+            end
+            return _c
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
+    key = 'flushaholic',
+    hidden_name = false,
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        if args.type == 'modify_jokers' and G.jokers then
+            return next(SMODS.find_card('j_mxms_faded')) and next(SMODS.find_card('j_smeared'))
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
+    key = 'unfortunate',
+    hidden_name = false,
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        if args.type == 'eggsplosion' then
+            return true
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
+    key = 'infinity',
+    hidden_name = false,
+    unlock_condition = function(self, args)
+        if args.type == 'discover_amount' then
+            local mxmsTallies = getMaximusTallies(G.P_CENTER_POOLS["Planet"])
+            if mxmsTallies.tally/mxmsTallies.of >= 1 then
+                return true
+            end
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
+    key = 'win_plus',
+    hidden_name = false,
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        if args.type == 'win' then
+            return next(SMODS.find_joker('j_mxms_joker_plus'))
         end
     end
 }

@@ -24,6 +24,8 @@ if next(SMODS.find_card('j_mxms_microwave')) and pseudorandom('eggsplode' .. G.G
             play_sound('mxms_eggsplosion')
             ease_dollars(self.sell_cost)
             self:start_dissolve({G.C.ORANGE}, nil, 1.6)
+
+            check_for_unlock({ type = "eggsplosion" })
             return true;
         end
     }))

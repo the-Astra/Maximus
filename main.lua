@@ -711,11 +711,26 @@ end
 ---Sets Horoscope success stats
 function set_horoscope_success(card)
     if G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key] then
-        G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key].count = G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key].count + 1
+        G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key].count = G.PROFILES
+        [G.SETTINGS.profile].horoscope_completions[card.config.center_key].count + 1
     else
-        G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key] = { count = 1, order = card.config.center.order }
+        G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key] = { count = 1, order = card.config
+        .center.order }
     end
     G:save_settings()
+end
+
+--#endregion
+
+--#region Achievements
+
+local status, err = pcall(function()
+    return NFS.load(SMODS.current_mod.path .. 'items/achievements.lua')()
+end)
+sendDebugMessage("Loaded Achievements", 'Maximus')
+
+if not status then
+    error("Achievements: " .. err)
 end
 
 --#endregion
