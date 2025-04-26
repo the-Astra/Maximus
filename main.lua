@@ -682,7 +682,7 @@ G.FUNCS.pick_card = function(e)
     }))
 end
 
----Tallies Maximus cards from a given pool; Derived from SMODS modCollectionTally
+---Tallies Maximus cards from a given pool and possible subset; Derived from SMODS modCollectionTally
 function getMaximusTallies(pool, set)
     local set = set or nil
     local obj_tally = { tally = 0, of = 0 }

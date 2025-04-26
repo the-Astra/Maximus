@@ -3,7 +3,8 @@ SMODS.Achievement {
     unlock_condition = function(self, args)
         if args.type == "all_horoscopes" then
             local horoscopeTallies = getMaximusTallies("Horoscope")
-            if horoscopeTallies.of/#G.PROFILES[G.SETTINGS.profile].horoscope_completions then
+            -- +1 to account for Ophiucus
+            if horoscopeTallies.of/(#G.PROFILES[G.SETTINGS.profile].horoscope_completions + 1) >= 1 then
                 return true
             end
         end
