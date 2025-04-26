@@ -71,7 +71,6 @@ SMODS.Joker {
                     trigger = 'after',
                     delay = 0.25,
                     func = function()
-                        --insert atlas changes here
                         if stg.side == 'a_side' then
                             stg.side = 'b_side'
                             card.children.center:set_sprite_pos({ x = 5, y = 12 })

@@ -73,7 +73,7 @@ SMODS.Consumable {
     end,
     succeed = function(self, card, context)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function() set_horoscope_success(card) check_for_unlock({type = "all_horoscopes"}) end }, card)
         for k, v in pairs(card.ability.hands) do
             if v then
                 update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },

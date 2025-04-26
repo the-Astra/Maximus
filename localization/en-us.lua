@@ -1709,6 +1709,20 @@ return {
         }
     },
     misc = {
+        achievement_descriptions = {
+            mxms_apocalypse="Have a full Joker roster consisting only of Zombies",
+            mxms_disciple="Discover every Maximus Joker",
+            mxms_king="Use a Coronation to create a Crowned Joker",
+            mxms_maximum_effort="Beat every Maximus challenge",
+            mxms_stargazer="Complete each Horoscope card at least once",
+        },
+        achievement_names = {
+            mxms_apocalypse="Apocalypse",
+            mxms_disciple="Disciple of James",
+            mxms_king="Fit For a King",
+            mxms_maximum_effort="Maximum Effort",
+            mxms_stargazer="Stargazer",
+        },
         challenge_names = {
             c_mxms_52_commandments = "52 Commandments",
             c_mxms_all_stars = "All Stars",
@@ -1726,6 +1740,7 @@ return {
             c_mxms_thought = "Thought Experiment",
         },
         dictionary = {
+            b_mxms_stat_horoscopes="Horoscopes",
             k_mxms_a_side_ex = "A-Side!",
             k_mxms_b_side_ex = "B-Side!",
             k_mxms_crashed_ex = "Crashed!",
@@ -1763,6 +1778,8 @@ return {
             k_mxms_unpleasant = "how Unpleasant",
             k_mxms_wasted = "Wasted",
             k_mxms_zodiac_pack = "Zodiac Pack",
+            ph_mxms_stat_horoscope = "Number of times this card has been fulfilled",
+            ph_mxms_stat_horoscope_disabled = "Horoscopes disabled, stats cannot be displayed",
         },
         labels = {
             posted_right = "Posted",

@@ -34,6 +34,8 @@ SMODS.Joker {
                         local jimbo = SMODS.find_card('j_joker')[1]
                         jimbo:set_ability(G.P_CENTERS['j_mxms_crowned'])
                         jimbo:juice_up(0.8, 0.8)
+
+                        check_for_unlock({type = "crowned"})
                         return true;
                     end
                 }))

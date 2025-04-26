@@ -63,7 +63,7 @@ SMODS.Consumable {
     end,
     succeed = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function() set_horoscope_success(card) check_for_unlock({type = "all_horoscopes"}) end }, card)
         level_up_hand(card, stg.hand_type, false, stg.upgrade)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',

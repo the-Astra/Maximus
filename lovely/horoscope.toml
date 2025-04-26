@@ -377,3 +377,58 @@ not (G.GAME.used_jokers['c_mxms_ophiucus'] and not next(find_joker("Showman"))) 
 '''
 match_indent = true
 times = 1
+
+
+    # Horoscope Stat Tracking
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+joker_usage = {},
+consumeable_usage = {},
+voucher_usage = {},
+hand_usage = {},
+deck_usage = {},
+'''
+position = "after"
+payload = '''
+horoscope_completions = {},
+'''
+match_indent = true
+times = 1
+
+
+    # Horoscope Stat Menu 
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+{
+    label = localize('b_stat_vouchers'),
+    tab_definition_function = create_UIBox_usage,
+    tab_definition_function_args = {'voucher_usage', 'Voucher'},
+},
+'''
+position = "after"
+payload = '''
+{
+    label = localize('b_mxms_stat_horoscopes'),
+    tab_definition_function = create_UIBox_usage,
+    tab_definition_function_args = {'horoscope_completions', 'Horoscope'},
+},
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+_type == 'consumeable_usage' and localize('ph_stat_consumable') or
+'''
+position = "after"
+payload = '''
+_type == 'horoscope_completions' and (Maximus and (Maximus_config.horoscope and localize('ph_mxms_stat_horoscope') or localize('ph_mxms_stat_horoscope')) or localize('k_none')) or
+'''
+match_indent = true
+times = 1

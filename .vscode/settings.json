@@ -68,7 +68,9 @@
         "delay_fac",
         "create_toggle",
         "mult",
-        "draw_card"
+        "draw_card",
+        "getMaximusTallies",
+        "set_horoscope_success"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

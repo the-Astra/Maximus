@@ -63,7 +63,7 @@ SMODS.Consumable {
     end,
     succeed = function(self, card)
         G.GAME.libra_bonus = true
-        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function() set_horoscope_success(card) check_for_unlock({type = "all_horoscopes"}) end }, card)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()

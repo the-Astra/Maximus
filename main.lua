@@ -134,6 +134,7 @@ Maximus.config_tab = function()
         }
     }
 end
+
 --#endregion
 
 --#region SMODS Optional Features ---------------------------------------------------------------------------
@@ -531,6 +532,8 @@ function SMODS.current_mod.reset_game_globals(run_start)
                     SMODS.calculate_effect({ message = "Turned!", colour = G.C.GREEN },
                         G.GAME.current_round.zombie_target.card)
                     G.GAME.current_round.zombie_target.card = nil
+
+                    check_for_unlock({ type = "zombified" })
                     return true
                 end
             }))
@@ -646,7 +649,7 @@ function mxms_is_food(card)
     return mxms_vanilla_food[center.key]
 end
 
---Code from Betmma's Vouchers
+---Code from Betmma's Vouchers
 G.FUNCS.can_pick_card = function(e)
     if #G.mxms_horoscope.cards < G.mxms_horoscope.config.card_limit then
         e.config.colour = G.C.GREEN
@@ -677,6 +680,42 @@ G.FUNCS.pick_card = function(e)
             return true
         end
     }))
+end
+
+---Tallies Maximus cards from a given pool; Derived from SMODS modCollectionTally
+function getMaximusTallies(pool, set)
+    local set = set or nil
+    local obj_tally = { tally = 0, of = 0 }
+
+    for _, v in pairs(pool) do
+        if v.mod and 'Maximus' == v.mod.id and not v.no_collection then
+            if set then
+                if v.set and v.set == set then
+                    obj_tally.of = obj_tally.of + 1
+                    if v.discovered then
+                        obj_tally.tally = obj_tally.tally + 1
+                    end
+                end
+            else
+                obj_tally.of = obj_tally.of + 1
+                if v.discovered then
+                    obj_tally.tally = obj_tally.tally + 1
+                end
+            end
+        end
+    end
+
+    return obj_tally
+end
+
+---Sets Horoscope success stats
+function set_horoscope_success(card)
+    if G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key] then
+        G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key].count = G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key].count + 1
+    else
+        G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key] = { count = 1, order = card.config.center.order }
+    end
+    G:save_settings()
 end
 
 --#endregion
@@ -838,6 +877,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'whos_on_first',
     'abyss_angel',
     'god_hand',
+    'severed_floor',
 
     --Rare
     'abyss',
@@ -941,7 +981,6 @@ local EXPERIMENTAL_JOKERS = {
     'rock_candy',
     'blockbuster',
     'jestcoin',
-    'severed_floor',
 
     'romero',
     'leto',
