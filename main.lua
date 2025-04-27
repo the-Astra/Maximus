@@ -666,14 +666,8 @@ end
 
 --#region Achievements
 
-local status, err = pcall(function()
-    return NFS.load(SMODS.current_mod.path .. 'items/achievements.lua')()
-end)
+assert(SMODS.load_file('items/achievements.lua'))()
 sendDebugMessage("Loaded Achievements", 'Maximus')
-
-if not status then
-    error("Achievements: " .. err)
-end
 
 --#endregion
 
@@ -730,14 +724,8 @@ if Maximus_config.horoscopes then
 
     sendDebugMessage("Loading Horoscopes...", 'Maximus')
     for i = 1, #ENABLED_HOROSCOPES do
-        local status, err = pcall(function()
-            return NFS.load(SMODS.current_mod.path .. 'items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua')()
-        end)
+        assert(SMODS.load_file('items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua'))()
         sendDebugMessage("Loaded horoscope: " .. ENABLED_HOROSCOPES[i], 'Maximus')
-
-        if not status then
-            error(ENABLED_HOROSCOPES[i] .. ": " .. err)
-        end
     end
     sendDebugMessage("", 'Maximus')
 end
@@ -762,14 +750,8 @@ local ENABLED_BOOSTERS = {
 if Maximus_config.horoscopes then
     sendDebugMessage("Loading Boosters...", 'Maximus')
     for i = 1, #ENABLED_BOOSTERS do
-        local status, err = pcall(function()
-            return NFS.load(SMODS.current_mod.path .. 'items/boosters/' .. ENABLED_BOOSTERS[i] .. '.lua')()
-        end)
+        assert(SMODS.load_file('items/boosters/' .. ENABLED_BOOSTERS[i] .. '.lua'))()
         sendDebugMessage("Loaded booster: " .. ENABLED_BOOSTERS[i], 'Maximus')
-
-        if not status then
-            error(ENABLED_BOOSTERS[i] .. ": " .. err)
-        end
     end
 else
     sendDebugMessage("Horoscopes disabled; Skipping Boosters...", 'Maximus')
@@ -971,28 +953,16 @@ local EXPERIMENTAL_JOKERS = {
 
 sendDebugMessage("Loading Jokers...", 'Maximus')
 for i = 1, #ENABLED_JOKERS do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/jokers/' .. ENABLED_JOKERS[i] .. '.lua')()
-    end)
+    assert(SMODS.load_file('items/jokers/' .. ENABLED_JOKERS[i] .. '.lua'))()
     sendDebugMessage("Loaded joker: " .. ENABLED_JOKERS[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_JOKERS[i] .. ": " .. err)
-    end
 end
 sendDebugMessage("", 'Maximus')
 
 if Maximus_config.experimental_features then
     sendDebugMessage("Loading Experimental Jokers...", 'Maximus')
     for i = 1, #EXPERIMENTAL_JOKERS do
-        local status, err = pcall(function()
-            return NFS.load(SMODS.current_mod.path .. 'items/jokers/' .. EXPERIMENTAL_JOKERS[i] .. '.lua')()
-        end)
+        assert(SMODS.load_file('items/jokers/' .. EXPERIMENTAL_JOKERS[i] .. '.lua'))()
         sendDebugMessage("Loaded joker: " .. EXPERIMENTAL_JOKERS[i], 'Maximus')
-
-        if not status then
-            error(EXPERIMENTAL_JOKERS[i] .. ": " .. err)
-        end
     end
 else
     sendDebugMessage("Experimental Features disabled; Skipping Experimental Jokers...", 'Maximus')
@@ -1023,14 +993,8 @@ local ENABLED_VOUCHERS = {
 
 sendDebugMessage("Loading Vouchers...", 'Maximus')
 for i = 1, #ENABLED_VOUCHERS do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/vouchers/' .. ENABLED_VOUCHERS[i] .. '.lua')()
-    end)
+    assert(SMODS.load_file('items/vouchers/' .. ENABLED_VOUCHERS[i] .. '.lua'))()
     sendDebugMessage("Loaded voucher: " .. ENABLED_VOUCHERS[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_VOUCHERS[i] .. ": " .. err)
-    end
 end
 sendDebugMessage("", 'Maximus')
 
@@ -1058,14 +1022,8 @@ local ENABLED_CHALLENGES = {
 
 sendDebugMessage("Loading Challenges...", 'Maximus')
 for i = 1, #ENABLED_CHALLENGES do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/challenges/' .. ENABLED_CHALLENGES[i] .. '.lua')()
-    end)
+    assert(SMODS.load_file('items/challenges/' .. ENABLED_CHALLENGES[i] .. '.lua'))()
     sendDebugMessage("Loaded challenge: " .. ENABLED_CHALLENGES[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_CHALLENGES[i] .. ": " .. err)
-    end
 end
 sendDebugMessage("", 'Maximus')
 
@@ -1091,14 +1049,8 @@ local ENABLED_BACKS = {
 
 sendDebugMessage("Loading Backs...", 'Maximus')
 for i = 1, #ENABLED_BACKS do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/backs/' .. ENABLED_BACKS[i] .. '.lua')()
-    end)
+    assert(SMODS.load_file('items/backs/' .. ENABLED_BACKS[i] .. '.lua'))()
     sendDebugMessage("Loaded deck: " .. ENABLED_BACKS[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_BACKS[i] .. ": " .. err)
-    end
 end
 sendDebugMessage("", 'Maximus')
 
@@ -1115,17 +1067,13 @@ if Maximus_config.new_handtypes then
 
     sendDebugMessage("Loading Hand Parts...", 'Maximus')
     for i = 1, #ENABLED_HAND_PARTS do
-        local status, err = pcall(function()
-            return NFS.load(SMODS.current_mod.path .. 'items/handtypes/parts/' .. ENABLED_HAND_PARTS[i] .. '.lua')()
-        end)
+        assert(SMODS.load_file('items/handtypes/parts/' .. ENABLED_HAND_PARTS[i] .. '.lua'))()
         sendDebugMessage("Loaded hand part: " .. ENABLED_HAND_PARTS[i], 'Maximus')
-
-        if not status then
-            error(ENABLED_HAND_PARTS[i] .. ": " .. err)
-        end
     end
-    sendDebugMessage("", 'Maximus')
+else
+    sendDebugMessage("New hand types disabled; Skipping hand parts...", 'Maximus')
 end
+sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -1148,17 +1096,13 @@ if Maximus_config.new_handtypes then
 
     sendDebugMessage("Loading Hand Types...", 'Maximus')
     for i = 1, #ENABLED_HANDS do
-        local status, err = pcall(function()
-            return NFS.load(SMODS.current_mod.path .. 'items/handtypes/' .. ENABLED_HANDS[i] .. '.lua')()
-        end)
+        assert(SMODS.load_file('items/handtypes/' .. ENABLED_HANDS[i] .. '.lua'))()
         sendDebugMessage("Loaded hand type: " .. ENABLED_HANDS[i], 'Maximus')
-
-        if not status then
-            error(ENABLED_HANDS[i] .. ": " .. err)
-        end
     end
-    sendDebugMessage("", 'Maximus')
+else
+    sendDebugMessage("New hand types disabled; Skipping hands...", 'Maximus')
 end
+sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -1192,14 +1136,8 @@ local ENABLED_CONSUMABLES = {
 
 sendDebugMessage("Loading Consumables...", 'Maximus')
 for i = 1, #ENABLED_CONSUMABLES do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/consumables/' .. ENABLED_CONSUMABLES[i] .. '.lua')()
-    end)
+    assert(SMODS.load_file('items/consumables/' .. ENABLED_CONSUMABLES[i] .. '.lua'))()
     sendDebugMessage("Loaded consumable: " .. ENABLED_CONSUMABLES[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_CONSUMABLES[i] .. ": " .. err)
-    end
 end
 
 sendDebugMessage("", 'Maximus')
@@ -1232,14 +1170,8 @@ local ENABLED_BLINDS = {
 
 sendDebugMessage("Loading Blinds...", 'Maximus')
 for i = 1, #ENABLED_BLINDS do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/blinds/' .. ENABLED_BLINDS[i] .. '.lua')()
-    end)
+    assert(SMODS.load_file('items/blinds/' .. ENABLED_BLINDS[i] .. '.lua'))()
     sendDebugMessage("Loaded blind: " .. ENABLED_BLINDS[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_BLINDS[i] .. ": " .. err)
-    end
 end
 sendDebugMessage("", 'Maximus')
 
@@ -1259,14 +1191,8 @@ local ENABLED_TAGS = {
 }
 sendDebugMessage("Loading Tags...", 'Maximus')
 for i = 1, #ENABLED_TAGS do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/tags/' .. ENABLED_TAGS[i] .. '.lua')()
-    end)
+    assert(SMODS.load_file('items/tags/' .. ENABLED_TAGS[i] .. '.lua'))()
     sendDebugMessage("Loaded tag: " .. ENABLED_TAGS[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_TAGS[i] .. ": " .. err)
-    end
 end
 sendDebugMessage("", 'Maximus')
 
@@ -1280,14 +1206,8 @@ local ENABLED_SEALS = {
 }
 sendDebugMessage("Loading Seals...", 'Maximus')
 for i = 1, #ENABLED_SEALS do
-    local status, err = pcall(function()
-        return NFS.load(SMODS.current_mod.path .. 'items/seals/' .. ENABLED_SEALS[i] .. '.lua')()
-    end)
+    assert(SMODS.load_file('items/seals/' .. ENABLED_SEALS[i] .. '.lua'))()
     sendDebugMessage("Loaded tag: " .. ENABLED_SEALS[i], 'Maximus')
-
-    if not status then
-        error(ENABLED_SEALS[i] .. ": " .. err)
-    end
 end
 sendDebugMessage("", 'Maximus')
 
