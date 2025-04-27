@@ -3,9 +3,9 @@
         "prefix": "calc",
         "body": [
             "calculate = function(self, card, context)",
-            "   local stg = card.ability.extra",
+            "    local stg = card.ability.extra",
             "",
-            "   $0",
+            "    $0",
             "end,"
         ],
         "description": "Shortcut for a calculate function skeleton"
@@ -14,9 +14,9 @@
         "prefix": "atd",
         "body": [
             "add_to_deck = function(self, card, from_debuff)",
-            "   local stg = card.ability.extra",
+            "    local stg = card.ability.extra",
             "",
-            "   $0",
+            "    $0",
             "end,"
         ],
         "description": "Shortcut for a add_to_deck function skeleton"
@@ -25,9 +25,9 @@
         "prefix": "rfd",
         "body": [
             "remove_from_deck = function(self, card, from_debuff)",
-            "   local stg = card.ability.extra",
+            "    local stg = card.ability.extra",
             "",
-            "   $0",
+            "    $0",
             "end,"
         ],
         "description": "Shortcut for a remove_from_deck function skeleton"
@@ -37,10 +37,10 @@
         "prefix": "locvars",
         "body": [
             "loc_vars = function(self, info_queue, card)",
-            "   local stg = card.ability.extra",
+            "    local stg = card.ability.extra",
             "",
-            "   $1",
-            "   return { vars = { $2 } }",
+            "    $1",
+            "    return { vars = { $2 } }",
             "end,"
         ],
         "description": "Shortcut for a loc_vars function skeleton"
@@ -49,7 +49,7 @@
         "prefix": "scl",
         "body": [
             "for k,v in pairs($1) do",
-            "   $2",
+            "    $2",
             "end"
         ],
         "description": "Shortcut for a simple card loop"
@@ -65,10 +65,10 @@
         "prefix": "event",
         "body": [
             "G.E_MANAGER:add_event(Event({",
-            "   func = function()",
-            "       $0",
-            "       return true;",
-            "   end",
+            "    func = function()",
+            "        $0",
+            "        return true;",
+            "    end",
             "}))",
         ],
         "description": "Shortcut for a SMODS.calculate_effect skeleton"

@@ -541,6 +541,14 @@ return {
                     '{C:inactive}(Currently: #1#/#2#)'
                 }
             },
+            j_mxms_detective = {
+                name = 'Detective',
+                text = {
+                    '{C:blue}+#1#{} Hand Size',
+                    'Every first {C:attention}#1#{} cards drawn',
+                    'will be drawn {C:attention}face-down'
+                },
+            },
             j_mxms_dmiid = {
                 name = 'Don\'t Mind if I Do',
                 text = {
@@ -646,6 +654,17 @@ return {
                     'Retrigger each played',
                     '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10'
                 }
+            },
+            j_mxms_galaxy_brain = {
+                name = 'Galaxy Brain',
+                text = {
+                    'Gains {X:mult,C:white}X#2#{} Mult for',
+                    'every consecutive {C:attention}played hand',
+                    'that is a {C:attention}higher tier{} than',
+                    'the last played hand',
+                    '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)',
+                    '{C:inactive}(Last Hand: {C:red}#3#{C:inactive})'
+                },
             },
             j_mxms_gelatin = {
                 name = 'Gelatin',
@@ -1474,7 +1493,16 @@ return {
                     "Card cannot be {C:attention}modified",
                     "or {C:attention}destroyed"
                 }
-            }
+            },
+            undiscovered_horoscope={
+                name="Not Discovered",
+                text={
+                    "Purchase this",
+                    "card in an",
+                    "unseeded run to",
+                    "learn what it does",
+                },
+            },
         },
         Planet = {
             c_mxms_cancri = {
@@ -1773,7 +1801,9 @@ return {
             c_mxms_thought = "Thought Experiment",
         },
         dictionary = {
+            b_horoscope_cards="Horoscope Cards",
             b_mxms_stat_horoscopes="Horoscopes",
+            k_horoscope="Horoscope",
             k_mxms_a_side_ex = "A-Side!",
             k_mxms_b_side_ex = "B-Side!",
             k_mxms_crashed_ex = "Crashed!",

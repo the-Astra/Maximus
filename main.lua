@@ -680,17 +680,6 @@ if Maximus_config.horoscopes then
         primary_colour = G.C.SET.Horoscope,
         secondary_colour = G.C.SECONDARY_SET.Horoscope,
         default = 'c_mxms_taurus',
-        loc_txt = {
-            name = 'Horoscope',
-            collection = 'Horoscope Cards',
-            undiscovered = {
-                name = 'Not Discovered',
-                text = { "Purchase this",
-                    "card in an",
-                    "unseeded run to",
-                    "learn what it does", },
-            },
-        },
         collection_rows = { 3, 3 },
         shop_rate = 0.0
     }
@@ -937,12 +926,14 @@ local EXPERIMENTAL_JOKERS = {
     'bankrupt',
     'teddy_bear',
     'lucy',
+    'detective',
 
     'sisyphus',
     'nomai',
     'rock_candy',
     'blockbuster',
     'jestcoin',
+    'galaxy_brain',
 
     'romero',
     'leto',

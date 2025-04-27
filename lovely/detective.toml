@@ -1,0 +1,45 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+# Make cards stay flipped on draw with Detective
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+else
+    draw_card(G.deck,G.hand, i*100/hand_space,'up', true)
+end
+'''
+position = "before"
+payload = '''
+elseif next(SMODS.find_card('j_mxms_detective')) and G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED then
+    local biggest_size = 0
+    for k, v in pairs(SMODS.find_card('j_mxms_detective')) do
+        if v.ability.extra.size > biggest_size then
+            biggest_size = v.ability.extra.size
+        end
+    end
+    if i <= biggest_size then
+        draw_card(G.deck,G.hand, i*100/hand_space,'up', true, nil, nil, nil, true)
+    else
+        draw_card(G.deck,G.hand, i*100/hand_space,'up', true)
+    end
+'''
+match_indent = true
+times = 1
+
+# Make draw_card_from ACTUALLY USE stay_flipped
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = '''
+local stay_flipped = G.GAME and G.GAME.blind and G.GAME.blind:stay_flipped(self, card, area)
+'''
+position = "at"
+payload = '''
+local stay_flipped = G.GAME and G.GAME.blind and G.GAME.blind:stay_flipped(self, card, area) or stay_flipped
+'''
+match_indent = true
+times = 1

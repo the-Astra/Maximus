@@ -1,0 +1,57 @@
+SMODS.Joker {
+    key = 'galaxy_brain',
+    atlas = 'Placeholder',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    rarity = 2,
+    config = {
+        extra = {
+            Xmult = 1,
+            gain = 0.25,
+            last_hand = 'None'
+        }
+    },
+    blueprint_compat = true,
+    cost = 6,
+    loc_vars = function(self, info_queue, card)
+        local stg = card.ability.extra
+        return {
+            vars = { stg.Xmult, stg.gain, G.GAME.last_hand_played and G.localization.misc.poker_hands[G.GAME.last_hand_played] or 'None' }
+        }
+    end,
+    calculate = function(self, card, context)
+        local stg = card.ability.extra
+        
+        if context.before then
+            for k, v in pairs(G.GAME.hands) do
+                if k == stg.last_hand then
+                    stg.last_hand = k
+                    stg.Xmult = 1
+                    return {
+                        message = localize('k_reset'),
+                        colour = G.C.FILTER
+                    }
+                elseif k == context.scoring_name then
+                    stg.last_hand = k
+                    stg.Xmult = stg.Xmult + stg.gain
+                    return {
+                        message = localize('k_upgrade_ex')
+                    }
+                end
+            end
+        end
+
+        if context.joker_main and stg.Xmult > 1 then
+            return {
+                x_mult = stg.Xmult
+            }
+        end
+    end,
+    set_ability = function(self, card, initial, delay)
+        local stg = card.ability.extra
+
+        stg.last_hand = G.GAME.last_hand_played or 'None'
+    end
+}
