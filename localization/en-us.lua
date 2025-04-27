@@ -900,7 +900,7 @@ return {
                 text = {
                     'When a {C:attention}consumable{} is sold,',
                     'reduce price of current',
-                    'shop offerings by {C:money}-$#1#'
+                    'shop offerings by {C:money}$#1#'
                 }
             },
             j_mxms_little_brother = {
