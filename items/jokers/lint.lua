@@ -58,7 +58,7 @@ SMODS.Joker {
                                 return true;
                             end
                         }))
-                        local reduction = v.cost - stg.sub >= 0 and v.cost - stg.sub or v.cost
+                        local reduction = v.cost - stg.sub >= 0 and stg.sub or v.cost
                         SMODS.calculate_effect({
                             message = '-' .. localize('$') .. reduction,
                             colour = G.C.MONEY,
@@ -81,7 +81,7 @@ SMODS.Joker {
                                 return true;
                             end
                         }))
-                        local reduction = v.cost - stg.sub >= 0 and v.cost - stg.sub or v.cost
+                        local reduction = v.cost - stg.sub >= 0 and stg.sub or v.cost
                         SMODS.calculate_effect({
                             message = '-' .. localize('$') .. reduction,
                             colour = G.C.MONEY,

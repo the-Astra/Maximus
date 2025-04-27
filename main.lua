@@ -822,8 +822,6 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'bones_jr',
     'conveyor_belt',
     'icosahedron',
-    'lint',
-    'lucy',
 
     --Uncommon
     'war',
@@ -925,6 +923,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'coupon',
     'monk',
     'sleuth',
+    'lint',
     'hedonist',
     'power_creep',
 
@@ -955,6 +954,7 @@ local EXPERIMENTAL_JOKERS = {
     'brown',
     'bankrupt',
     'teddy_bear',
+    'lucy',
 
     'sisyphus',
     'nomai',
