@@ -1,6 +1,6 @@
 SMODS.Back {
     key = 'professional',
-    atlas = 'Backs',
+    atlas = 'Modifiers',
     pos = {
         x = 3,
         y = 0

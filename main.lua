@@ -151,71 +151,13 @@ end
 
 --#endregion
 
---#region Atlases -------------------------------------------------------------------------------------------
-
-SMODS.Atlas { -- Main Joker Atlas
-    key = 'Jokers',
-    path = "Jokers.png",
-    px = 71,
-    py = 95
-}
+--#region Misc Atlases -------------------------------------------------------------------------------------------
 
 SMODS.Atlas { -- Placeholder Atlas
     key = 'Placeholder',
     path = "placeholders.png",
     px = 71,
     py = 95
-}
-
-SMODS.Atlas { -- 4D Joker Atlas
-    key = '4D',
-    path = "4d_joker.png",
-    px = 71,
-    py = 95
-}
-
-SMODS.Atlas { -- Main Voucher Atlas
-    key = 'Vouchers',
-    path = "Vouchers.png",
-    px = 71,
-    py = 95
-}
-
-SMODS.Atlas { -- Main Consumable Atlas
-    key = 'Consumables',
-    path = "Consumables.png",
-    px = 71,
-    py = 95
-}
-
-SMODS.Atlas { -- Main Back Atlas
-    key = 'Backs',
-    path = "Backs.png",
-    px = 71,
-    py = 95
-}
-
-SMODS.Atlas { -- Main Booster Atlas
-    key = 'Boosters',
-    path = "Boosters.png",
-    px = 71,
-    py = 95
-}
-
-SMODS.Atlas { -- Main Tag Atlas
-    key = "Tags",
-    path = "Tags.png",
-    px = 34,
-    py = 34
-}
-
-SMODS.Atlas { -- Main Blind Atlas
-    key = 'Blinds',
-    path = "Blinds.png",
-    atlas_table = 'ANIMATION_ATLAS',
-    frames = 21,
-    px = 34,
-    py = 34
 }
 
 SMODS.Atlas { -- Mod Icon
@@ -803,6 +745,13 @@ end
 
 --#region Boosters
 
+SMODS.Atlas { -- Main Booster Atlas
+    key = 'Boosters',
+    path = "Boosters.png",
+    px = 71,
+    py = 95
+}
+
 local ENABLED_BOOSTERS = {
     'horoscope_normal_1',
     'horoscope_normal_2',
@@ -832,6 +781,20 @@ sendDebugMessage("", 'Maximus')
 
 --#region Jokers --------------------------------------------------------------------------------------------
 
+SMODS.Atlas { -- Main Joker Atlas
+    key = 'Jokers',
+    path = "Jokers.png",
+    px = 71,
+    py = 95
+}
+
+SMODS.Atlas { -- 4D Joker Atlas
+    key = '4D',
+    path = "4d_joker.png",
+    px = 71,
+    py = 95
+}
+
 local ENABLED_JOKERS = { -- Comment out item to disable
 
     --Misc
@@ -859,6 +822,8 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'bones_jr',
     'conveyor_belt',
     'icosahedron',
+    'lint',
+    'lucy',
 
     --Uncommon
     'war',
@@ -1038,6 +1003,13 @@ sendDebugMessage("", 'Maximus')
 
 --#region Vouchers ------------------------------------------------------------------------------------------
 
+SMODS.Atlas { -- Main Voucher Atlas
+    key = 'Vouchers',
+    path = "Vouchers.png",
+    px = 71,
+    py = 95
+}
+
 local ENABLED_VOUCHERS = {
     'launch_code',
     'warp_drive',
@@ -1100,6 +1072,13 @@ sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Backs ---------------------------------------------------------------------------------------------
+
+SMODS.Atlas { -- Main Modifiers Atlas
+    key = 'Modifiers',
+    path = "Modifiers.png",
+    px = 71,
+    py = 95
+}
 
 local ENABLED_BACKS = {
     'sixth_finger',
@@ -1185,6 +1164,13 @@ end
 
 --#region Consumables ---------------------------------------------------------------------------------------
 
+SMODS.Atlas { -- Main Consumable Atlas
+    key = 'Consumables',
+    path = "Consumables.png",
+    px = 71,
+    py = 95
+}
+
 local ENABLED_CONSUMABLES = {
     -- Planets
     'microscopii',
@@ -1222,6 +1208,15 @@ sendDebugMessage("", 'Maximus')
 
 --#region Blinds --------------------------------------------------------------------------------------------
 
+SMODS.Atlas { -- Main Blind Atlas
+    key = 'Blinds',
+    path = "Blinds.png",
+    atlas_table = 'ANIMATION_ATLAS',
+    frames = 21,
+    px = 34,
+    py = 34
+}
+
 local ENABLED_BLINDS = {
     'rot',
     'grinder',
@@ -1251,6 +1246,13 @@ sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Tags ----------------------------------------------------------------------------------------------
+
+SMODS.Atlas { -- Main Tag Atlas
+    key = "Tags",
+    path = "Tags.png",
+    px = 34,
+    py = 34
+}
 
 local ENABLED_TAGS = {
     'star',

@@ -1,6 +1,6 @@
 SMODS.Back {
     key = 'sixth_finger',
-    atlas = 'Backs',
+    atlas = 'Modifiers',
     pos = {
         x = 0,
         y = 0

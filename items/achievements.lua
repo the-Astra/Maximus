@@ -40,6 +40,7 @@ SMODS.Achievement {
             for k, v in pairs(maximus_challenges) do
                 if not G.PROFILES[G.SETTINGS.profile].challenge_progress.completed[v] then
                     _c = false
+                    break
                 end
             end
             return _c
@@ -111,8 +112,9 @@ SMODS.Achievement {
         if args.type == 'modify_deck' then
             local _c = true
             for k, v in pairs(G.playing_cards) do
-                if v.seal and not v.seal == 'mxms_Black' then
+                if not v.seal or v.seal and v.seal ~= 'mxms_Black' then
                     _c = false
+                    break
                 end
             end
             return _c

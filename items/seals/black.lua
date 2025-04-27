@@ -5,9 +5,10 @@ SMODS.Seal {
             Xmult = 2
         }
     },
+    atlas = 'Modifiers',
     pos = {
-        x = 5,
-        y = 4
+        x = 0,
+        y = 2
     },
     badge_colour = G.C.BLACK,
     sound = {

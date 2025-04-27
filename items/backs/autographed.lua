@@ -1,6 +1,6 @@
 SMODS.Back {
     key = 'autographed',
-    atlas = 'Backs',
+    atlas = 'Modifiers',
     pos = {
         x = 5,
         y = 0

@@ -895,6 +895,14 @@ return {
                     'and {C:chips}Bonus{} cards'
                 }
             },
+            j_mxms_lint = {
+                name = 'Pocket Lint',
+                text = {
+                    'When a {C:attention}consumable{} is sold,',
+                    'reduce price of current',
+                    'shop offerings by {C:money}-$#1#'
+                }
+            },
             j_mxms_little_brother = {
                 name = 'Little Brother',
                 text = {
@@ -918,6 +926,16 @@ return {
                     '{C:mult}+#1#{} Mult if played',
                     'hand is',
                     'a {C:attention}#2#'
+                }
+            },
+            j_mxms_lucy = {
+                name = 'Lucy in the Sky',
+                text = {
+                    '{C:green}0 in #2#{} chance to',
+                    'create the {C:planet}Planet{} card',
+                    'of played {C:attention}poker hand{}',
+                    'Scoring {C:diamonds}Diamond{} cards',
+                    '{C:attention}increase{} creation odds by {C:green}+#1#'
                 }
             },
             j_mxms_man_in_the_mirror = {
