@@ -19,9 +19,11 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         stg.chips = stg.base_chips
-        for k, v in pairs(G.playing_cards) do
-            if next(SMODS.get_enhancements(v)) and stg.chips > 0 then
-                stg.chips = stg.chips - stg.dChips
+        if G.playing_cards then
+            for k, v in pairs(G.playing_cards) do
+                if next(SMODS.get_enhancements(v)) and stg.chips > 0 then
+                    stg.chips = stg.chips - stg.dChips
+                end
             end
         end
 

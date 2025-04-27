@@ -18,9 +18,11 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         local gold_cards = 0
-        for k, v in pairs(G.playing_cards) do
-            if SMODS.has_enhancement(v, 'm_gold') then
-                gold_cards = gold_cards + 1
+        if G.playing_cards then
+            for k, v in pairs(G.playing_cards) do
+                if SMODS.has_enhancement(v, 'm_gold') then
+                    gold_cards = gold_cards + 1
+                end
             end
         end
 
