@@ -47,5 +47,8 @@ SMODS.Joker {
         if not next(SMODS.find_card('j_mxms_bootleg')) then
             G.GAME.last_bought.card = nil
         end
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
     end
 }

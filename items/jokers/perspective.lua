@@ -9,6 +9,9 @@ SMODS.Joker {
     config = {},
     blueprint_compat = false,
     cost = 3,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+    end
 }
 
 -- Change Full House to not interfere with Perspective

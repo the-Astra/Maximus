@@ -163,5 +163,8 @@ SMODS.Joker {
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 1.1, delay = 0 },
                 { mult = 0, chips = 0, handname = '', level = '' })
         end
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
     end
 }

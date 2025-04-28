@@ -8,7 +8,10 @@ SMODS.Joker {
     blueprint_compat = false,
     cost = 5,
     rarity = 2,
-    config = {}
+    config = {},
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+    end
 }
 
 -- Change 4oaK and 2P to work with Fog

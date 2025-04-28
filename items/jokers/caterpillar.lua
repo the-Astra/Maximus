@@ -50,5 +50,8 @@ SMODS.Joker {
                 SMODS.calculate_effect({ message = localize('k_active_ex'), colour = G.C.TAROT }, card)
             end
         end
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
     end
 }

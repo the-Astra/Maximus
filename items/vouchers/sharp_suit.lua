@@ -5,6 +5,9 @@ SMODS.Voucher {
         x = 1,
         y = 0
     },
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+    end
 }
 
 -- Change Arcana Packs to include checks for Sharp Suit

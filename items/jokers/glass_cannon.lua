@@ -41,5 +41,8 @@ SMODS.Joker {
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
             card.ability.extra.hands = 0
         end
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
     end
 }

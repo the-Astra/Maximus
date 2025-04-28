@@ -25,6 +25,9 @@ SMODS.Joker {
         if context.before and context.scoring_name == most_played_hand then
             level_up_hand(card, most_played_hand, nil, stg.levels)
         end
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': anerdymous', G.C.BLACK, G.C.WHITE, 1)
     end
 }
 

@@ -73,5 +73,8 @@ SMODS.Joker {
             stg.least_count = 0
             stg.tie = false
         end
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
     end
 }

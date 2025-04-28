@@ -27,6 +27,9 @@ if Maximus_config.horoscopes then
                 SMODS.calculate_effect({ message = localize('k_mxms_plus_horoscope'), colour = G.C.HOROSCOPE },
                     context.blueprint_card or card)
             end
+        end,
+        set_badges = function(self, card, badges)
+            badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
         end
     }
 else

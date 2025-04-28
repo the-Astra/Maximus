@@ -29,6 +29,9 @@ if Maximus_config.horoscopes then
                     SMODS.calculate_effect({ dollars = stg.dollars }, v)
                 end
             end
+        end,
+        set_badges = function(self, card, badges)
+            badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
         end
     }
 else

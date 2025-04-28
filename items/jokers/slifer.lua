@@ -25,5 +25,8 @@ SMODS.Joker {
                 x_mult = #G.hand.cards
             }
         end
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': anerdymous', G.C.BLACK, G.C.WHITE, 1)
     end
 }

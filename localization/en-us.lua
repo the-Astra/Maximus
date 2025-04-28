@@ -1852,6 +1852,7 @@ return {
             b_mxms_stat_horoscopes = "Horoscopes",
             k_horoscope = "Horoscope",
             k_mxms_a_side_ex = "A-Side!",
+            k_mxms_artist = "Artist",
             k_mxms_b_side_ex = "B-Side!",
             k_mxms_crashed_ex = "Crashed!",
             k_mxms_crowned = "Crowned",

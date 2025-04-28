@@ -7,7 +7,10 @@ SMODS.Joker {
     },
     rarity = 1,
     blueprint_compat = true,
-    cost = 5
+    cost = 5,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+    end
 }
 
 local gf = get_flush

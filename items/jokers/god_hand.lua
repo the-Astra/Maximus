@@ -67,4 +67,7 @@ SMODS.Joker {
         stg.rank = SMODS.Ranks[chosen_card.base.value].key
         stg.suit = chosen_card.base.suit
     end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+    end
 }

@@ -29,4 +29,7 @@ SMODS.Joker {
     
        G.GAME.base_planet_levels = G.GAME.base_planet_levels - stg.extra_levels
     end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+    end
 }

@@ -44,5 +44,8 @@ SMODS.Joker {
 
         stg.tally = math.floor(gold_cards / 2)
         return card.ability.extra.tally * card.ability.extra.money
+    end,
+    set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': PsyAlola', G.C.BLACK, G.C.WHITE, 1)
     end
 }
