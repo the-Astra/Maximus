@@ -414,6 +414,13 @@ return {
                     '{C:attention}+#1#{} extra level'
                 }
             },
+            j_mxms_change = {
+                name = 'Pocket Change',
+                text = {
+                    '{C:money}Reward Money{} is rounded',
+                    'up to the next multiple of {C:attention}5'
+                },
+            },
             j_mxms_cheat_day = {
                 name = 'Cheat Day',
                 text = {
@@ -786,6 +793,15 @@ return {
                     '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'
                 }
             },
+            j_mxms_honorable = {
+                name = 'Honorable Joker',
+                text = {
+                    '{C:mult}+#1#{} Mult for every',
+                    'Joker created with {C:tarot}Judgement',
+                    '{C:red}Destroys{} the created Joker',
+                    '{C:inactive}(Currently: {C:mult}+#2#{C:inactive} Mult)'
+                },
+            },
             j_mxms_hopscotch = {
                 name = 'Hopscotch',
                 text = {
@@ -1100,6 +1116,21 @@ return {
                     'to all other scoring cards'
                 }
             },
+            j_mxms_piggy_bank = {
+                name = 'Piggy Bank',
+                text = {
+                    'Every time you earn {C:money}money,',
+                    'take {C:money}$1{} and store it in',
+                    'this card',
+                    'Gives {C:chips}+#1#{} Chips for every',
+                    '{C:money}$1{} stored',
+                    'When {C:money}money{} reaches {C:money}$0{},',
+                    'this card is {C:red}destroyed{} and',
+                    'gives back all stored {C:money}money{}',
+                    '{C:inactive}(Currently: {C:money}$#2# {C:inactive}Stored,',
+                    '{C:chips}+#3#{C:inactive} Chips)'
+                },
+            },
             j_mxms_pizza = {
                 name = 'Pizza',
                 text = {
@@ -1201,6 +1232,13 @@ return {
                     '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)'
                 }
             },
+            j_mxms_screaming = {
+                name = 'Screaming Joker',
+                text = {
+                    '{C:attention}Face{} cards are',
+                    'counted as {C:attention}Aces{}',
+                },
+            },
             j_mxms_severed_floor = {
                 name = 'Severed Floor',
                 text = {
@@ -1297,6 +1335,15 @@ return {
                     'Gain {C:blue}hands{} equal to amount',
                     'of hand size lost'
                 }
+            },
+            j_mxms_spare_tire = {
+                name = 'Spare Tire',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'create a {C:tarot}Wheel of Fortune{}',
+                    'when another {C:tarot}Wheel of Fortune{} fails',
+                    '{s:0.8,C:inactive}(Must have room)'
+                },
             },
             j_mxms_stone_thrower = {
                 name = 'Stone Thrower',
@@ -1494,9 +1541,9 @@ return {
                     "or {C:attention}destroyed"
                 }
             },
-            undiscovered_horoscope={
-                name="Not Discovered",
-                text={
+            undiscovered_horoscope = {
+                name = "Not Discovered",
+                text = {
                     "Purchase this",
                     "card in an",
                     "unseeded run to",
@@ -1756,32 +1803,32 @@ return {
     },
     misc = {
         achievement_descriptions = {
-            ach_mxms_apocalypse="Have a full Joker roster consisting only of Zombies",
-            ach_mxms_commitment="Have a deck consisting entirely of cards with a Black Seal",
-            ach_mxms_disciple="Discover every Maximus Joker",
-            ach_mxms_flushaholic="Hold both Smeared Joker and Faded Joker at the same time",
-            ach_mxms_infinity="Discover every Sixth Finger Planet Card",
-            ach_mxms_king="Use a Coronation to create a Crowned Joker",
-            ach_mxms_laughing="Beat the odds to find and purchase a Comedian",
-            ach_mxms_maximum_effort="Beat every Maximus challenge",
-            ach_mxms_metamorphosis="Create a Butterfly",
-            ach_mxms_stargazer="Complete each Horoscope card at least once",
-            ach_mxms_unfortunate="Overcook an Egg",
-            ach_mxms_win_plus="Win a run with Joker+",
+            ach_mxms_apocalypse = "Have a full Joker roster consisting only of Zombies",
+            ach_mxms_commitment = "Have a deck consisting entirely of cards with a Black Seal",
+            ach_mxms_disciple = "Discover every Maximus Joker",
+            ach_mxms_flushaholic = "Hold both Smeared Joker and Faded Joker at the same time",
+            ach_mxms_infinity = "Discover every Sixth Finger Planet Card",
+            ach_mxms_king = "Use a Coronation to create a Crowned Joker",
+            ach_mxms_laughing = "Beat the odds to find and purchase a Comedian",
+            ach_mxms_maximum_effort = "Beat every Maximus challenge",
+            ach_mxms_metamorphosis = "Create a Butterfly",
+            ach_mxms_stargazer = "Complete each Horoscope card at least once",
+            ach_mxms_unfortunate = "Overcook an Egg",
+            ach_mxms_win_plus = "Win a run with Joker+",
         },
         achievement_names = {
-            ach_mxms_apocalypse="Apocalypse",
-            ach_mxms_commitment="Now That\'s Commitment",
-            ach_mxms_disciple="Disciple of James",
-            ach_mxms_flushaholic="Flushaholic",
-            ach_mxms_infinity="Inifinty and Beyond",
-            ach_mxms_king="Fit For a King",
-            ach_mxms_laughing="Who\'s Laughing Now?",
-            ach_mxms_maximum_effort="Maximum Effort",
-            ach_mxms_metamorphosis="Metamorphosis",
-            ach_mxms_stargazer="Stargazer",
-            ach_mxms_unfortunate="That\'s Unfortunate",
-            ach_mxms_win_plus="Win+",
+            ach_mxms_apocalypse = "Apocalypse",
+            ach_mxms_commitment = "Now That\'s Commitment",
+            ach_mxms_disciple = "Disciple of James",
+            ach_mxms_flushaholic = "Flushaholic",
+            ach_mxms_infinity = "Inifinty and Beyond",
+            ach_mxms_king = "Fit For a King",
+            ach_mxms_laughing = "Who\'s Laughing Now?",
+            ach_mxms_maximum_effort = "Maximum Effort",
+            ach_mxms_metamorphosis = "Metamorphosis",
+            ach_mxms_stargazer = "Stargazer",
+            ach_mxms_unfortunate = "That\'s Unfortunate",
+            ach_mxms_win_plus = "Win+",
         },
         challenge_names = {
             c_mxms_52_commandments = "52 Commandments",
@@ -1801,9 +1848,9 @@ return {
             c_mxms_thought = "Thought Experiment",
         },
         dictionary = {
-            b_horoscope_cards="Horoscope Cards",
-            b_mxms_stat_horoscopes="Horoscopes",
-            k_horoscope="Horoscope",
+            b_horoscope_cards = "Horoscope Cards",
+            b_mxms_stat_horoscopes = "Horoscopes",
+            k_horoscope = "Horoscope",
             k_mxms_a_side_ex = "A-Side!",
             k_mxms_b_side_ex = "B-Side!",
             k_mxms_crashed_ex = "Crashed!",

@@ -10,7 +10,7 @@ SMODS.Joker {
         extra = {
             Xmult = 1,
             gain = 0.25,
-            last_hand = 'None'
+            last_hand = nil
         }
     },
     blueprint_compat = true,
@@ -18,13 +18,13 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.Xmult, stg.gain, G.GAME.last_hand_played and G.localization.misc.poker_hands[G.GAME.last_hand_played] or 'None' }
+            vars = { stg.Xmult, stg.gain, stg.last_hand and G.localization.misc.poker_hands[stg.last_hand] or 'None' }
         }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
         
-        if context.before then
+        if context.before and not context.blueprint then
             for k, v in pairs(G.GAME.hands) do
                 if k == stg.last_hand then
                     stg.last_hand = k
@@ -37,7 +37,8 @@ SMODS.Joker {
                     stg.last_hand = k
                     stg.Xmult = stg.Xmult + stg.gain
                     return {
-                        message = localize('k_upgrade_ex')
+                        message = localize('k_upgrade_ex'),
+                        func = function() SMODS.calculate_context({scaling_card = true}) end
                     }
                 end
             end

@@ -927,6 +927,10 @@ local EXPERIMENTAL_JOKERS = {
     'teddy_bear',
     'lucy',
     'detective',
+    'spare_tire',
+    'piggy_bank',
+    'honorable',
+    'screaming',
 
     'sisyphus',
     'nomai',
@@ -934,6 +938,7 @@ local EXPERIMENTAL_JOKERS = {
     'blockbuster',
     'jestcoin',
     'galaxy_brain',
+    'change',
 
     'romero',
     'leto',
