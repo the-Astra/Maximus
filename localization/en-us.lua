@@ -286,6 +286,15 @@ return {
                     '{s:0.8,C:inactive}Can override other editions{}'
                 }
             },
+            j_mxms_all_in_favor = {
+                name = 'All In Favor',
+                text = {
+                    'If last played hand is a',
+                    '{C:attention}Straight Flush{}, sell this',
+                    'Joker to create a copy',
+                    'of {C:attention}Four Fingers',
+                },
+            },
             j_mxms_astigmatism = {
                 name = 'Astigmatism',
                 text = {
@@ -318,6 +327,19 @@ return {
                     'according to deck size\'s',
                     'deviation from {C:attention}52{}'
                 }
+            },
+            j_mxms_blackjack = {
+                name = 'Blackjack',
+                text = {
+                    'Gains {X:mult,C:white}X#1#{} Mult if scored cards',
+                    'ranks add up to less than {C:attention}21',
+                    'Gains {X:mult,C:white}X#2#{} Mult if scored cards',
+                    'ranks add up to exactly {C:attention}21',
+                    '{C:red}Resets{} if scored cards ranks',
+                    'add up to more than {C:attention}21',
+                    '{s:0.8,C:inactive}Aces always count as 11',
+                    '{C:inactive}(Currently: {X:mult,C:white}X#3#{C:inactive} Mult)'
+                },
             },
             j_mxms_blockbuster = {
                 name = 'Blockbuster',
@@ -673,6 +695,14 @@ return {
                     '{C:inactive}(Last Hand: {C:red}#3#{C:inactive})'
                 },
             },
+            j_mxms_gangster_love = {
+                name = 'Gangster of Love',
+                text = {
+                    'If played hand contains a',
+                    '{C:attention}Flush{}, convert all scored',
+                    'cards into {C:hearts}Hearts'
+                },
+            },
             j_mxms_gelatin = {
                 name = 'Gelatin',
                 text = {
@@ -991,6 +1021,14 @@ return {
                     '{s:0.8,C:inactive}Position changes every round{}'
                 }
             },
+            j_mxms_maurice = {
+                name = 'Enter Maurice',
+                text = {
+                    'Played {C:attention}Wild{} Cards',
+                    'are added back to your {C:attention}Deck',
+                    'instead of being discarded'
+                }
+            },
             j_mxms_memory_game = {
                 name = 'Memory Game',
                 text = {
@@ -1120,8 +1158,7 @@ return {
                 name = 'Piggy Bank',
                 text = {
                     'Every time you earn {C:money}money,',
-                    'take {C:money}$1{} and store it in',
-                    'this card',
+                    'take {C:money}$1{} and store it in this card',
                     'Gives {C:chips}+#1#{} Chips for every',
                     '{C:money}$1{} stored',
                     'When {C:money}money{} reaches {C:money}$0{},',
@@ -1182,6 +1219,21 @@ return {
                     '{C:dark_edition}Polychrome{} {C:attention}face{} cards held',
                     'in hand give {X:mult,C:white}X#1#{} Mult'
                 }
+            },
+            j_mxms_prospector = {
+                name = 'Prospector',
+                text = {
+                    '{C:attention}Gold{} Cards gain',
+                    '{C:money}$#1#{} Mult to their',
+                    'effect when triggered',
+                    'in hand'
+                },
+            },
+            _mxms_ = {
+                name = 'The Winged Dragon of Ra',
+                text = {
+                    '',
+                },
             },
             j_mxms_random_encounter = {
                 name = 'Random Encounter',
@@ -1317,6 +1369,15 @@ return {
                     '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'
                 }
             },
+            j_mxms_space_cowboy = {
+                name = 'Space Cowboy',
+                text = {
+                    'Creates a {C:green}random',
+                    '{C:planet}Planet{} card when',
+                    'blind is defeated',
+                    '{s:0.8,C:inactive}(Must have room)'
+                }
+            },
             j_mxms_space_race = {
                 name = 'Space Race',
                 text = {
@@ -1390,6 +1451,13 @@ return {
                     'for the next {C:attention}#1#{} hands'
                 }
             },
+            j_mxms_trashman = {
+                name = 'Trashman',
+                text = {
+                    'Played and unscored',
+                    'cards give {C:money}$#1#{}'
+                },
+            },
             j_mxms_trick_or_treat = {
                 name = 'Trick or Treat',
                 text = {
@@ -1439,7 +1507,15 @@ return {
                     'have their limits {C:attention}doubled'
                 }
             },
-
+            j_mxms_welder = {
+                name = 'Welder',
+                text = {
+                    '{C:attention}Steel{} Cards gain',
+                    '{X:mult,C:white}X#1#{} Mult to their',
+                    'effect when triggered',
+                    'in hand'
+                },
+            },
             j_mxms_werewolf = {
                 name = 'Werewolf',
                 text = {
@@ -1854,6 +1930,8 @@ return {
             k_mxms_a_side_ex = "A-Side!",
             k_mxms_artist = "Artist",
             k_mxms_b_side_ex = "B-Side!",
+            k_mxms_blackjack_ex = "Blackjack!",
+            k_mxms_bust_ex = "Bust!",
             k_mxms_crashed_ex = "Crashed!",
             k_mxms_crowned = "Crowned",
             k_mxms_crumbled = "Crumbled",
@@ -1871,6 +1949,7 @@ return {
             k_mxms_jobbed = "Jobbed",
             k_mxms_left_el = "Left...",
             k_mxms_loser = "Tonight\'s Biggest Loser",
+            k_mxms_love = "Love!",
             k_mxms_lucky = "Lucky",
             k_mxms_more_ex = "More Please!",
             k_mxms_no_target_el = "No Target...",

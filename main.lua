@@ -57,28 +57,6 @@ Maximus.config_tab = function()
                 }
             },
 
-            -- Experimental Features Toggle
-            {
-                n = G.UIT.R,
-                config = { align = "cl", padding = 0 },
-                nodes = {
-                    {
-                        n = G.UIT.C,
-                        config = { align = "cl", padding = 0.05 },
-                        nodes = {
-                            create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "experimental_features" },
-                        }
-                    },
-                    {
-                        n = G.UIT.C,
-                        config = { align = "c", padding = 0 },
-                        nodes = {
-                            { n = G.UIT.T, config = { text = "Enable Experimental Features", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
-                        }
-                    },
-                }
-            },
-
             -- Horoscopes Toggle
             {
                 n = G.UIT.R,
@@ -361,6 +339,11 @@ SMODS.Sound({
 SMODS.Sound({
     key = 'hey',
     path = 'hey.ogg'
+})
+
+SMODS.Sound({
+    key = 'joker',
+    path = 'i\'m a joker.ogg'
 })
 --#endregion
 
@@ -793,6 +776,19 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'bones_jr',
     'conveyor_belt',
     'icosahedron',
+    'golden_rings',
+    'bear',
+    'werewolf',
+    'brown',
+    'bankrupt',
+    'teddy_bear',
+    'lucy',
+    'detective',
+    'spare_tire',
+    'piggy_bank',
+    'honorable',
+    'screaming',
+    'trashman',
 
     --Uncommon
     'war',
@@ -827,6 +823,17 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'abyss_angel',
     'god_hand',
     'severed_floor',
+    'sisyphus',
+    'nomai',
+    'rock_candy',
+    'blockbuster',
+    'jestcoin',
+    'galaxy_brain',
+    'change',
+    'welder',
+    'prospector',
+    'blackjack',
+    'all_in_favor',
 
     --Rare
     'abyss',
@@ -887,8 +894,17 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     --God Cards
     'slifer',
     'obelisk',
+    'ra',
+
+    --Cowboy Bebop
+    'space_cowboy',
+    'gangster_love',
+    'maurice',
 
     --Metamorphosis Trio
+    'caterpillar',
+    'chrysalis',
+    'butterfly',
 
     --Shoppers
     'coupon',
@@ -913,33 +929,6 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     --Legendaries
     'ledger',
     'galifianakis',
-}
-
-local EXPERIMENTAL_JOKERS = {
-    'golden_rings',
-    'caterpillar',
-    'chrysalis',
-    'butterfly',
-    'bear',
-    'werewolf',
-    'brown',
-    'bankrupt',
-    'teddy_bear',
-    'lucy',
-    'detective',
-    'spare_tire',
-    'piggy_bank',
-    'honorable',
-    'screaming',
-
-    'sisyphus',
-    'nomai',
-    'rock_candy',
-    'blockbuster',
-    'jestcoin',
-    'galaxy_brain',
-    'change',
-
     'romero',
     'leto',
     'nicholson',
@@ -951,17 +940,6 @@ sendDebugMessage("Loading Jokers...", 'Maximus')
 for i = 1, #ENABLED_JOKERS do
     assert(SMODS.load_file('items/jokers/' .. ENABLED_JOKERS[i] .. '.lua'))()
     sendDebugMessage("Loaded joker: " .. ENABLED_JOKERS[i], 'Maximus')
-end
-sendDebugMessage("", 'Maximus')
-
-if Maximus_config.experimental_features then
-    sendDebugMessage("Loading Experimental Jokers...", 'Maximus')
-    for i = 1, #EXPERIMENTAL_JOKERS do
-        assert(SMODS.load_file('items/jokers/' .. EXPERIMENTAL_JOKERS[i] .. '.lua'))()
-        sendDebugMessage("Loaded joker: " .. EXPERIMENTAL_JOKERS[i], 'Maximus')
-    end
-else
-    sendDebugMessage("Experimental Features disabled; Skipping Experimental Jokers...", 'Maximus')
 end
 sendDebugMessage("", 'Maximus')
 

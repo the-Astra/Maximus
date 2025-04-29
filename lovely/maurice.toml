@@ -1,0 +1,23 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+# Make Wild cards go back to deck after play
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+draw_card(G.play,G.discard, it*100/play_count,'down', false, v)
+'''
+position = "at"
+payload = '''
+if next(SMODS.find_card('j_mxms_maurice')) and SMODS.has_enhancement(v, 'm_wild') then
+    draw_card(G.play,G.deck, it*100/play_count,'down', false, v)
+    SMODS.calculate_effect({message = localize('k_saved_ex'), sound = 'mxms_joker'}, SMODS.find_card('j_mxms_maurice')[1])
+else
+    draw_card(G.play,G.discard, it*100/play_count,'down', false, v)
+end
+'''
+match_indent = true
+times = 1

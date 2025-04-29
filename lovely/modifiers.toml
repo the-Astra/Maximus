@@ -116,8 +116,6 @@ delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante =
 '''
 position = "before"
 payload = '''
-reset_horoscopes()
-apply_horoscope_effects()
 
 if G.GAME.modifiers.mxms_hand_decay then
     update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(G.GAME.modifiers.mxms_hand_decay, 'poker_hands'),chips = G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].chips, mult = G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].mult, level=G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].level})
