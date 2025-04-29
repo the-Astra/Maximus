@@ -1224,12 +1224,12 @@ return {
                 name = 'Prospector',
                 text = {
                     '{C:attention}Gold{} Cards gain',
-                    '{C:money}$#1#{} Mult to their',
+                    '{C:money}$#1#{} to their',
                     'effect when triggered',
                     'in hand'
                 },
             },
-            _mxms_ = {
+            j_mxms_ra = {
                 name = 'The Winged Dragon of Ra',
                 text = {
                     '',
