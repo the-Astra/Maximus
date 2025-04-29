@@ -34,7 +34,7 @@ SMODS.Joker {
         end
 
         return {
-            vars = { stg.side, value, text, stg.hands, stg.hand_limit, colours = { colour } },
+            vars = { localize('k_mxms_'..stg.side), value, text, stg.hands, stg.hand_limit, colours = { colour } },
         }
     end,
     calculate = function(self, card, context)
