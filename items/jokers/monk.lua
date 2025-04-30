@@ -35,7 +35,7 @@ SMODS.Joker {
 
         if context.ending_shop then
             if not stg.purchase_made then
-                stg.chips = stg.chips + stg.gain
+                stg.chips = stg.chips + stg.gain * G.GAME.soil_mod
                 SMODS.calculate_effect(
                     { message = localize { type = 'variable', key = 'a_chips', vars = { stg.chips } } },
                     card)

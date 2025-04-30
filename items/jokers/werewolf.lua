@@ -25,7 +25,7 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.using_consumeable and context.consumeable.config.center.key == 'c_moon' and not context.blueprint then
-            stg.mult = stg.mult + stg.gain
+            stg.mult = stg.mult + stg.gain * G.GAME.soil_mod
             SMODS.calculate_effect(
                 { message = localize { type = 'variable', key = 'a_mult', vars = { stg.mult } }, colour = G.C.MULT },
                 card)

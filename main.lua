@@ -934,6 +934,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'nicholson',
     'phoenix',
     'hamill',
+    'hugo',
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')

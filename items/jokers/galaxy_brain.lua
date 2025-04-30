@@ -35,7 +35,7 @@ SMODS.Joker {
                     }
                 elseif k == context.scoring_name then
                     stg.last_hand = k
-                    stg.Xmult = stg.Xmult + stg.gain
+                    stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
                     return {
                         message = localize('k_upgrade_ex'),
                         func = function() SMODS.calculate_context({scaling_card = true}) end

@@ -840,6 +840,13 @@ return {
                     'receive associated {C:attention}skip tag{}'
                 }
             },
+            j_mxms_hugo = {
+                name = 'Hugo',
+                text = {
+                    'Blind sizes do not exceed', '{C:attention}Small Blind',
+                    '{C:green}#1# in #2#{} chance to', '{C:red}skip blinds{} when selected',
+                }
+            },
             j_mxms_hypeman = {
                 name = 'Hype Man',
                 text = {
@@ -1232,7 +1239,10 @@ return {
             j_mxms_ra = {
                 name = 'The Winged Dragon of Ra',
                 text = {
-                    '',
+                    'If played hand is a {C:attention}High Card{},',
+                    'gains {X:mult,C:white}X#1#{} per scoring card and', 
+                    '{C:red}destroys{} all scoring cards',
+                    '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)'
                 },
             },
             j_mxms_random_encounter = {
@@ -1960,6 +1970,7 @@ return {
             k_mxms_plus_horoscope = "+1 Horoscope",
             k_mxms_pushed_ex = "Pushed!",
             k_mxms_r_mult_ex = "A random Mult appears!",
+            k_mxms_sacrifice_ex = "Sacrifice!",
             k_mxms_saved_later_ex = "Saved for later!",
             k_mxms_serious_q = "Why so serious?",
             k_mxms_splat_ex = "Splat!",

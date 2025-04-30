@@ -24,7 +24,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         
         if context.minus_handsize and not context.blueprint then
-            stg.Xmult = stg.Xmult + (math.abs(context.decrease) * stg.gain)
+            stg.Xmult = stg.Xmult + (math.abs(context.decrease) * stg.gain)  * G.GAME.soil_mod
             return {
                 message = localize{type = 'variable', key = 'a_xmult', vars = {stg.Xmult}},
                 func = function() SMODS.calculate_context({scaling_card = true}) end

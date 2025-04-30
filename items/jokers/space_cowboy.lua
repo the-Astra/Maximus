@@ -11,12 +11,12 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.end_of_round and not context.individual and not context.repetition 
-        and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+        if context.end_of_round and not context.individual and not context.repetition
+            and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    SMODS.add_card({set='Planet'})
+                    SMODS.add_card({ set = 'Planet' })
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
                     return true;
                 end
@@ -27,9 +27,8 @@ SMODS.Joker {
                 sound = 'mxms_joker'
             }
         end
-        
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
     end
 }

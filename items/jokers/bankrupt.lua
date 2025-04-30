@@ -25,7 +25,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         
         if context.failed_prob and context.card.config.center.key == 'c_wheel_of_fortune' then
-            stg.mult = stg.mult + stg.gain
+            stg.mult = stg.mult + stg.gain * G.GAME.soil_mod
             return {
                 message = localize{type = 'variable', key = 'a_mult', vars = {stg.mult}},
                 func = function() SMODS.calculate_context({scaling_card = true}) end

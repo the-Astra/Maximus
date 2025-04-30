@@ -3,7 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-#Blind Size Modifier
+#Blind Size Modifier (includes Hugo check)
 [[patches]]
 [patches.pattern]
 target = 'blind.lua'
@@ -12,6 +12,9 @@ self.chips = get_blind_amount(G.GAME.round_resets.ante)*self.mult*G.GAME.startin
 '''
 position = "after"
 payload = '''
+if next(SMODS.find_card('j_mxms_hugo')) and self.mult > 1 then
+    self.chips = self.chips/self.mult
+end
 if G.GAME.modifiers.mxms_X_blind_size then
     self.chips = self.chips*G.GAME.modifiers.mxms_X_blind_size
 end
@@ -30,6 +33,9 @@ local blind_amt = get_blind_amount(G.GAME.round_resets.blind_ante)*blind_choice.
 '''
 position = "after"
 payload = '''
+if next(SMODS.find_card('j_mxms_hugo')) and blind_choice.config.mult > 1 then
+    blind_amt = blind_amt/blind_choice.config.mult
+end
 if G.GAME.modifiers.mxms_X_blind_size then
     blind_amt = blind_amt*G.GAME.modifiers.mxms_X_blind_size
 end

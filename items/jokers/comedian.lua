@@ -51,7 +51,7 @@ SMODS.Joker {
                     message = localize('k_extinct_ex')
                 }
             else
-                stg.Xmult = stg.Xmult + stg.gain
+                stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         SMODS.calculate_effect(

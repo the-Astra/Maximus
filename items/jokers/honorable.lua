@@ -31,7 +31,7 @@ SMODS.Joker {
                     return true;
                 end
             }))
-            stg.mult = stg.mult + stg.gain
+            stg.mult = stg.mult + stg.gain * G.GAME.soil_mod
             return {
                 message = localize('k_upgrade_ex')
             }

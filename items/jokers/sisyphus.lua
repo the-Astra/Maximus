@@ -32,8 +32,7 @@ SMODS.Joker {
                                 message = localize('k_upgrade_ex'),
                                 colour = G.C.ATTENTION,
                                 func = function()
-                                    stg.Xmult = stg.Xmult +
-                                        stg.gain
+                                    stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
                                     SMODS.calculate_context({ scaling_card = true })
                                 end
                             }, card)
