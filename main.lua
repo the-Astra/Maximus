@@ -27,7 +27,7 @@ Maximus.config_tab = function()
                         n = G.UIT.C,
                         config = { align = "c", padding = 0 },
                         nodes = {
-                            { n = G.UIT.T, config = { text = "Enable 4D Joker Ticking Sounds", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                            { n = G.UIT.T, config = { text = localize('b_mxms_4d_ticking'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
                         }
                     },
                 }
@@ -49,7 +49,7 @@ Maximus.config_tab = function()
                         n = G.UIT.C,
                         config = { align = "c", padding = 0 },
                         nodes = {
-                            { n = G.UIT.T, config = { text = "Toggle Maximus Only Jokers", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                            { n = G.UIT.T, config = { text = localize('b_mxms_only_maximus_jokers'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
                         }
                     },
                 }
@@ -73,7 +73,7 @@ Maximus.config_tab = function()
                         n = G.UIT.C,
                         config = { align = "c", padding = 0 },
                         nodes = {
-                            { n = G.UIT.T, config = { text = "Enable Custom Menu", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                            { n = G.UIT.T, config = { text = localize('b_mxms_custom_menu'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
                         }
                     },
                 }
@@ -95,7 +95,7 @@ Maximus.config_tab = function()
                         n = G.UIT.C,
                         config = { align = "c", padding = 0 },
                         nodes = {
-                            { n = G.UIT.T, config = { text = "Enable Horoscopes", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                            { n = G.UIT.T, config = { text = localize('b_mxms_enable_horoscopes'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
                         }
                     },
                 }
@@ -117,7 +117,7 @@ Maximus.config_tab = function()
                         n = G.UIT.C,
                         config = { align = "c", padding = 0 },
                         nodes = {
-                            { n = G.UIT.T, config = { text = "Enable New Handtypes", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                            { n = G.UIT.T, config = { text = localize('b_mxms_enable_handtypes'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
                         }
                     },
                 }
@@ -127,7 +127,7 @@ Maximus.config_tab = function()
                 n = G.UIT.R,
                 config = { align = "cm", padding = 0.5 },
                 nodes = {
-                    { n = G.UIT.T, config = { text = "(Must restart to apply changes)", scale = 0.40, colour = G.C.UI.TEXT_LIGHT } },
+                    { n = G.UIT.T, config = { text = localize('b_mxms_restart_settings'), scale = 0.40, colour = G.C.UI.TEXT_LIGHT } },
                 }
             },
 

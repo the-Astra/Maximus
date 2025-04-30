@@ -1934,6 +1934,12 @@ return {
         },
         dictionary = {
             b_horoscope_cards = "Horoscope Cards",
+            b_mxms_4d_ticking = "Enable 4D Joker Ticking Sounds",
+            b_mxms_custom_menu = "Enable Custom Menu",
+            b_mxms_enable_handtypes = "Enable New Handtypes",
+            b_mxms_enable_horoscopes = "Enable Horoscopes",
+            b_mxms_only_maximus_jokers = "Toggle Maximus Only Jokers",
+            b_mxms_restart_settings = "(Must restart to apply changes)",
             b_mxms_stat_horoscopes = "Horoscopes",
             k_horoscope = "Horoscope",
             k_mxms_a_side = "A-Side",
