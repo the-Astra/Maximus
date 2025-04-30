@@ -828,7 +828,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'welder',
     'prospector',
     'blackjack',
-    'all_in_favor',
+    'tar_pit',
 
     --Rare
     'abyss',

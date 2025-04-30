@@ -286,15 +286,6 @@ return {
                     '{s:0.8,C:inactive}Can override other editions{}'
                 }
             },
-            j_mxms_all_in_favor = {
-                name = 'All In Favor',
-                text = {
-                    'If last played hand is a',
-                    '{C:attention}Straight Flush{}, sell this',
-                    'Joker to create a copy',
-                    'of {C:attention}Four Fingers',
-                },
-            },
             j_mxms_astigmatism = {
                 name = 'Astigmatism',
                 text = {
@@ -1443,6 +1434,14 @@ return {
                     '{C:inactive}(Current streak: #1#)',
                     '{C:inactive}(Currently: {C:chips}+#3# {C:inactive}Chips, {C:mult}+#4# {C:inactive}Mult)'
                 }
+            },
+            j_mxms_tar_pit = {
+                name = 'Tar Pit',
+                text = {
+                    'If scored card has',
+                    'a {C:attention}Seal{}, replace it',
+                    'with a {X:black,C:white}Black{} {X:black,C:white}Seal{}',
+                },
             },
             j_mxms_teddy_bear = {
                 name = 'Teddy Bear',
