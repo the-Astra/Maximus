@@ -33,6 +33,28 @@ Maximus.config_tab = function()
                 }
             },
 
+            -- Maximus Jokers Only toggle
+            {
+                n = G.UIT.R,
+                config = { align = "cl", padding = 0 },
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { align = "cl", padding = 0.05 },
+                        nodes = {
+                            create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "only_maximus_jokers" },
+                        }
+                    },
+                    {
+                        n = G.UIT.C,
+                        config = { align = "c", padding = 0 },
+                        nodes = {
+                            { n = G.UIT.T, config = { text = "Toggle Maximus Only Jokers", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                        }
+                    },
+                }
+            },
+
             { n = G.UIT.R, config = { minh = 0.04, minw = 4, colour = G.C.L_BLACK } },
 
             -- Custom Menu Toggle
@@ -111,6 +133,23 @@ Maximus.config_tab = function()
 
         }
     }
+end
+
+-- Prevent other cards from spawning if the Only Maximus Jokers config is enabled
+local get_current_pool_ref = get_current_pool
+function get_current_pool(_type, _rarity, _legendary, _append)
+    local _pool, _pool_key = get_current_pool_ref(_type, _rarity, _legendary, _append)
+    local new_pool
+
+    if _type == 'Joker' and Maximus.config.only_maximus_jokers then
+        for i = 1, #_pool do
+            local key = _pool[i]
+            if key:sub(1, 6) ~= "j_mxms" then
+                _pool[i] = "UNAVAILABLE"
+            end
+        end
+    end
+    return _pool, _pool_key
 end
 
 --#endregion
