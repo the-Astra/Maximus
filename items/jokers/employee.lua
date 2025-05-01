@@ -24,14 +24,16 @@ if Maximus_config.horoscopes then
             local stg = card.ability.extra
 
             if context.end_of_round and not context.individual and not context.repetition then
-                for k,v in pairs(G.mxms_horoscope.cards) do
+                for k, v in pairs(G.mxms_horoscope.cards) do
                     card:juice_up(0.3, 0.4)
                     SMODS.calculate_effect({ dollars = stg.dollars }, v)
                 end
             end
         end,
         set_badges = function(self, card, badges)
-            badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+            if self.discovered then
+                badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+            end
         end
     }
 else

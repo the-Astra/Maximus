@@ -63,7 +63,11 @@ SMODS.Consumable {
     end,
     succeed = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function() set_horoscope_success(card) check_for_unlock({type = "all_horoscopes"}) end }, card)
+        SMODS.calculate_effect(
+        { message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function()
+            set_horoscope_success(card)
+            check_for_unlock({ type = "all_horoscopes" })
+        end }, card)
         level_up_hand(card, stg.hand_type, false, stg.upgrade)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
@@ -73,7 +77,7 @@ SMODS.Consumable {
             end
         }))
         zodiac_killer_pools["Taurus"] = false
-        SMODS.calculate_context({beat_horoscope = true})
+        SMODS.calculate_context({ beat_horoscope = true })
     end,
     fail = function(self, card)
         local stg = card.ability.extra
@@ -105,9 +109,11 @@ SMODS.Consumable {
                 end
             }))
         end
-        SMODS.calculate_context({failed_horoscope = true})
+        SMODS.calculate_context({ failed_horoscope = true })
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

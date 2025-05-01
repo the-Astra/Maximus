@@ -34,7 +34,7 @@ SMODS.Joker {
         end
 
         return {
-            vars = {stg.good_Xmult, stg.bad_Xmult, rank, intermediary, suit, colours = {color}}
+            vars = { stg.good_Xmult, stg.bad_Xmult, rank, intermediary, suit, colours = { color } }
         }
     end,
     calculate = function(self, card, context)
@@ -44,7 +44,8 @@ SMODS.Joker {
             local found_in_hand = false
             for k, v in pairs(G.hand.cards) do
                 if v:is_suit(stg.suit) and v:get_id() == stg.id then
-                    found_in_hand = true break
+                    found_in_hand = true
+                    break
                 end
             end
 
@@ -68,6 +69,8 @@ SMODS.Joker {
         stg.suit = chosen_card.base.suit
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

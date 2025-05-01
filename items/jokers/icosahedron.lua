@@ -24,7 +24,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.individual and context.cardarea == G.play 
+        if context.individual and context.cardarea == G.play
             and context.other_card:is_suit('Diamonds', false) and not context.repetition then
             stg.tally = stg.tally + 1
             return {
@@ -36,13 +36,15 @@ SMODS.Joker {
                         context.other_card.ability.perma_x_mult = context.other_card.ability.perma_x_mult or 0
                         context.other_card.ability.perma_x_mult = context.other_card.ability.perma_x_mult + stg.Xmult
                         stg.tally = 0
-                        SMODS.calculate_effect({ message = localize('k_upgrade_ex'), colour = G.C.MULT },card)
+                        SMODS.calculate_effect({ message = localize('k_upgrade_ex'), colour = G.C.MULT }, card)
                     end
                 end
-            }    
+            }
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

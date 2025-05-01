@@ -40,7 +40,11 @@ SMODS.Consumable {
     end,
     succeed = function(self, card)
         G.GAME.next_ante_horoscopes["Leo"] = true
-        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function() set_horoscope_success(card) check_for_unlock({type = "all_horoscopes"}) end }, card)
+        SMODS.calculate_effect(
+        { message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function()
+            set_horoscope_success(card)
+            check_for_unlock({ type = "all_horoscopes" })
+        end }, card)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
@@ -49,7 +53,7 @@ SMODS.Consumable {
             end
         }))
         zodiac_killer_pools["Leo"] = false
-        SMODS.calculate_context({beat_horoscope = true})
+        SMODS.calculate_context({ beat_horoscope = true })
     end,
     fail = function(self, card)
         SMODS.calculate_effect({ message = localize('k_mxms_falied_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
@@ -78,9 +82,11 @@ SMODS.Consumable {
                 end
             }))
         end
-        SMODS.calculate_context({failed_horoscope = true})
+        SMODS.calculate_context({ failed_horoscope = true })
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

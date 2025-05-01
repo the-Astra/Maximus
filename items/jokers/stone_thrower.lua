@@ -36,17 +36,19 @@ SMODS.Joker {
         if context.individual and context.cardarea == G.play and context.other_card.config.center == G.P_CENTERS.m_glass then
             stg.chips = stg.chips + stg.gain * G.GAME.soil_mod
             SMODS.calculate_effect({ message = localize('k_upgrade_ex'), colour = G.C.CHIPS }, card)
-            SMODS.calculate_context({scaling_card = true})
+            SMODS.calculate_context({ scaling_card = true })
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }
 
 SMODS.Enhancement:take_ownership('glass', {
     calculate = function(self, card, context)
-        if context.destroy_card and context.cardarea == G.play and context.destroy_card == card and (next(SMODS.find_card('j_mxms_stone_thrower')) or pseudorandom('glass') < G.GAME.probabilities.normal/card.ability.extra) then
+        if context.destroy_card and context.cardarea == G.play and context.destroy_card == card and (next(SMODS.find_card('j_mxms_stone_thrower')) or pseudorandom('glass') < G.GAME.probabilities.normal / card.ability.extra) then
             return { remove = true }
         end
     end,

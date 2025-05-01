@@ -6,6 +6,12 @@ SMODS.Joker {
         y = 0
     },
     rarity = 4,
+    unlocked = false,
+    unlock_condition = {
+        type = '', 
+        extra = '', 
+        hidden = true
+    },
     config = {
         extra = {
             prob = 1,
@@ -20,7 +26,9 @@ SMODS.Joker {
         return { vars = { stg.prob * G.GAME.probabilities.normal, stg.odds } }
     end,
     set_badges = function(self, card, badges)
-        badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }
 
@@ -32,8 +40,11 @@ G.FUNCS.select_blind = function(e)
             if pseudorandom('hugo') < (v.ability.extra.prob * G.GAME.probabilities.normal) / v.ability.extra.odds then
                 delay(0.2)
                 SMODS.calculate_effect({ message = localize('k_skipped_cap') }, v)
-                SMODS.calculate_context({ failed_prob = true, odds = v.ability.extra.odds -
-                (v.ability.extra.prob * G.GAME.probabilities.normal) })
+                SMODS.calculate_context({
+                    failed_prob = true,
+                    odds = v.ability.extra.odds -
+                        (v.ability.extra.prob * G.GAME.probabilities.normal)
+                })
                 delay(0.2)
                 G.FUNCS.skip_blind(e)
                 return

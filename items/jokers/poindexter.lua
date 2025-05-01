@@ -37,7 +37,7 @@ SMODS.Joker {
                     if SMODS.has_enhancement(v, 'm_glass') and not v.debuff then
                         stg.Xmult = 1
                         stg.shattered = true
-                        SMODS.calculate_effect({ message = localize('k_mxms_erm_el'), colour =  G.C.RED},card)
+                        SMODS.calculate_effect({ message = localize('k_mxms_erm_el'), colour = G.C.RED }, card)
                         break
                     end
                 end
@@ -51,7 +51,7 @@ SMODS.Joker {
                 -- If no shattered glass, add to mult
                 local glass = 0
                 for k, v in ipairs(context.scoring_hand) do
-                    if SMODS.has_enhancement(v,'m_glass') then
+                    if SMODS.has_enhancement(v, 'm_glass') then
                         glass = glass + 1
                     end
                 end
@@ -72,6 +72,8 @@ SMODS.Joker {
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

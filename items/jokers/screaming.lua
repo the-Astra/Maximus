@@ -9,7 +9,9 @@ SMODS.Joker {
     blueprint_compat = false,
     cost = 4,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }
 
@@ -18,7 +20,7 @@ Card.get_id = function(self)
     local ret = cgi(self)
     local rank = SMODS.Ranks[self.base.value]
     if (ret > 0 and rank and rank.face or next(find_joker("Pareidolia")))
-    and next(SMODS.find_card('j_mxms_screaming')) then
+        and next(SMODS.find_card('j_mxms_screaming')) then
         ret = 14
     end
     return ret

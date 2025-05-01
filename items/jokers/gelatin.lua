@@ -19,8 +19,10 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.cards_left, G.GAME.current_round.jello_suit,
-                colours = {G.C.SUITS[G.GAME.current_round.jello_suit]} 
+            vars = {
+                stg.cards_left,
+                G.GAME.current_round.jello_suit,
+                colours = { G.C.SUITS[G.GAME.current_round.jello_suit] }
             }
         }
     end,
@@ -68,6 +70,8 @@ SMODS.Joker {
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

@@ -11,7 +11,7 @@ SMODS.Consumable {
     },
     cost = 4,
     loc_vars = function(self, info_queue, card)
-       info_queue[#info_queue+1] = G.P_SEALS['mxms_Black']
+        info_queue[#info_queue + 1] = G.P_SEALS['mxms_Black']
     end,
     use = function(self, card, area, copier)
         local conv_card = G.hand.highlighted[1]
@@ -45,6 +45,8 @@ SMODS.Consumable {
         return #G.hand.highlighted == 1
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

@@ -22,12 +22,12 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        
+
         if context.minus_handsize and not context.blueprint then
-            stg.Xmult = stg.Xmult + (math.abs(context.decrease) * stg.gain)  * G.GAME.soil_mod
+            stg.Xmult = stg.Xmult + (math.abs(context.decrease) * stg.gain) * G.GAME.soil_mod
             return {
-                message = localize{type = 'variable', key = 'a_xmult', vars = {stg.Xmult}},
-                func = function() SMODS.calculate_context({scaling_card = true}) end
+                message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } },
+                func = function() SMODS.calculate_context({ scaling_card = true }) end
             }
         end
 
@@ -38,7 +38,9 @@ SMODS.Joker {
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }
 
@@ -46,6 +48,6 @@ local cacs = CardArea.change_size
 CardArea.change_size = function(self, delta)
     cacs(self, delta)
     if delta < 0 and self == G.hand then
-        SMODS.calculate_context({minus_handsize = true, decrease = delta})
+        SMODS.calculate_context({ minus_handsize = true, decrease = delta })
     end
 end

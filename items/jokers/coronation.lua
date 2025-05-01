@@ -23,9 +23,8 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.end_of_round and not context.individual and not context.repetition and not context.blueprint and next(SMODS.find_card('j_joker')) then
-
-            stg.rounds = stg.rounds  + 1
-            SMODS.calculate_effect({ message = stg.rounds .. '/3', colour = G.C.GOLD },card)
+            stg.rounds = stg.rounds + 1
+            SMODS.calculate_effect({ message = stg.rounds .. '/3', colour = G.C.GOLD }, card)
 
             if stg.rounds == stg.goal then
                 G.E_MANAGER:add_event(Event({
@@ -35,7 +34,7 @@ SMODS.Joker {
                         jimbo:set_ability(G.P_CENTERS['j_mxms_crowned'])
                         jimbo:juice_up(0.8, 0.8)
 
-                        check_for_unlock({type = "crowned"})
+                        check_for_unlock({ type = "crowned" })
                         return true;
                     end
                 }))
@@ -64,6 +63,8 @@ SMODS.Joker {
         return next(SMODS.find_card('j_joker'))
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

@@ -51,7 +51,9 @@ SMODS.Joker {
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }
 
@@ -65,7 +67,7 @@ ease_dollars = function(mod, instant)
                 to_be_added = to_be_added - 1
             end
         end
-        SMODS.calculate_context({money_up = true})
+        SMODS.calculate_context({ money_up = true })
     end
 
     ed(to_be_added, instant)
@@ -73,7 +75,7 @@ ease_dollars = function(mod, instant)
     G.E_MANAGER:add_event(Event({
         func = function()
             if G.GAME.dollars <= to_big(0) then
-                SMODS.calculate_context({out_of_money = true})
+                SMODS.calculate_context({ out_of_money = true })
             end
             return true;
         end

@@ -6,6 +6,12 @@ SMODS.Joker {
         y = 0
     },
     rarity = 4,
+    unlocked = false,
+    unlock_condition = {
+        type = '', 
+        extra = '', 
+        hidden = true
+    },
     blueprint_compat = true,
     cost = 20,
     config = {
@@ -13,7 +19,6 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.first_hand_drawn then
-
             local _suit = pseudorandom_element({ 'S', 'H', 'D', 'C' }, pseudoseed('leto_create'))
 
             local cen_pool = {}
@@ -24,7 +29,7 @@ SMODS.Joker {
             end
 
             local _card = create_playing_card({
-                front = G.P_CARDS[_suit..'_Q'],
+                front = G.P_CARDS[_suit .. '_Q'],
                 center = pseudorandom_element(cen_pool, pseudoseed('leto_enh'))
             }, G.discard, true, nil, { G.C.SECONDARY_SET.Enhanced }, true)
 
@@ -38,13 +43,15 @@ SMODS.Joker {
                     return true
                 end
             }))
-            
+
             playing_card_joker_effects({ _card })
 
             return nil, true
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

@@ -12,7 +12,6 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.post_handtype_scoring then
-
             local hand_is_second = false
             local high_level, second_level, highest, second = to_big(0), to_big(0), {}, {}
 
@@ -65,6 +64,8 @@ SMODS.Joker {
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

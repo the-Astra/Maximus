@@ -23,7 +23,7 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        
+
         if context.before and not context.blueprint then
             for k, v in pairs(G.GAME.hands) do
                 if k == stg.last_hand then
@@ -38,7 +38,7 @@ SMODS.Joker {
                     stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
                     return {
                         message = localize('k_upgrade_ex'),
-                        func = function() SMODS.calculate_context({scaling_card = true}) end
+                        func = function() SMODS.calculate_context({ scaling_card = true }) end
                     }
                 end
             end
@@ -56,6 +56,8 @@ SMODS.Joker {
         stg.last_hand = G.GAME.last_hand_played or 'None'
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

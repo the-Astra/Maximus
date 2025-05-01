@@ -22,7 +22,7 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        
+
         if context.individual and context.cardarea == G.hand and SMODS.has_enhancement(context.other_card, 'm_steel') then
             context.other_card.ability.h_x_mult = context.other_card.ability.h_x_mult + stg.Xmult
             return {
@@ -32,6 +32,8 @@ SMODS.Joker {
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

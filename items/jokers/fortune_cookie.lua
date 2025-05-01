@@ -63,7 +63,8 @@ SMODS.Joker {
 
                     -- Failed Roll
                 else
-                    SMODS.calculate_context({failed_prob = true, odds = stg.odds - stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal, card = card})
+                    SMODS.calculate_context({ failed_prob = true, odds = stg.odds -
+                    stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal, card = card })
 
                     return {
                         sound = 'tarot2',
@@ -123,6 +124,8 @@ SMODS.Joker {
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

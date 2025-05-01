@@ -16,14 +16,16 @@ SMODS.Joker {
                 if k ~= context.scoring_name and next(context.poker_hands[k]) then
                     SMODS.calculate_effect({ message = G.localization.misc.poker_hands[k], colour = G.C.ATTENTION }, card)
                     SMODS.calculate_effect(
-                    { message = '+' .. tostring(G.GAME.hands[k].chips), chip_mod = G.GAME.hands[k].chips }, card)
+                        { message = '+' .. tostring(G.GAME.hands[k].chips), chip_mod = G.GAME.hands[k].chips }, card)
                     SMODS.calculate_effect(
-                    { message = '+' .. tostring(G.GAME.hands[k].mult), mult_mod = G.GAME.hands[k].mult }, card)
+                        { message = '+' .. tostring(G.GAME.hands[k].mult), mult_mod = G.GAME.hands[k].mult }, card)
                 end
             end
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

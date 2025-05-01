@@ -26,7 +26,7 @@ SMODS.Joker {
 
         if context.before and not context.blueprint then
             local hand_value = 0
-            for k,v in pairs(context.scoring_hand) do
+            for k, v in pairs(context.scoring_hand) do
                 local card_value = v:get_id()
                 if card_value > 0 then
                     if card_value > 10 then
@@ -65,9 +65,10 @@ SMODS.Joker {
                 x_mult = stg.Xmult
             }
         end
-        
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        if card.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

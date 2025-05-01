@@ -38,8 +38,11 @@ SMODS.Joker {
                             func = function()
                                 G.jokers:remove_card(card)
                                 card:remove()
-                                SMODS.calculate_context({ failed_prob = true, odds = stg.odds -
-                                G.GAME.probabilities.normal })
+                                SMODS.calculate_context({
+                                    failed_prob = true,
+                                    odds = stg.odds -
+                                        G.GAME.probabilities.normal
+                                })
                                 card = nil
                                 return true;
                             end
@@ -55,8 +58,11 @@ SMODS.Joker {
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         SMODS.calculate_effect(
-                        { message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } }, colour = G.C
-                        .MULT }, card)
+                            {
+                                message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } },
+                                colour = G.C
+                                    .MULT
+                            }, card)
                         return true
                     end
                 }))
@@ -74,7 +80,9 @@ SMODS.Joker {
         return G.GAME.pool_flags.cavendish_removed
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }
 

@@ -26,13 +26,14 @@ SMODS.Joker {
 
         if pseudorandom(pseudoseed('jestcoin' .. G.GAME.round_resets.ante)) < stg.prob * G.GAME.probabilities.normal / stg.odds then
             G.E_MANAGER:add_event(Event({
-               func = function()
-                    ease_dollars(-G.GAME.dollars,true)
+                func = function()
+                    ease_dollars(-G.GAME.dollars, true)
                     return true;
-               end
+                end
             }))
             SMODS.calculate_effect({ message = localize('k_mxms_crashed_ex'), colour = G.C.RED }, card)
-            SMODS.calculate_context({ failed_prob = true, odds = stg.odds - (stg.prob * G.GAME.probabilities.normal), card = card })
+            SMODS.calculate_context({ failed_prob = true, odds = stg.odds - (stg.prob * G.GAME.probabilities.normal), card =
+            card })
             stg.money = 2
             SMODS.calculate_effect({ message = localize('k_reset'), colour = G.C.ATTENTION }, card)
         else
@@ -44,6 +45,8 @@ SMODS.Joker {
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

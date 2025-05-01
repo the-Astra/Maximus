@@ -9,14 +9,15 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 5,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }
 
 local gf = get_flush
 
 function get_flush(hand)
-
     if next(SMODS.find_card('j_mxms_golden_rings')) then
         local all_enhanced = true
         local rings_ret = {}
@@ -32,5 +33,4 @@ function get_flush(hand)
     end
 
     return gf(hand)
-
 end

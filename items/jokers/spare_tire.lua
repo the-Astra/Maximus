@@ -31,7 +31,7 @@ SMODS.Joker {
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         card:juice_up()
-                        SMODS.add_card({key = 'c_wheel_of_fortune'})
+                        SMODS.add_card({ key = 'c_wheel_of_fortune' })
                         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
                         return true;
                     end
@@ -41,13 +41,16 @@ SMODS.Joker {
                     message = localize('k_nope_ex'),
                     colour = G.C.FILTER,
                     func = function()
-                        SMODS.calculate_context({ failed_prob = true, odds = stg.odds - (stg.prob * G.GAME.probabilities.normal), card = card })
+                        SMODS.calculate_context({ failed_prob = true, odds = stg.odds -
+                        (stg.prob * G.GAME.probabilities.normal), card = card })
                     end
                 }
             end
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

@@ -18,7 +18,7 @@ SMODS.Joker {
         local xmult = 1
 
         if G.GAME.dollars < to_big(0) then
-            xmult = xmult + (math.abs(G.GAME.dollars) * stg.gain )
+            xmult = xmult + (math.abs(G.GAME.dollars) * stg.gain)
         end
 
         return {
@@ -35,6 +35,8 @@ SMODS.Joker {
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

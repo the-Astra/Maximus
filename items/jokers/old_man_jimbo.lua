@@ -21,11 +21,13 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main then
             return {
-                x_mult = 1 + (stg.gain* G.GAME.current_round.hands_left)
+                x_mult = 1 + (stg.gain * G.GAME.current_round.hands_left)
             }
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

@@ -35,8 +35,8 @@ SMODS.Joker {
                 G.GAME.joker_buffer = G.GAME.joker_buffer + 1
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        stg.card = SMODS.add_card({set = 'Joker'})
-                        card:juice_up(0.3,0.4)
+                        stg.card = SMODS.add_card({ set = 'Joker' })
+                        card:juice_up(0.3, 0.4)
                         play_sound('tarot1')
                         stg.card.sell_cost = 0
                         G.GAME.joker_buffer = G.GAME.joker_buffer - 1
@@ -48,11 +48,11 @@ SMODS.Joker {
 
         if context.end_of_round and not context.individual and not context.repetition and not context.blueprint then
             G.E_MANAGER:add_event(Event({
-               func = function()
-                   stg.card:start_dissolve()
-                   stg.card = nil
-                   return true;
-               end
+                func = function()
+                    stg.card:start_dissolve()
+                    stg.card = nil
+                    return true;
+                end
             }))
         end
     end,
@@ -60,6 +60,8 @@ SMODS.Joker {
         card.sell_cost = 0
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }

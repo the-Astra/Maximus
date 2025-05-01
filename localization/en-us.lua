@@ -657,7 +657,10 @@ return {
                     'The {C:attention}last scoring card',
                     'in a played hand',
                     'becomes {C:dark_edition}Negative{}'
-                }
+                },
+                unlock={
+                    "{E:1,s:1.3}?????",
+                },
             },
             j_mxms_gambler = {
                 name = 'Gambler',
@@ -771,7 +774,10 @@ return {
                     '{C:attention}most played hand',
                     'every time it is played',
                     '{C:inactive}(Currently: {C:red}#2#{C:inactive})'
-                }
+                },
+                unlock={
+                    "{E:1,s:1.3}?????",
+                },
             },
             j_mxms_hammer_and_chisel = {
                 name = 'Hammer and Chisel',
@@ -836,7 +842,10 @@ return {
                 text = {
                     'Blind sizes do not exceed', '{C:attention}Small Blind',
                     '{C:green}#1# in #2#{} chance to', '{C:red}skip blinds{} when selected',
-                }
+                },
+                unlock={
+                    "{E:1,s:1.3}?????",
+                },
             },
             j_mxms_hypeman = {
                 name = 'Hype Man',
@@ -923,7 +932,10 @@ return {
                     'At the end of every',
                     'ante, {C:attention}one random Joker',
                     'becomes {C:dark_edition}Negative{}'
-                }
+                },
+                unlock={
+                    "{E:1,s:1.3}?????",
+                },
             },
             j_mxms_leftovers = {
                 name = 'Leftovers',
@@ -942,7 +954,10 @@ return {
                     'add a {C:green}randomly',
                     'enhanced {C:attention}Queen{}',
                     'to the deck'
-                }
+                },
+                unlock={
+                    "{E:1,s:1.3}?????",
+                },
             },
             j_mxms_letter = {
                 name = 'Letter of Recommendation',
@@ -1083,7 +1098,10 @@ return {
                 text = {
                     'Retrigger any card',
                     'with an {C:attention}Edition{}'
-                }
+                },
+                unlock={
+                    "{E:1,s:1.3}?????",
+                },
             },
             j_mxms_nomai = {
                 name = 'Nomai',
@@ -1150,7 +1168,10 @@ return {
                     'If any face cards are,',
                     '{C:red}destroyed{}, give a {C:attention}Red Seal',
                     'to all other scoring cards'
-                }
+                },
+                unlock={
+                    "{E:1,s:1.3}?????",
+                },
             },
             j_mxms_piggy_bank = {
                 name = 'Piggy Bank',
@@ -1275,7 +1296,10 @@ return {
                     'every time a Joker',
                     'is added to hand',
                     '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'
-                }
+                },
+                unlock={
+                    "{E:1,s:1.3}?????",
+                },
             },
             j_mxms_salt_circle = {
                 name = 'Salt Circle',

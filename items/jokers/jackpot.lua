@@ -34,14 +34,14 @@ SMODS.Joker {
 
             if sevens >= 3 then
                 if pseudorandom(pseudoseed('jackpot' .. G.GAME.round_resets.ante)) < G.GAME.probabilities.normal / stg.odds then
-                    SMODS.calculate_effect({ message = localize('k_mxms_jackpot_ex'), colour = G.C.MONEY },card)
+                    SMODS.calculate_effect({ message = localize('k_mxms_jackpot_ex'), colour = G.C.MONEY }, card)
                     return {
                         dollars = stg.money,
                         card = card
                     }
                 end
             else
-                SMODS.calculate_context({failed_prob = true, odds = stg.odds - G.GAME.probabilities.normal})
+                SMODS.calculate_context({ failed_prob = true, odds = stg.odds - G.GAME.probabilities.normal })
                 return {
                     card = card,
                     message = localize('k_nope_ex'),
@@ -51,6 +51,8 @@ SMODS.Joker {
         end
     end,
     set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('k_mxms_artist')..': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        if self.discovered then
+            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
+        end
     end
 }
