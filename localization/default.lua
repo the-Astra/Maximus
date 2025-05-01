@@ -1650,6 +1650,20 @@ return {
                     "or {C:attention}destroyed"
                 }
             },
+            mxms_credits = {
+                name = "",
+                text = {
+                    '{C:dark_edition,E:1,s:2}M A X I M U S',
+                    ' ',
+                    '{X:purple,C:white}Lead{} {X:purple,C:white}Programmer:{} {C:purple}theAstra',
+                    '{X:attention,C:white}Lead{} {X:attention,C:white}Artist:{} {C:attention}Maxiss02',
+                    ' ',
+                    '{X:green,C:white}Supporting{} {X:green,C:white}Artists:{} {C:green}pinkzigzagoon, anerdymous, PsyAlola',
+                    ' ',
+                    '{X:gold,C:white}Special{} {X:gold,C:white}Thanks:{} All the awesome people in the Balatro Discord!',
+                    '{C:white}You all helped make this project possible. Thank you guys for everything!'
+                }
+            },
             undiscovered_horoscope = {
                 name = "Not Discovered",
                 text = {
@@ -1959,6 +1973,7 @@ return {
         dictionary = {
             b_horoscope_cards = "Horoscope Cards",
             b_mxms_4d_ticking = "Enable 4D Joker Ticking Sounds",
+            b_mxms_credits = "Credits",
             b_mxms_custom_menu = "Enable Custom Menu",
             b_mxms_enable_handtypes = "Enable New Handtypes",
             b_mxms_enable_horoscopes = "Enable Horoscopes",
