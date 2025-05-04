@@ -80,7 +80,7 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = localize('k_mxms_falied_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_failed_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
