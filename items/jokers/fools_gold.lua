@@ -45,6 +45,15 @@ SMODS.Joker {
         stg.tally = math.floor(gold_cards / 2)
         return card.ability.extra.tally * card.ability.extra.money
     end,
+    in_pool = function(self, args)
+        for k, v in pairs(G.playing_cards) do
+            if SMODS.has_enhancement(v, 'm_gold') then
+                return true
+            end
+        end
+
+        return false
+    end,
     set_badges = function(self, card, badges)
         if self.discovered then
             badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': PsyAlola', G.C.BLACK, G.C.WHITE, 1)
