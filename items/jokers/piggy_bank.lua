@@ -61,7 +61,7 @@ local ed = ease_dollars
 ease_dollars = function(mod, instant)
     local to_be_added = mod
     local pigs = SMODS.find_card('j_mxms_piggy_bank')
-    if to_be_added > to_big(0) and next(pigs) then
+    if to_big(to_be_added) > to_big(0) and next(pigs) then
         for i, v in ipairs(pigs) do
             if not v.shattered then
                 to_be_added = to_be_added - to_big(1)
