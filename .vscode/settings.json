@@ -71,7 +71,8 @@
         "draw_card",
         "getMaximusTallies",
         "set_horoscope_success",
-        "create_shop_card_ui"
+        "create_shop_card_ui",
+        "desc_from_rows"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",
