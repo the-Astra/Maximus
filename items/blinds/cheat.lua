@@ -11,7 +11,9 @@ SMODS.Blind {
     },
     boss_colour = HEX('4E4C76'),
     recalc_debuff = function(self, card, from_blind)
-        if card.ability.set == 'Enhanced' or card.ability.set == 'Default' and (card.edition or card.seal) then
+        if card.ability.set == 'Enhanced' or 
+        card.edition and (card.ability.set == 'Enhanced' or card.ability.set == 'Default') or
+        card.seal and (card.ability.set == 'Enhanced' or card.ability.set == 'Default') then
             card.debuffed_by_blind = true
             return true
         else
