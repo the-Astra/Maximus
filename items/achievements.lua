@@ -112,7 +112,6 @@ SMODS.Achievement {
         if args.type == 'black_seal' then
             for k, v in pairs(G.playing_cards) do
                 if not v.seal or v.seal and v.seal ~= 'mxms_Black' then
-                    print("Card does not have black seal")
                     return false
                 end
             end
