@@ -1980,6 +1980,7 @@ return {
             b_mxms_enable_handtypes = "Enable New Handtypes",
             b_mxms_enable_horoscopes = "Enable Horoscopes",
             b_mxms_only_maximus_jokers = "Toggle Maximus Only Jokers",
+            b_mxms_reset_achievements = "Reset Maximus Achievements",
             b_mxms_restart_settings = "(Must restart to apply changes)",
             b_mxms_stat_horoscopes = "Horoscopes",
             k_horoscope = "Horoscope",

@@ -59,6 +59,9 @@ Card.set_seal = function(self, _seal, silent, immediate)
         SMODS.calculate_effect({ message = localize('k_not_allowed_ex'), colour = G.C.RED }, self)
     else
         css(self, _seal, silent, immediate)
+        if self.seal == 'mxms_Black' and self.playing_card then
+            check_for_unlock({type = 'black_seal'})
+        end
     end
 end
 

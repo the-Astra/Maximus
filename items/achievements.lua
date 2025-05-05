@@ -68,7 +68,7 @@ SMODS.Achievement {
     hidden_name = false,
     hidden_text = true,
     unlock_condition = function(self, args)
-        if args.type == 'zombified' and #SMODS.find_joker('j_mxms_zombie') == G.jokers.card_limit then
+        if args.type == 'zombified' and #SMODS.find_card('j_mxms_zombie') == G.jokers.card_limit then
             return true
         end
     end
@@ -109,15 +109,14 @@ SMODS.Achievement {
     hidden_name = false,
     hidden_text = true,
     unlock_condition = function(self, args)
-        if args.type == 'modify_deck' then
-            local _c = true
+        if args.type == 'black_seal' then
             for k, v in pairs(G.playing_cards) do
                 if not v.seal or v.seal and v.seal ~= 'mxms_Black' then
-                    _c = false
-                    break
+                    print("Card does not have black seal")
+                    return false
                 end
             end
-            return _c
+            return true
         end
     end
 }
@@ -171,7 +170,7 @@ SMODS.Achievement {
     hidden_text = true,
     unlock_condition = function(self, args)
         if args.type == 'win' then
-            return next(SMODS.find_joker('j_mxms_joker_plus'))
+            return next(SMODS.find_card('j_mxms_joker_plus'))
         end
     end
 }
