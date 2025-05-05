@@ -32,17 +32,11 @@ SMODS.Joker {
         end
 
         if context.scoring_name == 'High Card' and context.individual and context.cardarea == G.play then
-            local chip_sum
-            if SMODS.has_enhancement(context.other_card, 'm_stone') then
-                chip_sum = context.other_card.ability.bonus + (context.other_card.ability.perma_bonus or 0)
-            else
-                chip_sum = context.other_card.base.nominal + (context.other_card.ability.perma_bonus or 0)
-            end
-            stg.chips = stg.chips + chip_sum * G.GAME.soil_mod
+            stg.chips = stg.chips + context.other_card:get_chip_bonus() * G.GAME.soil_mod
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.CHIPS,
-                card = card,
+                message_card = card,
                 func = function() SMODS.calculate_context({ scaling_card = true }) end
             }
         end
