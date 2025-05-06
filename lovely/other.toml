@@ -70,6 +70,8 @@ times = 1
 target = "functions/state_events.lua"
 pattern = '''
 -- TARGET: effects before scoring starts
+        
+SMODS.displayed_hand = nil
 
 mult = mod_mult(G.GAME.hands[text].mult)
 hand_chips = mod_chips(G.GAME.hands[text].chips)
