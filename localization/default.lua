@@ -2047,6 +2047,7 @@ return {
             ["mxms_s_straight_f"] = "Super Straight Flush",
             ["mxms_s_straight"] = "Super Straight",
             ["mxms_three_pair"] = "Three Pair",
+            ["mxms_super_royal"] = 'Super Royal Flush'
         },
         poker_hand_descriptions = {
             ["mxms_6oak"] = {

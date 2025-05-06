@@ -18,5 +18,17 @@ SMODS.PokerHand {
     evaluate = function(parts, hand)
         return next(parts.mxms_s_straight) and next(parts.mxms_s_flush)
             and { SMODS.merge_lists(parts.mxms_s_straight, parts.mxms_s_flush) } or {}
+    end,
+    modify_display_text = function(self, cards, scoring_hand)
+        local royal = true
+        for i = 1, #scoring_hand do
+            local rank = SMODS.Ranks[scoring_hand[i].base.value]
+            royal = royal and (rank.key == 'Ace' or rank.key == '10' or rank.key == '9' or rank.face)
+        end
+        if royal then
+            return 'mxms_super_royal'
+        else
+            return 'mxms_s_straight_f'
+        end
     end
 }
