@@ -847,7 +847,6 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'wild_buddy',
     'bones_jr',
     'conveyor_belt',
-    'icosahedron',
     'golden_rings',
     'bear',
     'brown',
@@ -886,13 +885,9 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'rock_slide',
     'game_review',
     'slippery_slope',
-    'celestial_deity',
     'high_dive',
     'brainwashed',
     'whos_on_first',
-    'abyss_angel',
-    'god_hand',
-    'sisyphus',
     'rock_candy',
     'blockbuster',
     'galaxy_brain',
@@ -914,7 +909,6 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'stop_sign',
     'chihuahua',
     'vulture',
-    'prince',
 
     --High Card Duo
     'loony',
@@ -942,6 +936,14 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     --Royals
     'coronation',
     'crowned',
+
+    --Astra's Playlist
+    'icosahedron',
+    'celestial_deity',
+    'abyss_angel',
+    'god_hand',
+    'sisyphus',
+    'prince',
 
     --Space
     'moon_landing',
