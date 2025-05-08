@@ -2,8 +2,12 @@ SMODS.Joker {
     key = 'hugo',
     atlas = 'Placeholder',
     pos = {
-        x = 3,
-        y = 0
+        x = 2,
+        y = 7
+    },
+    soul_pos = {
+        x = 2,
+        y = 8
     },
     rarity = 4,
     unlocked = false,
