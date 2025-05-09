@@ -37,11 +37,11 @@ SMODS.Joker {
                         func = function()
                             local front = pseudorandom_element(G.P_CARDS, pseudoseed('slide_fr'))
                             G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-                            local card = Card(G.play.T.x + G.play.T.w / 2, G.play.T.y, G.CARD_W, G.CARD_H, front,
+                            local new_card = Card(G.play.T.x + G.play.T.w / 2, G.play.T.y, G.CARD_W, G.CARD_H, front,
                                 G.P_CENTERS.m_stone, { playing_card = G.playing_card })
-                            card:start_materialize({ G.C.SECONDARY_SET.Enhanced })
-                            G.deck:emplace(card)
-                            table.insert(G.playing_cards, card)
+                            new_card:start_materialize({ G.C.SECONDARY_SET.Enhanced })
+                            G.deck:emplace(new_card)
+                            table.insert(G.playing_cards, new_card)
                             return true
                         end
                     }))
@@ -49,7 +49,7 @@ SMODS.Joker {
                         card)
                     G.E_MANAGER:add_event(Event({
                         func = function()
-                            G.deck.config.card_limit = G.deck.config.card_limit + stone_tally
+                            G.deck.config.card_limit = G.deck.config.card_limit + 1
                             return true
                         end
                     }))
