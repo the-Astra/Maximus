@@ -1425,9 +1425,9 @@ return {
             j_mxms_spare_tire = {
                 name = 'Spare Tire',
                 text = {
-                    '{C:green}#1# in #2#{} chance to',
-                    'create a {C:tarot}Wheel of Fortune{}',
-                    'when another {C:tarot}Wheel of Fortune{} fails',
+                    '{C:green}#1# in #2#{} chance to create',
+                    'a {C:tarot}Wheel of Fortune{} when',
+                    'another {C:tarot}Wheel of Fortune{} fails',
                     '{s:0.8,C:inactive}(Must have room)'
                 },
             },
