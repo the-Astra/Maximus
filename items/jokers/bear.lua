@@ -17,7 +17,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         local xmult = 1
 
-        if G.GAME.dollars < to_big(0) then
+        if to_big(G.GAME.dollars) < to_big(0) then
             xmult = xmult + (math.abs(G.GAME.dollars) * stg.gain)
         end
 
@@ -28,7 +28,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.joker_main and G.GAME.dollars < to_big(0) then
+        if context.joker_main and to_big(G.GAME.dollars) < to_big(0) then
             return {
                 x_mult = 1 + math.abs(G.GAME.dollars) * stg.gain
             }
