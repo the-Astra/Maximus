@@ -200,7 +200,7 @@ end
 
 --#endregion
 
---#region Misc Atlases -------------------------------------------------------------------------------------------
+--#region Misc Atlases --------------------------------------------------------------------------------------
 
 SMODS.Atlas { -- Placeholder Atlas
     key = 'Placeholder',
@@ -718,7 +718,7 @@ end
 
 --#endregion
 
---#region Achievements
+--#region Achievements --------------------------------------------------------------------------------------
 
 assert(SMODS.load_file('items/achievements.lua'))()
 sendDebugMessage("Loaded Achievements", 'Maximus')
@@ -1247,7 +1247,7 @@ sendDebugMessage("", 'Maximus')
 
 --#endregion
 
---#region Seals ----------------------------------------------------------------------------------------------
+--#region Seals ---------------------------------------------------------------------------------------------
 
 local ENABLED_SEALS = {
     'black',
