@@ -1601,7 +1601,7 @@ return {
                 },
             },
             p_mxms_horoscope_normal_1 = {
-                name = 'Mega Zodiac Pack',
+                name = 'Zodiac Pack',
                 text = {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
@@ -1609,7 +1609,7 @@ return {
                 },
             },
             p_mxms_horoscope_normal_2 = {
-                name = 'Mega Zodiac Pack',
+                name = 'Zodiac Pack',
                 text = {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
