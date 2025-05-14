@@ -25,6 +25,8 @@ SMODS.Consumable {
         }
     },
     hidden = true,
+    soul_set = 'Horoscope',
+    soul_rate = 0.003,
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability
