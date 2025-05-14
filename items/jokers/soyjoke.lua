@@ -34,3 +34,26 @@ SMODS.Joker {
         end
     end
 }
+
+local catd = Card.add_to_deck
+Card.add_to_deck = function(self, from_debuff)
+    catd(self, from_debuff)
+    if self.ability.set == 'Joker' then
+    G.E_MANAGER:add_event(Event({func = function()
+        for k, v in pairs(G.GAME.purchased_jokers) do
+            if v == self.ability.name then
+                G.GAME.soy_mod = G.GAME.soy_mod + 1
+                local soyjokes = SMODS.find_card('j_mxms_soyjoke')
+                if next(soyjokes) then
+                    for i = 1, #soyjokes do
+                        SMODS.calculate_effect({ message = localize('k_upgrade_ex'), colour = G.C.ATTENTION }, soyjokes[i])
+                        SMODS.calculate_context({scaling_card = true})
+                    end
+                end
+                return true
+            end
+        end
+        G.GAME.purchased_jokers[#G.GAME.purchased_jokers + 1] = self.ability.name
+    return true end }))
+end
+end
