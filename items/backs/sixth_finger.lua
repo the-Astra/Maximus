@@ -7,7 +7,12 @@ SMODS.Back {
     },
     apply = function(self, back)
         --Change highlight limit
-        G.GAME.modifiers.mxms_highlight_limit = 6
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                G.hand.config.highlighted_limit = 6
+                return true;
+            end
+        }))
 
         if Maximus_config.new_handtypes then
             -- Make non-secret hands visible
