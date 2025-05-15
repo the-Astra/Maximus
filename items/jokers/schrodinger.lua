@@ -26,6 +26,13 @@ SMODS.Joker {
 
 local ccj = Card.calculate_joker
 function Card:calculate_joker(context)
-    if next(SMODS.find_card('j_mxms_schrodinger')) and self.ability.name ~= 'j_mxms_schrodinger' and pseudorandom('schro') < 0.5 then return nil end
+    if next(SMODS.find_card('j_mxms_schrodinger')) and self.ability.name ~= 'j_mxms_schrodinger' and pseudorandom('schro') < 0.5 then 
+        return {
+            message = localize('k_nope_ex'),
+            colour = G.C.FILTER,
+            sound = 'tarot2'
+        } 
+
+        end
     return ccj(self, context)
 end
