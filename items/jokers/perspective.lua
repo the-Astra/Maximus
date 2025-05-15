@@ -6,14 +6,13 @@ SMODS.Joker {
         y = 0
     },
     rarity = 1,
-    config = {},
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = false,
-    cost = 3,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
-        end
-    end
+    cost = 3
 }
 
 -- Change Full House to not interfere with Perspective

@@ -9,6 +9,11 @@ SMODS.Blind {
         x = 0,
         y = 5
     },
+    credit = {
+    art = "Maxiss02",
+    code = "theAstra",
+    concept = "theAstra"
+    },
     boss_colour = HEX('4E4C76'),
     recalc_debuff = function(self, card, from_blind)
         if card.ability.set == 'Enhanced' or 

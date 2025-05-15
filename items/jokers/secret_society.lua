@@ -5,6 +5,11 @@ SMODS.Joker {
         x = 4,
         y = 2
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = false,
     cost = 5,
     rarity = 2,
@@ -46,11 +51,6 @@ SMODS.Joker {
             for k, v in ipairs(G.playing_cards) do
                 v.base.nominal = SMODS.Ranks[v.base.value].nominal
             end
-        end
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

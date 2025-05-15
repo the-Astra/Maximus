@@ -11,6 +11,11 @@ SMODS.Booster {
         extra = 4,
         choose = 1
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "N/A"
+    },
     cost = 6,
     weight = 0.48,
     create_card = function(self, card)

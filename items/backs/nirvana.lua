@@ -5,6 +5,11 @@ SMODS.Back {
         x = 1,
         y = 0
     },
+    credit = {
+    art = "Maxiss02",
+    code = "theAstra",
+    concept = "Maxiss02"
+    },
     apply = function(self, back)
         --Change shop prices
         G.GAME.shop_price_multiplier = 1.5

@@ -5,6 +5,11 @@ SMODS.Back {
         x = 3,
         y = 0
     },
+    credit = {
+    art = "pinkzigzagoon",
+    code = "theAstra",
+    concept = "pinkzigzagoon"
+    },
     apply = function(self, back)
         --Disable skipping
         G.GAME.modifiers.disable_blind_skips = true

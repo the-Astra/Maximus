@@ -11,6 +11,11 @@ if Maximus_config.new_handtypes then
             hand_type = 'mxms_f_party',
             softlock = true
         },
+        credit = {
+            art = "Maxiss02",
+            code = "theAstra",
+            concept = "N/A"
+        },
         cost = 4,
         loc_vars = function(self, info_queue, center)
             return {
@@ -34,11 +39,7 @@ if Maximus_config.new_handtypes then
             return false
         end,
         set_card_type_badge = function(self, card, badges)
-            badges[#badges + 1] = create_badge(localize('k_mxms_exoplanet'), get_type_colour(card.config.center), nil,
-                1.2)
-            if self.discovered then
-                badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
-            end
+            badges[#badges + 1] = create_badge(localize('k_mxms_exoplanet'), get_type_colour(card.config.center), nil, 1.2)
         end
     }
 else

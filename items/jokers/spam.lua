@@ -11,6 +11,11 @@ SMODS.Joker {
             hands = 0
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = false,
     cost = 4,
     add_to_deck = function(self, card, from_debuff)
@@ -29,11 +34,6 @@ SMODS.Joker {
             G.hand:change_size(stg.hands)
             G.GAME.round_resets.hands = G.GAME.round_resets.hands - stg.hands
             ease_hands_played(-stg.hands)
-        end
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

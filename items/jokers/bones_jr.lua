@@ -10,6 +10,11 @@ SMODS.Joker {
             extra_hands = 1
         }
     },
+    credit = {
+        art = "LocalThunk",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
+    },
     blueprint_compat = true,
     cost = 4,
     loc_vars = function(self, info_queue, card)

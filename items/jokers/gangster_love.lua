@@ -5,6 +5,11 @@ SMODS.Joker {
         x = 1,
         y = 0
     },
+    credit = {
+        art = "anerdymous",
+        code = "theAstra",
+        concept = "anerdymous"
+    },
     rarity = 2,
     blueprint_compat = false,
     cost = 4,
@@ -26,11 +31,6 @@ SMODS.Joker {
                 colour = G.C.HEARTS,
                 sound = 'mxms_joker'
             }
-        end
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

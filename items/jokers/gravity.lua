@@ -11,6 +11,11 @@ SMODS.Joker {
             rounds = 5
         }
     },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
+    },
     blueprint_compat = false,
     eternal_compat = false,
     cost = 6,
@@ -162,11 +167,6 @@ SMODS.Joker {
             end
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 1.1, delay = 0 },
                 { mult = 0, chips = 0, handname = '', level = '' })
-        end
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

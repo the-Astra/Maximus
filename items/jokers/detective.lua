@@ -11,6 +11,11 @@ SMODS.Joker {
             size = 3
         }
     },
+    credit = {
+        art = "anerdymous",
+        code = "theAstra",
+        concept = "anerdymous"
+    },
     blueprint_compat = false,
     cost = 4,
     loc_vars = function(self, info_queue, card)
@@ -27,10 +32,5 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         G.hand:change_size(-stg.size)
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
-        end
     end
 }

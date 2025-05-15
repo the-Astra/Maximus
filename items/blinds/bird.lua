@@ -14,6 +14,11 @@ SMODS.Blind {
             hands_removed = 0
         }
     },
+    credit = {
+    art = "pinkzigzagoon",
+    code = "theAstra",
+    concept = "pinkzigzagoon"
+    },
     boss_colour = HEX('BFFF3A'),
     modify_hand = function(self, cards, poker_hands, text, mult, hand_chips)
         self.triggered = true

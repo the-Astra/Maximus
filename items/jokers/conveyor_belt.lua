@@ -12,6 +12,11 @@ SMODS.Joker {
             mult = 0
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "theAstra"
+    },
     blueprint_compat = true,
     cost = 4,
     loc_vars = function(self, info_queue, card)
@@ -35,11 +40,6 @@ SMODS.Joker {
                 message = localize('k_mxms_pushed_ex'),
                 colour = G.C.ATTENTION
             }
-        end
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

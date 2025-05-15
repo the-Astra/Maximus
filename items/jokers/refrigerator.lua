@@ -5,6 +5,11 @@ SMODS.Joker { -- Refrigerator
         x = 2,
         y = 2
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     rarity = 2,
     blueprint_compat = false,
     cost = 6,
@@ -14,10 +19,5 @@ SMODS.Joker { -- Refrigerator
 
     remove_from_deck = function(self, card, from_debuff)
         G.GAME.fridge_mod = G.GAME.fridge_mod / 2
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
-        end
     end
 }

@@ -13,16 +13,16 @@ if Maximus_config.horoscopes then
                 v.config.center:succeed(v)
             end
         end,
+        credit = {
+            art = "Maxiss02",
+            code = "theAstra",
+            concept = "Maxiss02"
+        },
         can_use = function(self, card)
             if #G.mxms_horoscope.cards >= 1 then
                 return true
             end
             return false
-        end,
-        set_badges = function(self, card, badges)
-            if self.discovered then
-                badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
-            end
         end
     }
 else

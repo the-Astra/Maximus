@@ -5,6 +5,11 @@ SMODS.Back {
         x = 4,
         y = 0
     },
+    credit = {
+    art = "pinkzigzagoon",
+    code = "theAstra",
+    concept = "pinkzigzagoon"
+    },
     apply = function(self, back)
         --Change card scoring
         G.GAME.modifiers.even_card_mult = true

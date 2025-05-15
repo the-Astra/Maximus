@@ -11,6 +11,11 @@ SMODS.Joker {
             chips = 0
         }
     },
+    credit = {
+        art = "anerdymous",
+        code = "theAstra",
+        concept = "anerdymous"
+    },
     blueprint_compat = true,
     cost = 4,
     loc_vars = function(self, info_queue, card)
@@ -39,11 +44,6 @@ SMODS.Joker {
                 message_card = card,
                 func = function() SMODS.calculate_context({ scaling_card = true }) end
             }
-        end
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

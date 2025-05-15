@@ -13,6 +13,11 @@ SMODS.Joker {
             copied_key = nil
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = true,
     cost = 10,
     loc_vars = function(self, info_queue, card)
@@ -106,11 +111,6 @@ SMODS.Joker {
             else
                 card.ability.blueprint_compat = "incompatible"
             end
-        end
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

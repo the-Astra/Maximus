@@ -10,6 +10,11 @@ SMODS.Joker {
         mult = 10,
         type = 'High Card'
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = true,
     cost = 3,
     loc_vars = function(self, info_queue, card)

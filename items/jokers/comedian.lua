@@ -13,6 +13,11 @@ SMODS.Joker {
             odds = 50
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "theAstra"
+    },
     blueprint_compat = true,
     cost = 4,
     loc_vars = function(self, info_queue, card)

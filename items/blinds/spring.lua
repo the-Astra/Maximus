@@ -14,6 +14,11 @@ SMODS.Blind {
             hands_removed = 0
         }
     },
+    credit = {
+    art = "pinkzigzagoon",
+    code = "theAstra",
+    concept = "pinkzigzagoon"
+    },
     boss_colour = HEX('BDB087'),
     after_scoring = function(self)
         G.E_MANAGER:add_event(Event({

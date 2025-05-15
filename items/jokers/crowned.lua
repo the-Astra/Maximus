@@ -11,6 +11,11 @@ SMODS.Joker {
             Xmult = 6
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = true,
     unlocked = false,
     cost = 2,
@@ -33,10 +38,5 @@ SMODS.Joker {
     end,
     check_for_unlock = function(self, args)
         return next(SMODS.find_card('j_mxms_crowned'))
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
-        end
     end
 }

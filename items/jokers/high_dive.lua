@@ -9,6 +9,11 @@ SMODS.Joker {
     config = {
         extra = 1
     },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
+    },
     blueprint_compat = true,
     cost = 5,
     calculate = function(self, card, context)
@@ -19,11 +24,6 @@ SMODS.Joker {
                 repetitions = stg,
                 card = card
             }
-        end
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

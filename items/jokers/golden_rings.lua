@@ -5,14 +5,14 @@ SMODS.Joker {
         x = 6,
         y = 14
     },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
+    },
     rarity = 1,
     blueprint_compat = true,
-    cost = 5,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
-        end
-    end
+    cost = 5
 }
 
 local gf = get_flush

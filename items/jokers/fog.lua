@@ -5,15 +5,14 @@ SMODS.Joker {
         x = 0,
         y = 9
     },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
+    },
     blueprint_compat = false,
     cost = 5,
-    rarity = 2,
-    config = {},
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
-        end
-    end
+    rarity = 2
 }
 
 -- Change 4oaK and 2P to work with Fog

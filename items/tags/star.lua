@@ -10,6 +10,11 @@ if Maximus_config.horoscopes then
         config = {
             type = 'new_blind_choice'
         },
+        credit = {
+            art = "Maxiss02",
+            code = "theAstra",
+            concept = "Maxiss02"
+        },
         loc_vars = function(self, info_queue)
             info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
         end,

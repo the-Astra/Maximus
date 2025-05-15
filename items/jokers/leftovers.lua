@@ -5,18 +5,18 @@ SMODS.Joker {
         x = 1,
         y = 2
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = false,
     eternal_compat = false,
     cost = 4,
     pools = {
         Food = true
     },
-    rarity = 1,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
-        end
-    end
+    rarity = 1
 }
 
 --Leftovers food detection

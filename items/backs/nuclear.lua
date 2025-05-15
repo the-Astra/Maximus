@@ -5,6 +5,11 @@ SMODS.Back {
         x = 2,
         y = 0
     },
+    credit = {
+    art = "Maxiss02",
+    code = "theAstra",
+    concept = "Maxiss02"
+    },
     apply = function(self, back)
         --Change blind scaling
         G.GAME.modifiers.mxms_nuclear_size = true

@@ -7,7 +7,11 @@ SMODS.Joker {
         y = 2
     },
     rarity = 2,
-    config = {},
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = false,
     cost = 5,
     enhancement_gate = 'm_stone',
@@ -33,11 +37,6 @@ SMODS.Joker {
                 v.config.center.no_rank = true
                 v.config.center.no_suit = true
             end
-        end
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

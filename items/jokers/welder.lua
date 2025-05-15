@@ -11,6 +11,11 @@ SMODS.Joker {
             Xmult = 0.1
         }
     },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
+    },
     blueprint_compat = true,
     cost = 6,
     loc_vars = function(self, info_queue, card)
@@ -39,10 +44,5 @@ SMODS.Joker {
         end
 
         return false
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': pinkzigzagoon', G.C.BLACK, G.C.WHITE, 1)
-        end
     end
 }

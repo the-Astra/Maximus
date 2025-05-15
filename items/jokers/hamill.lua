@@ -19,6 +19,11 @@ SMODS.Joker {
             levels = 1
         }
     },
+    credit = {
+        art = "anerdymous",
+        code = "theAstra",
+        concept = "anerdymous"
+    },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         local hand = localize(mxms_get_most_played_hand(), 'poker_hands')
@@ -30,11 +35,6 @@ SMODS.Joker {
         local most_played_hand = mxms_get_most_played_hand()
         if context.before and context.scoring_name == most_played_hand then
             level_up_hand(card, most_played_hand, nil, stg.levels)
-        end
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

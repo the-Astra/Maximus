@@ -1986,7 +1986,6 @@ return {
             k_horoscope = "Horoscope",
             k_mxms_a_side = "A-Side",
             k_mxms_a_side_ex = "A-Side!",
-            k_mxms_artist = "Artist",
             k_mxms_b_side = "B-Side",
             k_mxms_b_side_ex = "B-Side!",
             k_mxms_blackjack_ex = "Blackjack!",

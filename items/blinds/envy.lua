@@ -9,6 +9,11 @@ SMODS.Blind {
         x = 0,
         y = 2
     },
+    credit = {
+    art = "Maxiss02",
+    code = "theAstra",
+    concept = "theAstra"
+    },
     boss_colour = HEX('4CCAA9'),
     calculate = function(self, card, context)
         if context.post_trigger and context.other_ret and not context.other_context.end_of_round and not G.GAME.blind.disabled then

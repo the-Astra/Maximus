@@ -13,6 +13,11 @@ SMODS.Joker {
             odds = 3
         }
     },
+    credit = {
+        art = "anerdymous",
+        code = "theAstra",
+        concept = "anerdymous"
+    },
     blueprint_compat = false,
     cost = 4,
     loc_vars = function(self, info_queue, card)
@@ -42,11 +47,6 @@ SMODS.Joker {
             SMODS.calculate_effect({ message = localize('k_upgrade_ex'), colour = G.C.MONEY }, card)
             SMODS.calculate_context({ scaling_card = true })
             return cashout
-        end
-    end,
-    set_badges = function(self, card, badges)
-        if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': anerdymous', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

@@ -5,6 +5,11 @@ SMODS.Seal {
             Xmult = 2
         }
     },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
+    },
     atlas = 'Modifiers',
     pos = {
         x = 0,

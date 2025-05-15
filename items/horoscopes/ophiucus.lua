@@ -24,6 +24,11 @@ SMODS.Consumable {
             handtypes_played = 0
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     hidden = true,
     soul_set = 'Horoscope',
     soul_rate = 0.003,
@@ -134,7 +139,6 @@ SMODS.Consumable {
     set_badges = function(self, card, badges)
         if self.discovered then
             badges[#badges + 1] = create_badge(localize('k_horoscope'), G.C.SECONDARY_SET.Horoscope, G.C.WHITE, 1.2)
-            badges[#badges + 1] = create_badge(localize('k_mxms_artist') .. ': Maxiss02', G.C.BLACK, G.C.WHITE, 1)
         end
     end
 }

@@ -9,6 +9,11 @@ SMODS.Blind { --The Grinder
         x = 0,
         y = 1
     },
+    credit = {
+    art = "Maxiss02",
+    code = "theAstra",
+    concept = "Maxiss02"
+    },
     boss_colour = HEX('D9638D'),
     after_scoring = function(self)
         for k, v in ipairs(G.play.cards) do
