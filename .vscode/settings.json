@@ -73,7 +73,8 @@
         "set_horoscope_success",
         "create_shop_card_ui",
         "desc_from_rows",
-        "reset_mxms_achievements"
+        "reset_mxms_achievements",
+        "to_number"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",
