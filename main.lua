@@ -937,14 +937,6 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'coronation',
     'crowned',
 
-    --Astra's Playlist
-    'icosahedron',
-    'celestial_deity',
-    'abyss_angel',
-    'god_hand',
-    'sisyphus',
-    'prince',
-
     --Space
     'moon_landing',
     'space_race',
@@ -953,6 +945,14 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'little_brother',
     'zombie',
     'bootleg',
+
+    --Astra's Playlist
+    'icosahedron',
+    'celestial_deity',
+    'abyss_angel',
+    'god_hand',
+    'sisyphus',
+    'prince',
 
     --Thought Experiments
     'occam',
