@@ -31,8 +31,7 @@ function Card:calculate_joker(context)
             message = localize('k_nope_ex'),
             colour = G.C.FILTER,
             sound = 'tarot2'
-        } 
-
+        }
         end
     return ccj(self, context)
 end

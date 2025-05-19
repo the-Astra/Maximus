@@ -1,9 +1,13 @@
 SMODS.Joker {
     key = 'romero',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
         x = 3,
-        y = 0
+        y = 7
+    },
+    soul_pos = {
+        x = 3,
+        y = 8
     },
     rarity = 4,
     config = {
@@ -19,7 +23,7 @@ SMODS.Joker {
         hidden = true
     },
     credit = {
-        art = "???",
+        art = "Maxiss02",
         code = "theAstra",
         concept = "PsyAlola"
     },

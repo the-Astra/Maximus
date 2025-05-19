@@ -1,9 +1,13 @@
 SMODS.Joker {
     key = 'phoenix',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 3,
-        y = 0
+        x = 7,
+        y = 7
+    },
+    soul_pos = {
+        x = 7,
+        y = 8
     },
     rarity = 4,
     unlocked = false,
@@ -15,7 +19,7 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 20,
     credit = {
-        art = "anerdymous",
+        art = "Maxiss02",
         code = "theAstra",
         concept = "anerdymous"
     },

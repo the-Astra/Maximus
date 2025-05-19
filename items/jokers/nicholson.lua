@@ -1,9 +1,13 @@
 SMODS.Joker {
     key = 'nicholson',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 3,
-        y = 0
+        x = 4,
+        y = 7
+    },
+    soul_pos = {
+        x = 4,
+        y = 8
     },
     config = {
         extra = 1
@@ -16,7 +20,7 @@ SMODS.Joker {
         hidden = true
     },
     credit = {
-        art = "???",
+        art = "Maxiss02",
         code = "theAstra",
         concept = "9mmPeter"
     },

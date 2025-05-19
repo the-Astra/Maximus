@@ -1,9 +1,13 @@
 SMODS.Joker {
     key = 'hamill',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 3,
-        y = 0
+        x = 5,
+        y = 7
+    },
+    soul_pos = {
+        x = 5,
+        y = 8
     },
     rarity = 4,
     unlocked = false,
@@ -20,7 +24,7 @@ SMODS.Joker {
         }
     },
     credit = {
-        art = "anerdymous",
+        art = "Maxiss02",
         code = "theAstra",
         concept = "anerdymous"
     },
