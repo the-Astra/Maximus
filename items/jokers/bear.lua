@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'bear',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 8,
+        y = 14
     },
     rarity = 1,
     blueprint_compat = true,

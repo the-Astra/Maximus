@@ -14,6 +14,8 @@ if Maximus_config.horoscopes then
                     'p_mxms_horoscope_jumbo_1', 'p_mxms_horoscope_mega_1' }
                 },
                 { id = 'j_mxms_cheat_day' },
+                { id = 'j_mxms_letter' },
+                { id = 'j_mxms_nomai' },
                 { id = 'c_mxms_ophiucus' },
             },
             banned_tags = {

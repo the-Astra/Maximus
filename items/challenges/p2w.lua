@@ -47,6 +47,8 @@ SMODS.Challenge {
             { id = 'c_mxms_capricorn' },
             { id = 'c_mxms_aquarius' },
             { id = 'c_mxms_pisces' },
+            { id = 'c_mxms_doppelganger' },
+            { id = 'c_mxms_immortality' },
         },
     },
     deck = {

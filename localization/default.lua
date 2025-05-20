@@ -1391,6 +1391,7 @@ return {
                     'Gains {X:mult,C:white}X#2#{} Mult',
                     'every time a Joker',
                     'is {C:attention}re-added{} to hand',
+                    'during this run',
                     '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'
                 }
             },

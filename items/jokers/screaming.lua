@@ -1,12 +1,12 @@
 SMODS.Joker {
     key = 'screaming',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 7,
+        y = 14
     },
     credit = {
-        art = "pinkzigzagoon",
+        art = "Maxiss02",
         code = "theAstra",
         concept = "pinkzigzagoon"
     },
