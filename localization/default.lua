@@ -286,12 +286,6 @@ return {
                     '{s:0.8,C:inactive}Can override other editions{}'
                 }
             },
-            j_mxms_astigmatism = {
-                name = 'Astigmatism',
-                text = {
-                    '{X:chips,C:white}x#1#{} Chips'
-                }
-            },
             j_mxms_bankrupt = {
                 name = 'Bankrupt',
                 text = {
@@ -930,7 +924,7 @@ return {
                 name = 'Ledger',
                 text = {
                     'At the end of every',
-                    'ante, {C:attention}one random Joker',
+                    'ante, {C:attention}one {C:green}random {C:attention}Joker',
                     'becomes {C:dark_edition}Negative{}'
                 },
                 unlock={
@@ -1376,6 +1370,16 @@ return {
                     'gains {C:chips}Chips{} equal to each scoring',
                     'card\'s {C:chips}Chip{} value',
                     '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)'
+                }
+            },
+            j_mxms_sneaky_spirit = {
+                name = 'Sneaky Spirit',
+                text = {
+                    'Gives {X:mult,C:white}x#1#{} Mult when {C:attention}exactly',
+                    '{C:attention}#2# cards{} have been discarded',
+                    'Count resets on',
+                    'trigger or miss',
+                    '{C:inactive}(Currently: {C:red}#3#{C:inactive}/#2# discards)'
                 }
             },
             j_mxms_soil = {

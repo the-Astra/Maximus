@@ -6,15 +6,16 @@ SMODS.Back {
         y = 0
     },
     credit = {
-    art = "Maxiss02",
-    code = "theAstra",
-    concept = "Maxiss02"
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     apply = function(self, back)
-        --Change highlight limit
+        --Change limits
         G.E_MANAGER:add_event(Event({
             func = function()
-                G.hand.config.highlighted_limit = 6
+                SMODS.change_play_limit(1)
+                SMODS.change_discard_limit(1)
                 return true;
             end
         }))

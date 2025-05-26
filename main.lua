@@ -416,6 +416,28 @@ SMODS.Sound({
     key = 'joker',
     path = 'i\'m a joker.ogg'
 })
+
+SMODS.Sound({
+    key = 'spirit_beh',
+    path = 'spirit beh.ogg',
+    pitch = 0.8
+})
+
+SMODS.Sound({
+    key = 'spirit_miss',
+    path = 'spirit miss.ogg'
+})
+
+SMODS.Sound({
+    key = 'spirit_ough',
+    path = 'spirit ough.ogg'
+})
+
+SMODS.Sound({
+    key = 'spirit_pow',
+    path = 'spirit pow.ogg'
+})
+
 --#endregion
 
 --#region Misc Variables ------------------------------------------------------------------------------------
@@ -858,6 +880,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'piggy_bank',
     'honorable',
     'screaming',
+    'sneaky_spirit',
 
     --Uncommon
     'war',
@@ -901,7 +924,6 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'joker+',
     'streaker',
     'jobber',
-    'astigmatism',
     'dark_room',
     'guillotine',
     'soil',

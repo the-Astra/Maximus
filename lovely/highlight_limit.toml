@@ -3,30 +3,23 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-# Makes hands larger than 5 cards possible to be played
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = "if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > 5 then "
-position = "at"
-payload = "if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > G.hand.config.highlighted_limit then "
-match_indent = true
-times = 1
-
-# Challenge modifier
+# Apply limits from challenge rule
 [[patches]]
 [patches.pattern]
 target = "game.lua"
 pattern = '''
-self.hand = CardArea(
-    0, 0,
-    CAI.hand_W,CAI.hand_H, 
-    {card_limit = self.GAME.starting_params.hand_size, type = 'hand'})
+{card_limit = self.GAME.starting_params.hand_size, type = 'hand'})
 '''
 position = "after"
 payload = '''
-if self.GAME.modifiers.mxms_highlight_limit then 
-    self.hand.config.highlighted_limit = self.GAME.modifiers.mxms_highlight_limit
+if self.GAME.modifiers.mxms_highlight_limit then
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            SMODS.change_play_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
+            SMODS.change_discard_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
+            return true;
+        end
+    }))
 end
 '''
 match_indent = true

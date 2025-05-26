@@ -1,10 +1,10 @@
 SMODS.Consumable {
     key = 'immortality',
     set = 'Spectral',
-    atlas = 'Placeholder',
+    atlas = 'Consumables',
     pos = {
-        x = 2,
-        y = 2
+        x = 1,
+        y = 3
     },
     config = {
         extra = 'mxms_Black'
@@ -14,7 +14,7 @@ SMODS.Consumable {
         info_queue[#info_queue + 1] = G.P_SEALS['mxms_Black']
     end,
     credit = {
-        art = "pinkzigzagoon",
+        art = "Maxiss02",
         code = "theAstra",
         concept = "pinkzigzagoon"
     },

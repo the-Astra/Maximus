@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'jestcoin',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 2,
+        y = 16
     },
     rarity = 2,
     config = {
@@ -14,7 +14,7 @@ SMODS.Joker {
         }
     },
     credit = {
-        art = "anerdymous",
+        art = "Maxiss02",
         code = "theAstra",
         concept = "anerdymous"
     },

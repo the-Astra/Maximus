@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'spare_tire',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 4,
+        y = 15
     },
     rarity = 1,
     config = {
@@ -13,7 +13,7 @@ SMODS.Joker {
         }
     },
     credit = {
-        art = "pinkzigzagoon",
+        art = "Maxiss02",
         code = "theAstra",
         concept = "pinkzigzagoon"
     },

@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'change',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 3,
+        y = 16
     },
     rarity = 2,
     config = {
@@ -11,7 +11,7 @@ SMODS.Joker {
         }
     },
     credit = {
-        art = "pinkzigzagoon",
+        art = "Maxiss02",
         code = "theAstra",
         concept = "pinkzigzagoon"
     },
