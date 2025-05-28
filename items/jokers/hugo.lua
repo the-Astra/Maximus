@@ -12,8 +12,8 @@ SMODS.Joker {
     rarity = 4,
     unlocked = false,
     unlock_condition = {
-        type = '', 
-        extra = '', 
+        type = '',
+        extra = '',
         hidden = true
     },
     config = {

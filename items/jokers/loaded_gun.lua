@@ -8,7 +8,7 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = {
-            Xmult = 2
+            Xmult = 1.5
         }
     },
     credit = {

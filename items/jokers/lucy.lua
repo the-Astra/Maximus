@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'lucy',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 4,
+        y = 16
     },
     rarity = 1,
     config = {
@@ -13,7 +13,7 @@ SMODS.Joker {
         }
     },
     credit = {
-        art = "anerdymous",
+        art = "Maxiss02",
         code = "theAstra",
         concept = "anerdymous"
     },

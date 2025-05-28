@@ -326,17 +326,6 @@ return {
                     '{C:inactive}(Currently: {X:mult,C:white}X#3#{C:inactive} Mult)'
                 },
             },
-            j_mxms_blockbuster = {
-                name = 'Blockbuster',
-                text = {
-                    'Creates a new {C:attention}Joker{}',
-                    'at the beginning of every round',
-                    '{C:red}Destroy{} the created Joker at',
-                    'the end of the round',
-                    '{s:0.8,C:inactive}Must have room',
-                    'Current card: {C:red}#1#{}'
-                }
-            },
             j_mxms_bones_jr = {
                 name = 'Bones Jr.',
                 text = {
@@ -347,7 +336,7 @@ return {
                 }
             },
             j_mxms_bootleg = {
-                name = 'Bones Jr.',
+                name = 'Bootleg',
                 text = {
                     'If played hand scores less than',
                     'blind requirement divided by {C:blue}#1#{},',
@@ -761,6 +750,17 @@ return {
                     'rank set to {C:attention}10{}'
                 }
             },
+            j_mxms_gutbuster = {
+                name = 'Gutbuster',
+                text = {
+                    'Creates a new {C:attention}Joker{}',
+                    'at the beginning of every round',
+                    '{C:red}Destroy{} the created Joker at',
+                    'the end of the round',
+                    '{s:0.8,C:inactive}(Must have room)',
+                    'Current card: {C:red}#1#{}'
+                }
+            },
             j_mxms_hamill = {
                 name = 'Hamill',
                 text = {
@@ -834,8 +834,10 @@ return {
             j_mxms_hugo = {
                 name = 'Hugo',
                 text = {
-                    'Blind sizes do not exceed', '{C:attention}Small Blind',
-                    '{C:green}#1# in #2#{} chance to', '{C:red}skip blinds{} when selected',
+                    'Blind sizes do not exceed',
+                    '{C:attention}Small Blind',
+                    '{C:green}#1# in #2#{} chance to',
+                    '{C:red}skip blinds{} when selected',
                 },
                 unlock={
                     "{E:1,s:1.3}?????",
@@ -881,8 +883,8 @@ return {
             j_mxms_jestcoin = {
                 name = 'JestCoin',
                 text = {
-                    'Earn {C:money}$#1#{} at end of round,',
-                    'Cash out scales by {X:mult,C:white}^2{} after each round,',
+                    'Earn {C:money}$#1#{} at end of round',
+                    'Cash out scales by {X:mult,C:white}^2{} after each round',
                     '{C:green}#2# in #3#{} chance of setting money',
                     'to {C:money}$0{} and resetting cash out'
                 }
@@ -1007,7 +1009,7 @@ return {
                     'create the {C:planet}Planet{} card',
                     'of played {C:attention}poker hand{}',
                     'Scoring {C:diamonds}Diamond{} cards',
-                    '{C:attention}increase{} creation odds by {C:green}+#1#'
+                    '{C:attention}increase{} creation chance by {C:green}+#1#'
                 }
             },
             j_mxms_man_in_the_mirror = {
@@ -1375,7 +1377,7 @@ return {
             j_mxms_sneaky_spirit = {
                 name = 'Sneaky Spirit',
                 text = {
-                    'Gives {X:mult,C:white}x#1#{} Mult when {C:attention}exactly',
+                    'Gives {X:mult,C:white}X#1#{} Mult when {C:attention}exactly',
                     '{C:attention}#2# cards{} have been discarded',
                     'Count resets on',
                     'trigger or miss',

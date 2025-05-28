@@ -11,7 +11,7 @@ SMODS.Joker {
         concept = "pinkzigzagoon"
     },
     rarity = 1,
-    blueprint_compat = true,
+    blueprint_compat = false,
     cost = 5
 }
 

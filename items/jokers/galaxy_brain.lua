@@ -9,7 +9,7 @@ SMODS.Joker {
     config = {
         extra = {
             Xmult = 1,
-            gain = 0.25,
+            gain = 0.5,
             last_hand = nil
         }
     },

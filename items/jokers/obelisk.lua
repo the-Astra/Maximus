@@ -20,7 +20,7 @@ SMODS.Joker {
         concept = "anerdymous"
     },
     blueprint_compat = true,
-    cost = 4,
+    cost = 8,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
