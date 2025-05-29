@@ -911,7 +911,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'high_dive',
     'brainwashed',
     'whos_on_first',
-    'blockbuster',
+    'gutbuster',
     'galaxy_brain',
     'welder',
     'prospector',
