@@ -20,8 +20,8 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         if context.repetition and context.cardarea == G.play and
-            (context.other_card.config.center == G.P_CENTERS.m_bonus or context.other_card.config.center ==
-                G.P_CENTERS.m_mult) then
+            (SMODS.has_enhancement(context.other_card, 'm_bonus') or
+            SMODS.has_enhancement(context.other_card, 'm_mult')) then
             return {
                 message = localize('k_again_ex'),
                 repetitions = 1,

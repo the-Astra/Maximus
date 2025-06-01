@@ -17,16 +17,16 @@ if Maximus_config.new_handtypes then
             concept = "N/A"
         },
         cost = 4,
-        loc_vars = function(self, info_queue, center)
+        loc_vars = function(self, info_queue, card)
             return {
                 vars =
                 {
-                    G.GAME.hands[center.ability.hand_type].level,
-                    localize(center.ability.hand_type, "poker_hands"),
-                    G.GAME.hands[center.ability.hand_type].l_mult,
-                    G.GAME.hands[center.ability.hand_type].l_chips,
+                    G.GAME.hands[card.ability.hand_type].level,
+                    localize(card.ability.hand_type, "poker_hands"),
+                    G.GAME.hands[card.ability.hand_type].l_mult,
+                    G.GAME.hands[card.ability.hand_type].l_chips,
                     colours = {
-                        (G.GAME.hands[center.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[center.ability.hand_type].level)])
+                        (G.GAME.hands[card.ability.hand_type].level == 1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[card.ability.hand_type].level)])
                     }
                 },
             }
@@ -39,7 +39,7 @@ if Maximus_config.new_handtypes then
             return false
         end,
         set_card_type_badge = function(self, card, badges)
-            badges[#badges + 1] = create_badge(localize('k_mxms_exoplanet'), get_type_colour(card.config.center), nil,1.2)
+            badges[#badges + 1] = create_badge(localize('k_mxms_exoplanet'), get_type_colour(card.config.card), nil,1.2)
         end
     }
 else

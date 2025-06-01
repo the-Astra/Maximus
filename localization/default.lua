@@ -120,6 +120,19 @@ return {
                 }
             },
         },
+        Enhanced = {
+            m_mxms_footprint =  {
+                name = "Footprint",
+                text = {
+                    "{C:green}0 in 5{} chance to",
+                    "upgrade played {C:attention}Poker Hand",
+                    "by {C:attention}+#1#{} level",
+                    "Chance increases by {C:attention}1{} for",
+                    "each {C:attention}Footprint{} played",
+                    "{s:0.8,C:inactive}Only one Footprint can trigger per hand"
+                }
+            }
+        },
         Horoscope = {
             c_mxms_aquarius = {
                 name = 'Aquarius',

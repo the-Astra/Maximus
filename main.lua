@@ -143,7 +143,7 @@ SMODS.current_mod.extra_tabs = function()
             tab_definition_function = function()
                 local modNodes = {}
 
-                modNodes[#modNodes+1] = {}
+                modNodes[#modNodes + 1] = {}
                 local loc_vars = { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.4 }
                 localize { type = 'descriptions', key = 'mxms_credits', set = 'Other', nodes = modNodes[#modNodes], vars = loc_vars.vars, scale = loc_vars.scale, text_colour = loc_vars.text_colour, shadow = loc_vars.shadow }
                 modNodes[#modNodes] = desc_from_rows(modNodes[#modNodes])
@@ -205,6 +205,13 @@ end
 SMODS.Atlas { -- Placeholder Atlas
     key = 'Placeholder',
     path = "placeholders.png",
+    px = 71,
+    py = 95
+}
+
+SMODS.Atlas { -- Main Modifiers/Backs Atlas
+    key = 'Modifiers',
+    path = "Modifiers.png",
     px = 71,
     py = 95
 }
@@ -730,10 +737,13 @@ end
 function set_horoscope_success(card)
     if G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key] then
         G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key].count = G.PROFILES
-        [G.SETTINGS.profile].horoscope_completions[card.config.center_key].count + 1
+            [G.SETTINGS.profile].horoscope_completions[card.config.center_key].count + 1
     else
-        G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key] = { count = 1, order = card.config
-        .center.order }
+        G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key] = {
+            count = 1,
+            order = card.config
+                .center.order
+        }
     end
     G:save_settings()
 end
@@ -1101,13 +1111,6 @@ sendDebugMessage("", 'Maximus')
 
 --#region Backs ---------------------------------------------------------------------------------------------
 
-SMODS.Atlas { -- Main Modifiers Atlas
-    key = 'Modifiers',
-    path = "Modifiers.png",
-    px = 71,
-    py = 95
-}
-
 local ENABLED_BACKS = {
     'sixth_finger',
     'nirvana',
@@ -1269,15 +1272,16 @@ sendDebugMessage("", 'Maximus')
 
 --#endregion
 
---#region Seals ---------------------------------------------------------------------------------------------
+--#region Modifiers ---------------------------------------------------------------------------------------------
 
-local ENABLED_SEALS = {
+local ENABLED_MODIFIERS = {
     'black',
+    --'footprint', -- (You weren't supposed to see this...)
 }
-sendDebugMessage("Loading Seals...", 'Maximus')
-for i = 1, #ENABLED_SEALS do
-    assert(SMODS.load_file('items/seals/' .. ENABLED_SEALS[i] .. '.lua'))()
-    sendDebugMessage("Loaded tag: " .. ENABLED_SEALS[i], 'Maximus')
+sendDebugMessage("Loading Card Modifiers...", 'Maximus')
+for i = 1, #ENABLED_MODIFIERS do
+    assert(SMODS.load_file('items/modifiers/' .. ENABLED_MODIFIERS[i] .. '.lua'))()
+    sendDebugMessage("Loaded Card Modifier: " .. ENABLED_MODIFIERS[i], 'Maximus')
 end
 sendDebugMessage("", 'Maximus')
 

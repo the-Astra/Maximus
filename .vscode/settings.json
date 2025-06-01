@@ -75,7 +75,8 @@
         "desc_from_rows",
         "reset_mxms_achievements",
         "to_number",
-        "vanilla_suit_check"
+        "vanilla_suit_check",
+        "Sprite"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",
