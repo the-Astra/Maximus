@@ -31,15 +31,13 @@ SMODS.Joker {
 
         if context.discard then
             stg.discards = stg.discards + 1
+            if stg.discards > stg.discard_goal then
+                stg.discards = 1
+                SMODS.calculate_effect({ message = localize('k_reset'), colour = G.C.RED, sound = 'mxms_spirit_miss' }, card)
+            end
             return {
                 message = stg.discards .. '/' .. stg.discard_goal,
                 sound = 'mxms_spirit_beh',
-                func = function()
-                    if stg.discards > stg.discard_goal then
-                        stg.discards = 1
-                        SMODS.calculate_effect({message = localize('k_reset'), colour = G.C.RED, sound = 'mxms_spirit_miss'}, card)
-                    end
-                end
             }
         end
 
