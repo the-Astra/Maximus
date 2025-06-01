@@ -1276,6 +1276,7 @@ sendDebugMessage("", 'Maximus')
 
 local ENABLED_MODIFIERS = {
     'black',
+    'posted',
     --'footprint', -- (You weren't supposed to see this...)
 }
 sendDebugMessage("Loading Card Modifiers...", 'Maximus')

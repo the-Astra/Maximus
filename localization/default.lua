@@ -1636,7 +1636,7 @@ return {
                     "be used immediately",
                 },
             },
-            posted_right = {
+            mxms_posted = {
                 name = "Posted",
                 text = {
                     "This Joker stays",
@@ -2051,7 +2051,7 @@ return {
             ph_mxms_stat_horoscope_disabled = "Horoscopes disabled, stats cannot be displayed",
         },
         labels = {
-            posted_right = "Posted",
+            mxms_posted = "Posted",
             mxms_black_seal = "Black Seal",
         },
         poker_hands = {
