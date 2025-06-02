@@ -57,6 +57,10 @@ SMODS.Joker {
         end
     end,
     in_pool = function(self, args)
-        return not next(SMODS.find_card('j_mxms_chrysalis')) and next(SMODS.find_card('j_mxms_butterfly'))
+        local lineage = next(SMODS.find_card('j_mxms_chrysalis')) and next(SMODS.find_card('j_mxms_butterfly'))
+        if lineage then
+            lineage = not next(SMODS.find_card('j_ring_master'))
+        end
+        return not lineage
     end,
 }
