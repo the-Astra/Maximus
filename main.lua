@@ -1277,7 +1277,7 @@ sendDebugMessage("", 'Maximus')
 local ENABLED_MODIFIERS = {
     'black',
     'posted',
-    --'footprint', -- (You weren't supposed to see this...)
+    -- 'footprint', -- (You weren't supposed to see this...)
 }
 sendDebugMessage("Loading Card Modifiers...", 'Maximus')
 for i = 1, #ENABLED_MODIFIERS do

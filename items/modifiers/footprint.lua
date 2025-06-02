@@ -6,6 +6,11 @@ SMODS.Enhancement {
             levels = 1,
         }
     },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
+    },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
 
