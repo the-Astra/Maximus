@@ -15,9 +15,9 @@ SMODS.Blind {
         }
     },
     credit = {
-    art = "pinkzigzagoon",
-    code = "theAstra",
-    concept = "pinkzigzagoon"
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
     },
     boss_colour = HEX('BDB087'),
     after_scoring = function(self)
@@ -26,6 +26,7 @@ SMODS.Blind {
                 SMODS.juice_up_blind()
                 G.hand:change_size(-1)
                 self.config.extra.hands_removed = self.config.extra.hands_removed + 1
+                self.triggered = true
                 return true;
             end
         }))

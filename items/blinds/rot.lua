@@ -10,9 +10,9 @@ SMODS.Blind {
         y = 0
     },
     credit = {
-    art = "Maxiss02",
-    code = "theAstra",
-    concept = "Maxiss02"
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     boss_colour = HEX('A2CA4C'),
     set_blind = function(self)
@@ -24,6 +24,7 @@ SMODS.Blind {
                 j = j + 1
             end
             card.debuffed_by_blind = true
+            self.triggered = true
             card:set_debuff(true)
         end
     end,

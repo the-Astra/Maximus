@@ -10,14 +10,15 @@ SMODS.Blind {
         y = 4
     },
     credit = {
-    art = "Maxiss02",
-    code = "theAstra",
-    concept = "theAstra"
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "theAstra"
     },
     boss_colour = HEX('EABEDB'),
     recalc_debuff = function(self, card, from_blind)
         if card.ability.set == 'Default' and not card.edition and not card.seal then
             card.debuffed_by_blind = true
+            self.triggered = true
             return true
         else
             card.debuffed_by_blind = false

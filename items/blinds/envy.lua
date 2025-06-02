@@ -10,9 +10,9 @@ SMODS.Blind {
         y = 2
     },
     credit = {
-    art = "Maxiss02",
-    code = "theAstra",
-    concept = "theAstra"
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "theAstra"
     },
     boss_colour = HEX('4CCAA9'),
     calculate = function(self, card, context)
@@ -27,9 +27,7 @@ SMODS.Blind {
             }))
             delay(0.23)
             ease_dollars(-1)
-            if not self.triggered then
-                self.triggered = true
-            end
+            self.triggered = true
         end
     end
 }

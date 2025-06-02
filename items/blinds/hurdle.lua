@@ -10,9 +10,9 @@ SMODS.Blind {
         y = 6
     },
     credit = {
-    art = "pinkzigzagoon",
-    code = "theAstra",
-    concept = "pinkzigzagoon"
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
     },
     boss_colour = HEX('EE6672'),
     calculate = function(self, card, context)
@@ -20,6 +20,7 @@ SMODS.Blind {
             local first_card = context.scoring_hand[1]
             first_card.debuffed_by_blind = true
             first_card:set_debuff(true)
+            self.triggered = true
         end
     end,
     disable = function(self)

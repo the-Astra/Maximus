@@ -1471,7 +1471,7 @@ return {
             j_mxms_streaker = {
                 name = 'Streaker',
                 text = {
-                    '{C:chips}+#5#{} Chips and {C:mult}+#6#{} Mult',
+                    'Gains {C:chips}+#5#{} Chips and {C:mult}+#6#{} Mult',
                     'for each consecutive {C:attention}blind{}',
                     'beaten in {C:attention}one hand{}',
                     '{C:red}Resets{} when streak is broken',

@@ -10,9 +10,9 @@ SMODS.Blind { --The Grinder
         y = 1
     },
     credit = {
-    art = "Maxiss02",
-    code = "theAstra",
-    concept = "Maxiss02"
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     boss_colour = HEX('D9638D'),
     after_scoring = function(self)
@@ -27,6 +27,7 @@ SMODS.Blind { --The Grinder
                         v:set_edition(nil, true)
                         v:juice_up(0.3, 0.4)
                         play_sound('tarot2')
+                        self.triggered = true
                         return true
                     end
                 }))

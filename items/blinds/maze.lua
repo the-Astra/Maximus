@@ -10,9 +10,9 @@ SMODS.Blind {
         y = 9
     },
     credit = {
-    art = "pinkzigzagoon",
-    code = "theAstra",
-    concept = "pinkzigzagoon"
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
     },
     boss_colour = HEX('110E47'),
     calculate = function(self, card, context)
@@ -28,9 +28,7 @@ SMODS.Blind {
                             v:juice_up(0.3, 0.4)
                             play_sound('tarot2', 0.85 + (i - 0.999) / (#G.hand.cards - 0.998) * 0.3)
                             SMODS.juice_up_blind()
-                            if not self.triggered then
-                                self.triggered = true
-                            end
+                            self.triggered = true
                             return true;
                         end
                     }))
