@@ -10,6 +10,7 @@ SMODS.Joker {
         code = "theAstra",
         concept = "Maxiss02"
     },
+    discovered = true,
     order = 2,
     rarity = 1,
     blueprint_compat = true,

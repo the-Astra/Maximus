@@ -186,3 +186,16 @@ SMODS.Achievement {
         end
     end
 }
+
+
+
+SMODS.Achievement {
+    key = 'copy',
+    hidden_name = false,
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        if args.type == 'bootleg_copy' and (args.card == 'j_blueprint' or args.card == 'j_brainstorm') then
+            return true
+        end
+    end
+}

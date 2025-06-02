@@ -301,19 +301,17 @@ if Maximus_config.menu then
     local oldfunc = Game.main_menu
     Game.main_menu = function(change_context)
         local ret = oldfunc(change_context)
-        if G.P_CENTERS['j_mxms_normal'].discovered then
-            -- adds a James to the main menu
-            local newcard = create_card('Joker', G.title_top, nil, nil, nil, nil, 'j_mxms_normal', 'astra')
-            -- recenter the title
-            G.title_top.T.w = G.title_top.T.w * 1.7675
-            G.title_top.T.x = G.title_top.T.x - 0.8
-            newcard:start_materialize({ G.C.WHITE, G.C.MXMS_SECONDARY }, true, 2.5)
-            G.title_top:emplace(newcard)
-            -- make the card look the same way as the title screen Ace of Spades
-            newcard.T.w = newcard.T.w * 1.1 * 1.2
-            newcard.T.h = newcard.T.h * 1.1 * 1.2
-            newcard.no_ui = true
-        end
+        -- adds a James to the main menu
+        local newcard = create_card('Joker', G.title_top, nil, nil, nil, nil, 'j_mxms_normal', 'astra')
+        -- recenter the title
+        G.title_top.T.w = G.title_top.T.w * 1.7675
+        G.title_top.T.x = G.title_top.T.x - 0.8
+        newcard:start_materialize({ G.C.WHITE, G.C.MXMS_SECONDARY }, true, 2.5)
+        G.title_top:emplace(newcard)
+        -- make the card look the same way as the title screen Ace of Spades
+        newcard.T.w = newcard.T.w * 1.1 * 1.2
+        newcard.T.h = newcard.T.h * 1.1 * 1.2
+        newcard.no_ui = true
 
         -- make the title screen use different background colors
         G.SPLASH_BACK:define_draw_steps({ {

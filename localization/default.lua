@@ -410,7 +410,7 @@ return {
                 name = 'Caterpillar',
                 text = {
                     'After using {C:attention}#2# {C:tarot}Tarot{} Cards,',
-                    'sell this Joker to create a',
+                    'this Joker turns into a',
                     '{C:attention}Chrysalis',
                     '{C:inactive}(Currently: #1#/#2#)'
                 }
@@ -467,7 +467,7 @@ return {
                 name = 'Chrysalis',
                 text = {
                     'After using {C:attention}#2# {C:planet}Planet{} Cards,',
-                    'sell this Joker to create a',
+                    'this Joker turns into a',
                     '{C:attention}Butterfly',
                     '{C:inactive}(Currently: #1#/#2#)'
                 },
@@ -1949,6 +1949,7 @@ return {
         achievement_descriptions = {
             ach_mxms_apocalypse = "Have a full Joker roster consisting only of Zombies",
             ach_mxms_commitment = "Have a deck consisting entirely of cards with a Black Seal",
+            ach_mxms_copy = "Have a Bootleg target either a Blueprint or a Brainstorm",
             ach_mxms_disciple = "Discover every Maximus Joker",
             ach_mxms_flushaholic = "Hold both Smeared Joker and Faded Joker at the same time",
             ach_mxms_infinity = "Discover every Sixth Finger Planet Card",
@@ -1963,6 +1964,7 @@ return {
         achievement_names = {
             ach_mxms_apocalypse = "Apocalypse",
             ach_mxms_commitment = "Now That\'s Commitment",
+            ach_mxms_copy = "Counterfeit Operation",
             ach_mxms_disciple = "Disciple of James",
             ach_mxms_flushaholic = "Flushaholic",
             ach_mxms_infinity = "Infinty and Beyond",
@@ -2026,7 +2028,7 @@ return {
             k_mxms_jobbed = "Jobbed",
             k_mxms_left_el = "Left...",
             k_mxms_loser = "Tonight\'s Biggest Loser",
-            k_mxms_love = "Love!",
+            k_mxms_love_ex = "Love!",
             k_mxms_lucky = "Lucky",
             k_mxms_more_ex = "More Please!",
             k_mxms_no_target_el = "No Target...",
