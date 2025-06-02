@@ -9,7 +9,7 @@ SMODS.Joker {
     config = {
         extra = {
             mult = 0,
-            gain = 15
+            gain = 5
         }
     },
     credit = {
