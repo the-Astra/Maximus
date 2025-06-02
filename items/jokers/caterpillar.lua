@@ -55,5 +55,8 @@ SMODS.Joker {
                 SMODS.calculate_effect({ message = localize('k_active_ex'), colour = G.C.TAROT }, card)
             end
         end
-    end
+    end,
+    in_pool = function(self, args)
+        return not next(SMODS.find_card('j_mxms_chrysalis')) and next(SMODS.find_card('j_mxms_butterfly'))
+    end,
 }

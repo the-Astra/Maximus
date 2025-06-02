@@ -121,7 +121,7 @@ return {
             },
         },
         Enhanced = {
-            m_mxms_footprint =  {
+            m_mxms_footprint = {
                 name = "Footprint",
                 text = {
                     "{C:green}0 in 5{} chance to",
@@ -351,10 +351,9 @@ return {
             j_mxms_bootleg = {
                 name = 'Bootleg',
                 text = {
-                    'If played hand scores less than',
-                    'blind requirement divided by {C:blue}#1#{},',
-                    'gives {C:blue}+#2#{} hand for the {C:attention}current',
-                    '{C:attention}round{} and {C:red}self destructs'
+                    'Copies the effect of the',
+                    '{C:attention}most recently purchased Joker',
+                    'Current effect: {C:red}#1#{}'
                 }
             },
             j_mxms_brainwashed = {
@@ -373,7 +372,7 @@ return {
                     '{C:red}discarded{} this round',
                     '{C:red}Discard{} requirement increases',
                     'by {C:attention}1{} and resets',
-                    '{C:chips}Chips{}each round',
+                    '{C:chips}Chips{} each round',
                     '{C:inactive}(Currently: {C:chips}+#2# {C:inactive}Chips)'
                 }
             },
@@ -654,7 +653,7 @@ return {
                     'in a played hand',
                     'becomes {C:dark_edition}Negative{}'
                 },
-                unlock={
+                unlock = {
                     "{E:1,s:1.3}?????",
                 },
             },
@@ -782,7 +781,7 @@ return {
                     'every time it is played',
                     '{C:inactive}(Currently: {C:red}#2#{C:inactive})'
                 },
-                unlock={
+                unlock = {
                     "{E:1,s:1.3}?????",
                 },
             },
@@ -852,7 +851,7 @@ return {
                     '{C:green}#1# in #2#{} chance to',
                     '{C:red}skip blinds{} when selected',
                 },
-                unlock={
+                unlock = {
                     "{E:1,s:1.3}?????",
                 },
             },
@@ -942,7 +941,7 @@ return {
                     'ante, {C:attention}one {C:green}random {C:attention}Joker',
                     'becomes {C:dark_edition}Negative{}'
                 },
-                unlock={
+                unlock = {
                     "{E:1,s:1.3}?????",
                 },
             },
@@ -964,7 +963,7 @@ return {
                     'enhanced {C:attention}Queen{}',
                     'to the deck'
                 },
-                unlock={
+                unlock = {
                     "{E:1,s:1.3}?????",
                 },
             },
@@ -1108,7 +1107,7 @@ return {
                     'Retrigger any card',
                     'with an {C:attention}Edition{}'
                 },
-                unlock={
+                unlock = {
                     "{E:1,s:1.3}?????",
                 },
             },
@@ -1178,7 +1177,7 @@ return {
                     '{C:red}destroyed{}, give a {C:attention}Red Seal',
                     'to all other scoring cards'
                 },
-                unlock={
+                unlock = {
                     "{E:1,s:1.3}?????",
                 },
             },
@@ -1261,7 +1260,7 @@ return {
                 name = 'The Winged Dragon of Ra',
                 text = {
                     'If played hand is a {C:attention}High Card{},',
-                    'gains {X:mult,C:white}X#1#{} per scoring card and', 
+                    'gains {X:mult,C:white}X#1#{} per scoring card and',
                     '{C:red}destroys{} all scoring cards',
                     '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)'
                 },
@@ -1306,7 +1305,7 @@ return {
                     'is added to hand',
                     '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'
                 },
-                unlock={
+                unlock = {
                     "{E:1,s:1.3}?????",
                 },
             },
