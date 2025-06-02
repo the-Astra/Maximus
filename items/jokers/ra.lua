@@ -32,8 +32,16 @@ SMODS.Joker {
             for k, v in pairs(context.scoring_hand) do
                 stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
                 G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
                     func = function()
-                        v:start_dissolve(nil, true)
+                        v:start_dissolve()
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                v:remove()
+                                v = nil
+                                return true;
+                            end
+                        }))
                         return true;
                     end
                 }))
