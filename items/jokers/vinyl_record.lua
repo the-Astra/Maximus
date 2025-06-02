@@ -57,7 +57,7 @@ SMODS.Joker {
             end
         end
 
-        if context.after then
+        if context.after and not context.blueprint then
             stg.hands = stg.hands + 1
             SMODS.calculate_effect({ message = stg.hands .. '/' .. stg.hand_limit, colour = G.C.ATTENTION }, card)
             if stg.hands >= stg.hand_limit then

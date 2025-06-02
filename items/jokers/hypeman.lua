@@ -23,20 +23,23 @@ SMODS.Joker {
         return {
             vars = { stg.dollars }
         }
-    end
+    end,
+    calculate = function(self, card, context)
+        local stg = card.ability.extra
+    
+        if context.enhancing_card then
+            return {
+                dollars = stg.dollars,
+                sound = 'mxms_hey'
+            }
+        end
+    end,
 }
 
 local csa = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites)
     csa(self, center, initial, delay_sprites)
     if center.set == "Enhanced" and (G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED and G.STATE ~= G.STATES.SHOP and not G.SETTINGS.paused or G.TAROT_INTERRUPT) then
-        local hypes = SMODS.find_card('j_mxms_hypeman')
-        if next(hypes) then
-            for k, v in ipairs(hypes) do
-                SMODS.calculate_effect(
-                    { message = localize('$') .. v.ability.extra.dollars, colour = G.C.MONEY, sound = 'mxms_hey' }, v)
-                ease_dollars(v.ability.extra.dollars)
-            end
-        end
+        SMODS.calculate_context({enhancing_card = true})
     end
 end

@@ -89,7 +89,7 @@ SMODS.Joker {
             end
         end
 
-        if context.after then
+        if context.after and not context.blueprint then
             stg.triggers_left = stg.triggers_left - (1 / G.GAME.fridge_mod)
             SMODS.calculate_effect(
             { message = stg.triggers_left .. ' ' .. localize('k_mxms_left_el'), colour = G.C.RED }, card)

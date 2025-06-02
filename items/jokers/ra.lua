@@ -33,7 +33,7 @@ SMODS.Joker {
                 stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        v:start_dissolve()
+                        v:start_dissolve(nil, true)
                         return true;
                     end
                 }))

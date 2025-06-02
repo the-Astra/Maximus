@@ -51,7 +51,7 @@ SMODS.Joker {
                         end
                     }))
                     SMODS.calculate_effect({ message = localize('k_plus_stone'), colour = G.C.SECONDARY_SET.Enhanced },
-                        card)
+                        context.blueprint or card)
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             G.deck.config.card_limit = G.deck.config.card_limit + 1

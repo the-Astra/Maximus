@@ -18,7 +18,7 @@ SMODS.Joker {
         code = "theAstra",
         concept = "theAstra"
     },
-    blueprint_compat = true,
+    blueprint_compat = false,
     cost = 5,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
@@ -29,7 +29,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.individual and context.cardarea == G.play
+        if context.individual and context.cardarea == G.play and not context.blueprint
             and context.other_card:is_suit('Diamonds', false) and not context.repetition then
             stg.tally = stg.tally + 1
             return {

@@ -39,7 +39,7 @@ SMODS.Joker {
             }
         end
 
-        if stg.Xmult <= 1 then
+        if stg.Xmult <= 1 and not context.blueprint then
             card:start_dissolve({ G.C.BLUE }, nil, 1.6)
         end
     end

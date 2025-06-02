@@ -29,11 +29,12 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.discard then
+        if context.discard and not context.blueprint then
             stg.discards = stg.discards + 1
             if stg.discards > stg.discard_goal then
                 stg.discards = 1
-                SMODS.calculate_effect({ message = localize('k_reset'), colour = G.C.RED, sound = 'mxms_spirit_miss' }, card)
+                SMODS.calculate_effect({ message = localize('k_reset'), colour = G.C.RED, sound = 'mxms_spirit_miss' },
+                    card)
             end
             return {
                 message = stg.discards .. '/' .. stg.discard_goal,
@@ -53,8 +54,10 @@ SMODS.Joker {
                 x_mult = stg.Xmult,
                 sound = nil,
                 func = function()
-                    SMODS.calculate_effect({ message = localize('k_reset'), colour = G.C.ATTENTION }, card)
-                    stg.discards = 0
+                    if not context.blueprint then
+                        SMODS.calculate_effect({ message = localize('k_reset'), colour = G.C.ATTENTION }, card)
+                        stg.discards = 0
+                    end
                 end
             }
         end
