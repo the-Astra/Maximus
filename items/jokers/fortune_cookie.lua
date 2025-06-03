@@ -37,8 +37,7 @@ SMODS.Joker {
         -- Activate ability before scoring if chance is higher than 0
         if context.before and stg.prob > 0 then
             -- Roll chance and decrease by 1
-            local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante)) <
-                stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal / stg.odds
+            local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante)) < (stg.prob * G.GAME.probabilities.normal) / stg.odds
             stg.prob = stg.prob - (1 / G.GAME.fridge_mod)
 
             -- Check if Consumables is full
@@ -61,19 +60,15 @@ SMODS.Joker {
                     }))
                     return {
                         sound = 'tarot1',
-                        card = card,
                         message = localize('k_mxms_fortunate_ex'),
                         colour = G.C.SECONDARY_SET.Tarot
                     }
 
                     -- Failed Roll
                 else
-                    SMODS.calculate_context({ failed_prob = true, odds = stg.odds -
-                    stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal, card = card })
-
+                    SMODS.calculate_context({ failed_prob = true, odds = stg.odds - stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal, card = card })
                     return {
                         sound = 'tarot2',
-                        card = card,
                         message = localize('k_nope_ex'),
                         colour = G.C.SET.Tarot
                     }
@@ -81,13 +76,11 @@ SMODS.Joker {
             else
                 return {
                     sound = 'tarot2',
-                    card = card,
                     message = localize('k_mxms_wasted'),
                     colour = G.C.SET.Tarot
                 }
             end
 
-            card:juice_up(0.3, 0.4)
             return {
                 card = card,
                 message = '-1',
@@ -121,7 +114,6 @@ SMODS.Joker {
                     end
                 }))
                 return {
-                    card = card,
                     message = localize('k_mxms_crumbled'),
                     colour = G.C.FILTER
                 }
