@@ -15,21 +15,12 @@ SMODS.Joker {
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-        return {
-            vars = {}
-        }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
         if context.selling_self then
-            local valid_jokers = {}
-
-            for k, v in pairs(G.jokers.cards) do
-                if v.edition and v ~= card then
-                    valid_jokers[#valid_jokers + 1] = v
-                end
-            end
+            local valid_jokers = SMODS.get_edition_cards(G.jokers, true)
 
             if next(valid_jokers) then
                 local chosen_joker = pseudorandom_element(valid_jokers, pseudoseed('cleaner'))
@@ -57,11 +48,6 @@ SMODS.Joker {
         end
     end,
     in_pool = function(self, args)
-        for k, v in pairs(G.jokers.cards) do
-            if v.edition then
-                return true
-            end
-        end
-        return false
+        return next(SMODS.get_edition_cards(G.jokers, true))
     end
 }

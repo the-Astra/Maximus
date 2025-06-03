@@ -223,6 +223,13 @@ SMODS.Atlas { -- Mod Icon
     py = 32
 }
 
+SMODS.Atlas { -- Maximus Menu Logo
+    key = 'logo',
+    path = 'Maximus_Logo.png',
+    px = 173,
+    py = 61
+}
+
 --#endregion
 
 --#region Function Hooks ------------------------------------------------------------------------------------
@@ -301,6 +308,43 @@ if Maximus_config.menu then
     local oldfunc = Game.main_menu
     Game.main_menu = function(change_context)
         local ret = oldfunc(change_context)
+
+        -- Creates Maximus Logo Sprite
+        local SC_scale = 1.1 * (G.debug_splash_size_toggle and 0.8 or 1)
+        G.SPLASH_MAXIMUS_LOGO = Sprite(0, 0,
+            6 * SC_scale,
+            6 * SC_scale * (G.ASSET_ATLAS["mxms_logo"].py / G.ASSET_ATLAS["mxms_logo"].px),
+            G.ASSET_ATLAS["mxms_logo"], { x = 0, y = 0 }
+        )
+        G.SPLASH_MAXIMUS_LOGO:set_alignment({
+            major = G.title_top,
+            type = 'cm',
+            bond = 'Strong',
+            offset = { x = 0, y = 3 }
+        })
+        G.SPLASH_MAXIMUS_LOGO:define_draw_steps({ {
+            shader = 'dissolve',
+        } })
+
+        G.SPLASH_MAXIMUS_LOGO.dissolve_colours = { G.C.MXMS_PRIMARY, G.C.MXMS_SECONDARY }
+        G.SPLASH_MAXIMUS_LOGO.dissolve = 1
+
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = change_context == 'splash' and 3.6 or change_context == 'game' and 4 or 1,
+            blockable = false,
+            blocking = false,
+            func = (function()
+                play_sound('magic_crumple' .. (change_context == 'splash' and 2 or 3),
+                    (change_context == 'splash' and 1 or 1.3), 0.9)
+                play_sound('whoosh1', 0.2, 0.8)
+                ease_value(G.SPLASH_MAXIMUS_LOGO, 'dissolve', -1, nil, nil, nil,
+                change_context == 'splash' and 2.3 or 0.9)
+                G.VIBRATION = G.VIBRATION + 1.5
+                return true
+            end)
+        }))
+
         -- adds a James to the main menu
         local newcard = create_card('Joker', G.title_top, nil, nil, nil, nil, 'j_mxms_normal', 'astra')
         -- recenter the title

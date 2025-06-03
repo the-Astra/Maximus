@@ -13,7 +13,7 @@ SMODS.Joker {
         }
     },
     credit = {
-        art = "aberdymous",
+        art = "anerdymous",
         code = "theAstra",
         concept = "anerdymous"
     },
