@@ -379,9 +379,9 @@ return {
             j_mxms_brown = {
                 name = 'Brown Joker',
                 text = {
-                    'Gains {X:mult,C:white}X#1#{} Mult every',
-                    'time hand size {C:attention}decreases',
-                    '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)'
+                    'Gains {X:mult,C:white}X#1#{} Mult per',
+                    'hand size below {C:attention}#2#',
+                    '{C:inactive}(Currently: {X:mult,C:white}X#3#{C:inactive} Mult)'
                 }
             },
             j_mxms_bullseye = {

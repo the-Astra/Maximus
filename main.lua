@@ -923,6 +923,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'conveyor_belt',
     'golden_rings',
     'bear',
+    'brown',
     'bankrupt',
     'teddy_bear',
     'lucy',
@@ -967,7 +968,6 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'prospector',
     'blackjack',
     'tar_pit',
-    'brown',
     'screaming',
 
     --Rare
