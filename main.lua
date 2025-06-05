@@ -232,6 +232,94 @@ SMODS.Atlas { -- Maximus Menu Logo
 
 --#endregion
 
+--#region Menu stuff
+if Maximus_config.menu then
+    local oldfunc = Game.main_menu
+    Game.main_menu = function(change_context)
+        local ret = oldfunc(change_context)
+
+        -- Creates Maximus Logo Sprite
+        local SC_scale = 1.1 * (G.debug_splash_size_toggle and 0.8 or 1)
+        G.SPLASH_MAXIMUS_LOGO = Sprite(0, 0,
+            6 * SC_scale,
+            6 * SC_scale * (G.ASSET_ATLAS["mxms_logo"].py / G.ASSET_ATLAS["mxms_logo"].px),
+            G.ASSET_ATLAS["mxms_logo"], { x = 0, y = 0 }
+        )
+        G.SPLASH_MAXIMUS_LOGO:set_alignment({
+            major = G.title_top,
+            type = 'cm',
+            bond = 'Strong',
+            offset = { x = 0, y = 3 }
+        })
+        G.SPLASH_MAXIMUS_LOGO:define_draw_steps({ {
+            shader = 'dissolve',
+        } })
+
+        -- Define logo properties
+        G.SPLASH_MAXIMUS_LOGO.tilt_var = { mx = 0, my = 0, dx = 0, dy = 0, amt = 0 }
+
+        G.SPLASH_MAXIMUS_LOGO.dissolve_colours = { G.C.MXMS_PRIMARY, G.C.MXMS_SECONDARY }
+        G.SPLASH_MAXIMUS_LOGO.dissolve = 1
+
+        G.SPLASH_MAXIMUS_LOGO.states.collide.can = true
+
+        -- Define node functions for Maximus Logo
+        function G.SPLASH_MAXIMUS_LOGO:click() G.FUNCS['openModUI_Maximus']() end
+
+        function G.SPLASH_MAXIMUS_LOGO:hover()
+            G.SPLASH_MAXIMUS_LOGO:juice_up(0.05, 0.03)
+            play_sound('paper1', math.random() * 0.2 + 0.9, 0.35)
+            Node.hover(self)
+        end
+
+        function G.SPLASH_MAXIMUS_LOGO:stop_hover() Node.stop_hover(self) end
+
+        --Logo animation
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = change_context == 'splash' and 3.6 or change_context == 'game' and 4 or 1,
+            blockable = false,
+            blocking = false,
+            func = (function()
+                play_sound('magic_crumple' .. (change_context == 'splash' and 2 or 3),
+                    (change_context == 'splash' and 1 or 1.3), 0.9)
+                play_sound('whoosh1', 0.2, 0.8)
+                ease_value(G.SPLASH_MAXIMUS_LOGO, 'dissolve', -1, nil, nil, nil,
+                    change_context == 'splash' and 2.3 or 0.9)
+                G.VIBRATION = G.VIBRATION + 1.5
+                return true
+            end)
+        }))
+
+        -- adds a James to the main menu
+        local newcard = create_card('Joker', G.title_top, nil, nil, nil, nil, 'j_mxms_normal', 'astra')
+        -- recenter the title
+        G.title_top.T.w = G.title_top.T.w * 1.7675
+        G.title_top.T.x = G.title_top.T.x - 0.8
+        newcard:start_materialize({ G.C.WHITE, G.C.MXMS_SECONDARY }, true, 2.5)
+        G.title_top:emplace(newcard)
+        -- make the card look the same way as the title screen Ace of Spades
+        newcard.T.w = newcard.T.w * 1.1 * 1.2
+        newcard.T.h = newcard.T.h * 1.1 * 1.2
+        newcard.no_ui = true
+
+        -- make the title screen use different background colors
+        G.SPLASH_BACK:define_draw_steps({ {
+            shader = 'splash',
+            send = {
+                { name = 'time',       ref_table = G.TIMERS, ref_value = 'REAL_SHADER' },
+                { name = 'vort_speed', val = 0.4 },
+                { name = 'colour_1',   ref_table = G.C,      ref_value = 'MXMS_PRIMARY' },
+                { name = 'colour_2',   ref_table = G.C,      ref_value = 'MXMS_SECONDARY' },
+            }
+        } })
+
+        return ret
+    end
+end
+
+--#endregion
+
 --#region Function Hooks ------------------------------------------------------------------------------------
 
 local igo = Game.init_game_object
@@ -301,75 +389,6 @@ G.FUNCS.draw_from_play_to_discard = function(e)
         obj:after_scoring()
     end
     draw_discard(e)
-end
-
--- Menu stuff
-if Maximus_config.menu then
-    local oldfunc = Game.main_menu
-    Game.main_menu = function(change_context)
-        local ret = oldfunc(change_context)
-
-        -- Creates Maximus Logo Sprite
-        local SC_scale = 1.1 * (G.debug_splash_size_toggle and 0.8 or 1)
-        G.SPLASH_MAXIMUS_LOGO = Sprite(0, 0,
-            6 * SC_scale,
-            6 * SC_scale * (G.ASSET_ATLAS["mxms_logo"].py / G.ASSET_ATLAS["mxms_logo"].px),
-            G.ASSET_ATLAS["mxms_logo"], { x = 0, y = 0 }
-        )
-        G.SPLASH_MAXIMUS_LOGO:set_alignment({
-            major = G.title_top,
-            type = 'cm',
-            bond = 'Strong',
-            offset = { x = 0, y = 3 }
-        })
-        G.SPLASH_MAXIMUS_LOGO:define_draw_steps({ {
-            shader = 'dissolve',
-        } })
-
-        G.SPLASH_MAXIMUS_LOGO.dissolve_colours = { G.C.MXMS_PRIMARY, G.C.MXMS_SECONDARY }
-        G.SPLASH_MAXIMUS_LOGO.dissolve = 1
-
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            delay = change_context == 'splash' and 3.6 or change_context == 'game' and 4 or 1,
-            blockable = false,
-            blocking = false,
-            func = (function()
-                play_sound('magic_crumple' .. (change_context == 'splash' and 2 or 3),
-                    (change_context == 'splash' and 1 or 1.3), 0.9)
-                play_sound('whoosh1', 0.2, 0.8)
-                ease_value(G.SPLASH_MAXIMUS_LOGO, 'dissolve', -1, nil, nil, nil,
-                change_context == 'splash' and 2.3 or 0.9)
-                G.VIBRATION = G.VIBRATION + 1.5
-                return true
-            end)
-        }))
-
-        -- adds a James to the main menu
-        local newcard = create_card('Joker', G.title_top, nil, nil, nil, nil, 'j_mxms_normal', 'astra')
-        -- recenter the title
-        G.title_top.T.w = G.title_top.T.w * 1.7675
-        G.title_top.T.x = G.title_top.T.x - 0.8
-        newcard:start_materialize({ G.C.WHITE, G.C.MXMS_SECONDARY }, true, 2.5)
-        G.title_top:emplace(newcard)
-        -- make the card look the same way as the title screen Ace of Spades
-        newcard.T.w = newcard.T.w * 1.1 * 1.2
-        newcard.T.h = newcard.T.h * 1.1 * 1.2
-        newcard.no_ui = true
-
-        -- make the title screen use different background colors
-        G.SPLASH_BACK:define_draw_steps({ {
-            shader = 'splash',
-            send = {
-                { name = 'time',       ref_table = G.TIMERS, ref_value = 'REAL_SHADER' },
-                { name = 'vort_speed', val = 0.4 },
-                { name = 'colour_1',   ref_table = G.C,      ref_value = 'MXMS_PRIMARY' },
-                { name = 'colour_2',   ref_table = G.C,      ref_value = 'MXMS_SECONDARY' },
-            }
-        } })
-
-        return ret
-    end
 end
 
 local save_r = save_run
