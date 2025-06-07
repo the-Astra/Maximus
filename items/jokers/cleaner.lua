@@ -20,7 +20,7 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.selling_self then
-            local valid_jokers = SMODS.get_edition_cards(G.jokers, true)
+            local valid_jokers = SMODS.Edition:get_edition_cards(G.jokers, true)
 
             if next(valid_jokers) then
                 local chosen_joker = pseudorandom_element(valid_jokers, pseudoseed('cleaner'))
@@ -48,6 +48,6 @@ SMODS.Joker {
         end
     end,
     in_pool = function(self, args)
-        return next(SMODS.get_edition_cards(G.jokers, true))
+        return next(SMODS.Edition:get_edition_cards(G.jokers, true))
     end
 }
