@@ -12,7 +12,28 @@ SMODS.Joker {
         concept = "Maxiss02"
     },
     blueprint_compat = false,
-    cost = 7
+    cost = 7,
+    calculate = function(self, card, context)
+        local stg = card.ability.extra
+    
+        if context.before and next(context.poker_hands['Flush']) then
+            local suit_check = {Diamonds = false, Spades = false, Clubs = false, Hearts = false}
+
+            for k, v in pairs(context.scoring_hand) do
+                if not SMODS.has_no_suit(v) or not SMODS.has_any_suit(v) then
+                    suit_check[v.base.suit] = true
+                end
+            end
+
+            for k, v in pairs(suit_check) do
+                if not v then
+                    return
+                end
+            end
+
+            check_for_unlock({type = 'flushaholic'})
+        end
+    end,
 }
 
 local cis = Card.is_suit

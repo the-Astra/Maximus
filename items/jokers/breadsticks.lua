@@ -49,7 +49,16 @@ SMODS.Joker {
                     message = localize('k_upgrade_ex'),
                     colour = G.C.CHIPS,
                     card = card,
-                    func = function() SMODS.calculate_context({ scaling_card = true }) end
+                    func = function()
+                        SMODS.calculate_context({ scaling_card = true })
+                        G.breadstick_scales = G.breadstick_scales + 1
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                check_for_unlock({type = 'stuffed', scales = G.breadstick_scales})
+                                return true;
+                            end
+                        }))
+                    end
                 }
             end
         end

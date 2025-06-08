@@ -344,6 +344,7 @@ Game.init_game_object = function(self)
     ret.shop_price_multiplier = 1
     ret.horoscope_rate = 0
     ret.base_planet_levels = 1
+    ret.breadstick_scales = 0
 
     --Rotating Modifiers
     ret.current_round.impractical_hand = 'Straight Flush'

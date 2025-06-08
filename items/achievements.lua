@@ -126,9 +126,10 @@ SMODS.Achievement {
     key = 'flushaholic',
     hidden_name = false,
     hidden_text = true,
+    reset_on_startup = true,
     unlock_condition = function(self, args)
-        if args.type == 'modify_jokers' and G.jokers then
-            return next(SMODS.find_card('j_mxms_faded')) and next(SMODS.find_card('j_smeared'))
+        if args.type == 'flushaholic' then
+            return true
         end
     end
 }
@@ -195,6 +196,32 @@ SMODS.Achievement {
     hidden_text = true,
     unlock_condition = function(self, args)
         if args.type == 'bootleg_copy' and (args.card == 'j_blueprint' or args.card == 'j_brainstorm') then
+            return true
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
+    key = 'stuffed',
+    hidden_name = false,
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        if args.type == 'breadsticks' and args.scales == 25 then
+            return true
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
+    key = 'naturally',
+    hidden_name = false,
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        if args.type == 'beat_before_playing_cards' then
             return true
         end
     end
