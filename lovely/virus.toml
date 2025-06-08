@@ -10,7 +10,7 @@ target = "functions/misc_functions.lua"
 pattern = '''
 function get_flush(hand)
   local ret = {}
-  local four_fingers = next(find_joker('Four Fingers'))
+  local four_fingers = SMODS.four_fingers()
   local suits = SMODS.Suit.obj_buffer
   if #hand < (5 - (four_fingers and 1 or 0)) then return ret else
 '''
@@ -18,7 +18,7 @@ position = "at"
 payload = '''
 function get_flush(hand)
   local ret = {}
-  local four_fingers = next(find_joker('Four Fingers'))
+  local four_fingers = SMODS.four_fingers()
   local virus = next(SMODS.find_card('j_mxms_virus'))
   local suits = SMODS.Suit.obj_buffer
   if #hand < (5 - (four_fingers and 1 or virus and 3 or 0)) then return ret else
@@ -30,11 +30,11 @@ times = 1
 [patches.pattern]
 target = "functions/misc_functions.lua"
 pattern = '''
-if flush_count >= (5 - (four_fingers and 1 or 0)) then
+if flush_count >= four_fingers then
 '''
 position = "at"
 payload = '''
-if flush_count >= (5 - (four_fingers and 1 or (virus and flush_count == #hand) and 3 or 0)) then
+if flush_count >= (virus and flush_count == #hand and 2) or four_fingers then
 '''
 match_indent = true
 times = 1

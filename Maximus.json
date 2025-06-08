@@ -11,7 +11,7 @@
 	"badge_text_colour": "f8a100",
 	"version": "1.0.0",
 	"dependencies": [
-		"Steamodded (>=1.0.0~BETA-0525b)",
+		"Steamodded (>=1.0.0~BETA-0608a)",
 		"Lovely (>=0.7.1)",
 		"3xCredits (==1.*~)"
 	]
