@@ -126,7 +126,6 @@ SMODS.Achievement {
     key = 'flushaholic',
     hidden_name = false,
     hidden_text = true,
-    reset_on_startup = true,
     unlock_condition = function(self, args)
         if args.type == 'flushaholic' then
             return true
