@@ -230,6 +230,21 @@ SMODS.Atlas { -- Maximus Menu Logo
     py = 61
 }
 
+if next(SMODS.find_mod("AntePreview")) then -- Ante Preview compat
+    SMODS.Atlas {
+        key = 'poker_hands',
+        path = "Poker Hands.png",
+        px = 53,
+        py = 13
+    }
+end
+
+SMODS.Atlas { -- Main Back Atlas
+    key = 'Backs',
+    path = "Backs.png",
+    px = 71,
+    py = 95
+}
 --#endregion
 
 --#region Menu stuff
