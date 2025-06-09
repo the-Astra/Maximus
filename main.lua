@@ -239,9 +239,9 @@ if next(SMODS.find_mod("AntePreview")) then -- Ante Preview compat
     }
 end
 
-SMODS.Atlas { -- Main Back Atlas
-    key = 'Backs',
-    path = "Backs.png",
+SMODS.Atlas { -- Main Modifiers Atlas
+    key = 'Modifiers',
+    path = "Modifiers.png",
     px = 71,
     py = 95
 }
