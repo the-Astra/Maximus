@@ -36,27 +36,20 @@ SMODS.Joker {
         if context.individual and context.other_card.ability.effect == 'Lucky Card' and not context.after and not context.end_of_round and
             not context.other_card.lucky_trigger and not context.blueprint then
             stg.mult = stg.mult + card.ability.extra.lucky_gain
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:juice_up(0.3, 0.4)
-                    play_sound('generic1')
-                    return true
-                end
-            }))
-            SMODS.calculate_context({ scaling_card = true })
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.ATTENTION,
+                func = function() SMODS.calculate_context({ scaling_card = true }) end
+            }
         end
 
         if context.failed_prob and not context.blueprint then
             stg.mult = stg.mult + context.odds
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:juice_up(0.3, 0.4)
-                    return true
-                end
-            }))
-            SMODS.calculate_context({ scaling_card = true })
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.ATTENTION,
+                func = function() SMODS.calculate_context({ scaling_card = true }) end
+            }
         end
     end
 }

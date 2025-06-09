@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'gangster_love',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 4,
+        y = 17
     },
     credit = {
         art = "anerdymous",
