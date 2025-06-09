@@ -1,23 +1,23 @@
 SMODS.Joker {
     key = 'golden_rings',
-    loc_txt = {
-        name = 'Five Golden Rings',
-        text = { 'A hand made entirely', 'of {C:attention}enhanced cards{}', 'counts as a {C:attention}Flush{}' }
-    },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 6,
+        y = 14
+    },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
     },
     rarity = 1,
-    blueprint_compat = true,
+    blueprint_compat = false,
     cost = 5
 }
 
 local gf = get_flush
 
 function get_flush(hand)
-
     if next(SMODS.find_card('j_mxms_golden_rings')) then
         local all_enhanced = true
         local rings_ret = {}
@@ -33,5 +33,4 @@ function get_flush(hand)
     end
 
     return gf(hand)
-
 end

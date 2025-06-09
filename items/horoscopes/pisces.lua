@@ -1,10 +1,6 @@
 SMODS.Consumable {
     key = 'pisces',
     set = 'Horoscope',
-    loc_txt = {
-        name = 'Pisces',
-        text = { 'Use {C:attention}#1#{} {C:tarot}Tarot{} cards within', 'the ante to receive', 'a random {C:spectral}Spectral{} Card', '{C:inactive}Currently: #2#/#1#' }
-    },
     atlas = 'Consumables',
     pos = {
         x = 0,
@@ -15,6 +11,11 @@ SMODS.Consumable {
             tally = 0,
             goal = 5
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     cost = 4,
     loc_vars = function(self, info_queue, card)
@@ -62,7 +63,11 @@ SMODS.Consumable {
     succeed = function(self, card)
         if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-            SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
+            SMODS.calculate_effect(
+            { message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function()
+                set_horoscope_success(card)
+                check_for_unlock({ type = "all_horoscopes" })
+            end }, card)
             G.E_MANAGER:add_event(Event({
                 trigger = 'before',
                 func = function()
@@ -85,11 +90,11 @@ SMODS.Consumable {
             end
         }))
         zodiac_killer_pools["Pisces"] = false
-        SMODS.calculate_context({beat_horoscope = true})
+        SMODS.calculate_context({ beat_horoscope = true })
     end,
     fail = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_failed_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -117,6 +122,6 @@ SMODS.Consumable {
                 end
             }))
         end
-        SMODS.calculate_context({failed_horoscope = true})
+        SMODS.calculate_context({ failed_horoscope = true })
     end
 }

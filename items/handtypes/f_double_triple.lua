@@ -16,13 +16,6 @@ SMODS.PokerHand {
         { 'S_9', true }
 
     },
-    loc_txt = {
-        name = 'Flush Double Triple',
-        description = {
-            "Two 3 of a Kinds with",
-            "all cards sharing the same suit"
-        }
-    },
     visible = false,
     evaluate = function(parts, hand)
         return #parts._3 >= 2 and next(parts.mxms_s_flush)

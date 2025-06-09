@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'bootleg',
-    loc_txt = {
-        name = 'Bootleg',
-        text = { 'Copies the effect of the', '{C:attention}most recently purchased Joker', 'Current effect: {C:red}#1#{}' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,
@@ -13,6 +9,11 @@ SMODS.Joker {
     config = {},
     blueprint_compat = true,
     cost = 3,
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
+    },
     loc_vars = function(self, info_queue, card)
         if G.GAME.last_bought.card ~= nil then
             local copied_key = G.GAME.last_bought.card.config.center.key
@@ -22,7 +23,7 @@ SMODS.Joker {
             }
         else
             return {
-                vars = { 'None' }
+                vars = { localize('k_none') }
             }
         end
     end,
@@ -32,7 +33,7 @@ SMODS.Joker {
             context.blueprint_card = context.blueprint_card or card
             local bootleg_target_ret = G.GAME.last_bought.card:calculate_joker(context)
             context.blueprint = nil
-            local eff_card = context.blueprint_card or self
+            local eff_card = context.blueprint_card or card
             context.blueprint_card = nil
             if bootleg_target_ret then
                 bootleg_target_ret.card = eff_card
@@ -45,6 +46,7 @@ SMODS.Joker {
             and (context.card ~= card or context.card.config.center.key ~= "j_mxms_bootleg") then
             G.GAME.last_bought.card = context.card
             card:juice_up(0.3, 0.4)
+            check_for_unlock({type = 'bootleg_copy', card = context.card.config.center.key})
         end
     end,
     remove_from_deck = function(self, card, context)

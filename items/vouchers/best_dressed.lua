@@ -1,9 +1,5 @@
 SMODS.Voucher {
     key = 'best_dressed',
-    loc_txt = {
-        name = 'Best Dressed',
-        text = { 'Suit-Changing {C:tarot}Tarot{} cards in', 'your {C:attention}consumable{} area give', '{X:mult,C:white}X1{} Mult plus {X:red,C:white}X#1#{}', 'for each {C:attention}played card{}', 'matching its suit' }
-    },
     atlas = 'Vouchers',
     pos = {
         x = 1,
@@ -11,6 +7,11 @@ SMODS.Voucher {
     },
     config = {
         extra = 0.2
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     requires = { 'v_mxms_sharp_suit' },
     loc_vars = function(self, info_queue, card)
@@ -34,5 +35,5 @@ SMODS.Voucher {
                 }
             end
         end
-    end,
+    end
 }

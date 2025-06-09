@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'minimalist',
-    loc_txt = {
-        name = 'Minimalist',
-        text = { '{C:chips}+#1#{} Chips, {C:chips}-#3#{} for', 'every enhanced card in full deck', '{C:inactive}Currently: {C:chips}+#2#' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
@@ -17,34 +13,43 @@ SMODS.Joker {
             dChips = 15
         }
     },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
+    },
     blueprint_compat = true,
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
+
+        stg.chips = stg.base_chips
+        if G.playing_cards then
+            for k, v in pairs(G.playing_cards) do
+                if next(SMODS.get_enhancements(v)) and stg.chips > 0 then
+                    stg.chips = stg.chips - stg.dChips
+                end
+            end
+        end
+
         return {
             vars = { stg.base_chips, stg.chips, stg.dChips }
         }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
+
+        stg.chips = stg.base_chips
+        for k, v in pairs(G.playing_cards) do
+            if next(SMODS.get_enhancements(v)) and stg.chips > 0 then
+                stg.chips = stg.chips - stg.dChips
+            end
+        end
+
         if context.joker_main and stg.chips > 0 then
             return {
-                chip_mod = stg.chips,
-                message = '+' .. stg.chips,
-                colour = G.C.CHIPS,
-                card = card
+                chips = stg.chips
             }
-        end
-    end,
-    update = function(self, card, dt)
-        local stg = card.ability.extra
-        if G.STAGE == G.STAGES.RUN then
-            stg.chips = stg.base_chips
-            for k, v in pairs(G.playing_cards) do
-                if next(SMODS.get_enhancements(v)) and stg.chips > 0 then
-                    stg.chips = stg.chips - stg.dChips
-                end
-            end
         end
     end
 }

@@ -1,13 +1,14 @@
 SMODS.Joker {
     key = 'chekhov',
-    loc_txt = {
-        name = 'Chekhov\'s Gun',
-        text = { '{X:mult,C:white}Xante{} mult on antes', 'with a final boss' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 1,
         y = 10
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 3,
     blueprint_compat = true,

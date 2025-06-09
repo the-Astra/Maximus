@@ -1,11 +1,5 @@
 SMODS.Joker {
     key = 'fortune_cookie',
-    loc_txt = {
-        name = 'Fortune Cookie',
-        text = { '{C:green}#3# out of #4#{} chance to receive', 'a random {C:tarot}Tarot{} card when',
-            ' playing a hand {C:inactive}(Must have room){}',
-            '{s:0.8,C:inactive}Chance reduces by #1# for every played hand' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
@@ -25,6 +19,11 @@ SMODS.Joker {
             odds = 10
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
@@ -38,8 +37,7 @@ SMODS.Joker {
         -- Activate ability before scoring if chance is higher than 0
         if context.before and stg.prob > 0 then
             -- Roll chance and decrease by 1
-            local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante)) <
-                stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal / stg.odds
+            local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante)) < (stg.prob * G.GAME.probabilities.normal) / stg.odds
             stg.prob = stg.prob - (1 / G.GAME.fridge_mod)
 
             -- Check if Consumables is full
@@ -62,18 +60,15 @@ SMODS.Joker {
                     }))
                     return {
                         sound = 'tarot1',
-                        card = card,
-                        message = 'FORTUNATE!',
+                        message = localize('k_mxms_fortunate_ex'),
                         colour = G.C.SECONDARY_SET.Tarot
                     }
 
                     -- Failed Roll
                 else
-                    SMODS.calculate_context({failed_prob = true, odds = stg.odds - stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal})
-
+                    SMODS.calculate_context({ failed_prob = true, odds = stg.odds - stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal, card = card })
                     return {
                         sound = 'tarot2',
-                        card = card,
                         message = localize('k_nope_ex'),
                         colour = G.C.SET.Tarot
                     }
@@ -81,13 +76,11 @@ SMODS.Joker {
             else
                 return {
                     sound = 'tarot2',
-                    card = card,
-                    message = 'WASTED',
+                    message = localize('k_mxms_wasted'),
                     colour = G.C.SET.Tarot
                 }
             end
 
-            card:juice_up(0.3, 0.4)
             return {
                 card = card,
                 message = '-1',
@@ -97,7 +90,7 @@ SMODS.Joker {
 
         -- "Crumble" card after scoring
         if context.after and not context.blueprint then
-            if stg.odds <= 0 then
+            if stg.prob <= 0 then
                 -- Code derived from Gros Michel/Cavendish
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -121,8 +114,8 @@ SMODS.Joker {
                     end
                 }))
                 return {
-                    card = card,
-                    message = 'Crumbled'
+                    message = localize('k_mxms_crumbled'),
+                    colour = G.C.FILTER
                 }
             end
         end

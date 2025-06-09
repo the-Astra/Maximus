@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'soyjoke',
-    loc_txt = {
-        name = 'Soyjoke',
-        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult', 'every time a Joker', 'is re-added to hand' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 8,
@@ -15,6 +11,11 @@ SMODS.Joker {
             gain = 0.25
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = true,
     cost = 8,
     loc_vars = function(self, info_queue, card)
@@ -25,14 +26,35 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
+        if context.reacquire_joker and not context.blueprint then
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.ATTENTION,
+                func = function() SMODS.calculate_context({scaling_card = true}) end
+            }
+        end
 
         if context.joker_main and G.GAME.soy_mod >= 1 then
             return {
-                Xmult_mod = G.GAME.soy_mod * stg.gain + 1,
-                message = 'X' .. G.GAME.soy_mod * stg.gain + 1,
-                colour = G.C.MULT,
-                card = card
+                x_mult = G.GAME.soy_mod * stg.gain + 1
             }
         end
     end
 }
+
+local catd = Card.add_to_deck
+Card.add_to_deck = function(self, from_debuff)
+    catd(self, from_debuff)
+    if self.ability.set == 'Joker' then
+    G.E_MANAGER:add_event(Event({func = function()
+        for k, v in pairs(G.GAME.purchased_jokers) do
+            if v == self.ability.name then
+                G.GAME.soy_mod = G.GAME.soy_mod + 1
+                SMODS.calculate_context({reacquire_joker = true})
+                return true
+            end
+        end
+        G.GAME.purchased_jokers[#G.GAME.purchased_jokers + 1] = self.ability.name
+    return true end }))
+end
+end

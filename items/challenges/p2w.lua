@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'p2w',
-    loc_txt = {
-        name = 'Pay To Win'
-    },
     rules = {},
     jokers = {
         { id = 'j_mxms_power_creep', eternal = true }
@@ -50,6 +47,8 @@ SMODS.Challenge {
             { id = 'c_mxms_capricorn' },
             { id = 'c_mxms_aquarius' },
             { id = 'c_mxms_pisces' },
+            { id = 'c_mxms_doppelganger' },
+            { id = 'c_mxms_immortality' },
         },
     },
     deck = {

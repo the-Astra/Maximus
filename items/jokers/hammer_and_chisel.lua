@@ -1,16 +1,17 @@
+---@diagnostic disable: duplicate-set-field
 SMODS.Joker {
     key = 'hammer_and_chisel',
-    loc_txt = {
-        name = 'Hammer and Chisel',
-        text = { 'Stone cards retain', '{C:attention}rank{} and {C:attention}suit{}' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
         y = 2
     },
     rarity = 2,
-    config = {},
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = false,
     cost = 5,
     enhancement_gate = 'm_stone',

@@ -1,13 +1,14 @@
 SMODS.Joker {
     key = 'pngoker',
-    loc_txt = {
-        name = 'PNGoker',
-        text = { 'All cards in your', '{C:attention}first played hand{}', 'become {C:attention}glass{}' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 4,
         y = 10
+    },
+    credit = {
+        art = "anerdymous",
+        code = "theAstra",
+        concept = "anerdymous"
     },
     rarity = 2,
     blueprint_compat = false,
@@ -24,10 +25,10 @@ SMODS.Joker {
                         v:juice_up()
                         return true
                     end
-                })) 
+                }))
             end
             return {
-                message = "Glassed",
+                message = localize('k_mxms_glassed'),
                 colour = G.C.FILTER,
                 card = card
             }

@@ -1,14 +1,14 @@
 SMODS.Joker {
     key = 'unpleasant_gradient',
-    loc_txt = {
-        name = 'Unpleasant Gradient',
-        text = { 'If scored hand has exactly 4 cards,', 'convert each card into {C:clubs}Clubs{},',
-            '{C:hearts}Hearts{}, {C:diamonds}Diamonds{}, and {C:spades}Spades', 'respectively from left to right' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
         y = 3
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 2,
     blueprint_compat = false,
@@ -35,7 +35,7 @@ SMODS.Joker {
                 }))
             end
             return {
-                message = 'how Unpleasant',
+                message = localize('k_mxms_unpleasant'),
                 colour = G.C.PURPLE,
                 card = card
             }

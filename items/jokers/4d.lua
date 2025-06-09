@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = '4d',
-    loc_txt = {
-        name = '4D Joker',
-        text = { '{X:mult,C:white}X#1#{} Mult,', 'decreases by {X:mult,C:white}X#2#{}', 'every second' }
-    },
     atlas = '4D',
     pos = {
         x = 0,
@@ -24,6 +20,11 @@ SMODS.Joker {
             dXmult = 0.01
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
@@ -34,14 +35,11 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.Xmult > 1 then
             return {
-                Xmult_mod = stg.Xmult,
-                message = 'X' .. stg.Xmult,
-                colour = G.C.MULT,
-                card = card
+                x_mult = stg.Xmult,
             }
         end
 
-        if stg.Xmult <= 1 then
+        if stg.Xmult <= 1 and not context.blueprint then
             card:start_dissolve({ G.C.BLUE }, nil, 1.6)
         end
     end

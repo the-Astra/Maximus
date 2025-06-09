@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'drain',
-    loc_txt = {
-        name = 'Down the Drain'
-    },
     rules = {
         custom = {
             { id = 'mxms_hand_decay', value = "Flush" }

@@ -117,7 +117,7 @@ pattern = '''function G.UIDEF.use_and_sell_buttons(card)'''
 position = "after"
 payload = '''
     if (card.area == G.pack_cards and G.pack_cards) and card.ability.consumeable then
-        if G.STATE == G.STATES.SMODS_BOOSTER_OPENED and (SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.config.center.kind == 'Horoscope') then
+        if G.STATE == G.STATES.SMODS_BOOSTER_OPENED and (SMODS.OPENED_BOOSTER and (SMODS.OPENED_BOOSTER.config.center.kind == 'Horoscope' or card.config.center.key == 'c_mxms_ophiucus')) then
             return {
                 n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
                   {n=G.UIT.R, config={ref_table = card, r = 0.08, padding = 0.1, align = "bm", minw = 0.5*card.T.w - 0.15, maxw = 0.9*card.T.w - 0.15, minh = 0.3*card.T.h, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'use_card', func = 'can_pick_card'}, nodes={
@@ -354,25 +354,56 @@ match_indent = true
 times = 1
 
 
-    # Ophiucus spawn chance
+    # Horoscope Stat Tracking
 [[patches]]
 [patches.pattern]
-target = "functions/common_events.lua"
+target = "game.lua"
 pattern = '''
-if (_type == 'Planet' or _type == 'Spectral') and
-    not (G.GAME.used_jokers['c_black_hole'] and not next(find_joker("Showman")))  then 
-        if pseudorandom('soul_'.._type..G.GAME.round_resets.ante) > 0.997 then
-            forced_key = 'c_black_hole'
-        end
-    end
+joker_usage = {},
+consumeable_usage = {},
+voucher_usage = {},
+hand_usage = {},
+deck_usage = {},
 '''
 position = "after"
 payload = '''
-if (_type == 'Horoscope' or _type == 'Spectral') then 
-        if pseudorandom('soul_'.._type..G.GAME.round_resets.ante) > 0.997 then
-            forced_key = 'c_mxms_ophiucus'
-        end
-    end
+horoscope_completions = {},
+'''
+match_indent = true
+times = 1
+
+
+    # Horoscope Stat Menu 
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+{
+    label = localize('b_stat_vouchers'),
+    tab_definition_function = create_UIBox_usage,
+    tab_definition_function_args = {'voucher_usage', 'Voucher'},
+},
+'''
+position = "after"
+payload = '''
+{
+    label = localize('b_mxms_stat_horoscopes'),
+    tab_definition_function = create_UIBox_usage,
+    tab_definition_function_args = {'horoscope_completions', 'Horoscope'},
+},
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+_type == 'consumeable_usage' and localize('ph_stat_consumable') or
+'''
+position = "after"
+payload = '''
+_type == 'horoscope_completions' and (Maximus and (Maximus_config.horoscope and localize('ph_mxms_stat_horoscope') or localize('ph_mxms_stat_horoscope')) or localize('k_none')) or
 '''
 match_indent = true
 times = 1

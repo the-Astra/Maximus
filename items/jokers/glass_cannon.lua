@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'glass_cannon',
-    loc_txt = {
-        name = 'Glass Cannon',
-        text = { 'All Joker {X:mult,C:white}XMult{} is {C:attention}retriggered', '{C:attention}Shatters{} if blind isn\'t', 'beaten in 2 hands' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 7,
@@ -15,18 +11,25 @@ SMODS.Joker {
             hands = 0
         }
     },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
+    },
     blueprint_compat = true,
     eternal_compat = false,
     cost = 6,
     calculate = function(self, card, context)
         if context.other_ret
-            and context.retrigger_joker_check and not context.retrigger_joker and context.cardarea ~= G.mxms_horoscope
-            and (context.other_ret.jokers and (context.other_ret.jokers.Xmult or context.other_ret.jokers.Xmult_mod)) then
+            and context.retrigger_joker_check and not context.retrigger_joker and context.cardarea ~= G.mxms_horoscope then
+            print(context.other_ret)
+                if (context.other_ret.jokers and (context.other_ret.jokers.Xmult or context.other_ret.jokers.Xmult_mod or context.other_ret.jokers.x_mult or context.other_ret.jokers.xmult)) then
             return {
                 message = localize('k_again_ex'),
                 repetitions = 1,
                 card = card
             }
+        end
         end
 
         if context.after and not context.blueprint then

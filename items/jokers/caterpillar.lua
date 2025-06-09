@@ -1,13 +1,9 @@
 SMODS.Joker {
     key = 'caterpillar',
-    loc_txt = {
-        name = 'Caterpillar',
-        text = { 'After using {C:attention}#2# {C:tarot}Tarot{} Cards,', 'sell this Joker to create a', '{C:attention}Chrysalis', '{C:inactive}Currently: #1#/#2#' }
-    },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 7,
+        y = 16
     },
     rarity = 1,
     config = {
@@ -15,6 +11,11 @@ SMODS.Joker {
             tarots = 0,
             goal = 4
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
     },
     blueprint_compat = false,
     cost = 2,
@@ -27,32 +28,29 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.selling_self and stg.tarots >= stg.goal and not context.blueprint then
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    SMODS.add_card({
-                        key = 'j_mxms_chrysalis',
-                        key_append = 'cater'
-                    })
-
-                    return true;
-                end
-            }))
-        end
 
         if context.using_consumeable and context.consumeable.ability.set == 'Tarot' and not context.blueprint then
             stg.tarots = stg.tarots + 1
             SMODS.calculate_effect({ message = stg.tarots .. '/' .. stg.goal, colour = G.C.TAROT }, card)
 
             if stg.tarots >= stg.goal then
-                local eval = function(card)
-                    return not card.REMOVED
-                end
-                juice_card_until(card, eval, true)
-
-                SMODS.calculate_effect({ message = localize('k_active_ex'), colour = G.C.TAROT }, card)
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    func = function()
+                        card:set_ability('j_mxms_chrysalis')
+                        card:juice_up(0.8, 0.8)
+                        play_sound('tarot1')
+                        return true;
+                    end
+                }))
             end
         end
-    end
+    end,
+    in_pool = function(self, args)
+        local lineage = next(SMODS.find_card('j_mxms_chrysalis')) and next(SMODS.find_card('j_mxms_butterfly'))
+        if lineage then
+            lineage = not next(SMODS.find_card('j_ring_master'))
+        end
+        return not lineage
+    end,
 }

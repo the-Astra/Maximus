@@ -3,7 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-    # New Colors
+# New Colors
 
 [[patches]]
 [patches.pattern]
@@ -47,8 +47,8 @@ match_indent = true
 times = 1
 
 
-    # Prevent unlock check while in menu
-    
+# Prevent unlock check while in menu
+
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
@@ -58,6 +58,84 @@ if args.type == 'have_edition' then
 position = "at"
 payload = '''
 if args.type == 'have_edition' and G.STAGE == G.STAGES.RUN then
+'''
+match_indent = true
+times = 1
+
+
+# Post Handtype Scoring context
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+-- TARGET: effects before scoring starts
+        
+SMODS.displayed_hand = nil
+
+mult = mod_mult(G.GAME.hands[text].mult)
+hand_chips = mod_chips(G.GAME.hands[text].chips)
+
+'''
+position = "after"
+payload = '''
+-- calculations after handtype scoring
+SMODS.calculate_context({scoring_name = text, post_handtype_scoring = true})
+
+'''
+match_indent = true
+times = 1
+
+
+# Maximus logo menu draw stuff
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+if self.SPLASH_LOGO then self.SPLASH_LOGO:remove(); self.SPLASH_LOGO = nil end
+'''
+position = "after"
+payload = '''
+if self.SPLASH_MAXIMUS_LOGO then self.SPLASH_MAXIMUS_LOGO:remove(); self.SPLASH_MAXIMUS_LOGO = nil end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+if G.SPLASH_LOGO then
+    love.graphics.push()
+    G.SPLASH_LOGO:translate_container()
+    G.SPLASH_LOGO:draw()
+    love.graphics.pop()
+end
+'''
+position = "after"
+payload = '''
+
+if G.SPLASH_MAXIMUS_LOGO then
+    love.graphics.push()
+    G.SPLASH_MAXIMUS_LOGO:translate_container()
+
+    if not G.SPLASH_MAXIMUS_LOGO.states.drag.is then
+        local scale_mod = 0.07 + 0.02*math.sin(1.8*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+        local rotate_mod = 0.05*math.sin(1.219*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+
+        G.SPLASH_MAXIMUS_LOGO:draw_shader('dissolve',0, nil, nil, G.SPLASH_MAXIMUS_LOGO,scale_mod, rotate_mod,nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
+        G.SPLASH_MAXIMUS_LOGO:draw_shader('dissolve', nil, nil, nil, G.SPLASH_MAXIMUS_LOGO, scale_mod, rotate_mod)local scale_mod = 0.07 + 0.02*math.sin(1.8*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+        local rotate_mod = 0.05*math.sin(1.219*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+
+        G.SPLASH_MAXIMUS_LOGO:draw_shader('dissolve',0, nil, nil, G.SPLASH_MAXIMUS_LOGO,scale_mod, rotate_mod,nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
+        G.SPLASH_MAXIMUS_LOGO:draw_shader('dissolve', nil, nil, nil, G.SPLASH_MAXIMUS_LOGO, scale_mod, rotate_mod)
+    end
+
+    add_to_drawhash(G.SPLASH_MAXIMUS_LOGO)
+
+    love.graphics.pop()
+end
 '''
 match_indent = true
 times = 1

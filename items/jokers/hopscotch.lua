@@ -1,9 +1,6 @@
+---@diagnostic disable: undefined-field
 SMODS.Joker {
     key = 'hopscotch',
-    loc_txt = {
-        name = 'Hopscotch',
-        text = { 'When selecting blind,', '{C:green}#1# in #2#{} chance to', 'receive associated skip tag' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,
@@ -14,6 +11,11 @@ SMODS.Joker {
             prob = 1,
             odds = 3
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 1,
     blueprint_compat = false,
@@ -40,9 +42,20 @@ SMODS.Joker {
                     sound = 'tarot2',
                     card = card,
                     message = localize('k_nope_ex'),
-                    colour = G.C.SET.Tarot
+                    colour = G.C.SET.Tarot,
+                    func = function()
+                        SMODS.calculate_context({
+                            failed_prob = true,
+                            odds = stg.odds -
+                                (stg.prob * G.GAME.probabilities.normal),
+                            card = card
+                        })
+                    end
                 }
             end
         end
-    end
+    end,
+    in_pool = function(self, args)
+        return not G.GAME.modifiers.disable_blind_skips
+    end,
 }

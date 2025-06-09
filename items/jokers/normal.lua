@@ -1,15 +1,16 @@
 SMODS.Joker {
     key = 'normal',
-    loc_txt = {
-        name = 'Normal Joker',
-        text = { 'Played cards without an', 'enchancement, edition, or seal',
-            ' give {C:mult}+2{} Mult and {C:chips}+15{} Chips' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 4,
         y = 1
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
+    discovered = true,
     order = 2,
     rarity = 1,
     blueprint_compat = true,
@@ -24,5 +25,5 @@ SMODS.Joker {
                 }
             end
         end
-    end
+    end,
 }

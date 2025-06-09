@@ -1,9 +1,5 @@
 SMODS.Voucher {
     key = 'warp_drive',
-    loc_txt = {
-        name = 'Warp Drive',
-        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hands and', '{C:red}+#2#{} discards', 'each round' }
-    },
     atlas = 'Vouchers',
     pos = {
         x = 0,
@@ -14,6 +10,11 @@ SMODS.Voucher {
             ante_mod = 1,
             val_mod = 2
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     requires = { 'v_mxms_launch_code' },
     loc_vars = function(self, info_queue, card)

@@ -1,14 +1,14 @@
 SMODS.Joker {
     key = 'power_creep',
-    loc_txt = {
-        name = 'Power Creep',
-        text = { '{C:attention}Scoring Editions{} are {C:attention}twice{} as potent',
-            'Shop prices are {C:attention}doubled' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,
         y = 5
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 3,
     blueprint_compat = false,
@@ -39,3 +39,46 @@ SMODS.Joker {
         return false
     end
 }
+
+-- Make Editions scale with Power Creep
+SMODS.Edition:take_ownership('polychrome', {
+        loc_vars = function(self)
+            return { vars = { self.config.x_mult * G.GAME.creep_mod } }
+        end,
+        calculate = function(self, card, context)
+            if context.post_joker or (context.main_scoring and context.cardarea == G.play) then
+                return {
+                    x_mult = card.edition.x_mult * G.GAME.creep_mod
+                }
+            end
+        end
+    },
+    true)
+
+SMODS.Edition:take_ownership('holo', {
+        loc_vars = function(self)
+            return { vars = { self.config.mult * G.GAME.creep_mod } }
+        end,
+        calculate = function(self, card, context)
+            if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
+                return {
+                    mult = card.edition.mult * G.GAME.creep_mod
+                }
+            end
+        end
+    },
+    true)
+
+SMODS.Edition:take_ownership('foil', {
+        loc_vars = function(self)
+            return { vars = { self.config.chips * G.GAME.creep_mod } }
+        end,
+        calculate = function(self, card, context)
+            if context.pre_joker or (context.main_scoring and context.cardarea == G.play) then
+                return {
+                    chips = card.edition.chips * G.GAME.creep_mod
+                }
+            end
+        end
+    },
+    true)

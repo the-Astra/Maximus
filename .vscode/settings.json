@@ -56,6 +56,30 @@
         "get_flush",
         "create_playing_card",
         "mxms_is_food",
-        "faded_check"
+        "faded_check",
+        "mod_chips",
+        "mod_mult",
+        "poll_edition",
+        "mxms_get_most_played_hand",
+        "create_UIBox_blind_tag",
+        "NFS",
+        "check_for_unlock",
+        "remove_nils",
+        "delay_fac",
+        "create_toggle",
+        "mult",
+        "draw_card",
+        "getMaximusTallies",
+        "set_horoscope_success",
+        "create_shop_card_ui",
+        "desc_from_rows",
+        "reset_mxms_achievements",
+        "to_number",
+        "vanilla_suit_check",
+        "Sprite"
+    ],
+    "Lua.diagnostics.disable": [
+        "need-check-nil",
+        "duplicate-set-field"
     ]
 }

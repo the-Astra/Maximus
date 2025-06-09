@@ -1,13 +1,14 @@
 SMODS.Joker {
     key = 'schrodinger',
-    loc_txt = {
-        name = 'Schrodinger\'s Cat',
-        text = { '{C:green}50/50 chance{} for each joker', 'to be retriggered or', 'not trigger at all ' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
         y = 10
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 3,
     blueprint_compat = false,
@@ -22,3 +23,9 @@ SMODS.Joker {
         end
     end
 }
+
+local ccj = Card.calculate_joker
+function Card:calculate_joker(context)
+    if next(SMODS.find_card('j_mxms_schrodinger')) and self.ability.name ~= 'j_mxms_schrodinger' and pseudorandom('schro') < 0.5 then return end
+    return ccj(self, context)
+end

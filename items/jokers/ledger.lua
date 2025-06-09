@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'ledger',
-    loc_txt = {
-        name = 'Ledger',
-        text = { 'At the end of every ante, one', 'random Joker becomes {C:dark_edition}Negative{}' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
@@ -15,10 +11,20 @@ SMODS.Joker {
     },
     cost = 20,
     rarity = 4,
-    config = {},
+    unlocked = false,
+    unlock_condition = {
+        type = '', 
+        extra = '', 
+        hidden = true
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = true,
     calculate = function(self, card, context)
-        if context.end_of_round and not context.individual and not context.repetition and G.GAME.round % 3 == 0 then
+        if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
             local eligible_jokers = {}
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] ~= card and not G.jokers.cards[i].edition and not G.jokers.cards[i].getting_sliced then
@@ -30,7 +36,7 @@ SMODS.Joker {
             if next(eligible_jokers) == nil then
                 return {
                     extra = {
-                        message = 'No target...',
+                        message = localize('k_mxms_no_target_el'),
                         colour = G.C.PURPLE
                     },
                     card = card
@@ -49,7 +55,7 @@ SMODS.Joker {
                     }, true)
                     return {
                         extra = {
-                            message = 'Why so serious?',
+                            message = localize('k_mxms_serious_q'),
                             colour = G.C.PURPLE
                         },
                         card = card

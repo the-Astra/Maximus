@@ -1,9 +1,5 @@
 SMODS.Blind {
     key = 'rot',
-    loc_txt = {
-        name = 'The Rot',
-        text = { '1/4 of cards in deck', 'are debuffed at random' }
-    },
     boss = {
         min = 1,
         max = 10
@@ -12,6 +8,11 @@ SMODS.Blind {
     pos = {
         x = 0,
         y = 0
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     boss_colour = HEX('A2CA4C'),
     set_blind = function(self)
@@ -23,6 +24,8 @@ SMODS.Blind {
                 j = j + 1
             end
             card.debuffed_by_blind = true
+            self.triggered = true
+            card:set_debuff(true)
         end
     end,
     recalc_debuff = function(self, card, from_blind)

@@ -1,13 +1,14 @@
 SMODS.Joker {
     key = 'memory_game',
-    loc_txt = {
-        name = 'Memory Game',
-        text = { 'If played hand is', 'a {C:attention}Pair{}, convert', 'the first scoring card', 'into the second scoring card' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,
         y = 9
+    },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
     },
     rarity = 1,
     blueprint_compat = false,

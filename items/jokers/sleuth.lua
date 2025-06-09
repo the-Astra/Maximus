@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'sleuth',
-    loc_txt = {
-        name = 'Sleuth',
-        text = { '{C:attention}+#1# card slot{}', 'available in the shop' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
@@ -14,6 +10,11 @@ SMODS.Joker {
         extra = {
             slots = 1
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     blueprint_compat = false,
     cost = 6,

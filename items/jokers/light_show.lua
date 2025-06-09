@@ -1,13 +1,14 @@
 SMODS.Joker {
     key = 'light_show',
-    loc_txt = {
-        name = 'Light Show',
-        text = { 'Retriggers all {C:mult}Mult{}', 'and {C:chips}Bonus{} cards' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
         y = 4
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 1,
     blueprint_compat = true,
@@ -19,8 +20,8 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         if context.repetition and context.cardarea == G.play and
-            (context.other_card.config.center == G.P_CENTERS.m_bonus or context.other_card.config.center ==
-                G.P_CENTERS.m_mult) then
+            (SMODS.has_enhancement(context.other_card, 'm_bonus') or
+            SMODS.has_enhancement(context.other_card, 'm_mult')) then
             return {
                 message = localize('k_again_ex'),
                 repetitions = 1,

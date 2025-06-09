@@ -1,10 +1,6 @@
 SMODS.Consumable {
     key = 'gemini',
     set = 'Horoscope',
-    loc_txt = {
-        name = 'Gemini',
-        text = { 'For the next {C:blue}#1#{} hands,', 'play {C:red}no repeat hand types{} to', 'receive {C:attention}+#2#{} levels for', 'each played hand type', '{C:inactive}Currently: #3#/#1#' }
-    },
     atlas = 'Consumables',
     pos = {
         x = 2,
@@ -30,6 +26,11 @@ SMODS.Consumable {
             goal = 3,
             upgrade = 3
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     cost = 4,
     loc_vars = function(self, info_queue, card)
@@ -77,7 +78,16 @@ SMODS.Consumable {
     end,
     succeed = function(self, card, context)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
+        SMODS.calculate_effect(
+            {
+                message = localize('k_mxms_success_ex'),
+                colour = G.C.GREEN,
+                sound = 'tarot1',
+                func = function()
+                    set_horoscope_success(card)
+                    check_for_unlock({ type = "all_horoscopes" })
+                end
+            }, card)
         for k, v in pairs(card.ability.hands) do
             if v then
                 update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
@@ -120,7 +130,7 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_failed_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',

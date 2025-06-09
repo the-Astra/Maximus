@@ -16,12 +16,6 @@ SMODS.PokerHand {
         { 'D_6', true }
 
     },
-    loc_txt = {
-        name = 'Three Pair',
-        description = {
-            "3 Pairs of cards with different ranks"
-        }
-    },
     visible = false,
     evaluate = function(parts, hand)
         return #parts._2 >= 3 and parts._all_pairs or {}

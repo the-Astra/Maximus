@@ -1,24 +1,33 @@
 SMODS.Back {
     key = 'sixth_finger',
-    loc_txt = {
-        name = 'Sixth Finger Deck',
-        text = { 'Allows {C:attention}6 playing cards{} to be played' }
-    },
-    atlas = 'Backs',
+    atlas = 'Modifiers',
     pos = {
         x = 0,
         y = 0
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     apply = function(self, back)
-        --Change highlight limit
-        G.GAME.modifiers.mxms_highlight_limit = 6
+        --Change limits
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                SMODS.change_play_limit(1)
+                SMODS.change_discard_limit(1)
+                return true;
+            end
+        }))
 
-        -- Make non-secret hands visible
-        G.GAME.hands.mxms_three_pair.visible = true
-        G.GAME.hands.mxms_double_triple.visible = true
-        G.GAME.hands.mxms_s_straight.visible = true
-        G.GAME.hands.mxms_s_flush.visible = true
-        G.GAME.hands.mxms_house_party.visible = true
-        G.GAME.hands.mxms_s_straight_f.visible = true
+        if Maximus_config.new_handtypes then
+            -- Make non-secret hands visible
+            G.GAME.hands.mxms_three_pair.visible = true
+            G.GAME.hands.mxms_double_triple.visible = true
+            G.GAME.hands.mxms_s_straight.visible = true
+            G.GAME.hands.mxms_s_flush.visible = true
+            G.GAME.hands.mxms_house_party.visible = true
+            G.GAME.hands.mxms_s_straight_f.visible = true
+        end
     end
 }

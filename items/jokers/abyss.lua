@@ -1,24 +1,20 @@
 SMODS.Joker {
     key = 'abyss',
-    loc_txt = {
-        name = "Abyss",
-        text = { 'When blind is selected, {C:green}50/50{}', '{C:attention}chance{} of making a currently held',
-            'non-negative Joker {C:dark_edition}Negative{} or', 'destroying a currently held non-negative joker',
-            '{s:0.8,C:inactive}Can override other editions{}' }
-    },
     atlas = 'Jokers',
     rarity = 3,
     pos = {
         x = 2,
         y = 0
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = true,
     cost = 9,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
-        return {
-            vars = {}
-        }
     end,
     calculate = function(self, card, context)
         if context.setting_blind then
@@ -34,35 +30,26 @@ SMODS.Joker {
             end
 
             -- Fail if no held jokers are eligible
-            if next(eligible_jokers) == nil then
+            if not next(eligible_jokers) then
                 return {
-                    extra = {
-                        message = 'No target...',
-                        colour = G.C.PURPLE
-                    },
-                    card = card
+                    message = localize('k_mxms_no_target_el'),
+                    colour = G.C.PURPLE
                 }
             else
                 -- Choose Joker to affect
-                local chosen_joker =
-                    #eligible_jokers > 0 and
-                    pseudorandom_element(eligible_jokers, pseudoseed('abyss' .. G.GAME.round_resets.ante)) or nil
+                local chosen_joker = pseudorandom_element(eligible_jokers,
+                    pseudoseed('abyss' .. G.GAME.round_resets.ante))
 
                 -- "Flip a coin" to decide what to do with the target
                 local flip = pseudorandom(pseudoseed('aby' .. G.GAME.round_resets.ante), 1, 2)
 
                 -- Add negative edition to random held joker
-                if flip == 1 and chosen_joker ~= nil then
+                if flip == 1 then
                     card:juice_up(0.3, 0.4)
-                    chosen_joker:set_edition({
-                        negative = true
-                    }, true)
+                    chosen_joker:set_edition({ negative = true }, true)
                     return {
-                        extra = {
-                            message = 'Void-touched!',
-                            colour = G.C.PURPLE
-                        },
-                        card = card
+                        message = localize('k_mxms_void_touched_ex'),
+                        colour = G.C.PURPLE
                     }
 
                     -- Destroy a random non-negative joker
@@ -80,11 +67,8 @@ SMODS.Joker {
                         }))
                     end
                     return {
-                        extra = {
-                            message = 'Consumed',
-                            colour = G.C.PURPLE
-                        },
-                        card = card
+                        message = localize('k_mxms_consumed'),
+                        colour = G.C.PURPLE
                     }
                 end
             end

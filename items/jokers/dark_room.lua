@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'dark_room',
-    loc_txt = {
-        name = 'Dark Room',
-        text = { 'After {C:attention}#1# rounds{}, sell this', 'Joker to upgrade a {C:green}random', 'owned {C:attention}voucher' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 2,
@@ -19,10 +15,15 @@ SMODS.Joker {
             req = 3
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.req }
+            vars = { stg.rounds, stg.req }
         }
     end,
     calculate = function(self, card, context)
@@ -39,7 +40,7 @@ SMODS.Joker {
 
             if #eligible_vouchers == 0 then
                 return {
-                    message = 'None Valid',
+                    message = localize('k_mxms_no_target_el'),
                     colour = G.C.FILTER,
                     card = card
                 }

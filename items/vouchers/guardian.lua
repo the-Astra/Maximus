@@ -1,13 +1,14 @@
 SMODS.Voucher {
     key = 'guardian',
-    loc_txt = {
-        name = 'Guardian',
-        text = { '{C:spectral}Spectral{} cards that', 'destroy Jokers', 'no longer do so' }
-    },
     atlas = 'Vouchers',
     pos = {
         x = 2,
         y = 1
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     requires = { 'v_mxms_shield' },
     redeem = function(self, card, from_debuff)

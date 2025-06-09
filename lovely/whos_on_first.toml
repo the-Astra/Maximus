@@ -1,0 +1,57 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+# Change scoring order if Who's on First is present
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+for _, v in ipairs(SMODS.get_card_areas('playing_cards')) do
+    SMODS.calculate_main_scoring({cardarea = v, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands}, v == G.play and scoring_hand or nil)
+    delay(0.3)
+end
+'''
+position = "at"
+payload = '''
+if not next(SMODS.find_card('j_mxms_whos_on_first')) then
+    for _, v in ipairs(SMODS.get_card_areas('playing_cards')) do
+        SMODS.calculate_main_scoring({cardarea = v, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands}, v == G.play and scoring_hand or nil)
+        delay(0.3)
+    end
+end
+'''
+match_indent = true
+times = 1
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+-- context.final_scoring_step calculations
+SMODS.calculate_context({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, final_scoring_step = true})
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_card('j_mxms_whos_on_first')) then
+
+    if not G.GAME.modifiers.mxms_nuclear_size and to_big(hand_chips)*mult >= to_big(G.GAME.blind.chips) and G.GAME.current_round.hands_played == 0 then
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                check_for_unlock({type = 'beat_before_playing_cards'})
+                return true;
+            end
+        }))
+    end
+
+    for _, v in ipairs(SMODS.get_card_areas('playing_cards')) do
+        SMODS.calculate_main_scoring({cardarea = v, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands}, v == G.play and scoring_hand or nil)
+        delay(0.3)
+    end
+end
+
+'''
+match_indent = true
+times = 1

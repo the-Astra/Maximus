@@ -1,14 +1,15 @@
 SMODS.Consumable {
     key = 'aries',
     set = 'Horoscope',
-    loc_txt = {
-        name = 'Aries',
-        text = { '{C:attention}Trigger{} the Boss Blind', 'to cut {C:attention}15%{} off all blind', 'requirements the following ante' }
-    },
     atlas = 'Consumables',
     pos = {
         x = 0,
         y = 1
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     cost = 4,
     calculate = function(self, card, context)
@@ -43,7 +44,11 @@ SMODS.Consumable {
     end,
     succeed = function(self, card)
         G.GAME.next_ante_horoscopes["Aries"] = true
-        SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
+        SMODS.calculate_effect(
+        { message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function()
+            set_horoscope_success(card)
+            check_for_unlock({ type = "all_horoscopes" })
+        end }, card)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
@@ -52,10 +57,10 @@ SMODS.Consumable {
             end
         }))
         zodiac_killer_pools["Aries"] = false
-        SMODS.calculate_context({beat_horoscope = true})
+        SMODS.calculate_context({ beat_horoscope = true })
     end,
     fail = function(self, card)
-        SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_failed_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -81,6 +86,6 @@ SMODS.Consumable {
                 end
             }))
         end
-        SMODS.calculate_context({failed_horoscope = true})
+        SMODS.calculate_context({ failed_horoscope = true })
     end
 }

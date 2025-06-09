@@ -8,25 +8,14 @@ priority = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-    attention_text({
-        text = localize('k_nope_ex'),
-        scale = 1.3, 
-        hold = 1.4,
-        major = used_tarot,
-        backdrop_colour = G.C.SECONDARY_SET.Tarot,
-        align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and 'tm' or 'cm',
-        offset = {x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0},
-        silent = true
-        })
-        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
-            play_sound('tarot2', 0.76, 0.4);return true end}))
-        play_sound('tarot2', 1, 0.4)
-        used_tarot:juice_up(0.3, 0.5)
+G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
+    play_sound('tarot2', 0.76, 0.4);return true end}))
+play_sound('tarot2', 1, 0.4)
+used_tarot:juice_up(0.3, 0.5)
 '''
 position = "after"
 payload = '''
-SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal})
+SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
 '''
 match_indent = true
 times = 1
@@ -47,7 +36,10 @@ for k, v in ipairs(cards_destroyed) do
     if v.shattered then 
         glass_shattered[#glass_shattered+1] = v 
         if not next(SMODS.find_card('j_mxms_stone_thrower')) then
-            SMODS.calculate_context({failed_prob = true, odds = v.ability.extra - G.GAME.probabilities.normal})
+            local card_odds = (type(v.ability.extra) == "number" and v.ability.extra) or (v.ability.extra.odds and type(v.ability.extra.odds) == "number" and v.ability.extra.odds) or nil
+            if card_odds then
+                SMODS.calculate_context({failed_prob = true, odds = card_odds - G.GAME.probabilities.normal, card = self})
+            end
         end
     end
 end
@@ -79,7 +71,7 @@ if pseudorandom('halu'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/
 position = "after"
 payload = '''
 else
-    SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal})
+    SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
 '''
 match_indent = true
 times = 1
@@ -121,7 +113,7 @@ G.E_MANAGER:add_event(Event({
             func = function()
                     G.jokers:remove_card(self)
                     self:remove()
-                    SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal})
+                    SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
                     self = nil
                 return true; end})) 
         return true
@@ -180,7 +172,7 @@ if (context.other_card:get_id() == 8) then
             card = self
         }
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal})
+        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
     end
 end
 '''
@@ -189,6 +181,41 @@ times = 1
 
 
     # Add flag to Business Card
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Business Card' and
+    context.other_card:is_face() and
+    pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + 2
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = 2,
+            card = self
+        }
+    end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Business Card' and
+context.other_card:is_face() then
+    if pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + 2
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = 2,
+            card = self
+        }
+    else
+        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
+    end
+end
+'''
+match_indent = true
+times = 1
+
+    #Talisman version of Business Card patch
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -216,7 +243,7 @@ context.other_card:is_face() then
             card = self
         }
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal})
+        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
     end
 end
 '''
@@ -248,7 +275,7 @@ context.other_card:is_suit("Hearts") then
             card = self
         }
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal})
+        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
     end
 end
 '''
@@ -257,6 +284,57 @@ times = 1
 
 
     # Add flag to Reserved Parking
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.name == 'Reserved Parking' and
+context.other_card:is_face() and
+pseudorandom('parking') < G.GAME.probabilities.normal/self.ability.extra.odds then
+    if context.other_card.debuff then
+        return {
+            message = localize('k_debuffed'),
+            colour = G.C.RED,
+            card = self,
+        }
+    else
+        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra.dollars
+        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        return {
+            dollars = self.ability.extra.dollars,
+            card = self
+        }
+    end
+end
+'''
+position = "at"
+payload = '''
+if self.ability.name == 'Reserved Parking' and
+context.other_card:is_face() then
+    if pseudorandom('parking') < G.GAME.probabilities.normal/self.ability.extra.odds then
+        if context.other_card.debuff then
+            return {
+                message = localize('k_debuffed'),
+                colour = G.C.RED,
+                card = self,
+            }
+        else
+            G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra.dollars
+            G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+            return {
+                dollars = self.ability.extra.dollars,
+                card = self
+            }
+        end
+    else
+        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
+    end
+end
+'''
+match_indent = true
+times = 1
+
+    #Talisman version of Reserved Parking patch
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -300,7 +378,7 @@ context.other_card:is_face() then
             }
         end
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal})
+        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
     end
 end
 '''
@@ -331,7 +409,7 @@ if self.ability.name == 'Space Joker' then
             message = localize('k_level_up_ex')
         }
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal})
+        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
     end
 end
 '''

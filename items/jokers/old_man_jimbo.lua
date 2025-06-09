@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'old_man_jimbo',
-    loc_txt = {
-        name = 'Old Man Jimbo',
-        text = { '{X:mult,C:white}X1{} Mult plus {X:mult,C:white}X#1#{}', 'for each remaining hand' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 2,
@@ -15,6 +11,11 @@ SMODS.Joker {
             gain = 0.5
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = true,
     cost = 6,
     loc_vars = function(self, info_queue, card)
@@ -25,10 +26,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main then
             return {
-                Xmult_mod = 1 + (stg.gain* G.GAME.current_round.hands_left),
-                message = 'X' .. 1 + (stg.gain* G.GAME.current_round.hands_left),
-                colour = G.C.MULT,
-                card = card
+                x_mult = 1 + (stg.gain * G.GAME.current_round.hands_left)
             }
         end
     end

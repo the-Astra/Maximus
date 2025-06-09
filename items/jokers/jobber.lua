@@ -1,14 +1,14 @@
 SMODS.Joker {
     key = 'jobber',
-    loc_txt = {
-        name = 'Jobber',
-        text = { 'If hand is played with only', '{C:red}debuffed{} cards, destroy this',
-            'Joker and create a random copy', 'of another held Joker', '{s:0.8,C:inactive}Removes negative from copy' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
         y = 0
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 3,
     blueprint_compat = false,
@@ -41,7 +41,7 @@ SMODS.Joker {
                 if next(eligible_jokers) == nil then
                     return {
                         extra = {
-                            message = 'No target...',
+                            message = localize('k_mxms_no_target_el'),
                             colour = G.C.PURPLE
                         },
                         card = card
@@ -72,7 +72,7 @@ SMODS.Joker {
                     G.jokers:emplace(new_card)
                     return {
                         extra = {
-                            message = 'Jobbed',
+                            message = localize('k_mxms_jobbed'),
                             colour = G.C.YELLOW
                         },
                         card = card

@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'harmony',
-    loc_txt = {
-        name = 'Harmony',
-        text = { '{C:mult}+#1#{} Mult if played', 'hand contains at least', '{C:attention}3{} different scoring ranks' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
@@ -14,6 +10,11 @@ SMODS.Joker {
         extra = {
             mult = 16
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     blueprint_compat = true,
     cost = 3,
@@ -42,10 +43,7 @@ SMODS.Joker {
 
             if #ranks >= 3 then
                 return {
-                    mult_mod = stg.mult,
-                    message = '+' .. stg.mult,
-                    colour = G.C.MULT,
-                    card = card
+                    mult = stg.mult
                 }
             end
         end

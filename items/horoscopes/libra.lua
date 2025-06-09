@@ -1,10 +1,6 @@
 SMODS.Consumable {
     key = 'libra',
     set = 'Horoscope',
-    loc_txt = {
-        name = 'Libra',
-        text = { 'Spend at least {C:money}$#1#{} during the', 'next shop to make the next', 'shop\'s offerings {C:money}free{}', '{C:inactive}Currently: #2#/#1#' }
-    },
     atlas = 'Consumables',
     pos = {
         x = 6,
@@ -15,6 +11,11 @@ SMODS.Consumable {
             money_spent = 0,
             goal = 15
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     cost = 4,
     loc_vars = function(self, info_queue, card)
@@ -67,7 +68,11 @@ SMODS.Consumable {
     end,
     succeed = function(self, card)
         G.GAME.libra_bonus = true
-        SMODS.calculate_effect({ message = "Success!", colour = G.C.GREEN, sound = 'tarot1' }, card)
+        SMODS.calculate_effect(
+        { message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function()
+            set_horoscope_success(card)
+            check_for_unlock({ type = "all_horoscopes" })
+        end }, card)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
@@ -76,11 +81,11 @@ SMODS.Consumable {
             end
         }))
         zodiac_killer_pools["Libra"] = false
-        SMODS.calculate_context({beat_horoscope = true})
+        SMODS.calculate_context({ beat_horoscope = true })
     end,
     fail = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = "Failed!", colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect({ message = localize('k_mxms_failed_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -108,6 +113,6 @@ SMODS.Consumable {
                 end
             }))
         end
-        SMODS.calculate_context({failed_horoscope = true})
+        SMODS.calculate_context({ failed_horoscope = true })
     end
 }

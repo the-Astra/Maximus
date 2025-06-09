@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'clown_car',
-    loc_txt = {
-        name = 'Clown Car',
-        text = { 'Gains {C:mult}+#2#{} Mult each time', 'a Joker is added to hand', '{C:inactive}Currently: +#1#' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
@@ -15,6 +11,11 @@ SMODS.Joker {
             mult = 0,
             gain = 2
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     blueprint_compat = true,
     cost = 7,
@@ -28,10 +29,17 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.mult > 0 then
             return {
-                mult_mod = stg.mult,
-                message = '+' .. stg.mult,
-                colour = G.C.MULT,
-                card = card
+                mult = stg.mult,
+            }
+        end
+
+        if context.card_added and context.card.ability.set == 'Joker' then
+            stg.mult = stg.mult + (stg.gain * G.GAME.soil_mod)
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.ATTENTION,
+                card = card,
+                func = function() SMODS.calculate_context({ scaling_card = true }) end
             }
         end
     end

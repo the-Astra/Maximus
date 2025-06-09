@@ -1,13 +1,14 @@
 SMODS.Joker {
     key = 'four_leaf_clover',
-    loc_txt = {
-        name = 'Four-Leaf Clover',
-        text = { 'If scored hand has exactly 4 cards,', 'convert them all to {C:attention}Lucky{}' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 7,
         y = 2
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 2,
     blueprint_compat = false,
@@ -28,7 +29,7 @@ SMODS.Joker {
             end
 
             return {
-                message = 'Lucky',
+                message = localize('k_mxms_lucky'),
                 colour = G.C.GREEN,
                 card = card
             }

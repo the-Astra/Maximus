@@ -1,17 +1,16 @@
 SMODS.Joker {
     key = 'guillotine',
-    loc_txt = {
-        name = 'Guillotine',
-        text = { 'Scored {C:attention}Face{} or {C:attention}Ace{} cards', 'have their rank set',
-            'to {C:attention}10{}' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 2,
         y = 5
     },
     rarity = 3,
-    config = {},
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = false,
     cost = 9,
     calculate = function(self, card, context)

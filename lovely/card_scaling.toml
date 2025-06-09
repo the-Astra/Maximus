@@ -150,7 +150,7 @@ target = "card.lua"
 pattern = '''
 self.ability.x_mult = self.ability.x_mult + self.ability.extra*shattered_glass
 '''
-position = "at"
+position = "after"
 payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.x_mult = self.ability.x_mult + self.ability.extra*shattered_glass * (G.GAME.soil_mod - 1)
@@ -276,7 +276,7 @@ target = "card.lua"
 pattern = '''
 self.ability.mult = self.ability.mult + self.ability.extra.hand_add
 '''
-position = "at"
+position = "after"
 payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.mult = self.ability.mult + self.ability.extra.hand_add * (G.GAME.soil_mod - 1)

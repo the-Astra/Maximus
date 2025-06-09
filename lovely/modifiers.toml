@@ -3,7 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-    #Blind Size Modifier
+#Blind Size Modifier (includes Hugo check)
 [[patches]]
 [patches.pattern]
 target = 'blind.lua'
@@ -12,6 +12,9 @@ self.chips = get_blind_amount(G.GAME.round_resets.ante)*self.mult*G.GAME.startin
 '''
 position = "after"
 payload = '''
+if next(SMODS.find_card('j_mxms_hugo')) and self.mult > 1 then
+    self.chips = self.chips/self.mult
+end
 if G.GAME.modifiers.mxms_X_blind_size then
     self.chips = self.chips*G.GAME.modifiers.mxms_X_blind_size
 end
@@ -30,6 +33,9 @@ local blind_amt = get_blind_amount(G.GAME.round_resets.blind_ante)*blind_choice.
 '''
 position = "after"
 payload = '''
+if next(SMODS.find_card('j_mxms_hugo')) and blind_choice.config.mult > 1 then
+    blind_amt = blind_amt/blind_choice.config.mult
+end
 if G.GAME.modifiers.mxms_X_blind_size then
     blind_amt = blind_amt*G.GAME.modifiers.mxms_X_blind_size
 end
@@ -41,94 +47,7 @@ match_indent = true
 times = 1
 
 
-
-
-
-
-    #Change UI when Nuclear Deck is in use
-[[patches]]
-[patches.pattern]
-target = 'functions/UI_definitions.lua'
-pattern = '''
-{n=G.UIT.T, config={text = "X", lang = G.LANGUAGES['en-us'], scale = scale*2, colour = G.C.UI_MULT, shadow = true}},
-'''
-position = "at"
-payload = '''
-{n=G.UIT.T, config={text = G.GAME.modifiers.mxms_nuclear_size and "^" or "X", lang = G.LANGUAGES['en-us'], scale = scale*2, colour = G.C.UI_MULT, shadow = true}},
-'''
-match_indent = true
-times = 1
-
-
-
-
-
-
-#Change final score calc to do exponent math if Nuclear Deck is in use
-
-    #Don't set high score with Nuclear Deck
-[[patches]]
-[patches.pattern]
-target = 'functions/state_events.lua'
-pattern = '''
-check_and_set_high_score('hand', hand_chips*mult)
-'''
-position = "at"
-payload = '''
-if not G.GAME.modifiers.mxms_nuclear_size then
-    check_and_set_high_score('hand',  hand_chips*mult)
-end
-'''
-match_indent = true
-times = 1
-
-
-    #Other calc patches
-[[patches]]
-[patches.pattern]
-target = 'functions/state_events.lua'
-pattern = '''
-func = (function()  update_hand_text({delay = 0, immediate = true}, {mult = 0, chips = 0, chip_total = math.floor(hand_chips*mult), level = '', handname = ''});play_sound('button', 0.9, 0.6);return true end)
-'''
-position = "at"
-payload = '''
-func = (function()  update_hand_text({delay = 0, immediate = true}, {mult = 0, chips = 0, chip_total = math.floor(G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult), level = '', handname = ''});play_sound('button', 0.9, 0.6);return true end)
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = 'functions/state_events.lua'
-pattern = '''
-if to_big(hand_chips)*mult > to_big(0) then
-'''
-position = "at"
-payload = '''
-if G.GAME.modifiers.mxms_nuclear_size and to_big(hand_chips)^mult or to_big(hand_chips)*mult > to_big(0) then
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = 'functions/state_events.lua'
-pattern = '''
-ease_to = G.GAME.chips + math.floor(hand_chips*mult),
-'''
-position = "at"
-payload = '''
-ease_to = to_big(G.GAME.chips) + math.floor(G.GAME.modifiers.mxms_nuclear_size and hand_chips^mult or hand_chips*mult),
-'''
-match_indent = true
-times = 1
-
-
-
-
-
-
-    #Target Practice and Love and War Check
+#Target Practice and Love and War Check
 [[patches]]
 [patches.pattern]
 target = 'functions/state_events.lua'
@@ -157,11 +76,7 @@ match_indent = true
 times = 1
 
 
-
-
-
-
-    # All Rare check
+# All Rare check
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
@@ -183,11 +98,7 @@ match_indent = true
 times = 1
 
 
-
-
-
-
-    # Change Matador to not trigger on every hand on Fashion Disaster
+# Change Matador to not trigger on every hand on Fashion Disaster
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -202,11 +113,7 @@ match_indent = true
 times = 2
 
 
-
-
-
-
-    # Hand Decay function
+# Hand Decay function
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
@@ -215,8 +122,6 @@ delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante =
 '''
 position = "before"
 payload = '''
-reset_horoscopes()
-apply_horoscope_effects()
 
 if G.GAME.modifiers.mxms_hand_decay then
     update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(G.GAME.modifiers.mxms_hand_decay, 'poker_hands'),chips = G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].chips, mult = G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].mult, level=G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].level})
@@ -224,6 +129,42 @@ if G.GAME.modifiers.mxms_hand_decay then
     update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
 end
 
+'''
+match_indent = true
+times = 1
+
+
+# Change planet level up method to include extra levels
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+level_up_hand(used_tarot, self.ability.consumeable.hand_type)
+'''
+position = "at"
+payload = '''
+local deities = SMODS.find_card('j_mxms_celestial_deity')
+for i = 1, G.GAME.base_planet_levels do
+    level_up_hand(used_tarot, self.ability.consumeable.hand_type)
+    if next(deities) and i <= #deities then
+        SMODS.calculate_effect({ message = localize('k_again_ex')},deities[i])
+    end
+end
+'''
+match_indent = true
+times = 1
+
+
+# Add all faces param check
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+if self.GAME.starting_params.no_faces and SMODS.Ranks[v.value].face then keep = false end
+'''
+position = "at"
+payload = '''
+if self.GAME.starting_params.all_faces and not SMODS.Ranks[v.value].face then keep = false end
 '''
 match_indent = true
 times = 1

@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'chihuahua',
-    loc_txt = {
-        name = 'Chihuahua',
-        text = { '{C:attention}Retriggers{} cards with ranks that appear', 'the {C:attention}least{} number of times in the deck the', 'same number of times that rank appears', '{s:0.8,C:inactive}Does not activate if there is a tie', '{s:0.8,C:inactive}Limit of 10 retriggers' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 2,
@@ -16,6 +12,11 @@ SMODS.Joker {
             least_count = 0,
             tie = false
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     blueprint_compat = true,
     cost = 8,

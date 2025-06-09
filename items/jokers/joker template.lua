@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'template',
-    loc_txt = {
-        name = 'Template',
-        text = { 'I\'m a template!' }
-    },
     atlas = 'Placeholder',
     pos = {
         x = 0,
@@ -14,16 +10,20 @@ SMODS.Joker {
         extra = {
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = true,
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { }
+            vars = {}
         }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        
     end
 }

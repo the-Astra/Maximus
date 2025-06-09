@@ -1,13 +1,14 @@
 SMODS.Back {
     key = 'nuclear',
-    loc_txt = {
-        name = 'Nuclear Deck',
-        text = { '{C:attention}-4{} Joker slots', '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}', 'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}', '{C:inactive}This deck will not count towards best hand scores' }
-    },
-    atlas = 'Backs',
+    atlas = 'Modifiers',
     pos = {
         x = 2,
         y = 0
+    },
+    credit = {
+    art = "Maxiss02",
+    code = "theAstra",
+    concept = "Maxiss02"
     },
     apply = function(self, back)
         --Change blind scaling

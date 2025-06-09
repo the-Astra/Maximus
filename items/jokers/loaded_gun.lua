@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'loaded_gun',
-    loc_txt = {
-        name = 'Loaded Gun',
-        text = { 'Played {C:attention}Steel Cards{}', 'give {X:mult,C:white}X#1#{} Mult' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
@@ -12,8 +8,13 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = {
-            Xmult = 2
+            Xmult = 1.5
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     blueprint_compat = true,
     cost = 8,

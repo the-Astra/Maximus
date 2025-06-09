@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'breadsticks',
-    loc_txt = {
-        name = 'Endless Breadsticks',
-        text = { 'Gains {C:chips}+#3#{} Chips every {C:attention}#1#{} cards', 'discarded this round. Discard requirement', 'increases by {C:attention}1{} and resets {C:chips}Chips{}', 'each round', '{C:inactive}Currently: {C:chips}+#2#' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
@@ -17,6 +13,11 @@ SMODS.Joker {
             chips = 0,
             dChips = 25
         }
+    },
+    credit = {
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
     },
     blueprint_compat = false,
     cost = 4,
@@ -47,17 +48,24 @@ SMODS.Joker {
                     delay = 0.2,
                     message = localize('k_upgrade_ex'),
                     colour = G.C.CHIPS,
-                    card = card
+                    card = card,
+                    func = function()
+                        SMODS.calculate_context({ scaling_card = true })
+                        G.breadstick_scales = G.breadstick_scales + 1
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                check_for_unlock({type = 'stuffed', scales = G.breadstick_scales})
+                                return true;
+                            end
+                        }))
+                    end
                 }
             end
         end
 
         if context.joker_main and stg.chips > 0 then
             return {
-                chip_mod = stg.chips,
-                message = '+' .. stg.chips,
-                colour = G.C.CHIPS,
-                card = card
+                chips = stg.chips
             }
         end
 
@@ -66,7 +74,7 @@ SMODS.Joker {
             stg.chips = 0
             stg.d_requirement = stg.d_requirement + 1
             return {
-                message = 'More Please!',
+                message = localize('k_mxms_more_ex'),
                 colour = G.C.CHIPS,
                 card = card
             }

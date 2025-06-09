@@ -1,13 +1,14 @@
 SMODS.Joker { -- Refrigerator
     key = 'refrigerator',
-    loc_txt = {
-        name = 'Refrigerator',
-        text = { '{C:attention}Food{} Jokers degrade', 'half as fast' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 2,
         y = 2
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 2,
     blueprint_compat = false,

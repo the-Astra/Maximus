@@ -1,13 +1,14 @@
 SMODS.Joker {
     key = 'zombie',
-    loc_txt = {
-        name = 'Zombie',
-        text = { 'Copies the effect of {C:attention}one random Joker{}', 'each round. The target Joker will {C:attention}turn into', '{C:attention}another Zombie{} at the end of the round', '{s:0.8,C:inactive}All zombies target the same Joker', '{s:0.8,C:inactive}Zombification can be stopped by selling all other zombies', 'Current target: {C:red}#1#{}' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 7,
         y = 5
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 2,
     blueprint_compat = true,
@@ -21,7 +22,7 @@ SMODS.Joker {
             }
         else
             return {
-                vars = { 'No valid target' }
+                vars = { localize('k_mxms_no_target_el') }
             }
         end
     end,
@@ -31,7 +32,7 @@ SMODS.Joker {
             context.blueprint_card = context.blueprint_card or card
             local zombie_target_ret = G.GAME.current_round.zombie_target.card:calculate_joker(context)
             context.blueprint = nil
-            local eff_card = context.blueprint_card or self
+            local eff_card = context.blueprint_card or card
             context.blueprint_card = nil
             if zombie_target_ret then
                 zombie_target_ret.card = eff_card

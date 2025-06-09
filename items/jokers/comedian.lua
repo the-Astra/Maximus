@@ -1,13 +1,9 @@
 SMODS.Joker {
     key = 'comedian',
-    loc_txt = {
-        name = 'Comedian',
-        text = { '{X:mult,C:white}X#1#{} Mult, gains {X:mult,C:white}X#2#{} Mult', 'after every round', '{C:green}#3# in #4# chance{} this', 'card is destroyed at', 'end of round' }
-    },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 1,
+        y = 12
     },
     rarity = 1,
     config = {
@@ -17,17 +13,22 @@ SMODS.Joker {
             odds = 50
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "theAstra"
+    },
     blueprint_compat = true,
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-        return { vars = { stg.Xmult, stg.gain, G.GAME.probabilities.normal, stg.odds } }
+        return { vars = { stg.Xmult, stg.gain, G.GAME.probabilities.normal, stg.odds * G.GAME.fridge_mod } }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            if pseudorandom('comedian') < G.GAME.probabilities.normal / stg.odds then
+            if pseudorandom('comedian') < G.GAME.probabilities.normal / stg.odds * G.GAME.fridge_mod then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -42,7 +43,11 @@ SMODS.Joker {
                             func = function()
                                 G.jokers:remove_card(card)
                                 card:remove()
-                                SMODS.calculate_context({failed_prob = true, odds = stg.odds - G.GAME.probabilities.normal})
+                                SMODS.calculate_context({
+                                    failed_prob = true,
+                                    odds = stg.odds -
+                                        G.GAME.probabilities.normal
+                                })
                                 card = nil
                                 return true;
                             end
@@ -54,22 +59,25 @@ SMODS.Joker {
                     message = localize('k_extinct_ex')
                 }
             else
-                stg.Xmult = stg.Xmult + stg.gain
+                stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        SMODS.calculate_effect({message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } }, colour = G.C.MULT}, card)
+                        SMODS.calculate_effect(
+                            {
+                                message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } },
+                                colour = G.C
+                                    .MULT
+                            }, card)
                         return true
                     end
                 }))
-                SMODS.calculate_context({scaling_card = true})
+                SMODS.calculate_context({ scaling_card = true })
             end
         end
 
         if context.joker_main and stg.Xmult > 1 then
             return {
-                Xmult_mod = stg.Xmult,
-                message = 'x' .. stg.Xmult,
-                colour = G.C.MULT
+                x_mult = stg.Xmult
             }
         end
     end,
@@ -77,3 +85,10 @@ SMODS.Joker {
         return G.GAME.pool_flags.cavendish_removed
     end
 }
+
+SMODS.Joker:take_ownership('j_cavendish', {
+        remove_from_deck = function(self, args)
+            G.GAME.pool_flags.cavendish_removed = true
+        end
+    },
+    true)

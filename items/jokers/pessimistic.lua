@@ -1,11 +1,5 @@
 SMODS.Joker {
     key = 'pessimistic',
-    loc_txt = {
-        name = 'Pessimistic Joker',
-        text = { 'After each failed probability check,', 'this Joker gains {C:mult}Mult{} equal to the',
-            'odds of failing the check', '{s:0.8,C:inactive}+#2# for missed Lucky Card',
-            '{C:inactive}Currently: {C:mult}+#1# {C:inactive}Mult' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 8,
@@ -17,6 +11,11 @@ SMODS.Joker {
             mult = 0,
             lucky_gain = 3
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     blueprint_compat = true,
     cost = 7,
@@ -30,37 +29,27 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.mult > 0 then
             return {
-                mult_mod = stg.mult,
-                message = '+' .. stg.mult,
-                colour = G.C.MULT,
-                card = card
+                mult = stg.mult
             }
         end
 
         if context.individual and context.other_card.ability.effect == 'Lucky Card' and not context.after and not context.end_of_round and
             not context.other_card.lucky_trigger and not context.blueprint then
             stg.mult = stg.mult + card.ability.extra.lucky_gain
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:juice_up(0.3, 0.4)
-                    play_sound('generic1')
-                    return true
-                end
-            }))
-            SMODS.calculate_context({ scaling_card = true })
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.ATTENTION,
+                func = function() SMODS.calculate_context({ scaling_card = true }) end
+            }
         end
 
         if context.failed_prob and not context.blueprint then
             stg.mult = stg.mult + context.odds
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:juice_up(0.3, 0.4)
-                    return true
-                end
-            }))
-            SMODS.calculate_context({ scaling_card = true })
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.ATTENTION,
+                func = function() SMODS.calculate_context({ scaling_card = true }) end
+            }
         end
     end
 }

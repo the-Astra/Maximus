@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'first_aid_kit',
-    loc_txt = {
-        name = 'First Aid Kit',
-        text = { 'Sell this card for', '{C:blue}+#1#{} hands and {C:red}+#2#{} discards', 'for the current round' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
@@ -17,6 +13,11 @@ SMODS.Joker {
             hands = 2,
             discards = 2
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     cost = 5,
     loc_vars = function(self, info_queue, card)

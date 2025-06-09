@@ -1,14 +1,9 @@
 SMODS.Joker {
     key = 'chrysalis',
-    loc_txt = {
-        name = 'Chrysalis',
-        text = { 'After using {C:attention}#2# {C:planet}Planet{} Cards,', 'sell this Joker to create a', '{C:attention}Butterfly', '{C:inactive}Currently: #1#/#2#' },
-        unlock = { 'Fulfill the requirements of', 'and sell a {C:attention}Caterpillar{}' }
-    },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 8,
+        y = 16
     },
     rarity = 1,
     config = {
@@ -16,6 +11,11 @@ SMODS.Joker {
             planets = 0,
             goal = 5
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
     },
     blueprint_compat = false,
     unlocked = false,
@@ -31,31 +31,21 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.selling_self and stg.planets >= stg.goal and not context.blueprint then
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    SMODS.add_card({
-                        key = 'j_mxms_butterfly',
-                        key_append = 'chrys'
-                    })
-
-                    return true;
-                end
-            }))
-        end
 
         if context.using_consumeable and context.consumeable.ability.set == 'Planet' and not context.blueprint then
             stg.planets = stg.planets + 1
             SMODS.calculate_effect({ message = stg.planets .. '/' .. stg.goal, colour = G.C.PLANET }, card)
 
             if stg.planets >= stg.goal then
-                local eval = function(card)
-                    return not card.REMOVED
-                end
-                juice_card_until(card, eval, true)
-
-                SMODS.calculate_effect({ message = localize('k_active_ex'), colour = G.C.PLANET }, card)
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    func = function()
+                        card:set_ability('j_mxms_butterfly')
+                        card:juice_up(0.8, 0.8)
+                        play_sound('tarot1')
+                        return true;
+                    end
+                }))
             end
         end
     end,

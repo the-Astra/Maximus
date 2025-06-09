@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'trick_or_treat',
-    loc_txt = {
-        name = 'Trick or Treat',
-        text = { 'When held, {C:attention}Booster packs{}', 'now let you take #1# more', 'card than usual' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 7,
@@ -14,6 +10,11 @@ SMODS.Joker {
         extra = {
             extra_choices = 1
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     blueprint_compat = false,
     cost = 6,

@@ -1,10 +1,5 @@
 SMODS.Joker {
     key = 'monk',
-    loc_txt = {
-        name = 'Monk',
-        text = { 'Gains {C:chips}+#2#{} chips for every', 'shop exited without purchase',
-            '{C:inactive}Currently: {C:chips}+#1#{}' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 6,
@@ -18,6 +13,11 @@ SMODS.Joker {
             gain = 25
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     blueprint_compat = true,
     cost = 4,
     loc_vars = function(self, info_queue, card)
@@ -30,10 +30,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.chips > 0 then
             return {
-                chip_mod = stg.chips,
-                message = '+' .. stg.chips,
-                colour = G.C.MULT,
-                card = card
+                chips = stg.chips
             }
         end
 
@@ -43,7 +40,7 @@ SMODS.Joker {
 
         if context.ending_shop then
             if not stg.purchase_made then
-                stg.chips = stg.chips + stg.gain
+                stg.chips = stg.chips + stg.gain * G.GAME.soil_mod
                 SMODS.calculate_effect(
                     { message = localize { type = 'variable', key = 'a_chips', vars = { stg.chips } } },
                     card)

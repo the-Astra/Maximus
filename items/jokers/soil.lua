@@ -1,13 +1,14 @@
 SMODS.Joker {
     key = 'soil',
-    loc_txt = {
-        name = 'Soil Joker',
-        text = { 'Scaling Jokers gain', '{C:attention}twice{} as much scaling value' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 0,
         y = 6
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 3,
     blueprint_compat = false,

@@ -1,10 +1,5 @@
 SMODS.Joker {
     key = 'bullseye',
-    loc_txt = {
-        name = 'Bullseye',
-        text = { 'If {C:attention}blind\'s{} Chip requirement', 'is met {C:attention}exactly{}, this joker',
-            'gains {C:chips}+#1#{} Chips', '{s:0.8,C:inactive}Gain is equal to 100 x Round', '{C:inactive}Currently: {C:chips}+#2#' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 5,
@@ -16,6 +11,11 @@ SMODS.Joker {
             chips = 0,
             base_gain = 100
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     blueprint_compat = true,
     cost = 5,
@@ -33,21 +33,18 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.joker_main and stg.chips > 0 then
             return {
-                chip_mod = stg.chips,
-                message = '+' .. stg.chips,
-                colour = G.C.CHIPS,
-                card = card
+                chips = stg.chips
             }
         end
 
         if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and
             to_big(G.GAME.blind.chips) == to_big(G.GAME.chips) then
             stg.chips = stg.chips + stg.base_gain * G.GAME.round
-            SMODS.calculate_context({scaling_card = true})
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.CHIPS,
-                card = card
+                card = card,
+                func = function() SMODS.calculate_context({ scaling_card = true }) end
             }
         end
     end

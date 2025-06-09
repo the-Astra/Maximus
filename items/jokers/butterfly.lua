@@ -1,14 +1,9 @@
 SMODS.Joker {
     key = 'butterfly',
-    loc_txt = {
-        name = 'Butterfly',
-        text = { 'Creates a {C:spectral}Spectral{} Card', 'every {C:attention}#2#{} consumables used', '{C:inactive}Currently: #1#/#2#' },
-        unlock = { 'Fulfill the requirements of', 'and sell a {C:attention}Chrysalis{}' }
-    },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
         x = 0,
-        y = 0
+        y = 17
     },
     rarity = 1,
     config = {
@@ -16,6 +11,11 @@ SMODS.Joker {
             consumables = 0,
             goal = 6
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
     },
     blueprint_compat = true,
     unlocked = false,

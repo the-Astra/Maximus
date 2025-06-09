@@ -3,21 +3,24 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-    # Change highlight limit to be mutable
+# Apply limits from challenge rule
 [[patches]]
 [patches.pattern]
-target = "cardarea.lua"
-pattern = "self.config.highlighted_limit = config.highlight_limit or 5"
-position = "at"
-payload = "self.config.highlighted_limit = config.highlight_limit or G.GAME.modifiers.mxms_highlight_limit or 5"
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = "if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > 5 then "
-position = "at"
-payload = "if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > G.hand.config.highlighted_limit then "
+target = "game.lua"
+pattern = '''
+{card_limit = self.GAME.starting_params.hand_size, type = 'hand'})
+'''
+position = "after"
+payload = '''
+if self.GAME.modifiers.mxms_highlight_limit then
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            SMODS.change_play_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
+            SMODS.change_discard_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
+            return true;
+        end
+    }))
+end
+'''
 match_indent = true
 times = 1

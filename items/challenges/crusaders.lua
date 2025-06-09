@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = 'crusaders',
-    loc_txt = {
-        name = 'Stardust Crusaders'
-    },
     rules = {},
     jokers = {},
     vouchers = {
@@ -22,7 +19,11 @@ SMODS.Challenge {
             { id = 'j_certificate' },
             { id = 'j_marble' },
             { id = 'j_mxms_rock_slide' },
+            { id = 'j_mxms_leto' },
             { id = 'c_cryptid' },
+            { id = 'c_grim' },
+            { id = 'c_familiar' },
+            { id = 'c_inacntation' },
         }
     },
     deck = {

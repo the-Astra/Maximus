@@ -1,10 +1,5 @@
 SMODS.Joker {
     key = 'marco_polo',
-    loc_txt = {
-        name = 'Marco Polo',
-        text = { '{C:mult}+#1#{} Mult if card is at secret placement', 'in Joker hand order. Given Mult is',
-            '{C:red}subtracted by #2#{} for', 'each card out of place', '{s:0.8,C:inactive}Position changes every round{}' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 7,
@@ -16,6 +11,11 @@ SMODS.Joker {
             base_mult = 12,
             dMult = 3
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     blueprint_compat = true,
     cost = 3,
@@ -40,10 +40,7 @@ SMODS.Joker {
             end
 
             return {
-                mult_mod = mult,
-                message = '+' .. mult,
-                colour = G.C.MULT,
-                card = card
+                mult = mult
             }
         end
     end

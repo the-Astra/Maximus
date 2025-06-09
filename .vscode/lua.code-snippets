@@ -2,10 +2,10 @@
     "Calculate function skeleton":  {
         "prefix": "calc",
         "body": [
-            "calculate = (self, card, context)",
-            "   local stg = card.ability.extra",
+            "calculate = function(self, card, context)",
+            "    local stg = card.ability.extra",
             "",
-            "   $0",
+            "    $0",
             "end,"
         ],
         "description": "Shortcut for a calculate function skeleton"
@@ -13,10 +13,10 @@
     "Add To Deck function skeleton":  {
         "prefix": "atd",
         "body": [
-            "add_to_deck = (self, card, from_debuff)",
-            "   local stg = card.ability.extra",
+            "add_to_deck = function(self, card, from_debuff)",
+            "    local stg = card.ability.extra",
             "",
-            "   $0",
+            "    $0",
             "end,"
         ],
         "description": "Shortcut for a add_to_deck function skeleton"
@@ -24,10 +24,10 @@
     "Remove From Deck function skeleton":  {
         "prefix": "rfd",
         "body": [
-            "remove_from_deck = (self, card, from_debuff)",
-            "   local stg = card.ability.extra",
+            "remove_from_deck = function(self, card, from_debuff)",
+            "    local stg = card.ability.extra",
             "",
-            "   $0",
+            "    $0",
             "end,"
         ],
         "description": "Shortcut for a remove_from_deck function skeleton"
@@ -36,11 +36,11 @@
     "Loc Vars function skeleton":  {
         "prefix": "locvars",
         "body": [
-            "loc_vars = (self, info_queue, card)",
-            "   local stg = card.ability.extra",
+            "loc_vars = function(self, info_queue, card)",
+            "    local stg = card.ability.extra",
             "",
-            "   $1",
-            "   return = { vars = { $2 } }",
+            "    $1",
+            "    return { vars = { $2 } }",
             "end,"
         ],
         "description": "Shortcut for a loc_vars function skeleton"
@@ -49,7 +49,7 @@
         "prefix": "scl",
         "body": [
             "for k,v in pairs($1) do",
-            "   $2",
+            "    $2",
             "end"
         ],
         "description": "Shortcut for a simple card loop"
@@ -65,12 +65,31 @@
         "prefix": "event",
         "body": [
             "G.E_MANAGER:add_event(Event({",
-            "   func = function()",
-            "       $0",
-            "       return true;",
-            "   end",
+            "    func = function()",
+            "        $0",
+            "        return true;",
+            "    end",
             "}))",
         ],
         "description": "Shortcut for a SMODS.calculate_effect skeleton"
     },
+    "Info Queue Card Skeleton":  {
+        "prefix": "iq",
+        "body": [
+            "info_queue[#info_queue + 1] = $0"
+        ],
+        "description": "Shortcut for an info_queue card skeleton"
+    },
+    "Maximus Localization Skeleton": {
+        "prefix": "mxmsloc",
+        "body": [
+            "$1_mxms_$2 = {",
+            "    name = '$3',",
+            "    text = {",
+            "        '$4',",
+            "    },",
+            "},"
+        ]
+    }
 }
+

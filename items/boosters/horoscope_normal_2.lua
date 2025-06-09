@@ -2,15 +2,7 @@ SMODS.Booster {
     key = "horoscope_normal_2",
     kind = "Horoscope",
     atlas = "Boosters",
-    loc_txt = {
-        name = 'Zodiac Pack',
-        text = {
-            "Choose {C:attention}#1#{} of up to",
-            "{C:attention}#2#{C:horoscope} Horoscope{} cards to",
-            "be used immediately",
-        },
-        group_name = 'Zodiac Pack'
-    },
+    group_key = "k_mxms_zodiac_pack",
     pos = {
         x = 1,
         y = 0
@@ -18,6 +10,11 @@ SMODS.Booster {
     config = {
         extra = 2,
         choose = 1
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "N/A"
     },
     cost = 4,
     weight = 0.96,

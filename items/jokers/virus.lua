@@ -1,15 +1,16 @@
 SMODS.Joker {
     key = 'virus',
-    loc_txt = {
-        name = 'Virus',
-        text = { 'All single-suit hands', 'with more than one card are', 'treated as a {C:attention}Flush{}' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 3,
         y = 3
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     rarity = 2,
     blueprint_compat = false,
-    cost = 6,
+    cost = 6
 }

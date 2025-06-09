@@ -1,9 +1,5 @@
 SMODS.Voucher {
     key = 'launch_code',
-    loc_txt = {
-        name = 'Launch Code',
-        text = { '{C:attention}+#1#{} ante,', '{C:blue}+#2#{} hand and', '{C:red}+#2#{} discard', 'each round' }
-    },
     atlas = 'Vouchers',
     pos = {
         x = 0,
@@ -14,6 +10,11 @@ SMODS.Voucher {
             ante_mod = 1,
             val_mod = 1
         }
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra

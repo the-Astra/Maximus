@@ -1,8 +1,5 @@
 SMODS.Challenge {
     key = '52_commandments',
-    loc_txt = {
-        name = 'The 52 Commandments'
-    },
     rules = {
         custom = {
             { id = 'mxms_X_blind_size', value = 2 }

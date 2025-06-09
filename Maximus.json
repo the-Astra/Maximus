@@ -2,17 +2,17 @@
 	"id": "Maximus",
 	"name": "Maximus",
 	"display_name": "Maximus",
-	"author": ["Astra", "Maxiss02"],
-	"description": "A vanilla-inspired mod that brings new ideas to Balatro",
+	"author": ["theAstra", "Maxiss02"],
+	"description": "Maximus is a Vanilla+ mod that strives to preserve the Vanilla feel of the game (for the most part, looking at you Nuclear deck) while innovating on newer ideas to keep things fresh! Join the Discord: https://discord.gg/GvCCcryM48",
 	"prefix": "mxms",
 	"main_file": "main.lua",
 	"priority": 0,
 	"badge_colour": "f51bbc",
 	"badge_text_colour": "f8a100",
-	"version": "0.6.1-beta",
+	"version": "1.0.0",
 	"dependencies": [
-		"Steamodded (>=1.0.0~BETA-0323b)",
+		"Steamodded (>=1.0.0~BETA-0608a)",
 		"Lovely (>=0.7.1)",
-		"Talisman (>=2.1.0~dev)"
+		"3xCredits (==1.*~)"
 	]
 }

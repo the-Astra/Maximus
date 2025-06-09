@@ -1,23 +1,31 @@
 SMODS.Joker {
     key = 'leto',
-    loc_txt = {
-        name = 'Leto',
-        text = { 'At the start of each round,', 'add a randomly enhanced {C:attention}Queen{}', 'to the deck' }
-    },
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 3,
-        y = 0
+        x = 6,
+        y = 7
+    },
+    soul_pos = {
+        x = 6,
+        y = 8
     },
     rarity = 4,
+    unlocked = false,
+    unlock_condition = {
+        type = '', 
+        extra = '', 
+        hidden = true
+    },
     blueprint_compat = true,
     cost = 20,
-    config = {
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "anerdymous"
     },
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.first_hand_drawn then
-
             local _suit = pseudorandom_element({ 'S', 'H', 'D', 'C' }, pseudoseed('leto_create'))
 
             local cen_pool = {}
@@ -28,7 +36,7 @@ SMODS.Joker {
             end
 
             local _card = create_playing_card({
-                front = G.P_CARDS[_suit..'_Q'],
+                front = G.P_CARDS[_suit .. '_Q'],
                 center = pseudorandom_element(cen_pool, pseudoseed('leto_enh'))
             }, G.discard, true, nil, { G.C.SECONDARY_SET.Enhanced }, true)
 
@@ -42,7 +50,7 @@ SMODS.Joker {
                     return true
                 end
             }))
-            
+
             playing_card_joker_effects({ _card })
 
             return nil, true

@@ -1,10 +1,5 @@
 SMODS.Joker { -- Man in the Mirror
     key = 'man_in_the_mirror',
-    loc_txt = {
-        name = 'Man in the Mirror',
-        text = { 'Selling this joker', 'creates {C:dark_edition}Negative{} copies of',
-            'all non-Negative held consumables' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 4,
@@ -14,19 +9,22 @@ SMODS.Joker { -- Man in the Mirror
     eternal_compat = false,
     cost = 8,
     rarity = 2,
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
-        return {
-            vars = {}
-        }
     end,
     calculate = function(self, card, context)
         if context.selling_self and not context.blueprint then
+            card:shatter()
             -- Fail if no held consumeables
             if next(G.consumeables.cards) == nil then
                 return {
                     extra = {
-                        message = 'No target...',
+                        message = localize('k_mxms_no_target_el'),
                         colour = G.C.PURPLE
                     },
                     card = card

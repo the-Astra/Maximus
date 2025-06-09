@@ -1,10 +1,5 @@
 SMODS.Joker {
-    key = 'dont_mind_if_i_do',
-    loc_txt = {
-        name = 'Don\'t Mind if I Do',
-        text = { 'Gains {X:mult,C:white}X#2#{} Mult for every', 'card scored with a seal at the',
-            'cost of removing the seal', '{C:inactive}Currently: {X:mult,C:white}X#1#' }
-    },
+    key = 'dmiid',
     atlas = 'Jokers',
     pos = {
         x = 1,
@@ -19,6 +14,11 @@ SMODS.Joker {
             gain = 0.25
         }
     },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
+    },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
@@ -32,7 +32,7 @@ SMODS.Joker {
                 if context.scoring_hand[i].seal then
                     local other_card = context.scoring_hand[i]
                     other_card:set_seal(nil, nil, true)
-                    stg.Xmult = stg.Xmult + stg.gain
+                    stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
                         delay = 0.50,
@@ -43,17 +43,14 @@ SMODS.Joker {
                             return true
                         end
                     }))
-                    SMODS.calculate_context({scaling_card = true})
+                    SMODS.calculate_context({ scaling_card = true })
                 end
             end
         end
 
         if context.joker_main and stg.Xmult > 1 then
             return {
-                Xmult_mod = stg.Xmult,
-                message = 'X' .. stg.Xmult,
-                colour = G.C.MULT,
-                card = card
+                x_mult = stg.Xmult
             }
         end
     end,

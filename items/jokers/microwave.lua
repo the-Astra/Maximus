@@ -1,13 +1,14 @@
 SMODS.Joker {
     key = 'microwave',
-    loc_txt = {
-        name = 'Microwave',
-        text = { '{C:red}Food{} Jokers are', '{C:attention}retriggered' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 4,
         y = 0
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     rarity = 2,
     blueprint_compat = true,

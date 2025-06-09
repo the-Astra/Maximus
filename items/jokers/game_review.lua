@@ -1,9 +1,5 @@
 SMODS.Joker {
     key = 'review',
-    loc_txt = {
-        name = 'Game Review',
-        text = { 'Retrigger each played', '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10' }
-    },
     atlas = 'Jokers',
     pos = {
         x = 7,
@@ -12,6 +8,11 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = 1
+    },
+    credit = {
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     blueprint_compat = false,
     cost = 6,
