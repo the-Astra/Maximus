@@ -8,11 +8,24 @@ priority = 1
 [patches.pattern]
 target = "functions/misc_functions.lua"
 pattern = '''
-  local suits = SMODS.Suit.obj_buffer
+local suits = SMODS.Suit.obj_buffer
 '''
 position = "before"
 payload = '''
-  local virus = next(SMODS.find_card('j_mxms_virus'))
+local virus = next(SMODS.find_card('j_mxms_virus'))
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = '''
+if #hand < four_fingers then return ret else
+'''
+position = "at"
+payload = '''
+if #hand < four_fingers and not (virus and #hand >= 2) then return ret else
 '''
 match_indent = true
 times = 1
@@ -22,10 +35,14 @@ times = 1
 target = "functions/misc_functions.lua"
 pattern = '''
 if flush_count >= four_fingers then
+  table.insert(ret, t)
+  return ret
 '''
-position = "at"
+position = "after"
 payload = '''
-if flush_count >= (virus and flush_count == #hand and 2) or four_fingers then
+elseif virus and flush_count == #hand and flush_count >= 2 then
+  table.insert(ret, t)
+  return ret
 '''
 match_indent = true
 times = 1
