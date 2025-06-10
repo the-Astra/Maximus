@@ -30,7 +30,11 @@ if Maximus_config.horoscopes then
 
             if context.end_of_round and not context.individual and not context.repetition then
                 for k, v in pairs(G.mxms_horoscope.cards) do
-                    card:juice_up(0.3, 0.4)
+                    if context.blueprint then
+                        context.blueprint_card:juice_up(0.3, 0.4)
+                    else
+                        card:juice_up(0.3, 0.4)
+                    end
                     SMODS.calculate_effect({ dollars = stg.dollars }, v)
                 end
             end

@@ -19,11 +19,11 @@ SMODS.Joker {
         if context.joker_main then
             for k, v in pairs(context.poker_hands) do
                 if k ~= context.scoring_name and next(context.poker_hands[k]) then
-                    SMODS.calculate_effect({ message = G.localization.misc.poker_hands[k], colour = G.C.ATTENTION }, context.blueprint or card)
+                    SMODS.calculate_effect({ message = G.localization.misc.poker_hands[k], colour = G.C.ATTENTION }, context.blueprint_card or card)
                     SMODS.calculate_effect(
-                        { message = '+' .. tostring(G.GAME.hands[k].chips), chip_mod = G.GAME.hands[k].chips }, context.blueprint or card)
+                        { message = '+' .. tostring(G.GAME.hands[k].chips), chip_mod = G.GAME.hands[k].chips }, context.blueprint_card or card)
                     SMODS.calculate_effect(
-                        { message = '+' .. tostring(G.GAME.hands[k].mult), mult_mod = G.GAME.hands[k].mult }, context.blueprint or card)
+                        { message = '+' .. tostring(G.GAME.hands[k].mult), mult_mod = G.GAME.hands[k].mult }, context.blueprint_card or card)
                 end
             end
         end

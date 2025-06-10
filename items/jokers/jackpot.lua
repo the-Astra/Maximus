@@ -39,7 +39,7 @@ SMODS.Joker {
 
             if sevens >= 3 then
                 if pseudorandom(pseudoseed('jackpot' .. G.GAME.round_resets.ante)) < G.GAME.probabilities.normal / stg.odds then
-                    SMODS.calculate_effect({ message = localize('k_mxms_jackpot_ex'), colour = G.C.MONEY }, context.blueprint or card)
+                    SMODS.calculate_effect({ message = localize('k_mxms_jackpot_ex'), colour = G.C.MONEY }, context.blueprint_card or card)
                     return {
                         dollars = stg.money,
                         card = card

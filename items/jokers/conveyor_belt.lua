@@ -29,8 +29,8 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.before and to_big(stg.chips) > to_big(0) and to_big(stg.mult) > to_big(0) then
-            SMODS.calculate_effect({ chips = to_number(stg.chips) }, context.blueprint or card)
-            SMODS.calculate_effect({ mult = to_number(stg.mult) }, context.blueprint or card)
+            SMODS.calculate_effect({ chips = to_number(stg.chips) }, context.blueprint_card or card)
+            SMODS.calculate_effect({ mult = to_number(stg.mult) }, context.blueprint_card or card)
         end
 
         if context.after and not context.blueprint then
