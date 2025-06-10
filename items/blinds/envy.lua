@@ -16,7 +16,9 @@ SMODS.Blind {
     },
     boss_colour = HEX('4CCAA9'),
     calculate = function(self, card, context)
-        if context.post_trigger and context.other_ret and not context.other_context.end_of_round and not G.GAME.blind.disabled then
+        if context.post_trigger and context.cardarea == G.jokers and context.other_ret
+        and not (context.other_context.end_of_round or context.other_context.setting_blind)
+        and not G.GAME.blind.disabled then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.1,
