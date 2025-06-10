@@ -888,7 +888,7 @@ return {
                 name = 'Jackpot',
                 text = {
                     'Played hands containing',
-                    'at least {C:attention}three 7\'s{} have',
+                    'at least {C:attention}three 7s{} have',
                     'a {C:green}#1# in #3#{} chance',
                     'to give {C:money}$#2#'
                 }
@@ -1141,8 +1141,8 @@ return {
                 name = 'Occam\'s Razor',
                 text = {
                     '{X:mult,C:white}Xmult{} equal to the',
-                    'number of cards played plus 1',
-                    'below max highlight limit played'
+                    '{C:attention}number of cards played plus 1',
+                    '{C:attention}below{} max highlight limit played'
                 }
             },
             j_mxms_old_man_jimbo = {
