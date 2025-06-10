@@ -12,7 +12,7 @@ SMODS.Challenge {
             { id = 'p_standard_normal_1', ids = {
                 'p_standard_normal_1', 'p_standard_normal_2',
                 'p_standard_normal_3', 'p_standard_normal_4',
-                'p_standard_jumbo_1', 'p_standard_jumFbo_2',
+                'p_standard_jumbo_1', 'p_standard_jumbo_2',
                 'p_standard_mega_1', 'p_standard_mega_2' }
             },
             { id = 'j_dna' },
@@ -23,7 +23,7 @@ SMODS.Challenge {
             { id = 'c_cryptid' },
             { id = 'c_grim' },
             { id = 'c_familiar' },
-            { id = 'c_inacntation' },
+            { id = 'c_incantation' },
         }
     },
     deck = {
