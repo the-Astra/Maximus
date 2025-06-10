@@ -1351,6 +1351,12 @@ sendDebugMessage("", 'Maximus')
 
 --#region Modifiers ---------------------------------------------------------------------------------------------
 
+SMODS.Atlas { -- Main Modifiers Atlas
+    key = 'Modifiers',
+    path = "Modifiers.png",
+    px = 71,
+    py = 95
+}
 local ENABLED_MODIFIERS = {
     'black',
     'posted',
