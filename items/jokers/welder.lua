@@ -28,7 +28,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.individual and context.cardarea == G.hand and SMODS.has_enhancement(context.other_card, 'm_steel') then
+        if context.individual and not context.end_of_round and context.cardarea == G.hand and SMODS.has_enhancement(context.other_card, 'm_steel') then
             context.other_card.ability.h_x_mult = context.other_card.ability.h_x_mult + stg.Xmult
             return {
                 message = localize('k_upgrade_ex'),

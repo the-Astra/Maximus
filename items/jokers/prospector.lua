@@ -28,7 +28,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.individual and context.cardarea == G.hand and SMODS.has_enhancement(context.other_card, 'm_gold') then
+        if context.individual and context.end_of_round and context.cardarea == G.hand and SMODS.has_enhancement(context.other_card, 'm_gold') then
             context.other_card.ability.h_dollars = context.other_card.ability.h_dollars + stg.dollars
             return {
                 message = localize('k_upgrade_ex'),
