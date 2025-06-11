@@ -435,12 +435,12 @@ save_run = function(self)
         end
     end
 
-    local blockbusters = SMODS.find_card('j_mxms_blockbuster')
-    if next(blockbusters) then
-        for i = 1, #blockbusters do
+    local gutbusters = SMODS.find_card('j_mxms_gutbuster')
+    if next(gutbusters) then
+        for i = 1, #gutbusters do
             for k, v in ipairs(G.jokers.cards) do
-                if blockbusters[i].ability.extra.card and v == blockbusters[i].ability.extra.card then
-                    blockbusters[i].ability.extra.pos = k
+                if gutbusters[i].ability.extra.card and v == gutbusters[i].ability.extra.card then
+                    gutbusters[i].ability.extra.pos = k
                     break
                 end
             end
@@ -465,12 +465,12 @@ Game.start_run = function(self, args)
         G.GAME.current_round.zombie_target.pos = nil
     end
 
-    local blockbusters = SMODS.find_card('j_mxms_blockbuster')
-    if next(blockbusters) then
-        for i = 1, #blockbusters do
-            if blockbusters[i].ability.extra.pos then
-                blockbusters[i].ability.extra.card = G.jokers.cards[blockbusters[i].ability.extra.pos]
-                blockbusters[i].ability.extra.pos = nil
+    local gutbusters = SMODS.find_card('j_mxms_gutbuster')
+    if next(gutbusters) then
+        for i = 1, #gutbusters do
+            if gutbusters[i].ability.extra.pos then
+                gutbusters[i].ability.extra.card = G.jokers.cards[gutbusters[i].ability.extra.pos]
+                gutbusters[i].ability.extra.pos = nil
             end
         end
     end
