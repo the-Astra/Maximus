@@ -24,7 +24,7 @@ SMODS.Consumable {
         extra = {
             times = 0,
             goal = 3,
-            upgrade = 3
+            upgrade = 2
         }
     },
     credit = {
