@@ -76,7 +76,9 @@
         "reset_mxms_achievements",
         "to_number",
         "vanilla_suit_check",
-        "Sprite"
+        "Sprite",
+        "Tag",
+        "calculate_reroll_cost"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

@@ -156,7 +156,7 @@ match_indent = true
 
 
 
-    # Apply next ante Horoscope effects (create new Horoscope card if zodiac killer challenge)
+    # Reset Horoscope effects (create new Horoscope card if zodiac killer challenge)
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
@@ -166,7 +166,9 @@ delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante =
 position = "before"
 payload = '''
 reset_horoscopes()
-apply_horoscope_effects()
+for i = 1, #G.GAME.tags do
+    G.GAME.tags[i]:apply_to_run({type = 'start_apply_horoscopes', tag = _tag})
+end
 
 if G.GAME.modifiers.mxms_zodiac_killer then
     G.E_MANAGER:add_event(Event({
@@ -199,7 +201,7 @@ position = "at"
 payload = '''
 for i = 1, G.GAME.shop.joker_max - #G.shop_jokers.cards do
     local shop_card = create_card_for_shop(G.shop_jokers)
-    if G.GAME.libra_bonus then
+    if G.GAME.libra_bonus > 0 then
         shop_card.cost = 0
     end 
     G.shop_jokers:emplace(shop_card)
@@ -220,7 +222,7 @@ end
 position = "at"
 payload = '''
 for k, v in ipairs(G.shop_vouchers.cards) do
-    if G.GAME.libra_bonus then
+    if G.GAME.libra_bonus > 0 then
         v.cost = 0
     end 
     create_shop_card_ui(v)
@@ -239,7 +241,7 @@ SMODS.add_voucher_to_shop(key)
 position = "at"
 payload = '''
 local card = SMODS.add_voucher_to_shop(key)
-if G.GAME.libra_bonus then
+if G.GAME.libra_bonus > 0 then
     card.cost = 0
 end 
 '''
@@ -258,7 +260,7 @@ end
 position = "at"
 payload = '''
 for k, v in ipairs(G.shop_booster.cards) do
-    if G.GAME.libra_bonus then
+    if G.GAME.libra_bonus > 0 then
         v.cost = 0
     end 
     create_shop_card_ui(v)
@@ -277,7 +279,7 @@ G.shop_booster.T.y, G.CARD_W*1.27, G.CARD_H*1.27, G.P_CARDS.empty, G.P_CENTERS[G
 '''
 position = "after"
 payload = '''
-if G.GAME.libra_bonus then
+if G.GAME.libra_bonus > 0 then
     card.cost = 0
 end 
 '''
@@ -295,8 +297,8 @@ end
 '''
 position = "after"
 payload = '''
-if G.GAME.libra_bonus then
-    G.GAME.libra_bonus = false
+if G.GAME.libra_bonus > 0 then
+    G.GAME.libra_bonus = G.GAME.libra_bonus - 1
 end 
 '''
 match_indent = true

@@ -148,8 +148,7 @@ return {
                 name = 'Aries',
                 text = {
                     '{C:attention}Trigger{} the Boss Blind',
-                    'to cut {C:attention}15%{} off all blind',
-                    'requirements the following ante'
+                    'to receive a {C:attention}Ram Tag'
                 }
             },
             c_mxms_cancer = {
@@ -157,7 +156,7 @@ return {
                 text = {
                     'Defeat the next blind with',
                     '{C:blue}0{} {C:attention}remaining hands{} to',
-                    'receive {C:blue}+2{} hands next ante'
+                    'receive a {C:attention}Crab Tag{}'
                 }
             },
             c_mxms_capricorn = {
@@ -183,15 +182,15 @@ return {
                 text = {
                     'Defeat the next blind in',
                     '{C:blue}1{} hand to receive',
-                    '{C:attention}+3 hand size{} next ante'
+                    'a {C:attention}Lion Tag{}'
                 }
             },
             c_mxms_libra = {
                 name = 'Libra',
                 text = {
                     'Spend at least {C:money}$#1#{} during the',
-                    'next shop to make the next',
-                    'shop\'s offerings {C:money}free{}',
+                    'next shop to receive',
+                    'a {C:attention}Scale Tag',
                     '{C:inactive}Currently: #2#/#1#'
                 }
             },
@@ -238,7 +237,7 @@ return {
                 text = {
                     'Defeat the next blind with a score',
                     'within {C:attention}25%{} of requirement to',
-                    'receive {C:red}+3{} discards next ante',
+                    'receive a {C:attention}Maiden Tag',
                     '{C:inactive}Requirement: <= #1# Chips'
                 }
             },
@@ -1869,6 +1868,38 @@ return {
             },
         },
         Tag = {
+            tag_mxms_crab = {
+                name = 'Crab Tag',
+                text = {
+                    "{C:blue}+2{} hands next ante",
+                },
+            },
+            tag_mxms_lion = {
+                name = 'Lion Tag',
+                text = {
+                    "{C:attention}+3 hand size{} next ante",
+                },
+            },
+            tag_mxms_maiden = {
+                name = 'Maiden Tag',
+                text = {
+                    "{C:red}+3{} discards next ante",
+                },
+            },
+            tag_mxms_ram = {
+                name = 'Ram Tag',
+                text = {
+                    "Cuts {C:attention}15%{} off all blind",
+                    "requirements next ante",
+                },
+            },
+            tag_mxms_scale = {
+                name = 'Scale Tag',
+                text = {
+                    'Makes the next',
+                    'shop\'s offerings {C:money}free{}'
+                },
+            },
             tag_mxms_star = {
                 name = 'Star Tag',
                 text = {

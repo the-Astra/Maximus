@@ -389,10 +389,10 @@ Game.init_game_object = function(self)
     }
 
     ret.aries_bonus = false
-    ret.cancer_bonus = false
-    ret.leo_bonus = false
-    ret.virgo_bonus = false
-    ret.libra_bonus = false
+    ret.cancer_bonus = 0
+    ret.leo_bonus = 0
+    ret.virgo_bonus = 0
+    ret.libra_bonus = 0
     ret.sagittarius_bonus = false
 
     --Pool Flags
@@ -480,6 +480,21 @@ local csc = Card.set_cost
 function Card:set_cost()
     csc(self)
     self.cost = self.cost * G.GAME.shop_price_multiplier * G.GAME.creep_mod
+end
+
+local ea = ease_ante
+ease_ante = function(mod)
+    ea(mod)
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            for k, v in pairs(G.GAME.tags) do
+                if v.config and v.config.extra and v.config.extra.type and v.config.extra.type == 'horoscope_reward' then
+                    v.config.extra.can_apply = true
+                end
+            end
+            return true;
+        end
+    }))
 end
 
 --#endregion
@@ -693,46 +708,21 @@ function reset_horoscopes()
     if G.GAME.aries_bonus then
         G.GAME.aries_bonus = false
     end
-
-    if G.GAME.cancer_bonus then
-        G.GAME.cancer_bonus = false
-        G.GAME.round_resets.hands = G.GAME.round_resets.hands - 2
-        ease_hands_played(-2)
+    if G.GAME.cancer_bonus > 0 then
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands - G.GAME.cancer_bonus
+        ease_hands_played(-G.GAME.cancer_bonus)
+        G.GAME.cancer_bonus = 0
     end
 
-    if G.GAME.leo_bonus then
-        G.GAME.leo_bonus = false
-        G.hand:change_size(-3)
+    if G.GAME.leo_bonus > 0 then
+        G.hand:change_size(-G.GAME.leo_bonus)
+        G.GAME.leo_bonus = 0
     end
 
-    if G.GAME.virgo_bonus then
+    if G.GAME.virgo_bonus > 0 then
         G.GAME.virgo_bonus = false
         G.GAME.round_resets.discards = G.GAME.round_resets.discards - 3
         ease_discard(-3)
-    end
-end
-
-function apply_horoscope_effects()
-    if G.GAME.next_ante_horoscopes["Aries"] then
-        G.GAME.aries_bonus = true
-        G.GAME.next_ante_horoscopes["Aries"] = false
-    end
-    if G.GAME.next_ante_horoscopes["Cancer"] then
-        G.GAME.cancer_bonus = true
-        G.GAME.round_resets.hands = G.GAME.round_resets.hands + 2
-        ease_hands_played(2)
-        G.GAME.next_ante_horoscopes["Cancer"] = false
-    end
-    if G.GAME.next_ante_horoscopes["Leo"] then
-        G.GAME.leo_bonus = true
-        G.hand:change_size(3)
-        G.GAME.next_ante_horoscopes["Leo"] = false
-    end
-    if G.GAME.next_ante_horoscopes["Virgo"] then
-        G.GAME.virgo_bonus = true
-        G.GAME.round_resets.discards = G.GAME.round_resets.discards + 3
-        ease_discard(3)
-        G.GAME.next_ante_horoscopes["Virgo"] = false
     end
 end
 
@@ -1342,6 +1332,11 @@ SMODS.Atlas { -- Main Tag Atlas
 
 local ENABLED_TAGS = {
     'star',
+    'crab',
+    'lion',
+    'maiden',
+    'ram',
+    'scale',
 }
 sendDebugMessage("Loading Tags...", 'Maximus')
 for i = 1, #ENABLED_TAGS do

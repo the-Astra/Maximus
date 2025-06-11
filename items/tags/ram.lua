@@ -1,0 +1,31 @@
+if Maximus_config.horoscopes then
+    SMODS.Tag {
+        key = 'ram',
+        atlas = 'Tags',
+        pos = {
+            x = 1,
+            y = 0
+        },
+        min_ante = 2,
+        credit = {
+            art = "Maxiss02",
+            code = "theAstra",
+            concept = "Maxiss02"
+        },
+        apply = function(self, tag, context)
+            if context.type == 'start_apply_horoscopes' and not G.GAME.aries_bonus then
+                G.GAME.aries_bonus = true
+                tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                    return true
+                end)
+                tag.triggered = true
+                return true
+            end
+        end,
+        in_pool = function(self, args)
+            return false
+        end
+    }
+else
+    sendDebugMessage("Ram Tag not loaded; Horoscopes Disabled", 'Maximus')
+end

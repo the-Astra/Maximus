@@ -13,6 +13,7 @@ SMODS.Consumable {
     },
     cost = 4,
     loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_TAGS['tag_mxms_maiden']
         local ceiling = G.GAME.blind and to_big(G.GAME.blind.chips) * 1.25 or 0
         return { vars = { ceiling } }
     end,
@@ -49,12 +50,24 @@ SMODS.Consumable {
         return true
     end,
     succeed = function(self, card)
-        G.GAME.next_ante_horoscopes["Virgo"] = true
         SMODS.calculate_effect(
-        { message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function()
-            set_horoscope_success(card)
-            check_for_unlock({ type = "all_horoscopes" })
-        end }, card)
+            {
+                message = localize('k_mxms_success_ex'),
+                colour = G.C.GREEN,
+                sound = 'tarot1',
+                func = function()
+                    set_horoscope_success(card)
+                    check_for_unlock({ type = "all_horoscopes" })
+                end
+            }, card)
+        G.E_MANAGER:add_event(Event({
+            func = (function()
+                add_tag(Tag('tag_mxms_maiden'))
+                play_sound('generic1', 0.9 + math.random() * 0.1, 0.8)
+                play_sound('holo1', 1.2 + math.random() * 0.1, 0.4)
+                return true
+            end)
+        }))
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
