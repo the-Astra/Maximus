@@ -29,11 +29,13 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.after and context.scoring_name == 'High Card' and not context.blueprint then
+            local destroyed_cards = {}
             for k, v in pairs(context.scoring_hand) do
                 stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     func = function()
+                        destroyed_cards[#destroyed_cards+1] = v
                         v:start_dissolve()
                         G.E_MANAGER:add_event(Event({
                             func = function()
@@ -47,6 +49,7 @@ SMODS.Joker {
                 }))
                 SMODS.calculate_effect({ message = localize('k_mxms_sacrifice_ex') }, card)
             end
+            SMODS.calculate_context({remove_playing_card = true, removed = destroyed_cards})
         end
 
         if context.joker_main then
