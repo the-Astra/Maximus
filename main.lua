@@ -381,13 +381,6 @@ Game.init_game_object = function(self)
     --Horoscope
     ret.horoscope_buffer = 0
 
-    ret.next_ante_horoscopes = {
-        ["Aries"] = false,
-        ["Cancer"] = false,
-        ["Leo"] = false,
-        ["Virgo"] = false,
-    }
-
     ret.aries_bonus = false
     ret.cancer_bonus = 0
     ret.leo_bonus = 0
@@ -720,7 +713,7 @@ function reset_horoscopes()
     end
 
     if G.GAME.virgo_bonus > 0 then
-        G.GAME.virgo_bonus = false
+        G.GAME.virgo_bonus = 0
         G.GAME.round_resets.discards = G.GAME.round_resets.discards - 3
         ease_discard(-3)
     end
