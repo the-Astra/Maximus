@@ -713,9 +713,9 @@ function reset_horoscopes()
     end
 
     if G.GAME.virgo_bonus > 0 then
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards - G.GAME.virgo_bonus
+        ease_discard(-G.GAME.virgo_bonus)
         G.GAME.virgo_bonus = 0
-        G.GAME.round_resets.discards = G.GAME.round_resets.discards - 3
-        ease_discard(-3)
     end
 end
 
