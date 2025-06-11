@@ -74,7 +74,7 @@ ease_dollars = function(mod, instant)
 
     G.E_MANAGER:add_event(Event({
         func = function()
-            if G.GAME.dollars <= to_big(0) then
+            if to_big(G.GAME.dollars) <= to_big(0) then
                 SMODS.calculate_context({ out_of_money = true })
             end
             return true;
