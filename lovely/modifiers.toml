@@ -162,7 +162,7 @@ target = "game.lua"
 pattern = '''
 if self.GAME.starting_params.no_faces and SMODS.Ranks[v.value].face then keep = false end
 '''
-position = "at"
+position = "after"
 payload = '''
 if self.GAME.starting_params.all_faces and not SMODS.Ranks[v.value].face then keep = false end
 '''
