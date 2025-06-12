@@ -674,7 +674,8 @@ function SMODS.current_mod.reset_game_globals(run_start)
     for k, v in ipairs({ 'Spades', 'Hearts', 'Clubs', 'Diamonds' }) do
         if v ~= G.GAME.current_round.mxms_jello_suit then jello_suits[#jello_suits + 1] = v end
     end
-    G.GAME.current_round.mxms_jello_suit = pseudorandom_element(jello_suits, pseudoseed('jel' .. G.GAME.round_resets.ante))
+    G.GAME.current_round.mxms_jello_suit = pseudorandom_element(jello_suits,
+        pseudoseed('jel' .. G.GAME.round_resets.ante))
 end
 
 --#endregion
