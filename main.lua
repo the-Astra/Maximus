@@ -192,6 +192,22 @@ SMODS.current_mod.optional_features = { retrigger_joker = true, post_trigger = t
 
 --#endregion
 
+--#region Colors
+
+Maximus.C = {
+    MXMS_PRIMARY = HEX('7855fc'),
+    MXMS_SECONDARY = HEX('901b7f'),
+    HOROSCOPE = HEX('e86fa5'),
+    SET = {
+        Horoscope = HEX('d9629c')
+    },
+    SECONDARY_SET = {
+        Horoscope = HEX('a64d79')
+    }
+}
+
+--#endregion
+
 --#region Talisman compat
 
 to_big = to_big or function(num)
@@ -277,7 +293,7 @@ if Maximus_config.menu then
         -- Define logo properties
         G.SPLASH_MAXIMUS_LOGO.tilt_var = { mx = 0, my = 0, dx = 0, dy = 0, amt = 0 }
 
-        G.SPLASH_MAXIMUS_LOGO.dissolve_colours = { G.C.MXMS_PRIMARY, G.C.MXMS_SECONDARY }
+        G.SPLASH_MAXIMUS_LOGO.dissolve_colours = { Maximus.C.MXMS_PRIMARY, Maximus.C.MXMS_SECONDARY }
         G.SPLASH_MAXIMUS_LOGO.dissolve = 1
 
         G.SPLASH_MAXIMUS_LOGO.states.collide.can = true
@@ -315,7 +331,7 @@ if Maximus_config.menu then
         -- recenter the title
         G.title_top.T.w = G.title_top.T.w * 1.7675
         G.title_top.T.x = G.title_top.T.x - 0.8
-        newcard:start_materialize({ G.C.WHITE, G.C.MXMS_SECONDARY }, true, 2.5)
+        newcard:start_materialize({ G.C.WHITE, Maximus.C.MXMS_SECONDARY }, true, 2.5)
         G.title_top:emplace(newcard)
         -- make the card look the same way as the title screen Ace of Spades
         newcard.T.w = newcard.T.w * 1.1 * 1.2
@@ -328,8 +344,8 @@ if Maximus_config.menu then
             send = {
                 { name = 'time',       ref_table = G.TIMERS, ref_value = 'REAL_SHADER' },
                 { name = 'vort_speed', val = 0.4 },
-                { name = 'colour_1',   ref_table = G.C,      ref_value = 'MXMS_PRIMARY' },
-                { name = 'colour_2',   ref_table = G.C,      ref_value = 'MXMS_SECONDARY' },
+                { name = 'colour_1',   ref_table = Maximus.C,      ref_value = 'MXMS_PRIMARY' },
+                { name = 'colour_2',   ref_table = Maximus.C,      ref_value = 'MXMS_SECONDARY' },
             }
         } })
 
@@ -848,8 +864,8 @@ sendDebugMessage("Loaded Achievements", 'Maximus')
 if Maximus_config.horoscopes then
     SMODS.ConsumableType {
         key = 'Horoscope',
-        primary_colour = G.C.SET.Horoscope,
-        secondary_colour = G.C.SECONDARY_SET.Horoscope,
+        primary_colour = Maximus.C.SET.Horoscope,
+        secondary_colour = Maximus.C.SECONDARY_SET.Horoscope,
         default = 'c_mxms_taurus',
         collection_rows = { 3, 3 },
         shop_rate = 0.0
