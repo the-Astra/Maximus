@@ -14,7 +14,7 @@ if polled_rate > check_rate and polled_rate <= check_rate + v.val then
 position = "after"
 payload = '''
     if card.ability.set == 'Joker' and next(coupons) then
-        SMODS.calculate_context({mxms_joker_cost_check = true, card = card}
+        SMODS.calculate_context({mxms_joker_cost_check = true, card = card})
     end
 '''
 match_indent = true
