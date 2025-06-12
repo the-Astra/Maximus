@@ -30,7 +30,7 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.mxms_failed_prob and context.card.config.center.key == 'c_wheel_of_fortune' then
-            stg.mult = stg.mult + stg.gain * G.GAME.soil_mod
+            stg.mult = stg.mult + stg.gain * G.GAME.mxms_soil_mod
             return {
                 message = localize { type = 'variable', key = 'a_mult', vars = { stg.mult } },
                 func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end

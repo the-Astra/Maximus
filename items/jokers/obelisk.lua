@@ -39,7 +39,7 @@ SMODS.Joker {
                     card = card
                 }
             else
-                stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
+                stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
                 stg.unscoring_cards = 0
                 return {
                     delay = 0.4,

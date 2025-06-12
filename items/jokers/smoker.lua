@@ -37,7 +37,7 @@ SMODS.Joker {
         end
 
         if context.scoring_name == 'High Card' and context.individual and context.cardarea == G.play then
-            stg.chips = stg.chips + context.other_card:get_chip_bonus() * G.GAME.soil_mod
+            stg.chips = stg.chips + context.other_card:get_chip_bonus() * G.GAME.mxms_soil_mod
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.CHIPS,

@@ -33,7 +33,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.joker_main then
-            stg.hands = stg.hands + (1 * G.GAME.fridge_mod)
+            stg.hands = stg.hands + (1 * G.GAME.mxms_fridge_mod)
             if stg.hands <= 1 then
                 return {
                     chips = stg.chips,

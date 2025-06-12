@@ -42,7 +42,7 @@ SMODS.Joker {
                     card = card
                 }
             else
-                stg.chips = stg.chips + stg.dChips * G.GAME.soil_mod
+                stg.chips = stg.chips + stg.dChips * G.GAME.mxms_soil_mod
                 stg.d_tally = 0
                 return {
                     delay = 0.2,

@@ -26,7 +26,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.streak, stg.hands, stg.chips, stg.mult, stg.chip_gain * G.GAME.soil_mod, stg.mult_gain * G.GAME.soil_mod }
+            vars = { stg.streak, stg.hands, stg.chips, stg.mult, stg.chip_gain * G.GAME.mxms_soil_mod, stg.mult_gain * G.GAME.mxms_soil_mod }
         }
     end,
     calculate = function(self, card, context)
@@ -59,8 +59,8 @@ SMODS.Joker {
             if stg.hands == 1 then
                 stg.hands = 0
                 stg.streak = stg.streak + 1
-                stg.chips = stg.chip_gain * stg.streak * G.GAME.soil_mod
-                stg.mult = stg.mult_gain * stg.streak * G.GAME.soil_mod
+                stg.chips = stg.chip_gain * stg.streak * G.GAME.mxms_soil_mod
+                stg.mult = stg.mult_gain * stg.streak * G.GAME.mxms_soil_mod
                 return {
                     message = 'Streak ' .. stg.streak,
                     colour = G.C.CHIPS,

@@ -31,7 +31,7 @@ SMODS.Joker {
         if context.after and context.scoring_name == 'High Card' and not context.blueprint then
             local destroyed_cards = {}
             for k, v in pairs(context.scoring_hand) do
-                stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
+                stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     func = function()

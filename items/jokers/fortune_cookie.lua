@@ -27,9 +27,9 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { G.GAME.probabilities.normal, stg.prob * G.GAME.fridge_mod,
-                stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal,
-                stg.odds * G.GAME.fridge_mod }
+            vars = { G.GAME.probabilities.normal, stg.prob * G.GAME.mxms_fridge_mod,
+                stg.prob * G.GAME.mxms_fridge_mod * G.GAME.probabilities.normal,
+                stg.odds * G.GAME.mxms_fridge_mod }
         }
     end,
     calculate = function(self, card, context)
@@ -38,7 +38,7 @@ SMODS.Joker {
         if context.before and stg.prob > 0 then
             -- Roll chance and decrease by 1
             local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante)) < (stg.prob * G.GAME.probabilities.normal) / stg.odds
-            stg.prob = stg.prob - (1 / G.GAME.fridge_mod)
+            stg.prob = stg.prob - (1 / G.GAME.mxms_fridge_mod)
 
             -- Check if Consumables is full
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
@@ -66,7 +66,7 @@ SMODS.Joker {
 
                     -- Failed Roll
                 else
-                    SMODS.calculate_context({ mxms_failed_prob = true, odds = stg.odds - stg.prob * G.GAME.fridge_mod * G.GAME.probabilities.normal, card = card })
+                    SMODS.calculate_context({ mxms_failed_prob = true, odds = stg.odds - stg.prob * G.GAME.mxms_fridge_mod * G.GAME.probabilities.normal, card = card })
                     return {
                         sound = 'tarot2',
                         message = localize('k_nope_ex'),

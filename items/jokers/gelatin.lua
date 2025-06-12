@@ -26,16 +26,16 @@ SMODS.Joker {
         return {
             vars = {
                 stg.cards_left,
-                G.GAME.current_round.jello_suit,
-                colours = { G.C.SUITS[G.GAME.current_round.jello_suit] }
+                G.GAME.current_round.mxms_jello_suit,
+                colours = { G.C.SUITS[G.GAME.current_round.mxms_jello_suit] }
             }
         }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.cardarea == G.play and context.repetition and stg.cards_left > 0 then
-            if context.other_card:is_suit(G.GAME.current_round.jello_suit) then
-                stg.cards_left = stg.cards_left - (1 / G.GAME.fridge_mod)
+            if context.other_card:is_suit(G.GAME.current_round.mxms_jello_suit) then
+                stg.cards_left = stg.cards_left - (1 / G.GAME.mxms_fridge_mod)
                 return {
                     repetitions = 1,
                     message = localize('k_again_ex'),

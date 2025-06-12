@@ -35,7 +35,7 @@ SMODS.Joker {
                     play_sound('generic1')
                     card:juice_up(0.3, 0.4)
                     add_tag(_tag.config.ref_table)
-                    G.GAME.skip_tag = ''
+                    G.GAME.mxms_skip_tag = ''
                 end
             else
                 return {

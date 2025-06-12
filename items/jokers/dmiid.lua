@@ -32,7 +32,7 @@ SMODS.Joker {
                 if context.scoring_hand[i].seal then
                     local other_card = context.scoring_hand[i]
                     other_card:set_seal(nil, nil, true)
-                    stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
+                    stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
                         delay = 0.50,

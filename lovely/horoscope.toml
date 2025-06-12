@@ -199,7 +199,7 @@ end
 '''
 position = "after"
 payload = '''
-if G.GAME.aries_bonus then
+if G.GAME.mxms_aries_bonus then
     blind_amt = blind_amt * 0.85
 end 
 '''
@@ -216,7 +216,7 @@ end
 '''
 position = "after"
 payload = '''
-if G.GAME.aries_bonus then
+if G.GAME.mxms_aries_bonus then
     self.chips = self.chips * 0.85
 end 
 '''
@@ -233,7 +233,7 @@ if G.GAME.round_resets.temp_reroll_cost then G.GAME.round_resets.temp_reroll_cos
 '''
 position = "after"
 payload = '''
-if G.GAME.sagittarius_bonus then G.GAME.round_resets.temp_reroll_cost = 0; calculate_reroll_cost(true); G.GAME.sagittarius_bonus = false end
+if G.GAME.mxms_sagittarius_bonus then G.GAME.round_resets.temp_reroll_cost = 0; calculate_reroll_cost(true); G.GAME.mxms_sagittarius_bonus = false end
 '''
 match_indent = true
 times = 1

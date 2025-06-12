@@ -30,7 +30,7 @@ if Maximus_config.horoscopes then
             local stg = card.ability.extra
 
             if context.mxms_beat_horoscope and not context.blueprint then
-                stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
+                stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
                 SMODS.calculate_effect(
                     { message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } } },
                     card)

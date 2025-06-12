@@ -11,7 +11,7 @@ pattern = '''
 if self.ability.name == 'Egg' then
     self.ability.extra_value = self.ability.extra_value + self.ability.extra
     if next(SMODS.find_card('j_mxms_soil')) then
-        self.ability.extra_value = self.ability.extra_value + self.ability.extra * (G.GAME.soil_mod - 1)
+        self.ability.extra_value = self.ability.extra_value + self.ability.extra * (G.GAME.mxms_soil_mod - 1)
     end
     self:set_cost()
     SMODS.calculate_context({mxms_scaling_card = true})

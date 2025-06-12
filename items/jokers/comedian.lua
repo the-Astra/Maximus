@@ -22,13 +22,13 @@ SMODS.Joker {
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-        return { vars = { stg.Xmult, stg.gain, G.GAME.probabilities.normal, stg.odds * G.GAME.fridge_mod } }
+        return { vars = { stg.Xmult, stg.gain, G.GAME.probabilities.normal, stg.odds * G.GAME.mxms_fridge_mod } }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            if pseudorandom('comedian') < G.GAME.probabilities.normal / stg.odds * G.GAME.fridge_mod then
+            if pseudorandom('comedian') < G.GAME.probabilities.normal / stg.odds * G.GAME.mxms_fridge_mod then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -59,7 +59,7 @@ SMODS.Joker {
                     message = localize('k_extinct_ex')
                 }
             else
-                stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
+                stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         SMODS.calculate_effect(

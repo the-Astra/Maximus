@@ -45,7 +45,7 @@ SMODS.Consumable {
         return true
     end,
     succeed = function(self, card)
-        G.GAME.sagittarius_bonus = true
+        G.GAME.mxms_sagittarius_bonus = true
         SMODS.calculate_effect(
         { message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function()
             set_horoscope_success(card)

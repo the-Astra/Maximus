@@ -45,7 +45,7 @@ SMODS.Joker {
         end
 
         if context.card_added and context.card.ability.set == 'Joker' then
-            stg.Xmult = stg.Xmult + (stg.gain * G.GAME.soil_mod)
+            stg.Xmult = stg.Xmult + (stg.gain * G.GAME.mxms_soil_mod)
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.ATTENTION,
