@@ -38,7 +38,7 @@ SMODS.Joker {
                     SMODS.calculate_effect(
                         { message = localize { type = 'variable', key = 'a_chips', vars = { G.GAME.consumeable_usage_total.spectral * 30 } } },
                         card)
-                    SMODS.calculate_context({ scaling_card = true })
+                    SMODS.calculate_context({ mxms_scaling_card = true })
                     return true
                 end
             }))

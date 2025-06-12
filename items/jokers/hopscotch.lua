@@ -45,7 +45,7 @@ SMODS.Joker {
                     colour = G.C.SET.Tarot,
                     func = function()
                         SMODS.calculate_context({
-                            failed_prob = true,
+                            mxms_failed_prob = true,
                             odds = stg.odds -
                                 (stg.prob * G.GAME.probabilities.normal),
                             card = card

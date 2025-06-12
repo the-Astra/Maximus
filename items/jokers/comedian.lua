@@ -44,7 +44,7 @@ SMODS.Joker {
                                 G.jokers:remove_card(card)
                                 card:remove()
                                 SMODS.calculate_context({
-                                    failed_prob = true,
+                                    mxms_failed_prob = true,
                                     odds = stg.odds -
                                         G.GAME.probabilities.normal
                                 })
@@ -71,7 +71,7 @@ SMODS.Joker {
                         return true
                     end
                 }))
-                SMODS.calculate_context({ scaling_card = true })
+                SMODS.calculate_context({ mxms_scaling_card = true })
             end
         end
 

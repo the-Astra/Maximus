@@ -15,7 +15,7 @@ used_tarot:juice_up(0.3, 0.5)
 '''
 position = "after"
 payload = '''
-SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
+SMODS.calculate_context({mxms_failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
 '''
 match_indent = true
 times = 1
@@ -38,7 +38,7 @@ for k, v in ipairs(cards_destroyed) do
         if not next(SMODS.find_card('j_mxms_stone_thrower')) then
             local card_odds = (type(v.ability.extra) == "number" and v.ability.extra) or (v.ability.extra.odds and type(v.ability.extra.odds) == "number" and v.ability.extra.odds) or nil
             if card_odds then
-                SMODS.calculate_context({failed_prob = true, odds = card_odds - G.GAME.probabilities.normal, card = self})
+                SMODS.calculate_context({mxms_failed_prob = true, odds = card_odds - G.GAME.probabilities.normal, card = self})
             end
         end
     end
@@ -71,7 +71,7 @@ if pseudorandom('halu'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/
 position = "after"
 payload = '''
 else
-    SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
+    SMODS.calculate_context({mxms_failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
 '''
 match_indent = true
 times = 1
@@ -113,7 +113,7 @@ G.E_MANAGER:add_event(Event({
             func = function()
                     G.jokers:remove_card(self)
                     self:remove()
-                    SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
+                    SMODS.calculate_context({mxms_failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
                     self = nil
                 return true; end})) 
         return true
@@ -172,7 +172,7 @@ if (context.other_card:get_id() == 8) then
             card = self
         }
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
+        SMODS.calculate_context({mxms_failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
     end
 end
 '''
@@ -208,7 +208,7 @@ context.other_card:is_face() then
             card = self
         }
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
+        SMODS.calculate_context({mxms_failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
     end
 end
 '''
@@ -243,7 +243,7 @@ context.other_card:is_face() then
             card = self
         }
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
+        SMODS.calculate_context({mxms_failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
     end
 end
 '''
@@ -275,7 +275,7 @@ context.other_card:is_suit("Hearts") then
             card = self
         }
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
+        SMODS.calculate_context({mxms_failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
     end
 end
 '''
@@ -327,7 +327,7 @@ context.other_card:is_face() then
             }
         end
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
+        SMODS.calculate_context({mxms_failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
     end
 end
 '''
@@ -378,7 +378,7 @@ context.other_card:is_face() then
             }
         end
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
+        SMODS.calculate_context({mxms_failed_prob = true, odds = self.ability.extra.odds - G.GAME.probabilities.normal, card = self})
     end
 end
 '''
@@ -409,7 +409,7 @@ if self.ability.name == 'Space Joker' then
             message = localize('k_level_up_ex')
         }
     else
-        SMODS.calculate_context({failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
+        SMODS.calculate_context({mxms_failed_prob = true, odds = self.ability.extra - G.GAME.probabilities.normal, card = self})
     end
 end
 '''

@@ -65,7 +65,7 @@ SMODS.Joker {
                     message = 'Streak ' .. stg.streak,
                     colour = G.C.CHIPS,
                     card = card,
-                    func = function() SMODS.calculate_context({ scaling_card = true }) end
+                    func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
                 }
             else
                 stg.hands = 0

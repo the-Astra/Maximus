@@ -22,7 +22,7 @@ payload = '''
                 break
             else
                 SMODS.calculate_effect({ message = localize('k_nope_ex'), colour = G.C.SET.Tarot, sound = 'tarot2' },v)
-                SMODS.calculate_context({failed_prob = true, odds = v.ability.extra.odds - (v.ability.extra.prob * G.GAME.probabilities.normal)})
+                SMODS.calculate_context({mxms_failed_prob = true, odds = v.ability.extra.odds - (v.ability.extra.prob * G.GAME.probabilities.normal)})
             end
         end
     end

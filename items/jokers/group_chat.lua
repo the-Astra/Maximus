@@ -33,7 +33,7 @@ SMODS.Joker {
             }
         end
 
-        if context.scaling_card and not context.blueprint then
+        if context.mxms_scaling_card and not context.blueprint then
             stg.chips = stg.chips + stg.gain * G.GAME.soil_mod
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',

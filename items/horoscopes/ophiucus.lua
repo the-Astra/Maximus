@@ -88,7 +88,7 @@ SMODS.Consumable {
                 return true;
             end
         }))
-        SMODS.calculate_context({ beat_horoscope = true })
+        SMODS.calculate_context({ mxms_beat_horoscope = true })
         G.E_MANAGER:add_event(Event({
             func = function()
                 card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
@@ -120,7 +120,7 @@ SMODS.Consumable {
                 ["High Card"] = false,
             }
         end
-        SMODS.calculate_context({ failed_horoscope = true })
+        SMODS.calculate_context({ mxms_failed_horoscope = true })
     end,
     add_to_deck = function(self, card, from_debuff)
         local stg = card.ability

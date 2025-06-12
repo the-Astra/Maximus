@@ -26,11 +26,11 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.reacquire_joker and not context.blueprint then
+        if context.mxms_reacquire_joker and not context.blueprint then
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.ATTENTION,
-                func = function() SMODS.calculate_context({scaling_card = true}) end
+                func = function() SMODS.calculate_context({mxms_scaling_card = true}) end
             }
         end
 
@@ -50,7 +50,7 @@ Card.add_to_deck = function(self, from_debuff)
         for k, v in pairs(G.GAME.mxms_purchased_jokers) do
             if v == self.ability.name then
                 G.GAME.mxms_soy_mod = G.GAME.mxms_soy_mod + 1
-                SMODS.calculate_context({reacquire_joker = true})
+                SMODS.calculate_context({mxms_reacquire_joker = true})
                 return true
             end
         end

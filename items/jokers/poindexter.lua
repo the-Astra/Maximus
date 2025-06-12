@@ -57,7 +57,7 @@ SMODS.Joker {
                 card = card,
                 message = localize('k_mxms_eureka_ex'),
                 colour = G.C.ATTENTION,
-                func = function() SMODS.calculate_context({ scaling_card = true }) end
+                func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
             }
         end
     end,

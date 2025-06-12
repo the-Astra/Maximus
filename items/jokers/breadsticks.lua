@@ -50,7 +50,7 @@ SMODS.Joker {
                     colour = G.C.CHIPS,
                     card = card,
                     func = function()
-                        SMODS.calculate_context({ scaling_card = true })
+                        SMODS.calculate_context({ mxms_scaling_card = true })
                         G.GAME.mxms_breadstick_scales = G.GAME.mxms_breadstick_scales + 1
                         G.E_MANAGER:add_event(Event({
                             func = function()

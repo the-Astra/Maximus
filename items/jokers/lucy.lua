@@ -61,7 +61,7 @@ SMODS.Joker {
                 end
             else
                 SMODS.calculate_context({
-                    failed_prob = true,
+                    mxms_failed_prob = true,
                     odds = stg.odds - (prob * G.GAME.probabilities.normal),
                     card = card
                 })

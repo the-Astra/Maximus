@@ -43,7 +43,7 @@ SMODS.Joker {
                             return true
                         end
                     }))
-                    SMODS.calculate_context({ scaling_card = true })
+                    SMODS.calculate_context({ mxms_scaling_card = true })
                 end
             end
         end

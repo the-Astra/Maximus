@@ -38,7 +38,7 @@ SMODS.Joker {
                                 colour = G.C.ATTENTION,
                                 func = function()
                                     stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
-                                    SMODS.calculate_context({ scaling_card = true })
+                                    SMODS.calculate_context({ mxms_scaling_card = true })
                                 end
                             }, card)
                     end

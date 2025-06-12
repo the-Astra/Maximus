@@ -45,7 +45,7 @@ G.FUNCS.select_blind = function(e)
                 delay(0.2)
                 SMODS.calculate_effect({ message = localize('k_skipped_cap') }, v)
                 SMODS.calculate_context({
-                    failed_prob = true,
+                    mxms_failed_prob = true,
                     odds = v.ability.extra.odds -
                         (v.ability.extra.prob * G.GAME.probabilities.normal)
                 })

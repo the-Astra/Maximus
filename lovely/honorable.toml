@@ -21,7 +21,7 @@ position = "after"
 payload = '''
         if self.ability.name == 'Judgement' and next(SMODS.find_card('j_mxms_honorable')) then
             delay(0.6)
-            SMODS.calculate_context({judgement_used = true, card = card})
+            SMODS.calculate_context({mxms_judgement_used = true, card = card})
         end
 '''
 match_indent = true

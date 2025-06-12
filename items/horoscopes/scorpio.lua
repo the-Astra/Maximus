@@ -105,7 +105,7 @@ SMODS.Consumable {
             end
         }))
         zodiac_killer_pools["Scorpio"] = false
-        SMODS.calculate_context({ beat_horoscope = true })
+        SMODS.calculate_context({ mxms_beat_horoscope = true })
     end,
     fail = function(self, card)
         local stg = card.ability.extra
@@ -137,6 +137,6 @@ SMODS.Consumable {
                 end
             }))
         end
-        SMODS.calculate_context({ failed_horoscope = true })
+        SMODS.calculate_context({ mxms_failed_horoscope = true })
     end
 }

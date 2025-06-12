@@ -37,7 +37,7 @@ SMODS.Joker {
             stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
             SMODS.calculate_effect({ message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } } },
                 context.blueprint_card or card)
-            SMODS.calculate_context({ scaling_card = true })
+            SMODS.calculate_context({ mxms_scaling_card = true })
         end
     end
 }

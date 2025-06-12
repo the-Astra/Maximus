@@ -29,7 +29,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.judgement_used and not context.blueprint then
+        if context.mxms_judgement_used and not context.blueprint then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     context.card:start_dissolve()

@@ -46,7 +46,7 @@ SMODS.Joker {
                     }
                 end
             else
-                SMODS.calculate_context({ failed_prob = true, odds = stg.odds - G.GAME.probabilities.normal })
+                SMODS.calculate_context({ mxms_failed_prob = true, odds = stg.odds - G.GAME.probabilities.normal })
                 return {
                     card = card,
                     message = localize('k_nope_ex'),

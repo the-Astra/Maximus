@@ -44,7 +44,7 @@ SMODS.Joker {
                 SMODS.calculate_effect(
                     { message = localize { type = 'variable', key = 'a_chips', vars = { stg.chips } } },
                     card)
-                SMODS.calculate_context({ scaling_card = true })
+                SMODS.calculate_context({ mxms_scaling_card = true })
             end
             stg.purchase_made = false
         end

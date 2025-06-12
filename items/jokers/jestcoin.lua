@@ -37,7 +37,7 @@ SMODS.Joker {
                 end
             }))
             SMODS.calculate_effect({ message = localize('k_mxms_crashed_ex'), colour = G.C.RED }, card)
-            SMODS.calculate_context({ failed_prob = true, odds = stg.odds - (stg.prob * G.GAME.probabilities.normal), card =
+            SMODS.calculate_context({ mxms_failed_prob = true, odds = stg.odds - (stg.prob * G.GAME.probabilities.normal), card =
             card })
             stg.money = 2
             SMODS.calculate_effect({ message = localize('k_reset'), colour = G.C.ATTENTION }, card)
@@ -45,7 +45,7 @@ SMODS.Joker {
             local cashout = stg.money
             stg.money = stg.money ^ 2
             SMODS.calculate_effect({ message = localize('k_upgrade_ex'), colour = G.C.MONEY }, card)
-            SMODS.calculate_context({ scaling_card = true })
+            SMODS.calculate_context({ mxms_scaling_card = true })
             return cashout
         end
     end

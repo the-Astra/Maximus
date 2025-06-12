@@ -17,7 +17,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.x_mult = self.ability.x_mult + self.ability.extra * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 
@@ -34,7 +34,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.mult = self.ability.mult + self.ability.extra * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 
@@ -53,7 +53,7 @@ payload = '''
         if next(SMODS.find_card('j_mxms_soil')) then
             self.ability.x_mult = self.ability.x_mult + #context.cards*self.ability.extra * (G.GAME.mxms_soil_mod - 1)
         end
-        SMODS.calculate_context({scaling_card = true})
+        SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 times = 1
@@ -71,7 +71,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.mult = self.ability.mult + sliced_card.sell_cost*2 * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 times = 1
@@ -89,7 +89,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.caino_xmult = self.ability.caino_xmult + faces*self.ability.extra * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 times = 1
@@ -105,7 +105,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.caino_xmult = self.ability.caino_xmult + face_cards*self.ability.extra * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 times = 1
@@ -123,7 +123,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.x_mult = self.ability.x_mult + self.ability.extra*glasses * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 times = 1
@@ -139,7 +139,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.x_mult = self.ability.x_mult + self.ability.extra*glass_cards * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 times = 1
@@ -155,7 +155,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.x_mult = self.ability.x_mult + self.ability.extra*shattered_glass * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 times = 1
@@ -176,7 +176,7 @@ payload = '''
         if next(SMODS.find_card('j_mxms_soil')) then
             self.ability.x_mult = self.ability.x_mult + self.ability.extra.xmult * (G.GAME.mxms_soil_mod - 1)
         end
-        SMODS.calculate_context({scaling_card = true})
+        SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 times = 1
@@ -194,7 +194,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 
@@ -211,7 +211,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.extra.dollars = self.ability.extra.dollars + self.ability.extra.increase * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 times = 1
@@ -246,7 +246,7 @@ return {
 '''
 position = "before"
 payload = '''
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 
@@ -263,7 +263,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.x_mult = self.ability.x_mult + self.ability.extra*#enhanced * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 times = 1
@@ -281,7 +281,7 @@ payload = '''
 if next(SMODS.find_card('j_mxms_soil')) then
     self.ability.mult = self.ability.mult + self.ability.extra.hand_add * (G.GAME.mxms_soil_mod - 1)
 end
-SMODS.calculate_context({scaling_card = true})
+SMODS.calculate_context({mxms_scaling_card = true})
 '''
 match_indent = true
 times = 1

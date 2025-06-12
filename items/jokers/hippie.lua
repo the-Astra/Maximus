@@ -29,12 +29,12 @@ if Maximus_config.horoscopes then
         calculate = function(self, card, context)
             local stg = card.ability.extra
 
-            if context.beat_horoscope and not context.blueprint then
+            if context.mxms_beat_horoscope and not context.blueprint then
                 stg.Xmult = stg.Xmult + stg.gain * G.GAME.soil_mod
                 SMODS.calculate_effect(
                     { message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } } },
                     card)
-                SMODS.calculate_context({ scaling_card = true })
+                SMODS.calculate_context({ mxms_scaling_card = true })
             end
 
             if context.joker_main and stg.Xmult > 1 then

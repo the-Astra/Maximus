@@ -45,7 +45,7 @@ SMODS.Enhancement {
                     message = localize('k_nope_ex'),
                     colour = G.C.FILTER,
                     func = function()
-                        SMODS.calculate_context({ failed_prob = true, odds = 5 - (chance * G.GAME.probabilities.normal), card = card })
+                        SMODS.calculate_context({ mxms_failed_prob = true, odds = 5 - (chance * G.GAME.probabilities.normal), card = card })
                     end
                 }
             end

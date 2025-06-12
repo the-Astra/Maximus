@@ -80,7 +80,7 @@ hand_chips = mod_chips(G.GAME.hands[text].chips)
 position = "after"
 payload = '''
 -- calculations after handtype scoring
-SMODS.calculate_context({scoring_name = text, post_handtype_scoring = true})
+SMODS.calculate_context({scoring_name = text, mxms_post_handtype_scoring = true})
 
 '''
 match_indent = true
