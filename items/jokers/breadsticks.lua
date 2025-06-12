@@ -51,10 +51,10 @@ SMODS.Joker {
                     card = card,
                     func = function()
                         SMODS.calculate_context({ scaling_card = true })
-                        G.GAME.breadstick_scales = G.GAME.breadstick_scales + 1
+                        G.GAME.mxms_breadstick_scales = G.GAME.mxms_breadstick_scales + 1
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                check_for_unlock({type = 'stuffed', scales = G.GAME.breadstick_scales})
+                                check_for_unlock({type = 'stuffed', scales = G.GAME.mxms_breadstick_scales})
                                 return true;
                             end
                         }))

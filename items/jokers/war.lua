@@ -14,9 +14,9 @@ SMODS.Joker {
     blueprint_compat = false,
     cost = 8,
     add_to_deck = function(self, card, from_debuff)
-        G.GAME.war_mod = G.GAME.war_mod * 2
+        G.GAME.mxms_war_mod = G.GAME.mxms_war_mod * 2
     end,
     remove_from_deck = function(self, card, from_debuff)
-        G.GAME.war_mod = G.GAME.war_mod / 2
+        G.GAME.mxms_war_mod = G.GAME.mxms_war_mod / 2
     end
 }

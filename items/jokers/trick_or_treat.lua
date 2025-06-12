@@ -26,12 +26,12 @@ SMODS.Joker {
     end,
     add_to_deck = function(self, card, from_debuff)
         local stg = card.ability.extra
-        G.GAME.choose_mod = G.GAME.choose_mod + stg.extra_choices
+        G.GAME.mxms_choose_mod = G.GAME.mxms_choose_mod + stg.extra_choices
     end,
 
     remove_from_deck = function(self, card, from_debuff)
         local stg = card.ability.extra
-        G.GAME.choose_mod = G.GAME.choose_mod - stg.extra_choices
+        G.GAME.mxms_choose_mod = G.GAME.mxms_choose_mod - stg.extra_choices
     end,
     calculate = function(self, card, context)
         if context.open_booster then

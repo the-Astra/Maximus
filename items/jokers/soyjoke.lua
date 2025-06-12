@@ -21,7 +21,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { G.GAME.soy_mod * stg.gain + 1, stg.gain }
+            vars = { G.GAME.mxms_soy_mod * stg.gain + 1, stg.gain }
         }
     end,
     calculate = function(self, card, context)
@@ -34,9 +34,9 @@ SMODS.Joker {
             }
         end
 
-        if context.joker_main and G.GAME.soy_mod >= 1 then
+        if context.joker_main and G.GAME.mxms_soy_mod >= 1 then
             return {
-                x_mult = G.GAME.soy_mod * stg.gain + 1
+                x_mult = G.GAME.mxms_soy_mod * stg.gain + 1
             }
         end
     end
@@ -47,14 +47,14 @@ Card.add_to_deck = function(self, from_debuff)
     catd(self, from_debuff)
     if self.ability.set == 'Joker' then
     G.E_MANAGER:add_event(Event({func = function()
-        for k, v in pairs(G.GAME.purchased_jokers) do
+        for k, v in pairs(G.GAME.mxms_purchased_jokers) do
             if v == self.ability.name then
-                G.GAME.soy_mod = G.GAME.soy_mod + 1
+                G.GAME.mxms_soy_mod = G.GAME.mxms_soy_mod + 1
                 SMODS.calculate_context({reacquire_joker = true})
                 return true
             end
         end
-        G.GAME.purchased_jokers[#G.GAME.purchased_jokers + 1] = self.ability.name
+        G.GAME.mxms_purchased_jokers[#G.GAME.mxms_purchased_jokers + 1] = self.ability.name
     return true end }))
 end
 end

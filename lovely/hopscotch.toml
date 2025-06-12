@@ -11,7 +11,7 @@ pattern = "if G.blind_select then "
 position = "after"
 payload = '''
     local _tag = e.UIBox:get_UIE_by_ID('tag_container')
-    G.GAME.skip_tag = _tag
+    G.GAME.mxms_skip_tag = _tag
 '''
 match_indent = true
 times = 2

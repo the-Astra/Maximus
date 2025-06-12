@@ -17,15 +17,15 @@ if Maximus_config.horoscopes then
         calculate = function(self, card, context)
             local stg = card.ability.extra
 
-            if context.beat_horoscope and #G.mxms_horoscope.cards + G.GAME.horoscope_buffer < G.mxms_horoscope.config.card_limit + 1 then
-                G.GAME.horoscope_buffer = G.GAME.horoscope_buffer + 1
+            if context.beat_horoscope and #G.mxms_horoscope.cards + G.GAME.mxms_horoscope_buffer < G.mxms_horoscope.config.card_limit + 1 then
+                G.GAME.mxms_horoscope_buffer = G.GAME.mxms_horoscope_buffer + 1
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         SMODS.add_card({
                             set = 'Horoscope',
                             key_append = 'lor'
                         })
-                        G.GAME.horoscope_buffer = G.GAME.horoscope_buffer - 1
+                        G.GAME.mxms_horoscope_buffer = G.GAME.mxms_horoscope_buffer - 1
                         return true;
                     end
                 }))

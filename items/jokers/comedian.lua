@@ -82,13 +82,13 @@ SMODS.Joker {
         end
     end,
     in_pool = function(self, args)
-        return G.GAME.pool_flags.cavendish_removed
+        return G.GAME.pool_flags.mxms_cavendish_removed
     end
 }
 
 SMODS.Joker:take_ownership('j_cavendish', {
         remove_from_deck = function(self, args)
-            G.GAME.pool_flags.cavendish_removed = true
+            G.GAME.pool_flags.mxms_cavendish_removed = true
         end
     },
     true)

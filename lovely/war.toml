@@ -10,7 +10,7 @@ priority = 1
 target = "card.lua"
 pattern = "G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then"
 position = "at"
-payload = "G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 * G.GAME.war_mod then"
+payload = "G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 * G.GAME.mxms_war_mod then"
 match_indent = true
 times = 1
 
@@ -19,7 +19,7 @@ times = 1
 target = "card.lua"
 pattern = "elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.extra}"
 position = "at"
-payload = "elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.extra, self.ability.destroy * G.GAME.war_mod}"
+payload = "elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.extra, self.ability.destroy * G.GAME.mxms_war_mod}"
 match_indent = true
 times = 1
 
@@ -43,7 +43,7 @@ target = "card.lua"
 pattern = "if self.ability.name == 'Sixth Sense' and #context.full_hand == 1 and context.full_hand[1]:get_id() == 6 and G.GAME.current_round.hands_played == 0 then"
 position = "at"
 payload = '''
-    if self.ability.name == 'Sixth Sense' and #context.full_hand <= 1 * G.GAME.war_mod and G.GAME.current_round.hands_played == 0 then
+    if self.ability.name == 'Sixth Sense' and #context.full_hand <= 1 * G.GAME.mxms_war_mod and G.GAME.current_round.hands_played == 0 then
         for i = 1, #context.full_hand do
             if not (context.full_hand[i]:get_id() == 6 or (next(SMODS.find_card('j_mxms_perspective')) and context.full_hand[1]:get_id() == 9)) then
                 return
@@ -58,7 +58,7 @@ times = 1
 target = "card.lua"
 pattern = "elseif self.ability.name == 'Sixth Sense' then loc_vars = {}"
 position = "at"
-payload = "elseif self.ability.name == 'Sixth Sense' then loc_vars = {self.ability.destroy * G.GAME.war_mod}"
+payload = "elseif self.ability.name == 'Sixth Sense' then loc_vars = {self.ability.destroy * G.GAME.mxms_war_mod}"
 match_indent = true
 times = 1
 
@@ -82,7 +82,7 @@ times = 1
 target = "card.lua"
 pattern = "for i = 1, self.ability.extra.destroy do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end"
 position = "at"
-payload = "for i = 1, self.ability.extra.destroy * G.GAME.war_mod do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end"
+payload = "for i = 1, self.ability.extra.destroy * G.GAME.mxms_war_mod do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end"
 match_indent = true
 times = 1
 
@@ -91,7 +91,7 @@ times = 1
 target = "functions/common_events.lua"
 pattern = "elseif _c.name == 'Immolate' then loc_vars = {cfg.extra.destroy, cfg.extra.dollars}"
 position = "at"
-payload = "elseif _c.name == 'Immolate' then loc_vars = {cfg.extra.destroy * G.GAME.war_mod, cfg.extra.dollars}"
+payload = "elseif _c.name == 'Immolate' then loc_vars = {cfg.extra.destroy * G.GAME.mxms_war_mod, cfg.extra.dollars}"
 match_indent = true
 times = 1
 
@@ -109,7 +109,7 @@ position = "at"
 payload = '''
 if self.ability.consumeable and self.ability.consumeable.max_highlighted then
     if self.ability.name == 'The Hanged Man' then
-        self.ability.consumeable.mod_num = math.min(5, self.ability.consumeable.max_highlighted * G.GAME.war_mod)
+        self.ability.consumeable.mod_num = math.min(5, self.ability.consumeable.max_highlighted * G.GAME.mxms_war_mod)
     else
         self.ability.consumeable.mod_num = math.min(5, self.ability.consumeable.max_highlighted)
     end
@@ -126,7 +126,7 @@ elseif _c.name == "The Hanged Man" then loc_vars = {cfg.max_highlighted}
 '''
 position = "at"
 payload = '''
-elseif _c.name == "The Hanged Man" then loc_vars = {cfg.max_highlighted * G.GAME.war_mod}
+elseif _c.name == "The Hanged Man" then loc_vars = {cfg.max_highlighted * G.GAME.mxms_war_mod}
 '''
 match_indent = true
 times = 1
@@ -145,7 +145,7 @@ position = "at"
 payload = '''
 local function random_destroy(used_tarot)
     local destroyed_cards = {}
-    for i = 1, used_tarot.ability.destroy * G.GAME.war_mod do
+    for i = 1, used_tarot.ability.destroy * G.GAME.mxms_war_mod do
         destroyed_cards[#destroyed_cards + 1] = pseudorandom_element(G.hand.cards, pseudoseed('random_destroy'..i))
     end
 '''
@@ -159,7 +159,7 @@ times = 1
 target = "functions/common_events.lua"
 pattern = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra}"
 position = "at"
-payload = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra, cfg.destroy * G.GAME.war_mod}"
+payload = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra, cfg.destroy * G.GAME.mxms_war_mod}"
 match_indent = true
 times = 1
 

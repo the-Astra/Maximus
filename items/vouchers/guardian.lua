@@ -12,6 +12,6 @@ SMODS.Voucher {
     },
     requires = { 'v_mxms_shield' },
     redeem = function(self, card, from_debuff)
-        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+        G.GAME.mxms_v_destroy_reduction = G.GAME.mxms_v_destroy_reduction + 1
     end
 }

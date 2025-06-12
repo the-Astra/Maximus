@@ -23,14 +23,14 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.fails, stg.Xmult, stg.fail_Xmult, G.localization.misc.poker_hands[G.GAME.current_round.impractical_hand] }
+            vars = { stg.fails, stg.Xmult, stg.fail_Xmult, G.localization.misc.poker_hands[G.GAME.current_round.mxms_impractical_hand] }
         }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.joker_main then
             -- If correct hand is played
-            if context.scoring_name == G.GAME.current_round.impractical_hand then
+            if context.scoring_name == G.GAME.current_round.mxms_impractical_hand then
                 if not context.blueprint then
                     stg.fails = 0
                 end

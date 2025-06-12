@@ -14,10 +14,10 @@ SMODS.Joker { -- Refrigerator
     blueprint_compat = false,
     cost = 6,
     add_to_deck = function(self, card, from_debuff)
-        G.GAME.fridge_mod = G.GAME.fridge_mod * 2
+        G.GAME.mxms_fridge_mod = G.GAME.mxms_fridge_mod * 2
     end,
 
     remove_from_deck = function(self, card, from_debuff)
-        G.GAME.fridge_mod = G.GAME.fridge_mod / 2
+        G.GAME.mxms_fridge_mod = G.GAME.mxms_fridge_mod / 2
     end
 }

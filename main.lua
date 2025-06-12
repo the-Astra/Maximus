@@ -346,50 +346,49 @@ Game.init_game_object = function(self)
     local ret = igo(self)
 
     -- Conditional/tracking Modifiers
-    ret.choose_mod = 0
-    ret.war_mod = 1
-    ret.fridge_mod = 1
-    ret.soy_mod = 0
-    ret.purchased_jokers = {}
-    ret.gambler_mod = 1
-    ret.creep_mod = 1
-    ret.soil_mod = 1
-    ret.skip_tag = ''
-    ret.last_bought = {
+    ret.mxms_choose_mod = 0
+    ret.mxms_war_mod = 1
+    ret.mxms_fridge_mod = 1
+    ret.mxms_soy_mod = 0
+    ret.mxms_purchased_jokers = {}
+    ret.mxms_gambler_mod = 1
+    ret.mxms_creep_mod = 1
+    ret.mxms_soil_mod = 1
+    ret.mxms_skip_tag = ''
+    ret.mxms_last_bought = {
         card = nil,
         pos = nil
     }
-    ret.v_destroy_reduction = 0
-    ret.shop_price_multiplier = 1
-    ret.horoscope_rate = 0
-    ret.base_planet_levels = 1
-    ret.breadstick_scales = 0
+    ret.mxms_v_destroy_reduction = 0
+    ret.mxms_shop_price_multiplier = 1
+    ret.mxms_base_planet_levels = 1
+    ret.mxms_breadstick_scales = 0
 
     --Rotating Modifiers
-    ret.current_round.impractical_hand = 'Straight Flush'
-    ret.current_round.marco_polo_pos = 1
-    ret.current_round.go_fish = {
+    ret.current_round.mxms_impractical_hand = 'Straight Flush'
+    ret.current_round.mxms_marco_polo_pos = 1
+    ret.current_round.mxms_go_fish = {
         rank = "Ace",
         mult = 8
     }
-    ret.current_round.zombie_target = {
+    ret.current_round.mxms_zombie_target = {
         card = nil,
         pos = nil
     }
-    ret.current_round.jello_suit = 'Spades'
+    ret.current_round.mxms_jello_suit = 'Spades'
 
     --Horoscope
-    ret.horoscope_buffer = 0
+    ret.mxms_horoscope_buffer = 0
 
-    ret.aries_bonus = false
-    ret.cancer_bonus = 0
-    ret.leo_bonus = 0
-    ret.virgo_bonus = 0
-    ret.libra_bonus = 0
-    ret.sagittarius_bonus = false
+    ret.mxms_aries_bonus = false
+    ret.mxms_cancer_bonus = 0
+    ret.mxms_leo_bonus = 0
+    ret.mxms_virgo_bonus = 0
+    ret.mxms_libra_bonus = 0
+    ret.mxms_sagittarius_bonus = false
 
     --Pool Flags
-    ret.pool_flags.cavendish_removed = false
+    ret.pool_flags.mxms_cavendish_removed = false
 
     return ret
 end
@@ -406,22 +405,22 @@ end
 
 local save_r = save_run
 save_run = function(self)
-    if G.GAME.current_round.zombie_target and G.GAME.current_round.zombie_target.card then
+    if G.GAME.current_round.mxms_zombie_target and G.GAME.current_round.mxms_zombie_target.card then
         local pos = 1
         for k, v in pairs(G.jokers.cards) do
-            if v == G.GAME.current_round.zombie_target.card then
-                G.GAME.current_round.zombie_target.pos = pos
+            if v == G.GAME.current_round.mxms_zombie_target.card then
+                G.GAME.current_round.mxms_zombie_target.pos = pos
                 break
             end
             pos = pos + 1
         end
     end
 
-    if G.GAME.last_bought and G.GAME.last_bought.card then
+    if G.GAME.mxms_last_bought and G.GAME.mxms_last_bought.card then
         local pos = 1
         for k, v in pairs(G.jokers.cards) do
-            if v == G.GAME.last_bought.card then
-                G.GAME.last_bought.pos = pos
+            if v == G.GAME.mxms_last_bought.card then
+                G.GAME.mxms_last_bought.pos = pos
                 break
             end
             pos = pos + 1
@@ -448,14 +447,14 @@ local start_r = Game.start_run
 Game.start_run = function(self, args)
     start_r(self, args)
 
-    if G.GAME.last_bought and G.GAME.last_bought.pos then
-        G.GAME.last_bought.card = G.jokers.cards[G.GAME.last_bought.pos]
-        G.GAME.last_bought.pos = nil
+    if G.GAME.mxms_last_bought and G.GAME.mxms_last_bought.pos then
+        G.GAME.mxms_last_bought.card = G.jokers.cards[G.GAME.mxms_last_bought.pos]
+        G.GAME.mxms_last_bought.pos = nil
     end
 
-    if G.GAME.current_round.zombie_target and G.GAME.current_round.zombie_target.pos then
-        G.GAME.current_round.zombie_target.card = G.jokers.cards[G.GAME.current_round.zombie_target.pos]
-        G.GAME.current_round.zombie_target.pos = nil
+    if G.GAME.current_round.mxms_zombie_target and G.GAME.current_round.mxms_zombie_target.pos then
+        G.GAME.current_round.mxms_zombie_target.card = G.jokers.cards[G.GAME.current_round.mxms_zombie_target.pos]
+        G.GAME.current_round.mxms_zombie_target.pos = nil
     end
 
     local gutbusters = SMODS.find_card('j_mxms_gutbuster')
@@ -472,22 +471,7 @@ end
 local csc = Card.set_cost
 function Card:set_cost()
     csc(self)
-    self.cost = self.cost * G.GAME.shop_price_multiplier * G.GAME.creep_mod
-end
-
-local ea = ease_ante
-ease_ante = function(mod)
-    ea(mod)
-    G.E_MANAGER:add_event(Event({
-        func = function()
-            for k, v in pairs(G.GAME.tags) do
-                if v.config and v.config.extra and v.config.extra.type and v.config.extra.type == 'horoscope_reward' then
-                    v.config.extra.can_apply = true
-                end
-            end
-            return true;
-        end
-    }))
+    self.cost = self.cost * G.GAME.mxms_shop_price_multiplier * G.GAME.mxms_creep_mod
 end
 
 --#endregion
@@ -584,9 +568,9 @@ zodiac_killer_pools = {
 function SMODS.current_mod.reset_game_globals(run_start)
     -- Impractical Joker
     if G.GAME.challenge == 'c_mxms_biggest_loser' then
-        G.GAME.current_round.impractical_hand = 'Straight Flush'
+        G.GAME.current_round.mxms_impractical_hand = 'Straight Flush'
     elseif G.GAME.round ~= 1 then
-        G.GAME.current_round.impractical_hand = G.GAME.current_round.impractical_hand
+        G.GAME.current_round.mxms_impractical_hand = G.GAME.current_round.mxms_impractical_hand
         local valid_hands = {}
 
         for k, v in pairs(G.GAME.hands) do
@@ -595,57 +579,57 @@ function SMODS.current_mod.reset_game_globals(run_start)
             end
         end
 
-        local new_hand = G.GAME.current_round.impractical_hand
-        while new_hand == G.GAME.current_round.impractical_hand do
+        local new_hand = G.GAME.current_round.mxms_impractical_hand
+        while new_hand == G.GAME.current_round.mxms_impractical_hand do
             new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical' .. G.GAME.round_resets.ante))
         end
-        G.GAME.current_round.impractical_hand = new_hand
+        G.GAME.current_round.mxms_impractical_hand = new_hand
     end
 
     -- Marco Polo
     if G.GAME.round ~= 1 then
-        local new_pos = G.GAME.current_round.marco_polo_pos
+        local new_pos = G.GAME.current_round.mxms_marco_polo_pos
         if #G.jokers.cards <= 1 then
             new_pos = 1
         else
-            while new_pos == G.GAME.current_round.marco_polo_pos do
+            while new_pos == G.GAME.current_round.mxms_marco_polo_pos do
                 new_pos = pseudorandom(pseudoseed('marcopolo' .. G.GAME.round_resets.ante), 1, #G.jokers.cards)
             end
         end
-        G.GAME.current_round.marco_polo_pos = new_pos
+        G.GAME.current_round.mxms_marco_polo_pos = new_pos
     end
 
     -- Go Fish
     if G.GAME.round ~= 1 then
         local valid_ranks = {}
-        local new_rank = G.GAME.current_round.go_fish.rank
+        local new_rank = G.GAME.current_round.mxms_go_fish.rank
         local new_mult = 0
         for k, v in ipairs(G.playing_cards) do
             valid_ranks[#valid_ranks + 1] = v.base.value
         end
-        new_rank = pseudorandom_element(valid_ranks, pseudoseed('go_fish' .. G.GAME.round_resets.ante))
-        G.GAME.current_round.go_fish.rank = new_rank
+        new_rank = pseudorandom_element(valid_ranks, pseudoseed('mxms_go_fish' .. G.GAME.round_resets.ante))
+        G.GAME.current_round.mxms_go_fish.rank = new_rank
         for k, v in ipairs(valid_ranks) do
             if v == new_rank then
                 new_mult = new_mult + 1
             end
         end
-        G.GAME.current_round.go_fish.mult = new_mult * 2
+        G.GAME.current_round.mxms_go_fish.mult = new_mult * 2
     end
 
     -- Zombie
-    if next(SMODS.find_card('j_mxms_zombie')) and G.GAME.current_round.zombie_target.card ~= nil then
-        if not G.GAME.current_round.zombie_target.card.ability.eternal then
+    if next(SMODS.find_card('j_mxms_zombie')) and G.GAME.current_round.mxms_zombie_target.card ~= nil then
+        if not G.GAME.current_round.mxms_zombie_target.card.ability.eternal then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     play_sound('timpani')
                     delay(0.4)
-                    G.GAME.current_round.zombie_target.card:set_ability(G.P_CENTERS['j_mxms_zombie'])
-                    G.GAME.current_round.zombie_target.card:juice_up(0.8, 0.8)
+                    G.GAME.current_round.mxms_zombie_target.card:set_ability(G.P_CENTERS['j_mxms_zombie'])
+                    G.GAME.current_round.mxms_zombie_target.card:juice_up(0.8, 0.8)
                     delay(0.4)
                     SMODS.calculate_effect({ message = "Turned!", colour = G.C.GREEN },
-                        G.GAME.current_round.zombie_target.card)
-                    G.GAME.current_round.zombie_target.card = nil
+                        G.GAME.current_round.mxms_zombie_target.card)
+                    G.GAME.current_round.mxms_zombie_target.card = nil
 
                     check_for_unlock({ type = "zombified" })
                     return true
@@ -658,7 +642,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
         trigger = 'after',
         func = function()
             local eligible_jokers = {}
-            local new_target = G.GAME.current_round.zombie_target.card
+            local new_target = G.GAME.current_round.mxms_zombie_target.card
             if #G.jokers.cards <= 1 or not next(SMODS.find_card('j_mxms_zombie')) then
                 new_target = nil
             else
@@ -675,10 +659,10 @@ function SMODS.current_mod.reset_game_globals(run_start)
                 end
             end
 
-            G.GAME.current_round.zombie_target.card = new_target
-            if G.GAME.current_round.zombie_target.card ~= nil then
+            G.GAME.current_round.mxms_zombie_target.card = new_target
+            if G.GAME.current_round.mxms_zombie_target.card ~= nil then
                 SMODS.calculate_effect({ message = "Infected!", colour = G.C.GREEN },
-                    G.GAME.current_round.zombie_target.card)
+                    G.GAME.current_round.mxms_zombie_target.card)
             end
             return true
         end
@@ -688,9 +672,9 @@ function SMODS.current_mod.reset_game_globals(run_start)
     -- Jello
     local jello_suits = {}
     for k, v in ipairs({ 'Spades', 'Hearts', 'Clubs', 'Diamonds' }) do
-        if v ~= G.GAME.current_round.ajello_suits then jello_suits[#jello_suits + 1] = v end
+        if v ~= G.GAME.current_round.mxms_jello_suit then jello_suits[#jello_suits + 1] = v end
     end
-    G.GAME.current_round.jello_suit = pseudorandom_element(jello_suits, pseudoseed('jel' .. G.GAME.round_resets.ante))
+    G.GAME.current_round.mxms_jello_suit = pseudorandom_element(jello_suits, pseudoseed('jel' .. G.GAME.round_resets.ante))
 end
 
 --#endregion
@@ -698,24 +682,24 @@ end
 --#region Helper Functions ----------------------------------------------------------------------------------
 
 function reset_horoscopes()
-    if G.GAME.aries_bonus then
-        G.GAME.aries_bonus = false
+    if G.GAME.mxms_aries_bonus then
+        G.GAME.mxms_aries_bonus = false
     end
-    if G.GAME.cancer_bonus > 0 then
-        G.GAME.round_resets.hands = G.GAME.round_resets.hands - G.GAME.cancer_bonus
-        ease_hands_played(-G.GAME.cancer_bonus)
-        G.GAME.cancer_bonus = 0
-    end
-
-    if G.GAME.leo_bonus > 0 then
-        G.hand:change_size(-G.GAME.leo_bonus)
-        G.GAME.leo_bonus = 0
+    if G.GAME.mxms_cancer_bonus > 0 then
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands - G.GAME.mxms_cancer_bonus
+        ease_hands_played(-G.GAME.mxms_cancer_bonus)
+        G.GAME.mxms_cancer_bonus = 0
     end
 
-    if G.GAME.virgo_bonus > 0 then
-        G.GAME.round_resets.discards = G.GAME.round_resets.discards - G.GAME.virgo_bonus
-        ease_discard(-G.GAME.virgo_bonus)
-        G.GAME.virgo_bonus = 0
+    if G.GAME.mxms_leo_bonus > 0 then
+        G.hand:change_size(-G.GAME.mxms_leo_bonus)
+        G.GAME.mxms_leo_bonus = 0
+    end
+
+    if G.GAME.mxms_virgo_bonus > 0 then
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards - G.GAME.mxms_virgo_bonus
+        ease_discard(-G.GAME.mxms_virgo_bonus)
+        G.GAME.mxms_virgo_bonus = 0
     end
 end
 

@@ -30,7 +30,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.setting_blind and G.GAME.blind:get_type() ~= 'Boss' and not context.blueprint then
             if pseudorandom(pseudoseed('hopscotch' .. G.GAME.round_resets.ante)) < stg.prob * G.GAME.probabilities.normal / stg.odds then
-                local _tag = G.GAME.skip_tag
+                local _tag = G.GAME.mxms_skip_tag
                 if _tag and _tag.config then
                     play_sound('generic1')
                     card:juice_up(0.3, 0.4)

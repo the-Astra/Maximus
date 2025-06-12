@@ -15,7 +15,7 @@ if Maximus_config.horoscopes then
         apply = function(self, tag, context)
             if context.type == 'start_apply_horoscopes' then
                 tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
-                    G.GAME.leo_bonus = G.GAME.leo_bonus + 3
+                    G.GAME.mxms_leo_bonus = G.GAME.mxms_leo_bonus + 3
                     G.hand:change_size(3)
                     return true
                 end)

@@ -12,7 +12,7 @@ elseif _c.name == "The Hermit" then loc_vars = {cfg.extra}
 '''
 position = "at"
 payload = '''
-elseif _c.name == "The Hermit" then loc_vars = {(cfg.extra * G.GAME.gambler_mod)}
+elseif _c.name == "The Hermit" then loc_vars = {(cfg.extra * G.GAME.mxms_gambler_mod)}
 '''
 match_indent = true
 times = 1
@@ -36,7 +36,7 @@ if self.ability.name == 'The Hermit' then
     G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
         play_sound('timpani')
         used_tarot:juice_up(0.3, 0.5)
-        ease_dollars(math.max(0,math.min(G.GAME.dollars, self.ability.extra * G.GAME.gambler_mod)), true)
+        ease_dollars(math.max(0,math.min(G.GAME.dollars, self.ability.extra * G.GAME.mxms_gambler_mod)), true)
         return true end }))
     delay(0.6)
 end
@@ -72,7 +72,7 @@ elseif _c.name == "Temperance" then
             end
         end
     end
-    loc_vars = {(cfg.extra * G.GAME.gambler_mod), math.min((cfg.extra * G.GAME.gambler_mod), _money)}
+    loc_vars = {(cfg.extra * G.GAME.mxms_gambler_mod), math.min((cfg.extra * G.GAME.mxms_gambler_mod), _money)}
 '''
 match_indent = true
 times = 1
@@ -100,7 +100,7 @@ if self.ability.name == 'Temperance' then
             self.ability.money = self.ability.money + G.jokers.cards[i].sell_cost
         end
     end
-    self.ability.money = math.min(self.ability.money, self.ability.extra * G.GAME.gambler_mod)
+    self.ability.money = math.min(self.ability.money, self.ability.extra * G.GAME.mxms_gambler_mod)
 end
 '''
 match_indent = true
@@ -116,7 +116,7 @@ elseif name_to_check == 'Economy Tag' then loc_vars = {self.config.max}
 '''
 position = "at"
 payload = '''
-elseif name_to_check == 'Economy Tag' then loc_vars = {self.config.max * G.GAME.gambler_mod}
+elseif name_to_check == 'Economy Tag' then loc_vars = {self.config.max * G.GAME.mxms_gambler_mod}
 '''
 match_indent = true
 times = 1

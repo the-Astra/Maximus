@@ -12,7 +12,7 @@ SMODS.Back {
     },
     apply = function(self, back)
         --Change shop prices
-        G.GAME.shop_price_multiplier = 1.5
+        G.GAME.mxms_shop_price_multiplier = 1.5
 
         -- Change reroll starting price
         G.GAME.starting_params.reroll_cost = 0

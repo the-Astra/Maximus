@@ -33,7 +33,7 @@ SMODS.Joker {
                 end
             end
 
-            local mult = stg.base_mult - (stg.dMult * (math.abs(position - G.GAME.current_round.marco_polo_pos)))
+            local mult = stg.base_mult - (stg.dMult * (math.abs(position - G.GAME.current_round.mxms_marco_polo_pos)))
 
             if mult < 0 then
                 mult = 0

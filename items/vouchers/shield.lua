@@ -11,7 +11,7 @@ SMODS.Voucher {
         concept = "Maxiss02"
     },
     redeem = function(self, card, from_debuff)
-        G.GAME.v_destroy_reduction = G.GAME.v_destroy_reduction + 1
+        G.GAME.mxms_v_destroy_reduction = G.GAME.mxms_v_destroy_reduction + 1
     end
 }
 
@@ -24,7 +24,7 @@ SMODS.Consumable:take_ownership('ankh', {
             }
         },
         loc_vars = function(self, info_queue, center)
-            return { vars = { center.ability.extra.chance - G.GAME.v_destroy_reduction, center.ability.extra.odds } }
+            return { vars = { center.ability.extra.chance - G.GAME.mxms_v_destroy_reduction, center.ability.extra.odds } }
         end,
         use = function(self, card, area, copier)
             local deletable_jokers = {}
@@ -39,7 +39,7 @@ SMODS.Consumable:take_ownership('ankh', {
                 func = function()
                     for k, v in pairs(deletable_jokers) do
                         if v ~= chosen_joker then
-                            if pseudorandom('ankh') < (card.ability.extra.chance - G.GAME.v_destroy_reduction) / card.ability.extra.odds then
+                            if pseudorandom('ankh') < (card.ability.extra.chance - G.GAME.mxms_v_destroy_reduction) / card.ability.extra.odds then
                                 v:start_dissolve(nil, _first_dissolve)
                                 _first_dissolve = true
                             elseif not G.GAME.used_vouchers.v_mxms_guardian then
@@ -77,7 +77,7 @@ SMODS.Consumable:take_ownership('hex', {
             }
         },
         loc_vars = function(self, info_queue, center)
-            return { vars = { center.ability.extra.chance - G.GAME.v_destroy_reduction, center.ability.extra.odds } }
+            return { vars = { center.ability.extra.chance - G.GAME.mxms_v_destroy_reduction, center.ability.extra.odds } }
         end,
         use = function(self, card, area, copier)
             local temp_pool = card.eligible_editionless_jokers or {}
@@ -93,7 +93,7 @@ SMODS.Consumable:take_ownership('hex', {
                     local _first_dissolve = nil
                     for k, v in pairs(G.jokers.cards) do
                         if v ~= eligible_card and (not v.ability.eternal) then
-                            if pseudorandom('hex') < (card.ability.extra.chance - G.GAME.v_destroy_reduction) / card.ability.extra.odds then
+                            if pseudorandom('hex') < (card.ability.extra.chance - G.GAME.mxms_v_destroy_reduction) / card.ability.extra.odds then
                                 v:start_dissolve(nil, _first_dissolve); _first_dissolve = true
                             elseif not G.GAME.used_vouchers.v_mxms_guardian then
                                 card_eval_status_text(v, 'extra', nil, nil, nil, { message = localize('k_safe_ex') })

@@ -144,7 +144,7 @@ level_up_hand(used_tarot, self.ability.consumeable.hand_type)
 position = "at"
 payload = '''
 local deities = SMODS.find_card('j_mxms_celestial_deity')
-for i = 1, G.GAME.base_planet_levels do
+for i = 1, G.GAME.mxms_base_planet_levels do
     level_up_hand(used_tarot, self.ability.consumeable.hand_type)
     if next(deities) and i <= #deities then
         SMODS.calculate_effect({ message = localize('k_again_ex')},deities[i])

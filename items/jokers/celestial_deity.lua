@@ -27,11 +27,11 @@ SMODS.Joker {
     add_to_deck = function(self, card, from_debuff)
         local stg = card.ability.extra
 
-        G.GAME.base_planet_levels = G.GAME.base_planet_levels + stg.extra_levels
+        G.GAME.mxms_base_planet_levels = G.GAME.mxms_base_planet_levels + stg.extra_levels
     end,
     remove_from_deck = function(self, card, from_debuff)
         local stg = card.ability.extra
 
-        G.GAME.base_planet_levels = G.GAME.base_planet_levels - stg.extra_levels
+        G.GAME.mxms_base_planet_levels = G.GAME.mxms_base_planet_levels - stg.extra_levels
     end
 }
