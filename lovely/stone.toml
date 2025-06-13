@@ -8,22 +8,29 @@ priority = 1
 [patches.pattern]
 target = '''=[SMODS _ "src/card_draw.lua"]'''
 pattern = '''
--- Don't render base dissolve shader.
-    elseif not self.greyed then
-        if self.children.front and (self.ability.delayed or (self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card)) then
-            self.children.front:draw_shader('dissolve')
-        end
+if self.children.front and (self.ability.delayed or (self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card)) then
 '''
 position = "at"
 payload = '''
--- Don't render base dissolve shader.
-    elseif not self.greyed then
-        if self.children.front and (self.ability.delayed or ((self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel')))  and not self.config.center.replace_base_card)) then
-            self.children.front:draw_shader('dissolve')
-        end
+if self.children.front and (self.ability.delayed or ((self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel'))) and not self.config.center.replace_base_card)) then
+'''
+match_indent = true
+times = 4
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = '''
+if self.children.front and self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card then
+'''
+position = "at"
+payload = '''
+if self.children.front and (self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel'))) and not self.config.center.replace_base_card then
 '''
 match_indent = true
 times = 1
+
+
 
     # Rewrite stone card scoring functionality
 [[patches]]
