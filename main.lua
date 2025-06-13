@@ -342,10 +342,10 @@ if Maximus_config.menu then
         G.SPLASH_BACK:define_draw_steps({ {
             shader = 'splash',
             send = {
-                { name = 'time',       ref_table = G.TIMERS, ref_value = 'REAL_SHADER' },
+                { name = 'time',       ref_table = G.TIMERS,  ref_value = 'REAL_SHADER' },
                 { name = 'vort_speed', val = 0.4 },
-                { name = 'colour_1',   ref_table = Maximus.C,      ref_value = 'MXMS_PRIMARY' },
-                { name = 'colour_2',   ref_table = Maximus.C,      ref_value = 'MXMS_SECONDARY' },
+                { name = 'colour_1',   ref_table = Maximus.C, ref_value = 'MXMS_PRIMARY' },
+                { name = 'colour_2',   ref_table = Maximus.C, ref_value = 'MXMS_SECONDARY' },
             }
         } })
 
