@@ -12,7 +12,6 @@
 	"version": "1.0.3",
 	"dependencies": [
 		"Steamodded (>=1.0.0~BETA-0530b)",
-		"Lovely (>=0.7.1)",
-		"3xCredits (==1.*~)"
+		"Lovely (>=0.7.1)"
 	]
 }
