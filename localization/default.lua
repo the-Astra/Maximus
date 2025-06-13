@@ -1986,7 +1986,7 @@ return {
             ach_mxms_flushaholic = "Make a Flush with all four suits (Wild Cards do not count)",
             ach_mxms_infinity = "Discover every Sixth Finger Planet Card",
             ach_mxms_king = "Use a Coronation to create a Crowned Joker",
-            ach_mxms_laughing = "Beat the odds to find and purchase a Comedian",
+            ach_mxms_laughing = "Eat an exotic snack to find and purchase a Comedian",
             ach_mxms_maximum_effort = "Beat every Maximus challenge",
             ach_mxms_metamorphosis = "Create a Butterfly",
             ach_mxms_naturally = "Beat a blind in one hand before any playing cards are triggered",
