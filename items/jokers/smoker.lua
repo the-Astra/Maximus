@@ -41,7 +41,7 @@ SMODS.Joker {
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.CHIPS,
-                message_card = card,
+                message_card = context.blueprint_card or card,
                 func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
             }
         end

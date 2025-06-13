@@ -35,7 +35,7 @@ SMODS.Joker {
                     func = function()
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                card:juice_up()
+                                (context.blueprint_card or card):juice_up()
                                 v.cost = v.cost - stg.sub >= 0 and v.cost - stg.sub or 0
                                 return true;
                             end
@@ -58,7 +58,7 @@ SMODS.Joker {
                     func = function()
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                card:juice_up()
+                                (context.blueprint_card or card):juice_up()
                                 v.cost = v.cost - stg.sub >= 0 and v.cost - stg.sub or 0
                                 return true;
                             end
@@ -81,7 +81,7 @@ SMODS.Joker {
                     func = function()
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                card:juice_up()
+                                (context.blueprint_card or card):juice_up()
                                 v.cost = v.cost - stg.sub >= 0 and v.cost - stg.sub or 0
                                 return true;
                             end

@@ -56,7 +56,7 @@ SMODS.Joker {
             end
         end
 
-        if context.after and stg.hands >= 4 then
+        if context.after and stg.hands >= 4 and not context.blueprint then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     play_sound('tarot1')

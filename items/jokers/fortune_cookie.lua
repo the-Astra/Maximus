@@ -48,7 +48,7 @@ SMODS.Joker {
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
                         func = function()
-                            card:juice_up(0.3, 0.4)
+                            (context.blueprint_card or card):juice_up(0.3, 0.4)
 
                             SMODS.add_card({
                                 set = 'Tarot',

@@ -12,11 +12,11 @@ SMODS.Joker {
     rarity = 4,
     unlocked = false,
     unlock_condition = {
-        type = '', 
-        extra = '', 
+        type = '',
+        extra = '',
         hidden = true
     },
-    blueprint_compat = true,
+    blueprint_compat = false,
     cost = 20,
     credit = {
         art = "Maxiss02",
@@ -28,7 +28,7 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.after then
+        if context.after and not context.blueprint then
             local faces = 0
             for k, v in pairs(context.scoring_hand) do
                 if v:is_face() then

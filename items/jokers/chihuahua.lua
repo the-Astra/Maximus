@@ -22,7 +22,7 @@ SMODS.Joker {
     cost = 8,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.before then
+        if context.before and not context.blueprint then
             local ranks = {
                 ["2"] = { freq = 0, id = '2' },
                 ["3"] = { freq = 0, id = '3' },
@@ -73,7 +73,7 @@ SMODS.Joker {
             }
         end
 
-        if context.after then
+        if context.after and not context.blueprint then
             stg.least_id = '0'
             stg.least_count = 0
             stg.tie = false

@@ -42,7 +42,7 @@ SMODS.Joker {
                     trigger = 'after',
                     delay = 0.3,
                     func = function()
-                        card:juice_up(0.3, 0.4)
+                        (context.blueprint_card or card):juice_up(0.3, 0.4)
                         play_sound('tarot1')
                         delay(0.3)
                         chosen_card:flip()

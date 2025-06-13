@@ -35,7 +35,7 @@ SMODS.Joker {
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        card:juice_up()
+                        (context.blueprint_card or card):juice_up()
                         SMODS.add_card({ key = 'c_wheel_of_fortune' })
                         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
                         return true;

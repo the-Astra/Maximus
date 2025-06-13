@@ -36,7 +36,7 @@ SMODS.Joker {
                     return true
                 end)
             }))
-            SMODS.calculate_effect({ message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet }, context.blueprint or card)
+            SMODS.calculate_effect({ message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet }, context.blueprint_card or card)
         end
     end
 }

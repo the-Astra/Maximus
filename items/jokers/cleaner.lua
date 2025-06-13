@@ -11,7 +11,7 @@ SMODS.Joker {
         concept = "theAstra"
     },
     rarity = 1,
-    blueprint_compat = true,
+    blueprint_compat = false,
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
@@ -19,7 +19,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.selling_self then
+        if context.selling_self and not context.blueprint then
             local valid_jokers = SMODS.Edition:get_edition_cards(G.jokers, false)
 
             if next(valid_jokers) then

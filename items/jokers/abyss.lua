@@ -45,7 +45,7 @@ SMODS.Joker {
 
                 -- Add negative edition to random held joker
                 if flip == 1 then
-                    card:juice_up(0.3, 0.4)
+                    (context.blueprint_card or card):juice_up(0.3, 0.4)
                     chosen_joker:set_edition({ negative = true }, true)
                     return {
                         message = localize('k_mxms_void_touched_ex'),

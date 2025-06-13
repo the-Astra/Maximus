@@ -27,7 +27,7 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.post_trigger and context.other_context.retrigger_joker then
+        if context.post_trigger and context.other_context.retrigger_joker and not context.blueprint then
             -- Add retrigger to total
             stg.retriggers = stg.retriggers + 1
             return {
@@ -42,7 +42,7 @@ SMODS.Joker {
             }
         end
 
-        if context.before or context.after then
+        if (context.before or context.after) and not context.blueprint then
             stg.retriggers = 0
         end
     end

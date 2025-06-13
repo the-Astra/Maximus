@@ -15,7 +15,7 @@ SMODS.Joker {
         code = "theAstra",
         concept = "pinkzigzagoon"
     },
-    blueprint_compat = true,
+    blueprint_compat = false,
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
@@ -32,7 +32,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.after and
+        if context.after and not context.blueprint and
             hand_chips * mult < G.GAME.blind.chips / G.GAME.starting_params.hands then
             G.E_MANAGER:add_event(Event({
                 func = function()

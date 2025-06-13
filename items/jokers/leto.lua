@@ -45,8 +45,8 @@ SMODS.Joker {
                     G.hand:emplace(_card)
                     _card:start_materialize()
                     G.GAME.blind:debuff_card(_card)
-                    G.hand:sort()
-                    if context.blueprint_card then context.blueprint_card:juice_up() else card:juice_up() end
+                    G.hand:sort();
+                    (context.blueprint_card or card):juice_up()
                     return true
                 end
             }))

@@ -38,7 +38,7 @@ SMODS.Joker {
             stg.purchase_made = true
         end
 
-        if context.ending_shop then
+        if context.ending_shop and not context.blueprint then
             if not stg.purchase_made then
                 stg.chips = stg.chips + stg.gain * G.GAME.mxms_soil_mod
                 SMODS.calculate_effect(

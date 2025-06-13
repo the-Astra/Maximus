@@ -16,7 +16,7 @@ SMODS.Joker {
         code = "theAstra",
         concept = "pinkzigzagoon"
     },
-    blueprint_compat = false,
+    blueprint_compat = true,
     cost = 4,
     pools = {
         Food = true
