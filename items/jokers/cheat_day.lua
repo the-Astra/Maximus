@@ -18,7 +18,7 @@ if Maximus_config.horoscopes then
             local stg = card.ability.extra
 
             if context.mxms_failed_horoscope and not context.blueprint then
-                SMODS.calculate_effect({ message = localize('k_saved_ex'), colour = G.C.HOROSCOPE, sound = 'tarot1' }, card)
+                SMODS.calculate_effect({ message = localize('k_saved_ex'), colour = Maximus.C.HOROSCOPE, sound = 'tarot1' }, card)
             end
         end
     }

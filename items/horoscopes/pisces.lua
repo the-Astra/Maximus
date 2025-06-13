@@ -26,7 +26,7 @@ SMODS.Consumable {
         local stg = card.ability.extra
         if context.using_consumeable and context.consumeable.ability.set == "Tarot" then
             stg.tally = stg.tally + 1
-            SMODS.calculate_effect({ message = stg.tally .. "/" .. stg.goal, colour = G.C.HOROSCOPE }, card)
+            SMODS.calculate_effect({ message = stg.tally .. "/" .. stg.goal, colour = Maximus.C.HOROSCOPE }, card)
 
             if stg.tally >= stg.goal then
                 self:succeed(card)
@@ -85,7 +85,7 @@ SMODS.Consumable {
         end
         G.E_MANAGER:add_event(Event({
             func = function()
-                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
                 return true
             end
         }))
@@ -99,7 +99,7 @@ SMODS.Consumable {
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
                     return true
                 end
             }))

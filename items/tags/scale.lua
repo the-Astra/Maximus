@@ -15,7 +15,7 @@ if Maximus_config.horoscopes then
         apply = function(self, tag, context)
             if context.type == 'shop_final_pass' and (G.shop and not G.GAME.shop_free) then
                 G.GAME.shop_free = true
-                tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                tag:yep("+", Maximus.C.SET.Horoscope, function()
                     SMODS.change_free_rerolls(1)
                     calculate_reroll_cost(true)
                     if G.shop_jokers then

@@ -20,7 +20,7 @@ if Maximus_config.horoscopes then
         end,
         apply = function(self, tag, context)
             if context.type == "new_blind_choice" then
-                tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                tag:yep("+", Maximus.C.SET.Horoscope, function()
                     local key = "p_mxms_horoscope_mega_1"
                     local card = Card(
                         G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,

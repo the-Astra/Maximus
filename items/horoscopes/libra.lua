@@ -32,7 +32,7 @@ SMODS.Consumable {
                 stg.money_spent = stg.money_spent + context.cost
             end
 
-            SMODS.calculate_effect({ message = stg.money_spent .. "/" .. stg.goal, colour = G.C.HOROSCOPE },
+            SMODS.calculate_effect({ message = stg.money_spent .. "/" .. stg.goal, colour = Maximus.C.HOROSCOPE },
                 card)
 
             if stg.money_spent >= stg.goal then
@@ -89,7 +89,7 @@ SMODS.Consumable {
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
-                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
                 return true
             end
         }))
@@ -103,7 +103,7 @@ SMODS.Consumable {
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
                     return true
                 end
             }))

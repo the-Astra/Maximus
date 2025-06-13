@@ -29,7 +29,7 @@ if Maximus_config.horoscopes then
                         return true;
                     end
                 }))
-                SMODS.calculate_effect({ message = localize('k_mxms_plus_horoscope'), colour = G.C.HOROSCOPE },
+                SMODS.calculate_effect({ message = localize('k_mxms_plus_horoscope'), colour = Maximus.C.HOROSCOPE },
                     context.blueprint_card or card)
             end
         end

@@ -30,10 +30,10 @@ SMODS.Consumable {
             if not stg.hand_type then
                 stg.hand_type = context.scoring_name
                 stg.times = stg.times + 1
-                SMODS.calculate_effect({ message = stg.times .. "/" .. stg.goal, colour = G.C.HOROSCOPE }, card)
+                SMODS.calculate_effect({ message = stg.times .. "/" .. stg.goal, colour = Maximus.C.HOROSCOPE }, card)
             elseif stg.hand_type == context.scoring_name then
                 stg.times = stg.times + 1
-                SMODS.calculate_effect({ message = stg.times .. "/" .. stg.goal, colour = G.C.HOROSCOPE }, card)
+                SMODS.calculate_effect({ message = stg.times .. "/" .. stg.goal, colour = Maximus.C.HOROSCOPE }, card)
             else
                 self:fail(card)
             end
@@ -77,7 +77,7 @@ SMODS.Consumable {
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
-                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
                 return true
             end
         }))
@@ -91,7 +91,7 @@ SMODS.Consumable {
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
                     return true
                 end
             }))

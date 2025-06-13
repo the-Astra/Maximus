@@ -54,7 +54,7 @@ SMODS.Consumable {
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
-                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
                 return true
             end
         }))
@@ -67,7 +67,7 @@ SMODS.Consumable {
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
                     return true
                 end
             }))

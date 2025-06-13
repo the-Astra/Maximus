@@ -38,7 +38,7 @@ if Maximus_config.horoscopes then
                 }))
                 return {
                     message = localize('k_mxms_plus_horoscope'),
-                    colour = G.C.horoscope
+                    colour = Maximus.C.HOROSCOPE
                 }
             end
         end

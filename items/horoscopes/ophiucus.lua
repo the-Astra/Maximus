@@ -43,7 +43,7 @@ SMODS.Consumable {
         if context.before and not stg.hands[context.scoring_name] then
             stg.hands[context.scoring_name] = true
             stg.extra.handtypes_played = stg.extra.handtypes_played + 1
-            SMODS.calculate_effect({ message = stg.extra.handtypes_played .. "/9", colour = G.C.HOROSCOPE }, card)
+            SMODS.calculate_effect({ message = stg.extra.handtypes_played .. "/9", colour = Maximus.C.HOROSCOPE }, card)
 
             local all_hands = true
             for k, v in pairs(stg.hands) do
@@ -63,7 +63,7 @@ SMODS.Consumable {
                 self:fail(card)
             else
                 SMODS.calculate_effect(
-                { message = stg.extra.ante_limit - stg.extra.antes .. " Ante Left...", colour = G.C.HOROSCOPE }, card)
+                { message = stg.extra.ante_limit - stg.extra.antes .. " Ante Left...", colour = Maximus.C.HOROSCOPE }, card)
             end
         end
     end,
@@ -91,7 +91,7 @@ SMODS.Consumable {
         SMODS.calculate_context({ mxms_beat_horoscope = true })
         G.E_MANAGER:add_event(Event({
             func = function()
-                card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
                 return true
             end
         }))
@@ -103,7 +103,7 @@ SMODS.Consumable {
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 func = function()
-                    card:start_dissolve({ G.C.HOROSCOPE }, nil, 1.6)
+                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
                     return true
                 end
             }))
@@ -138,7 +138,7 @@ SMODS.Consumable {
     end,
     set_badges = function(self, card, badges)
         if self.discovered then
-            badges[#badges + 1] = create_badge(localize('k_horoscope'), G.C.SECONDARY_SET.Horoscope, G.C.WHITE, 1.2)
+            badges[#badges + 1] = create_badge(localize('k_horoscope'), Maximus.C.SET.Horoscope, G.C.WHITE, 1.2)
         end
     end
 }

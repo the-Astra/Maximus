@@ -15,7 +15,7 @@ if Maximus_config.horoscopes then
         apply = function(self, tag, context)
             if context.type == 'start_apply_horoscopes' and not G.GAME.mxms_aries_bonus then
                 G.GAME.mxms_aries_bonus = true
-                tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                tag:yep("+", Maximus.C.SET.Horoscope, function()
                     return true
                 end)
                 tag.triggered = true

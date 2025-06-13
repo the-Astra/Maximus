@@ -14,7 +14,7 @@ if Maximus_config.horoscopes then
         },
         apply = function(self, tag, context)
             if context.type == 'start_apply_horoscopes' then
-                tag:yep("+", G.C.SECONDARY_SET.Horoscope, function()
+                tag:yep("+", Maximus.C.SET.Horoscope, function()
                     G.GAME.mxms_cancer_bonus = G.GAME.mxms_cancer_bonus + 2
                     G.GAME.round_resets.hands = G.GAME.round_resets.hands + 2
                     ease_hands_played(2)
