@@ -51,7 +51,7 @@ SMODS.Joker {
             end
         end
 
-        if context.end_of_round and not context.individual and not context.repetition and not context.blueprint then
+        if context.end_of_round and stg.card and not context.individual and not context.repetition and not context.blueprint then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     stg.card:start_dissolve()
