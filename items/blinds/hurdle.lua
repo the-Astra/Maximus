@@ -18,9 +18,11 @@ SMODS.Blind {
     calculate = function(self, card, context)
         if context.before and not G.GAME.blind.disabled then
             local first_card = context.scoring_hand[1]
-            first_card.debuffed_by_blind = true
-            first_card:set_debuff(true)
-            self.triggered = true
+            if first_card then
+                first_card.debuffed_by_blind = true
+                first_card:set_debuff(true)
+                self.triggered = true
+            end
         end
     end,
     disable = function(self)
