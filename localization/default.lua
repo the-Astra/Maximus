@@ -1139,9 +1139,11 @@ return {
             j_mxms_occam = {
                 name = 'Occam\'s Razor',
                 text = {
-                    '{X:mult,C:white}Xmult{} equal to the',
-                    '{C:attention}number of cards played plus 1',
-                    '{C:attention}below{} max highlight limit played'
+                    '{X:mult,C:white}X#1#{} Mult',
+                    'Minus {X:mult,C:white}X1{} Mult for',
+                    '{C:attention}every{} played card',
+                    '{C:inactive}(Resets every hand)',
+                    '{C:inactive,s:0.8}Base Xmult depends on card play limit',
                 }
             },
             j_mxms_old_man_jimbo = {
