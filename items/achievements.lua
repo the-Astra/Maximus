@@ -68,8 +68,8 @@ SMODS.Achievement {
     hidden_name = false,
     hidden_text = true,
     unlock_condition = function(self, args)
-        if args.type == 'zombified' and #SMODS.find_card('j_mxms_zombie') == G.jokers.card_limit then
-            return true
+        if args.type == 'zombified' then
+            return #SMODS.find_card('j_mxms_zombie') == G.jokers.config.card_limit
         end
     end
 }
