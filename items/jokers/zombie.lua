@@ -27,7 +27,9 @@ SMODS.Joker {
         end
     end,
     calculate = function(self, card, context)
-        if G.GAME.current_round.mxms_zombie_target.card and not context.no_blueprint then
+        if G.GAME.current_round.mxms_zombie_target.card and
+        G.GAME.current_round.mxms_zombie_target.card.config.center.key ~= 'j_mxms_zombie'
+        and not context.no_blueprint then
             context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
             context.blueprint_card = context.blueprint_card or card
             local zombie_target_ret = G.GAME.current_round.mxms_zombie_target.card:calculate_joker(context)

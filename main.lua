@@ -679,7 +679,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
                     G.GAME.current_round.mxms_zombie_target.card:set_ability(G.P_CENTERS['j_mxms_zombie'])
                     G.GAME.current_round.mxms_zombie_target.card:juice_up(0.8, 0.8)
                     delay(0.4)
-                    SMODS.calculate_effect({ message = "Turned!", colour = G.C.GREEN },
+                    SMODS.calculate_effect({ message = localize('k_mxms_turned_ex'), colour = G.C.GREEN },
                         G.GAME.current_round.mxms_zombie_target.card)
                     G.GAME.current_round.mxms_zombie_target.card = nil
 

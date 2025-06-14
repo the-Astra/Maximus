@@ -2084,6 +2084,7 @@ return {
             k_mxms_streaked_ex = "Streaked!",
             k_mxms_success_ex = "Success!",
             k_mxms_tribute_ex = "Tribute!",
+            k_mxms_turned_ex = "Turned!",
             k_mxms_unpleasant = "how Unpleasant",
             k_mxms_void_touched_ex = "Void-Touched!",
             k_mxms_wasted = "Wasted",
