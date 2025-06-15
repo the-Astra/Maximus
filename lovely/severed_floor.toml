@@ -9,17 +9,11 @@ priority = 1
 target = "functions/button_callbacks.lua"
 pattern = '''
 G.STATE = G.STATES.SHOP
-G.GAME.shop_free = nil
-G.GAME.shop_d6ed = nil
 '''
 position = "at"
 payload = '''
-if not next(SMODS.find_card('j_mxms_severed_floor')) then
-    G.STATE = G.STATES.SHOP
-    G.GAME.shop_free = nil
-    G.GAME.shop_d6ed = nil
-else
-    G.STATE = G.STATES.BLIND_SELECT
+G.STATE = next(SMODS.find_card('j_mxms_severed_floor')) and G.STATES.BLIND_SELECT or G.STATES.SHOP
+if next(SMODS.find_card('j_mxms_severed_floor')) then
     G.CONTROLLER.locks.toggle_shop = nil
 end
 '''
