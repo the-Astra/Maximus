@@ -9,7 +9,7 @@ SMODS.Joker {
     config = {
         extra = {
             Xmult = 1,
-            gain_norm = 0.25,
+            gain_norm = 0.1,
             gain_best = 1
         }
     },
