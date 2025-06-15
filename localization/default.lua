@@ -328,16 +328,22 @@ return {
             },
             j_mxms_blackjack = {
                 name = 'Blackjack',
-                text = {
+                text = {{
                     'Gains {X:mult,C:white}X#1#{} Mult if scored cards',
                     'ranks add up to less than {C:attention}21',
+                },
+                {
                     'Gains {X:mult,C:white}X#2#{} Mult if scored cards',
                     'ranks add up to exactly {C:attention}21',
+                },
+                {
                     '{C:red}Resets{} if scored cards ranks',
                     'add up to more than {C:attention}21',
-                    '{s:0.8,C:inactive}Aces always count as 11',
-                    '{C:inactive}(Currently: {X:mult,C:white}X#3#{C:inactive} Mult)'
                 },
+                {
+                    '{C:inactive}(Currently: {X:mult,C:white}X#3#{C:inactive} Mult)',
+                    '{s:0.8,C:inactive}Aces always count as 11',
+                }}
             },
             j_mxms_bones_jr = {
                 name = 'Bones Jr.',
@@ -1185,17 +1191,20 @@ return {
             },
             j_mxms_piggy_bank = {
                 name = 'Piggy Bank',
-                text = {
-                    'Every time you earn {C:money}money,',
-                    'take {C:money}$1{} and store it in this card',
-                    'Gives {C:chips}+#1#{} Chips for every',
-                    '{C:money}$1{} stored',
+                text = {{
+                    'When earning {C:money}money,',
+                    'store {C:money}$1{} in this card',
+                    'and gain {C:chips}+#1#{} Chips',
+                },
+                {
                     'When {C:money}money{} reaches {C:money}$0{},',
-                    'this card is {C:red}destroyed{} and',
-                    'gives back all stored {C:money}money{}',
+                    '{C:red}destroy{} this card and',
+                    'return all stored {C:money}money{}',
+                },
+                {
                     '{C:inactive}(Currently: {C:money}$#2# {C:inactive}Stored,',
                     '{C:chips}+#3#{C:inactive} Chips)'
-                },
+                }},
             },
             j_mxms_pizza = {
                 name = 'Pizza',
