@@ -18,6 +18,7 @@ SMODS.Booster {
     },
     cost = 6,
     weight = 0.48,
+    select_card = 'mxms_horoscope',
     create_card = function(self, card)
         return create_card("Horoscope", G.pack_cards, nil, nil, true, true, nil, "mxms_zodiac")
     end,
