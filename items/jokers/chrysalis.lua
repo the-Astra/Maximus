@@ -9,7 +9,7 @@ SMODS.Joker {
     config = {
         extra = {
             planets = 0,
-            goal = 5
+            goal = 4
         }
     },
     credit = {

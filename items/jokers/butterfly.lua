@@ -9,7 +9,7 @@ SMODS.Joker {
     config = {
         extra = {
             consumables = 0,
-            goal = 6
+            goal = 5
         }
     },
     credit = {

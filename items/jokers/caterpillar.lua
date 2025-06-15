@@ -9,7 +9,7 @@ SMODS.Joker {
     config = {
         extra = {
             tarots = 0,
-            goal = 4
+            goal = 3
         }
     },
     credit = {
