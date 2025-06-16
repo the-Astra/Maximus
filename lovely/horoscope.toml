@@ -9,10 +9,9 @@ priority = 2
 [[patches]]
 [patches.pattern]
 target = "game.lua"
-pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASSET_ATLAS["ui_1"], {x = 2, y = 0})'''
+pattern = '''G.playing_cards = {}'''
 position = "before"
 payload = '''
-
 if Maximus_config.horoscopes then
     self.mxms_horoscope_W = G.CARD_W*1.1
     self.mxms_horoscope_H = 0.95*G.CARD_H
@@ -25,6 +24,7 @@ if Maximus_config.horoscopes then
         {card_limit = 1, type = 'joker', highlight_limit = 1}
     )
 end
+
 '''
 match_indent = true
 times = 1
