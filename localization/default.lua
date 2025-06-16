@@ -1688,7 +1688,7 @@ return {
                     ' ',
                     '{X:green,C:white}Supporting{} {X:green,C:white}Artists:{} {C:green}pinkzigzagoon, anerdymous, PsyAlola',
                     ' ',
-                    '{X:planet,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47',
+                    '{X:planet,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, The CoroboCorner',
                     ' ',
                     '{X:gold,C:white}Special{} {X:gold,C:white}Thanks:{} All the awesome people in the Balatro Discord!',
                     '{C:white}You all helped make this project possible. Thank you guys for everything!'

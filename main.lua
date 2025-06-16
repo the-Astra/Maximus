@@ -184,6 +184,9 @@ function get_current_pool(_type, _rarity, _legendary, _append)
     return _pool, _pool_key
 end
 
+-- load update.lua
+assert(SMODS.load_file("update.lua"))()
+
 --#endregion
 
 --#region SMODS Optional Features ---------------------------------------------------------------------------
@@ -268,11 +271,11 @@ SMODS.Atlas { -- Main Modifiers Atlas
 --#endregion
 
 --#region Menu stuff
-if Maximus_config.menu then
-    local oldfunc = Game.main_menu
-    Game.main_menu = function(change_context)
-        local ret = oldfunc(change_context)
+local oldfunc = Game.main_menu
+Game.main_menu = function(change_context)
+    local ret = oldfunc(change_context)
 
+    if Maximus_config.menu then
         -- Creates Maximus Logo Sprite
         local SC_scale = 1.1 * (G.debug_splash_size_toggle and 0.8 or 1)
         G.SPLASH_MAXIMUS_LOGO = Sprite(0, 0,
@@ -348,9 +351,11 @@ if Maximus_config.menu then
                 { name = 'colour_2',   ref_table = Maximus.C, ref_value = 'MXMS_SECONDARY' },
             }
         } })
-
-        return ret
     end
+
+    Maximus.update_check()
+
+    return ret
 end
 
 --#endregion
