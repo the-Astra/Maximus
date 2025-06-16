@@ -339,8 +339,6 @@ return {
                 {
                     '{C:red}Resets{} if scored cards ranks',
                     'add up to more than {C:attention}21',
-                },
-                {
                     '{C:inactive}(Currently: {X:mult,C:white}X#3#{C:inactive} Mult)',
                     '{s:0.8,C:inactive}Aces always count as 11',
                 }}
@@ -974,7 +972,7 @@ return {
                 },
             },
             j_mxms_letter = {
-                name = 'Letter of Recommendation',
+                name = {'Letter of', 'Recommendation'},
                 text = {
                     'Creates a random {C:horoscope}Horoscope{}',
                     'card after one {C:attention}succeeds{}'
@@ -1134,7 +1132,7 @@ return {
                 }
             },
             j_mxms_obelisk = {
-                name = 'Obelisk the Tormentor',
+                name = {'Obelisk the', 'Tormentor'},
                 text = {
                     'Gains {X:mult,C:white}X#1#{} Mult for every',
                     '{C:attention}#3#{} played and unscored cards',
@@ -1268,7 +1266,7 @@ return {
                 },
             },
             j_mxms_ra = {
-                name = 'The Winged Dragon of Ra',
+                name = {'The Winged', 'Dragon of Ra'},
                 text = {
                     'If played hand is a {C:attention}High Card{},',
                     'gains {X:mult,C:white}X#1#{} per scoring card and',
@@ -1374,10 +1372,10 @@ return {
                 }
             },
             j_mxms_slifer = {
-                name = 'Slifer the Sky Dragon',
+                name = {'Slifer the', 'Sky Dragon'},
                 text = {
-                    'Gives {X:mult,C:white}Xmult{} equal to the number',
-                    'of cards {C:attention}held{} in your hand'
+                    'Gives {X:mult,C:white}Xmult', 'equal to the number',
+                    'of cards {C:attention}held', 'in your hand'
                 }
             },
             j_mxms_slippery_slope = {

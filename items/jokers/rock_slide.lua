@@ -38,26 +38,24 @@ SMODS.Joker {
 
             if stone_tally == 5 then
                 for i = 1, stg.stones do
+                    local _card = SMODS.create_card({
+                        set = 'Playing Card',
+                        area = G.discard,
+                        enhancement = 'm_stone',
+                        key_append = 'rock_slide'
+                    })
                     G.E_MANAGER:add_event(Event({
                         func = function()
-                            local front = pseudorandom_element(G.P_CARDS, pseudoseed('slide_fr'))
-                            G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-                            local new_card = Card(G.play.T.x + G.play.T.w / 2, G.play.T.y, G.CARD_W, G.CARD_H, front,
-                                G.P_CENTERS.m_stone, { playing_card = G.playing_card })
-                            new_card:start_materialize({ G.C.SECONDARY_SET.Enhanced })
-                            G.deck:emplace(new_card)
-                            table.insert(G.playing_cards, new_card)
+                            _card:start_materialize({ G.C.SECONDARY_SET.Enhanced })
+                            G.play:emplace(_card)
                             return true
                         end
                     }))
-                    SMODS.calculate_effect({ message = localize('k_plus_stone'), colour = G.C.SECONDARY_SET.Enhanced },
-                        context.blueprint or card)
-                    G.E_MANAGER:add_event(Event({
-                        func = function()
-                            G.deck.config.card_limit = G.deck.config.card_limit + 1
-                            return true
-                        end
-                    }))
+                    SMODS.calculate_effect({
+                        message = localize('k_plus_stone'),
+                        colour = G.C.SECONDARY_SET.Enhanced,
+                        func = function() draw_card(G.play, G.deck, 90, 'up', nil, _card) end
+                    }, context.blueprint or card)
                 end
                 playing_card_joker_effects({ true })
             end
