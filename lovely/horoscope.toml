@@ -9,7 +9,7 @@ priority = 2
 [[patches]]
 [patches.pattern]
 target = "game.lua"
-pattern = '''G.playing_cards = {}'''
+pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASSET_ATLAS["ui_1"], {x = 2, y = 0})'''
 position = "before"
 payload = '''
 if Maximus_config.horoscopes then
