@@ -963,6 +963,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'piggy_bank',
     'honorable',
     'sneaky_spirit',
+    'spider',
 
     --Uncommon
     'war',

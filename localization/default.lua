@@ -1459,6 +1459,12 @@ return {
                     '{s:0.8,C:inactive}(Must have room)'
                 },
             },
+            j_mxms_spider = {
+                name = 'Spider Joker',
+                text = {
+                    '{C:mult}+#1#{} Mult for every {C:attention}Spider{}'
+                }
+            },
             j_mxms_stone_thrower = {
                 name = 'Stone Thrower',
                 text = {
