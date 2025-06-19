@@ -18,6 +18,13 @@ SMODS.Joker {
     cost = 5,
     calculate = function(self, card, context)
         local stg = card.ability.extra
+
+        if context.modify_scoring_hand and G.GAME.last_hand_played == 'High Card' then
+            return {
+                add_to_hand = true
+            }
+        end
+
         if context.repetition and context.cardarea == G.play and context.scoring_name == "High Card" then
             return {
                 message = localize('k_again_ex'),
