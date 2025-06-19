@@ -10,7 +10,8 @@ SMODS.Consumable {
         extra = {
             hands = 0,
             goal = 4,
-            upgrade = 5
+            upgrade = 5,
+            most_played_hand = 'High Card'
         }
     },
     credit = {
@@ -21,12 +22,34 @@ SMODS.Consumable {
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
+
+        if G.GAME.hands then
+            local _handname, _played, _order = 'High Card', -1, 100
+            for k, v in pairs(G.GAME.hands) do
+                if v.played > _played or (v.played == _played and _order > v.order) then
+                    _played = v.played
+                    _handname = k
+                end
+            end
+            stg.most_played_hand = _handname
+        end
+
         return { vars = { stg.goal, stg.upgrade, stg.hands } }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.before then
-            if G.GAME.current_round.most_played_poker_hand == context.scoring_name then
+            
+            local _handname, _played, _order = 'High Card', -1, 100
+            for k, v in pairs(G.GAME.hands) do
+                if v.played > _played or (v.played == _played and _order > v.order) then
+                    _played = v.played
+                    _handname = k
+                end
+            end
+            stg.most_played_hand = _handname
+
+            if stg.most_played_hand == context.scoring_name then
                 self:fail(card)
             else
                 stg.hands = stg.hands + 1
@@ -64,28 +87,29 @@ SMODS.Consumable {
     succeed = function(self, card, context)
         local stg = card.ability.extra
         SMODS.calculate_effect(
-        { message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function()
-            set_horoscope_success(card)
-            check_for_unlock({ type = "all_horoscopes" })
-        end }, card)
+            {
+                message = localize('k_mxms_success_ex'),
+                colour = G.C.GREEN,
+                sound = 'tarot1',
+                func = function()
+                    set_horoscope_success(card)
+                    check_for_unlock({ type = "all_horoscopes" })
+                end
+            }, card)
         update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
             {
-                handname = G.GAME.current_round.most_played_poker_hand,
-                chips = G.GAME.hands
-                    [G.GAME.current_round.most_played_poker_hand].chips,
-                mult = G.GAME.hands
-                    [G.GAME.current_round.most_played_poker_hand].mult,
-                level = G.GAME.hands
-                    [G.GAME.current_round.most_played_poker_hand].level
+                handname = stg.most_played_hand,
+                chips = G.GAME.hands[stg.most_played_hand].chips,
+                mult = G.GAME.hands[stg.most_played_hand].mult,
+                level = G.GAME.hands[stg.most_played_hand].level
             })
-        level_up_hand(card, G.GAME.current_round.most_played_poker_hand, false, stg.upgrade)
+        level_up_hand(card, stg.most_played_hand, false, stg.upgrade)
         if context then
             update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
                 {
                     handname = context.scoring_name,
                     chips = G.GAME.hands[context.scoring_name].chips,
-                    mult = G.GAME.hands
-                        [context.scoring_name].mult,
+                    mult = G.GAME.hands[context.scoring_name].mult,
                     level = G.GAME.hands[context.scoring_name].level
                 })
         else
