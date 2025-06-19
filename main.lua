@@ -1,4 +1,4 @@
---#region Config
+--#region Config --------------------------------------------------------------------------------------------
 Maximus = SMODS.current_mod
 Maximus_path = SMODS.current_mod.path
 Maximus_config = SMODS.current_mod.config
@@ -195,7 +195,7 @@ SMODS.current_mod.optional_features = { retrigger_joker = true, post_trigger = t
 
 --#endregion
 
---#region Colors
+--#region Colors --------------------------------------------------------------------------------------------
 
 Maximus.C = {
     MXMS_PRIMARY = HEX('7855fc'),
@@ -211,7 +211,7 @@ Maximus.C = {
 
 --#endregion
 
---#region Talisman compat
+--#region Talisman compat -----------------------------------------------------------------------------------
 
 to_big = to_big or function(num)
     return num
@@ -263,7 +263,7 @@ if next(SMODS.find_mod("AntePreview")) then -- Ante Preview compat
 end
 --#endregion
 
---#region Menu stuff
+--#region Menu stuff ----------------------------------------------------------------------------------------
 local oldfunc = Game.main_menu
 Game.main_menu = function(change_context)
     local ret = oldfunc(change_context)
@@ -1343,7 +1343,7 @@ sendDebugMessage("", 'Maximus')
 
 --#endregion
 
---#region Modifiers ---------------------------------------------------------------------------------------------
+--#region Modifiers -----------------------------------------------------------------------------------------
 
 local ENABLED_MODIFIERS = {
     'black',
