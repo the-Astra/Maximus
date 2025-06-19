@@ -12,6 +12,8 @@
 	"version": "1.0.5",
 	"git_owner": "the-Astra",
 	"git_repo": "Maximus",
+	"mod_path": "Mods/Maximus-main",
+	"download_suffix": "Maximus-main.zip",
 	"dependencies": [
 		"Steamodded (>=1.0.0~BETA-0614a)",
 		"Lovely (>=0.7.1)"
