@@ -261,13 +261,6 @@ if next(SMODS.find_mod("AntePreview")) then -- Ante Preview compat
         py = 13
     }
 end
-
-SMODS.Atlas { -- Main Modifiers Atlas
-    key = 'Modifiers',
-    path = "Modifiers.png",
-    px = 71,
-    py = 95
-}
 --#endregion
 
 --#region Menu stuff
@@ -879,7 +872,7 @@ if Maximus_config.horoscopes then
 end
 --#endregion
 
---#region Boosters
+--#region Boosters ------------------------------------------------------------------------------------------
 
 SMODS.Atlas { -- Main Booster Atlas
     key = 'Boosters',
@@ -1352,12 +1345,6 @@ sendDebugMessage("", 'Maximus')
 
 --#region Modifiers ---------------------------------------------------------------------------------------------
 
-SMODS.Atlas { -- Main Modifiers Atlas
-    key = 'Modifiers',
-    path = "Modifiers.png",
-    px = 71,
-    py = 95
-}
 local ENABLED_MODIFIERS = {
     'black',
     'posted',
