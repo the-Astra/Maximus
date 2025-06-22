@@ -30,7 +30,7 @@ SMODS.Joker {
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.ATTENTION,
-                func = function() SMODS.calculate_context({mxms_scaling_card = true}) end
+                func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
             }
         end
 
@@ -45,16 +45,19 @@ SMODS.Joker {
 local catd = Card.add_to_deck
 Card.add_to_deck = function(self, from_debuff)
     catd(self, from_debuff)
-    if self.ability.set == 'Joker' then
-    G.E_MANAGER:add_event(Event({func = function()
-        for k, v in pairs(G.GAME.mxms_purchased_jokers) do
-            if v == self.ability.name then
-                G.GAME.mxms_soy_mod = G.GAME.mxms_soy_mod + 1
-                SMODS.calculate_context({mxms_reacquire_joker = true})
+    if self.ability.set == 'Joker' and not from_debuff then
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                for k, v in pairs(G.GAME.mxms_purchased_jokers) do
+                    if v == self.ability.name then
+                        G.GAME.mxms_soy_mod = G.GAME.mxms_soy_mod + 1
+                        SMODS.calculate_context({ mxms_reacquire_joker = true })
+                        return true
+                    end
+                end
+                G.GAME.mxms_purchased_jokers[#G.GAME.mxms_purchased_jokers + 1] = self.ability.name
                 return true
             end
-        end
-        G.GAME.mxms_purchased_jokers[#G.GAME.mxms_purchased_jokers + 1] = self.ability.name
-    return true end }))
-end
+        }))
+    end
 end

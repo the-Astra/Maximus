@@ -43,6 +43,26 @@ match_indent = true
 times = 1
 
 
+# Fix copy_card causing crashes when trying to carry over a card stored in an ability table
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+new_card.ability[k] = copy_table(v)
+'''
+position = "at"
+payload = '''
+if other.config.center.key:sub(1, 6) == "j_mxms" and other.ability[k].card then
+    new_card.ability[k] = {card = nil, pos = nil}
+else
+    new_card.ability[k] = copy_table(v)
+end
+'''
+match_indent = true
+times = 1
+
+
 # Maximus logo menu draw stuff
 
 [[patches]]
