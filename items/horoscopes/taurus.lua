@@ -39,7 +39,7 @@ SMODS.Consumable {
             end
 
             if stg.times == stg.goal then
-                self:succeed(card)
+                self:succeed(card, context)
             end
 
             if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
@@ -66,14 +66,28 @@ SMODS.Consumable {
         end
         return true
     end,
-    succeed = function(self, card)
+    succeed = function(self, card, context)
         local stg = card.ability.extra
         SMODS.calculate_effect(
-        { message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1', func = function()
-            set_horoscope_success(card)
-            check_for_unlock({ type = "all_horoscopes" })
-        end }, card)
+            {
+                message = localize('k_mxms_success_ex'),
+                colour = G.C.GREEN,
+                sound = 'tarot1',
+                func = function()
+                    set_horoscope_success(card)
+                    check_for_unlock({ type = "all_horoscopes" })
+                end
+            }, card)
         level_up_hand(card, stg.hand_type, false, stg.upgrade)
+        if not context then
+            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
+                {
+                    handname = '',
+                    chips = 0,
+                    mult = 0,
+                    level = ''
+                })
+        end
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
