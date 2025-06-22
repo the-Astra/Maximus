@@ -954,6 +954,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'detective',
     'spare_tire',
     'piggy_bank',
+    'boar_bank',
     'honorable',
     'sneaky_spirit',
     'spider',

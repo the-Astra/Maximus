@@ -343,6 +343,14 @@ return {
                     '{s:0.8,C:inactive}Aces always count as 11',
                 }}
             },
+            j_mxms_boar_bank = {
+                name = 'Boar Bank',
+                text = {
+                    '{C:money}Reward money{} is {C:red}halved',
+                    'Add the other half to',
+                    'this Joker\'s {C:money}sell value'
+                }
+            },
             j_mxms_bones_jr = {
                 name = 'Bones Jr.',
                 text = {
@@ -2076,6 +2084,7 @@ return {
             k_mxms_failed_ex = "Failed!",
             k_mxms_fortunate_ex = "Fortunate!",
             k_mxms_glassed = "Glassed",
+            k_mxms_halved = "Halved",
             k_mxms_jackpot_ex = "Jackpot!",
             k_mxms_jobbed = "Jobbed",
             k_mxms_left_el = "Left...",
