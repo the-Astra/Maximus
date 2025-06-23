@@ -521,8 +521,7 @@ return {
                 name = 'Conveyor Belt',
                 text = {
                     'Gives {C:attention}15%{} of {C:chips}Chips{} and {C:mult}Mult{}',
-                    'from previous hand at',
-                    'beginning of the following hand',
+                    'from previous hand',
                     '{C:inactive}(Currently: {C:chips}+#1#{C:inactive} Chips,', '{C:mult}+#2#{C:inactive} Mult)'
                 }
             },
