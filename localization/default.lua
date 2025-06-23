@@ -1522,7 +1522,7 @@ return {
                 name = 'Tofu',
                 text = {
                     'Copies ability of',
-                    '{C:attention}Joker{} to the right',
+                    'the rightmost {C:attention}Joker{}',
                     'for the next {C:attention}#1#{} hands'
                 }
             },
