@@ -5,11 +5,7 @@ SMODS.Joker {
         x = 7,
         y = 17
     },
-    rarity = 2,
-    config = {
-        extra = {
-        }
-    },
+    rarity = 1,
     credit = {
         art = "pinkzigzagoon",
         code = "theAstra",
