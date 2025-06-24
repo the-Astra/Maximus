@@ -1166,6 +1166,7 @@ local ENABLED_CHALLENGES = {
     'drain',
     'thought',
     'love_and_war',
+    'despite_everything',
 }
 
 sendDebugMessage("Loading Challenges...", 'Maximus')

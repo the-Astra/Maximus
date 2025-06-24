@@ -113,7 +113,7 @@ match_indent = true
 times = 2
 
 
-# Hand Decay function
+# Hand Decay and Ante Sell function
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
@@ -129,6 +129,19 @@ if G.GAME.modifiers.mxms_hand_decay then
     update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
 end
 
+if G.GAME.modifiers.mxms_ante_sell then
+    for k, v in pairs(G.jokers.cards) do
+        if not (v.ability and v.ability.eternal) then
+            v:sell_card()
+        end
+    end
+
+    for k, v in pairs(G.consumeables.cards) do
+        if not (v.ability and v.ability.eternal) then
+            v:sell_card()
+        end
+    end
+end
 '''
 match_indent = true
 times = 1

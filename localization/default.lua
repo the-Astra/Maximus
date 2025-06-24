@@ -2040,6 +2040,7 @@ return {
             c_mxms_all_stars = "All Stars",
             c_mxms_biggest_loser = "Tonight\'s Biggest Loser",
             c_mxms_crusaders = "Stardust Crusaders",
+            c_mxms_despite = "Despite Everything",
             c_mxms_drain = "Down the Drain",
             c_mxms_fashion = "Fashion Disaster",
             c_mxms_gambling = "Let\'s Go Gambling!",
@@ -2208,6 +2209,9 @@ return {
             },
             ch_c_mxms_deck_size_req = {
                 "Deck must consist of #1# card(s) by the end of the ante 8 boss"
+            },
+            ch_c_mxms_ante_sell = {
+                "All held {C:attention}Jokers{} and {C:attention}Consumables{} are {C:money}sold{} when {C:attention}Boss Blind{} is defeated"
             }
         }
     }
