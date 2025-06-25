@@ -605,6 +605,8 @@ Game.init_game_object = function(self)
     --Horoscope
     ret.mxms_horoscope_buffer = 0
 
+    ret.astro_last_pack = 1
+
     ret.mxms_aries_bonus = false
     ret.mxms_cancer_bonus = 0
     ret.mxms_leo_bonus = 0

@@ -15,7 +15,7 @@ return {
                     'Start run with ',
                     '{C:horoscope,T:v_mxms_multitask}#1#{},',
                     'Opens a {C:horoscope}#2#{}',
-                    'at the start of each ante'
+                    'at the end of every ante'
                 }
             },
             b_mxms_grilled = {
