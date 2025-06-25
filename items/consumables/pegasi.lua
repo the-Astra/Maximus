@@ -9,6 +9,7 @@ if Maximus_config.new_handtypes then
         },
         config = {
             hand_type = 'mxms_6oak',
+            mxms_exoplanet = true,
             softlock = true
         },
         credit = {

@@ -1,16 +1,21 @@
-SMODS.Back {
-    key = 'autographed',
-    atlas = 'Modifiers',
+CardSleeves.Sleeve {
+    key = "autographed",
+    atlas = "Sleeves",
     pos = {
-        x = 5,
+        x = 0,
         y = 0
     },
-    credit = {
-    art = "pinkzigzagoon",
-    code = "theAstra",
-    concept = "pinkzigzagoon"
-    },
-    apply = function(self, back)
+    loc_vars = function(self, info_queue, card)
+        local key, vars
+        if self.get_current_deck_key() == 'b_mxms_autographed' then
+            key = self.key .. '_alt'
+        else
+            key = self.key
+        end
+        vars = { #SMODS.Suits }
+        return { key = key, vars = vars }
+    end,
+    apply = function(self, sleeve)
         local extra_cards = {}
         for i, v in pairs(SMODS.Suits) do
             if type(v) == 'table' and type(v.in_pool) == 'function' and v.in_pool then
@@ -23,6 +28,11 @@ SMODS.Back {
                     end
                     --Extra Ace since they are not face cards
                     extra_cards[#extra_cards + 1] = { s = v.card_key, r = 'A' }
+
+                    --Add a stone card for each suit if on Autographed Deck
+                    if self.get_current_deck_key() == 'b_mxms_autographed' then
+                        extra_cards[#extra_cards + 1] = { s = v.card_key, e = 'm_stone' }
+                    end
                 end
             else
                 for j = 1, 2 do
@@ -33,6 +43,11 @@ SMODS.Back {
                 end
                 --Extra Ace since they are not face cards
                 extra_cards[#extra_cards + 1] = { s = v.card_key, r = 'A' }
+
+                --Add a stone card for each suit if on Autographed Deck
+                if self.get_current_deck_key() == 'b_mxms_autographed' then
+                    extra_cards[#extra_cards + 1] = { s = v.card_key, e = 'm_stone' }
+                end
             end
         end
         G.GAME.starting_params.extra_cards = extra_cards

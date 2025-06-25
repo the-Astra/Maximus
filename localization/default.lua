@@ -45,7 +45,7 @@ return {
                 name = 'Sixth Finger Deck',
                 text = {
                     'Allows {C:attention}6 playing cards',
-                    'to be played'
+                    'to be playe and discarded'
                 }
             },
         },
@@ -1817,6 +1817,109 @@ return {
                     "{C:chips}+#4#{} chips",
                 },
             }
+        },
+        Sleeve = {
+            sleeve_autographed = {
+                name = 'Autographed Sleeve',
+                text = {
+                    'Starting deck consists of',
+                    '{C:attention}three{} Aces, Kings, Queens,',
+                    'and Jacks {C:attention}per suit{}'
+                }
+            },
+            sleeve_autographed_alt = {
+                name = 'Autographed Sleeve',
+                text = {
+                    'Starting deck consists of',
+                    '{C:attention}three{} Aces, Kings, Queens,',
+                    'and Jacks {C:attention}per suit{}',
+                    'as well as {C:attention}#1# Stone Cards{}'
+                }
+            },
+            sleeve_grilled = {
+                name = 'Grilled Sleeve',
+                text = {
+                    '{C:attention}Even{} rank cards give',
+                    '{C:mult}Mult{} instead of {C:chips}Chips'
+                }
+            },
+            sleeve_grilled_alt = {
+                name = 'Grilled Sleeve',
+                text = {
+                    '{C:attention}Even{} rank cards give',
+                    '{C:mult}Mult{} instead of {C:chips}Chips',
+                    '{C:attention}Face{} cards give',
+                    '{X:mult,C:white}X1.25{} Mult instead of {C:chips}Chips',
+                }
+            },
+            sleeve_nirvana = {
+                name = 'Nirvana Sleeve',
+                text = {
+                    'Rerolls start at {C:money}$0{}',
+                    'Shop items cost {X:mult,C:white}X1.5{} as much'
+                }
+            },
+            sleeve_nirvana_alt = {
+                name = 'Nirvana Sleeve',
+                text = {
+                    'Rerolls start at {C:money}$0{}',
+                    'Shop items cost {X:mult,C:white}X1.5{} as much',
+                    '{C:attention}2{} extra free {C:green}Rerolls{} per shop'
+                }
+            },
+            sleeve_nuclear = {
+                name = 'Nuclear Sleeve',
+                text = {
+                    '{C:attention}-4{} Joker slots',
+                    '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}',
+                    'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}',
+                    '{C:inactive}This sleeve will not count towards best hand scores',
+                    '{C:inactive}or score-based unlocks',
+                    '{s:0.8,C:inactive}Works best with Talisman installed'
+                }
+            },
+            sleeve_nuclear_alt = {
+                name = 'Nuclear Sleeve',
+                text = {
+                    '{C:attention}-3{} Joker slots',
+                    '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}',
+                    'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}',
+                    '{C:inactive}This sleeve will not count towards best hand scores',
+                    '{C:inactive}or score-based unlocks',
+                    '{s:0.8,C:inactive}Works best with Talisman installed'
+                }
+            },
+            sleeve_professional = {
+                name = 'Professional Sleeve',
+                text = {
+                    'Skipping blinds is {C:red}disabled',
+                    '{C:red}X1.25{} base Blind size'
+                }
+            },
+            sleeve_professional_alt = {
+                name = 'Professional Sleeve',
+                text = {
+                    'Skipping blinds is {C:red}disabled',
+                    '{C:red}X1.25{} base Blind size',
+                    'All hand types start at {V:1}Level 2'
+                }
+            },
+            sleeve_sixth_finger = {
+                name = 'Sixth Finger Sleeve',
+                text = {
+                    'Allows {C:attention}6 playing cards',
+                    'to be played and discarded'
+                }
+            },
+            sleeve_sixth_finger_alt = {
+                name = 'Sixth Finger Sleeve',
+                text = {
+                    'Allows {C:attention}6 playing cards',
+                    'to be played and discarded',
+                    '{C:dark_edition,E:1}Maximus{} Exoplanet cards give',
+                    '{C:attention}+2{} levels instead of +1'
+                }
+            },
         },
         Spectral = {
             c_ankh = {

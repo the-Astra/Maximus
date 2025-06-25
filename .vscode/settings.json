@@ -78,7 +78,8 @@
         "vanilla_suit_check",
         "Sprite",
         "Tag",
-        "calculate_reroll_cost"
+        "calculate_reroll_cost",
+        "CardSleeves"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

@@ -1,0 +1,35 @@
+CardSleeves.Sleeve {
+    key = "grilled",
+    atlas = "Sleeves",
+    pos = {
+        x = 0,
+        y = 0
+    },
+    loc_vars = function(self, info_queue, card)
+        local key
+        if self.get_current_deck_key() == 'b_mxms_grilled' then
+            key = self.key .. '_alt'
+        else
+            key = self.key
+        end
+        return { key = key }
+    end,
+    apply = function(self, sleeve)
+        -- Some hooks for these modifiers are in backs/grilled.lua
+        G.GAME.modifiers.mxms_even_card_mult = true
+
+        -- If on Grilled Deck, apply face card Xmult modifier
+        if self.get_current_deck_key() == 'b_mxms_grilled' then
+            G.GAME.modifiers.mxms_face_card_xmult = true
+        end
+    end
+}
+
+local cgcxm = Card.get_chip_x_mult
+function Card:get_chip_mult(context)
+    local ret = cgcxm(self, context)
+    if G.GAME.modifiers.mxms_face_card_xmult and self:is_face() then
+        ret = ret + 1.25
+    end
+    return ret
+end
