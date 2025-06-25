@@ -841,6 +841,7 @@ local ENABLED_BACKS = {
     'professional',
     'grilled',
     'autographed',
+    'astro',
 }
 
 sendDebugMessage("Loading Backs...", 'Maximus')
@@ -850,18 +851,34 @@ for i = 1, #ENABLED_BACKS do
 end
 sendDebugMessage("", 'Maximus')
 
-    --#region Sleeves ---------------------------------------------------------------------------------------
+--#region Sleeves ---------------------------------------------------------------------------------------
 
-    if CardSleeves then
-        sendDebugMessage("Card Sleeves detected; Loading Sleeves...", 'Maximus')
-        for i = 1, #ENABLED_BACKS do
-            assert(SMODS.load_file('items/backs/sleeves/' .. ENABLED_BACKS[i] .. '.lua'))()
-            sendDebugMessage("Loaded Sleeve: " .. ENABLED_BACKS[i], 'Maximus')
-        end
-        sendDebugMessage("", 'Maximus')
+if CardSleeves then
+    SMODS.Atlas { -- Main Sleeve Atlas
+        key = 'Sleeves',
+        path = "Sleeves.png",
+        px = 73,
+        py = 95
+    }
+
+    local ENABLED_SLEEVES = {
+        'sixth_finger',
+        'nirvana',
+        'nuclear',
+        'professional',
+        'grilled',
+        'autographed',
+    }
+
+    sendDebugMessage("Card Sleeves detected; Loading Sleeves...", 'Maximus')
+    for i = 1, #ENABLED_SLEEVES do
+        assert(SMODS.load_file('items/backs/sleeves/' .. ENABLED_SLEEVES[i] .. '.lua'))()
+        sendDebugMessage("Loaded Sleeve: " .. ENABLED_SLEEVES[i], 'Maximus')
     end
+    sendDebugMessage("", 'Maximus')
+end
 
-    --#endregion
+--#endregion
 
 --#endregion
 
@@ -999,7 +1016,6 @@ sendDebugMessage("", 'Maximus')
 --#region Hand Types ----------------------------------------------------------------------------------------
 
 if Maximus_config.new_handtypes then
-
     --#region Hand Parts ------------------------------------------------------------------------------------
     local ENABLED_HAND_PARTS = {
         '_6',

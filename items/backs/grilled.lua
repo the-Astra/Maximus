@@ -21,8 +21,7 @@ function Card:get_chip_bonus()
     local ret = cgcb(self)
     if G.GAME.modifiers.mxms_even_card_mult and self:get_id() % 2 == 0 and self:get_id() ~= 14 and not self:is_face() then
         ret = ret - self.base.nominal
-    end
-    if G.GAME.modifiers.mxms_face_card_xmult and self:is_face() then
+    elseif G.GAME.modifiers.mxms_face_card_xmult and self:is_face() then
         ret = ret - self.base.nominal
     end
     return ret

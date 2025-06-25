@@ -12,16 +12,11 @@ CardSleeves.Sleeve {
         else
             key = self.key
         end
-        return { key = key, vars = {colours = {G.C.HAND_LEVELS[2]}} }
+        return { key = key, vars = { colours = { G.C.HAND_LEVELS[2] } } }
     end,
     apply = function(self, sleeve)
-        --Disable skipping
-        G.GAME.modifiers.disable_blind_skips = true
-
-        -- Change blind size
-        G.GAME.starting_params.ante_scaling = 1.25
-
         if self.get_current_deck_key() == 'b_mxms_professional' then
+            -- If on Professional Deck, +1 level for each hand type
             G.E_MANAGER:add_event(Event({
                 func = function()
                     for k, v in pairs(G.GAME.hands) do
@@ -30,6 +25,12 @@ CardSleeves.Sleeve {
                     return true;
                 end
             }))
+        else
+            -- Disable skipping
+            G.GAME.modifiers.disable_blind_skips = true
+
+            -- Change blind size
+            G.GAME.starting_params.ante_scaling = 1.25
         end
     end
 }

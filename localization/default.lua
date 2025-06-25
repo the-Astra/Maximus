@@ -9,6 +9,15 @@ return {
                     'and Jacks {C:attention}per suit{}'
                 }
             },
+            b_mxms_astro = {
+                name = 'Astro Deck',
+                text = {
+                    'Start run with ',
+                    '{C:horoscope,T:v_mxms_multitask}#1#{},',
+                    'Opens a {C:horoscope}#2#{}',
+                    'at the start of each ante'
+                }
+            },
             b_mxms_grilled = {
                 name = 'Grilled Deck',
                 text = {
@@ -1819,7 +1828,7 @@ return {
             }
         },
         Sleeve = {
-            sleeve_autographed = {
+            sleeve_mxms_autographed = {
                 name = 'Autographed Sleeve',
                 text = {
                     'Starting deck consists of',
@@ -1827,47 +1836,41 @@ return {
                     'and Jacks {C:attention}per suit{}'
                 }
             },
-            sleeve_autographed_alt = {
+            sleeve_mxms_autographed_alt = {
                 name = 'Autographed Sleeve',
                 text = {
-                    'Starting deck consists of',
-                    '{C:attention}three{} Aces, Kings, Queens,',
-                    'and Jacks {C:attention}per suit{}',
-                    'as well as {C:attention}#1# Stone Cards{}'
+                    'Starting deck contains',
+                    'an extra {C:attention}#1# Stone Cards{}'
                 }
             },
-            sleeve_grilled = {
+            sleeve_mxms_grilled = {
                 name = 'Grilled Sleeve',
                 text = {
                     '{C:attention}Even{} rank cards give',
                     '{C:mult}Mult{} instead of {C:chips}Chips'
                 }
             },
-            sleeve_grilled_alt = {
+            sleeve_mxms_grilled_alt = {
                 name = 'Grilled Sleeve',
                 text = {
-                    '{C:attention}Even{} rank cards give',
-                    '{C:mult}Mult{} instead of {C:chips}Chips',
                     '{C:attention}Face{} cards give',
                     '{X:mult,C:white}X1.25{} Mult instead of {C:chips}Chips',
                 }
             },
-            sleeve_nirvana = {
+            sleeve_mxms_nirvana = {
                 name = 'Nirvana Sleeve',
                 text = {
                     'Rerolls start at {C:money}$0{}',
                     'Shop items cost {X:mult,C:white}X1.5{} as much'
                 }
             },
-            sleeve_nirvana_alt = {
+            sleeve_mxms_nirvana_alt = {
                 name = 'Nirvana Sleeve',
                 text = {
-                    'Rerolls start at {C:money}$0{}',
-                    'Shop items cost {X:mult,C:white}X1.5{} as much',
                     '{C:attention}2{} extra free {C:green}Rerolls{} per shop'
                 }
             },
-            sleeve_nuclear = {
+            sleeve_mxms_nuclear = {
                 name = 'Nuclear Sleeve',
                 text = {
                     '{C:attention}-4{} Joker slots',
@@ -1878,46 +1881,37 @@ return {
                     '{s:0.8,C:inactive}Works best with Talisman installed'
                 }
             },
-            sleeve_nuclear_alt = {
+            sleeve_mxms_nuclear_alt = {
                 name = 'Nuclear Sleeve',
                 text = {
-                    '{C:attention}-3{} Joker slots',
-                    '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}',
-                    'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}',
-                    '{C:inactive}This sleeve will not count towards best hand scores',
-                    '{C:inactive}or score-based unlocks',
-                    '{s:0.8,C:inactive}Works best with Talisman installed'
+                    '{C:attention}+1{} Joker slot',
                 }
             },
-            sleeve_professional = {
+            sleeve_mxms_professional = {
                 name = 'Professional Sleeve',
                 text = {
                     'Skipping blinds is {C:red}disabled',
                     '{C:red}X1.25{} base Blind size'
                 }
             },
-            sleeve_professional_alt = {
+            sleeve_mxms_professional_alt = {
                 name = 'Professional Sleeve',
                 text = {
-                    'Skipping blinds is {C:red}disabled',
-                    '{C:red}X1.25{} base Blind size',
                     'All hand types start at {V:1}Level 2'
                 }
             },
-            sleeve_sixth_finger = {
+            sleeve_mxms_sixth_finger = {
                 name = 'Sixth Finger Sleeve',
                 text = {
                     'Allows {C:attention}6 playing cards',
                     'to be played and discarded'
                 }
             },
-            sleeve_sixth_finger_alt = {
+            sleeve_mxms_sixth_finger_alt = {
                 name = 'Sixth Finger Sleeve',
                 text = {
-                    'Allows {C:attention}6 playing cards',
-                    'to be played and discarded',
-                    '{C:dark_edition,E:1}Maximus{} Exoplanet cards give',
-                    '{C:attention}+2{} levels instead of +1'
+                    '{C:dark_edition,E:1}Maximus{} {C:planet}Exoplanet{} cards give',
+                    '{C:attention}+2{} levels instead of {C:attention}+1{}'
                 }
             },
         },
