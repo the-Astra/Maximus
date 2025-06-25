@@ -32,7 +32,7 @@ end
 local update_shopref = Game.update_shop
 function Game.update_shop(self, dt)
     update_shopref(self, dt)
-    if not G.GAME.selected_back.name == 'b_mxms_astro' then return end
+    if not G.GAME.selected_back.name == 'b_mxms_astro' and not (G.GAME.selected_sleeve and G.GAME.selected_sleeve == 'sleeve_mxms_astro') then return end
     if G.GAME.round_resets.ante <= G.GAME.astro_last_pack then return end
     G.GAME.astro_last_pack = G.GAME.round_resets.ante
     G.E_MANAGER:add_event(Event({

@@ -863,19 +863,10 @@ if CardSleeves then
         py = 95
     }
 
-    local ENABLED_SLEEVES = {
-        'sixth_finger',
-        'nirvana',
-        'nuclear',
-        'professional',
-        'grilled',
-        'autographed',
-    }
-
     sendDebugMessage("Card Sleeves detected; Loading Sleeves...", 'Maximus')
-    for i = 1, #ENABLED_SLEEVES do
-        assert(SMODS.load_file('items/backs/sleeves/' .. ENABLED_SLEEVES[i] .. '.lua'))()
-        sendDebugMessage("Loaded Sleeve: " .. ENABLED_SLEEVES[i], 'Maximus')
+    for i = 1, #ENABLED_BACKS do
+        assert(SMODS.load_file('items/backs/sleeves/' .. ENABLED_BACKS[i] .. '.lua'))()
+        sendDebugMessage("Loaded Sleeve: " .. ENABLED_BACKS[i], 'Maximus')
     end
     sendDebugMessage("", 'Maximus')
 end

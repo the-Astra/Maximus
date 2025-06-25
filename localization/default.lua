@@ -1843,6 +1843,22 @@ return {
                     'an extra {C:attention}#1# Stone Cards{}'
                 }
             },
+            sleeve_mxms_astro = {
+                name = 'Astro Sleeve',
+                text = {
+                    'Start run with ',
+                    '{C:horoscope,T:v_mxms_multitask}#1#{},',
+                    'Opens a {C:horoscope}#2#{}',
+                    'at the end of every ante'
+                }
+            },
+            sleeve_mxms_astro_alt = {
+                name = 'Astro Sleeve',
+                text = {
+                    'Start run with ',
+                    '{C:horoscope,T:v_mxms_workaholic}#1#{}'
+                }
+            },
             sleeve_mxms_grilled = {
                 name = 'Grilled Sleeve',
                 text = {
