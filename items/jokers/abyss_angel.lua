@@ -8,7 +8,7 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = {
-            gain = 0.5,
+            gain = 0.25,
             target_chips = 200,
             accrued_chips = 0,
             Xmult = 1
