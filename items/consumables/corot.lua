@@ -31,7 +31,7 @@ if Maximus_config.new_handtypes then
             }
         end,
         in_pool = function(self, args)
-            if (G.GAME.selected_back and G.GAME.selected_back.name == 'b_mxms_sixth_finger') then
+            if (G.GAME and G.GAME.starting_params.play_limit >= 6) then
                 return true
             end
 
