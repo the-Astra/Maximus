@@ -40,5 +40,12 @@ SMODS.Blind {
             end
         end
         self.triggered = false
+    end,
+    in_pool = function(self, args)
+        if G.GAME.bosses_used['bl_mxms_cheat'] > 0 then
+            return false
+        end
+
+        return true
     end
 }
