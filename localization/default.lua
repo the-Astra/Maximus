@@ -9,8 +9,8 @@ return {
                     'and Jacks {C:attention}per suit{}'
                 }
             },
-            b_mxms_astro = {
-                name = 'Astro Deck',
+            b_mxms_destiny = {
+                name = 'Destiny Deck',
                 text = {
                     'Start run with ',
                     '{C:horoscope,T:v_mxms_multitask}#1#{},',
@@ -1843,8 +1843,8 @@ return {
                     'an extra {C:attention}#1# Stone Cards{}'
                 }
             },
-            sleeve_mxms_astro = {
-                name = 'Astro Sleeve',
+            sleeve_mxms_destiny = {
+                name = 'Destiny Sleeve',
                 text = {
                     'Start run with ',
                     '{C:horoscope,T:v_mxms_multitask}#1#{},',
@@ -1852,8 +1852,8 @@ return {
                     'at the end of every ante'
                 }
             },
-            sleeve_mxms_astro_alt = {
-                name = 'Astro Sleeve',
+            sleeve_mxms_destiny_alt = {
+                name = 'Destiny Sleeve',
                 text = {
                     'Start run with ',
                     '{C:horoscope,T:v_mxms_workaholic}#1#{}'

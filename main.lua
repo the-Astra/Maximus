@@ -843,7 +843,7 @@ local ENABLED_BACKS = {
     'professional',
     'grilled',
     'autographed',
-    'astro',
+    'destiny',
 }
 
 sendDebugMessage("Loading Backs...", 'Maximus')
