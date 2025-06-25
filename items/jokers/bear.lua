@@ -16,7 +16,7 @@ SMODS.Joker {
     credit = {
         art = "Maxiss02",
         code = "theAstra",
-        concept = "Maxiss02"
+        concept = "anerdymous"
     },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
