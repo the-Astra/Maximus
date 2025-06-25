@@ -1,6 +1,6 @@
 if Maximus_config.horoscopes then
     CardSleeves.Sleeve {
-        key = "astro",
+        key = "destiny",
         atlas = "Sleeves",
         pos = {
             x = 0,
@@ -8,7 +8,7 @@ if Maximus_config.horoscopes then
         },
         loc_vars = function(self, info_queue, card)
             local key, vars
-            if self.get_current_deck_key() == 'b_mxms_astro' then
+            if self.get_current_deck_key() == 'b_mxms_destiny' then
                 key = self.key .. '_alt'
                 vars = {
                     localize { type = 'name_text', key = 'v_mxms_workaholic', set = 'Voucher' },
@@ -23,7 +23,7 @@ if Maximus_config.horoscopes then
             return { key = key, vars = vars }
         end,
         apply = function(self, sleeve)
-            if self.get_current_deck_key() == 'b_mxms_astro' then
+            if self.get_current_deck_key() == 'b_mxms_destiny' then
                 -- If on Astro deck, apply Workaholic
                 G.GAME.used_vouchers['v_mxms_workaholic'] = true
                 G.GAME.starting_voucher_count = (G.GAME.starting_voucher_count or 0) + 1
@@ -43,6 +43,7 @@ if Maximus_config.horoscopes then
                         return true
                     end
                 }))
+                G.GAME.modifiers.mxms_horoscope_ante_end = true
             end
         end
     }

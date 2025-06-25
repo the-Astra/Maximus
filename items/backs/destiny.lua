@@ -22,6 +22,9 @@ if Maximus_config.horoscopes then
                     localize { type = 'name_text', key = self.config.booster, set = 'Other' }
                 }
             }
+        end,
+        apply = function(self, back)
+            G.GAME.modifiers.mxms_horoscope_ante_end = true
         end
     }
 else
@@ -32,7 +35,7 @@ end
 local update_shopref = Game.update_shop
 function Game.update_shop(self, dt)
     update_shopref(self, dt)
-    if not G.GAME.selected_back.name == 'b_mxms_destiny' and not (G.GAME.selected_sleeve and G.GAME.selected_sleeve == 'sleeve_mxms_destiny') then return end
+    if not G.GAME.modifiers.mxms_horoscope_ante_end then return end
     if G.GAME.round_resets.ante <= G.GAME.astro_last_pack then return end
     G.GAME.astro_last_pack = G.GAME.round_resets.ante
     G.E_MANAGER:add_event(Event({
