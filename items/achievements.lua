@@ -225,3 +225,16 @@ SMODS.Achievement {
         end
     end
 }
+
+
+
+SMODS.Achievement {
+    key = 'behind',
+    hidden_name = false,
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        if args.type == 'spider_trigger' then
+            return true
+        end
+    end
+}

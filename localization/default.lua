@@ -2115,6 +2115,7 @@ return {
     misc = {
         achievement_descriptions = {
             ach_mxms_apocalypse = "Have a full Joker roster consisting only of Zombies",
+            ach_mxms_behind = "Encounter a Spider... somewhere...",
             ach_mxms_commitment = "Have a deck consisting entirely of cards with a Black Seal",
             ach_mxms_copy = "Have a Bootleg target either a Blueprint or a Brainstorm",
             ach_mxms_disciple = "Discover every Maximus Joker",
@@ -2132,6 +2133,7 @@ return {
         },
         achievement_names = {
             ach_mxms_apocalypse = "Apocalypse",
+            ach_mxms_behind = "Right Behind You...",
             ach_mxms_commitment = "Now That\'s Commitment",
             ach_mxms_copy = "Counterfeit Operation",
             ach_mxms_disciple = "Disciple of James",

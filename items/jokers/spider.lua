@@ -43,6 +43,12 @@ SMODS.Joker {
                         end
                     end
                 }))
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        check_for_unlock({ type = 'spider_trigger' })
+                        return true;
+                    end
+                }))
                 return {
                     mult = stg.mult,
                     delay = 4,
