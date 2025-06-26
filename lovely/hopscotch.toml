@@ -7,11 +7,11 @@ priority = 1
 [[patches]]
 [patches.pattern]
 target = "functions/button_callbacks.lua"
-pattern = "if G.blind_select then "
-position = "after"
+pattern = "G.blind_prompt_box:get_UIE_by_ID('prompt_dynatext1').config.object.pop_delay = 0"
+position = "before"
 payload = '''
-    local _tag = e.UIBox:get_UIE_by_ID('tag_container')
-    G.GAME.mxms_skip_tag = _tag
+local _tag = e.UIBox:get_UIE_by_ID('tag_container')
+G.GAME.mxms_skip_tag = _tag
 '''
 match_indent = true
-times = 2
+times = 1
