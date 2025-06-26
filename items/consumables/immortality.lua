@@ -7,11 +7,11 @@ SMODS.Consumable {
         y = 3
     },
     config = {
-        extra = 'mxms_Black'
+        extra = 'mxms_black'
     },
     cost = 4,
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue + 1] = G.P_SEALS['mxms_Black']
+        info_queue[#info_queue + 1] = G.P_SEALS['mxms_black']
     end,
     credit = {
         art = "Maxiss02",
