@@ -2,7 +2,7 @@ CardSleeves.Sleeve {
     key = "professional",
     atlas = "Sleeves",
     pos = {
-        x = 0,
+        x = 4,
         y = 0
     },
     loc_vars = function(self, info_queue, card)
