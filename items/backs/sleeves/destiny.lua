@@ -3,7 +3,7 @@ if Maximus_config.horoscopes then
         key = "destiny",
         atlas = "Sleeves",
         pos = {
-            x = 0,
+            x = 3,
             y = 0
         },
         loc_vars = function(self, info_queue, card)
