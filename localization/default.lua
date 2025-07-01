@@ -2043,6 +2043,16 @@ return {
                 },
             },
         },
+        Tarot = {
+            c_mxms_mission = {
+                name = "The Mission",
+                text = {
+                    "Enhances {C:attention}#1#{}",
+                    "selected cards to",
+                    "{C:attention}#2#s",
+                },
+            },  
+        },
         Voucher = {
             v_mxms_best_dressed = {
                 name = 'Best Dressed',

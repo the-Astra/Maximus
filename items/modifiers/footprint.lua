@@ -55,7 +55,7 @@ SMODS.Enhancement {
 
 SMODS.DrawStep { -- Derived from Ortalab
     key = 'footprint',
-    order = 35,
+    order = 25,
     func = function(self, layer)
         if SMODS.has_enhancement(self, 'm_mxms_footprint') then
             if not Maximus.footprint_sprite then
