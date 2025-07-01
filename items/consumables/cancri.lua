@@ -39,7 +39,7 @@ if Maximus_config.new_handtypes then
             return false
         end,
         set_card_type_badge = function(self, card, badges)
-            badges[#badges + 1] = create_badge(localize('k_mxms_exoplanet'), get_type_colour(card.config.center), nil,1.2)
+            badges[#badges + 1] = create_badge(localize('k_mxms_exoplanet'), get_type_colour(card.config.center, card), nil,1.2)
         end
     }
 else
