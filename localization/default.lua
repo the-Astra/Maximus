@@ -137,7 +137,7 @@ return {
                     "{C:green}0 in 5{} chance to",
                     "upgrade played {C:attention}Poker Hand",
                     "by {C:attention}+#1#{} level",
-                    "Chance increases by {C:attention}1{} for",
+                    "Chance increases by {C:green}1{} for",
                     "each {C:attention}Footprint{} played",
                     "{s:0.8,C:inactive}Only one Footprint can trigger per hand"
                 }
