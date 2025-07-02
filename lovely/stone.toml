@@ -3,35 +3,6 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-    # Change rendering code for stone cards show include rank and suit with Hammer and Chisel
-[[patches]]
-[patches.pattern]
-target = '''=[SMODS _ "src/card_draw.lua"]'''
-pattern = '''
-if self.children.front and (self.ability.delayed or (self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card)) then
-'''
-position = "at"
-payload = '''
-if self.children.front and (self.ability.delayed or ((self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel'))) and not self.config.center.replace_base_card)) then
-'''
-match_indent = true
-times = 4
-
-[[patches]]
-[patches.pattern]
-target = '''=[SMODS _ "src/card_draw.lua"]'''
-pattern = '''
-if self.children.front and self.ability.effect ~= 'Stone Card' and not self.config.center.replace_base_card then
-'''
-position = "at"
-payload = '''
-if self.children.front and (self.ability.effect ~= 'Stone Card' or next(SMODS.find_card('j_mxms_hammer_and_chisel'))) and not self.config.center.replace_base_card then
-'''
-match_indent = true
-times = 1
-
-
-
     # Rewrite stone card scoring functionality
 [[patches]]
 [patches.pattern]
@@ -50,7 +21,7 @@ end
 match_indent = true
 times = 1
 
-    # Change has_no_suit check to exclude stone cards with rock candy
+    # Change has_no_suit check to exclude stone cards with rock candy or hammer and chisel
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS _ "src/utils.lua"]'''
@@ -60,6 +31,19 @@ if k == 'm_stone' or G.P_CENTERS[k].no_suit then is_stone = true end
 position = "before"
 payload = '''
 if k == 'm_stone' and next(SMODS.find_card('j_mxms_rock_candy')) then is_wild = true end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+if k == 'm_stone' or G.P_CENTERS[k].no_suit then is_stone = true end
+'''
+position = "after"
+payload = '''
+if k == 'm_stone' and next(SMODS.find_card('j_mxms_hammer_and_chisel')) then is_stone = false end
 '''
 match_indent = true
 times = 1
@@ -74,6 +58,20 @@ if k == 'm_wild' or G.P_CENTERS[k].any_suit then return true end
 position = "after"
 payload = '''
 if k == 'm_stone' and next(SMODS.find_card('j_mxms_rock_candy')) then return true end
+'''
+match_indent = true
+times = 1
+
+    # Change has_no_rank check to exclude stone cards with hammer and chisel[[patches]]
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+if k == 'm_stone' or G.P_CENTERS[k].no_rank then return true end
+'''
+position = "before"
+payload = '''
+if k == 'm_stone' and next(SMODS.find_card('j_mxms_hammer_and_chisel')) then return false end
 '''
 match_indent = true
 times = 1
