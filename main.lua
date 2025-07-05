@@ -996,7 +996,7 @@ local ENABLED_CONSUMABLES = {
     'immortality',
 
     -- Tarots
-    'mission',
+    'aeon',
 }
 
 sendDebugMessage("Loading Consumables...", 'Maximus')

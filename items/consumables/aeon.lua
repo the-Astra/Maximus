@@ -1,10 +1,10 @@
 SMODS.Consumable {
-    key = 'mission',
+    key = 'aeon',
     set = 'Tarot',
-    atlas = 'Placeholder',
+    atlas = 'Consumables',
     pos = {
-        x = 1,
-        y = 2
+        x = 0,
+        y = 4
     },
     config = {
         max_highlighted = 2,
@@ -16,7 +16,7 @@ SMODS.Consumable {
         return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
     end,
     credit = {
-        art = "Maxiss02",
+        art = "SadCube",
         code = "theAstra",
         concept = "N/A"
     }

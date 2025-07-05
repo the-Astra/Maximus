@@ -2044,8 +2044,8 @@ return {
             },
         },
         Tarot = {
-            c_mxms_mission = {
-                name = "The Mission",
+            c_mxms_aeon = {
+                name = "Aeon",
                 text = {
                     "Enhances {C:attention}#1#{}",
                     "selected cards to",
