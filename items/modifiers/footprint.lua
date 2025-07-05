@@ -33,7 +33,7 @@ SMODS.Enhancement {
 
             if pseudorandom('footprint') <= (chance * G.GAME.probabilities.normal) / 5 then
                 card.ability.extra.has_already_upgraded = true
-                level_up_hand(card, context.scoring_name, false, stg.levels)
+                SMODS.smart_level_up_hand(card, context.scoring_name, false, stg.levels)
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         card.ability.extra.has_already_upgraded = nil

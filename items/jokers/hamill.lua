@@ -38,7 +38,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         local most_played_hand = mxms_get_most_played_hand()
         if context.before and context.scoring_name == most_played_hand then
-            level_up_hand(context.blueprint_card or card, most_played_hand, nil, stg.levels)
+            SMODS.smart_level_up_hand(context.blueprint_card or card, most_played_hand, nil, stg.levels)
         end
     end
 }

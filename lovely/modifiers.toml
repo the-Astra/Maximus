@@ -124,9 +124,7 @@ position = "before"
 payload = '''
 
 if G.GAME.modifiers.mxms_hand_decay then
-    update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(G.GAME.modifiers.mxms_hand_decay, 'poker_hands'),chips = G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].chips, mult = G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].mult, level=G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].level})
-    level_up_hand(nil, G.GAME.modifiers.mxms_hand_decay, nil, -5)
-    update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+    SMODS.smart_level_up_hand(nil, G.GAME.modifiers.mxms_hand_decay, nil, -5)
 end
 
 if G.GAME.modifiers.mxms_ante_sell then

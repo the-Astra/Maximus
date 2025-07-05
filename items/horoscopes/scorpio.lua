@@ -96,31 +96,7 @@ SMODS.Consumable {
                     check_for_unlock({ type = "all_horoscopes" })
                 end
             }, card)
-        update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-            {
-                handname = stg.most_played_hand,
-                chips = G.GAME.hands[stg.most_played_hand].chips,
-                mult = G.GAME.hands[stg.most_played_hand].mult,
-                level = G.GAME.hands[stg.most_played_hand].level
-            })
-        level_up_hand(card, stg.most_played_hand, false, stg.upgrade)
-        if context then
-            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-                {
-                    handname = context.scoring_name,
-                    chips = G.GAME.hands[context.scoring_name].chips,
-                    mult = G.GAME.hands[context.scoring_name].mult,
-                    level = G.GAME.hands[context.scoring_name].level
-                })
-        else
-            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-                {
-                    handname = '',
-                    chips = 0,
-                    mult = 0,
-                    level = ''
-                })
-        end
+        SMODS.smart_level_up_hand(card, stg.most_played_hand, false, stg.upgrade)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()

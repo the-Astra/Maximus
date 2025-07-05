@@ -78,16 +78,7 @@ SMODS.Consumable {
                     check_for_unlock({ type = "all_horoscopes" })
                 end
             }, card)
-        level_up_hand(card, stg.hand_type, false, stg.upgrade)
-        if not context then
-            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-                {
-                    handname = '',
-                    chips = 0,
-                    mult = 0,
-                    level = ''
-                })
-        end
+        SMODS.smart_level_up_hand(card, stg.hand_type, false, stg.upgrade)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
