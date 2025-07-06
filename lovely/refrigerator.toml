@@ -3,26 +3,6 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-    # Add hook to Gros Michel/Cavendish
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = "elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}"
-position = "at"
-payload = "elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds * G.GAME.mxms_fridge_mod}"
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = "elseif self.ability.name == 'Cavendish' then loc_vars = {self.ability.extra.Xmult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}"
-position = "at"
-payload = "elseif self.ability.name == 'Cavendish' then loc_vars = {self.ability.extra.Xmult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds * G.GAME.mxms_fridge_mod}"
-match_indent = true
-times = 1
-
-
     # Add hook to Ice Cream
 [[patches]]
 [patches.pattern]
