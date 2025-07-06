@@ -16,7 +16,7 @@ SMODS.Joker { -- Refrigerator
     calculate = function(self, card, context)
         if context.mod_probability and mxms_is_food(context.trigger_obj) then
             return {
-                denominator = context.denominator * 2
+                denominator = context.denominator
             }
         end
     end
