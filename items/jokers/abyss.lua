@@ -22,7 +22,7 @@ SMODS.Joker {
             -- Code derived Madness
             local eligible_jokers = {}
             for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] ~= card and not G.jokers.cards[i].ability.eternal and
+                if G.jokers.cards[i] ~= card and not SMODS.is_eternal(G.jokers.cards[i])and
                     not (G.jokers.cards[i].edition and G.jokers.cards[i].edition.negative) and
                     not G.jokers.cards[i].getting_sliced then
                     eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]

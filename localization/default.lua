@@ -1697,7 +1697,7 @@ return {
                 text = {
                     "{X:mult,C:white}X#1#{} Mult,",
                     "Card cannot be {C:attention}modified",
-                    "or {C:attention}destroyed"
+                    "and is {C:eternal}eternal"
                 }
             },
             mxms_credits = {
