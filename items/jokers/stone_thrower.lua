@@ -38,19 +38,17 @@ SMODS.Joker {
             }
         end
 
-        if context.individual and context.cardarea == G.play and context.other_card.config.center == G.P_CENTERS.m_glass and not context.blueprint then
+        if context.individual and context.cardarea == G.play and SMODS.has_enhancement(context.other_card, 'm_glass') and not context.blueprint then
             stg.chips = stg.chips + stg.gain * G.GAME.mxms_soil_mod
             SMODS.calculate_effect({ message = localize('k_upgrade_ex'), colour = G.C.CHIPS }, card)
             SMODS.calculate_context({ mxms_scaling_card = true })
         end
+
+        if context.fix_probability and context.identifier == 'glass' then
+            return {
+                numerator = 1,
+                denominator = 1
+            }
+        end
     end
 }
-
-SMODS.Enhancement:take_ownership('glass', {
-    calculate = function(self, card, context)
-        if context.destroy_card and context.cardarea == G.play and context.destroy_card == card and (next(SMODS.find_card('j_mxms_stone_thrower')) or SMODS.pseudorandom_probability(card, 'glass', 1, card.ability.extra)) then
-            card.glass_trigger = true
-            return { remove = true }
-        end
-    end,
-}, true)

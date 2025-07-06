@@ -766,6 +766,7 @@ function SMODS.calculate_individual_effect(effect, scored_card, key, amount, fro
             SMODS.calculate_context(v)
         end
     end
+    return ret
 end
 
 local cuc = Card.use_consumeable
