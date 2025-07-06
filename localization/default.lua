@@ -1708,7 +1708,7 @@ return {
                     '{X:purple,C:white}Lead{} {X:purple,C:white}Programmer:{} {C:purple}theAstra',
                     '{X:attention,C:white}Lead{} {X:attention,C:white}Artist:{} {C:attention}Maxiss02',
                     ' ',
-                    '{X:green,C:white}Supporting{} {X:green,C:white}Artists:{} {C:green}pinkzigzagoon, anerdymous, PsyAlola',
+                    '{X:green,C:white}Supporting{} {X:green,C:white}Artists:{} {C:green}pinkzigzagoon, anerdymous, PsyAlola, SadCube',
                     ' ',
                     '{X:planet,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, The CoroboCorner',
                     ' ',
