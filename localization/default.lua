@@ -2208,6 +2208,7 @@ return {
             k_mxms_fail = "Fail",
             k_mxms_failed_ex = "Failed!",
             k_mxms_fortunate_ex = "Fortunate!",
+            k_mxms_free_ex = "Free!",
             k_mxms_glassed = "Glassed",
             k_mxms_halved = "Halved",
             k_mxms_jackpot_ex = "Jackpot!",

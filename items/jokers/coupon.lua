@@ -36,10 +36,24 @@ SMODS.Joker {
 
         if context.mxms_joker_cost_check and context.card.cost ~= 0 then
             if SMODS.pseudorandom_probability(card, 'cou', stg.prob, stg.odds) then
-                context.card.cost = 0
-                (context.blueprint_card or card):juice_up(0.3, 0.4)
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        context.card.cost = 0
+                        context.card:juice_up()
+                        return true
+                    end
+                }))
+                return {
+                    message = localize('k_mxms_free_ex'),
+                    colour = G.C.MONEY,
+                    sound = 'coin1'
+                }
             else
-                SMODS.calculate_effect({ message = localize('k_nope_ex'), colour = G.C.SET.Tarot, sound = 'tarot2' }, context.blueprint_card or card)
+                return {
+                    message = localize('k_nope_ex'),
+                    colour = G.C.SET.Tarot,
+                    sound = 'tarot2'
+                }
             end
         end
     end,
