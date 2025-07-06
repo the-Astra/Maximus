@@ -756,9 +756,9 @@ function SMODS.pseudorandom_probability(trigger_obj, seed, base_numerator, base_
     return ret
 end
 
-local scie = SMODS.calculate_individual_effect
-function SMODS.calculate_individual_effect(effect, scored_card, key, amount, from_edition)
-    local ret = scie(effect, scored_card, key, amount, from_edition)
+local ste = SMODS.trigger_effects
+function SMODS.trigger_effects(effects, card)
+    local ret = ste(effects, card)
     if next(mxms_probability_results) then
         local prob_tables = mxms_probability_results
         mxms_probability_results = {}
