@@ -23,7 +23,9 @@ if Maximus_config.horoscopes then
                     func = function()
                         SMODS.add_card({
                             set = 'Horoscope',
-                            key_append = 'lor'
+                            area = G.mxms_horoscope,
+                            key_append = 'lor',
+                            discover = true
                         })
                         G.GAME.mxms_horoscope_buffer = G.GAME.mxms_horoscope_buffer - 1
                         return true;

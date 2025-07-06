@@ -17,6 +17,8 @@ SMODS.Joker {
         concept = "anerdymous"
     },
     blueprint_compat = false,
+    perishable_compat = false,
+    eternal_compat = false,
     cost = 4,
     pools = {
         Food = true

@@ -7,7 +7,7 @@ SMODS.Consumable {
         y = 3
     },
     config = {
-        extra = 'mxms_Black'
+        extra = 'mxms_black'
     },
     cost = 4,
     loc_vars = function(self, info_queue, card)

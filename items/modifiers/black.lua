@@ -1,5 +1,5 @@
 SMODS.Seal {
-    key = 'Black',
+    key = 'black',
     config = {
         extra = {
             Xmult = 2

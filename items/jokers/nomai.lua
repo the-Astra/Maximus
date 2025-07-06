@@ -28,9 +28,7 @@ if Maximus_config.horoscopes then
                     trigger = 'after',
                     delay = 0.2,
                     func = function()
-                        local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'nomai')
-                        new_card:add_to_deck()
-                        G.mxms_horoscope:emplace(new_card)
+                        local new_card = SMODS.add_card({set = 'Horoscope', area = G.mxms_horoscope, key_append = 'nomai', discover = true})
                         new_card:juice_up(0.3, 0.4)
                         G.GAME.mxms_horoscope_buffer = 0
                         return true
