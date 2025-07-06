@@ -38,7 +38,7 @@ SMODS.Joker {
                 end
             end
 
-            if pseudorandom('lucy') < (prob * G.GAME.probabilities.normal) / stg.odds then
+            if SMODS.pseudorandom_probability(card, 'lucy', prob, stg.odds) then
                 if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     local planet_key
@@ -59,12 +59,6 @@ SMODS.Joker {
                         colour = G.C.SECONDARY_SET.Planet
                     }
                 end
-            else
-                SMODS.calculate_context({
-                    mxms_failed_prob = true,
-                    odds = stg.odds - (prob * G.GAME.probabilities.normal),
-                    card = card
-                })
             end
         end
     end

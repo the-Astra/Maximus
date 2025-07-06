@@ -641,11 +641,11 @@ return {
             j_mxms_fortune_cookie = {
                 name = 'Fortune Cookie',
                 text = {
-                    '{C:green}#3# out of #4#{} chance to',
+                    '{C:green}#1# out of #2#{} chance to',
                     'receive a {C:green}random {C:tarot}Tarot{}',
                     'card when playing a hand',
                     '{s:0.8,C:inactive}(Must have room)',
-                    '{s:0.8,C:inactive}Chance reduces by #1#',
+                    '{s:0.8,C:inactive}Chance reduces by #3#',
                     '{s:0.8,C:inactive}for every played hand'
                 }
             },
@@ -908,8 +908,8 @@ return {
                 text = {
                     'Played hands containing',
                     'at least {C:attention}three 7s{} have',
-                    'a {C:green}#1# in #3#{} chance',
-                    'to give {C:money}$#2#'
+                    'a {C:green}#1# in #2#{} chance',
+                    'to give {C:money}$#3#'
                 }
             },
             j_mxms_jestcoin = {

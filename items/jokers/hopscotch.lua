@@ -23,13 +23,13 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.prob * G.GAME.probabilities.normal, stg.odds }
+            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds) }
         }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.setting_blind and G.GAME.blind:get_type() ~= 'Boss' and not context.blueprint then
-            if pseudorandom(pseudoseed('hopscotch' .. G.GAME.round_resets.ante)) < stg.prob * G.GAME.probabilities.normal / stg.odds then
+            if SMODS.pseudorandom_probability(card, 'hopscotch', stg.prob, stg.odds) then
                 local _tag = G.GAME.mxms_skip_tag
                 if _tag and _tag.config then
                     play_sound('generic1')
@@ -42,15 +42,7 @@ SMODS.Joker {
                     sound = 'tarot2',
                     card = card,
                     message = localize('k_nope_ex'),
-                    colour = G.C.SET.Tarot,
-                    func = function()
-                        SMODS.calculate_context({
-                            mxms_failed_prob = true,
-                            odds = stg.odds -
-                                (stg.prob * G.GAME.probabilities.normal),
-                            card = card
-                        })
-                    end
+                    colour = G.C.SET.Tarot
                 }
             end
         end

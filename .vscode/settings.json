@@ -79,7 +79,11 @@
         "Sprite",
         "Tag",
         "calculate_reroll_cost",
-        "CardSleeves"
+        "CardSleeves",
+        "mxms_probability_results",
+        "eval_card",
+        "mxms_invert_prob_cards",
+        "mxms_is_invert_prob_check"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

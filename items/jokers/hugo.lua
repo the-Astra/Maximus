@@ -31,8 +31,9 @@ SMODS.Joker {
     cost = 20,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-
-        return { vars = { stg.prob * G.GAME.probabilities.normal, stg.odds } }
+        return {
+            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds) }
+        }
     end
 }
 
@@ -41,14 +42,9 @@ G.FUNCS.select_blind = function(e)
     local hugos = SMODS.find_card('j_mxms_hugo')
     if next(hugos) and G.GAME.blind_on_deck ~= 'Boss' then
         for k, v in pairs(hugos) do
-            if pseudorandom('hugo') < (v.ability.extra.prob * G.GAME.probabilities.normal) / v.ability.extra.odds then
+            if SMODS.pseudorandom_probability(v, 'cou', v.ability.extra.prob, v.ability.extra.odds) then
                 delay(0.2)
                 SMODS.calculate_effect({ message = localize('k_skipped_cap') }, v)
-                SMODS.calculate_context({
-                    mxms_failed_prob = true,
-                    odds = v.ability.extra.odds -
-                        (v.ability.extra.prob * G.GAME.probabilities.normal)
-                })
                 delay(0.2)
                 G.FUNCS.skip_blind(e)
                 return

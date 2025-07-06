@@ -30,7 +30,7 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.joker_main then
-            if pseudorandom('spider') < (stg.prob * G.GAME.probabilities.normal) / stg.odds then
+            if SMODS.pseudorandom_probability(card, 'spider', stg.prob, stg.odds) then
                 local og_sound = G.SETTINGS.SOUND.music_volume
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -69,12 +69,6 @@ SMODS.Joker {
                         }))
                     end
                 }
-            else
-                SMODS.calculate_context({
-                    mxms_failed_prob = true,
-                    odds = stg.odds - (stg.prob * G.GAME.probabilities.normal),
-                    card = card
-                })
             end
         end
     end

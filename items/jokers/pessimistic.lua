@@ -43,8 +43,8 @@ SMODS.Joker {
             }
         end
 
-        if context.mxms_failed_prob and not context.blueprint then
-            stg.mult = stg.mult + context.odds
+        if context.mxms_probability_check and (not context.success and not mxms_is_invert_prob_check(context.card) or context.success and mxms_is_invert_prob_check(context.card)) and context.card.ability.effect ~= 'Lucky Card' and not context.blueprint then
+            stg.mult = stg.mult + (context.odds - context.prob)
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.ATTENTION,

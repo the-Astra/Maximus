@@ -10,6 +10,7 @@ SMODS.Joker {
         extra = {
             Xmult = 1,
             gain = 1,
+            prob = 1,
             odds = 50
         }
     },
@@ -22,13 +23,13 @@ SMODS.Joker {
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-        return { vars = { stg.Xmult, stg.gain, G.GAME.probabilities.normal, stg.odds * G.GAME.mxms_fridge_mod } }
+        return { vars = { stg.Xmult, stg.gain, SMODS.get_probability_vars(card, stg.prob, stg.odds * G.GAME.mxms_fridge_mod) } }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            if pseudorandom('comedian') < G.GAME.probabilities.normal / stg.odds * G.GAME.mxms_fridge_mod then
+            if SMODS.pseudorandom_probability(card, 'comedian', stg.prob, stg.odds * G.GAME.mxms_fridge_mod) then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -43,11 +44,6 @@ SMODS.Joker {
                             func = function()
                                 G.jokers:remove_card(card)
                                 card:remove()
-                                SMODS.calculate_context({
-                                    mxms_failed_prob = true,
-                                    odds = stg.odds -
-                                        G.GAME.probabilities.normal
-                                })
                                 card = nil
                                 return true;
                             end

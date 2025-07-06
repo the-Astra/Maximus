@@ -23,7 +23,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.prob * G.GAME.probabilities.normal, stg.money, stg.odds }
+            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds), stg.money}
         }
     end,
     calculate = function(self, card, context)
@@ -38,7 +38,7 @@ SMODS.Joker {
             end
 
             if sevens >= 3 then
-                if pseudorandom(pseudoseed('jackpot' .. G.GAME.round_resets.ante)) < G.GAME.probabilities.normal / stg.odds then
+                if SMODS.pseudorandom_probability(card, 'jackpot', stg.prob, stg.odds) then
                     SMODS.calculate_effect({ message = localize('k_mxms_jackpot_ex'), colour = G.C.MONEY },
                         context.blueprint_card or card)
                     return {
@@ -46,7 +46,6 @@ SMODS.Joker {
                         card = card
                     }
                 else
-                    SMODS.calculate_context({ mxms_failed_prob = true, odds = stg.odds - G.GAME.probabilities.normal })
                     return {
                         card = card,
                         message = localize('k_nope_ex'),

@@ -19,14 +19,17 @@ SMODS.Voucher {
 SMODS.Consumable:take_ownership('ankh', {
         config = {
             extra = {
-                chance = 2,
+                prob = 2,
                 odds = 2,
             }
         },
-        loc_vars = function(self, info_queue, center)
-            return { vars = { center.ability.extra.chance - G.GAME.mxms_v_destroy_reduction, center.ability.extra.odds } }
+        loc_vars = function(self, info_queue, card)
+            local stg = card.ability.extra
+            local prob, odds = SMODS.get_probability_vars(card, stg.prob - G.GAME.mxms_v_destroy_reduction, stg.odds)
+            return { vars = { prob, odds } }
         end,
         use = function(self, card, area, copier)
+            local stg = card.ability.extra
             local deletable_jokers = {}
             for k, v in pairs(G.jokers.cards) do
                 if not v.ability.eternal then deletable_jokers[#deletable_jokers + 1] = v end
@@ -39,7 +42,7 @@ SMODS.Consumable:take_ownership('ankh', {
                 func = function()
                     for k, v in pairs(deletable_jokers) do
                         if v ~= chosen_joker then
-                            if pseudorandom('ankh') < (card.ability.extra.chance - G.GAME.mxms_v_destroy_reduction) / card.ability.extra.odds then
+                            if SMODS.pseudorandom_probability(card, 'ankh', stg.prob - G.GAME.mxms_v_destroy_reduction, stg.odds) then
                                 v:start_dissolve(nil, _first_dissolve)
                                 _first_dissolve = true
                             elseif not G.GAME.used_vouchers.v_mxms_guardian then
@@ -72,14 +75,17 @@ SMODS.Consumable:take_ownership('ankh', {
 SMODS.Consumable:take_ownership('hex', {
         config = {
             extra = {
-                chance = 2,
+                prob = 2,
                 odds = 2,
             }
         },
-        loc_vars = function(self, info_queue, center)
-            return { vars = { center.ability.extra.chance - G.GAME.mxms_v_destroy_reduction, center.ability.extra.odds } }
+        loc_vars = function(self, info_queue, card)
+            local stg = card.ability.extra
+            local prob, odds = SMODS.get_probability_vars(card, stg.prob - G.GAME.mxms_v_destroy_reduction, stg.odds)
+            return { vars = { prob, odds } }
         end,
         use = function(self, card, area, copier)
+            local stg = card.ability.extra
             local temp_pool = card.eligible_editionless_jokers or {}
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -93,7 +99,7 @@ SMODS.Consumable:take_ownership('hex', {
                     local _first_dissolve = nil
                     for k, v in pairs(G.jokers.cards) do
                         if v ~= eligible_card and (not v.ability.eternal) then
-                            if pseudorandom('hex') < (card.ability.extra.chance - G.GAME.mxms_v_destroy_reduction) / card.ability.extra.odds then
+                            if SMODS.pseudorandom_probability(card, 'hex', stg.prob - G.GAME.mxms_v_destroy_reduction, stg.odds) then
                                 v:start_dissolve(nil, _first_dissolve); _first_dissolve = true
                             elseif not G.GAME.used_vouchers.v_mxms_guardian then
                                 card_eval_status_text(v, 'extra', nil, nil, nil, { message = localize('k_safe_ex') })

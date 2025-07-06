@@ -31,7 +31,7 @@ SMODS.Enhancement {
                 end
             end
 
-            if pseudorandom('footprint') <= (chance * G.GAME.probabilities.normal) / 5 then
+            if SMODS.pseudorandom_probability(card, 'footprint', chance, 5) then
                 card.ability.extra.has_already_upgraded = true
                 SMODS.smart_level_up_hand(card, context.scoring_name, false, stg.levels)
                 G.E_MANAGER:add_event(Event({
@@ -43,10 +43,7 @@ SMODS.Enhancement {
             else
                 return {
                     message = localize('k_nope_ex'),
-                    colour = G.C.FILTER,
-                    func = function()
-                        SMODS.calculate_context({ mxms_failed_prob = true, odds = 5 - (chance * G.GAME.probabilities.normal), card = card })
-                    end
+                    colour = G.C.FILTER
                 }
             end
         end

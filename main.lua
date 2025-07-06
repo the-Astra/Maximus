@@ -430,6 +430,15 @@ if not SMODS.ObjectTypes.Food then
     }
 end
 
+mxms_invert_prob_cards = {
+    j_gros_michel = true,
+    j_cavendish = true,
+    j_mxms_hugo = true,
+    j_mxms_jestcoin = true,
+    c_ankh = true,
+    c_hex = true
+}
+
 zodiac_killer_pools = {
     ['Aries'] = true,
     ['Taurus'] = true,
@@ -444,6 +453,8 @@ zodiac_killer_pools = {
     ['Aquarius'] = true,
     ['Pisces'] = true,
 }
+
+mxms_probability_results = {}
 --#endregion
 
 --#region Round Changing Variables --------------------------------------------------------------------------
@@ -737,6 +748,39 @@ function Card:set_cost()
     self.cost = self.cost * G.GAME.mxms_shop_price_multiplier * G.GAME.mxms_creep_mod
 end
 
+local spp = SMODS.pseudorandom_probability
+function SMODS.pseudorandom_probability(trigger_obj, seed, base_numerator, base_denominator)
+    local ret = spp(trigger_obj, seed, base_numerator, base_denominator)
+    mxms_probability_results[#mxms_probability_results+1] = {success = ret, card = trigger_obj, prob = base_numerator, odds = base_denominator}
+    return ret
+end
+
+local scie = SMODS.calculate_individual_effect
+function SMODS.calculate_individual_effect(effect, scored_card, key, amount, from_edition)
+    local ret = scie(effect, scored_card, key, amount, from_edition)
+    if next(mxms_probability_results) then
+        local prob_tables = mxms_probability_results
+        mxms_probability_results = {}
+        for i, v in ipairs(prob_tables) do
+            v.mxms_probability_check = true
+            SMODS.calculate_context(v)
+        end
+    end
+end
+
+local cuc = Card.use_consumeable
+function Card:use_consumeable(area, copier)
+    cuc(self, area, copier)
+    if next(mxms_probability_results) then
+        local prob_tables = mxms_probability_results
+        mxms_probability_results = {}
+        for i, v in ipairs(prob_tables) do
+            v.mxms_probability_check = true
+            SMODS.calculate_context(v)
+        end
+    end
+end
+
 --#endregion
 
 --#region Helper Functions ----------------------------------------------------------------------------------
@@ -780,6 +824,11 @@ function mxms_is_food(card)
 
     -- If it doesn't, we check if this is a vanilla food joker
     return mxms_vanilla_food[center.key]
+end
+
+-- Checks if a card should have an inverted check when evaluating prob results
+function mxms_is_invert_prob_check(card)
+    return mxms_invert_prob_cards[card.config.center.key]
 end
 
 ---Tallies Maximus cards from a given pool and possible subset; Derived from SMODS modCollectionTally
