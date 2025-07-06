@@ -512,7 +512,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
 
     -- Zombie
     if next(SMODS.find_card('j_mxms_zombie')) and G.GAME.current_round.mxms_zombie_target.card ~= nil then
-        if not G.GAME.current_round.mxms_zombie_target.card.ability.eternal then
+        if not SMODS.is_eternal(G.GAME.current_round.mxms_zombie_target.card) then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     play_sound('timpani')
@@ -749,8 +749,8 @@ function Card:set_cost()
 end
 
 local spp = SMODS.pseudorandom_probability
-function SMODS.pseudorandom_probability(trigger_obj, seed, base_numerator, base_denominator)
-    local ret = spp(trigger_obj, seed, base_numerator, base_denominator)
+function SMODS.pseudorandom_probability(trigger_obj, seed, base_numerator, base_denominator, identifier)
+    local ret = spp(trigger_obj, seed, base_numerator, base_denominator, identifier)
     mxms_probability_results[#mxms_probability_results+1] = {success = ret, card = trigger_obj, prob = base_numerator, odds = base_denominator}
     return ret
 end
