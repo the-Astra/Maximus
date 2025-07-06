@@ -436,7 +436,8 @@ mxms_invert_prob_cards = {
     j_mxms_hugo = true,
     j_mxms_jestcoin = true,
     c_ankh = true,
-    c_hex = true
+    c_hex = true,
+    m_glass = true
 }
 
 zodiac_killer_pools = {
@@ -829,7 +830,16 @@ end
 
 -- Checks if a card should have an inverted check when evaluating prob results
 function mxms_is_invert_prob_check(card)
-    return mxms_invert_prob_cards[card.config.center.key]
+    if mxms_invert_prob_cards[card.config.center.key] then
+        return true
+    elseif next(SMODS.get_enhancements(card)) then
+        for k, v in pairs(SMODS.get_enhancements(card)) do
+            if mxms_invert_prob_cards[v] then
+                return true
+            end
+        end
+    end
+    return false
 end
 
 ---Tallies Maximus cards from a given pool and possible subset; Derived from SMODS modCollectionTally
