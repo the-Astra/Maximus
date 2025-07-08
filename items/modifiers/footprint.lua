@@ -56,7 +56,8 @@ SMODS.DrawStep { -- Derived from Ortalab
     func = function(self, layer)
         if SMODS.has_enhancement(self, 'm_mxms_footprint') then
             if not Maximus.footprint_sprite then
-                Maximus.footprint_sprite = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS['mxms_Modifiers'], { x = 0, y = 3 })
+                Maximus.footprint_sprite = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS['mxms_Modifiers'],
+                    { x = 0, y = 3 })
             end
             Maximus.footprint_sprite.role.draw_major = self
             if self.edition and not self.delay_edition then
@@ -65,12 +66,14 @@ SMODS.DrawStep { -- Derived from Ortalab
                         if type(v.draw) == 'function' then
                             v:draw(self, layer)
                         else
-                            Maximus.footprint_sprite:draw_shader(v.shader, nil, self.ARGS.send_to_shader, nil, self.children.center)
+                            Maximus.footprint_sprite:draw_shader(v.shader, nil, self.ARGS.send_to_shader, nil,
+                                self.children.center)
                         end
                     end
                 end
                 if self.edition.negative then
-                    Maximus.footprint_sprite:draw_shader('negative_shine', nil, self.ARGS.send_to_shader, nil, self.children.center)
+                    Maximus.footprint_sprite:draw_shader('negative_shine', nil, self.ARGS.send_to_shader, nil,
+                        self.children.center)
                 end
             elseif not self:should_draw_base_shader() then
                 -- Don't render base dissolve shader.

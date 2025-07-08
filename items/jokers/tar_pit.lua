@@ -6,11 +6,6 @@ SMODS.Joker {
         y = 16
     },
     rarity = 2,
-    config = {
-        extra = {
-            active = false
-        }
-    },
     credit = {
         art = "Maxiss02",
         code = "theAstra",
@@ -19,12 +14,9 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 5,
     loc_vars = function(self, info_queue, card)
-        local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_SEALS['mxms_Black']
     end,
     calculate = function(self, card, context)
-        local stg = card.ability.extra
-
         if context.before then
             for k, v in pairs(context.scoring_hand) do
                 if v.seal and v.seal ~= 'mxms_Black' then

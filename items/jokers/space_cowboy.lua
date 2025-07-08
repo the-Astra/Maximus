@@ -14,8 +14,6 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 5,
     calculate = function(self, card, context)
-        local stg = card.ability.extra
-
         if context.end_of_round and not context.individual and not context.repetition
             and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1

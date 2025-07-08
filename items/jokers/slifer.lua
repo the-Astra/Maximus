@@ -6,10 +6,6 @@ SMODS.Joker {
         y = 10
     },
     rarity = 3,
-    config = {
-        extra = {
-        }
-    },
     credit = {
         art = "anerdymous",
         code = "theAstra",

@@ -7,7 +7,6 @@ SMODS.Consumable {
         y = 1
     },
     cost = 4,
-    config = {},
     credit = {
         art = "Maxiss02",
         code = "theAstra",

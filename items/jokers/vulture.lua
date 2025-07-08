@@ -15,7 +15,6 @@ SMODS.Joker {
     blueprint_compat = false,
     cost = 7,
     calculate = function(self, card, context)
-        local stg = card.ability.extra
         if context.remove_playing_cards and not context.blueprint then
             for k, v in pairs(context.removed) do
                 if v.seal then

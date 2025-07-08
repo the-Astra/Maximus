@@ -37,7 +37,7 @@ SMODS.Seal {
 
         if context.check_eternal then
             return {
-                no_destroy = {override_compat = true}
+                no_destroy = { override_compat = true }
             }
         end
     end,

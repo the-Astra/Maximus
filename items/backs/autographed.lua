@@ -6,9 +6,9 @@ SMODS.Back {
         y = 0
     },
     credit = {
-    art = "pinkzigzagoon",
-    code = "theAstra",
-    concept = "pinkzigzagoon"
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
     },
     apply = function(self, back)
         local extra_cards = {}

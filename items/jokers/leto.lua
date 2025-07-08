@@ -12,8 +12,8 @@ SMODS.Joker {
     rarity = 4,
     unlocked = false,
     unlock_condition = {
-        type = '', 
-        extra = '', 
+        type = '',
+        extra = '',
         hidden = true
     },
     blueprint_compat = true,
@@ -24,7 +24,6 @@ SMODS.Joker {
         concept = "anerdymous"
     },
     calculate = function(self, card, context)
-        local stg = card.ability.extra
         if context.first_hand_drawn then
             local cen_pool = {}
             for k, v in pairs(G.P_CENTER_POOLS["Enhanced"]) do

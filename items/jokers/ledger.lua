@@ -13,8 +13,8 @@ SMODS.Joker {
     rarity = 4,
     unlocked = false,
     unlock_condition = {
-        type = '', 
-        extra = '', 
+        type = '',
+        extra = '',
         hidden = true
     },
     credit = {
@@ -35,11 +35,8 @@ SMODS.Joker {
             -- Fail if no held jokers are eligible
             if next(eligible_jokers) == nil then
                 return {
-                    extra = {
-                        message = localize('k_mxms_no_target_el'),
-                        colour = G.C.PURPLE
-                    },
-                    card = card
+                    message = localize('k_mxms_no_target_el'),
+                    colour = G.C.PURPLE
                 }
             else
                 -- Choose Joker to affect
@@ -54,11 +51,8 @@ SMODS.Joker {
                         negative = true
                     }, true)
                     return {
-                        extra = {
-                            message = localize('k_mxms_serious_q'),
-                            colour = G.C.PURPLE
-                        },
-                        card = card
+                        message = localize('k_mxms_serious_q'),
+                        colour = G.C.PURPLE
                     }
                 end
             end

@@ -6,9 +6,9 @@ SMODS.Back {
         y = 0
     },
     credit = {
-    art = "pinkzigzagoon",
-    code = "theAstra",
-    concept = "pinkzigzagoon"
+        art = "pinkzigzagoon",
+        code = "theAstra",
+        concept = "pinkzigzagoon"
     },
     apply = function(self, back)
         --Disable skipping
@@ -27,8 +27,9 @@ create_UIBox_blind_tag = function(blind_choice, run_info)
 end
 
 SMODS.Joker:take_ownership('j_throwback', {
-    in_pool = function(self, args)
-        return not G.GAME.modifiers.disable_blind_skips
-    end
-},
-true)
+        in_pool = function(self, args)
+            return not G.GAME.modifiers.disable_blind_skips
+        end
+    },
+    true
+)

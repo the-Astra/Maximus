@@ -27,7 +27,6 @@ SMODS.Joker {
         info_queue[#info_queue + 1] = G.P_SEALS.Red
     end,
     calculate = function(self, card, context)
-        local stg = card.ability.extra
         if context.after and not context.blueprint then
             local faces = 0
             for k, v in pairs(context.scoring_hand) do

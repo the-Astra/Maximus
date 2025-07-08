@@ -15,8 +15,6 @@ if Maximus_config.horoscopes then
         blueprint_compat = true,
         cost = 4,
         calculate = function(self, card, context)
-            local stg = card.ability.extra
-
             if context.mxms_beat_horoscope and #G.mxms_horoscope.cards + G.GAME.mxms_horoscope_buffer < G.mxms_horoscope.config.card_limit + 1 then
                 G.GAME.mxms_horoscope_buffer = G.GAME.mxms_horoscope_buffer + 1
                 G.E_MANAGER:add_event(Event({

@@ -15,7 +15,6 @@ CardSleeves.Sleeve {
         return { key = key }
     end,
     apply = function(self, sleeve)
-        
         if self.get_current_deck_key() == 'b_mxms_nuclear' then
             --If on Nuclear Deck, add an extra joker slot
             G.GAME.starting_params.joker_slots = G.GAME.starting_params.joker_slots + 1

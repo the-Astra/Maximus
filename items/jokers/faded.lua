@@ -14,8 +14,6 @@ SMODS.Joker {
     blueprint_compat = false,
     cost = 7,
     calculate = function(self, card, context)
-        local stg = card.ability.extra
-    
         if context.before and next(context.poker_hands['Flush']) then
             local suit_check = {Diamonds = false, Spades = false, Clubs = false, Hearts = false}
 
