@@ -15,6 +15,11 @@ SMODS.Joker { -- Refrigerator
     cost = 6,
     calculate = function(self, card, context)
         if context.mod_probability and mxms_is_food(context.trigger_obj) then
+            if context.trigger_obj.config.center.key == 'j_mxms_fortune_cookie' then
+                return {
+                    numerator = context.numerator
+                }
+            end
             return {
                 denominator = context.denominator
             }
