@@ -39,7 +39,6 @@ SMODS.Consumable {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.before then
-            
             local _handname, _played, _order = 'High Card', -1, 100
             for k, v in pairs(G.GAME.hands) do
                 if v.played > _played or (v.played == _played and _order > v.order) then
@@ -94,6 +93,7 @@ SMODS.Consumable {
                 func = function()
                     set_horoscope_success(card)
                     check_for_unlock({ type = "all_horoscopes" })
+                    if TheFamily then G.GAME.horoscope_alert = true end
                 end
             }, card)
         SMODS.smart_level_up_hand(card, stg.most_played_hand, false, stg.upgrade)
@@ -109,7 +109,13 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = localize('k_mxms_failed_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect(
+            {
+                message = localize('k_mxms_failed_ex'),
+                colour = G.C.RED,
+                sound = 'tarot2',
+                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
+            }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',

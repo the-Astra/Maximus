@@ -23,6 +23,10 @@ if Maximus_config.horoscopes then
         self.mxms_horoscope_H, 
         {card_limit = 1, type = 'joker', highlight_limit = 1}
     )
+
+    if TheFamily then
+        G.mxms_horoscope.states.visible = false
+    end
 end
 
 '''

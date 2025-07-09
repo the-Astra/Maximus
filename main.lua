@@ -298,6 +298,75 @@ end
 
 --#endregion
 
+--#region TheFamily compat ----------------------------------------------------------------------------------
+if TheFamily and Maximus_config.horoscopes then
+    TheFamily.create_tab_group({
+        key = "Maximus",
+        order = 1,
+    })
+    TheFamily.create_tab({
+        key = "horoscope",
+        group_key = "Maximus",
+        type = "switch",
+        keep = true,
+
+        front_label = function(definition, card)
+            return {
+                text = localize('b_mxms_stat_horoscopes'),
+                colour = Maximus.C.HOROSCOPE,
+                scale = 0.5,
+            }
+        end,
+        center = "c_mxms_taurus",
+
+        popup = function(definition, card)
+            return {
+                name = {
+                    {
+                        n = G.UIT.T,
+                        config = {
+                            text = localize('b_mxms_stat_horoscopes'),
+                            colour = Maximus.C.HOROSCOPE,
+                            scale = 0.4,
+                        },
+                    },
+                },
+                description = {
+                    {
+                        {
+                            n = G.UIT.T,
+                            config = {
+                                text = "Show/Hide the Maximus Horoscope card area",
+                                scale = 0.3,
+                                colour = G.C.BLACK,
+                            },
+                        },
+                    },
+                },
+            }
+        end,
+        keep_popup_when_highlighted = false,
+        alert = function(definition, card)
+            if not G.GAME.horoscope_alert or G.mxms_horoscope.states.visible then
+                G.GAME.horoscope_alert = false
+                return {
+                    remove = true,
+                }
+            end
+            return {
+                text = "!",
+            }
+        end,
+        highlight = function(definition, card)
+            G.mxms_horoscope.states.visible = true
+            G.GAME.horoscope_alert = false
+        end,
+        unhighlight = function(definition, card)
+            G.mxms_horoscope.states.visible = false
+        end,
+    })
+end
+--#endregion
 
 -- ASSETS
 --#region Colors --------------------------------------------------------------------------------------------
@@ -752,7 +821,13 @@ end
 local spp = SMODS.pseudorandom_probability
 function SMODS.pseudorandom_probability(trigger_obj, seed, base_numerator, base_denominator, identifier)
     local ret = spp(trigger_obj, seed, base_numerator, base_denominator, identifier)
-    mxms_probability_results[#mxms_probability_results+1] = {success = ret, card = trigger_obj, prob = base_numerator, odds = base_denominator}
+    mxms_probability_results[#mxms_probability_results + 1] = {
+        success = ret,
+        card = trigger_obj,
+        prob = base_numerator,
+        odds =
+            base_denominator
+    }
     return ret
 end
 
@@ -1134,6 +1209,10 @@ if Maximus_config.horoscopes then
         end
 
         cae(self, card, location, stay_flipped)
+
+        if self == G.mxms_horoscope and TheFamily then
+            G.GAME.horoscope_alert = true
+        end
     end
 
     local ENABLED_HOROSCOPES = {
