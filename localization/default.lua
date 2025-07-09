@@ -1144,7 +1144,7 @@ return {
                 text = {
                     'Played cards without an',
                     '{C:attention}enchancement{}, {C:attention}edition{}, or {C:attention}seal',
-                    'give {C:mult}+2{} Mult and {C:chips}+15{} Chips'
+                    'give {C:mult}+#1#{} Mult and {C:chips}+#2#{} Chips'
                 }
             },
             j_mxms_obelisk = {

@@ -23,7 +23,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS.c_wheel_of_fortune
         return {
-            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds) }
+            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds, 'tire') }
         }
     end,
     calculate = function(self, card, context)

@@ -5,6 +5,11 @@ SMODS.Joker {
         x = 5,
         y = 4
     },
+    config = {
+        extra = {
+            reps = 1
+        }
+    },
     credit = {
         art = "Maxiss02",
         code = "theAstra",
@@ -19,12 +24,13 @@ SMODS.Joker {
         return {}
     end,
     calculate = function(self, card, context)
+        local stg = card.ability.extra
         if context.repetition and context.cardarea == G.play and
             (SMODS.has_enhancement(context.other_card, 'm_bonus') or
             SMODS.has_enhancement(context.other_card, 'm_mult')) then
             return {
                 message = localize('k_again_ex'),
-                repetitions = 1,
+                repetitions = stg.reps,
                 card = card
             }
         end

@@ -22,7 +22,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds) }
+            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds, 'cou') }
         }
     end,
     set_ability = function(self, card, inital, delay_sprites)

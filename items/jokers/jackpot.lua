@@ -23,7 +23,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds), stg.money}
+            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds, 'jackpot'), stg.money}
         }
     end,
     calculate = function(self, card, context)

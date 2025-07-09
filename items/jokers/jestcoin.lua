@@ -23,7 +23,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.money, SMODS.get_probability_vars(card, stg.prob, stg.odds)}
+            vars = { stg.money, SMODS.get_probability_vars(card, stg.prob, stg.odds, 'jestcoin')}
         }
     end,
     calc_dollar_bonus = function(self, card)
