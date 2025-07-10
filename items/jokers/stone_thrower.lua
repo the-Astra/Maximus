@@ -17,7 +17,7 @@ SMODS.Joker {
         code = "theAstra",
         concept = "anerdymous"
     },
-    blueprint_compat = false,
+    blueprint_compat = true,
     enhancement_gate = 'm_glass',
     cost = 3,
     loc_vars = function(self, info_queue, card)
@@ -33,8 +33,7 @@ SMODS.Joker {
             return {
                 chip_mod = stg.chips,
                 message = '+' .. stg.chips,
-                colour = G.C.CHIPS,
-                card = card
+                colour = G.C.CHIPS
             }
         end
 
