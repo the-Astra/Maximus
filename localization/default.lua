@@ -2211,6 +2211,7 @@ return {
             k_mxms_free_ex = "Free!",
             k_mxms_glassed = "Glassed",
             k_mxms_halved = "Halved",
+            k_mxms_infected_ex = "Infected!",
             k_mxms_jackpot_ex = "Jackpot!",
             k_mxms_jobbed = "Jobbed",
             k_mxms_left_el = "Left...",

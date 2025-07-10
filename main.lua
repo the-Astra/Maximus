@@ -633,7 +633,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
 
             G.GAME.current_round.mxms_zombie_target.card = new_target
             if G.GAME.current_round.mxms_zombie_target.card ~= nil then
-                SMODS.calculate_effect({ message = "Infected!", colour = G.C.GREEN },
+                SMODS.calculate_effect({ message = localize('k_mxms_infected_ex'), colour = G.C.GREEN },
                     G.GAME.current_round.mxms_zombie_target.card)
             end
             return true
