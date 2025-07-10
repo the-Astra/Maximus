@@ -29,7 +29,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.setting_blind and G.GAME.round_resets.blind_tag and not context.blueprint then
-            if SMODS.pseudorandom_probability(card, stg.prob, stg.odds, 'hopscotch') then
+            if SMODS.pseudorandom_probability(card, 'hopscotch', stg.prob, stg.odds) then
                 play_sound('generic1')
                 card:juice_up(0.3, 0.4)
                 add_tag(G.GAME.round_resets.blind_tag)
