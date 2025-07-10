@@ -17,6 +17,7 @@ Mods with Maximus cross-mod support:
 - CardSleeves
 - 3xCredits
 - TheFamily
+- JokerDisplay
 
 ### [Official Discord](https://discord.gg/GvCCcryM48)
 Join to keep up to date with development, contributions, or just to chat with people who also enjoy the mod!
