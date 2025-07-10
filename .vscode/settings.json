@@ -84,7 +84,8 @@
         "eval_card",
         "mxms_invert_prob_cards",
         "mxms_is_invert_prob_check",
-        "TheFamily"
+        "TheFamily",
+        "JokerDisplay"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",
