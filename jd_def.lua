@@ -1121,6 +1121,20 @@ jd_def['j_mxms_sisyphus'] = { -- Sisyphus
     },
 }
 
+jd_def['j_mxms_slifer'] = { -- Slifer the Sky Dragon
+    text = {
+        {
+            border_nodes = {
+                { text = "X" },
+                { ref_table = "card.joker_display_values", ref_value = "Xmult", retrigger_type = "exp" }
+            }
+        }
+    },
+    calc_function = function(card)
+        card.joker_display_values.Xmult = #G.hand.cards > 0 and #G.hand.cards - #G.hand.highlighted or 1
+    end
+}
+
 jd_def['j_mxms_slippery_slope'] = { -- Slippery Slope
     text = {
         { text = "+",                              colour = G.C.CHIPS },

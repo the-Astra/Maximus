@@ -834,8 +834,7 @@ function SMODS.pseudorandom_probability(trigger_obj, seed, base_numerator, base_
         success = ret,
         card = trigger_obj,
         prob = base_numerator,
-        odds =
-            base_denominator
+        odds = base_denominator
     }
     return ret
 end
