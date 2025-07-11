@@ -17,5 +17,8 @@
 	"dependencies": [
 		"Steamodded (>=1.0.0~BETA-0706a)",
 		"Lovely (>=0.7.1)"
+	],
+	"conflicts": [
+		"3xCredits (<<1.1.*~)"
 	]
 }
