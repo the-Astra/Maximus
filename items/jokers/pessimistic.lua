@@ -35,7 +35,7 @@ SMODS.Joker {
 
         if context.pseudorandom_result and (not context.result and not mxms_is_invert_prob_check(context.card) or context.success and mxms_is_invert_prob_check(context.card)) and not context.blueprint then
             if context.card.ability.effect ~= 'Lucky Card' then
-                stg.mult = stg.mult + (context.odds - context.prob)
+                stg.mult = stg.mult + (context.denominator - context.numerator)
             else
                 stg.mult = stg.mult + card.ability.extra.lucky_gain
             end
