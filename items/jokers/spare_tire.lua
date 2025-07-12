@@ -29,7 +29,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.mxms_probability_check and not context.success and context.card.config.center.key == 'c_wheel_of_fortune'
+        if context.pseudorandom_result and not context.result and context.identifier == 'wheel_of_fortune'
             and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             if SMODS.pseudorandom_probability(card, 'tire', stg.prob, stg.odds) then
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1

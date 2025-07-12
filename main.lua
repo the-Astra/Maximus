@@ -827,45 +827,6 @@ function Card:set_cost()
     self.cost = self.cost * G.GAME.mxms_shop_price_multiplier * G.GAME.mxms_creep_mod
 end
 
-local spp = SMODS.pseudorandom_probability
-function SMODS.pseudorandom_probability(trigger_obj, seed, base_numerator, base_denominator, identifier)
-    local ret = spp(trigger_obj, seed, base_numerator, base_denominator, identifier)
-    mxms_probability_results[#mxms_probability_results + 1] = {
-        success = ret,
-        card = trigger_obj,
-        prob = base_numerator,
-        odds = base_denominator
-    }
-    return ret
-end
-
-local ste = SMODS.trigger_effects
-function SMODS.trigger_effects(effects, card)
-    local ret = ste(effects, card)
-    if next(mxms_probability_results) then
-        local prob_tables = mxms_probability_results
-        mxms_probability_results = {}
-        for i, v in ipairs(prob_tables) do
-            v.mxms_probability_check = true
-            SMODS.calculate_context(v)
-        end
-    end
-    return ret
-end
-
-local cuc = Card.use_consumeable
-function Card:use_consumeable(area, copier)
-    cuc(self, area, copier)
-    if next(mxms_probability_results) then
-        local prob_tables = mxms_probability_results
-        mxms_probability_results = {}
-        for i, v in ipairs(prob_tables) do
-            v.mxms_probability_check = true
-            SMODS.calculate_context(v)
-        end
-    end
-end
-
 --#endregion
 
 --#region Helper Functions ----------------------------------------------------------------------------------

@@ -29,7 +29,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.mxms_probability_check and not context.success and context.card.config.center.key == 'c_wheel_of_fortune' and not context.blueprint then
+        if context.pseudorandom_result and not context.result and context.identifier == 'wheel_of_fortune' and not context.blueprint then
             stg.mult = stg.mult + stg.gain * G.GAME.mxms_soil_mod
             return {
                 message = localize { type = 'variable', key = 'a_mult', vars = { stg.mult } },
