@@ -1,3 +1,4 @@
+-- CONFIG
 --#region Config --------------------------------------------------------------------------------------------
 Maximus = SMODS.current_mod
 Maximus_path = SMODS.current_mod.path
@@ -195,74 +196,6 @@ SMODS.current_mod.optional_features = { retrigger_joker = true, post_trigger = t
 
 --#endregion
 
---#region Colors --------------------------------------------------------------------------------------------
-
-Maximus.C = {
-    MXMS_PRIMARY = HEX('7855fc'),
-    MXMS_SECONDARY = HEX('901b7f'),
-    HOROSCOPE = HEX('e86fa5'),
-    SET = {
-        Horoscope = HEX('d9629c')
-    },
-    SECONDARY_SET = {
-        Horoscope = HEX('a64d79')
-    }
-}
-
---#endregion
-
---#region Talisman compat -----------------------------------------------------------------------------------
-
-to_big = to_big or function(num)
-    return num
-end
-
-to_number = to_number or function(num)
-    return num
-end
-
---#endregion
-
---#region Misc Atlases --------------------------------------------------------------------------------------
-
-SMODS.Atlas { -- Placeholder Atlas
-    key = 'Placeholder',
-    path = "placeholders.png",
-    px = 71,
-    py = 95
-}
-
-SMODS.Atlas { -- Main Modifiers/Backs Atlas
-    key = 'Modifiers',
-    path = "Modifiers.png",
-    px = 71,
-    py = 95
-}
-
-SMODS.Atlas { -- Mod Icon
-    key = "modicon",
-    path = "modicon.png",
-    px = 32,
-    py = 32
-}
-
-SMODS.Atlas { -- Maximus Menu Logo
-    key = 'logo',
-    path = 'Maximus_Logo.png',
-    px = 173,
-    py = 61
-}
-
-if next(SMODS.find_mod("AntePreview")) then -- Ante Preview compat
-    SMODS.Atlas {
-        key = 'poker_hands',
-        path = "Poker Hands.png",
-        px = 53,
-        py = 13
-    }
-end
---#endregion
-
 --#region Menu stuff ----------------------------------------------------------------------------------------
 local oldfunc = Game.main_menu
 Game.main_menu = function(change_context)
@@ -353,6 +286,374 @@ end
 
 --#endregion
 
+
+-- ASSETS
+--#region Colors --------------------------------------------------------------------------------------------
+
+Maximus.C = {
+    MXMS_PRIMARY = HEX('7855fc'),
+    MXMS_SECONDARY = HEX('901b7f'),
+    HOROSCOPE = HEX('e86fa5'),
+    SET = {
+        Horoscope = HEX('d9629c')
+    },
+    SECONDARY_SET = {
+        Horoscope = HEX('a64d79')
+    }
+}
+
+--#endregion
+
+--#region Misc Atlases --------------------------------------------------------------------------------------
+
+SMODS.Atlas { -- Placeholder Atlas
+    key = 'Placeholder',
+    path = "placeholders.png",
+    px = 71,
+    py = 95
+}
+
+SMODS.Atlas { -- Main Modifiers/Backs Atlas
+    key = 'Modifiers',
+    path = "Modifiers.png",
+    px = 71,
+    py = 95
+}
+
+SMODS.Atlas { -- Mod Icon
+    key = "modicon",
+    path = "modicon.png",
+    px = 32,
+    py = 32
+}
+
+SMODS.Atlas { -- Maximus Menu Logo
+    key = 'logo',
+    path = 'Maximus_Logo.png',
+    px = 173,
+    py = 61
+}
+
+if next(SMODS.find_mod("AntePreview")) then -- Ante Preview compat
+    SMODS.Atlas {
+        key = 'poker_hands',
+        path = "Poker Hands.png",
+        px = 53,
+        py = 13
+    }
+end
+--#endregion
+
+--#region Sounds --------------------------------------------------------------------------------------------
+SMODS.Sound({
+    key = 'perfect',
+    path = 'perfect.ogg'
+})
+
+SMODS.Sound({
+    key = 'eggsplosion',
+    path = 'eggsplosion.ogg'
+})
+
+SMODS.Sound({
+    key = 'hey',
+    path = 'hey.ogg'
+})
+
+SMODS.Sound({
+    key = 'joker',
+    path = 'i\'m a joker.ogg'
+})
+
+SMODS.Sound({
+    key = 'spirit_beh',
+    path = 'spirit beh.ogg',
+    pitch = 0.8
+})
+
+SMODS.Sound({
+    key = 'spirit_miss',
+    path = 'spirit miss.ogg'
+})
+
+SMODS.Sound({
+    key = 'spirit_ough',
+    path = 'spirit ough.ogg'
+})
+
+SMODS.Sound({
+    key = 'spirit_pow',
+    path = 'spirit pow.ogg'
+})
+
+--#endregion
+
+
+-- CROSS-MOD
+--#region Talisman compat -----------------------------------------------------------------------------------
+
+to_big = to_big or function(num)
+    return num
+end
+
+to_number = to_number or function(num)
+    return num
+end
+
+--#endregion
+
+--#region TheFamily compat ----------------------------------------------------------------------------------
+if TheFamily and Maximus_config.horoscopes then
+    TheFamily.create_tab_group({
+        key = "Maximus",
+        order = 1,
+    })
+    TheFamily.create_tab({
+        key = "horoscope",
+        group_key = "Maximus",
+        type = "switch",
+        keep = true,
+
+        front_label = function(definition, card)
+            return {
+                text = localize('b_mxms_stat_horoscopes'),
+                colour = Maximus.C.HOROSCOPE,
+                scale = 0.5,
+            }
+        end,
+        center = "c_mxms_taurus",
+
+        popup = function(definition, card)
+            return {
+                name = {
+                    {
+                        n = G.UIT.T,
+                        config = {
+                            text = localize('b_mxms_stat_horoscopes'),
+                            colour = Maximus.C.HOROSCOPE,
+                            scale = 0.4,
+                        },
+                    },
+                },
+                description = {
+                    {
+                        {
+                            n = G.UIT.T,
+                            config = {
+                                text = "Show/Hide the Maximus Horoscope card area",
+                                scale = 0.3,
+                                colour = G.C.BLACK,
+                            },
+                        },
+                    },
+                },
+            }
+        end,
+        keep_popup_when_highlighted = false,
+        alert = function(definition, card)
+            if not G.GAME.horoscope_alert or G.mxms_horoscope.states.visible then
+                G.GAME.horoscope_alert = false
+                return {
+                    remove = true,
+                }
+            end
+            return {
+                text = "!",
+            }
+        end,
+        highlight = function(definition, card)
+            G.mxms_horoscope.states.visible = true
+            G.GAME.horoscope_alert = false
+        end,
+        unhighlight = function(definition, card)
+            G.mxms_horoscope.states.visible = false
+        end,
+    })
+end
+--#endregion
+
+--#region JokerDisplay compat -------------------------------------------------------------------------------
+if JokerDisplay then
+    assert(SMODS.load_file("jd_def.lua"))()
+end
+--#endregion
+
+
+-- VARIABLES
+--#region Misc Variables ------------------------------------------------------------------------------------
+mxms_vanilla_food = {
+    j_gros_michel = true,
+    j_egg = true,
+    j_ice_cream = true,
+    j_cavendish = true,
+    j_turtle_bean = true,
+    j_diet_cola = true,
+    j_popcorn = true,
+    j_ramen = true,
+    j_selzer = true,
+}
+
+if not SMODS.ObjectTypes.Food then
+    SMODS.ObjectType {
+        key = 'Food',
+        default = 'j_egg',
+        cards = {},
+        inject = function(self)
+            SMODS.ObjectType.inject(self)
+            -- Insert base game food jokers
+            for k, _ in pairs(mxms_vanilla_food) do
+                self:inject_card(G.P_CENTERS[k])
+            end
+        end
+    }
+end
+
+mxms_invert_prob_cards = {
+    j_gros_michel = true,
+    j_cavendish = true,
+    j_mxms_hugo = true,
+    j_mxms_jestcoin = true,
+    c_ankh = true,
+    c_hex = true,
+    m_glass = true
+}
+
+zodiac_killer_pools = {
+    ['Aries'] = true,
+    ['Taurus'] = true,
+    ['Gemini'] = true,
+    ['Cancer'] = true,
+    ['Leo'] = true,
+    ['Virgo'] = true,
+    ['Libra'] = true,
+    ['Scorpio'] = true,
+    ['Sagittarius'] = true,
+    ['Capricorn'] = true,
+    ['Aquarius'] = true,
+    ['Pisces'] = true,
+}
+
+mxms_probability_results = {}
+--#endregion
+
+--#region Round Changing Variables --------------------------------------------------------------------------
+function SMODS.current_mod.reset_game_globals(run_start)
+    -- Impractical Joker
+    if G.GAME.challenge == 'c_mxms_biggest_loser' then
+        G.GAME.current_round.mxms_impractical_hand = 'Straight Flush'
+    elseif G.GAME.round ~= 1 then
+        G.GAME.current_round.mxms_impractical_hand = G.GAME.current_round.mxms_impractical_hand
+        local valid_hands = {}
+
+        for k, v in pairs(G.GAME.hands) do
+            if v.visible then
+                valid_hands[#valid_hands + 1] = k
+            end
+        end
+
+        local new_hand = G.GAME.current_round.mxms_impractical_hand
+        while new_hand == G.GAME.current_round.mxms_impractical_hand do
+            new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical' .. G.GAME.round_resets.ante))
+        end
+        G.GAME.current_round.mxms_impractical_hand = new_hand
+    end
+
+    -- Marco Polo
+    if G.GAME.round ~= 1 then
+        local new_pos = G.GAME.current_round.mxms_marco_polo_pos
+        if #G.jokers.cards <= 1 then
+            new_pos = 1
+        else
+            while new_pos == G.GAME.current_round.mxms_marco_polo_pos do
+                new_pos = pseudorandom(pseudoseed('marcopolo' .. G.GAME.round_resets.ante), 1, #G.jokers.cards)
+            end
+        end
+        G.GAME.current_round.mxms_marco_polo_pos = new_pos
+    end
+
+    -- Go Fish
+    if G.GAME.round ~= 1 then
+        local valid_ranks = {}
+        local new_rank = G.GAME.current_round.mxms_go_fish.rank
+        local new_mult = 0
+        for k, v in ipairs(G.playing_cards) do
+            valid_ranks[#valid_ranks + 1] = v.base.value
+        end
+        new_rank = pseudorandom_element(valid_ranks, pseudoseed('mxms_go_fish' .. G.GAME.round_resets.ante))
+        G.GAME.current_round.mxms_go_fish.rank = new_rank
+        for k, v in ipairs(valid_ranks) do
+            if v == new_rank then
+                new_mult = new_mult + 1
+            end
+        end
+        G.GAME.current_round.mxms_go_fish.mult = new_mult * 2
+    end
+
+    -- Zombie
+    if next(SMODS.find_card('j_mxms_zombie')) and G.GAME.current_round.mxms_zombie_target.card ~= nil then
+        if not SMODS.is_eternal(G.GAME.current_round.mxms_zombie_target.card) then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound('timpani')
+                    delay(0.4)
+                    G.GAME.current_round.mxms_zombie_target.card:set_ability(G.P_CENTERS['j_mxms_zombie'])
+                    G.GAME.current_round.mxms_zombie_target.card:juice_up(0.8, 0.8)
+                    delay(0.4)
+                    SMODS.calculate_effect({ message = localize('k_mxms_turned_ex'), colour = G.C.GREEN },
+                        G.GAME.current_round.mxms_zombie_target.card)
+                    G.GAME.current_round.mxms_zombie_target.card = nil
+
+                    check_for_unlock({ type = "zombified" })
+                    return true
+                end
+            }))
+        end
+    end
+
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        func = function()
+            local eligible_jokers = {}
+            local new_target = G.GAME.current_round.mxms_zombie_target.card
+            if #G.jokers.cards <= 1 or not next(SMODS.find_card('j_mxms_zombie')) then
+                new_target = nil
+            else
+                for i = 1, #G.jokers.cards do
+                    if G.jokers.cards[i].config.center.key ~= 'j_mxms_zombie' and G.jokers.cards[i] ~= new_target and G.jokers.cards[i].config.center.blueprint_compat then
+                        eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
+                    end
+                end
+                if next(eligible_jokers) then
+                    new_target = pseudorandom_element(eligible_jokers,
+                        pseudoseed('zombie' .. G.GAME.round_resets.ante))
+                else
+                    new_target = nil
+                end
+            end
+
+            G.GAME.current_round.mxms_zombie_target.card = new_target
+            if G.GAME.current_round.mxms_zombie_target.card ~= nil then
+                SMODS.calculate_effect({ message = localize('k_mxms_infected_ex'), colour = G.C.GREEN },
+                    G.GAME.current_round.mxms_zombie_target.card)
+            end
+            return true
+        end
+    }))
+
+
+    -- Jello
+    local jello_suits = {}
+    for k, v in ipairs({ 'Spades', 'Hearts', 'Clubs', 'Diamonds' }) do
+        if v ~= G.GAME.current_round.mxms_jello_suit then jello_suits[#jello_suits + 1] = v end
+    end
+    G.GAME.current_round.mxms_jello_suit = pseudorandom_element(jello_suits,
+        pseudoseed('jel' .. G.GAME.round_resets.ante))
+end
+
+--#endregion
+
+
+-- FUNCTIONS
 --#region Function Hooks ------------------------------------------------------------------------------------
 
 local igo = Game.init_game_object
@@ -393,6 +694,8 @@ Game.init_game_object = function(self)
 
     --Horoscope
     ret.mxms_horoscope_buffer = 0
+
+    ret.astro_last_pack = 1
 
     ret.mxms_aries_bonus = false
     ret.mxms_cancer_bonus = 0
@@ -526,210 +829,6 @@ end
 
 --#endregion
 
---#region Sounds --------------------------------------------------------------------------------------------
-SMODS.Sound({
-    key = 'perfect',
-    path = 'perfect.ogg'
-})
-
-SMODS.Sound({
-    key = 'eggsplosion',
-    path = 'eggsplosion.ogg'
-})
-
-SMODS.Sound({
-    key = 'hey',
-    path = 'hey.ogg'
-})
-
-SMODS.Sound({
-    key = 'joker',
-    path = 'i\'m a joker.ogg'
-})
-
-SMODS.Sound({
-    key = 'spirit_beh',
-    path = 'spirit beh.ogg',
-    pitch = 0.8
-})
-
-SMODS.Sound({
-    key = 'spirit_miss',
-    path = 'spirit miss.ogg'
-})
-
-SMODS.Sound({
-    key = 'spirit_ough',
-    path = 'spirit ough.ogg'
-})
-
-SMODS.Sound({
-    key = 'spirit_pow',
-    path = 'spirit pow.ogg'
-})
-
---#endregion
-
---#region Misc Variables ------------------------------------------------------------------------------------
-mxms_vanilla_food = {
-    j_gros_michel = true,
-    j_egg = true,
-    j_ice_cream = true,
-    j_cavendish = true,
-    j_turtle_bean = true,
-    j_diet_cola = true,
-    j_popcorn = true,
-    j_ramen = true,
-    j_selzer = true,
-}
-
-if not SMODS.ObjectTypes.Food then
-    SMODS.ObjectType {
-        key = 'Food',
-        default = 'j_egg',
-        cards = {},
-        inject = function(self)
-            SMODS.ObjectType.inject(self)
-            -- Insert base game food jokers
-            for k, _ in pairs(mxms_vanilla_food) do
-                self:inject_card(G.P_CENTERS[k])
-            end
-        end
-    }
-end
-
-zodiac_killer_pools = {
-    ['Aries'] = true,
-    ['Taurus'] = true,
-    ['Gemini'] = true,
-    ['Cancer'] = true,
-    ['Leo'] = true,
-    ['Virgo'] = true,
-    ['Libra'] = true,
-    ['Scorpio'] = true,
-    ['Sagittarius'] = true,
-    ['Capricorn'] = true,
-    ['Aquarius'] = true,
-    ['Pisces'] = true,
-}
---#endregion
-
---#region Round Changing Variables --------------------------------------------------------------------------
-function SMODS.current_mod.reset_game_globals(run_start)
-    -- Impractical Joker
-    if G.GAME.challenge == 'c_mxms_biggest_loser' then
-        G.GAME.current_round.mxms_impractical_hand = 'Straight Flush'
-    elseif G.GAME.round ~= 1 then
-        G.GAME.current_round.mxms_impractical_hand = G.GAME.current_round.mxms_impractical_hand
-        local valid_hands = {}
-
-        for k, v in pairs(G.GAME.hands) do
-            if v.visible then
-                valid_hands[#valid_hands + 1] = k
-            end
-        end
-
-        local new_hand = G.GAME.current_round.mxms_impractical_hand
-        while new_hand == G.GAME.current_round.mxms_impractical_hand do
-            new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical' .. G.GAME.round_resets.ante))
-        end
-        G.GAME.current_round.mxms_impractical_hand = new_hand
-    end
-
-    -- Marco Polo
-    if G.GAME.round ~= 1 then
-        local new_pos = G.GAME.current_round.mxms_marco_polo_pos
-        if #G.jokers.cards <= 1 then
-            new_pos = 1
-        else
-            while new_pos == G.GAME.current_round.mxms_marco_polo_pos do
-                new_pos = pseudorandom(pseudoseed('marcopolo' .. G.GAME.round_resets.ante), 1, #G.jokers.cards)
-            end
-        end
-        G.GAME.current_round.mxms_marco_polo_pos = new_pos
-    end
-
-    -- Go Fish
-    if G.GAME.round ~= 1 then
-        local valid_ranks = {}
-        local new_rank = G.GAME.current_round.mxms_go_fish.rank
-        local new_mult = 0
-        for k, v in ipairs(G.playing_cards) do
-            valid_ranks[#valid_ranks + 1] = v.base.value
-        end
-        new_rank = pseudorandom_element(valid_ranks, pseudoseed('mxms_go_fish' .. G.GAME.round_resets.ante))
-        G.GAME.current_round.mxms_go_fish.rank = new_rank
-        for k, v in ipairs(valid_ranks) do
-            if v == new_rank then
-                new_mult = new_mult + 1
-            end
-        end
-        G.GAME.current_round.mxms_go_fish.mult = new_mult * 2
-    end
-
-    -- Zombie
-    if next(SMODS.find_card('j_mxms_zombie')) and G.GAME.current_round.mxms_zombie_target.card ~= nil then
-        if not G.GAME.current_round.mxms_zombie_target.card.ability.eternal then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    play_sound('timpani')
-                    delay(0.4)
-                    G.GAME.current_round.mxms_zombie_target.card:set_ability(G.P_CENTERS['j_mxms_zombie'])
-                    G.GAME.current_round.mxms_zombie_target.card:juice_up(0.8, 0.8)
-                    delay(0.4)
-                    SMODS.calculate_effect({ message = localize('k_mxms_turned_ex'), colour = G.C.GREEN },
-                        G.GAME.current_round.mxms_zombie_target.card)
-                    G.GAME.current_round.mxms_zombie_target.card = nil
-
-                    check_for_unlock({ type = "zombified" })
-                    return true
-                end
-            }))
-        end
-    end
-
-    G.E_MANAGER:add_event(Event({
-        trigger = 'after',
-        func = function()
-            local eligible_jokers = {}
-            local new_target = G.GAME.current_round.mxms_zombie_target.card
-            if #G.jokers.cards <= 1 or not next(SMODS.find_card('j_mxms_zombie')) then
-                new_target = nil
-            else
-                for i = 1, #G.jokers.cards do
-                    if G.jokers.cards[i].config.center.key ~= 'j_mxms_zombie' and G.jokers.cards[i] ~= new_target and G.jokers.cards[i].config.center.blueprint_compat then
-                        eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
-                    end
-                end
-                if next(eligible_jokers) then
-                    new_target = pseudorandom_element(eligible_jokers,
-                        pseudoseed('zombie' .. G.GAME.round_resets.ante))
-                else
-                    new_target = nil
-                end
-            end
-
-            G.GAME.current_round.mxms_zombie_target.card = new_target
-            if G.GAME.current_round.mxms_zombie_target.card ~= nil then
-                SMODS.calculate_effect({ message = "Infected!", colour = G.C.GREEN },
-                    G.GAME.current_round.mxms_zombie_target.card)
-            end
-            return true
-        end
-    }))
-
-
-    -- Jello
-    local jello_suits = {}
-    for k, v in ipairs({ 'Spades', 'Hearts', 'Clubs', 'Diamonds' }) do
-        if v ~= G.GAME.current_round.mxms_jello_suit then jello_suits[#jello_suits + 1] = v end
-    end
-    G.GAME.current_round.mxms_jello_suit = pseudorandom_element(jello_suits,
-        pseudoseed('jel' .. G.GAME.round_resets.ante))
-end
-
---#endregion
-
 --#region Helper Functions ----------------------------------------------------------------------------------
 
 function reset_horoscopes()
@@ -771,6 +870,20 @@ function mxms_is_food(card)
 
     -- If it doesn't, we check if this is a vanilla food joker
     return mxms_vanilla_food[center.key]
+end
+
+-- Checks if a card should have an inverted check when evaluating prob results
+function mxms_is_invert_prob_check(card)
+    if mxms_invert_prob_cards[card.config.center.key] then
+        return true
+    elseif next(SMODS.get_enhancements(card)) then
+        for k, v in pairs(SMODS.get_enhancements(card)) do
+            if mxms_invert_prob_cards[v] then
+                return true
+            end
+        end
+    end
+    return false
 end
 
 ---Tallies Maximus cards from a given pool and possible subset; Derived from SMODS modCollectionTally
@@ -816,6 +929,8 @@ end
 
 --#endregion
 
+
+-- OBJECTS
 --#region Achievements --------------------------------------------------------------------------------------
 
 assert(SMODS.load_file('items/achievements.lua'))()
@@ -823,53 +938,78 @@ sendDebugMessage("Loaded Achievements", 'Maximus')
 
 --#endregion
 
---#region Horoscope -----------------------------------------------------------------------------------------
+--#region Backs ---------------------------------------------------------------------------------------------
 
--- Horoscope Type
-if Maximus_config.horoscopes then
-    SMODS.ConsumableType {
-        key = 'Horoscope',
-        primary_colour = Maximus.C.SET.Horoscope,
-        secondary_colour = Maximus.C.SECONDARY_SET.Horoscope,
-        default = 'c_mxms_taurus',
-        collection_rows = { 3, 3 },
-        shop_rate = 0.0
+local ENABLED_BACKS = {
+    'sixth_finger',
+    'nirvana',
+    'nuclear',
+    'professional',
+    'grilled',
+    'autographed',
+    'destiny',
+}
+
+sendDebugMessage("Loading Backs...", 'Maximus')
+for i = 1, #ENABLED_BACKS do
+    assert(SMODS.load_file('items/backs/' .. ENABLED_BACKS[i] .. '.lua'))()
+    sendDebugMessage("Loaded deck: " .. ENABLED_BACKS[i], 'Maximus')
+end
+sendDebugMessage("", 'Maximus')
+
+--#region Sleeves ---------------------------------------------------------------------------------------
+
+if CardSleeves then
+    SMODS.Atlas { -- Main Sleeve Atlas
+        key = 'Sleeves',
+        path = "Sleeves.png",
+        px = 73,
+        py = 95
     }
 
-    -- CardArea emplace hook
-    local cae = CardArea.emplace
-    function CardArea:emplace(card, location, stay_flipped)
-        if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center.key == 'c_mxms_ophiucus') then
-            G.mxms_horoscope:emplace(card, location, stay_flipped)
-            return
-        end
-
-        cae(self, card, location, stay_flipped)
-    end
-
-    local ENABLED_HOROSCOPES = {
-        'aries',
-        'taurus',
-        'gemini',
-        'cancer',
-        'leo',
-        'virgo',
-        'libra',
-        'scorpio',
-        'sagittarius',
-        'capricorn',
-        'aquarius',
-        'pisces',
-        'ophiucus',
-    }
-
-    sendDebugMessage("Loading Horoscopes...", 'Maximus')
-    for i = 1, #ENABLED_HOROSCOPES do
-        assert(SMODS.load_file('items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua'))()
-        sendDebugMessage("Loaded horoscope: " .. ENABLED_HOROSCOPES[i], 'Maximus')
+    sendDebugMessage("Card Sleeves detected; Loading Sleeves...", 'Maximus')
+    for i = 1, #ENABLED_BACKS do
+        assert(SMODS.load_file('items/backs/sleeves/' .. ENABLED_BACKS[i] .. '.lua'))()
+        sendDebugMessage("Loaded Sleeve: " .. ENABLED_BACKS[i], 'Maximus')
     end
     sendDebugMessage("", 'Maximus')
 end
+
+--#endregion
+
+--#endregion
+
+--#region Blinds --------------------------------------------------------------------------------------------
+
+SMODS.Atlas { -- Main Blind Atlas
+    key = 'Blinds',
+    path = "Blinds.png",
+    atlas_table = 'ANIMATION_ATLAS',
+    frames = 21,
+    px = 34,
+    py = 34
+}
+
+local ENABLED_BLINDS = {
+    'rot',
+    'grinder',
+    'envy',
+    'flame',
+    'rule',
+    'cheat',
+    'hurdle',
+    'spring',
+    'bird',
+    'maze',
+}
+
+sendDebugMessage("Loading Blinds...", 'Maximus')
+for i = 1, #ENABLED_BLINDS do
+    assert(SMODS.load_file('items/blinds/' .. ENABLED_BLINDS[i] .. '.lua'))()
+    sendDebugMessage("Loaded blind: " .. ENABLED_BLINDS[i], 'Maximus')
+end
+sendDebugMessage("", 'Maximus')
+
 --#endregion
 
 --#region Boosters ------------------------------------------------------------------------------------------
@@ -900,6 +1040,173 @@ end
 sendDebugMessage("", 'Maximus')
 
 
+--#endregion
+
+--#region Challenges ----------------------------------------------------------------------------------------
+
+local ENABLED_CHALLENGES = {
+    '52_commandments',
+    'crusaders',
+    'overgrowth',
+    'square',
+    'gambling',
+    'target_practice',
+    'biggest_loser',
+    'picky',
+    'fashion',
+    'all_stars',
+    'p2w',
+    'killer',
+    'drain',
+    'thought',
+    'love_and_war',
+    'despite_everything',
+}
+
+sendDebugMessage("Loading Challenges...", 'Maximus')
+for i = 1, #ENABLED_CHALLENGES do
+    assert(SMODS.load_file('items/challenges/' .. ENABLED_CHALLENGES[i] .. '.lua'))()
+    sendDebugMessage("Loaded challenge: " .. ENABLED_CHALLENGES[i], 'Maximus')
+end
+sendDebugMessage("", 'Maximus')
+
+--#endregion
+
+--#region Consumables ---------------------------------------------------------------------------------------
+
+SMODS.Atlas { -- Main Consumable Atlas
+    key = 'Consumables',
+    path = "Consumables.png",
+    px = 71,
+    py = 95
+}
+
+local ENABLED_CONSUMABLES = {
+    -- Planets
+    'microscopii',
+    'wasp',
+    'pegasi',
+    'trappist',
+    'corot',
+    'poltergeist',
+    'gliese',
+    'cancri',
+    'proxima',
+    'phobetor',
+    'kepler',
+
+    -- Spectrals
+    'doppelganger',
+    'immortality',
+
+    -- Tarots
+    'aeon',
+}
+
+sendDebugMessage("Loading Consumables...", 'Maximus')
+for i = 1, #ENABLED_CONSUMABLES do
+    assert(SMODS.load_file('items/consumables/' .. ENABLED_CONSUMABLES[i] .. '.lua'))()
+    sendDebugMessage("Loaded consumable: " .. ENABLED_CONSUMABLES[i], 'Maximus')
+end
+
+sendDebugMessage("", 'Maximus')
+
+--#endregion
+
+--#region Hand Types ----------------------------------------------------------------------------------------
+
+if Maximus_config.new_handtypes then
+    --#region Hand Parts ------------------------------------------------------------------------------------
+    local ENABLED_HAND_PARTS = {
+        '_6',
+        's_flush',
+        's_straight'
+    }
+
+    sendDebugMessage("Loading Hand Parts...", 'Maximus')
+    for i = 1, #ENABLED_HAND_PARTS do
+        assert(SMODS.load_file('items/handtypes/parts/' .. ENABLED_HAND_PARTS[i] .. '.lua'))()
+        sendDebugMessage("Loaded hand part: " .. ENABLED_HAND_PARTS[i], 'Maximus')
+    end
+    --#endregion
+
+    local ENABLED_HANDS = {
+        'three_pair',
+        'double_triple',
+        '6oak',
+        's_straight',
+        's_flush',
+        'house_party',
+        'f_three_pair',
+        'f_double_triple',
+        's_straight_f',
+        'f_party',
+        'f_6oak',
+    }
+
+    sendDebugMessage("Loading Hand Types...", 'Maximus')
+    for i = 1, #ENABLED_HANDS do
+        assert(SMODS.load_file('items/handtypes/' .. ENABLED_HANDS[i] .. '.lua'))()
+        sendDebugMessage("Loaded hand type: " .. ENABLED_HANDS[i], 'Maximus')
+    end
+else
+    sendDebugMessage("New hand types disabled; Skipping hands...", 'Maximus')
+end
+sendDebugMessage("", 'Maximus')
+
+--#endregion
+
+--#region Horoscope -----------------------------------------------------------------------------------------
+
+-- Horoscope Type
+if Maximus_config.horoscopes then
+    SMODS.ConsumableType {
+        key = 'Horoscope',
+        primary_colour = Maximus.C.SET.Horoscope,
+        secondary_colour = Maximus.C.SECONDARY_SET.Horoscope,
+        default = 'c_mxms_taurus',
+        collection_rows = { 3, 3 },
+        shop_rate = 0.0
+    }
+
+    -- CardArea emplace hook
+    local cae = CardArea.emplace
+    function CardArea:emplace(card, location, stay_flipped)
+        if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center.key == 'c_mxms_ophiucus') then
+            G.mxms_horoscope:emplace(card, location, stay_flipped)
+            return
+        end
+
+        cae(self, card, location, stay_flipped)
+
+        if self == G.mxms_horoscope and TheFamily then
+            G.GAME.horoscope_alert = true
+        end
+    end
+
+    local ENABLED_HOROSCOPES = {
+        'aries',
+        'taurus',
+        'gemini',
+        'cancer',
+        'leo',
+        'virgo',
+        'libra',
+        'scorpio',
+        'sagittarius',
+        'capricorn',
+        'aquarius',
+        'pisces',
+        'ophiucus',
+    }
+
+    sendDebugMessage("Loading Horoscopes...", 'Maximus')
+    for i = 1, #ENABLED_HOROSCOPES do
+        assert(SMODS.load_file('items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua'))()
+        sendDebugMessage("Loaded horoscope: " .. ENABLED_HOROSCOPES[i], 'Maximus')
+    end
+    sendDebugMessage("", 'Maximus')
+end
 --#endregion
 
 --#region Jokers --------------------------------------------------------------------------------------------
@@ -954,8 +1261,10 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'detective',
     'spare_tire',
     'piggy_bank',
+    'boar_bank',
     'honorable',
     'sneaky_spirit',
+    'spider',
 
     --Uncommon
     'war',
@@ -1117,202 +1426,20 @@ sendDebugMessage("", 'Maximus')
 
 --#endregion
 
---#region Vouchers ------------------------------------------------------------------------------------------
+--#region Modifiers -----------------------------------------------------------------------------------------
 
-SMODS.Atlas { -- Main Voucher Atlas
-    key = 'Vouchers',
-    path = "Vouchers.png",
-    px = 71,
-    py = 95
+local ENABLED_MODIFIERS = {
+    'black',
+    'posted',
+    'footprint',
 }
-
-local ENABLED_VOUCHERS = {
-    'launch_code',
-    'warp_drive',
-    'sharp_suit',
-    'best_dressed',
-    'shield',
-    'guardian',
-    'multitask',
-    'workaholic',
-}
-
-sendDebugMessage("Loading Vouchers...", 'Maximus')
-for i = 1, #ENABLED_VOUCHERS do
-    assert(SMODS.load_file('items/vouchers/' .. ENABLED_VOUCHERS[i] .. '.lua'))()
-    sendDebugMessage("Loaded voucher: " .. ENABLED_VOUCHERS[i], 'Maximus')
+sendDebugMessage("Loading Card Modifiers...", 'Maximus')
+for i = 1, #ENABLED_MODIFIERS do
+    assert(SMODS.load_file('items/modifiers/' .. ENABLED_MODIFIERS[i] .. '.lua'))()
+    sendDebugMessage("Loaded Card Modifier: " .. ENABLED_MODIFIERS[i], 'Maximus')
 end
 sendDebugMessage("", 'Maximus')
 
---#endregion
-
---#region Challenges ----------------------------------------------------------------------------------------
-
-local ENABLED_CHALLENGES = {
-    '52_commandments',
-    'crusaders',
-    'overgrowth',
-    'square',
-    'gambling',
-    'target_practice',
-    'biggest_loser',
-    'picky',
-    'fashion',
-    'all_stars',
-    'p2w',
-    'killer',
-    'drain',
-    'thought',
-    'love_and_war',
-}
-
-sendDebugMessage("Loading Challenges...", 'Maximus')
-for i = 1, #ENABLED_CHALLENGES do
-    assert(SMODS.load_file('items/challenges/' .. ENABLED_CHALLENGES[i] .. '.lua'))()
-    sendDebugMessage("Loaded challenge: " .. ENABLED_CHALLENGES[i], 'Maximus')
-end
-sendDebugMessage("", 'Maximus')
-
---#endregion
-
---#region Backs ---------------------------------------------------------------------------------------------
-
-local ENABLED_BACKS = {
-    'sixth_finger',
-    'nirvana',
-    'nuclear',
-    'professional',
-    'grilled',
-    'autographed',
-}
-
-sendDebugMessage("Loading Backs...", 'Maximus')
-for i = 1, #ENABLED_BACKS do
-    assert(SMODS.load_file('items/backs/' .. ENABLED_BACKS[i] .. '.lua'))()
-    sendDebugMessage("Loaded deck: " .. ENABLED_BACKS[i], 'Maximus')
-end
-sendDebugMessage("", 'Maximus')
-
---#endregion
-
---#region Hand Parts ----------------------------------------------------------------------------------------
-
-if Maximus_config.new_handtypes then
-    local ENABLED_HAND_PARTS = {
-        '_6',
-        's_flush',
-        's_straight'
-    }
-
-    sendDebugMessage("Loading Hand Parts...", 'Maximus')
-    for i = 1, #ENABLED_HAND_PARTS do
-        assert(SMODS.load_file('items/handtypes/parts/' .. ENABLED_HAND_PARTS[i] .. '.lua'))()
-        sendDebugMessage("Loaded hand part: " .. ENABLED_HAND_PARTS[i], 'Maximus')
-    end
-else
-    sendDebugMessage("New hand types disabled; Skipping hand parts...", 'Maximus')
-end
-sendDebugMessage("", 'Maximus')
-
---#endregion
-
---#region Hand Types ----------------------------------------------------------------------------------------
-
-if Maximus_config.new_handtypes then
-    local ENABLED_HANDS = {
-        'three_pair',
-        'double_triple',
-        '6oak',
-        's_straight',
-        's_flush',
-        'house_party',
-        'f_three_pair',
-        'f_double_triple',
-        's_straight_f',
-        'f_party',
-        'f_6oak',
-    }
-
-    sendDebugMessage("Loading Hand Types...", 'Maximus')
-    for i = 1, #ENABLED_HANDS do
-        assert(SMODS.load_file('items/handtypes/' .. ENABLED_HANDS[i] .. '.lua'))()
-        sendDebugMessage("Loaded hand type: " .. ENABLED_HANDS[i], 'Maximus')
-    end
-else
-    sendDebugMessage("New hand types disabled; Skipping hands...", 'Maximus')
-end
-sendDebugMessage("", 'Maximus')
-
---#endregion
-
---#region Consumables ---------------------------------------------------------------------------------------
-
-SMODS.Atlas { -- Main Consumable Atlas
-    key = 'Consumables',
-    path = "Consumables.png",
-    px = 71,
-    py = 95
-}
-
-local ENABLED_CONSUMABLES = {
-    -- Planets
-    'microscopii',
-    'wasp',
-    'pegasi',
-    'trappist',
-    'corot',
-    'poltergeist',
-    'gliese',
-    'cancri',
-    'proxima',
-    'phobetor',
-    'kepler',
-
-    -- Spectrals
-    'doppelganger',
-    'immortality'
-}
-
-sendDebugMessage("Loading Consumables...", 'Maximus')
-for i = 1, #ENABLED_CONSUMABLES do
-    assert(SMODS.load_file('items/consumables/' .. ENABLED_CONSUMABLES[i] .. '.lua'))()
-    sendDebugMessage("Loaded consumable: " .. ENABLED_CONSUMABLES[i], 'Maximus')
-end
-
-sendDebugMessage("", 'Maximus')
-
---#endregion
-
---#region Blinds --------------------------------------------------------------------------------------------
-
-SMODS.Atlas { -- Main Blind Atlas
-    key = 'Blinds',
-    path = "Blinds.png",
-    atlas_table = 'ANIMATION_ATLAS',
-    frames = 21,
-    px = 34,
-    py = 34
-}
-
-local ENABLED_BLINDS = {
-    'rot',
-    'grinder',
-    'envy',
-    'flame',
-    'rule',
-    'cheat',
-    'hurdle',
-    'spring',
-    'bird',
-    'maze',
-}
-
-sendDebugMessage("Loading Blinds...", 'Maximus')
-for i = 1, #ENABLED_BLINDS do
-    assert(SMODS.load_file('items/blinds/' .. ENABLED_BLINDS[i] .. '.lua'))()
-    sendDebugMessage("Loaded blind: " .. ENABLED_BLINDS[i], 'Maximus')
-end
-sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -1343,19 +1470,31 @@ sendDebugMessage("", 'Maximus')
 
 --#endregion
 
---#region Modifiers -----------------------------------------------------------------------------------------
+--#region Vouchers ------------------------------------------------------------------------------------------
 
-local ENABLED_MODIFIERS = {
-    'black',
-    'posted',
-    -- 'footprint', -- (You weren't supposed to see this...)
+SMODS.Atlas { -- Main Voucher Atlas
+    key = 'Vouchers',
+    path = "Vouchers.png",
+    px = 71,
+    py = 95
 }
-sendDebugMessage("Loading Card Modifiers...", 'Maximus')
-for i = 1, #ENABLED_MODIFIERS do
-    assert(SMODS.load_file('items/modifiers/' .. ENABLED_MODIFIERS[i] .. '.lua'))()
-    sendDebugMessage("Loaded Card Modifier: " .. ENABLED_MODIFIERS[i], 'Maximus')
+
+local ENABLED_VOUCHERS = {
+    'launch_code',
+    'warp_drive',
+    'sharp_suit',
+    'best_dressed',
+    'shield',
+    'guardian',
+    'multitask',
+    'workaholic',
+}
+
+sendDebugMessage("Loading Vouchers...", 'Maximus')
+for i = 1, #ENABLED_VOUCHERS do
+    assert(SMODS.load_file('items/vouchers/' .. ENABLED_VOUCHERS[i] .. '.lua'))()
+    sendDebugMessage("Loaded voucher: " .. ENABLED_VOUCHERS[i], 'Maximus')
 end
 sendDebugMessage("", 'Maximus')
-
 
 --#endregion

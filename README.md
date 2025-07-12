@@ -2,18 +2,22 @@
 Maximus is a Vanilla+ mod that strives to preserve the Vanilla feel of the game (for the most part, looking at you Nuclear deck) while innovating on newer ideas to keep things fresh!
 
 Maximus currently adds the following:
-- 150 Jokers
-- 6 Decks
-- 15 Achievements
+- 152 Jokers
+- 7 Decks
+- 16 Achievements
 - 12 Horoscope Cards
 - 3 Spectral Cards
 - 11 Planet Cards
 - 10 Boss Blinds
-- 15 Challenges
+- 16 Challenges
 - 8 Vouchers
 - AND MORE!!!
 
-### THIS MOD DEPENDS ON [3xCredits](https://github.com/AuroraKy/3xCredits)! Please ensure you install this mod too!!
+Mods with Maximus cross-mod support:
+- CardSleeves
+- 3xCredits
+- TheFamily
+- JokerDisplay
 
 ### [Official Discord](https://discord.gg/GvCCcryM48)
 Join to keep up to date with development, contributions, or just to chat with people who also enjoy the mod!

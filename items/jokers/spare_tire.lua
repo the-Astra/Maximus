@@ -23,15 +23,15 @@ SMODS.Joker {
         local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS.c_wheel_of_fortune
         return {
-            vars = { stg.prob * G.GAME.probabilities.normal, stg.odds }
+            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds, 'tire') }
         }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.mxms_failed_prob and (context.card and context.card.config.center.key == 'c_wheel_of_fortune')
+        if context.pseudorandom_result and not context.result and context.identifier == 'wheel_of_fortune'
             and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-            if pseudorandom('tire') < (stg.prob * G.GAME.probabilities.normal) / stg.odds then
+            if SMODS.pseudorandom_probability(card, 'tire', stg.prob, stg.odds) then
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -44,11 +44,7 @@ SMODS.Joker {
             else
                 return {
                     message = localize('k_nope_ex'),
-                    colour = G.C.FILTER,
-                    func = function()
-                        SMODS.calculate_context({ mxms_failed_prob = true, odds = stg.odds -
-                        (stg.prob * G.GAME.probabilities.normal), card = card })
-                    end
+                    colour = G.C.FILTER
                 }
             end
         end

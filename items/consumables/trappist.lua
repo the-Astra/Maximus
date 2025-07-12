@@ -8,7 +8,8 @@ if Maximus_config.new_handtypes then
             y = 0
         },
         config = {
-            hand_type = 'mxms_s_straight'
+            hand_type = 'mxms_s_straight',
+            mxms_exoplanet = true,
         },
         credit = {
             art = "Maxiss02",

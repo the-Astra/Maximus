@@ -1,0 +1,42 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+# Patch as final end of round money adding event
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+    dollars = dollars + G.GAME.interest_amount*math.min(math.floor(G.GAME.dollars/5), G.GAME.interest_cap/5)
+end
+'''
+position = "after"
+payload = '''
+
+    if next(SMODS.find_card('j_mxms_change')) then
+        local dollar_remainder = dollars % to_big(5)
+        if dollar_remainder ~= to_big(0) then
+            add_round_eval_row({bonus = true, name='joker'..i, pitch = pitch, dollars = 5 - dollar_remainder, card = SMODS.find_card('j_mxms_change')[1]})
+            pitch = pitch + 0.06
+            i = i + 1
+            dollars = dollars + (5 - dollar_remainder)
+        end
+    end
+
+    local boars = SMODS.find_card('j_mxms_boar_bank')
+    if next(boars) then
+        for k, v in ipairs(boars) do
+            local half = dollars / 2
+            dollars = half
+            v.ability.extra_value = v.ability.extra_value + half
+            v:set_cost()
+            SMODS.calculate_effect({message = localize('k_mxms_halved'), colour = G.C.RED, sound = 'slice1'}, v)
+            add_round_eval_row({bonus = true, name='joker'..i, pitch = pitch, dollars = -half, card = v})
+            pitch = pitch + 0.06
+            i = i + 1
+        end
+    end
+'''
+match_indent = false
+times = 1

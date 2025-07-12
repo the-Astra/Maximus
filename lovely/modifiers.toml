@@ -113,7 +113,7 @@ match_indent = true
 times = 2
 
 
-# Hand Decay function
+# Hand Decay and Ante Sell function
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
@@ -124,11 +124,45 @@ position = "before"
 payload = '''
 
 if G.GAME.modifiers.mxms_hand_decay then
-    update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(G.GAME.modifiers.mxms_hand_decay, 'poker_hands'),chips = G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].chips, mult = G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].mult, level=G.GAME.hands[G.GAME.modifiers.mxms_hand_decay].level})
-    level_up_hand(nil, G.GAME.modifiers.mxms_hand_decay, nil, -5)
-    update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+    SMODS.smart_level_up_hand(nil, G.GAME.modifiers.mxms_hand_decay, nil, -5)
 end
 
+if G.GAME.modifiers.mxms_ante_sell then
+    for k, v in pairs(G.jokers.cards) do
+        if not (v.ability and v.ability.eternal) then
+            v:sell_card()
+        end
+    end
+
+    for k, v in pairs(G.consumeables.cards) do
+        if not (v.ability and v.ability.eternal) then
+            v:sell_card()
+        end
+    end
+end
+'''
+match_indent = true
+times = 1
+
+
+# Highlight Limit challenge modifier
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+{card_limit = self.GAME.starting_params.hand_size, type = 'hand'})
+'''
+position = "after"
+payload = '''
+if self.GAME.modifiers.mxms_highlight_limit then
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            SMODS.change_play_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
+            SMODS.change_discard_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
+            return true;
+        end
+    }))
+end
 '''
 match_indent = true
 times = 1
@@ -145,7 +179,11 @@ position = "at"
 payload = '''
 local deities = SMODS.find_card('j_mxms_celestial_deity')
 for i = 1, G.GAME.mxms_base_planet_levels do
-    level_up_hand(used_tarot, self.ability.consumeable.hand_type)
+    if G.GAME.modifiers.mxms_double_exoplanet and self.ability.consumeable.mxms_exoplanet then
+        level_up_hand(used_tarot, self.ability.consumeable.hand_type, nil, 2)
+    else
+        level_up_hand(used_tarot, self.ability.consumeable.hand_type)
+    end
     if next(deities) and i <= #deities then
         SMODS.calculate_effect({ message = localize('k_again_ex')},deities[i])
     end
@@ -164,7 +202,7 @@ if self.GAME.starting_params.no_faces and SMODS.Ranks[v.value].face then keep = 
 '''
 position = "after"
 payload = '''
-if self.GAME.starting_params.all_faces and not SMODS.Ranks[v.value].face then keep = false end
+if self.GAME.starting_params.mxms_all_faces and not SMODS.Ranks[v.value].face then keep = false end
 '''
 match_indent = true
 times = 1

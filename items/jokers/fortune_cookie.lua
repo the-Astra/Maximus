@@ -27,9 +27,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { G.GAME.probabilities.normal, stg.prob * G.GAME.mxms_fridge_mod,
-                stg.prob * G.GAME.mxms_fridge_mod * G.GAME.probabilities.normal,
-                stg.odds * G.GAME.mxms_fridge_mod }
+            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds, 'fco'), G.GAME.probabilities.normal }
         }
     end,
     calculate = function(self, card, context)
@@ -37,7 +35,7 @@ SMODS.Joker {
         -- Activate ability before scoring if chance is higher than 0
         if context.before and stg.prob > 0 then
             -- Roll chance and decrease by 1
-            local chance_roll = pseudorandom(pseudoseed('fco' .. G.GAME.round_resets.ante)) < (stg.prob * G.GAME.probabilities.normal) / stg.odds
+            local chance_roll = SMODS.pseudorandom_probability(card, 'fco', stg.prob, stg.odds)
             stg.prob = stg.prob - (1 / G.GAME.mxms_fridge_mod)
 
             -- Check if Consumables is full
@@ -66,7 +64,6 @@ SMODS.Joker {
 
                     -- Failed Roll
                 else
-                    SMODS.calculate_context({ mxms_failed_prob = true, odds = stg.odds - stg.prob * G.GAME.mxms_fridge_mod * G.GAME.probabilities.normal, card = card })
                     return {
                         sound = 'tarot2',
                         message = localize('k_nope_ex'),

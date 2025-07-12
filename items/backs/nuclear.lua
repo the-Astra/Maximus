@@ -6,9 +6,9 @@ SMODS.Back {
         y = 0
     },
     credit = {
-    art = "Maxiss02",
-    code = "theAstra",
-    concept = "Maxiss02"
+        art = "Maxiss02",
+        code = "theAstra",
+        concept = "Maxiss02"
     },
     apply = function(self, back)
         --Change blind scaling

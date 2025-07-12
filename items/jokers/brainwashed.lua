@@ -8,6 +8,7 @@ SMODS.Joker {
     rarity = 2,
     config = {
         extra = {
+            prob = 1,
             odds = 2
         }
     },
@@ -21,12 +22,12 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { G.GAME.probabilities.normal, stg.odds }
+            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds, 'bwash') }
         }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.after and pseudorandom('bwash') < G.GAME.probabilities.normal / stg.odds and next(context.poker_hands['Flush']) then
+        if context.after and SMODS.pseudorandom_probability(card, 'bwash', stg.prob, stg.odds) and next(context.poker_hands['Flush']) then
             local valid_cards = {}
             local flush_suit = G.play.cards[1].base.suit
 

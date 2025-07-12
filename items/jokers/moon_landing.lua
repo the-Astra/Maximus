@@ -14,8 +14,6 @@ SMODS.Joker {
     blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
-        local stg = card.ability.extra
-
         if context.mxms_post_handtype_scoring and not context.blueprint then
             local hand_is_second = false
             local high_level, second_level, highest, second = to_big(0), to_big(0), {}, {}

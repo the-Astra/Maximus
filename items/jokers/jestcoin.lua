@@ -23,13 +23,13 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.money, stg.prob * G.GAME.probabilities.normal, stg.odds }
+            vars = { stg.money, SMODS.get_probability_vars(card, stg.prob, stg.odds, 'jestcoin')}
         }
     end,
     calc_dollar_bonus = function(self, card)
         local stg = card.ability.extra
 
-        if pseudorandom(pseudoseed('jestcoin' .. G.GAME.round_resets.ante)) < stg.prob * G.GAME.probabilities.normal / stg.odds then
+        if SMODS.pseudorandom_probability(card, 'jestcoin', stg.prob, stg.odds) then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     ease_dollars(-G.GAME.dollars, true)
@@ -37,8 +37,6 @@ SMODS.Joker {
                 end
             }))
             SMODS.calculate_effect({ message = localize('k_mxms_crashed_ex'), colour = G.C.RED }, card)
-            SMODS.calculate_context({ mxms_failed_prob = true, odds = stg.odds - (stg.prob * G.GAME.probabilities.normal), card =
-            card })
             stg.money = 2
             SMODS.calculate_effect({ message = localize('k_reset'), colour = G.C.ATTENTION }, card)
         else

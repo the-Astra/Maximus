@@ -40,11 +40,8 @@ SMODS.Joker {
                 -- Fail if no held jokers are eligible
                 if next(eligible_jokers) == nil then
                     return {
-                        extra = {
-                            message = localize('k_mxms_no_target_el'),
-                            colour = G.C.PURPLE
-                        },
-                        card = card
+                        message = localize('k_mxms_no_target_el'),
+                        colour = G.C.RED
                     }
                 else
                     -- Destroy Jobber
@@ -71,11 +68,8 @@ SMODS.Joker {
                     end
                     G.jokers:emplace(new_card)
                     return {
-                        extra = {
-                            message = localize('k_mxms_jobbed'),
-                            colour = G.C.YELLOW
-                        },
-                        card = card
+                        message = localize('k_mxms_jobbed'),
+                        colour = G.C.YELLOW
                     }
                 end
             end

@@ -78,7 +78,14 @@
         "vanilla_suit_check",
         "Sprite",
         "Tag",
-        "calculate_reroll_cost"
+        "calculate_reroll_cost",
+        "CardSleeves",
+        "mxms_probability_results",
+        "eval_card",
+        "mxms_invert_prob_cards",
+        "mxms_is_invert_prob_check",
+        "TheFamily",
+        "JokerDisplay"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

@@ -14,8 +14,6 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 6,
     calculate = function(self, card, context)
-        local stg = card.ability.extra
-
         if context.joker_main then
             for k, v in pairs(context.poker_hands) do
                 if k ~= context.scoring_name and next(context.poker_hands[k]) then

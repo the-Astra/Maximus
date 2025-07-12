@@ -29,7 +29,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.end_of_round and not context.individual and not context.repetition and not context.blueprint and next(SMODS.find_card('j_joker')) then
             stg.rounds = stg.rounds + 1
-            SMODS.calculate_effect({ message = stg.rounds .. '/3', colour = G.C.GOLD }, card)
+            SMODS.calculate_effect({ message = stg.rounds .. '/' .. stg.goal, colour = G.C.GOLD }, card)
 
             if stg.rounds == stg.goal then
                 G.E_MANAGER:add_event(Event({

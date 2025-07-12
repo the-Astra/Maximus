@@ -39,7 +39,6 @@ SMODS.Consumable {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.before then
-            
             local _handname, _played, _order = 'High Card', -1, 100
             for k, v in pairs(G.GAME.hands) do
                 if v.played > _played or (v.played == _played and _order > v.order) then
@@ -94,33 +93,10 @@ SMODS.Consumable {
                 func = function()
                     set_horoscope_success(card)
                     check_for_unlock({ type = "all_horoscopes" })
+                    if TheFamily then G.GAME.horoscope_alert = true end
                 end
             }, card)
-        update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-            {
-                handname = stg.most_played_hand,
-                chips = G.GAME.hands[stg.most_played_hand].chips,
-                mult = G.GAME.hands[stg.most_played_hand].mult,
-                level = G.GAME.hands[stg.most_played_hand].level
-            })
-        level_up_hand(card, stg.most_played_hand, false, stg.upgrade)
-        if context then
-            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-                {
-                    handname = context.scoring_name,
-                    chips = G.GAME.hands[context.scoring_name].chips,
-                    mult = G.GAME.hands[context.scoring_name].mult,
-                    level = G.GAME.hands[context.scoring_name].level
-                })
-        else
-            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-                {
-                    handname = '',
-                    chips = 0,
-                    mult = 0,
-                    level = ''
-                })
-        end
+        SMODS.smart_level_up_hand(card, stg.most_played_hand, false, stg.upgrade)
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = function()
@@ -133,7 +109,13 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = localize('k_mxms_failed_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect(
+            {
+                message = localize('k_mxms_failed_ex'),
+                colour = G.C.RED,
+                sound = 'tarot2',
+                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
+            }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',

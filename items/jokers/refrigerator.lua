@@ -13,11 +13,16 @@ SMODS.Joker { -- Refrigerator
     rarity = 2,
     blueprint_compat = false,
     cost = 6,
-    add_to_deck = function(self, card, from_debuff)
-        G.GAME.mxms_fridge_mod = G.GAME.mxms_fridge_mod * 2
-    end,
-
-    remove_from_deck = function(self, card, from_debuff)
-        G.GAME.mxms_fridge_mod = G.GAME.mxms_fridge_mod / 2
+    calculate = function(self, card, context)
+        if context.mod_probability and mxms_is_food(context.trigger_obj) then
+            if context.trigger_obj.config.center.key == 'j_mxms_fortune_cookie' then
+                return {
+                    numerator = context.numerator
+                }
+            end
+            return {
+                denominator = context.denominator
+            }
+        end
     end
 }

@@ -23,11 +23,8 @@ SMODS.Joker { -- Man in the Mirror
             -- Fail if no held consumeables
             if next(G.consumeables.cards) == nil then
                 return {
-                    extra = {
-                        message = localize('k_mxms_no_target_el'),
-                        colour = G.C.PURPLE
-                    },
-                    card = card
+                    message = localize('k_mxms_no_target_el'),
+                    colour = G.C.PURPLE
                 }
             else
                 -- Add negative edition to all held consumeables

@@ -13,8 +13,8 @@ SMODS.Joker {
     rarity = 4,
     unlocked = false,
     unlock_condition = {
-        type = '', 
-        extra = '', 
+        type = '',
+        extra = '',
         hidden = true
     },
     credit = {
@@ -24,7 +24,7 @@ SMODS.Joker {
     },
     blueprint_compat = true,
     calculate = function(self, card, context)
-        if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
+        if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind and G.GAME.blind.boss then
             local eligible_jokers = {}
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] ~= card and not G.jokers.cards[i].edition and not G.jokers.cards[i].getting_sliced then
@@ -35,11 +35,8 @@ SMODS.Joker {
             -- Fail if no held jokers are eligible
             if next(eligible_jokers) == nil then
                 return {
-                    extra = {
-                        message = localize('k_mxms_no_target_el'),
-                        colour = G.C.PURPLE
-                    },
-                    card = card
+                    message = localize('k_mxms_no_target_el'),
+                    colour = G.C.PURPLE
                 }
             else
                 -- Choose Joker to affect
@@ -54,11 +51,8 @@ SMODS.Joker {
                         negative = true
                     }, true)
                     return {
-                        extra = {
-                            message = localize('k_mxms_serious_q'),
-                            colour = G.C.PURPLE
-                        },
-                        card = card
+                        message = localize('k_mxms_serious_q'),
+                        colour = G.C.PURPLE
                     }
                 end
             end

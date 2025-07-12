@@ -14,8 +14,6 @@ SMODS.Joker {
     blueprint_compat = false,
     cost = 4,
     calculate = function(self, card, context)
-        local stg = card.ability.extra
-
         if context.before and next(context.poker_hands['Flush']) and not context.blueprint then
             for k, v in pairs(context.scoring_hand) do
                 SMODS.change_base(v, "Hearts", nil)

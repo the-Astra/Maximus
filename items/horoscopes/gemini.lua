@@ -86,38 +86,13 @@ SMODS.Consumable {
                 func = function()
                     set_horoscope_success(card)
                     check_for_unlock({ type = "all_horoscopes" })
+                    if TheFamily then G.GAME.horoscope_alert = true end
                 end
             }, card)
         for k, v in pairs(card.ability.hands) do
             if v then
-                update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-                    {
-                        handname = k,
-                        chips = G.GAME.hands[k].chips,
-                        mult = G.GAME.hands[k].mult,
-                        level = G.GAME.hands[k]
-                            .level
-                    })
-                level_up_hand(card, k, false, stg.upgrade)
+                SMODS.smart_level_up_hand(card, k, false, stg.upgrade)
             end
-        end
-        if context then
-            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-                {
-                    handname = context.scoring_name,
-                    chips = G.GAME.hands[context.scoring_name].chips,
-                    mult = G.GAME.hands
-                        [context.scoring_name].mult,
-                    level = G.GAME.hands[context.scoring_name].level
-                })
-        else
-            update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-                {
-                    handname = '',
-                    chips = 0,
-                    mult = 0,
-                    level = ''
-                })
         end
         G.E_MANAGER:add_event(Event({
             func = function()
@@ -130,7 +105,13 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         local stg = card.ability.extra
-        SMODS.calculate_effect({ message = localize('k_mxms_failed_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
+        SMODS.calculate_effect(
+            {
+                message = localize('k_mxms_failed_ex'),
+                colour = G.C.RED,
+                sound = 'tarot2',
+                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
+            }, card)
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
