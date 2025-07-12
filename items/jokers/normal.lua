@@ -27,7 +27,7 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.individual and context.cardarea == G.play then
+        if card.area ~= G.title_top and context.individual and context.cardarea == G.play then
             if not context.other_card.edition and not context.other_card.seal and not next(SMODS.get_enhancements(context.other_card)) then
                 return {
                     mult = stg.mult,
