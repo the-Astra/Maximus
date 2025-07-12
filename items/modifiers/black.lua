@@ -35,7 +35,7 @@ SMODS.Seal {
             }
         end
 
-        if context.check_eternal then
+        if context.check_eternal and context.other_card == card then
             return {
                 no_destroy = { override_compat = true }
             }
