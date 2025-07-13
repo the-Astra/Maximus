@@ -14,10 +14,10 @@ Maximus currently adds the following:
 - AND MORE!!!
 
 Mods with Maximus cross-mod support:
-- CardSleeves
-- 3xCredits
-- TheFamily
-- JokerDisplay
+- [CardSleeves](https://github.com/larswijn/CardSleeves)
+- [3xCredits](https://github.com/AuroraKy/3xCredits)
+- [TheFamily](https://github.com/SleepyG11/TheFamilyBalatro)
+- [JokerDisplay](https://github.com/nh6574/JokerDisplay)
 
 ### [Official Discord](https://discord.gg/GvCCcryM48)
 Join to keep up to date with development, contributions, or just to chat with people who also enjoy the mod!
