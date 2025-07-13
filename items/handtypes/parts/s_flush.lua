@@ -11,16 +11,16 @@ SMODS.PokerHandPart {
                     if not next(SMODS.get_enhancements(hand[i])) then all_enhanced = false end
                     rings_table[#rings_table + 1] = hand[i]
                 end
-                if all_enhanced and #hand >= (6 - (next(find_joker('Four Fingers')) and 1 or 0)) then
+                if all_enhanced and #hand >= SMODS.four_fingers() + 1 then
                     table.insert(rings_ret, rings_table)
                     return rings_ret
                 end
             end
 
             local ret = {}
-            local four_fingers = next(find_joker('Four Fingers'))
+            local four_fingers = SMODS.four_fingers() + 1
             local suits = SMODS.Suit.obj_buffer
-            if #hand < (6 - (four_fingers and 1 or 0)) then
+            if #hand < four_fingers then
                 return ret
             else
                 for j = 1, #suits do
@@ -32,7 +32,7 @@ SMODS.PokerHandPart {
                             flush_count = flush_count + 1; t[#t + 1] = hand[i]
                         end
                     end
-                    if flush_count >= (6 - (four_fingers and 1 or 0)) then
+                    if flush_count >= four_fingers then
                         table.insert(ret, t)
                         return ret
                     end
