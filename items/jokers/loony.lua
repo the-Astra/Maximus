@@ -7,8 +7,10 @@ SMODS.Joker {
     },
     rarity = 1,
     config = {
-        mult = 10,
-        type = 'High Card'
+        extra = {
+            mult = 10,
+            type = 'High Card'
+        }
     },
     credit = {
         art = "Maxiss02",
@@ -18,13 +20,13 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 3,
     loc_vars = function(self, info_queue, card)
-        local stg = card.ability
+        local stg = card.ability.extra
         return {
             vars = { stg.mult, stg.type }
         }
     end,
     calculate = function(self, card, context)
-        local stg = card.ability
+        local stg = card.ability.extra
         if context.joker_main and context.scoring_name == 'High Card' then
             return {
                 mult = stg.mult

@@ -34,9 +34,9 @@ SMODS.Consumable {
     soul_rate = 0.003,
     cost = 4,
     loc_vars = function(self, info_queue, card)
-        local stg = card.ability
+        local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS.c_soul
-        return { vars = { stg.extra.handtypes_played, stg.extra.ante_limit } }
+        return { vars = { stg.handtypes_played, stg.ante_limit } }
     end,
     calculate = function(self, card, context)
         local stg = card.ability
