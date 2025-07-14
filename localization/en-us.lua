@@ -54,7 +54,7 @@ return {
                 name = 'Sixth Finger Deck',
                 text = {
                     'Allows {C:attention}6 playing cards',
-                    'to be playe and discarded'
+                    'to be played and discarded'
                 }
             },
         },
