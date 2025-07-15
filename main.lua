@@ -228,7 +228,10 @@ Game.main_menu = function(change_context)
         G.SPLASH_MAXIMUS_LOGO.states.collide.can = true
 
         -- Define node functions for Maximus Logo
-        function G.SPLASH_MAXIMUS_LOGO:click() G.FUNCS['openModUI_Maximus']() end
+        function G.SPLASH_MAXIMUS_LOGO:click()
+            play_sound('button', 1, 0.3)
+            G.FUNCS['openModUI_Maximus']()
+        end
 
         function G.SPLASH_MAXIMUS_LOGO:hover()
             G.SPLASH_MAXIMUS_LOGO:juice_up(0.05, 0.03)
