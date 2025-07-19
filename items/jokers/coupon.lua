@@ -25,12 +25,7 @@ SMODS.Joker {
             vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds, 'cou') }
         }
     end,
-    set_ability = function(self, card, inital, delay_sprites)
-        local W = card.T.w
-        W = W * (63 / 71)
-        card.children.center.scale.x = card.children.center.scale.x * (63 / 71)
-        card.T.w = W
-    end,
+    pixel_size = { w = 53 },
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
