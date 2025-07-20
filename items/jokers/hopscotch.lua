@@ -43,8 +43,5 @@ SMODS.Joker {
                 }
             end
         end
-    end,
-    in_pool = function(self, args)
-        return not G.GAME.modifiers.disable_blind_skips
-    end,
+    end
 }

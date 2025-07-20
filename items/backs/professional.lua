@@ -16,6 +16,10 @@ SMODS.Back {
 
         -- Change blind size
         G.GAME.starting_params.ante_scaling = 1.25
+
+        -- Ban some Jokers that rely on skipping
+        G.GAME.banned_keys[#G.GAME.banned_keys+1] = 'j_throwback'
+        G.GAME.banned_keys[#G.GAME.banned_keys+1] = 'j_mxms_hopscotch'
     end
 }
 
@@ -25,11 +29,3 @@ create_UIBox_blind_tag = function(blind_choice, run_info)
         return cubt(blind_choice, run_info)
     end
 end
-
-SMODS.Joker:take_ownership('j_throwback', {
-        in_pool = function(self, args)
-            return not G.GAME.modifiers.disable_blind_skips
-        end
-    },
-    true
-)
