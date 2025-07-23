@@ -30,7 +30,7 @@ SMODS.Booster {
         return { vars = { card.config.center.config.choose + (G.GAME.mxms_choose_mod or 0), card.ability.extra } }
     end,
     in_pool = function(self, args)
-        if G.mxms_horoscope.config.highlighted_limit > 1 then
+        if G.mxms_horoscope and G.mxms_horoscope.config.highlighted_limit > 1 then
             return true
         end
 
