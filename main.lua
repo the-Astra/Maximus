@@ -827,7 +827,8 @@ end
 local csc = Card.set_cost
 function Card:set_cost()
     csc(self)
-    self.cost = self.cost * G.GAME.mxms_shop_price_multiplier * G.GAME.mxms_creep_mod
+    self.cost = math.floor(self.cost * G.GAME.mxms_shop_price_multiplier)
+    self.cost = self.cost * G.GAME.mxms_creep_mod
 end
 
 --#endregion
