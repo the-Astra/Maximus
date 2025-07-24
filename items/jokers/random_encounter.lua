@@ -22,8 +22,9 @@ SMODS.Joker {
     cost = 5,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
+        local prob, odds = SMODS.get_probability_vars(card, stg.prob, stg.odds, 'rand_enc')
         return {
-            vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds), stg.mult }
+            vars = { prob, odds, stg.mult }
         }
     end,
     calculate = function(self, card, context)

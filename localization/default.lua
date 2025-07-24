@@ -641,7 +641,7 @@ return {
             j_mxms_fortune_cookie = {
                 name = 'Fortune Cookie',
                 text = {
-                    '{C:green}#1# out of #2#{} chance to',
+                    '{C:green}#1# in #2#{} chance to',
                     'receive a {C:green}random {C:tarot}Tarot{}',
                     'card when playing a hand',
                     '{s:0.8,C:inactive}(Must have room)',
