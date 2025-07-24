@@ -14,7 +14,7 @@ SMODS.Joker {
     blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
-        if context.mxms_post_handtype_scoring and not context.blueprint then
+        if context.initial_scoring_step and not context.blueprint then
             local hand_is_second = false
             local high_level, second_level, highest, second = to_big(0), to_big(0), {}, {}
 
@@ -43,7 +43,7 @@ SMODS.Joker {
                 local best_value = to_big(0)
 
                 for i = 1, #highest do
-                    if to_big(G.GAME.hands[highest[i]].chips * G.GAME.hands[highest[i]].mult) > best_value then
+                    if to_big(G.GAME.hands[highest[i]].chips) * to_big(G.GAME.hands[highest[i]].mult) > best_value then
                         best_value = to_big(G.GAME.hands[highest[i]].chips * G.GAME.hands[highest[i]].mult)
                         best_choice = highest[i]
                     end
