@@ -24,7 +24,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         local prob, odds = SMODS.get_probability_vars(card, stg.prob, stg.odds, 'jackpot')
         return {
-            vars = { porb, odds, stg.money}
+            vars = { prob, odds, stg.money}
         }
     end,
     calculate = function(self, card, context)
