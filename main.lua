@@ -1177,6 +1177,7 @@ if Maximus_config.horoscopes then
     local cae = CardArea.emplace
     function CardArea:emplace(card, location, stay_flipped)
         if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center.key == 'c_mxms_ophiucus') then
+            card:remove_from_area()
             G.mxms_horoscope:emplace(card, location, stay_flipped)
             return
         end
