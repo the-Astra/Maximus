@@ -2230,6 +2230,7 @@ return {
             k_mxms_serious_q = "Why so serious?",
             k_mxms_splat_ex = "Splat!",
             k_mxms_step_el = "One Small Step...",
+            k_mxms_streak = "Streak",
             k_mxms_streaked_ex = "Streaked!",
             k_mxms_success_ex = "Success!",
             k_mxms_tribute_ex = "Tribute!",

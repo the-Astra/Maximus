@@ -36,8 +36,7 @@ SMODS.Joker {
                 mult_mod = stg.mult,
                 chip_mod = stg.chips,
                 message = localize('k_mxms_streaked_ex'),
-                colour = G.C.MULT,
-                card = card
+                colour = G.C.MULT
             }
         end
 
@@ -49,8 +48,7 @@ SMODS.Joker {
                 stg.mult = 0
                 return {
                     message = localize('k_reset'),
-                    colour = G.C.RED,
-                    card = card
+                    colour = G.C.RED
                 }
             end
         end
@@ -62,9 +60,8 @@ SMODS.Joker {
                 stg.chips = stg.chip_gain * stg.streak * G.GAME.mxms_soil_mod
                 stg.mult = stg.mult_gain * stg.streak * G.GAME.mxms_soil_mod
                 return {
-                    message = 'Streak ' .. stg.streak,
-                    colour = G.C.CHIPS,
-                    card = card,
+                    message = localize('k_mxms_streak') .. ' ' .. stg.streak,
+                    colour = G.C.ATTENTION,
                     func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
                 }
             else

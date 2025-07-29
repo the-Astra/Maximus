@@ -22,7 +22,7 @@ SMODS.Joker {
             -- Code derived Madness
             local eligible_jokers = {}
             for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] ~= card and not SMODS.is_eternal(G.jokers.cards[i])and
+                if G.jokers.cards[i] ~= card and not SMODS.is_eternal(G.jokers.cards[i]) and
                     not (G.jokers.cards[i].edition and G.jokers.cards[i].edition.negative) and
                     not G.jokers.cards[i].getting_sliced then
                     eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
@@ -43,21 +43,17 @@ SMODS.Joker {
                 -- "Flip a coin" to decide what to do with the target
                 local flip = pseudorandom(pseudoseed('aby' .. G.GAME.round_resets.ante), 1, 2)
 
-                -- Add negative edition to random held joker
-                if flip == 1 then
+                if flip == 1 then -- Add negative edition to random held joker
                     (context.blueprint_card or card):juice_up(0.3, 0.4)
                     chosen_joker:set_edition({ negative = true }, true)
                     return {
                         message = localize('k_mxms_void_touched_ex'),
                         colour = G.C.PURPLE
                     }
-
-                    -- Destroy a random non-negative joker
-                elseif flip == 2 then
+                elseif flip == 2 then -- Destroy a random non-negative joker
                     -- Double check the target is not self
                     -- Code derived Madness
                     if chosen_joker and not (context.blueprint_card or card).getting_sliced then
-                        chosen_joker.getting_sliced = true
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 (context.blueprint_card or card):juice_up(0.8, 0.8)
