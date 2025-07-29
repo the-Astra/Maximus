@@ -16,7 +16,7 @@ if Maximus_config.horoscopes then
             concept = "Maxiss02"
         },
         loc_vars = function(self, info_queue)
-            info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 1, 2 } }
+            info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 2, 4 } }
         end,
         apply = function(self, tag, context)
             if context.type == "new_blind_choice" then
