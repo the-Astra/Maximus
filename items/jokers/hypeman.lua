@@ -28,8 +28,10 @@ SMODS.Joker {
         local stg = card.ability.extra
     
         if context.enhancing_card then
+            ease_dollars(stg.dollars)
             return {
-                dollars = stg.dollars,
+                message = localize('$') .. stg.dollars,
+                colour = G.C.GOLD,
                 sound = 'mxms_hey'
             }
         end
