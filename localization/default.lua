@@ -2236,7 +2236,6 @@ return {
             k_mxms_turned_ex = "Turned!",
             k_mxms_unpleasant = "how Unpleasant",
             k_mxms_void_touched_ex = "Void-Touched!",
-            k_mxms_wasted = "Wasted",
             k_mxms_zodiac_pack = "Zodiac Pack",
             ph_mxms_stat_horoscope = "Number of times this card has been fulfilled",
             ph_mxms_stat_horoscope_disabled = "Horoscopes disabled, stats cannot be displayed",
