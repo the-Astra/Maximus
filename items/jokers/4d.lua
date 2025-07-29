@@ -53,12 +53,15 @@ mxms_4d_dt_mod = 0
 function Game:update(dt)
     upd(self, dt)
 
+    -- Increment dt animation value
     mxms_4d_dt_anim = mxms_4d_dt_anim + dt
+
+    -- Only increment dt mod value when 4D is in hand and run is not paused
     if next(SMODS.find_card('j_mxms_4d')) and not G.SETTINGS.paused then
         mxms_4d_dt_mod = mxms_4d_dt_mod + dt
     end
 
-    -- 4D Patches (Derived from Jimball animation code)
+    -- 4D Animation Sequence (Derived from Jimball animation code)
     if G.P_CENTERS and G.P_CENTERS.j_mxms_4d and mxms_4d_dt_anim > 0.05 then
         mxms_4d_dt_anim = 0
 
@@ -74,13 +77,19 @@ function Game:update(dt)
             obj.pos.y = obj.pos.y + 1
         end
     end
-    if next(SMODS.find_card('j_mxms_4d')) and mxms_4d_dt_mod > 1 then
+
+    -- 4D Decrement Xmult values
+    local fourds = SMODS.find_card('j_mxms_4d')
+    if next(fourds) and mxms_4d_dt_mod > 1 then
         mxms_4d_dt_mod = 0
 
-        for k, v in pairs(G.jokers.cards) do
-            if v.config.center.key == 'j_mxms_4d' and v.ability.extra.Xmult > 1 then
-                v.ability.extra.Xmult = v.ability.extra.Xmult - v.ability.extra.dXmult
+        for k, v in pairs(fourds) do
+            local stg = v.ability.extra
+            if stg.Xmult > 1 then
+                stg.Xmult = stg.Xmult - stg.dXmult
                 v:juice_up(0.1, 0.2)
+
+                -- Only play ticking sound if config option is enabled
                 if Maximus_config.four_d_ticks then
                     play_sound('generic1')
                 end
