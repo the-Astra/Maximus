@@ -1148,9 +1148,9 @@ jd_def['j_mxms_slippery_slope'] = { -- Slippery Slope
         local text, poker_hands, _ = JokerDisplay.evaluate_hand()
         if text ~= 'Unknown' then
             for k, v in pairs(poker_hands) do
-                if k ~= text and next(poker_hands[k]) then
-                    chips = chips + G.GAME.hands[k].chips
-                    mult = mult + G.GAME.hands[k].mult
+                if k ~= text and SMODS.PokerHands[k] and next(v) then
+                    chips = chips + SMODS.PokerHands[k].chips
+                    mult = mult + SMODS.PokerHands[k].mult
                 end
             end
         end
