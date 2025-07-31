@@ -168,31 +168,6 @@ match_indent = true
 times = 1
 
 
-# Change planet level up method to include extra levels
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-level_up_hand(used_tarot, self.ability.consumeable.hand_type)
-'''
-position = "at"
-payload = '''
-local deities = SMODS.find_card('j_mxms_celestial_deity')
-for i = 1, G.GAME.mxms_base_planet_levels do
-    if G.GAME.modifiers.mxms_double_exoplanet and self.ability.consumeable.mxms_exoplanet then
-        level_up_hand(used_tarot, self.ability.consumeable.hand_type, nil, 2)
-    else
-        level_up_hand(used_tarot, self.ability.consumeable.hand_type)
-    end
-    if next(deities) and i <= #deities then
-        SMODS.calculate_effect({ message = localize('k_again_ex')},deities[i])
-    end
-end
-'''
-match_indent = true
-times = 1
-
-
 # Add all faces param check
 [[patches]]
 [patches.pattern]

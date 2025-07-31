@@ -38,5 +38,10 @@ CardSleeves.Sleeve {
                 G.GAME.hands.mxms_s_straight_f.visible = true
             end
         end
-    end
+    end,
+    calculate = function(self, sleeve, context)
+        if G.GAME.modifiers.mxms_double_exoplanet and context.using_consumeable and context.consumeable.ability.consumeable.mxms_exoplanet then
+            SMODS.smart_level_up_hand(sleeve, context.consumeable.ability.consumeable.hand_type)
+        end
+    end,
 }

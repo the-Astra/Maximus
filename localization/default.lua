@@ -439,8 +439,9 @@ return {
             j_mxms_celestial_deity = {
                 name = 'Celestial Deity',
                 text = {
-                    '{C:planet}Planet{} cards give',
-                    '{C:attention}+#1#{} extra level'
+                    'When a {C:planet}Planet{} card is used,',
+                    'this Joker adds {C:attention}+#1#{} extra level',
+                    'to the {C:planet}Planet{} card\'s hand type'
                 }
             },
             j_mxms_change = {
