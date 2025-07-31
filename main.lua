@@ -878,12 +878,14 @@ end
 
 -- Checks if a card should have an inverted check when evaluating prob results
 function mxms_is_invert_prob_check(card)
-    if mxms_invert_prob_cards[card.config.center.key] then
-        return true
-    elseif next(SMODS.get_enhancements(card)) then
-        for k, v in pairs(SMODS.get_enhancements(card)) do
-            if mxms_invert_prob_cards[v] then
-                return true
+    if card.config and card.config.center then
+        if mxms_invert_prob_cards[card.config.center.key] then
+            return true
+        elseif next(SMODS.get_enhancements(card)) then
+            for k, v in pairs(SMODS.get_enhancements(card)) do
+                if mxms_invert_prob_cards[v] then
+                    return true
+                end
             end
         end
     end
