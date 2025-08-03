@@ -955,6 +955,7 @@ end
 
 --#endregion
 
+
 -- CREDITS SYSTEM
 --#region Card Credits System (Derived from Cryptid's cry_credits) ------------------------------------------
 local smcmb = SMODS.create_mod_badges
@@ -1057,6 +1058,7 @@ function SMODS.create_mod_badges(obj, badges)
 	end
 end
 --#endregion
+
 
 -- OBJECTS
 --#region Achievements --------------------------------------------------------------------------------------
