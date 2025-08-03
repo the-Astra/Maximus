@@ -2323,10 +2323,10 @@ return {
                 "Only {C:red}Rare{} Jokers can show up in the shop"
             },
             ch_c_mxms_picky = {
-                "A copy of {C:attention}Four Course Meal{} spawns in hand at the start of each round if there's room"
+                "A copy of {C:attention,T:j_mxms_four_course_meal}Four Course Meal{} spawns in hand at the start of each round if there's room"
             },
             ch_c_mxms_biggest_loser = {
-                "{C:attention}Impractical Joker{} starts with {C:attention}Straight Flush{}"
+                "{C:attention,T:j_mxms_impractical}Impractical Joker{} starts with {C:attention}Straight Flush{}"
             },
             ch_c_mxms_zodiac_killer = {
                 "Creates a {C:horoscope}Horoscope Card{} at the start of each ante. Failing the Horoscope {C:red}loses the run{}"
