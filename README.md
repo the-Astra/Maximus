@@ -15,7 +15,6 @@ Maximus currently adds the following:
 
 Mods with Maximus cross-mod support/content:
 - [CardSleeves](https://github.com/larswijn/CardSleeves)
-- [3xCredits](https://github.com/AuroraKy/3xCredits)
 - [TheFamily](https://github.com/SleepyG11/TheFamilyBalatro)
 - [JokerDisplay](https://github.com/nh6574/JokerDisplay)
 - [Revo's Vault](https://github.com/Cdrvo/Revos-Vault---Balatro-Mod)
