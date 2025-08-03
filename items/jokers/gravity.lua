@@ -11,10 +11,10 @@ SMODS.Joker {
             rounds = 5
         }
     },
-    credit = {
-        art = "pinkzigzagoon",
-        code = "theAstra",
-        concept = "pinkzigzagoon"
+    mxms_credits = {
+        art = { "pinkzigzagoon" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     },
     blueprint_compat = false,
     eternal_compat = false,

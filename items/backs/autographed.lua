@@ -5,10 +5,10 @@ SMODS.Back {
         x = 5,
         y = 0
     },
-    credit = {
-        art = "pinkzigzagoon",
-        code = "theAstra",
-        concept = "pinkzigzagoon"
+    mxms_credits = {
+        art = { "pinkzigzagoon" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     },
     apply = function(self, back)
         local extra_cards = {}

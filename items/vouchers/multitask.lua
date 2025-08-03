@@ -6,10 +6,10 @@ if Maximus_config.horoscopes then
             x = 3,
             y = 0
         },
-        credit = {
-            art = "Maxiss02",
-            code = "theAstra",
-            concept = "Maxiss02"
+        mxms_credits = {
+            art = { "Maxiss02" },
+            code = { "theAstra" },
+            idea = { "Maxiss02" }
         },
         redeem = function(self, card, from_debuff)
             G.mxms_horoscope.config.card_limit = G.mxms_horoscope.config.card_limit + 1

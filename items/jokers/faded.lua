@@ -6,16 +6,16 @@ SMODS.Joker {
         y = 1
     },
     rarity = 2,
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     blueprint_compat = false,
     cost = 7,
     calculate = function(self, card, context)
         if context.before and next(context.poker_hands['Flush']) then
-            local suit_check = {Diamonds = false, Spades = false, Clubs = false, Hearts = false}
+            local suit_check = { Diamonds = false, Spades = false, Clubs = false, Hearts = false }
 
             for k, v in pairs(context.scoring_hand) do
                 if not SMODS.has_no_suit(v) or not SMODS.has_any_suit(v) then
@@ -29,7 +29,7 @@ SMODS.Joker {
                 end
             end
 
-            check_for_unlock({type = 'flushaholic'})
+            check_for_unlock({ type = 'flushaholic' })
         end
     end,
 }

@@ -13,10 +13,10 @@ if Maximus_config.horoscopes then
                 gain = 0.5
             }
         },
-        credit = {
-            art = "Maxiss02",
-            code = "theAstra",
-            concept = "Maxiss02"
+        mxms_credit = {
+            art = { "Maxiss02" },
+            code = { "theAstra" },
+            idea = { "Maxiss02" }
         },
         blueprint_compat = true,
         cost = 6,

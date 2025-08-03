@@ -13,10 +13,10 @@ SMODS.Consumable {
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_SEALS['mxms_black']
     end,
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "pinkzigzagoon"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     },
     use = function(self, card, area, copier)
         local conv_card = G.hand.highlighted[1]

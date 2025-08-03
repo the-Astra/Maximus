@@ -14,10 +14,10 @@ SMODS.Joker {
             unscoring_goal = 2
         }
     },
-    credit = {
-        art = "anerdymous",
-        code = "theAstra",
-        concept = "anerdymous"
+    mxms_credits = {
+        art = { "anerdymous" },
+        code = { "theAstra" },
+        idea = { "anerdymous" }
     },
     blueprint_compat = true,
     cost = 8,

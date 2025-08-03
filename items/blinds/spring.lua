@@ -14,10 +14,10 @@ SMODS.Blind {
             hands_removed = 0
         }
     },
-    credit = {
-        art = "pinkzigzagoon",
-        code = "theAstra",
-        concept = "pinkzigzagoon"
+    mxms_credits = {
+        art = { "pinkzigzagoon" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     },
     boss_colour = HEX('BDB087'),
     set_blind = function(self)

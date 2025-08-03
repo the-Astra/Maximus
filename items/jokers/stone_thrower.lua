@@ -12,10 +12,10 @@ SMODS.Joker {
             gain = 30
         }
     },
-    credit = {
-        art = "anerdymous",
-        code = "theAstra",
-        concept = "anerdymous"
+    mxms_credits = {
+        art = { "anerdymous" },
+        code = { "theAstra" },
+        idea = { "anerdymous" }
     },
     blueprint_compat = true,
     enhancement_gate = 'm_glass',

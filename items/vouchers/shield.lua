@@ -5,10 +5,10 @@ SMODS.Voucher {
         x = 2,
         y = 0
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     redeem = function(self, card, from_debuff)
         G.GAME.mxms_v_destroy_reduction = G.GAME.mxms_v_destroy_reduction + 1

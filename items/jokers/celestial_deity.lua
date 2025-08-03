@@ -11,10 +11,10 @@ SMODS.Joker {
             extra_levels = 1
         }
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "theAstra"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "theAstra" }
     },
     blueprint_compat = false,
     cost = 7,

@@ -12,10 +12,10 @@ SMODS.Joker {
             tally = 0
         }
     },
-    credit = {
-        art = "PsyAlola",
-        code = "theAstra",
-        concept = "PsyAlola"
+    mxms_credits = {
+        art = { "PsyAlola" },
+        code = { "theAstra" },
+        idea = { "PsyAlola" }
     },
     blueprint_compat = false,
     cost = 6,

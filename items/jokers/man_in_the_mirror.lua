@@ -9,10 +9,10 @@ SMODS.Joker { -- Man in the Mirror
     eternal_compat = false,
     cost = 8,
     rarity = 2,
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.e_negative

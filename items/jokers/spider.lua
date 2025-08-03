@@ -13,10 +13,10 @@ SMODS.Joker {
             mult = 5
         }
     },
-    credit = {
-        art = "anerdymous",
-        code = "theAstra",
-        concept = "anerdymous"
+    mxms_credits = {
+        art = { "anerdymous" },
+        code = { "theAstra" },
+        idea = { "anerdymous" }
     },
     blueprint_compat = true,
     cost = 4,

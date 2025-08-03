@@ -20,10 +20,10 @@ SMODS.Joker {
             dXmult = 0.01
         }
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra

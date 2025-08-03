@@ -6,10 +6,10 @@ SMODS.Joker {
         y = 16
     },
     rarity = 2,
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "pinkzigzagoon"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     },
     blueprint_compat = false,
     cost = 5

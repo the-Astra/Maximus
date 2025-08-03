@@ -13,10 +13,10 @@ if Maximus_config.horoscopes then
                 v.config.center:succeed(v)
             end
         end,
-        credit = {
-            art = "Maxiss02",
-            code = "theAstra",
-            concept = "Maxiss02"
+        mxms_credits = {
+            art = { "Maxiss02" },
+            code = { "theAstra" },
+            idea = { "Maxiss02" }
         },
         can_use = function(self, card)
             if #G.mxms_horoscope.cards >= 1 then

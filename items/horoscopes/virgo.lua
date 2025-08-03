@@ -6,10 +6,10 @@ SMODS.Consumable {
         x = 5,
         y = 1
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     cost = 4,
     loc_vars = function(self, info_queue, card)

@@ -11,10 +11,10 @@ SMODS.Joker {
             size = 3
         }
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "anerdymous"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "anerdymous" }
     },
     blueprint_compat = false,
     cost = 4,

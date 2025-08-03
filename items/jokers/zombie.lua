@@ -5,10 +5,10 @@ SMODS.Joker {
         x = 7,
         y = 5
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     rarity = 2,
     blueprint_compat = true,
@@ -28,8 +28,8 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         if G.GAME.current_round.mxms_zombie_target.card and
-        G.GAME.current_round.mxms_zombie_target.card.config.center.key ~= 'j_mxms_zombie'
-        and not context.no_blueprint then
+            G.GAME.current_round.mxms_zombie_target.card.config.center.key ~= 'j_mxms_zombie'
+            and not context.no_blueprint then
             context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
             context.blueprint_card = context.blueprint_card or card
             local zombie_target_ret = G.GAME.current_round.mxms_zombie_target.card:calculate_joker(context)

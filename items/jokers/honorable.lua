@@ -12,10 +12,10 @@ SMODS.Joker {
             gain = 10
         }
     },
-    credit = {
-        art = "pinkzigzagoon",
-        code = "theAstra",
-        concept = "anerdymous"
+    mxms_credits = {
+        art = { "pinkzigzaoon" },
+        code = { "theAstra" },
+        idea = { "anerdymous" }
     },
     blueprint_compat = true,
     cost = 4,

@@ -24,10 +24,10 @@ SMODS.Consumable {
             handtypes_played = 0
         }
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     hidden = true,
     soul_set = 'Horoscope',

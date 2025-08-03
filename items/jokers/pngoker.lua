@@ -5,10 +5,10 @@ SMODS.Joker {
         x = 4,
         y = 10
     },
-    credit = {
-        art = "anerdymous",
-        code = "theAstra",
-        concept = "anerdymous"
+    mxms_credits = {
+        art = { "anerdymous" },
+        code = { "theAstra" },
+        idea = { "anerdymous" }
     },
     rarity = 2,
     blueprint_compat = false,

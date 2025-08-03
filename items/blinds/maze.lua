@@ -9,10 +9,10 @@ SMODS.Blind {
         x = 0,
         y = 9
     },
-    credit = {
-        art = "pinkzigzagoon",
-        code = "theAstra",
-        concept = "pinkzigzagoon"
+    mxms_credits = {
+        art = { "pinkzigzagoon" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     },
     boss_colour = HEX('110E47'),
     calculate = function(self, card, context)

@@ -9,10 +9,10 @@ SMODS.Blind {
         x = 0,
         y = 0
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     boss_colour = HEX('A2CA4C'),
     set_blind = function(self)

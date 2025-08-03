@@ -15,9 +15,9 @@ SMODS.Consumable {
         info_queue[#info_queue + 1] = G.P_CENTERS['mxms_footprint']
         return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
     end,
-    credit = {
-        art = "SadCube",
-        code = "theAstra",
-        concept = "N/A"
+    mxms_credits = {
+        art = { "SadCube" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     }
 }

@@ -11,10 +11,10 @@ SMODS.Joker {
             hands_left = 5,
         }
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     blueprint_compat = true,
     cost = 7,
@@ -83,7 +83,7 @@ SMODS.Joker {
         if context.after and not context.blueprint then
             stg.hands_left = stg.hands_left - (1 / G.GAME.mxms_fridge_mod)
             SMODS.calculate_effect(
-            { message = stg.hands_left .. ' ' .. localize('k_mxms_left_el'), colour = G.C.RED }, card)
+                { message = stg.hands_left .. ' ' .. localize('k_mxms_left_el'), colour = G.C.RED }, card)
             if stg.hands_left <= 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()

@@ -2340,6 +2340,11 @@ return {
             ch_c_mxms_ante_sell = {
                 "All held {C:attention}Jokers{} and {C:attention}Consumables{} are {C:money}sold{} when {C:attention}Boss Blind{} is defeated"
             }
+        },
+        v_dictionary = {
+            mxms_art = { 'Art: #1#' },
+            mxms_code = { 'Code: #1#' },
+            mxms_idea = { 'Idea: #1#' }
         }
     }
 }

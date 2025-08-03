@@ -10,10 +10,9 @@ SMODS.Joker {
             extra_hands = 1
         }
     },
-    credit = {
-        art = "LocalThunk",
-        code = "theAstra",
-        concept = "pinkzigzagoon"
+    mxms_credits = {
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     },
     blueprint_compat = false,
     cost = 4,

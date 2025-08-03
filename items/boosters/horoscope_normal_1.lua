@@ -11,10 +11,9 @@ SMODS.Booster {
         extra = 2,
         choose = 1
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "N/A"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" }
     },
     cost = 4,
     weight = 0.96,

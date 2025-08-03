@@ -5,10 +5,10 @@ SMODS.Joker {
         x = 6,
         y = 11
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     rarity = 2,
     blueprint_compat = false,

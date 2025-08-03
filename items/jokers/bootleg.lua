@@ -9,10 +9,10 @@ SMODS.Joker {
     config = {},
     blueprint_compat = true,
     cost = 3,
-    credit = {
-        art = "pinkzigzagoon",
-        code = "theAstra",
-        concept = "pinkzigzagoon"
+    mxms_credits = {
+        art = { "pinkzigzagoon" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     },
     loc_vars = function(self, info_queue, card)
         if G.GAME.mxms_last_bought.card ~= nil then
@@ -46,7 +46,7 @@ SMODS.Joker {
             and (context.card ~= card or context.card.config.center.key ~= "j_mxms_bootleg") then
             G.GAME.mxms_last_bought.card = context.card
             card:juice_up(0.3, 0.4)
-            check_for_unlock({type = 'bootleg_copy', card = context.card.config.center.key})
+            check_for_unlock({ type = 'bootleg_copy', card = context.card.config.center.key })
         end
     end,
     remove_from_deck = function(self, card, context)

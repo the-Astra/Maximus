@@ -19,10 +19,10 @@ SMODS.Joker {
             odds = 10
         }
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
@@ -59,7 +59,6 @@ SMODS.Joker {
                     message = localize('k_mxms_fortunate_ex'),
                     colour = G.C.SECONDARY_SET.Tarot
                 }
-                
             else -- Failed Roll
                 return {
                     sound = 'tarot2',

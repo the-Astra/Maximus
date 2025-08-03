@@ -12,10 +12,10 @@ SMODS.Joker {
             retriggers = 0
         }
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     blueprint_compat = true,
     cost = 8,

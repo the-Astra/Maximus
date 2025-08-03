@@ -9,10 +9,10 @@ SMODS.Blind {
         x = 0,
         y = 5
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "theAstra"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "theAstra" }
     },
     boss_colour = HEX('4E4C76'),
     recalc_debuff = function(self, card, from_blind)

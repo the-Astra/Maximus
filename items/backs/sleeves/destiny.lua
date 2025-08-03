@@ -6,6 +6,11 @@ if Maximus_config.horoscopes then
             x = 3,
             y = 0
         },
+        mxms_credits = {
+            art = { "Maxiss02" },
+            code = { "theAstra" },
+            idea = { "Maxiss02" }
+        },
         loc_vars = function(self, info_queue, card)
             local key, vars
             if self.get_current_deck_key() == 'b_mxms_destiny' then

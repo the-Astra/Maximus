@@ -5,10 +5,10 @@ SMODS.Back {
         x = 3,
         y = 0
     },
-    credit = {
-        art = "pinkzigzagoon",
-        code = "theAstra",
-        concept = "pinkzigzagoon"
+    mxms_credits = {
+        art = { "pinkzigzagoon" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     },
     apply = function(self, back)
         --Disable skipping
@@ -18,8 +18,8 @@ SMODS.Back {
         G.GAME.starting_params.ante_scaling = 1.25
 
         -- Ban some Jokers that rely on skipping
-        G.GAME.banned_keys[#G.GAME.banned_keys+1] = 'j_throwback'
-        G.GAME.banned_keys[#G.GAME.banned_keys+1] = 'j_mxms_hopscotch'
+        G.GAME.banned_keys[#G.GAME.banned_keys + 1] = 'j_throwback'
+        G.GAME.banned_keys[#G.GAME.banned_keys + 1] = 'j_mxms_hopscotch'
     end
 }
 

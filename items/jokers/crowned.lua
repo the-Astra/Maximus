@@ -11,10 +11,10 @@ SMODS.Joker {
             Xmult = 6
         }
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        concept = { "Maxiss02" }
     },
     blueprint_compat = true,
     unlocked = false,

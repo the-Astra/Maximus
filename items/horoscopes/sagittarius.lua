@@ -7,10 +7,10 @@ SMODS.Consumable {
         y = 1
     },
     cost = 4,
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then

@@ -14,10 +14,10 @@ SMODS.Joker {
             dChips = 25
         }
     },
-    credit = {
-        art = "pinkzigzagoon",
-        code = "theAstra",
-        concept = "pinkzigzagoon"
+    mxms_credits = {
+        art = { "pinkzigzagoon" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     },
     blueprint_compat = false,
     cost = 4,
@@ -54,7 +54,7 @@ SMODS.Joker {
                         G.GAME.mxms_breadstick_scales = G.GAME.mxms_breadstick_scales + 1
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                check_for_unlock({type = 'stuffed', scales = G.GAME.mxms_breadstick_scales})
+                                check_for_unlock({ type = 'stuffed', scales = G.GAME.mxms_breadstick_scales })
                                 return true;
                             end
                         }))

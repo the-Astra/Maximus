@@ -5,6 +5,11 @@ CardSleeves.Sleeve {
         x = 0,
         y = 1
     },
+    mxms_credits = {
+        art = { "pinkzigzagoon" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
+    },
     loc_vars = function(self, info_queue, card)
         local key, vars
         if self.get_current_deck_key() == 'b_mxms_autographed' then

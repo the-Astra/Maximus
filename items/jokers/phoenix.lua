@@ -18,10 +18,10 @@ SMODS.Joker {
     },
     blueprint_compat = false,
     cost = 20,
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "anerdymous"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "anerdymous" }
     },
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_SEALS.Red

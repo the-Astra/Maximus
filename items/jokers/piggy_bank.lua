@@ -12,10 +12,10 @@ SMODS.Joker {
             chip_factor = 20
         }
     },
-    credit = {
-        art = "pinkzigzagoon",
-        code = "theAstra",
-        concept = "anerdymous"
+    mxms_credits = {
+        art = { "pinkzigzaoon" },
+        code = { "theAstra" },
+        idea = { "anerdymous" }
     },
     blueprint_compat = true,
     cost = 4,

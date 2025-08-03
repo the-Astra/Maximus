@@ -11,10 +11,10 @@ SMODS.Joker {
             cards_left = 8
         }
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "anerdymous"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "anerdymous" }
     },
     blueprint_compat = false,
     perishable_compat = false,

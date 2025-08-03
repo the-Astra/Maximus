@@ -11,10 +11,10 @@ SMODS.Voucher {
             val_mod = 2
         }
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     requires = { 'v_mxms_launch_code' },
     loc_vars = function(self, info_queue, card)

@@ -18,10 +18,10 @@ SMODS.Joker {
     },
     blueprint_compat = true,
     cost = 20,
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "anerdymous"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "anerdymous" }
     },
     calculate = function(self, card, context)
         if context.first_hand_drawn then

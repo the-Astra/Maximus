@@ -22,10 +22,10 @@ SMODS.Joker {
         extra = '', 
         hidden = true
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "PsyAlola"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "PsyAlola" }
     },
     blueprint_compat = true,
     cost = 20,

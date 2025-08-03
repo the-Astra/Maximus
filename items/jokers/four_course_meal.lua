@@ -15,10 +15,10 @@ SMODS.Joker {
             money = 10
         }
     },
-    credit = {
-        art = "Maxiss02",
-        code = "theAstra",
-        concept = "Maxiss02"
+    mxms_credits = {
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "Maxiss02" }
     },
     blueprint_compat = true,
     eternal_compat = false,

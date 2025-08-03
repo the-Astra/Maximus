@@ -6,10 +6,10 @@ if Maximus_config.horoscopes then
             x = 3,
             y = 1
         },
-        credit = {
-            art = "Maxiss02",
-            code = "theAstra",
-            concept = "Maxiss02"
+        mxms_credits = {
+            art = { "Maxiss02" },
+            code = { "theAstra" },
+            idea = { "Maxiss02" }
         },
         requires = { 'v_mxms_multitask' },
         redeem = function(self, card, from_debuff)
