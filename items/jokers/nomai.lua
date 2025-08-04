@@ -11,7 +11,7 @@ if Maximus_config.horoscopes then
             art = { "Maxiss02" },
             code = { "theAstra" },
             idea = { "theAstra" },
-        reference = { "Outer Wilds" }
+            reference = { "Outer Wilds" }
         },
         blueprint_compat = true,
         cost = 4,
@@ -23,8 +23,13 @@ if Maximus_config.horoscopes then
                     trigger = 'after',
                     delay = 0.2,
                     func = function()
-                        local new_card = SMODS.add_card({ set = 'Horoscope', area = G.mxms_horoscope, key_append =
-                        'nomai', discover = true })
+                        local new_card = SMODS.add_card({
+                            set = 'Horoscope',
+                            area = G.mxms_horoscope,
+                            key_append =
+                            'nomai',
+                            discover = true
+                        })
                         new_card:juice_up(0.3, 0.4)
                         G.GAME.mxms_horoscope_buffer = 0
                         return true
