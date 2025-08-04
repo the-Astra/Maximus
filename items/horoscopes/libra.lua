@@ -63,7 +63,7 @@ SMODS.Consumable {
     end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
-            return zodiac_killer_pools["Libra"]
+            return G.GAME.zodiac_killer_pools["Libra"]
         end
         return true
     end,
@@ -94,7 +94,7 @@ SMODS.Consumable {
                 return true
             end
         }))
-        zodiac_killer_pools["Libra"] = false
+        G.GAME.zodiac_killer_pools["Libra"] = false
         SMODS.calculate_context({ mxms_beat_horoscope = true })
     end,
     fail = function(self, card)

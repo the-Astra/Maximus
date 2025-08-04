@@ -57,7 +57,7 @@ SMODS.Consumable {
     end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
-            return zodiac_killer_pools["Aquarius"]
+            return G.GAME.zodiac_killer_pools["Aquarius"]
         end
         return true
     end,
@@ -90,7 +90,7 @@ SMODS.Consumable {
                     return true;
                 end
             }))
-            zodiac_killer_pools["Aquarius"] = false
+            G.GAME.zodiac_killer_pools["Aquarius"] = false
             SMODS.calculate_context({ mxms_beat_horoscope = true })
         end
         G.E_MANAGER:add_event(Event({
@@ -122,7 +122,6 @@ SMODS.Consumable {
             stg.tally = 0
         end
         if G.GAME.modifiers.mxms_zodiac_killer then
-            Maximus.reset_zodiac_pools()
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.2,
