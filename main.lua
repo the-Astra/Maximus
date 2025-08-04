@@ -541,20 +541,26 @@ mxms_invert_prob_cards = {
     m_glass = true
 }
 
-zodiac_killer_pools = {
-    ['Aries'] = true,
-    ['Taurus'] = true,
-    ['Gemini'] = true,
-    ['Cancer'] = true,
-    ['Leo'] = true,
-    ['Virgo'] = true,
-    ['Libra'] = true,
-    ['Scorpio'] = true,
-    ['Sagittarius'] = true,
-    ['Capricorn'] = true,
-    ['Aquarius'] = true,
-    ['Pisces'] = true,
-}
+zodiac_killer_pools = {}
+
+Maximus.reset_zodiac_pools = function()
+    zodiac_killer_pools = {
+        ['Aries'] = true,
+        ['Taurus'] = true,
+        ['Gemini'] = true,
+        ['Cancer'] = true,
+        ['Leo'] = true,
+        ['Virgo'] = true,
+        ['Libra'] = true,
+        ['Scorpio'] = true,
+        ['Sagittarius'] = true,
+        ['Capricorn'] = true,
+        ['Aquarius'] = true,
+        ['Pisces'] = true,
+    }
+end
+
+Maximus.reset_zodiac_pools()
 
 mxms_probability_results = {}
 --#endregion

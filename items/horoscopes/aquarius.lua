@@ -122,6 +122,7 @@ SMODS.Consumable {
             stg.tally = 0
         end
         if G.GAME.modifiers.mxms_zodiac_killer then
+            Maximus.reset_zodiac_pools()
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.2,
