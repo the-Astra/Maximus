@@ -15,6 +15,15 @@ SMODS.Joker {
     cost = 5,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_SEALS['mxms_Black']
+
+        return {
+            vars = {
+                colours = {
+                    G.C.BLACK,
+                    G.C.WHITE
+                }
+            }
+        }
     end,
     calculate = function(self, card, context)
         if context.before then

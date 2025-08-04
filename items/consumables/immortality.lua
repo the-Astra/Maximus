@@ -12,6 +12,15 @@ SMODS.Consumable {
     cost = 4,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_SEALS['mxms_black']
+
+        return {
+            vars = {
+                colours = {
+                    G.C.BLACK,
+                    G.C.WHITE
+                }
+            }
+        }
     end,
     mxms_credits = {
         art = { "Maxiss02" },

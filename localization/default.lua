@@ -1518,7 +1518,7 @@ return {
                 text = {
                     'If scored card has',
                     'a {C:attention}Seal{}, replace it',
-                    'with a {X:black,C:white}Black{} {X:black,C:white}Seal{}',
+                    'with a {B:1,V:2}Black Seal{}',
                 },
             },
             j_mxms_teddy_bear = {
@@ -1982,7 +1982,7 @@ return {
             c_mxms_immortality = {
                 name = "Immortality",
                 text = {
-                    "Add a {X:black,C:white}Black{} {X:black,C:white}Seal{}",
+                    "Add a {B:1,V:2}Black Seal{}",
                     "to {C:attention}1{} selected",
                     "card in your hand",
                 },
