@@ -9,7 +9,8 @@ SMODS.Joker {
     mxms_credits = {
         art = { "anerdymous" },
         code = { "theAstra" },
-        idea = { "anerdymous" }
+        idea = { "anerdymous" },
+        reference = { "Yu-Gi-Oh!" }
     },
     blueprint_compat = true,
     cost = 8,

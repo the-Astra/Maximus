@@ -8,7 +8,8 @@ SMODS.Joker {
     mxms_credits = {
         art = { "anerdymous" },
         code = { "theAstra" },
-        idea = { "anerdymous" }
+        idea = { "anerdymous" },
+        reference = { "Steve Miller Band" }
     },
     rarity = 2,
     blueprint_compat = true,

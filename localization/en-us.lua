@@ -1232,7 +1232,7 @@ return {
             j_mxms_pngoker = {
                 name = 'PNGoker',
                 text = {
-                    'All cards in your',
+                    'All scored cards in your',
                     '{C:attention}first played hand{}',
                     'become {C:attention}glass{}'
                 }
@@ -2346,7 +2346,8 @@ return {
         v_dictionary = {
             mxms_art = { 'Art: #1#' },
             mxms_code = { 'Code: #1#' },
-            mxms_idea = { 'Idea: #1#' }
+            mxms_idea = { 'Idea: #1#' },
+            mxms_reference = { 'Reference: #1#' },
         }
     }
 }

@@ -18,7 +18,8 @@ SMODS.Joker {
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
-        idea = { "theAstra" }
+        idea = { "theAstra" },
+        reference = { "Porter Robinson - Worlds" }
     },
     blueprint_compat = true,
     cost = 5,

@@ -10,7 +10,8 @@ if Maximus_config.horoscopes then
         mxms_credit = {
             art = { "Maxiss02" },
             code = { "theAstra" },
-            idea = { "theAstra" }
+            idea = { "theAstra" },
+        reference = { "Outer Wilds" }
         },
         blueprint_compat = true,
         cost = 4,

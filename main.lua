@@ -986,7 +986,7 @@ function SMODS.create_mod_badges(obj, badges)
 			local scale_fac = {}
 			local min_scale_fac = 1
 			local strings = { Maximus.display_name }
-			for _, v in ipairs({ "idea", "art", "code" }) do
+			for _, v in ipairs({ "idea", "art", "code", "reference" }) do
 				if obj.mxms_credits[v] then
 					if type(obj.mxms_credits[v]) == "string" then obj.mxms_credits[v] = {obj.mxms_credits[v]} end
 					for i = 1, #obj.mxms_credits[v] do

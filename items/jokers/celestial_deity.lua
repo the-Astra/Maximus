@@ -14,7 +14,8 @@ SMODS.Joker {
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
-        idea = { "theAstra" }
+        idea = { "theAstra" },
+        reference = { "meganeko - Eclipse" }
     },
     blueprint_compat = false,
     cost = 7,
