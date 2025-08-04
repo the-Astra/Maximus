@@ -36,5 +36,14 @@ SMODS.Joker {
                 }
             end
         end
+    end,
+    in_pool = function(self, args)
+        for k, v in pairs(G.playing_cards) do
+            if v.edition and v.edition.polychrome and v:is_face() then
+                return true
+            end
+        end
+
+        return false
     end
 }
