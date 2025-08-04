@@ -465,7 +465,8 @@ return {
                     'Creates a {C:green}random',
                     '{C:attention}Food{} Joker',
                     'when blind',
-                    'is selected'
+                    'is selected',
+                    '{s:0.8,C:inactive}(Must have room)'
                 }
             },
             j_mxms_chekhov = {
