@@ -30,22 +30,21 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.before and not context.blueprint then
-            for k, v in pairs(G.GAME.hands) do
-                if k == stg.last_hand then
-                    stg.last_hand = k
-                    stg.Xmult = 1
-                    return {
-                        message = localize('k_reset'),
-                        colour = G.C.FILTER
-                    }
-                elseif k == context.scoring_name then
-                    stg.last_hand = k
-                    stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
-                    return {
-                        message = localize('k_upgrade_ex'),
-                        func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
-                    }
-                end
+            if SMODS.PokerHands[context.scoring_name].chips * SMODS.PokerHands[context.scoring_name].mult >
+                SMODS.PokerHands[stg.last_hand].chips * SMODS.PokerHands[stg.last_hand].mult then
+                stg.last_hand = context.scoring_name
+                stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
+                return {
+                    message = localize('k_upgrade_ex'),
+                    func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
+                }
+            else
+                stg.last_hand = context.scoring_name
+                stg.Xmult = 1
+                return {
+                    message = localize('k_reset'),
+                    colour = G.C.FILTER
+                }
             end
         end
 
