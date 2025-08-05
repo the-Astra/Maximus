@@ -294,7 +294,8 @@ return {
                     '{C:chips}#2#{} Chips scored',
                     'from playing cards',
                     '{C:inactive}(Currently: {C:chips}#3#{C:inactive}/#2# Chips,',
-                    '{X:mult,C:white}X#4#{C:inactive} Mult)'
+                    '{X:mult,C:white}X#4#{C:inactive} Mult)',
+                    '{C:inactive,s:0.8}Reference: glass beach - plastic death album'
                 }
             },
             j_mxms_abyss = {
@@ -383,7 +384,9 @@ return {
                     'If played hand contains a {C:attention}Flush{},',
                     '{C:green}#1# in #2#{} chance to convert',
                     'a {C:green}random {C:attention}card held in hand{} to',
-                    'flush\'s suit after scoring'
+                    'flush\'s suit after scoring',
+
+                    '{C:inactive,s:0.8}Reference: Meme'
                 }
             },
             j_mxms_breadsticks = {
@@ -441,7 +444,8 @@ return {
                 text = {
                     'When a {C:planet}Planet{} card is used,',
                     'this Joker adds {C:attention}+#1#{} extra level',
-                    'to the {C:planet}Planet{} card\'s hand type'
+                    'to the {C:planet}Planet{} card\'s hand type',
+                    '{C:inactive,s:0.8}Reference: meganeko - Eclipse album'
                 }
             },
             j_mxms_change = {
@@ -522,7 +526,9 @@ return {
                     'Gains {X:mult,C:white}X#1#{} Mult',
                     'per retrigger',
                     '{s:0.8,C:inactive}Starts at {s:0.8,X:mult,C:white}X1{s:0.8,C:inactive} Mult',
-                    '{s:0.8,C:inactive}Resets every hand'
+                    '{s:0.8,C:inactive}Resets every hand',
+
+                    '{C:inactive,s:0.8}Reference: Street Fighter'
                 }
             },
             j_mxms_comedian = {
@@ -533,7 +539,8 @@ return {
                     '{C:green}#3# in #4# chance{} this',
                     'card is destroyed at',
                     'end of round',
-                    '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'
+                    '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)',
+                    '{C:inactive,s:0.8}Reference: Art Piece'
                 }
             },
             j_mxms_conveyor_belt = {
@@ -643,7 +650,7 @@ return {
             j_mxms_fortune_cookie = {
                 name = 'Fortune Cookie',
                 text = {
-                    '{C:green}#1# out of #2#{} chance to',
+                    '{C:green}#1# in #2#{} chance to',
                     'receive a {C:green}random {C:tarot}Tarot{}',
                     'card when playing a hand',
                     '{s:0.8,C:inactive}(Must have room)',
@@ -668,12 +675,27 @@ return {
                     'all to {C:attention}Lucky'
                 }
             },
+            j_mxms_galaxy_brain = {
+                name = 'Galaxy Brain',
+                text = {
+                    'Gains {X:mult,C:white}X#2#{} Mult for',
+                    'every consecutive {C:attention}played hand',
+                    'that is a {C:attention}higher tier{} than',
+                    'the last played hand',
+                    '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)',
+                    '{C:inactive}(Last Hand: {C:red}#3#{C:inactive})',
+
+                    '{C:inactive,s:0.8}Reference: Meme'
+                },
+            },
             j_mxms_galifianakis = {
                 name = 'Galifianakis',
                 text = {
                     'The {C:attention}last scoring card',
                     'in a played hand',
-                    'becomes {C:dark_edition}Negative{}'
+                    'becomes {C:dark_edition}Negative{}',
+
+                    '{C:inactive,s:0.8}Reference: The Lego Batman Movie'
                 },
                 unlock = {
                     "{E:1,s:1.3}?????",
@@ -692,26 +714,18 @@ return {
                 name = 'Game Review',
                 text = {
                     'Retrigger each played',
-                    '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10'
+                    '{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{}, or {C:attention}10',
+                    '{C:inactive,s:0.8}Reference: IGN'
                 }
-            },
-            j_mxms_galaxy_brain = {
-                name = 'Galaxy Brain',
-                text = {
-                    'Gains {X:mult,C:white}X#2#{} Mult for',
-                    'every consecutive {C:attention}played hand',
-                    'that is a {C:attention}higher tier{} than',
-                    'the last played hand',
-                    '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)',
-                    '{C:inactive}(Last Hand: {C:red}#3#{C:inactive})'
-                },
             },
             j_mxms_gangster_love = {
                 name = 'Gangster of Love',
                 text = {
                     'If played hand contains a',
                     '{C:attention}Flush{}, convert all scored',
-                    'cards into {C:hearts}Hearts'
+                    'cards into {C:hearts}Hearts',
+
+                    '{C:inactive,s:0.8}Reference: Steve Miller Band'
                 },
             },
             j_mxms_gelatin = {
@@ -749,7 +763,8 @@ return {
                     'While a card with that rank and',
                     'suit is {C:attention}held in hand, {X:mult,C:white}X#1#{} Mult',
                     'Otherwise, {X:mult,C:white}X#2#{} Mult',
-                    '{C:inactive}Target:{} #3##4#{V:1}#5#{}'
+                    '{C:inactive}Target:{} #3##4#{V:1}#5#{}',
+                    '{C:inactive,s:0.8}Reference: Porter Robinson - Worlds album'
                 }
             },
             j_mxms_golden_rings = {
@@ -757,7 +772,9 @@ return {
                 text = {
                     'A hand made entirely',
                     'of {C:attention}enhanced cards{}',
-                    'counts as a {C:attention}Flush{}'
+                    'counts as a {C:attention}Flush{}',
+
+                    '{C:inactive,s:0.8}Reference: 12 Days of Christmas'
                 }
             },
             j_mxms_gravity = {
@@ -792,7 +809,9 @@ return {
                     '{C:red}Destroy{} the created Joker at',
                     'the end of the round',
                     '{s:0.8,C:inactive}(Must have room)',
-                    'Current card: {C:red}#1#{}'
+                    'Current card: {C:red}#1#{}',
+
+                    '{C:inactive,s:0.8}Reference: Blockbuster'
                 }
             },
             j_mxms_hamill = {
@@ -801,7 +820,8 @@ return {
                     '{C:attention}+#1#{} level for your',
                     '{C:attention}most played hand',
                     'every time it is played',
-                    '{C:inactive}(Currently: {C:red}#2#{C:inactive})'
+                    '{C:inactive}(Currently: {C:red}#2#{C:inactive})',
+                    '{C:inactive,s:0.8}Reference: Batman: The Animated Series'
                 },
                 unlock = {
                     "{E:1,s:1.3}?????",
@@ -872,6 +892,8 @@ return {
                     '{C:attention}Small Blind',
                     '{C:green}#1# in #2#{} chance to',
                     '{C:red}skip blinds{} when selected',
+
+                    '{C:inactive,s:0.8}Reference: Hugo: The Game'
                 },
                 unlock = {
                     "{E:1,s:1.3}?????",
@@ -891,7 +913,9 @@ return {
                     'Every {C:attention}#1#th{} scored {C:diamonds}Diamond',
                     'card permanently gains',
                     '{X:mult,C:white}X#2#{} Mult when scored',
-                    '{C:inactive}(Currently: {C:diamonds}#3#{C:inactive}/#1#)'
+                    '{C:inactive}(Currently: {C:diamonds}#3#{C:inactive}/#1#)',
+
+                    '{C:inactive,s:0.8}Reference: ODESZA'
                 }
             },
             j_mxms_impractical_joker = {
@@ -902,7 +926,9 @@ return {
                     'row are not this hand',
                     'type, {X:mult,C:white}X#3#{} Mult',
                     '{s:0.8,C:inactive}Hand rotates every round',
-                    '{C:inactive}(Fail streak: #1#)'
+                    '{C:inactive}(Fail streak: #1#)',
+
+                    '{C:inactive,s:0.8}Reference: Impractical Jokers'
                 }
             },
             j_mxms_jackpot = {
@@ -961,7 +987,9 @@ return {
                 text = {
                     'At the end of every',
                     'ante, {C:attention}one {C:green}random {C:attention}Joker',
-                    'becomes {C:dark_edition}Negative{}'
+                    'becomes {C:dark_edition}Negative{}',
+
+                    '{C:inactive,s:0.8}Reference: The Dark Knight'
                 },
                 unlock = {
                     "{E:1,s:1.3}?????",
@@ -983,7 +1011,9 @@ return {
                     'of each round,',
                     'add a {C:green}randomly',
                     'enhanced {C:attention}Queen{}',
-                    'to the deck'
+                    'to the deck',
+
+                    '{C:inactive,s:0.8}Reference: Suicide Squad'
                 },
                 unlock = {
                     "{E:1,s:1.3}?????",
@@ -1043,7 +1073,8 @@ return {
                     'create the {C:planet}Planet{} card',
                     'of played {C:attention}poker hand{}',
                     'Scoring {C:diamonds}Diamond{} cards',
-                    '{C:attention}increase{} creation chance by {C:green}+#1#'
+                    '{C:attention}increase{} creation chance by {C:green}+#1#',
+                    '{C:inactive,s:0.8}Reference: The Beatles - Lucy in the Sky with Diamonds'
                 }
             },
             j_mxms_man_in_the_mirror = {
@@ -1069,7 +1100,9 @@ return {
                 text = {
                     'Played {C:attention}Wild{} Cards',
                     'are added back to your {C:attention}Deck',
-                    'instead of being discarded'
+                    'instead of being discarded',
+
+                    '{C:inactive,s:0.8}Reference: Steve Miller Band'
                 }
             },
             j_mxms_memory_game = {
@@ -1087,7 +1120,9 @@ return {
                 text = {
                     'Gains {C:mult}+#1#{} Mult every',
                     'time {C:tarot}The Sun{} is used',
-                    '{C:inactive}(Currently: {C:mult}+#2#{C:inactive} Mult)'
+                    '{C:inactive}(Currently: {C:mult}+#2#{C:inactive} Mult)',
+
+                    '{C:inactive,s:0.8}Reference: OneShot'
                 }
             },
             j_mxms_microwave = {
@@ -1127,7 +1162,9 @@ return {
                 name = 'Nicholson',
                 text = {
                     'Retrigger any card',
-                    'with an {C:attention}Edition{}'
+                    'with an {C:attention}Edition{}',
+
+                    '{C:inactive,s:0.8}Reference: Batman (1989)'
                 },
                 unlock = {
                     "{E:1,s:1.3}?????",
@@ -1138,7 +1175,9 @@ return {
                 text = {
                     'Generates a {C:horoscope}Horoscope{} Card',
                     'when a {C:planet}Planet{} Card is used',
-                    '{s:0.8,C:inactive}(Must have room)'
+                    '{s:0.8,C:inactive}(Must have room)',
+
+                    '{C:inactive,s:0.8}Reference: Outer Wilds'
                 }
             },
             j_mxms_normal = {
@@ -1155,7 +1194,8 @@ return {
                     'Gains {X:mult,C:white}X#1#{} Mult for every',
                     '{C:attention}#3#{} played and unscored cards',
                     '{s:0.8,C:inactive}Mult resets at end of round{}',
-                    '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)'
+                    '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)',
+                    '{C:inactive,s:0.8}Reference: Yu-Gi-Oh!'
                 }
             },
             j_mxms_occam = {
@@ -1199,7 +1239,9 @@ return {
                     '{C:attention}Face{} cards are {C:red}destroyed{}',
                     'If any face cards are,',
                     '{C:red}destroyed{}, give a {C:attention}Red Seal',
-                    'to all other scoring cards'
+                    'to all other scoring cards',
+
+                    '{C:inactive,s:0.8}Reference: Joker (2019)'
                 },
                 unlock = {
                     "{E:1,s:1.3}?????",
@@ -1271,7 +1313,9 @@ return {
                 name = 'The Prince',
                 text = {
                     '{C:dark_edition}Polychrome{} {C:attention}face{} cards held',
-                    'in hand give {X:mult,C:white}X#1#{} Mult'
+                    'in hand give {X:mult,C:white}X#1#{} Mult',
+
+                    '{C:inactive,s:0.8}Reference: Madeon - The Prince'
                 }
             },
             j_mxms_prospector = {
@@ -1289,7 +1333,8 @@ return {
                     'If played hand is a {C:attention}High Card{},',
                     'gains {X:mult,C:white}X#1#{} per scoring card and',
                     '{C:red}destroys{} all scoring cards',
-                    '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)'
+                    '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)',
+                    '{C:inactive,s:0.8}Reference: Yu-Gi-Oh!'
                 },
             },
             j_mxms_random_encounter = {
@@ -1330,7 +1375,8 @@ return {
                     'Gains {X:mult,C:white}X#2#{} Mult',
                     'every time a Joker',
                     'is added to hand',
-                    '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)'
+                    '{C:inactive}(Currently: {X:mult,C:white}X#1#{C:inactive} Mult)',
+                    '{C:inactive,s:0.8}Reference: Batman (1960\'s Series)'
                 },
                 unlock = {
                     "{E:1,s:1.3}?????",
@@ -1355,7 +1401,9 @@ return {
                 name = 'Severed Floor',
                 text = {
                     'Earn {C:money}$#1#{} at end of round',
-                    'Shop is {C:attention}skipped{}'
+                    'Shop is {C:attention}skipped{}',
+
+                    '{C:inactive,s:0.8}Reference: Severance'
                 }
             },
             j_mxms_schrodinger = {
@@ -1381,7 +1429,8 @@ return {
                     'Gains {X:mult,C:white}X#1#{} Mult for',
                     'every hand played',
                     '{s:0.8,C:inactive}Resets at end of round',
-                    '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)'
+                    '{C:inactive}(Currently: {X:mult,C:white}X#2#{C:inactive} Mult)',
+                    '{C:inactive,s:0.8}Reference: Golden Features - Sisyphus album'
                 }
             },
             j_mxms_sleuth = {
@@ -1395,7 +1444,9 @@ return {
                 name = { 'Slifer the', 'Sky Dragon' },
                 text = {
                     'Gives {X:mult,C:white}Xmult', 'equal to the number',
-                    'of cards {C:attention}held', 'in your hand'
+                    'of cards {C:attention}held', 'in your hand',
+
+                    '{C:inactive,s:0.8}Reference: Yu-Gi-Oh!'
                 }
             },
             j_mxms_slippery_slope = {
@@ -1422,7 +1473,8 @@ return {
                     '{C:attention}#2# cards{} have been discarded',
                     'Count resets on',
                     'trigger or miss',
-                    '{C:inactive}(Currently: {C:red}#3#{C:inactive}/#2# discards)'
+                    '{C:inactive}(Currently: {C:red}#3#{C:inactive}/#2# discards)',
+                    '{C:inactive,s:0.8}Reference: Rhythm Heaven'
                 }
             },
             j_mxms_soil = {
@@ -1448,7 +1500,9 @@ return {
                     'Creates a {C:green}random',
                     '{C:planet}Planet{} card when',
                     'blind is defeated',
-                    '{s:0.8,C:inactive}(Must have room)'
+                    '{s:0.8,C:inactive}(Must have room)',
+
+                    '{C:inactive,s:0.8}Reference: Steve Miller Band'
                 }
             },
             j_mxms_space_race = {
@@ -1492,7 +1546,8 @@ return {
                     'scored {C:attention}glass card{}',
                     'Glass cards are',
                     '{C:attention}guaranteed{} to break',
-                    '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)'
+                    '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)',
+                    '{C:inactive,s:0.8}Reference: Billy Joel - Glass Houses album'
                 }
             },
             j_mxms_stop_sign = {
@@ -1559,7 +1614,9 @@ return {
                     'If scored hand has exactly {C:attention}4{} cards,',
                     'convert each card into {C:clubs}Clubs{},',
                     '{C:hearts}Hearts{}, {C:diamonds}Diamonds{}, and {C:spades}Spades',
-                    'respectively from left to right'
+                    'respectively from left to right',
+
+                    '{C:inactive,s:0.8}Reference: Meme'
                 }
             },
             j_mxms_vinyl_record = {
@@ -1591,7 +1648,9 @@ return {
                 name = 'War',
                 text = {
                     'Means of {C:red}destroying{} cards',
-                    'have their limits {C:attention}doubled'
+                    'have their limits {C:attention}doubled',
+
+                    '{C:inactive,s:0.8}Reference: Meme'
                 }
             },
             j_mxms_welder = {
@@ -1615,14 +1674,18 @@ return {
                 name = 'Who\'s on First?',
                 text = {
                     'Jokers trigger {C:attention}before{}',
-                    'card scoring'
+                    'card scoring',
+
+                    '{C:inactive,s:0.8}Reference: Abbott and Costello skit'
                 }
             },
             j_mxms_wild_buddy = {
                 name = 'Wild Buddy',
                 text = {
                     '{X:mult,C:white}X#1#{} Mult during',
-                    '{C:attention}non-Boss{} Blinds'
+                    '{C:attention}non-Boss{} Blinds',
+
+                    '{C:inactive,s:0.8}Reference: UFO 50'
                 }
             },
             j_mxms_zombie = {
@@ -1708,14 +1771,10 @@ return {
                 name = "",
                 text = {
                     '{C:dark_edition,E:1,s:4}M A X I M U S',
-                    ' ',
                     '{X:purple,C:white}Lead{} {X:purple,C:white}Programmer:{} {C:purple}theAstra',
                     '{X:attention,C:white}Lead{} {X:attention,C:white}Artist:{} {C:attention}Maxiss02',
-                    ' ',
                     '{X:green,C:white}Supporting{} {X:green,C:white}Artists:{} {C:green}pinkzigzagoon, anerdymous, PsyAlola, SadCube',
-                    ' ',
                     '{X:planet,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, The CoroboCorner',
-                    ' ',
                     '{X:gold,C:white}Special{} {X:gold,C:white}Thanks:{} All the awesome people in the Balatro Discord!',
                     '{C:white}You all helped make this project possible. Thank you guys for everything!'
                 }
@@ -2347,8 +2406,7 @@ return {
         v_dictionary = {
             mxms_art = { 'Art: #1#' },
             mxms_code = { 'Code: #1#' },
-            mxms_idea = { 'Idea: #1#' },
-            mxms_reference = { 'Reference: #1#' },
+            mxms_idea = { 'Idea: #1#' }
         }
     }
 }

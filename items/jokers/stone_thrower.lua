@@ -15,8 +15,7 @@ SMODS.Joker {
     mxms_credits = {
         art = { "anerdymous" },
         code = { "theAstra" },
-        idea = { "anerdymous" },
-        reference = { "Billy Joel - Glass Houses" }
+        idea = { "anerdymous" }
     },
     blueprint_compat = true,
     enhancement_gate = 'm_glass',

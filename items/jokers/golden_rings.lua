@@ -8,8 +8,7 @@ SMODS.Joker {
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },
-        idea = { "pinkzigzagoon" },
-        reference = { "12 Days of Christmas" }
+        idea = { "pinkzigzagoon" }
     },
     rarity = 1,
     blueprint_compat = false,

@@ -8,8 +8,7 @@ SMODS.Joker {
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
-        idea = { "Maxiss02" },
-        reference = { "Meme" }
+        idea = { "Maxiss02" }
     },
     rarity = 2,
     blueprint_compat = false,

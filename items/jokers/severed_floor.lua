@@ -14,8 +14,7 @@ SMODS.Joker {
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },
-        idea = { "pinkzigzagoon" },
-        reference = { "Severance" }
+        idea = { "pinkzigzagoon" }
     },
     blueprint_compat = false,
     cost = 6,

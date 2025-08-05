@@ -15,8 +15,7 @@ SMODS.Joker {
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
-        idea = { "anerdymous" },
-        reference = { "The Beatles - Lucy in the Sky with Diamonds" }
+        idea = { "anerdymous" }
     },
     blueprint_compat = true,
     cost = 5,

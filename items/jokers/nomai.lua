@@ -7,11 +7,10 @@ if Maximus_config.horoscopes then
             y = 14
         },
         rarity = 2,
-        mxms_credit = {
+        mxms_credits = {
             art = { "Maxiss02" },
             code = { "theAstra" },
-            idea = { "theAstra" },
-            reference = { "Outer Wilds" }
+            idea = { "theAstra" }
         },
         blueprint_compat = true,
         cost = 4,
