@@ -9,7 +9,7 @@ SMODS.Consumable {
     config = {
         extra = {
             tally = 0,
-            goal = 10
+            goal = 6
         }
     },
     mxms_credits = {
