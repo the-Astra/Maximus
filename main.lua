@@ -1304,6 +1304,10 @@ if Maximus_config.horoscopes then
         if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center.key == 'c_mxms_ophiucus') then
             card:remove_from_area()
             G.mxms_horoscope:emplace(card, location, stay_flipped)
+            discover_card(card.config.center)
+            card.bypass_discovery_center = true
+            card.bypass_discovery_ui = true
+            card.discovered = true
             return
         end
 

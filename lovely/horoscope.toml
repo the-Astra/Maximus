@@ -204,7 +204,12 @@ if G.GAME.modifiers.mxms_zodiac_killer then
         trigger = 'after',
         delay = 0.2,
         func = function()
-            local new_card = create_card('Horoscope', G.mxms_horoscope, nil, nil, nil, nil, nil, 'killer')
+            local new_card = create_card(
+                'Horoscope', 
+                G.mxms_horoscope, 
+                nil, nil, nil, nil, nil, 
+                'killer'
+            )
             new_card:add_to_deck()
             G.mxms_horoscope:emplace(new_card)
             new_card:juice_up(0.3, 0.4)
@@ -403,3 +408,18 @@ elseif self.ability.consumeable and self.area == G.mxms_horoscope then
     G.mxms_horoscope.config.card_limit = G.mxms_horoscope.config.card_limit + self.edition.card_limit
 '''
 match_indent = true
+
+
+    #Force no undiscovered text on bypass
+[[patches]]
+[patches.pattern]
+target = '''card.lua'''
+pattern = '''
+((self.area ~= G.jokers and self.area ~= G.consumeables and self.area) or not self.area) then
+'''
+position = '''at'''
+payload = '''
+((self.area ~= G.jokers and self.area ~= G.consumeables and self.area) or not self.area) and not self.bypass_discovery_ui then
+'''
+match_indent = true
+times = 1
