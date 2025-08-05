@@ -10,7 +10,7 @@ SMODS.Joker {
         code = { "theAstra" },
         idea = { "anerdymous" }
     },
-    rarity = 2,
+    rarity = 3,
     blueprint_compat = false,
     cost = 6,
     loc_vars = function(self, info_queue, card)
