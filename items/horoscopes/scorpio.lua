@@ -79,7 +79,7 @@ SMODS.Consumable {
     end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
-            return G.GAME.zodiac_killer_pools["Scorpio"]
+            return G.GAME.zodiac_killer_pools["Scorpio"] and G.GAME.round_resets.ante > 1
         end
         return true
     end,
