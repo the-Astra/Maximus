@@ -877,9 +877,8 @@ end
 
 ---Checks if a provided card is classified as a "Food Joker"
 function mxms_is_food(card)
-    local center = type(card) == "string"
-        and G.P_CENTERS[card]
-        or (card.config and card.config.center)
+    local center = card.config and card.config.center and type(card.config.center.key) == "string"
+        and G.P_CENTERS[card.config.center.key]
 
     if not center then
         return false
@@ -944,8 +943,7 @@ function set_horoscope_success(card)
     else
         G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key] = {
             count = 1,
-            order = card.config
-                .center.order
+            order = card.config.center.order
         }
     end
     G:save_settings()

@@ -21,6 +21,9 @@ SMODS.Joker {
     },
     blueprint_compat = true,
     cost = 4,
+    pools = {
+        Food = true
+    },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return { vars = { stg.Xmult, stg.gain, SMODS.get_probability_vars(card, stg.prob, stg.odds, 'comedian') } }
