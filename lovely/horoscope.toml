@@ -419,7 +419,7 @@ pattern = '''
 '''
 position = '''at'''
 payload = '''
-((self.area ~= G.jokers and self.area ~= G.consumeables and self.area) or not self.area) and not self.bypass_discovery_ui then
+((self.area ~= G.jokers and self.area ~= G.consumeables and self.area ~= G.mxms_horoscope and self.area) or not self.area) then
 '''
 match_indent = true
 times = 1
