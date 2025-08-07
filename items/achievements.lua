@@ -4,7 +4,7 @@ SMODS.Achievement {
     bypass_all_unlocked = true,
     unlock_condition = function(self, args)
         if args.type == "all_horoscopes" then
-            local horoscopeTallies = getMaximusTallies(G.P_CENTER_POOLS["Horoscope"])
+            local horoscopeTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Horoscope"])
             -- +1 to account for Ophiucus
             if #G.PROFILES[G.SETTINGS.profile].horoscope_completions / (horoscopeTallies.of + 1) >= 1 then
                 return true
@@ -86,7 +86,7 @@ SMODS.Achievement {
     bypass_all_unlocked = true,
     unlock_condition = function(self, args)
         if args.type == 'discover_amount' then
-            local mxmsTallies = getMaximusTallies(G.P_CENTER_POOLS["Joker"])
+            local mxmsTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Joker"])
             if mxmsTallies.tally / mxmsTallies.of >= 1 then
                 return true
             end
@@ -163,7 +163,7 @@ SMODS.Achievement {
     bypass_all_unlocked = true,
     unlock_condition = function(self, args)
         if args.type == 'discover_amount' then
-            local mxmsTallies = getMaximusTallies(G.P_CENTER_POOLS["Planet"])
+            local mxmsTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Planet"])
             if mxmsTallies.tally / mxmsTallies.of >= 1 then
                 return true
             end

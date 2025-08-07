@@ -504,7 +504,7 @@ end
 
 -- VARIABLES
 --#region Misc Variables ------------------------------------------------------------------------------------
-mxms_vanilla_food = {
+Maximus.vanilla_food = {
     j_gros_michel = true,
     j_egg = true,
     j_ice_cream = true,
@@ -524,14 +524,14 @@ if not SMODS.ObjectTypes.Food then
         inject = function(self)
             SMODS.ObjectType.inject(self)
             -- Insert base game food jokers
-            for k, _ in pairs(mxms_vanilla_food) do
+            for k, _ in pairs(Maximus.mxms_vanilla_food) do
                 self:inject_card(G.P_CENTERS[k])
             end
         end
     }
 end
 
-mxms_invert_prob_cards = {
+Maximus.invert_prob_cards = {
     j_gros_michel = true,
     j_cavendish = true,
     j_mxms_hugo = true,
@@ -853,7 +853,7 @@ end
 
 --#region Helper Functions ----------------------------------------------------------------------------------
 
-function reset_horoscopes()
+function Maximus.reset_horoscopes()
     if G.GAME.mxms_aries_bonus then
         G.GAME.mxms_aries_bonus = false
     end
@@ -876,7 +876,7 @@ function reset_horoscopes()
 end
 
 ---Checks if a provided card is classified as a "Food Joker"
-function mxms_is_food(card)
+function Maximus.is_food(card)
     local center = card.config and card.config.center and type(card.config.center.key) == "string"
         and G.P_CENTERS[card.config.center.key]
 
@@ -890,17 +890,17 @@ function mxms_is_food(card)
     end
 
     -- If it doesn't, we check if this is a vanilla food joker
-    return mxms_vanilla_food[center.key]
+    return Maximus.mxms_vanilla_food[center.key]
 end
 
 -- Checks if a card should have an inverted check when evaluating prob results
-function mxms_is_invert_prob_check(card)
+function Maximus.is_invert_prob_check(card)
     if card.config and card.config.center then
-        if mxms_invert_prob_cards[card.config.center.key] then
+        if Maximus.invert_prob_cards[card.config.center.key] then
             return true
         elseif next(SMODS.get_enhancements(card)) then
             for k, v in pairs(SMODS.get_enhancements(card)) do
-                if mxms_invert_prob_cards[v] then
+                if Maximus.invert_prob_cards[v] then
                     return true
                 end
             end
@@ -910,7 +910,7 @@ function mxms_is_invert_prob_check(card)
 end
 
 ---Tallies Maximus cards from a given pool and possible subset; Derived from SMODS modCollectionTally
-function getMaximusTallies(pool, set)
+function Maximus.getMaximusTallies(pool, set)
     local set = set or nil
     local obj_tally = { tally = 0, of = 0 }
 
@@ -936,7 +936,7 @@ function getMaximusTallies(pool, set)
 end
 
 ---Sets Horoscope success stats
-function set_horoscope_success(card)
+function Maximus.set_horoscope_success(card)
     if G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key] then
         G.PROFILES[G.SETTINGS.profile].horoscope_completions[card.config.center_key].count = G.PROFILES
             [G.SETTINGS.profile].horoscope_completions[card.config.center_key].count + 1
@@ -947,6 +947,18 @@ function set_horoscope_success(card)
         }
     end
     G:save_settings()
+end
+
+function Maximus.get_most_played_hand()
+    local _handname, _played, _order = 'High Card', -1, 100
+    for k, v in pairs(G.GAME.hands) do
+        if v.played > _played or (v.played == _played and _order > v.order) then
+            _played = v.played
+            _handname = k
+        end
+    end
+
+    return _handname
 end
 
 --#endregion

@@ -24,7 +24,7 @@ local remove_ref = Card.remove
 function Card.remove(self)
     if self.added_to_deck and self.ability.set == 'Joker' and not G.CONTROLLER.locks.selling_card and self.config.center_key ~= 'j_mxms_leftovers' then
         local first_leftovers = SMODS.find_card('j_mxms_leftovers')[1]
-        if first_leftovers and mxms_is_food(self) then
+        if first_leftovers and Maximus.is_food(self) then
             local respawn_key = self.config.center.key
 
             play_sound('timpani')

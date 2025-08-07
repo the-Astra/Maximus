@@ -70,7 +70,7 @@ SMODS.Consumable {
                     colour = G.C.GREEN,
                     sound = 'tarot1',
                     func = function()
-                        set_horoscope_success(card)
+                        Maximus.set_horoscope_success(card)
                         check_for_unlock({ type = "all_horoscopes" })
                         if TheFamily then G.GAME.horoscope_alert = true end
                     end
