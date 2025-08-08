@@ -17,7 +17,8 @@ SMODS.Joker {
         local stg = card.ability.extra
         if args.operation == '+' then
             return {
-                scalar = scalar * 2
+                message = localize('k_mxms_doubled_ex'),
+                scaling_value = scaling + scalar
             }
         end
     end
