@@ -524,7 +524,7 @@ if not SMODS.ObjectTypes.Food then
         inject = function(self)
             SMODS.ObjectType.inject(self)
             -- Insert base game food jokers
-            for k, _ in pairs(Maximus.mxms_vanilla_food) do
+            for k, _ in pairs(Maximus.vanilla_food) do
                 self:inject_card(G.P_CENTERS[k])
             end
         end
