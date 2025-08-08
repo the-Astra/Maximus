@@ -33,10 +33,14 @@ SMODS.Joker {
             if SMODS.PokerHands[context.scoring_name].chips * SMODS.PokerHands[context.scoring_name].mult >
                 SMODS.PokerHands[stg.last_hand].chips * SMODS.PokerHands[stg.last_hand].mult then
                 stg.last_hand = context.scoring_name
-                stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
+                stg.Xmult = stg.Xmult + stg.gain
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = "Xmult",
+                    scalar_value = "gain"
+                })
                 return {
                     message = localize('k_upgrade_ex'),
-                    func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
                 }
             else
                 stg.last_hand = context.scoring_name

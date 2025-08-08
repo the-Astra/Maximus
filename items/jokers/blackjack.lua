@@ -53,12 +53,22 @@ SMODS.Joker {
                 }
             elseif hand_value == 21 then
                 stg.Xmult = stg.Xmult + stg.gain_best
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = "Xmult",
+                    scalar_value = "gain_best"
+                })
                 return {
                     message = localize('k_mxms_blackjack_ex'),
                     colour = G.C.GREEN
                 }
             else
                 stg.Xmult = stg.Xmult + stg.gain_norm
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = "Xmult",
+                    scalar_value = "gain_norm"
+                })
                 return {
                     message = localize('k_upgrade_ex')
                 }

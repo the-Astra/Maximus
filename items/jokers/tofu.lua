@@ -9,6 +9,7 @@ SMODS.Joker {
     config = {
         extra = {
             hands_left = 5,
+            hand_decrement = 1
         }
     },
     mxms_credits = {
@@ -81,7 +82,15 @@ SMODS.Joker {
         end
 
         if context.after and not context.blueprint then
-            stg.hands_left = stg.hands_left - (1 / G.GAME.mxms_fridge_mod)
+            stg.hands_left = stg.hands_left - stg.hand_decrement
+
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "hands_left",
+                scalar_value = "hand_decrement",
+                operation = "-"
+            })
+
             SMODS.calculate_effect(
                 { message = stg.hands_left .. ' ' .. localize('k_mxms_left_el'), colour = G.C.RED }, card)
             if stg.hands_left <= 0 then

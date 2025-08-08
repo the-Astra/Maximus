@@ -39,11 +39,15 @@ SMODS.Joker {
                 func = function()
                     if stg.accrued_chips >= stg.target_chips then
                         stg.accrued_chips = stg.accrued_chips - stg.target_chips
-                        stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
+                        stg.Xmult = stg.Xmult + stg.gain
+                        SMODS.scale_card(card,{
+                            ref_table = stg,
+                            ref_value = "Xmult",
+                            scalar_value = "gain"
+                        })
                         return {
                             message = localize('k_upgrade_ex'),
-                            colour = G.C.ATTENTION,
-                            func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
+                            colour = G.C.ATTENTION
                         }
                     end
                 end

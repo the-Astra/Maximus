@@ -39,14 +39,18 @@ SMODS.Joker {
                     card = card
                 }
             else
-                stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
+                stg.Xmult = stg.Xmult + stg.gain
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = "Xmult",
+                    scalar_value = "gain"
+                })
                 stg.unscoring_cards = 0
                 return {
                     delay = 0.4,
                     message = localize('k_mxms_tribute_ex'),
                     colour = G.C.CHIPS,
-                    card = card,
-                    func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
+                    card = card
                 }
             end
         end

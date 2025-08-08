@@ -30,11 +30,15 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.using_consumeable and context.consumeable.config.center.key == 'c_sun' and not context.blueprint then
-            stg.mult = stg.mult + stg.gain * G.GAME.mxms_soil_mod
+            stg.mult = stg.mult + stg.gain
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "mult",
+                scalar_value = "gain"
+            })
             SMODS.calculate_effect(
                 { message = localize { type = 'variable', key = 'a_mult', vars = { stg.mult } }, colour = G.C.MULT },
                 card)
-            SMODS.calculate_context({ mxms_scaling_card = true })
         end
 
         if context.joker_main and stg.mult > 0 then

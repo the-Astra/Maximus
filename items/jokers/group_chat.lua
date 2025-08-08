@@ -32,16 +32,21 @@ SMODS.Joker {
                 chips = stg.chips
             }
         end
+    end,
+    calc_scaling = function(self, card, other_card, scaling, scalar, args)
+        local stg = card.ability.extra
+        if args.operation == '+' and other_card.ability.config.center.key ~= 'j_mxms_group_chat' then
+            stg.chips = stg.chips + stg.gain
 
-        if context.mxms_scaling_card and not context.blueprint then
-            stg.chips = stg.chips + stg.gain * G.GAME.mxms_soil_mod
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:juice_up(0.3, 0.4)
-                    return true
-                end
-            }))
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "chips",
+                scalar_value = "gain"
+            })
+
+            return {
+                message = localize('k_upgrade_ex')
+            }
         end
     end,
     set_ability = function(self, card, inital, delay_sprites)

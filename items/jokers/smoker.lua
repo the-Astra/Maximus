@@ -37,7 +37,14 @@ SMODS.Joker {
         end
 
         if context.scoring_name == 'High Card' and context.individual and context.cardarea == G.play then
-            stg.chips = stg.chips + context.other_card:get_chip_bonus() * G.GAME.mxms_soil_mod
+            stg.chips = stg.chips + context.other_card:get_chip_bonus()
+            stg.temp_gain = context.other_card:get_chip_bonus()
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "Xmult",
+                scalar_value = "temp_gain"
+            })
+            stg.temp_gain = nil
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.CHIPS,

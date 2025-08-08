@@ -34,10 +34,14 @@ SMODS.Joker {
         end
 
         if context.ending_shop and #G.shop_vouchers.cards == 0 and #G.shop_booster.cards == 0 and #G.shop_jokers.cards == 0 and not context.blueprint then
-            stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
+            stg.Xmult = stg.Xmult + stg.gain
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "Xmult",
+                scalar_value = "gain"
+            })
             SMODS.calculate_effect({ message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } } },
                 context.blueprint_card or card)
-            SMODS.calculate_context({ mxms_scaling_card = true })
         end
     end
 }

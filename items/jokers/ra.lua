@@ -29,7 +29,12 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.destroy_card and context.scoring_name == 'High Card' and context.cardarea == G.play and not context.blueprint then
-            stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
+            stg.Xmult = stg.Xmult + stg.gain
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "Xmult",
+                scalar_value = "gain"
+            })
             local current_card = context.destroy_card
             G.E_MANAGER:add_event(Event({
                 func = function()

@@ -26,7 +26,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.streak, stg.hands, stg.chips, stg.mult, stg.chip_gain * G.GAME.mxms_soil_mod, stg.mult_gain * G.GAME.mxms_soil_mod }
+            vars = { stg.streak, stg.hands, stg.chips, stg.mult, stg.chip_gain, stg.mult_gain }
         }
     end,
     calculate = function(self, card, context)
@@ -57,12 +57,24 @@ SMODS.Joker {
             if stg.hands == 1 then
                 stg.hands = 0
                 stg.streak = stg.streak + 1
-                stg.chips = stg.chip_gain * stg.streak * G.GAME.mxms_soil_mod
-                stg.mult = stg.mult_gain * stg.streak * G.GAME.mxms_soil_mod
+                
+                stg.chips = stg.chip + stg.chip_gain
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = "chips",
+                    scalar_value = "chip_gain"
+                })
+
+                stg.mult = stg.mult + stg.mult_gain
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = "mult",
+                    scalar_value = "mult_gain"
+                })
+
                 return {
                     message = localize('k_mxms_streak') .. ' ' .. stg.streak,
-                    colour = G.C.ATTENTION,
-                    func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
+                    colour = G.C.ATTENTION
                 }
             else
                 stg.hands = 0

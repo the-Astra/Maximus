@@ -18,8 +18,8 @@ SMODS.Joker {
     },
     unlocked = false,
     unlock_condition = {
-        type = '', 
-        extra = '', 
+        type = '',
+        extra = '',
         hidden = true
     },
     mxms_credits = {
@@ -45,12 +45,16 @@ SMODS.Joker {
         end
 
         if context.card_added and context.card.ability.set == 'Joker' then
-            stg.Xmult = stg.Xmult + (stg.gain * G.GAME.mxms_soil_mod)
+            stg.Xmult = stg.Xmult + stg.gain
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "Xmult",
+                scalar_value = "gain"
+            })
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.ATTENTION,
-                card = card,
-                func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
+                card = card
             }
         end
     end

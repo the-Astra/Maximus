@@ -8,7 +8,8 @@ SMODS.Joker {
     rarity = 3,
     config = {
         extra = {
-            hands = 0,
+            hands_left = 5,
+            hand_decrement = 1,
             chips = 150,
             mult = 30,
             Xmult = 3,
@@ -33,20 +34,28 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.joker_main then
-            stg.hands = stg.hands + (1 * G.GAME.mxms_fridge_mod)
-            if stg.hands <= 1 then
+            stg.hands_left = stg.hands_left - stg.hand_decrement
+
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "hands_left",
+                scalar_value = "hand_decrement",
+                operation = "-"
+            })
+
+            if stg.hands_left >= 4 then
                 return {
                     chips = stg.chips,
                 }
-            elseif stg.hands <= 2 then
+            elseif stg.hands_left >= 3 then
                 return {
                     mult = stg.mult
                 }
-            elseif stg.hands <= 3 then
+            elseif stg.hands_left >= 2 then
                 return {
                     x_mult = stg.Xmult
                 }
-            elseif stg.hands <= 4 then
+            elseif stg.hands_left >= 1 then
                 ease_dollars(stg.money)
                 return {
                     message = localize('$') .. stg.money,
@@ -56,7 +65,7 @@ SMODS.Joker {
             end
         end
 
-        if context.after and stg.hands >= 4 and not context.blueprint then
+        if context.after and stg.hands_left <= 1 and not context.blueprint then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     play_sound('tarot1')

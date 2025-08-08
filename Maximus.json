@@ -15,7 +15,7 @@
 	"mod_path": "Mods/Maximus-main",
 	"download_suffix": "Maximus-main.zip",
 	"dependencies": [
-		"Steamodded (>=1.0.0~BETA-0711a)",
+		"Steamodded (>=1.0.0~BETA-0808a)",
 		"Lovely (>=0.7.1)"
 	]
 }

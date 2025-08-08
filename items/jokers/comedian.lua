@@ -58,7 +58,12 @@ SMODS.Joker {
                     message = localize('k_extinct_ex')
                 }
             else
-                stg.Xmult = stg.Xmult + stg.gain * G.GAME.mxms_soil_mod
+                stg.Xmult = stg.Xmult + stg.gain
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = "Xmult",
+                    scalar_value = "gain"
+                })
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         SMODS.calculate_effect(
@@ -70,7 +75,6 @@ SMODS.Joker {
                         return true
                     end
                 }))
-                SMODS.calculate_context({ mxms_scaling_card = true })
             end
         end
 
