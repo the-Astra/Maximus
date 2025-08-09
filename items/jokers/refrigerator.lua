@@ -29,7 +29,8 @@ SMODS.Joker { -- Refrigerator
         if args.operation == '-' and Maximus.is_food(other_card) then
             return {
                 message = localize('k_mxms_preserved_ex'),
-                scaling_value = scaling + (scalar * 0.5)
+                scaling_value = scaling + (scalar * 0.5),
+                scaling_message = tostring(scalar * 0.5)
             }
         end
     end

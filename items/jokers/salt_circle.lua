@@ -33,16 +33,10 @@ SMODS.Joker {
         end
 
         if not context.blueprint and context.using_consumeable and context.consumeable.ability.set == "Spectral" then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    SMODS.calculate_effect(
-                        { message = localize { type = 'variable', key = 'a_chips', vars = { G.GAME.consumeable_usage_total.spectral * stg.gain } } },
-                        card)
-                    SMODS.calculate_context({ mxms_scaling_card = true })
-                    return true
-                end
-            }))
-            return nil, true
+            return {
+                message = localize { type = 'variable', key = 'a_chips', vars = { G.GAME.consumeable_usage_total.spectral * stg.gain } },
+                colour = G.C.CHIPS
+            }
         end
     end
 }

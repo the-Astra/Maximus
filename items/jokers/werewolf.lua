@@ -36,9 +36,10 @@ SMODS.Joker {
                 ref_value = "mult",
                 scalar_value = "gain"
             })
-            SMODS.calculate_effect(
-                { message = localize { type = 'variable', key = 'a_mult', vars = { stg.mult } }, colour = G.C.MULT },
-                card)
+            return {
+                message = localize { type = 'variable', key = 'a_mult', vars = { stg.mult } }, 
+                colour = G.C.MULT
+            }
         end
 
         if context.joker_main and stg.mult > 0 then

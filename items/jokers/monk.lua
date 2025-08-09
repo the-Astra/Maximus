@@ -46,9 +46,10 @@ SMODS.Joker {
                     ref_value = "chips",
                     scalar_value = "gain"
                 })
-                SMODS.calculate_effect(
-                    { message = localize { type = 'variable', key = 'a_chips', vars = { stg.chips } } },
-                    card)
+                return {
+                    message = localize { type = 'variable', key = 'a_chips', vars = { stg.chips } },
+                    colour = G.C.CHIPS
+                }
             end
             stg.purchase_made = false
         end

@@ -36,9 +36,10 @@ if Maximus_config.horoscopes then
                     ref_value = "Xmult",
                     scalar_value = "gain"
                 })
-                SMODS.calculate_effect(
-                    { message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } } },
-                    card)
+                return {
+                    message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } },
+                    colour = G.C.MULT
+                }
             end
 
             if context.joker_main and stg.Xmult > 1 then

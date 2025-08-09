@@ -18,7 +18,8 @@ SMODS.Joker {
         if args.operation == '+' then
             return {
                 message = localize('k_mxms_doubled_ex'),
-                scaling_value = scaling + scalar
+                scaling_value = scaling + scalar,
+                scaling_message = tostring(scalar * 2)
             }
         end
     end

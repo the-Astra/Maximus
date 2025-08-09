@@ -36,7 +36,7 @@ SMODS.Joker {
             }
         end
 
-        if context.scoring_name == 'High Card' and context.individual and context.cardarea == G.play then
+        if context.scoring_name == 'High Card' and context.individual and context.cardarea == G.play and not context.blueprint then
             stg.chips = stg.chips + context.other_card:get_chip_bonus()
             stg.temp_gain = context.other_card:get_chip_bonus()
             SMODS.scale_card(card, {
@@ -48,8 +48,7 @@ SMODS.Joker {
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.CHIPS,
-                message_card = context.blueprint_card or card,
-                func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
+                message_card = card
             }
         end
     end

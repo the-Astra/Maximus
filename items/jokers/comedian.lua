@@ -64,17 +64,10 @@ SMODS.Joker {
                     ref_value = "Xmult",
                     scalar_value = "gain"
                 })
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        SMODS.calculate_effect(
-                            {
-                                message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } },
-                                colour = G.C
-                                    .MULT
-                            }, card)
-                        return true
-                    end
-                }))
+                return {
+                    message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } },
+                    colour = G.C.MULT
+                }
             end
         end
 

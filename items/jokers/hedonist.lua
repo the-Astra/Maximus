@@ -40,8 +40,10 @@ SMODS.Joker {
                 ref_value = "Xmult",
                 scalar_value = "gain"
             })
-            SMODS.calculate_effect({ message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } } },
-                context.blueprint_card or card)
+            return {
+                message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } },
+                colour = G.C.MULT
+            }
         end
     end
 }
