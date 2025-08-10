@@ -18,6 +18,7 @@ Mods with Maximus cross-mod support/content:
 - [TheFamily](https://github.com/SleepyG11/TheFamilyBalatro)
 - [JokerDisplay](https://github.com/nh6574/JokerDisplay)
 - [Revo's Vault](https://github.com/Cdrvo/Revos-Vault---Balatro-Mod)
+- [NotVanilla](https://github.com/YouhWithAnH/NotVanilla)
 
 ### [Official Discord](https://discord.gg/GvCCcryM48)
 Join to keep up to date with development, contributions, or just to chat with people who also enjoy the mod!
