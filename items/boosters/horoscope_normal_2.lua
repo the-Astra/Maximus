@@ -26,6 +26,6 @@ SMODS.Booster {
         ease_background_colour({ new_colour = Maximus.C.SET.Horoscope, special_colour = G.C.BLACK, contrast = 2 })
     end,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.config.center.config.choose + G.GAME.mxms_choose_mod, card.ability.extra } }
+        return { vars = { card.config.center.config.choose, card.ability.extra } }
     end
 }
