@@ -14,6 +14,7 @@ Maximus currently adds the following:
 - AND MORE!!!
 
 Mods with Maximus cross-mod support/content:
+- [Talisman](https://github.com/SpectralPack/Talisman)
 - [CardSleeves](https://github.com/larswijn/CardSleeves)
 - [TheFamily](https://github.com/SleepyG11/TheFamilyBalatro)
 - [JokerDisplay](https://github.com/nh6574/JokerDisplay)
