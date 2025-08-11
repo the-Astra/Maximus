@@ -46,23 +46,6 @@ SMODS.Consumable {
         if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
             self:fail(card)
         end
-
-        if context.selling_self and G.GAME.modifiers.mxms_zodiac_killer then
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                delay = 0.2,
-                func = function()
-                    G.STATE = G.STATES.GAME_OVER
-                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                    end
-                    G:save_settings()
-                    G.FILE_HANDLER.force = true
-                    G.STATE_COMPLETE = false
-                    return true
-                end
-            }))
-        end
     end,
     in_pool = function(self, args)
         if G.GAME.modifiers.mxms_zodiac_killer then
@@ -127,23 +110,6 @@ SMODS.Consumable {
             }))
         else
             stg.tally = 0
-        end
-        if G.GAME.modifiers.mxms_zodiac_killer then
-            Maximus.reset_zodiac_pools()
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                delay = 0.2,
-                func = function()
-                    G.STATE = G.STATES.GAME_OVER
-                    if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
-                        G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-                    end
-                    G:save_settings()
-                    G.FILE_HANDLER.force = true
-                    G.STATE_COMPLETE = false
-                    return true
-                end
-            }))
         end
         SMODS.calculate_context({ mxms_failed_horoscope = true })
     end

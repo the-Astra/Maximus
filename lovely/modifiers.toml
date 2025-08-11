@@ -47,35 +47,6 @@ match_indent = true
 times = 1
 
 
-#Target Practice and Love and War Check
-[[patches]]
-[patches.pattern]
-target = 'functions/state_events.lua'
-pattern = '''
-if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then
-    game_won = true
-    G.GAME.won = true
-end
-'''
-position = "at"
-payload = '''
-if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then
-    if G.GAME.modifiers.mxms_bullseye_requirement then
-        if next(SMODS.find_card('j_mxms_bullseye')) and G.GAME.modifiers.mxms_bullseye_requirement > SMODS.find_card('j_mxms_bullseye')[1].ability.extra.chips or not next(SMODS.find_card('j_mxms_bullseye')) then
-            game_over = true
-        end
-    elseif G.GAME.modifiers.mxms_deck_size_req and #G.GAME.playing_cards ~= G.GAME.modifiers.mxms_deck_size_req then
-        game_over = true
-    else
-        game_won = true
-        G.GAME.won = true
-    end
-end
-'''
-match_indent = true
-times = 1
-
-
 # All Rare check
 [[patches]]
 [patches.pattern]
@@ -139,29 +110,6 @@ if G.GAME.modifiers.mxms_ante_sell then
             v:sell_card()
         end
     end
-end
-'''
-match_indent = true
-times = 1
-
-
-# Highlight Limit challenge modifier
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = '''
-{card_limit = self.GAME.starting_params.hand_size, type = 'hand'})
-'''
-position = "after"
-payload = '''
-if self.GAME.modifiers.mxms_highlight_limit then
-    G.E_MANAGER:add_event(Event({
-        func = function()
-            SMODS.change_play_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
-            SMODS.change_discard_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
-            return true;
-        end
-    }))
 end
 '''
 match_indent = true

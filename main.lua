@@ -909,6 +909,23 @@ function Maximus.is_invert_prob_check(card)
     return false
 end
 
+-- Forces a game over
+function Maximus.force_game_over()
+    G.E_MANAGER:add_event(Event({
+        delay = 0.2,
+        func = function()
+            G.STATE = G.STATES.GAME_OVER
+            if not G.GAME.seeded and not G.GAME.challenge then
+                G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+            end
+            G:save_settings()
+            G.FILE_HANDLER.force = true
+            G.STATE_COMPLETE = false
+            return true;
+        end
+    }))
+end
+
 ---Tallies Maximus cards from a given pool and possible subset; Derived from SMODS modCollectionTally
 function Maximus.getMaximusTallies(pool, set)
     local set = set or nil

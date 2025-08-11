@@ -75,7 +75,8 @@
         "CardSleeves",
         "eval_card",
         "TheFamily",
-        "JokerDisplay"
+        "JokerDisplay",
+        "game_over"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",
