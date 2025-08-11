@@ -17,5 +17,8 @@
 	"dependencies": [
 		"Steamodded (>=1.0.0~BETA-0808a)",
 		"Lovely (>=0.7.1)"
+	],
+	"provides": [
+		"OTMAPI (>=1.0.0)"
 	]
 }
