@@ -8,13 +8,13 @@ priority = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if self.ability.name == 'Egg' then
-    self.ability.extra_value = self.ability.extra_value + self.ability.extra
-    if next(SMODS.find_card('j_mxms_soil')) then
-        self.ability.extra_value = self.ability.extra_value + self.ability.extra * (G.GAME.mxms_soil_mod - 1)
-    end
-    self:set_cost()
-    SMODS.calculate_context({mxms_scaling_card = true})
+self.ability.extra_value = self.ability.extra_value + self.ability.extra
+SMODS.scale_card(self, {
+    ref_table = self.ability,
+    ref_value = "extra_value",
+    scalar_value = "extra"
+})
+self:set_cost()
 '''
 position = "after"
 payload = '''
