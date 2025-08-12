@@ -76,7 +76,8 @@
         "eval_card",
         "TheFamily",
         "JokerDisplay",
-        "game_over"
+        "game_over",
+        "generate_card_ui"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

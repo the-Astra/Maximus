@@ -1400,8 +1400,8 @@ return {
                 text = {
                     '{C:chips}Chip{} values of ranks',
                     'are {C:attention}swapped{} and {C:attention}doubled{}',
-                    '{C:inactive,s:0.8}(i.e. Ace: {C:chips,s:0.8}+11 {C:inactive,s:0.8}chips - > {C:chips,s:0.8}+4 {C:inactive,s:0.8}chips;',
-                    '{C:inactive,s:0.8}2: {C:chips,s:0.8}+2 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+22 {C:inactive,s:0.8}chips)'
+                    '{C:inactive,s:0.8}(i.e. Ace: {C:chips,s:0.8}+11 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#1# {C:inactive,s:0.8}chips;',
+                    '{C:inactive,s:0.8}2: {C:chips,s:0.8}+2 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#2# {C:inactive,s:0.8}chips)'
                 }
             },
             j_mxms_sisyphus = {

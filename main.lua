@@ -966,6 +966,7 @@ function Maximus.set_horoscope_success(card)
     G:save_settings()
 end
 
+---Returns the name of the most played poker hand
 function Maximus.get_most_played_hand()
     local _handname, _played, _order = 'High Card', -1, 100
     for k, v in pairs(G.GAME.hands) do
@@ -976,6 +977,25 @@ function Maximus.get_most_played_hand()
     end
 
     return _handname
+end
+
+---Returns the range of rank chip values
+function Maximus.get_nominal_sum()
+    local highest, lowest = nil, nil
+    for k, v in pairs(SMODS.Ranks) do
+        if not highest and not lowest then
+            highest = v.nominal
+            lowest = v.nominal
+        else
+            if v.nominal > highest then
+                highest = v.nominal
+            elseif v.nominal < lowest then
+                lowest = v.nominal
+            end
+        end
+    end
+
+    return highest + lowest
 end
 
 --#endregion
