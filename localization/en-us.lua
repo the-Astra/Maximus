@@ -2226,6 +2226,7 @@ return {
             c_mxms_52_commandments = "52 Commandments",
             c_mxms_all_stars = "All Stars",
             c_mxms_biggest_loser = "Tonight\'s Biggest Loser",
+            c_mxms_coexist = "Coexist",
             c_mxms_crusaders = "Stardust Crusaders",
             c_mxms_despite = "Despite Everything",
             c_mxms_drain = "Down the Drain",
@@ -2375,7 +2376,10 @@ return {
                 "Only {C:attention}#1#{} card(s) can be selected at a time"
             },
             ch_c_mxms_bullseye_requirement = {
-                "Bullseye must have at least {C:chips}+#1#{} Chips by the end of ante 8 boss blind"
+                "{C:attention,T:j_mxms_bullseye}Bullseye{} must have at least {C:chips}+#1#{} Chips"
+            },
+            ch_c_mxms_bullseye_requirement2 = {
+                "by the end of the {C:attention}ante 8 boss{}"
             },
             ch_c_mxms_feast = {
                 "{C:attention}Only food Jokers{} (including Microwave and Refrigerator) can appear in shops"
@@ -2387,23 +2391,35 @@ return {
                 "Only {C:red}Rare{} Jokers can show up in the shop"
             },
             ch_c_mxms_picky = {
-                "A copy of {C:attention,T:j_mxms_four_course_meal}Four Course Meal{} spawns in hand at the start of each round if there's room"
+                "A copy of {C:attention,T:j_mxms_four_course_meal}Four Course Meal{} spawns in hand"
+            },
+            ch_c_mxms_picky2 = {
+                "at the start of each round if there's room"
             },
             ch_c_mxms_biggest_loser = {
-                "{C:attention,T:j_mxms_impractical}Impractical Joker{} starts with {C:attention}Straight Flush{}"
+                "{C:attention,T:j_mxms_impractical_joker}Impractical Joker{} starts with {C:attention}Straight Flush{}"
             },
             ch_c_mxms_zodiac_killer = {
-                "Creates a {C:horoscope}Horoscope Card{} at the start of each ante. Failing the Horoscope {C:red}loses the run{}"
+                "Creates a {C:horoscope}Horoscope Card{} at the start of each ante"
+            },
+            ch_c_mxms_zodiac_killer2 = {
+                "Failing the Horoscope {C:red}loses the run{}"
             },
             ch_c_mxms_hand_decay = {
-                "{C:attention}#1#{} loses {C:red}5{} levels after every ante {C:inactive}Cannot go below 0{}"
+                "{C:attention}#1#{} loses {C:red}5{} levels after every ante {s:0.8,C:inactive}Cannot go below 0{}"
             },
             ch_c_mxms_deck_size_req = {
-                "Deck must consist of #1# card(s) by the end of the ante 8 boss"
+                "Deck must consist of {C:attention}#1# card(s){} by the end of the {C:attention}ante 8 boss{}"
             },
             ch_c_mxms_ante_sell = {
                 "All held {C:attention}Jokers{} and {C:attention}Consumables{} are {C:money}sold{} when {C:attention}Boss Blind{} is defeated"
-            }
+            },
+            ch_c_mxms_coexist = {
+                "{C:red}Lose the run{} if there are no held {C:green,T:j_mxms_zombie}Zombies{}"
+            },
+            ch_c_mxms_coexist2 = {
+                "or all {C:attention}Joker Slots{} are filled with {C:green,T:j_mxms_zombie}Zombies{}"
+            },
         },
         v_dictionary = {
             mxms_art = { 'Art: #1#' },

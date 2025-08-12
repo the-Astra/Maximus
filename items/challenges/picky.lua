@@ -2,7 +2,8 @@ SMODS.Challenge {
     key = 'picky',
     rules = {
         custom = {
-            { id = 'mxms_picky' }
+            { id = 'mxms_picky' },
+            { id = 'mxms_picky2' },
         }
     },
     jokers = {},

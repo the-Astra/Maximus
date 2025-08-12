@@ -1201,6 +1201,7 @@ local ENABLED_CHALLENGES = {
     'thought',
     'love_and_war',
     'despite_everything',
+    'coexist',
 }
 
 sendDebugMessage("Loading Challenges...", 'Maximus')

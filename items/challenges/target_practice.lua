@@ -2,7 +2,8 @@ SMODS.Challenge {
     key = 'target_practice',
     rules = {
         custom = {
-            { id = 'mxms_bullseye_requirement', value = 500 }
+            { id = 'mxms_bullseye_requirement', value = 500 },
+            { id = 'mxms_bullseye_requirement2'},
         }
     },
     jokers = {

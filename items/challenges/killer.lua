@@ -3,7 +3,8 @@ if Maximus_config.horoscopes then
         key = 'killer',
         rules = {
             custom = {
-                { id = 'mxms_zodiac_killer' }
+                { id = 'mxms_zodiac_killer' },
+                { id = 'mxms_zodiac_killer2' },
             }
         },
         jokers = {},
