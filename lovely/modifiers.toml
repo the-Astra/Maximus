@@ -84,38 +84,6 @@ match_indent = true
 times = 2
 
 
-# Hand Decay and Ante Sell function
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''
-delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})
-'''
-position = "before"
-payload = '''
-
-if G.GAME.modifiers.mxms_hand_decay then
-    SMODS.smart_level_up_hand(nil, G.GAME.modifiers.mxms_hand_decay, nil, -5)
-end
-
-if G.GAME.modifiers.mxms_ante_sell then
-    for k, v in pairs(G.jokers.cards) do
-        if not (v.ability and v.ability.eternal) then
-            v:sell_card()
-        end
-    end
-
-    for k, v in pairs(G.consumeables.cards) do
-        if not (v.ability and v.ability.eternal) then
-            v:sell_card()
-        end
-    end
-end
-'''
-match_indent = true
-times = 1
-
-
 # Add all faces param check
 [[patches]]
 [patches.pattern]

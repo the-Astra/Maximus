@@ -62,7 +62,7 @@ if k == 'm_stone' and next(SMODS.find_card('j_mxms_rock_candy')) then return tru
 match_indent = true
 times = 1
 
-    # Change has_no_rank check to exclude stone cards with hammer and chisel[[patches]]
+    # Change has_no_rank check to exclude stone cards with hammer and chisel
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS _ "src/utils.lua"]'''

@@ -183,45 +183,6 @@ config = {align=
 '''
 match_indent = true
 
-
-
-    # Reset Horoscope effects (create new Horoscope card if zodiac killer challenge)
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''
-delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})
-'''
-position = "before"
-payload = '''
-Maximus.reset_horoscopes()
-for i = 1, #G.GAME.tags do
-    G.GAME.tags[i]:apply_to_run({type = 'start_apply_horoscopes', tag = _tag})
-end
-
-if G.GAME.modifiers.mxms_zodiac_killer then
-    G.E_MANAGER:add_event(Event({
-        trigger = 'after',
-        delay = 0.2,
-        func = function()
-            local new_card = create_card(
-                'Horoscope', 
-                G.mxms_horoscope, 
-                nil, nil, nil, nil, nil, 
-                'killer'
-            )
-            new_card:add_to_deck()
-            G.mxms_horoscope:emplace(new_card)
-            new_card:juice_up(0.3, 0.4)
-            return true
-        end
-    }))
-end
-
-'''
-match_indent = true
-times = 1
-
     # Apply Aries effect
 [[patches]]
 [patches.pattern]

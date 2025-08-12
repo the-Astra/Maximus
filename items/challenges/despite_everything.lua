@@ -10,5 +10,20 @@ SMODS.Challenge {
     },
     deck = {
         type = 'Challenge Deck'
-    }
+    },
+    calculate = function(self, context)
+        if context.ante_end then
+            for k, v in pairs(G.jokers.cards) do
+                if not (v.ability and v.ability.eternal) then
+                    v:sell_card()
+                end
+            end
+
+            for k, v in pairs(G.consumeables.cards) do
+                if not (v.ability and v.ability.eternal) then
+                    v:sell_card()
+                end
+            end
+        end
+    end
 }

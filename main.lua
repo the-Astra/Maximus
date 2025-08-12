@@ -1345,6 +1345,16 @@ if Maximus_config.horoscopes then
         end
     end
 
+    -- Global calculates for Horoscope resetting and and Horoscope tag application
+    Maximus.calculate = function(self, context)
+        if context.ante_end then
+            Maximus.reset_horoscopes()
+            for i = 1, #G.GAME.tags do
+                G.GAME.tags[i]:apply_to_run({ type = 'start_apply_horoscopes' })
+            end
+        end
+    end
+
     local ENABLED_HOROSCOPES = {
         'aries',
         'taurus',

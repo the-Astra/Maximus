@@ -41,6 +41,21 @@ if Maximus_config.horoscopes then
             if context.mxms_failed_horoscope or context.selling_card and context.card.ability.set == 'Horoscope' then
                 Maximus.force_game_over()
             end
+
+            if context.ante_end then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.2,
+                    func = function()
+                        local new_card = SMODS.add_card({
+                            set = 'Horoscope',
+                            key_append = 'killer'
+                        })
+                        new_card:juice_up(0.3, 0.4)
+                        return true
+                    end
+                }))
+            end
         end
     }
 else
