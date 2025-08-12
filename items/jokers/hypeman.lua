@@ -27,7 +27,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
     
-        if context.enhancing_card then
+        if context.mxms_enhancing_card then
             ease_dollars(stg.dollars)
             return {
                 message = localize('$') .. stg.dollars,
@@ -42,6 +42,6 @@ local csa = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites)
     csa(self, center, initial, delay_sprites)
     if center.set == "Enhanced" and (G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED and G.STATE ~= G.STATES.SHOP and not G.SETTINGS.paused or G.TAROT_INTERRUPT) then
-        SMODS.calculate_context({enhancing_card = true})
+        SMODS.calculate_context({mxms_enhancing_card = true})
     end
 end
