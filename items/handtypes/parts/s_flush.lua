@@ -18,7 +18,7 @@ SMODS.PokerHandPart {
             end
 
             local ret = {}
-            local four_fingers = SMODS.four_fingers() + 1
+            local four_fingers = SMODS.four_fingers('flush') + 1
             local suits = SMODS.Suit.obj_buffer
             if #hand < four_fingers then
                 return ret
