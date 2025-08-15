@@ -168,34 +168,6 @@ SMODS.current_mod.extra_tabs = function()
     }
 end
 
--- Prevent other cards from spawning under certain conditions
-local get_current_pool_ref = get_current_pool
-function get_current_pool(_type, _rarity, _legendary, _append)
-    local _pool, _pool_key = get_current_pool_ref(_type, _rarity, _legendary, _append)
-    local new_pool
-
-    if _type == 'Joker' then
-        if Maximus.config.only_maximus_jokers then
-            for i = 1, #_pool do
-                local key = _pool[i]
-                if key:sub(1, 6) ~= "j_mxms" then
-                    _pool[i] = "UNAVAILABLE"
-                end
-            end
-        end
-
-        if G.GAME.modifiers.mxms_feast then
-            for i = 1, #_pool do
-                local key = _pool[i]
-                if not Maximus.is_food(key) and key ~= 'j_mxms_microwave' and key ~= 'j_mxms_refrigerator' then
-                    _pool[i] = "UNAVAILABLE"
-                end
-            end
-        end
-    end
-    return _pool, _pool_key
-end
-
 -- load update.lua
 assert(SMODS.load_file("update.lua"))()
 
@@ -822,6 +794,34 @@ function Card:set_cost()
     csc(self)
     self.cost = math.floor(self.cost * G.GAME.mxms_shop_price_multiplier)
     self.cost = self.cost * G.GAME.mxms_creep_mod
+end
+
+-- Prevent other cards from spawning under certain conditions
+local get_current_pool_ref = get_current_pool
+function get_current_pool(_type, _rarity, _legendary, _append)
+    local _pool, _pool_key = get_current_pool_ref(_type, _rarity, _legendary, _append)
+    local new_pool
+
+    if _type == 'Joker' then
+        if Maximus.config.only_maximus_jokers then
+            for i = 1, #_pool do
+                local key = _pool[i]
+                if key:sub(1, 6) ~= "j_mxms" then
+                    _pool[i] = "UNAVAILABLE"
+                end
+            end
+        end
+
+        if G.GAME.modifiers.mxms_feast then
+            for i = 1, #_pool do
+                local key = _pool[i]
+                if not Maximus.is_food(key) and key ~= 'j_mxms_microwave' and key ~= 'j_mxms_refrigerator' then
+                    _pool[i] = "UNAVAILABLE"
+                end
+            end
+        end
+    end
+    return _pool, _pool_key
 end
 
 --#endregion
