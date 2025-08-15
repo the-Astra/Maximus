@@ -14,6 +14,9 @@ SMODS.Back {
         --Change blind scaling
         G.GAME.modifiers.mxms_nuclear_size = true
 
+        --Change scoring calc method
+        SMODS.set_scoring_calculation('exponent')
+
         --Change joker slots
         G.GAME.starting_params.joker_slots = G.GAME.starting_params.joker_slots - 4
     end
