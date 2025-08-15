@@ -2231,6 +2231,7 @@ return {
             c_mxms_despite = "Despite Everything",
             c_mxms_drain = "Down the Drain",
             c_mxms_fashion = "Fashion Disaster",
+            c_mxms_feast = "Feast Fit for a King",
             c_mxms_gambling = "Let\'s Go Gambling!",
             c_mxms_killer = "Zodiac Killer",
             c_mxms_love_and_war = "All\'s Fair in Love and War",
@@ -2382,7 +2383,7 @@ return {
                 "by the end of the {C:attention}ante 8 boss{}"
             },
             ch_c_mxms_feast = {
-                "{C:attention}Only food Jokers{} (including Microwave and Refrigerator) can appear in shops"
+                "{C:attention}Only food Jokers{} (including {C:attention,T:j_mxms_microwave}Microwave{} and {C:attention,T:j_mxms_refrigerator}Refrigerator{}) can appear"
             },
             ch_c_mxms_random_suit_debuff = {
                 "A random suit is {C:attention}debuffed{} each round"

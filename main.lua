@@ -168,17 +168,28 @@ SMODS.current_mod.extra_tabs = function()
     }
 end
 
--- Prevent other cards from spawning if the Only Maximus Jokers config is enabled
+-- Prevent other cards from spawning under certain conditions
 local get_current_pool_ref = get_current_pool
 function get_current_pool(_type, _rarity, _legendary, _append)
     local _pool, _pool_key = get_current_pool_ref(_type, _rarity, _legendary, _append)
     local new_pool
 
-    if _type == 'Joker' and Maximus.config.only_maximus_jokers then
-        for i = 1, #_pool do
-            local key = _pool[i]
-            if key:sub(1, 6) ~= "j_mxms" then
-                _pool[i] = "UNAVAILABLE"
+    if _type == 'Joker' then
+        if Maximus.config.only_maximus_jokers then
+            for i = 1, #_pool do
+                local key = _pool[i]
+                if key:sub(1, 6) ~= "j_mxms" then
+                    _pool[i] = "UNAVAILABLE"
+                end
+            end
+        end
+
+        if G.GAME.modifiers.mxms_feast then
+            for i = 1, #_pool do
+                local key = _pool[i]
+                if not Maximus.is_food(key) and key ~= 'j_mxms_microwave' and key ~= 'j_mxms_refrigerator' then
+                    _pool[i] = "UNAVAILABLE"
+                end
             end
         end
     end
@@ -842,7 +853,7 @@ end
 ---Checks if a provided card is classified as a "Food Joker"
 function Maximus.is_food(card)
     local center = card.config and card.config.center and type(card.config.center.key) == "string"
-        and G.P_CENTERS[card.config.center.key]
+        and G.P_CENTERS[card.config.center.key] or type(card) == "string" and G.P_CENTERS[card]
 
     if not center then
         return false
@@ -854,7 +865,7 @@ function Maximus.is_food(card)
     end
 
     -- If it doesn't, we check if this is a vanilla food joker
-    return Maximus.mxms_vanilla_food[center.key]
+    return Maximus.vanilla_food[center.key]
 end
 
 -- Checks if a card should have an inverted check when evaluating prob results
@@ -1202,6 +1213,7 @@ local ENABLED_CHALLENGES = {
     'love_and_war',
     'despite_everything',
     'coexist',
+    'feast',
 }
 
 sendDebugMessage("Loading Challenges...", 'Maximus')
