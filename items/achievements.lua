@@ -42,6 +42,7 @@ SMODS.Achievement {
                 'coexist',
                 'feast',
                 'speedrun',
+                'greedy',
             }
             for k, v in pairs(maximus_challenges) do
                 if not G.PROFILES[G.SETTINGS.profile].challenge_progress.completed[v] then

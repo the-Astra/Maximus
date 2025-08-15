@@ -1222,6 +1222,7 @@ local ENABLED_CHALLENGES = {
     'coexist',
     'feast',
     'speedrun',
+    'greedy',
 }
 
 sendDebugMessage("Loading Challenges...", 'Maximus')

@@ -2233,6 +2233,7 @@ return {
             c_mxms_fashion = "Fashion Disaster",
             c_mxms_feast = "Feast Fit for a King",
             c_mxms_gambling = "Let\'s Go Gambling!",
+            c_mxms_greedy = "Greedy Bastard",
             c_mxms_killer = "Zodiac Killer",
             c_mxms_love_and_war = "All\'s Fair in Love and War",
             c_mxms_overgrowth = "Overgrowth",
@@ -2423,13 +2424,19 @@ return {
                 "or all {C:attention}Joker Slots{} are filled with {C:green,T:j_mxms_zombie}Zombies{}"
             },
             ch_c_mxms_speedrun = {
-                "Lose the run if {C:attention,T:j_mxms_4d}4D Joker{} dies"
+                "{C:red}Lose the run{} if {C:attention,T:j_mxms_4d}4D Joker{} dies"
             },
             ch_c_mxms_disable_blind_skips = {
                 "Skipping blinds is {C:red}disabled"
             },
             ch_c_mxms_win_ante = {
                 "Win run at {C:attention}ante #1#{}"
+            },
+            ch_c_mxms_greedy = {
+                "Skipping a booster {C:red}loses the run{}"
+            },
+            ch_c_mxms_greedy2 = {
+                "Leaving the shop with unopened boosters {C:red}loses the run{}"
             },
         },
         v_dictionary = {
