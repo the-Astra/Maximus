@@ -39,8 +39,14 @@ SMODS.Joker {
             }
         end
 
-        if stg.Xmult <= 1 and not context.blueprint then
+        if stg.Xmult <= 1 and not context.blueprint and not stg.depleated then
+            stg.depleated = true
             card:start_dissolve({ G.C.BLUE }, nil, 1.6)
+            SMODS.calculate_context({ four_d_death = true })
+        end
+
+        if context.selling_self then
+            SMODS.calculate_context({ four_d_death = true })
         end
     end
 }
@@ -86,7 +92,7 @@ function Game:update(dt)
         for k, v in pairs(fourds) do
             local stg = v.ability.extra
             if stg.Xmult > 1 then
-                stg.Xmult = stg.Xmult - stg.dXmult
+                stg.Xmult = math.max(stg.Xmult - stg.dXmult, 1)
                 v:juice_up(0.1, 0.2)
 
                 -- Only play ticking sound if config option is enabled

@@ -1419,8 +1419,8 @@ return {
                 text = {
                     '{C:chips}Chip{} values of ranks',
                     'are {C:attention}swapped{} and {C:attention}doubled{}',
-                    '{C:inactive,s:0.8}(i.e. Ace: {C:chips,s:0.8}+11 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#1# {C:inactive,s:0.8}chips;',
-                    '{C:inactive,s:0.8}2: {C:chips,s:0.8}+2 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#2# {C:inactive,s:0.8}chips)'
+                    '{C:inactive,s:0.8}(i.e. Ace: {C:chips,s:0.8}+11 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#1# {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#2# {C:inactive,s:0.8}chips;',
+                    '{C:inactive,s:0.8}2: {C:chips,s:0.8}+2 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#3# {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#4# {C:inactive,s:0.8}chips)'
                 }
             },
             j_mxms_sisyphus = {
@@ -2238,6 +2238,7 @@ return {
             c_mxms_overgrowth = "Overgrowth",
             c_mxms_p2w = "Pay To Win",
             c_mxms_picky = "Picky Eater",
+            c_mxms_speedrun = "Speedrun",
             c_mxms_square = "It\'s Hip to be Square",
             c_mxms_target_practice = "Target Practice",
             c_mxms_thought = "Thought Experiment",
@@ -2420,6 +2421,15 @@ return {
             },
             ch_c_mxms_coexist2 = {
                 "or all {C:attention}Joker Slots{} are filled with {C:green,T:j_mxms_zombie}Zombies{}"
+            },
+            ch_c_mxms_speedrun = {
+                "Lose the run if {C:attention,T:j_mxms_4d}4D Joker{} dies"
+            },
+            ch_c_mxms_disable_blind_skips = {
+                "Skipping blinds is {C:red}disabled"
+            },
+            ch_c_mxms_win_ante = {
+                "Win run at {C:attention}ante #1#{}"
             },
         },
         v_dictionary = {

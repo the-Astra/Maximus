@@ -38,6 +38,10 @@ SMODS.Achievement {
                 'drain',
                 'thought',
                 'love_and_war',
+                'despite_everything',
+                'coexist',
+                'feast',
+                'speedrun',
             }
             for k, v in pairs(maximus_challenges) do
                 if not G.PROFILES[G.SETTINGS.profile].challenge_progress.completed[v] then

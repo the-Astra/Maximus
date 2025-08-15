@@ -824,6 +824,13 @@ function get_current_pool(_type, _rarity, _legendary, _append)
     return _pool, _pool_key
 end
 
+local cubt = create_UIBox_blind_tag
+create_UIBox_blind_tag = function(blind_choice, run_info)
+    if not G.GAME.modifiers.disable_blind_skips then
+        return cubt(blind_choice, run_info)
+    end
+end
+
 --#endregion
 
 --#region Helper Functions ----------------------------------------------------------------------------------
@@ -1214,6 +1221,7 @@ local ENABLED_CHALLENGES = {
     'despite_everything',
     'coexist',
     'feast',
+    'speedrun',
 }
 
 sendDebugMessage("Loading Challenges...", 'Maximus')
