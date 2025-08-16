@@ -33,20 +33,16 @@ SMODS.Joker {
             }
         end
     end,
-    calc_scaling = function(self, card, other_card, scaling, scalar, args)
+    calc_scaling = function(self, card, other_card, initial, scalar_value, args)
         local stg = card.ability.extra
-        if args.operation == '+' and other_card.ability.config.center.key ~= 'j_mxms_group_chat' then
-            stg.chips = stg.chips + stg.gain
-
+        if args.operation == '+' and other_card.config.center.key ~= 'j_mxms_group_chat' or args.operation == 'X' then
             SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "chips",
-                scalar_value = "gain"
+                scalar_value = "gain",
+                message_colour = G.C.CHIPS
             })
-
-            return {
-                message = localize('k_upgrade_ex')
-            }
+            return nil, true
         end
     end,
     set_ability = function(self, card, inital, delay_sprites)

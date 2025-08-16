@@ -32,11 +32,11 @@ SMODS.Joker {
                 if context.scoring_hand[i].seal then
                     local other_card = context.scoring_hand[i]
                     other_card:set_seal(nil, nil, true)
-                    stg.Xmult = stg.Xmult + stg.gain
                     SMODS.scale_card(card, {
                         ref_table = stg,
                         ref_value = "Xmult",
-                        scalar_value = "gain"
+                        scalar_value = "gain",
+                        no_message = true
                     })
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
@@ -48,6 +48,7 @@ SMODS.Joker {
                             return true
                         end
                     }))
+                    return nil, true
                 end
             end
         end

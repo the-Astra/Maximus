@@ -36,12 +36,12 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.cardarea == G.play and context.repetition and stg.cards_left > 0 then
             if context.other_card:is_suit(G.GAME.current_round.mxms_jello_suit) then
-                stg.cards_left = stg.cards_left - stg.card_decrement
                 SMODS.scale_card(card, {
                     ref_table = stg,
                     ref_value = "cards_left",
                     scalar_value = "card_decrement",
-                    operation = "-"
+                    operation = "-",
+                    no_message = true
                 })
                 return {
                     repetitions = 1,

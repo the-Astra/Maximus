@@ -45,17 +45,13 @@ SMODS.Joker {
         end
 
         if context.card_added and context.card.ability.set == 'Joker' then
-            stg.Xmult = stg.Xmult + stg.gain
             SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "Xmult",
-                scalar_value = "gain"
+                scalar_value = "gain",
+                message_colour = G.C.ATTENTION
             })
-            return {
-                message = localize('k_upgrade_ex'),
-                colour = G.C.ATTENTION,
-                card = card
-            }
+            return nil, true
         end
     end
 }

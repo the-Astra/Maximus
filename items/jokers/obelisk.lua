@@ -39,18 +39,16 @@ SMODS.Joker {
                     card = card
                 }
             else
-                stg.Xmult = stg.Xmult + stg.gain
                 SMODS.scale_card(card, {
                     ref_table = stg,
                     ref_value = "Xmult",
-                    scalar_value = "gain"
+                    scalar_value = "gain",
+                    message_key = 'k_mxms_tribute_ex',
+                    message_colour = G.C.CHIPS
                 })
                 stg.unscoring_cards = 0
                 return {
-                    delay = 0.4,
-                    message = localize('k_mxms_tribute_ex'),
-                    colour = G.C.CHIPS,
-                    card = card
+                    delay = 0.4
                 }
             end
         end

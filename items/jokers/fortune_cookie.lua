@@ -37,14 +37,13 @@ SMODS.Joker {
         if context.before and stg.prob > 0
             and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             if SMODS.pseudorandom_probability(card, 'fco', stg.prob, stg.odds) then
-                stg.prob = stg.prob - G.GAME.probabilities.normal
-
                 SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "prob",
                 scalar_table = "G.GAME.probabilities",
                 scalar_value = "normal",
-                operation = "-"
+                operation = "-",
+                no_message = true
             })
 
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1

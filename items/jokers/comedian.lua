@@ -58,16 +58,14 @@ SMODS.Joker {
                     message = localize('k_extinct_ex')
                 }
             else
-                stg.Xmult = stg.Xmult + stg.gain
                 SMODS.scale_card(card, {
                     ref_table = stg,
                     ref_value = "Xmult",
-                    scalar_value = "gain"
+                    scalar_value = "gain",
+                    message_key = 'a_mult',
+                    message_colour = G.C.MULT
                 })
-                return {
-                    message = localize { type = 'variable', key = 'a_xmult', vars = { stg.Xmult } },
-                    colour = G.C.MULT
-                }
+                return nil, true
             end
         end
 

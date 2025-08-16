@@ -38,12 +38,12 @@ SMODS.Joker {
                 if not v.seal and not v.debuff and not v.pizza_sealed and stg.cards_left > 0 then
                     v.pizza_sealed = true
                     v:set_seal(SMODS.poll_seal({ guaranteed = true, type_key = 'pza' }))
-                    stg.cards_left = stg.cards_left - stg.card_decrement
                     SMODS.scale_card(card, {
                         ref_table = stg,
                         ref_value = "cards_left",
                         scalar_value = "card_decrement",
-                        operation = "-"
+                        operation = "-",
+                        no_message = true
                     })
 
                     G.E_MANAGER:add_event(Event({

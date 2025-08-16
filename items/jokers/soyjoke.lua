@@ -27,13 +27,6 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.mxms_reacquire_joker and not context.blueprint then
-            stg.temp_xmult = G.GAME.mxms_soy_mod * stg.gain + 1
-            SMODS.scale_card(card, {
-                ref_table = stg,
-                ref_value = "temp_xmult",
-                scalar_value = "gain"
-            })
-            stg.temp_xmult = nil
             return {
                 message = localize('k_upgrade_ex'),
                 colour = G.C.ATTENTION

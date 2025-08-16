@@ -40,16 +40,14 @@ SMODS.Joker {
 
         if context.ending_shop and not context.blueprint then
             if not stg.purchase_made then
-                stg.chips = stg.chips + stg.gain
                 SMODS.scale_card(card, {
                     ref_table = stg,
                     ref_value = "chips",
-                    scalar_value = "gain"
+                    scalar_value = "gain",
+                    message_key = 'a_chips',
+                    message_colour = G.C.CHIPS
                 })
-                return {
-                    message = localize { type = 'variable', key = 'a_chips', vars = { stg.chips } },
-                    colour = G.C.CHIPS
-                }
+                return nil, true
             end
             stg.purchase_made = false
         end

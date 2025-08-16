@@ -58,18 +58,18 @@ SMODS.Joker {
                 stg.hands = 0
                 stg.streak = stg.streak + 1
                 
-                stg.chips = stg.chips + stg.chip_gain
                 SMODS.scale_card(card, {
                     ref_table = stg,
                     ref_value = "chips",
-                    scalar_value = "chip_gain"
+                    scalar_value = "chip_gain",
+                    no_message = true
                 })
 
-                stg.mult = stg.mult + stg.mult_gain
                 SMODS.scale_card(card, {
                     ref_table = stg,
                     ref_value = "mult",
-                    scalar_value = "mult_gain"
+                    scalar_value = "mult_gain",
+                    no_message = true
                 })
 
                 return {

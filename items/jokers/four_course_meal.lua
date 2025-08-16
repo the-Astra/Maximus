@@ -34,13 +34,12 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.joker_main then
-            stg.hands_left = stg.hands_left - stg.hand_decrement
-
             SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "hands_left",
                 scalar_value = "hand_decrement",
-                operation = "-"
+                operation = "-",
+                no_message = true
             })
 
             if stg.hands_left >= 4 then

@@ -52,26 +52,21 @@ SMODS.Joker {
                     colour = G.C.RED
                 }
             elseif hand_value == 21 then
-                stg.Xmult = stg.Xmult + stg.gain_best
                 SMODS.scale_card(card, {
                     ref_table = stg,
                     ref_value = "Xmult",
-                    scalar_value = "gain_best"
+                    scalar_value = "gain_best",
+                    message_key = "k_mxms_blackjack_ex",
+                    message_colour = G.C.GREEN
                 })
-                return {
-                    message = localize('k_mxms_blackjack_ex'),
-                    colour = G.C.GREEN
-                }
+                return nil, true
             else
-                stg.Xmult = stg.Xmult + stg.gain_norm
                 SMODS.scale_card(card, {
                     ref_table = stg,
                     ref_value = "Xmult",
-                    scalar_value = "gain_norm"
+                    scalar_value = "gain_norm",
                 })
-                return {
-                    message = localize('k_upgrade_ex')
-                }
+                return nil, true
             end
         end
 

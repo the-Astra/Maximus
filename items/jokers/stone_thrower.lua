@@ -38,17 +38,13 @@ SMODS.Joker {
         end
 
         if context.individual and context.cardarea == G.play and SMODS.has_enhancement(context.other_card, 'm_glass') and not context.blueprint then
-            stg.chips = stg.chips + stg.gain
             SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "chips",
-                scalar_value = "gain"
+                scalar_value = "gain",
+                message_colour = G.C.CHIPS
             })
-            return {
-                message = localize('k_upgrade_ex'),
-                colour = G.C.CHIPS,
-                message_card = card
-            }
+            return nil, true
         end
 
         if context.fix_probability and context.identifier == 'glass' then

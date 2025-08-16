@@ -82,17 +82,16 @@ SMODS.Joker {
         end
 
         if context.after and not context.blueprint then
-            stg.hands_left = stg.hands_left - stg.hand_decrement
-
-            local msg = SMODS.scale_card(card, {
+            SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "hands_left",
                 scalar_value = "hand_decrement",
-                operation = "-"
+                operation = "-",
+                no_message = true
             })
 
-            SMODS.calculate_effect(
-                { message = (msg or stg.hands_left) .. ' ' .. localize('k_mxms_left_el'), colour = G.C.RED }, card)
+            SMODS.calculate_effect({ message = stg.hands_left .. ' ' .. localize('k_mxms_left_el'), colour = G.C.RED },
+            card)
             if stg.hands_left <= 0 then
                 G.E_MANAGER:add_event(Event({
                     func = function()

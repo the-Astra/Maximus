@@ -36,15 +36,12 @@ SMODS.Joker {
                     return true;
                 end
             }))
-            stg.mult = stg.mult + stg.gain
             SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "mult",
                 scalar_value = "gain"
             })
-            return {
-                message = localize('k_upgrade_ex')
-            }
+            return nil, true
         end
 
         if context.joker_main and stg.mult > 0 then

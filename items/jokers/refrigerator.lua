@@ -25,12 +25,13 @@ SMODS.Joker { -- Refrigerator
             }
         end
     end,
-    calc_scaling = function(self, card, other_card, scaling, scalar, args)
+    calc_scaling = function(self, card, other_card, initial, scalar_value, args)
         if args.operation == '-' and Maximus.is_food(other_card) then
             return {
+                override_scalar_value = {
+                    value = scalar_value * 0.5
+                },
                 message = localize('k_mxms_preserved_ex'),
-                scaling_value = scaling + (scalar * 0.5),
-                scaling_message = tostring(scalar * 0.5)
             }
         end
     end

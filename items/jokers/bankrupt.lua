@@ -31,16 +31,13 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.pseudorandom_result and not context.result and context.identifier == 'wheel_of_fortune' and not context.blueprint then
-            stg.mult = stg.mult + stg.gain
             SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "mult",
-                scalar_value = "gain"
+                scalar_value = "gain",
+                message_key = "a_mult"
             })
-            return {
-                message = localize { type = 'variable', key = 'a_mult', vars = { stg.mult } },
-                func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
-            }
+            return nil, true
         end
 
         if context.joker_main then
