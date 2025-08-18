@@ -29,3 +29,15 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_chef',
+    type = 'loss',
+    extra = { center = 'j_mxms_chef' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_chef',
+    type = 'win',
+    extra = { center = 'j_mxms_chef' }
+}

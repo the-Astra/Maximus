@@ -46,3 +46,9 @@ SMODS.Joker {
         return false
     end
 }
+
+SMODS.JimboQuip {
+    key = 'wq_prospector',
+    type = 'win',
+    extra = { center = 'j_mxms_prospector' }
+}

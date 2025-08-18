@@ -22,3 +22,9 @@ SMODS.Joker {
         G.GAME.interest_cap = G.GAME.interest_cap / 2
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_gambler',
+    type = 'loss',
+    extra = { center = 'j_mxms_gambler' }
+}

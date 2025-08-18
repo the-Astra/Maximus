@@ -75,3 +75,9 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_impractical_joker',
+    type = 'loss',
+    extra = { center = 'j_mxms_impractical_joker' }
+}

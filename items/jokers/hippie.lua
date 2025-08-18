@@ -47,6 +47,12 @@ if Maximus_config.horoscopes then
             end
         end
     }
+
+    SMODS.JimboQuip {
+        key = 'wq_hippie',
+        type = 'win',
+        extra = { center = 'j_mxms_hippie' }
+    }
 else
     sendDebugMessage("Hippie not loaded; Horoscopes Disabled", 'Maximus')
 end

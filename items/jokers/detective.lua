@@ -34,3 +34,15 @@ SMODS.Joker {
         G.hand:change_size(-stg.size)
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_detective',
+    type = 'loss',
+    extra = { center = 'j_mxms_detective' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_detective',
+    type = 'win',
+    extra = { center = 'j_mxms_detective' }
+}

@@ -103,3 +103,15 @@ function Game:update(dt)
         end
     end
 end
+
+SMODS.JimboQuip {
+    key = 'lq_4d',
+    type = 'loss',
+    extra = { center = 'j_mxms_4d' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_4d',
+    type = 'win',
+    extra = { center = 'j_mxms_4d' }
+}

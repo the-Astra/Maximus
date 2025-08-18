@@ -36,6 +36,18 @@ if Maximus_config.horoscopes then
             end
         end
     }
+
+    SMODS.JimboQuip {
+        key = 'lq_employee',
+        type = 'loss',
+        extra = { center = 'j_mxms_employee' }
+    }
+
+    SMODS.JimboQuip {
+        key = 'wq_employee',
+        type = 'win',
+        extra = { center = 'j_mxms_employee' }
+    }
 else
     sendDebugMessage("Employee not loaded; Horoscopes Disabled", 'Maximus')
 end

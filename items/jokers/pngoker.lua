@@ -35,3 +35,9 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'wq_pngoker',
+    type = 'lose',
+    extra = { center = 'j_mxms_pngoker' }
+}

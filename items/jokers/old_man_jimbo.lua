@@ -31,3 +31,9 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'wq_old_man_jimbo',
+    type = 'win',
+    extra = { center = 'j_mxms_old_man_jimbo' }
+}

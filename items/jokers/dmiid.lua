@@ -69,3 +69,9 @@ SMODS.Joker {
         return false
     end
 }
+
+SMODS.JimboQuip {
+    key = 'wq_dmiid',
+    type = 'win',
+    extra = { center = 'j_mxms_dmiid' }
+}

@@ -37,3 +37,12 @@ SMODS.Joker {
         end
     end,
 }
+
+SMODS.JimboQuip {
+    key = 'wq_hypeman',
+    type = 'win',
+    extra = {
+        center = 'j_mxms_hypeman',
+        sound = 'mxms_hey'
+    }
+}

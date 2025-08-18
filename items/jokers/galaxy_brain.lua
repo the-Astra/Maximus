@@ -61,3 +61,9 @@ SMODS.Joker {
         stg.last_hand = G.GAME.last_hand_played or 'None'
     end
 }
+
+SMODS.JimboQuip {
+    key = 'wq_galaxy_brain',
+    type = 'win',
+    extra = { center = 'j_mxms_galaxy_brain' }
+}

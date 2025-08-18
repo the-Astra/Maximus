@@ -2379,6 +2379,140 @@ return {
                 "3 Pairs of cards with different ranks"
             },
         },
+        quips = {
+            -- Loss Quips
+            mxms_lq_4d = {
+                "Maybe bring a",
+                "watch next time..."
+            },
+            mxms_lq_bootleg = {
+                "You're as much a",
+                "fraud as me!"
+            },
+            mxms_lq_chef = {
+                "That hand was raw!"
+            },
+            mxms_lq_cleaner = {
+                "That run really",
+                "burned to the ground..."
+            },
+            mxms_lq_crowned = {
+                "Pathetic."
+            },
+            mxms_lq_detective = {
+                "How you lost is",
+                "still a mystery to me..."
+            },
+            mxms_lq_employee = {
+                "Get a real job!"
+            },
+            mxms_lq_gambler = {
+                "A true high roller",
+                "could've made it through!"
+            },
+            mxms_lq_review = {
+                "0/10 run, too",
+                "many face cards..."
+            },
+            mxms_lq_hedonist = {
+                "That sort of greed",
+                "won't see glory!"
+            },
+            mxms_lq_honorable = {
+                "I declare this run",
+                "guilty by all accounts!"
+            },
+            mxms_lq_impractical_joker = {
+                "And tonight's biggest",
+                "loser is you!"
+            },
+            mxms_lq_jobber = {
+                "You got beat up",
+                "worse than me!"
+            },
+            mxms_lq_normal = {
+                "You're fired."
+            },
+            mxms_lq_pessimistic = {
+                "Nothing ever happens."
+            },
+            mxms_lq_pngoker = {
+                "I saw right",
+                "through that bluff!"
+            },
+            mxms_lq_screaming = {
+                "AAAAAAAAAAAAA"
+            },
+            mxms_lq_war = {
+                "The War..."
+            },
+            mxms_lq_zombie = {
+                "Braaaaaains..."
+            },
+
+            -- Win Quips
+            mxms_wq_4d = {
+                "You won this time,",
+                "but Time stops",
+                "for no one..."
+            },
+            mxms_wq_chef = {
+                "What a magnificent",
+                "dish you cooked!"
+            },
+            mxms_wq_combo_breaker = {
+                "PERFECT!",
+            },
+            mxms_wq_crowned = {
+                "You played",
+                "like royalty!"
+            },
+            mxms_wq_detective = {
+                "Case closed!"
+            },
+            mxms_wq_dmiid = {
+                "Maybe just one",
+                "more wouldn't hurt..."
+            },
+            mxms_wq_employee = {
+                "Order up!"
+            },
+            mxms_wq_galaxy_brain = {
+                "The inner machinations",
+                "of your mind are an",
+                "engima..."
+            },
+            mxms_wq_hippie = {
+                "Like, groovy",
+                "run man!"
+            },
+            mxms_wq_hypeman = {
+                "HEY!"
+            },
+            mxms_wq_moon_landing = {
+                "You shot for the",
+                "moon and landed",
+                "amongst the stars!"
+            },
+            mxms_wq_normal = {
+                "All in a",
+                "day's work."
+            },
+            mxms_wq_old_man_jimbo = {
+                "Back in my day",
+                "I used to be a",
+                "high-roller like you!"
+            },
+            mxms_wq_prospector = {
+                "Yeehaw! We",
+                "struck gold!"
+            },
+            mxms_wq_secret_society = {
+                "You've impressed us,",
+                "welcome to the family..."
+            }
+
+        },
         v_text = {
             ch_c_mxms_X_blind_size = {
                 "{X:mult,C:white}X#1#{} blind size"

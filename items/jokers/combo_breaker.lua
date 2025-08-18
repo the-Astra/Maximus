@@ -60,3 +60,13 @@ function SMODS.calculate_repetitions(card, context, reps)
     end
     return rep_return
 end
+
+SMODS.JimboQuip {
+    key = 'wq_combo_breaker',
+    type = 'win',
+    extra = {
+        center = 'j_mxms_combo_breaker',
+        sound = 'mxms_perfect',
+        times = 1
+    }
+}

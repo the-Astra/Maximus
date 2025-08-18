@@ -34,3 +34,9 @@ function Card:get_chip_bonus()
     end
     return gcb(self)
 end
+
+SMODS.JimboQuip {
+    key = 'wq_secret_society',
+    type = 'win',
+    extra = { center = 'j_mxms_secret_society' }
+}
