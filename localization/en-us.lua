@@ -208,7 +208,7 @@ return {
                 text = {
                     'Use {C:attention}#1#{} {C:tarot}Tarot{} cards within',
                     'the ante to receive',
-                    'a random {C:spectral}Spectral{} Card',
+                    'a {C:green}random{} {C:spectral}Spectral{} Card',
                     '{C:inactive}Currently: #2#/#1#'
                 }
             },
@@ -304,7 +304,7 @@ return {
                     'When blind is selected, {C:green}50/50{}',
                     '{C:green}chance{} of making a {C:green}random{} held',
                     'non-negative Joker {C:dark_edition}Negative{} or',
-                    '{C:red}destroying{} a {C;green}random',
+                    '{C:red}destroying{} a {C:green}random',
                     'held non-negative Joker',
                     '{s:0.8,C:inactive}Can override other editions{}'
                 }
@@ -1022,7 +1022,7 @@ return {
             j_mxms_letter = {
                 name = { 'Letter of', 'Recommendation' },
                 text = {
-                    'Creates a random {C:horoscope}Horoscope{}',
+                    'Creates a {C:green}random{} {C:horoscope}Horoscope{}',
                     'card after one {C:attention}succeeds{}'
                 }
             },
@@ -1365,7 +1365,7 @@ return {
                 text = {
                     'If played hand is',
                     '{C:attention}5 Stone Cards,{} add',
-                    '{C:attention}#1# random Stone Cards',
+                    '{C:attention}#1# {C:green}random {C:attention}Stone Cards',
                     'to the deck'
                 }
             },
@@ -1390,12 +1390,29 @@ return {
                     '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)'
                 }
             },
+            j_mxms_schrodinger = {
+                name = 'Schrodinger\'s Cat',
+                text = {
+                    '{C:green}50/50 chance{} for each joker',
+                    'to be {C:attention}retriggered{} or',
+                    '{C:red}not trigger at all '
+                }
+            },
             j_mxms_screaming = {
                 name = 'Screaming Joker',
                 text = {
                     '{C:attention}Face{} cards are',
                     'counted as {C:attention}Aces{}',
                 },
+            },
+            j_mxms_secret_society = {
+                name = 'Secret Society',
+                text = {
+                    '{C:chips}Chip{} values of ranks',
+                    'are {C:attention}swapped{} and {C:attention}doubled{}',
+                    '{C:inactive,s:0.8}(i.e. Ace: {C:chips,s:0.8}+11 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#1# {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#2# {C:inactive,s:0.8}chips;',
+                    '{C:inactive,s:0.8}2: {C:chips,s:0.8}+2 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#3# {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#4# {C:inactive,s:0.8}chips)'
+                }
             },
             j_mxms_severed_floor = {
                 name = 'Severed Floor',
@@ -1406,21 +1423,15 @@ return {
                     '{C:inactive,s:0.8}Reference: Severance'
                 }
             },
-            j_mxms_schrodinger = {
-                name = 'Schrodinger\'s Cat',
+            j_mxms_sisillyan = {
+                name = 'Sisillyan',
                 text = {
-                    '{C:green}50/50 chance{} for each joker',
-                    'to be {C:attention}retriggered{} or',
-                    '{C:red}not trigger at all '
-                }
-            },
-            j_mxms_secret_society = {
-                name = 'Secret Society',
-                text = {
-                    '{C:chips}Chip{} values of ranks',
-                    'are {C:attention}swapped{} and {C:attention}doubled{}',
-                    '{C:inactive,s:0.8}(i.e. Ace: {C:chips,s:0.8}+11 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#1# {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#2# {C:inactive,s:0.8}chips;',
-                    '{C:inactive,s:0.8}2: {C:chips,s:0.8}+2 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#3# {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#4# {C:inactive,s:0.8}chips)'
+                    '{X:mult,C:white}X#1#{} Mult',
+                    '{C:green}#2# in #3#{} chance to',
+                    '{C:red}end the run{} immediately',
+                    'after each hand',
+
+                    '{C:inactive,s:0.8}Reference: The Princess Bride'
                 }
             },
             j_mxms_sisyphus = {
@@ -1691,7 +1702,7 @@ return {
             j_mxms_zombie = {
                 name = 'Zombie',
                 text = {
-                    'Copies the effect of {C:attention}one random Joker{}',
+                    'Copies the effect of {C:attention}one {C:green}random {C:attention}Joker{}',
                     'each round. The target Joker will {C:attention}turn into',
                     '{C:attention}another Zombie{} at the end of the round',
                     '{s:0.8,C:inactive}All zombies target the same Joker',
@@ -2388,7 +2399,7 @@ return {
                 "{C:attention}Only food Jokers{} (including {C:attention,T:j_mxms_microwave}Microwave{} and {C:attention,T:j_mxms_refrigerator}Refrigerator{}) can appear"
             },
             ch_c_mxms_random_suit_debuff = {
-                "A random suit is {C:attention}debuffed{} each round"
+                "A {C:green}random{} suit is {C:attention}debuffed{} each round"
             },
             ch_c_mxms_all_rare = {
                 "Only {C:red}Rare{} Jokers can show up in the shop"
