@@ -109,3 +109,15 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_fortune_cookie',
+    type = 'loss',
+    extra = { center = 'j_mxms_fortune_cookie' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_fortune_cookie',
+    type = 'win',
+    extra = { center = 'j_mxms_fortune_cookie' }
+}

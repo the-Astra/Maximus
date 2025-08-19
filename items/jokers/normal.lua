@@ -41,7 +41,7 @@ SMODS.Joker {
 
 SMODS.JimboQuip {
     key = 'lq_normal',
-    type = 'lose',
+    type = 'loss',
     extra = { center = 'j_mxms_normal' }
 }
 

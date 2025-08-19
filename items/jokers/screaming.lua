@@ -28,6 +28,6 @@ end
 
 SMODS.JimboQuip {
     key = 'wq_screaming',
-    type = 'lose',
+    type = 'loss',
     extra = { center = 'j_mxms_screaming' }
 }

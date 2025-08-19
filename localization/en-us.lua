@@ -2396,6 +2396,9 @@ return {
                 "That run really",
                 "burned to the ground..."
             },
+            mxms_lq_clown_card = {
+                "{E:1}*sad honk*"
+            },
             mxms_lq_crowned = {
                 "Pathetic."
             },
@@ -2406,13 +2409,27 @@ return {
             mxms_lq_employee = {
                 "Get a real job!"
             },
+            mxms_lq_first_aid_kit = {
+                "We've gotta get",
+                "you to the hospital!"
+            },
+            mxms_lq_fortune_cookie = {
+                "Experience is the",
+                "best teacher."
+            },
+            mxms_lq_four_leaf_clover = {
+                "Looks like fate",
+                "had other plans..."
+            },
             mxms_lq_gambler = {
                 "A true high roller",
                 "could've made it through!"
             },
-            mxms_lq_review = {
-                "0/10 run, too",
-                "many face cards..."
+            mxms_lq_harmony = {
+                "Oh no no no that",
+                "won't do at all!",
+                "Once more from",
+                "the top now!"
             },
             mxms_lq_hedonist = {
                 "That sort of greed",
@@ -2424,14 +2441,36 @@ return {
             },
             mxms_lq_impractical_joker = {
                 "And tonight's biggest",
-                "loser is you!"
+                "loser is YOU!"
             },
             mxms_lq_jobber = {
                 "You got beat up",
                 "worse than me!"
             },
+            mxms_lq_leftovers = {
+                "Maybe save it",
+                "for tomorrow..."
+            },
+            mxms_lq_light_show = {
+                "Dude... you're",
+                "killing the vibe..."
+            },
+            mxms_lq_marco_polo = {
+                "{E:1}*blublublub*"
+            },
+            mxms_lq_monk = {
+                "Failure is",
+                "temporary"
+            },
             mxms_lq_normal = {
                 "You're fired."
+            },
+            mxms_lq_old_man_jimbo = {
+                "You think that's hard?",
+                "Back in my day every",
+                "blind was twice as big! I",
+                "swear they're {s:0.8}going soft on",
+                "{s:0.8}kids {s:0.6}these days..."
             },
             mxms_lq_pessimistic = {
                 "Nothing ever happens."
@@ -2440,8 +2479,30 @@ return {
                 "I saw right",
                 "through that bluff!"
             },
+            mxms_lq_poindexter = {
+                "My glasses..."
+            },
+            mxms_lq_refrigerator = {
+                "Yeesh, cold shoulder?"
+            },
+            mxms_lq_review = {
+                "0/10 run, too",
+                "many face cards..."
+            },
+            mxms_lq_secret_society = {
+                "What will the",
+                "Supreme Leader think..."
+            },
             mxms_lq_screaming = {
                 "AAAAAAAAAAAAA"
+            },
+            mxms_lq_sleuth = {
+                "Huh? What happened?",
+                "I wasn't looking..."
+            },
+            mxms_lq_trashman = {
+                "I sure know trash",
+                "when I see it!"
             },
             mxms_lq_war = {
                 "The War..."
@@ -2457,15 +2518,18 @@ return {
                 "for no one..."
             },
             mxms_wq_chef = {
-                "What a magnificent",
-                "dish you cooked!"
+                "Ooh la la!",
+                "C'est magnifique!"
+            },
+            mxms_wq_clown_car = {
+                "{E:1}*honk honk!*"
             },
             mxms_wq_combo_breaker = {
                 "PERFECT!",
             },
             mxms_wq_crowned = {
-                "You played",
-                "like royalty!"
+                "That was only a",
+                "fraction of my power!"
             },
             mxms_wq_detective = {
                 "Case closed!"
@@ -2475,12 +2539,34 @@ return {
                 "more wouldn't hurt..."
             },
             mxms_wq_employee = {
-                "Order up!"
+                "Thank you for eating",
+                "at Jimboburger. Would",
+                "you like your receipt?"
+            },
+            mxms_wq_first_aid_kit = {
+                "Looks like you don't",
+                "need me after all!"
+            },
+            mxms_wq_fortune_cookie = {
+                "Never settle for",
+                "good enough."
+            },
+            mxms_wq_four_leaf_clover = {
+                "A little luck",
+                "goes a long way!"
             },
             mxms_wq_galaxy_brain = {
                 "The inner machinations",
                 "of your mind are an",
                 "engima..."
+            },
+            mxms_wq_gambler = {
+                "Nyeh, see?"
+            },
+            mxms_wq_hammer_and_chisel = {
+                "This victory shall",
+                "be engraved in the",
+                "annals of history."
             },
             mxms_wq_hippie = {
                 "Like, groovy",
@@ -2488,6 +2574,13 @@ return {
             },
             mxms_wq_hypeman = {
                 "HEY!"
+            },
+            mxms_wq_microwave = {
+                "mmmmmmmmmmmmmmm"
+            },
+            mxms_wq_monk = {
+                "Victories",
+                "are fleeting"
             },
             mxms_wq_moon_landing = {
                 "You shot for the",
@@ -2503,9 +2596,17 @@ return {
                 "I used to be a",
                 "high-roller like you!"
             },
+            mxms_wq_poindexter = {
+                "My calculations",
+                "are never wrong!"
+            },
             mxms_wq_prospector = {
                 "Yeehaw! We",
                 "struck gold!"
+            },
+            mxms_wq_random_encounter = {
+                "Victory! You gained",
+                "37 experience!"
             },
             mxms_wq_secret_society = {
                 "You've impressed us,",

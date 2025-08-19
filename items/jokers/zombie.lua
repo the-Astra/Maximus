@@ -47,6 +47,6 @@ SMODS.Joker {
 
 SMODS.JimboQuip {
     key = 'lq_zombie',
-    type = 'lose',
+    type = 'loss',
     extra = { center = 'j_mxms_zombie' }
 }

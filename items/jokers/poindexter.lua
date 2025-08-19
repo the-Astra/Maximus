@@ -61,3 +61,15 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_poindexter',
+    type = 'loss',
+    extra = { center = 'j_mxms_poindexter' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_poindexter',
+    type = 'win',
+    extra = { center = 'j_mxms_poindexter' }
+}

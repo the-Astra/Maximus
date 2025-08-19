@@ -56,7 +56,7 @@ SMODS.Joker {
                     -- If 3 fails
                 elseif stg.fails == 3 then
                     return {
-                        message = 'Tonight\'s Biggest Loser',
+                        message = 'Tonight\'s Biggest lossr',
                         Xmult_mod = stg.fail_Xmult,
                         colour = G.C.RED,
                         card = card

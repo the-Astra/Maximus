@@ -28,3 +28,12 @@ SMODS.JimboQuip {
     type = 'loss',
     extra = { center = 'j_mxms_gambler' }
 }
+
+SMODS.JimboQuip {
+    key = 'wq_gambler',
+    type = 'win',
+    extra = {
+        center = 'j_mxms_gambler',
+        times = 2
+    }
+}

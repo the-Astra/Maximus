@@ -38,6 +38,6 @@ SMODS.Joker {
 
 SMODS.JimboQuip {
     key = 'wq_pngoker',
-    type = 'lose',
+    type = 'loss',
     extra = { center = 'j_mxms_pngoker' }
 }

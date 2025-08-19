@@ -49,3 +49,9 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_harmony',
+    type = 'loss',
+    extra = { center = 'j_mxms_harmony' }
+}

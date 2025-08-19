@@ -53,3 +53,15 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_monk',
+    type = 'loss',
+    extra = { center = 'j_mxms_monk' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_monk',
+    type = 'win',
+    extra = { center = 'j_mxms_monk' }
+}

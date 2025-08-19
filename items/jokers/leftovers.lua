@@ -59,3 +59,9 @@ function Card.remove(self)
     end
     return remove_ref(self)
 end
+
+SMODS.JimboQuip {
+    key = 'lq_leftovers',
+    type = 'loss',
+    extra = { center = 'j_mxms_leftovers' }
+}

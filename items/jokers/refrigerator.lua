@@ -36,3 +36,9 @@ SMODS.Joker { -- Refrigerator
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_refrigerator',
+    type = 'loss',
+    extra = { center = 'j_mxms_refrigerator' }
+}

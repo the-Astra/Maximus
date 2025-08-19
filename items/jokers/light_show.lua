@@ -45,3 +45,15 @@ SMODS.Joker {
         return false
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_light_show',
+    type = 'loss',
+    extra = { center = 'j_mxms_light_show' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_light_show',
+    type = 'win',
+    extra = { center = 'j_mxms_light_show' }
+}

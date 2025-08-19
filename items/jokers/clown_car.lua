@@ -44,3 +44,22 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_clown_car',
+    type = 'loss',
+    extra = {
+        center = 'j_mxms_clown_car',
+        times = 1
+    }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_clown_car',
+    type = 'win',
+    extra = {
+        center = 'j_mxms_clown_car',
+        times = 2,
+        sound = 'mxms_clown_horn'
+    }
+}

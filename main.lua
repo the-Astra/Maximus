@@ -392,6 +392,11 @@ SMODS.Sound({
     path = 'spirit pow.ogg'
 })
 
+SMODS.Sound({
+    key = 'clown_horn',
+    path = 'clown horn.ogg'
+})
+
 --#endregion
 
 

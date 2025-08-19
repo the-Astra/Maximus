@@ -59,6 +59,6 @@ SMODS.Joker {
 
 SMODS.JimboQuip {
     key = 'lq_pessimistic',
-    type = 'lose',
+    type = 'loss',
     extra = { center = 'j_mxms_pessimistic' }
 }

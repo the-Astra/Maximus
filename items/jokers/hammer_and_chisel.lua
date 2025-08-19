@@ -56,3 +56,9 @@ function Card:should_hide_front()
     if self.ability.effect == 'Stone Card' and next(SMODS.find_card('j_mxms_hammer_and_chisel')) then return false end
     shf(self)
 end
+
+SMODS.JimboQuip {
+    key = 'wq_hammer_and_chisel',
+    type = 'win',
+    extra = { center = 'j_mxms_hammer_and_chisel' }
+}

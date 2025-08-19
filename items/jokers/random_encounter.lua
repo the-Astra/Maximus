@@ -42,3 +42,9 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'wq_random_encounter',
+    type = 'win',
+    extra = { center = 'j_mxms_random_encounter' }
+}

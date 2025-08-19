@@ -36,6 +36,12 @@ function Card:get_chip_bonus()
 end
 
 SMODS.JimboQuip {
+    key = 'lq_secret_society',
+    type = 'loss',
+    extra = { center = 'j_mxms_secret_society' }
+}
+
+SMODS.JimboQuip {
     key = 'wq_secret_society',
     type = 'win',
     extra = { center = 'j_mxms_secret_society' }
