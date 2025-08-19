@@ -1333,7 +1333,8 @@ if Maximus_config.horoscopes then
         secondary_colour = Maximus.C.SECONDARY_SET.Horoscope,
         default = 'c_mxms_taurus',
         collection_rows = { 3, 3 },
-        shop_rate = 0.0
+        shop_rate = 0.0,
+        select_card = 'mxms_horoscope'
     }
 
     -- CardArea emplace hook
