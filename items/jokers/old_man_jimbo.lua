@@ -37,7 +37,8 @@ SMODS.JimboQuip {
     type = 'loss',
     extra = {
         center = 'j_mxms_old_man_jimbo',
-        times = 30
+        times = 30,
+        delay = 0.2
     }
 }
 

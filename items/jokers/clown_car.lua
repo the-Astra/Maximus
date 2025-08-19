@@ -60,6 +60,8 @@ SMODS.JimboQuip {
     extra = {
         center = 'j_mxms_clown_car',
         times = 2,
-        sound = 'mxms_clown_horn'
+        sound = 'mxms_clown_horn',
+        delay = 0.25,
+        juice = {0.6, 0.6}
     }
 }
