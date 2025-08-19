@@ -40,7 +40,7 @@ SMODS.Joker {
                 SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "prob",
-                scalar_table = "G.GAME.probabilities",
+                scalar_table = G.GAME.probabilities,
                 scalar_value = "normal",
                 operation = "-",
                 no_message = true
