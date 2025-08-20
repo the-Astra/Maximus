@@ -22,7 +22,7 @@ SMODS.Joker {
                         func = function()
                             local eligible_jokers = {}
                             for kk, vv in pairs(G.jokers.cards) do
-                                if not vv.seal and not vv.config.marked_for_seal and vv.config.center.key ~= 'j_mxms_vulture' then
+                                if not vv.seal and not vv.config.marked_for_seal and vv.config.center_key ~= 'j_mxms_vulture' then
                                     eligible_jokers[#eligible_jokers + 1] = vv
                                 end
                             end

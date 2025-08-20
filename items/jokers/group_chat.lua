@@ -35,7 +35,7 @@ SMODS.Joker {
     end,
     calc_scaling = function(self, card, other_card, initial, scalar_value, args)
         local stg = card.ability.extra
-        if args.operation == '+' and other_card.config.center.key ~= 'j_mxms_group_chat' or args.operation == 'X' then
+        if args.operation == '+' and other_card.config.center_key ~= 'j_mxms_group_chat' or args.operation == 'X' then
             SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "chips",

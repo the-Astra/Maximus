@@ -29,7 +29,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.using_consumeable and context.consumeable.config.center.key == 'c_moon' and not context.blueprint then
+        if context.using_consumeable and context.consumeable.config.center_key == 'c_moon' and not context.blueprint then
             SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "mult",

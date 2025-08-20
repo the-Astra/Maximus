@@ -613,7 +613,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
                 new_target = nil
             else
                 for i = 1, #G.jokers.cards do
-                    if G.jokers.cards[i].config.center.key ~= 'j_mxms_zombie' and G.jokers.cards[i] ~= new_target and G.jokers.cards[i].config.center.blueprint_compat then
+                    if G.jokers.cards[i].config.center_key ~= 'j_mxms_zombie' and G.jokers.cards[i] ~= new_target and G.jokers.cards[i].config.center.blueprint_compat then
                         eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
                     end
                 end
@@ -864,8 +864,8 @@ end
 
 ---Checks if a provided card is classified as a "Food Joker"
 function Maximus.is_food(card)
-    local center = card.config and card.config.center and type(card.config.center.key) == "string"
-        and G.P_CENTERS[card.config.center.key] or type(card) == "string" and G.P_CENTERS[card]
+    local center = card.config and card.config.center and type(card.config.center_key) == "string"
+        and G.P_CENTERS[card.config.center_key] or type(card) == "string" and G.P_CENTERS[card]
 
     if not center then
         return false
@@ -877,13 +877,13 @@ function Maximus.is_food(card)
     end
 
     -- If it doesn't, we check if this is a vanilla food joker
-    return Maximus.vanilla_food[center.key]
+    return Maximus.vanilla_food[center_key]
 end
 
 -- Checks if a card should have an inverted check when evaluating prob results
 function Maximus.is_invert_prob_check(card)
     if card.config and card.config.center then
-        if Maximus.invert_prob_cards[card.config.center.key] then
+        if Maximus.invert_prob_cards[card.config.center_key] then
             return true
         elseif next(SMODS.get_enhancements(card)) then
             for k, v in pairs(SMODS.get_enhancements(card)) do
@@ -1340,7 +1340,7 @@ if Maximus_config.horoscopes then
     -- CardArea emplace hook
     local cae = CardArea.emplace
     function CardArea:emplace(card, location, stay_flipped)
-        if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center.key == 'c_mxms_ophiucus') then
+        if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center_key == 'c_mxms_ophiucus') then
             card:remove_from_area()
             G.mxms_horoscope:emplace(card, location, stay_flipped)
             discover_card(card.config.center)

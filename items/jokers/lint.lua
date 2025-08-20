@@ -27,7 +27,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if G.STATE == G.STATES.SHOP and context.selling_card and string.sub(context.card.config.center.key, 1, 2) == 'c_' then
+        if G.STATE == G.STATES.SHOP and context.selling_card and string.sub(context.card.config.center_key, 1, 2) == 'c_' then
             for k, v in pairs(G.shop_jokers.cards) do
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
