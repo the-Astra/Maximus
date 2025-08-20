@@ -1498,7 +1498,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'stop_sign',
     'chihuahua',
     'vulture',
-    'sisillyan',
+    --'sisillyan',
 
     --High Card Duo
     'loony',
