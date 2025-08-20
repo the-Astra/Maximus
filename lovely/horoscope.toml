@@ -93,6 +93,7 @@ end
 '''
 match_indent = true
 
+
     # Prevent "USE" button on Horoscopes in deck
 [[patches]]
 [patches.pattern]
@@ -115,6 +116,7 @@ payload = '''
     end
 '''
 match_indent = true
+
 
     # Force "SELECT" button on Ophiucus in packs
 [[patches]]
@@ -158,6 +160,7 @@ end
 '''
 match_indent = true
 
+
     # Hook into Card:highlight for card alignment
 [[patches]]
 [patches.pattern]
@@ -182,6 +185,7 @@ config = {align=
     parent =self}
 '''
 match_indent = true
+
 
     # Apply Aries effect
 [[patches]]
@@ -287,88 +291,6 @@ _type == 'horoscope_completions' and (Maximus and (Maximus_config.horoscope and 
 '''
 match_indent = true
 times = 1
-
-
-    # Horoscope negative compatibility
-[[patches]]
-[patches.pattern]
-target = '''card.lua'''
-pattern = '''
-if self.ability.consumeable then
-    G.consumeables.config.card_limit = G.consumeables.config.card_limit + 1
-'''
-position = '''at'''
-payload = '''
-if self.ability.consumeable then
-    if self.ability.set == "Horoscope" or self.config.center.key == 'c_mxms_ophiucus' then
-        G.mxms_horoscope.config.card_limit = G.mxms_horoscope.config.card_limit + 1
-    else
-        G.consumeables.config.card_limit = G.consumeables.config.card_limit + 1
-    end
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = '''card.lua'''
-pattern = '''
-G.consumeables.config.card_limit = G.consumeables.config.card_limit + self.edition.card_limit
-'''
-position = '''at'''
-payload = '''
-if self.ability.set == "Horoscope" or self.config.center.key == 'c_mxms_ophiucus' then
-    G.mxms_horoscope.config.card_limit = G.mxms_horoscope.config.card_limit + self.edition.card_limit
-else
-    G.consumeables.config.card_limit = G.consumeables.config.card_limit + self.edition.card_limit
-end
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = '''card.lua'''
-pattern = '''
-G.consumeables.config.card_limit = G.consumeables.config.card_limit - self.edition.card_limit
-'''
-position = '''at'''
-payload = '''
-if self.ability.set == "Horoscope" or self.config.center.key == 'c_mxms_ophiucus' then
-    G.mxms_horoscope.config.card_limit = G.mxms_horoscope.config.card_limit - self.edition.card_limit
-else
-    G.consumeables.config.card_limit = G.consumeables.config.card_limit - self.edition.card_limit
-end
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = '''=[SMODS _ "src/overrides.lua"]'''
-pattern = '''
-G.consumeables.config.card_limit = G.consumeables.config.card_limit + self.edition.card_limit
-'''
-position = '''at'''
-payload = '''
-if self.ability.set == "Horoscope" or self.config.center.key == 'c_mxms_ophiucus' then
-    G.mxms_horoscope.config.card_limit = G.mxms_horoscope.config.card_limit + self.edition.card_limit
-else
-    G.consumeables.config.card_limit = G.consumeables.config.card_limit + self.edition.card_limit
-end
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = '''=[SMODS _ "src/overrides.lua"]'''
-pattern = '''
-if self.ability.consumeable and self.area == G.consumeables then
-	G.consumeables.config.card_limit = G.consumeables.config.card_limit - self.edition.card_limit
-'''
-position = '''after'''
-payload = '''
-elseif self.ability.consumeable and self.area == G.mxms_horoscope then
-    G.mxms_horoscope.config.card_limit = G.mxms_horoscope.config.card_limit + self.edition.card_limit
-'''
-match_indent = true
 
 
     #Force no undiscovered text on bypass
