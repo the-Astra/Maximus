@@ -39,8 +39,7 @@ return {
                     '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}',
                     'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}',
                     '{C:inactive}This deck will not count towards best hand scores',
-                    '{C:inactive}or score-based unlocks',
-                    '{s:0.8,C:inactive}Works best with Talisman installed'
+                    '{C:inactive}or score-based unlocks'
                 }
             },
             b_mxms_professional = {
@@ -1967,8 +1966,7 @@ return {
                     '{C:mult}Mult{} is now an {C:attention}exponent{} of {C:chips}Chips{}',
                     'Blind Sizes are multiplied', 'to the {C:red}ante-th power{}',
                     '{C:inactive}This sleeve will not count towards best hand scores',
-                    '{C:inactive}or score-based unlocks',
-                    '{s:0.8,C:inactive}Works best with Talisman installed'
+                    '{C:inactive}or score-based unlocks'
                 }
             },
             sleeve_mxms_nuclear_alt = {
