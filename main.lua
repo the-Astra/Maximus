@@ -1359,7 +1359,7 @@ if Maximus_config.horoscopes then
 
     -- Global calculates for Horoscope resetting and and Horoscope tag application
     Maximus.calculate = function(self, context)
-        if context.ante_end then
+        if context.ante_change and context.ante_end then
             Maximus.reset_horoscopes()
             for i = 1, #G.GAME.tags do
                 G.GAME.tags[i]:apply_to_run({ type = 'start_apply_horoscopes' })
