@@ -34,7 +34,15 @@ SMODS.Joker {
         end
 
         if context.pseudorandom_result and (not context.result and not Maximus.is_invert_prob_check(context.trigger_obj) or context.success and Maximus.is_invert_prob_check(context.trigger_obj)) and not context.blueprint then
-            if context.card.ability.effect ~= 'Lucky Card' then
+            if context.trigger_obj and context.trigger_obj.ability and context.trigger_obj.ability.effect == 'Lucky Card' then
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = "mult",
+                    scalar_value = "lucky_gain",
+                    message_colour = G.C.ATTENTION
+                })
+                return nil, true
+            else
                 stg.temp_gain = context.denominator - context.numerator
                 SMODS.scale_card(card, {
                     ref_table = stg,
@@ -43,14 +51,6 @@ SMODS.Joker {
                     message_colour = G.C.ATTENTION
                 })
                 stg.temp_gain = 0
-                return nil, true
-            else
-                SMODS.scale_card(card, {
-                    ref_table = stg,
-                    ref_value = "mult",
-                    scalar_value = "lucky_gain",
-                    message_colour = G.C.ATTENTION
-                })
                 return nil, true
             end
         end
