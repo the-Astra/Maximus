@@ -107,3 +107,17 @@ payload = '''
 '''
 match_indent = true
 times = 1
+
+# pre_reroll context
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''
+calculate_reroll_cost(final_free)
+'''
+position = 'after'
+payload = '''
+SMODS.calculate_context({pre_reroll = true, cost = reroll_cost})
+'''
+match_indent = true
+times = 1

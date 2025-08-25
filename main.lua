@@ -1448,6 +1448,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'honorable',
     'sneaky_spirit',
     'spider',
+    --'blue_tang',
 
     --Uncommon
     'war',
@@ -1578,6 +1579,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'hypeman',
     'fools_gold',
     'trashman',
+    --'paperclip',
     'jackpot',
     'jestcoin',
     'severed_floor',

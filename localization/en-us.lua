@@ -353,6 +353,14 @@ return {
                         '{s:0.8,C:inactive}Aces always count as 11',
                     } }
             },
+            j_mxms_blue_tang = {
+                name = 'Blue Tang',
+                text = {
+                    '{C:attention}Tags{} that spawn or modify',
+                    '{C:attention}Shop Jokers{} do not activate',
+                    'unless this is the {C:attention}rightmost{} Joker'
+                }
+            },
             j_mxms_boar_bank = {
                 name = 'Boar Bank',
                 text = {
@@ -1213,6 +1221,14 @@ return {
                 text = {
                     '{X:mult,C:white}X1{} Mult plus {X:mult,C:white}X#1#{}',
                     'for each remaining {C:blue}hand{}'
+                }
+            },
+            j_mxms_paperclip = {
+                name = 'Red Paperclip',
+                text = {
+                    "Gains {C:money}$#1#{} of sell value",
+                    "per card {C:attention}rerolled{} past",
+                    "in the shop"
                 }
             },
             j_mxms_perspective = {
