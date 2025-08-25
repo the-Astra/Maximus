@@ -1398,6 +1398,15 @@ return {
                     "{E:1,s:1.3}?????",
                 },
             },
+            j_mxms_rud = {
+                name = { 'Rapid Unscheduled', 'Disassembly' },
+                text = {
+                    'Gives {X:mult,C:white}X#1#{} Mult at the',
+                    'end of {C:attention}final hand{} of round',
+                    'if total score will not beat blind',
+                    '{C:red}Self destructs{} on trigger'
+                }
+            },
             j_mxms_salt_circle = {
                 name = 'Salt Circle',
                 text = {
@@ -2412,7 +2421,7 @@ return {
                 "That run really",
                 "burned to the ground..."
             },
-            mxms_lq_clown_card = {
+            mxms_lq_clown_car = {
                 "{E:1}*sad honk*"
             },
             mxms_lq_crowned = {
