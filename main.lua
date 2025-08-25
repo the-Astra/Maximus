@@ -1486,7 +1486,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'blackjack',
     'tar_pit',
     'screaming',
-    'rud',
+    --'rud',
 
     --Rare
     'abyss',
