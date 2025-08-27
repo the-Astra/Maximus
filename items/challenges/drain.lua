@@ -14,5 +14,10 @@ SMODS.Challenge {
     },
     deck = {
         type = 'Challenge Deck'
-    }
+    },
+    calculate = function(self, context)
+        if context.ante_end then
+            SMODS.smart_level_up_hand(nil, G.GAME.modifiers.mxms_hand_decay, nil, -5)
+        end
+    end
 }

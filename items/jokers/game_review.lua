@@ -35,3 +35,9 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_review',
+    type = 'loss',
+    extra = { center = 'j_mxms_review' }
+}

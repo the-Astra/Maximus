@@ -71,3 +71,15 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_first_aid_kit',
+    type = 'loss',
+    extra = { center = 'j_mxms_first_aid_kit' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_first_aid_kit',
+    type = 'win',
+    extra = { center = 'j_mxms_first_aid_kit' }
+}

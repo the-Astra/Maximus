@@ -25,3 +25,9 @@ Card.get_id = function(self)
     end
     return ret
 end
+
+SMODS.JimboQuip {
+    key = 'wq_screaming',
+    type = 'loss',
+    extra = { center = 'j_mxms_screaming' }
+}

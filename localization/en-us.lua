@@ -208,7 +208,7 @@ return {
                 text = {
                     'Use {C:attention}#1#{} {C:tarot}Tarot{} cards within',
                     'the ante to receive',
-                    'a random {C:spectral}Spectral{} Card',
+                    'a {C:green}random{} {C:spectral}Spectral{} Card',
                     '{C:inactive}Currently: #2#/#1#'
                 }
             },
@@ -304,7 +304,7 @@ return {
                     'When blind is selected, {C:green}50/50{}',
                     '{C:green}chance{} of making a {C:green}random{} held',
                     'non-negative Joker {C:dark_edition}Negative{} or',
-                    '{C:red}destroying{} a {C;green}random',
+                    '{C:red}destroying{} a {C:green}random',
                     'held non-negative Joker',
                     '{s:0.8,C:inactive}Can override other editions{}'
                 }
@@ -352,6 +352,14 @@ return {
                         '{C:inactive}(Currently: {X:mult,C:white}X#3#{C:inactive} Mult)',
                         '{s:0.8,C:inactive}Aces always count as 11',
                     } }
+            },
+            j_mxms_blue_tang = {
+                name = 'Blue Tang',
+                text = {
+                    '{C:attention}Tags{} that spawn or modify',
+                    '{C:attention}Shop Jokers{} do not activate',
+                    'unless this is the {C:attention}rightmost{} Joker'
+                }
             },
             j_mxms_boar_bank = {
                 name = 'Boar Bank',
@@ -1022,7 +1030,7 @@ return {
             j_mxms_letter = {
                 name = { 'Letter of', 'Recommendation' },
                 text = {
-                    'Creates a random {C:horoscope}Horoscope{}',
+                    'Creates a {C:green}random{} {C:horoscope}Horoscope{}',
                     'card after one {C:attention}succeeds{}'
                 }
             },
@@ -1215,6 +1223,14 @@ return {
                     'for each remaining {C:blue}hand{}'
                 }
             },
+            j_mxms_paperclip = {
+                name = 'Red Paperclip',
+                text = {
+                    "Gains {C:money}$#1#{} of sell value",
+                    "per card {C:attention}rerolled{} past",
+                    "in the shop"
+                }
+            },
             j_mxms_perspective = {
                 name = 'Perspective',
                 text = {
@@ -1365,7 +1381,7 @@ return {
                 text = {
                     'If played hand is',
                     '{C:attention}5 Stone Cards,{} add',
-                    '{C:attention}#1# random Stone Cards',
+                    '{C:attention}#1# {C:green}random {C:attention}Stone Cards',
                     'to the deck'
                 }
             },
@@ -1382,28 +1398,21 @@ return {
                     "{E:1,s:1.3}?????",
                 },
             },
+            j_mxms_rud = {
+                name = { 'Rapid Unscheduled', 'Disassembly' },
+                text = {
+                    'Gives {X:mult,C:white}X#1#{} Mult at the',
+                    'end of {C:attention}final hand{} of round',
+                    'if total score will not beat blind',
+                    '{C:red}Self destructs{} on trigger'
+                }
+            },
             j_mxms_salt_circle = {
                 name = 'Salt Circle',
                 text = {
                     'Gains {C:chips}+#2#{} Chips for',
                     'for every {C:spectral}Spectral{} card used',
                     '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)'
-                }
-            },
-            j_mxms_screaming = {
-                name = 'Screaming Joker',
-                text = {
-                    '{C:attention}Face{} cards are',
-                    'counted as {C:attention}Aces{}',
-                },
-            },
-            j_mxms_severed_floor = {
-                name = 'Severed Floor',
-                text = {
-                    'Earn {C:money}$#1#{} at end of round',
-                    'Shop is {C:attention}skipped{}',
-
-                    '{C:inactive,s:0.8}Reference: Severance'
                 }
             },
             j_mxms_schrodinger = {
@@ -1414,13 +1423,40 @@ return {
                     '{C:red}not trigger at all '
                 }
             },
+            j_mxms_screaming = {
+                name = 'Screaming Joker',
+                text = {
+                    '{C:attention}Face{} cards are',
+                    'counted as {C:attention}Aces{}',
+                },
+            },
             j_mxms_secret_society = {
                 name = 'Secret Society',
                 text = {
                     '{C:chips}Chip{} values of ranks',
                     'are {C:attention}swapped{} and {C:attention}doubled{}',
-                    '{C:inactive,s:0.8}(i.e. Ace: {C:chips,s:0.8}+11 {C:inactive,s:0.8}chips - > {C:chips,s:0.8}+4 {C:inactive,s:0.8}chips;',
-                    '{C:inactive,s:0.8}2: {C:chips,s:0.8}+2 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+22 {C:inactive,s:0.8}chips)'
+                    '{C:inactive,s:0.8}(i.e. Ace: {C:chips,s:0.8}+11 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#1# {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#2# {C:inactive,s:0.8}chips;',
+                    '{C:inactive,s:0.8}2: {C:chips,s:0.8}+2 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#3# {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#4# {C:inactive,s:0.8}chips)'
+                }
+            },
+            j_mxms_severed_floor = {
+                name = 'Severed Floor',
+                text = {
+                    'Earn {C:money}$#1#{} at end of round',
+                    'Shop is {C:attention}skipped{}',
+
+                    '{C:inactive,s:0.8}Reference: Severance'
+                }
+            },
+            j_mxms_sisillyan = {
+                name = 'Sisillyan',
+                text = {
+                    '{X:mult,C:white}X#1#{} Mult',
+                    '{C:green}#2# in #3#{} chance to',
+                    '{C:red}end the run{} immediately',
+                    'after each hand',
+
+                    '{C:inactive,s:0.8}Reference: The Princess Bride'
                 }
             },
             j_mxms_sisyphus = {
@@ -1691,7 +1727,7 @@ return {
             j_mxms_zombie = {
                 name = 'Zombie',
                 text = {
-                    'Copies the effect of {C:attention}one random Joker{}',
+                    'Copies the effect of {C:attention}one {C:green}random {C:attention}Joker{}',
                     'each round. The target Joker will {C:attention}turn into',
                     '{C:attention}another Zombie{} at the end of the round',
                     '{s:0.8,C:inactive}All zombies target the same Joker',
@@ -1764,7 +1800,7 @@ return {
                 text = {
                     "{X:mult,C:white}X#1#{} Mult,",
                     "Card cannot be {C:attention}modified",
-                    "and is {C:eternal}eternal"
+                    "and is {C:dark_edition,E:1}eternal"
                 }
             },
             mxms_credits = {
@@ -1774,7 +1810,7 @@ return {
                     '{X:purple,C:white}Lead{} {X:purple,C:white}Programmer:{} {C:purple}theAstra',
                     '{X:attention,C:white}Lead{} {X:attention,C:white}Artist:{} {C:attention}Maxiss02',
                     '{X:green,C:white}Supporting{} {X:green,C:white}Artists:{} {C:green}pinkzigzagoon, anerdymous, PsyAlola, SadCube',
-                    '{X:planet,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, The CoroboCorner',
+                    '{X:planet,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, TheCoroboCorner',
                     '{X:gold,C:white}Special{} {X:gold,C:white}Thanks:{} All the awesome people in the Balatro Discord!',
                     '{C:white}You all helped make this project possible. Thank you guys for everything!'
                 }
@@ -2226,16 +2262,20 @@ return {
             c_mxms_52_commandments = "52 Commandments",
             c_mxms_all_stars = "All Stars",
             c_mxms_biggest_loser = "Tonight\'s Biggest Loser",
+            c_mxms_coexist = "Coexist",
             c_mxms_crusaders = "Stardust Crusaders",
             c_mxms_despite = "Despite Everything",
             c_mxms_drain = "Down the Drain",
             c_mxms_fashion = "Fashion Disaster",
+            c_mxms_feast = "Feast Fit for a King",
             c_mxms_gambling = "Let\'s Go Gambling!",
+            c_mxms_greedy = "Greedy Bastard",
             c_mxms_killer = "Zodiac Killer",
             c_mxms_love_and_war = "All\'s Fair in Love and War",
             c_mxms_overgrowth = "Overgrowth",
             c_mxms_p2w = "Pay To Win",
             c_mxms_picky = "Picky Eater",
+            c_mxms_speedrun = "Speedrun",
             c_mxms_square = "It\'s Hip to be Square",
             c_mxms_target_practice = "Target Practice",
             c_mxms_thought = "Thought Experiment",
@@ -2264,6 +2304,7 @@ return {
             k_mxms_crumbled = "Crumbled",
             k_mxms_deserved_ex = "Deserved!",
             k_mxms_destroy_block_ex = "Destroy blocked!",
+            k_mxms_doubled_ex = "Doubled!",
             k_mxms_erm_el = "Errrrmmm...",
             k_mxms_eureka_ex = "Eureka!",
             k_mxms_exploded_el = "Exploded...",
@@ -2286,6 +2327,7 @@ return {
             k_mxms_plucked_ex = "Plucked!",
             k_mxms_plus_hand = "+1 Hand",
             k_mxms_plus_horoscope = "+1 Horoscope",
+            k_mxms_preserved_ex = "Preserved!",
             k_mxms_pushed_ex = "Pushed!",
             k_mxms_r_mult_ex = "A random Mult appears!",
             k_mxms_sacrifice_ex = "Sacrifice!",
@@ -2362,6 +2404,241 @@ return {
                 "3 Pairs of cards with different ranks"
             },
         },
+        quips = {
+            -- Loss Quips
+            mxms_lq_4d = {
+                "Maybe bring a",
+                "watch next time..."
+            },
+            mxms_lq_bootleg = {
+                "You're as much a",
+                "fraud as me!"
+            },
+            mxms_lq_chef = {
+                "That hand was raw!"
+            },
+            mxms_lq_cleaner = {
+                "That run really",
+                "burned to the ground..."
+            },
+            mxms_lq_clown_car = {
+                "{E:1}*sad honk*"
+            },
+            mxms_lq_crowned = {
+                "Pathetic."
+            },
+            mxms_lq_detective = {
+                "How you lost is",
+                "still a mystery to me..."
+            },
+            mxms_lq_employee = {
+                "Get a real job!"
+            },
+            mxms_lq_first_aid_kit = {
+                "We've gotta get",
+                "you to the hospital!"
+            },
+            mxms_lq_fortune_cookie = {
+                "Experience is the",
+                "best teacher."
+            },
+            mxms_lq_four_leaf_clover = {
+                "Looks like fate",
+                "had other plans..."
+            },
+            mxms_lq_gambler = {
+                "A true high roller",
+                "could've made it through!"
+            },
+            mxms_lq_harmony = {
+                "Oh no no no that",
+                "won't do at all!",
+                "Once more from",
+                "the top now!"
+            },
+            mxms_lq_hedonist = {
+                "That sort of greed",
+                "won't see glory!"
+            },
+            mxms_lq_honorable = {
+                "I declare this run",
+                "guilty by all accounts!"
+            },
+            mxms_lq_impractical_joker = {
+                "And tonight's biggest",
+                "loser is YOU!"
+            },
+            mxms_lq_jobber = {
+                "You got beat up",
+                "worse than me!"
+            },
+            mxms_lq_leftovers = {
+                "Maybe save it",
+                "for tomorrow..."
+            },
+            mxms_lq_light_show = {
+                "Dude... you're",
+                "killing the vibe..."
+            },
+            mxms_lq_marco_polo = {
+                "{E:1}*blublublub*"
+            },
+            mxms_lq_monk = {
+                "Failure is",
+                "temporary"
+            },
+            mxms_lq_normal = {
+                "You're fired."
+            },
+            mxms_lq_old_man_jimbo = {
+                "You think that's hard?",
+                "Back in my day every",
+                "blind was twice as big! I",
+                "swear they're {s:0.8}going soft on",
+                "{s:0.8}kids {s:0.6}these days..."
+            },
+            mxms_lq_pessimistic = {
+                "Nothing ever happens."
+            },
+            mxms_lq_pngoker = {
+                "I saw right",
+                "through that bluff!"
+            },
+            mxms_lq_poindexter = {
+                "My glasses..."
+            },
+            mxms_lq_refrigerator = {
+                "Yeesh, cold shoulder?"
+            },
+            mxms_lq_review = {
+                "0/10 run, too",
+                "many face cards..."
+            },
+            mxms_lq_secret_society = {
+                "What will the",
+                "Supreme Leader think..."
+            },
+            mxms_lq_screaming = {
+                "AAAAAAAAAAAAA"
+            },
+            mxms_lq_sleuth = {
+                "Huh? What happened?",
+                "I wasn't looking..."
+            },
+            mxms_lq_trashman = {
+                "I sure know trash",
+                "when I see it!"
+            },
+            mxms_lq_war = {
+                "The War..."
+            },
+            mxms_lq_zombie = {
+                "Braaaaaains..."
+            },
+
+            -- Win Quips
+            mxms_wq_4d = {
+                "You won this time,",
+                "but Time stops",
+                "for no one..."
+            },
+            mxms_wq_chef = {
+                "Ooh la la!",
+                "C'est magnifique!"
+            },
+            mxms_wq_clown_car = {
+                "{E:1}*honk honk!*"
+            },
+            mxms_wq_combo_breaker = {
+                "PERFECT!",
+            },
+            mxms_wq_crowned = {
+                "That was only a",
+                "fraction of my power!"
+            },
+            mxms_wq_detective = {
+                "Case closed!"
+            },
+            mxms_wq_dmiid = {
+                "Maybe just one",
+                "more wouldn't hurt..."
+            },
+            mxms_wq_employee = {
+                "Thank you for eating",
+                "at Jimboburger. Would",
+                "you like your receipt?"
+            },
+            mxms_wq_first_aid_kit = {
+                "Looks like you don't",
+                "need me after all!"
+            },
+            mxms_wq_fortune_cookie = {
+                "Never settle for",
+                "good enough."
+            },
+            mxms_wq_four_leaf_clover = {
+                "A little luck",
+                "goes a long way!"
+            },
+            mxms_wq_galaxy_brain = {
+                "The inner machinations",
+                "of your mind are an",
+                "engima..."
+            },
+            mxms_wq_gambler = {
+                "Nyeh, see?"
+            },
+            mxms_wq_hammer_and_chisel = {
+                "This victory shall",
+                "be engraved in the",
+                "annals of history."
+            },
+            mxms_wq_hippie = {
+                "Like, groovy",
+                "run man!"
+            },
+            mxms_wq_hypeman = {
+                "HEY!"
+            },
+            mxms_wq_microwave = {
+                "mmmmmmmmmmmmmmm"
+            },
+            mxms_wq_monk = {
+                "Victories",
+                "are fleeting"
+            },
+            mxms_wq_moon_landing = {
+                "You shot for the",
+                "moon and landed",
+                "amongst the stars!"
+            },
+            mxms_wq_normal = {
+                "All in a",
+                "day's work."
+            },
+            mxms_wq_old_man_jimbo = {
+                "Back in my day",
+                "I used to be a",
+                "high-roller like you!"
+            },
+            mxms_wq_poindexter = {
+                "My calculations",
+                "are never wrong!"
+            },
+            mxms_wq_prospector = {
+                "Yeehaw! We",
+                "struck gold!"
+            },
+            mxms_wq_random_encounter = {
+                "Victory! You gained",
+                "37 experience!"
+            },
+            mxms_wq_secret_society = {
+                "You've impressed us,",
+                "welcome to the family..."
+            }
+
+        },
         v_text = {
             ch_c_mxms_X_blind_size = {
                 "{X:mult,C:white}X#1#{} blind size"
@@ -2373,35 +2650,65 @@ return {
                 "Only {C:attention}#1#{} card(s) can be selected at a time"
             },
             ch_c_mxms_bullseye_requirement = {
-                "Bullseye must have at least {C:chips}+#1#{} Chips by the end of ante 8 boss blind"
+                "{C:attention,T:j_mxms_bullseye}Bullseye{} must have at least {C:chips}+#1#{} Chips"
+            },
+            ch_c_mxms_bullseye_requirement2 = {
+                "by the end of the {C:attention}ante 8 boss{}"
             },
             ch_c_mxms_feast = {
-                "{C:attention}Only food Jokers{} (including Microwave and Refrigerator) can appear in shops"
+                "{C:attention}Only food Jokers{} (including {C:attention,T:j_mxms_microwave}Microwave{} and {C:attention,T:j_mxms_refrigerator}Refrigerator{}) can appear"
             },
             ch_c_mxms_random_suit_debuff = {
-                "A random suit is {C:attention}debuffed{} each round"
+                "A {C:green}random{} suit is {C:attention}debuffed{} each round"
             },
             ch_c_mxms_all_rare = {
                 "Only {C:red}Rare{} Jokers can show up in the shop"
             },
             ch_c_mxms_picky = {
-                "A copy of {C:attention,T:j_mxms_four_course_meal}Four Course Meal{} spawns in hand at the start of each round if there's room"
+                "A copy of {C:attention,T:j_mxms_four_course_meal}Four Course Meal{} spawns in hand"
+            },
+            ch_c_mxms_picky2 = {
+                "at the start of each round if there's room"
             },
             ch_c_mxms_biggest_loser = {
-                "{C:attention,T:j_mxms_impractical}Impractical Joker{} starts with {C:attention}Straight Flush{}"
+                "{C:attention,T:j_mxms_impractical_joker}Impractical Joker{} starts with {C:attention}Straight Flush{}"
             },
             ch_c_mxms_zodiac_killer = {
-                "Creates a {C:horoscope}Horoscope Card{} at the start of each ante. Failing the Horoscope {C:red}loses the run{}"
+                "Creates a {C:horoscope}Horoscope Card{} at the start of each ante"
+            },
+            ch_c_mxms_zodiac_killer2 = {
+                "Failing the Horoscope {C:red}loses the run{}"
             },
             ch_c_mxms_hand_decay = {
-                "{C:attention}#1#{} loses {C:red}5{} levels after every ante {C:inactive}Cannot go below 0{}"
+                "{C:attention}#1#{} loses {C:red}5{} levels after every ante {s:0.8,C:inactive}Cannot go below 0{}"
             },
             ch_c_mxms_deck_size_req = {
-                "Deck must consist of #1# card(s) by the end of the ante 8 boss"
+                "Deck must consist of {C:attention}#1# card(s){} by the end of the {C:attention}ante 8 boss{}"
             },
             ch_c_mxms_ante_sell = {
                 "All held {C:attention}Jokers{} and {C:attention}Consumables{} are {C:money}sold{} when {C:attention}Boss Blind{} is defeated"
-            }
+            },
+            ch_c_mxms_coexist = {
+                "{C:red}Lose the run{} if there are no held {C:green,T:j_mxms_zombie}Zombies{}"
+            },
+            ch_c_mxms_coexist2 = {
+                "or all {C:attention}Joker Slots{} are filled with {C:green,T:j_mxms_zombie}Zombies{}"
+            },
+            ch_c_mxms_speedrun = {
+                "{C:red}Lose the run{} if {C:attention,T:j_mxms_4d}4D Joker{} dies"
+            },
+            ch_c_mxms_disable_blind_skips = {
+                "Skipping blinds is {C:red}disabled"
+            },
+            ch_c_mxms_win_ante = {
+                "Win run at {C:attention}ante #1#{}"
+            },
+            ch_c_mxms_greedy = {
+                "Skipping a booster {C:red}loses the run{}"
+            },
+            ch_c_mxms_greedy2 = {
+                "Leaving the shop with unopened boosters {C:red}loses the run{}"
+            },
         },
         v_dictionary = {
             mxms_art = { 'Art: #1#' },

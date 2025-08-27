@@ -37,7 +37,15 @@ SMODS.Joker {
         if context.before and stg.prob > 0
             and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             if SMODS.pseudorandom_probability(card, 'fco', stg.prob, stg.odds) then
-                stg.prob = stg.prob - (1 / G.GAME.mxms_fridge_mod)
+                SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "prob",
+                scalar_table = G.GAME.probabilities,
+                scalar_value = "normal",
+                operation = "-",
+                no_message = true
+            })
+
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
 
                 G.E_MANAGER:add_event(Event({
@@ -100,4 +108,16 @@ SMODS.Joker {
             end
         end
     end
+}
+
+SMODS.JimboQuip {
+    key = 'lq_fortune_cookie',
+    type = 'loss',
+    extra = { center = 'j_mxms_fortune_cookie' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_fortune_cookie',
+    type = 'win',
+    extra = { center = 'j_mxms_fortune_cookie' }
 }

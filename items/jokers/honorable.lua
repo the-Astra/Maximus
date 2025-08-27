@@ -36,10 +36,12 @@ SMODS.Joker {
                     return true;
                 end
             }))
-            stg.mult = stg.mult + stg.gain * G.GAME.mxms_soil_mod
-            return {
-                message = localize('k_upgrade_ex')
-            }
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "mult",
+                scalar_value = "gain"
+            })
+            return nil, true
         end
 
         if context.joker_main and stg.mult > 0 then
@@ -48,4 +50,10 @@ SMODS.Joker {
             }
         end
     end
+}
+
+SMODS.JimboQuip {
+    key = 'lq_honorable',
+    type = 'loss',
+    extra = { center = 'j_mxms_honorable' }
 }

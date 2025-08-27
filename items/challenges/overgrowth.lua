@@ -10,13 +10,8 @@ SMODS.Challenge {
     },
     deck = {
         type = 'Challenge Deck'
-    }
-}
-
-local gsr = G.start_run
-function Game:start_run(args)
-    gsr(self, args)
-    if G.GAME.modifiers.mxms_X_blind_scale then
+    },
+    apply = function(self)
         G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
     end
-end
+}

@@ -91,3 +91,33 @@ end
 '''
 match_indent = true
 times = 1
+
+# Secret Society show updated chip values on cards
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+if specific_vars.nominal_chips then
+'''
+position = '''after'''
+payload = '''
+    if next(SMODS.find_card('j_mxms_secret_society')) then
+        specific_vars.nominal_chips = (Maximus.get_nominal_sum() - specific_vars.nominal_chips) * 2
+    end
+'''
+match_indent = true
+times = 1
+
+# pre_reroll context
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''
+calculate_reroll_cost(final_free)
+'''
+position = 'after'
+payload = '''
+SMODS.calculate_context({pre_reroll = true, cost = reroll_cost})
+'''
+match_indent = true
+times = 1

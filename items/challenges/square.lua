@@ -13,5 +13,9 @@ SMODS.Challenge {
     },
     deck = {
         type = 'Challenge Deck'
-    }
+    },
+    apply = function(self)
+        SMODS.change_play_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
+        SMODS.change_discard_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
+    end
 }

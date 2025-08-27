@@ -3,7 +3,8 @@ if Maximus_config.horoscopes then
         key = 'killer',
         rules = {
             custom = {
-                { id = 'mxms_zodiac_killer' }
+                { id = 'mxms_zodiac_killer' },
+                { id = 'mxms_zodiac_killer2' },
             }
         },
         jokers = {},
@@ -24,20 +25,40 @@ if Maximus_config.horoscopes then
         },
         deck = {
             type = 'Challenge Deck'
-        }
-    }
+        },
+        apply = function(self)
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    local new_card = SMODS.add_card({
+                        set = 'Horoscope',
+                        key_append = 'killer'
+                    })
+                    new_card:juice_up(0.3, 0.4)
+                    return true;
+                end
+            }))
+        end,
+        calculate = function(self, context)
+            if context.mxms_failed_horoscope or context.selling_card and context.card.ability.set == 'Horoscope' then
+                Maximus.force_game_over()
+            end
 
-    local gsr = G.start_run
-    function Game:start_run(args)
-        gsr(self, args)
-        if G.GAME.modifiers.mxms_zodiac_killer then
-            local new_card = SMODS.add_card({
-                set = 'Horoscope',
-                key_append = 'killer'
-            })
-            new_card:juice_up(0.3, 0.4)
+            if context.ante_end then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.2,
+                    func = function()
+                        local new_card = SMODS.add_card({
+                            set = 'Horoscope',
+                            key_append = 'killer'
+                        })
+                        new_card:juice_up(0.3, 0.4)
+                        return true
+                    end
+                }))
+            end
         end
-    end
+    }
 else
     sendDebugMessage("Zodiac Killer not loaded; Horoscopes Disabled", 'Maximus')
 end

@@ -72,8 +72,8 @@ SMODS.Joker {
 
         if my_pos > 1 and stg.current_triggers < stg.trigger_limit then
             local other_joker = G.jokers.cards[my_pos - 1]
-            if other_joker.config.center.key ~= stg.copied_key then
-                stg.copied_key = other_joker.config.center.key
+            if other_joker.config.center_key ~= stg.copied_key then
+                stg.copied_key = other_joker.config.center_key
                 stg.trigger_limit = 1
             end
 

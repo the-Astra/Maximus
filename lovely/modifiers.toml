@@ -47,35 +47,6 @@ match_indent = true
 times = 1
 
 
-#Target Practice and Love and War Check
-[[patches]]
-[patches.pattern]
-target = 'functions/state_events.lua'
-pattern = '''
-if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then
-    game_won = true
-    G.GAME.won = true
-end
-'''
-position = "at"
-payload = '''
-if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then
-    if G.GAME.modifiers.mxms_bullseye_requirement then
-        if next(SMODS.find_card('j_mxms_bullseye')) and G.GAME.modifiers.mxms_bullseye_requirement > SMODS.find_card('j_mxms_bullseye')[1].ability.extra.chips or not next(SMODS.find_card('j_mxms_bullseye')) then
-            game_over = true
-        end
-    elseif G.GAME.modifiers.mxms_deck_size_req and #G.GAME.playing_cards ~= G.GAME.modifiers.mxms_deck_size_req then
-        game_over = true
-    else
-        game_won = true
-        G.GAME.won = true
-    end
-end
-'''
-match_indent = true
-times = 1
-
-
 # All Rare check
 [[patches]]
 [patches.pattern]
@@ -111,61 +82,6 @@ if self.ability.name == 'Matador' and G.GAME.blind.boss then
 '''
 match_indent = true
 times = 2
-
-
-# Hand Decay and Ante Sell function
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = '''
-delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})
-'''
-position = "before"
-payload = '''
-
-if G.GAME.modifiers.mxms_hand_decay then
-    SMODS.smart_level_up_hand(nil, G.GAME.modifiers.mxms_hand_decay, nil, -5)
-end
-
-if G.GAME.modifiers.mxms_ante_sell then
-    for k, v in pairs(G.jokers.cards) do
-        if not (v.ability and v.ability.eternal) then
-            v:sell_card()
-        end
-    end
-
-    for k, v in pairs(G.consumeables.cards) do
-        if not (v.ability and v.ability.eternal) then
-            v:sell_card()
-        end
-    end
-end
-'''
-match_indent = true
-times = 1
-
-
-# Highlight Limit challenge modifier
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = '''
-{card_limit = self.GAME.starting_params.hand_size, type = 'hand'})
-'''
-position = "after"
-payload = '''
-if self.GAME.modifiers.mxms_highlight_limit then
-    G.E_MANAGER:add_event(Event({
-        func = function()
-            SMODS.change_play_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
-            SMODS.change_discard_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
-            return true;
-        end
-    }))
-end
-'''
-match_indent = true
-times = 1
 
 
 # Add all faces param check

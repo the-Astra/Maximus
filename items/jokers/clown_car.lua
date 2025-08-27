@@ -34,13 +34,34 @@ SMODS.Joker {
         end
 
         if context.card_added and context.card.ability.set == 'Joker' then
-            stg.mult = stg.mult + (stg.gain * G.GAME.mxms_soil_mod)
-            return {
-                message = localize('k_upgrade_ex'),
-                colour = G.C.ATTENTION,
-                card = card,
-                func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
-            }
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "mult",
+                scalar_value = "gain",
+                message_colour = G.C.ATTENTION
+            })
+            return nil, true
         end
     end
+}
+
+SMODS.JimboQuip {
+    key = 'lq_clown_car',
+    type = 'loss',
+    extra = {
+        center = 'j_mxms_clown_car',
+        times = 1
+    }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_clown_car',
+    type = 'win',
+    extra = {
+        center = 'j_mxms_clown_car',
+        times = 2,
+        sound = 'mxms_clown_horn',
+        delay = 0.25,
+        juice = {0.6, 0.6}
+    }
 }

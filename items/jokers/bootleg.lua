@@ -16,7 +16,7 @@ SMODS.Joker {
     },
     loc_vars = function(self, info_queue, card)
         if G.GAME.mxms_last_bought.card ~= nil then
-            local copied_key = G.GAME.mxms_last_bought.card.config.center.key
+            local copied_key = G.GAME.mxms_last_bought.card.config.center_key
             info_queue[#info_queue + 1] = G.P_CENTERS[copied_key]
             return {
                 vars = { G.localization.descriptions.Joker[copied_key].name }
@@ -43,10 +43,10 @@ SMODS.Joker {
         end
 
         if context.buying_card and context.card.config.center.blueprint_compat
-            and (context.card ~= card or context.card.config.center.key ~= "j_mxms_bootleg") then
+            and (context.card ~= card or context.card.config.center_key ~= "j_mxms_bootleg") then
             G.GAME.mxms_last_bought.card = context.card
             card:juice_up(0.3, 0.4)
-            check_for_unlock({ type = 'bootleg_copy', card = context.card.config.center.key })
+            check_for_unlock({ type = 'bootleg_copy', card = context.card.config.center_key })
         end
     end,
     remove_from_deck = function(self, card, context)
@@ -55,3 +55,10 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_bootleg',
+    type = 'loss',
+    extra = { center = 'j_mxms_bootleg' }
+}
+

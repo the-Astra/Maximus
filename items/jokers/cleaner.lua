@@ -46,3 +46,9 @@ SMODS.Joker {
         return next(SMODS.Edition:get_edition_cards(G.jokers, false))
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_cleaner',
+    type = 'loss',
+    extra = { center = 'j_mxms_cleaner' }
+}

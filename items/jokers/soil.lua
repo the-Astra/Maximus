@@ -13,11 +13,15 @@ SMODS.Joker {
     rarity = 3,
     blueprint_compat = false,
     cost = 8,
-    add_to_deck = function(self, card, from_debuff)
-        G.GAME.mxms_soil_mod = G.GAME.mxms_soil_mod * 2
-    end,
-
-    remove_from_deck = function(self, card, from_debuff)
-        G.GAME.mxms_soil_mod = G.GAME.mxms_soil_mod / 2
+    calc_scaling = function(self, card, other_card, initial, scalar_value, args)
+        local stg = card.ability.extra
+        if args.operation == '+' or args.operation == 'X' then
+            return {
+                message = localize('k_mxms_doubled_ex'),
+                override_scalar_value = {
+                    value = scalar_value * 2
+                }
+            }
+        end
     end
 }

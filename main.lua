@@ -168,23 +168,6 @@ SMODS.current_mod.extra_tabs = function()
     }
 end
 
--- Prevent other cards from spawning if the Only Maximus Jokers config is enabled
-local get_current_pool_ref = get_current_pool
-function get_current_pool(_type, _rarity, _legendary, _append)
-    local _pool, _pool_key = get_current_pool_ref(_type, _rarity, _legendary, _append)
-    local new_pool
-
-    if _type == 'Joker' and Maximus.config.only_maximus_jokers then
-        for i = 1, #_pool do
-            local key = _pool[i]
-            if key:sub(1, 6) ~= "j_mxms" then
-                _pool[i] = "UNAVAILABLE"
-            end
-        end
-    end
-    return _pool, _pool_key
-end
-
 -- load update.lua
 assert(SMODS.load_file("update.lua"))()
 
@@ -409,6 +392,11 @@ SMODS.Sound({
     path = 'spirit pow.ogg'
 })
 
+SMODS.Sound({
+    key = 'clown_horn',
+    path = 'clown horn.ogg'
+})
+
 --#endregion
 
 
@@ -625,7 +613,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
                 new_target = nil
             else
                 for i = 1, #G.jokers.cards do
-                    if G.jokers.cards[i].config.center.key ~= 'j_mxms_zombie' and G.jokers.cards[i] ~= new_target and G.jokers.cards[i].config.center.blueprint_compat then
+                    if G.jokers.cards[i].config.center_key ~= 'j_mxms_zombie' and G.jokers.cards[i] ~= new_target and G.jokers.cards[i].config.center.blueprint_compat then
                         eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
                     end
                 end
@@ -804,42 +792,6 @@ Game.start_run = function(self, args)
             end
         end
     end
-
-    if next(SMODS.find_card('j_mxms_secret_society')) then
-        SMODS.Ranks['Ace'].nominal = 4
-        SMODS.Ranks['King'].nominal = 6
-        SMODS.Ranks['Queen'].nominal = 6
-        SMODS.Ranks['Jack'].nominal = 6
-        SMODS.Ranks['10'].nominal = 6
-        SMODS.Ranks['9'].nominal = 8
-        SMODS.Ranks['8'].nominal = 10
-        SMODS.Ranks['7'].nominal = 12
-        SMODS.Ranks['6'].nominal = 14
-        SMODS.Ranks['5'].nominal = 16
-        SMODS.Ranks['4'].nominal = 18
-        SMODS.Ranks['3'].nominal = 20
-        SMODS.Ranks['2'].nominal = 22
-        for k, v in ipairs(G.playing_cards) do
-            v.base.nominal = SMODS.Ranks[v.base.value].nominal
-        end
-    else
-        SMODS.Ranks['Ace'].nominal = 11
-        SMODS.Ranks['King'].nominal = 10
-        SMODS.Ranks['Queen'].nominal = 10
-        SMODS.Ranks['Jack'].nominal = 10
-        SMODS.Ranks['10'].nominal = 10
-        SMODS.Ranks['9'].nominal = 9
-        SMODS.Ranks['8'].nominal = 8
-        SMODS.Ranks['7'].nominal = 7
-        SMODS.Ranks['6'].nominal = 6
-        SMODS.Ranks['5'].nominal = 5
-        SMODS.Ranks['4'].nominal = 4
-        SMODS.Ranks['3'].nominal = 3
-        SMODS.Ranks['2'].nominal = 2
-        for k, v in ipairs(G.playing_cards) do
-            v.base.nominal = SMODS.Ranks[v.base.value].nominal
-        end
-    end
 end
 
 local csc = Card.set_cost
@@ -847,6 +799,41 @@ function Card:set_cost()
     csc(self)
     self.cost = math.floor(self.cost * G.GAME.mxms_shop_price_multiplier)
     self.cost = self.cost * G.GAME.mxms_creep_mod
+end
+
+-- Prevent other cards from spawning under certain conditions
+local get_current_pool_ref = get_current_pool
+function get_current_pool(_type, _rarity, _legendary, _append)
+    local _pool, _pool_key = get_current_pool_ref(_type, _rarity, _legendary, _append)
+    local new_pool
+
+    if _type == 'Joker' then
+        if Maximus.config.only_maximus_jokers then
+            for i = 1, #_pool do
+                local key = _pool[i]
+                if key:sub(1, 6) ~= "j_mxms" then
+                    _pool[i] = "UNAVAILABLE"
+                end
+            end
+        end
+
+        if G.GAME.modifiers.mxms_feast then
+            for i = 1, #_pool do
+                local key = _pool[i]
+                if not Maximus.is_food(key) and key ~= 'j_mxms_microwave' and key ~= 'j_mxms_refrigerator' then
+                    _pool[i] = "UNAVAILABLE"
+                end
+            end
+        end
+    end
+    return _pool, _pool_key
+end
+
+local cubt = create_UIBox_blind_tag
+create_UIBox_blind_tag = function(blind_choice, run_info)
+    if not G.GAME.modifiers.disable_blind_skips then
+        return cubt(blind_choice, run_info)
+    end
 end
 
 --#endregion
@@ -877,8 +864,8 @@ end
 
 ---Checks if a provided card is classified as a "Food Joker"
 function Maximus.is_food(card)
-    local center = card.config and card.config.center and type(card.config.center.key) == "string"
-        and G.P_CENTERS[card.config.center.key]
+    local center = card.config and card.config.center and type(card.config.center_key) == "string"
+        and G.P_CENTERS[card.config.center_key] or type(card) == "string" and G.P_CENTERS[card]
 
     if not center then
         return false
@@ -890,13 +877,13 @@ function Maximus.is_food(card)
     end
 
     -- If it doesn't, we check if this is a vanilla food joker
-    return Maximus.mxms_vanilla_food[center.key]
+    return Maximus.vanilla_food[center_key]
 end
 
 -- Checks if a card should have an inverted check when evaluating prob results
 function Maximus.is_invert_prob_check(card)
     if card.config and card.config.center then
-        if Maximus.invert_prob_cards[card.config.center.key] then
+        if Maximus.invert_prob_cards[card.config.center_key] then
             return true
         elseif next(SMODS.get_enhancements(card)) then
             for k, v in pairs(SMODS.get_enhancements(card)) do
@@ -907,6 +894,23 @@ function Maximus.is_invert_prob_check(card)
         end
     end
     return false
+end
+
+-- Forces a game over
+function Maximus.force_game_over()
+    G.E_MANAGER:add_event(Event({
+        delay = 0.2,
+        func = function()
+            G.STATE = G.STATES.GAME_OVER
+            if not G.GAME.seeded and not G.GAME.challenge then
+                G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+            end
+            G:save_settings()
+            G.FILE_HANDLER.force = true
+            G.STATE_COMPLETE = false
+            return true;
+        end
+    }))
 end
 
 ---Tallies Maximus cards from a given pool and possible subset; Derived from SMODS modCollectionTally
@@ -949,6 +953,7 @@ function Maximus.set_horoscope_success(card)
     G:save_settings()
 end
 
+---Returns the name of the most played poker hand
 function Maximus.get_most_played_hand()
     local _handname, _played, _order = 'High Card', -1, 100
     for k, v in pairs(G.GAME.hands) do
@@ -959,6 +964,25 @@ function Maximus.get_most_played_hand()
     end
 
     return _handname
+end
+
+---Returns the range of rank chip values
+function Maximus.get_nominal_sum()
+    local highest, lowest = nil, nil
+    for k, v in pairs(SMODS.Ranks) do
+        if not highest and not lowest then
+            highest = v.nominal
+            lowest = v.nominal
+        else
+            if v.nominal > highest then
+                highest = v.nominal
+            elseif v.nominal < lowest then
+                lowest = v.nominal
+            end
+        end
+    end
+
+    return highest + lowest
 end
 
 --#endregion
@@ -1200,6 +1224,10 @@ local ENABLED_CHALLENGES = {
     'thought',
     'love_and_war',
     'despite_everything',
+    'coexist',
+    'feast',
+    'speedrun',
+    'greedy',
 }
 
 sendDebugMessage("Loading Challenges...", 'Maximus')
@@ -1305,13 +1333,14 @@ if Maximus_config.horoscopes then
         secondary_colour = Maximus.C.SECONDARY_SET.Horoscope,
         default = 'c_mxms_taurus',
         collection_rows = { 3, 3 },
-        shop_rate = 0.0
+        shop_rate = 0.0,
+        select_card = 'mxms_horoscope'
     }
 
     -- CardArea emplace hook
     local cae = CardArea.emplace
     function CardArea:emplace(card, location, stay_flipped)
-        if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center.key == 'c_mxms_ophiucus') then
+        if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center_key == 'c_mxms_ophiucus') then
             card:remove_from_area()
             G.mxms_horoscope:emplace(card, location, stay_flipped)
             discover_card(card.config.center)
@@ -1325,6 +1354,16 @@ if Maximus_config.horoscopes then
 
         if self == G.mxms_horoscope and TheFamily then
             G.GAME.horoscope_alert = true
+        end
+    end
+
+    -- Global calculates for Horoscope resetting and and Horoscope tag application
+    Maximus.calculate = function(self, context)
+        if context.ante_change and context.ante_end then
+            Maximus.reset_horoscopes()
+            for i = 1, #G.GAME.tags do
+                G.GAME.tags[i]:apply_to_run({ type = 'start_apply_horoscopes' })
+            end
         end
     end
 
@@ -1409,6 +1448,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'honorable',
     'sneaky_spirit',
     'spider',
+    --'blue_tang',
 
     --Uncommon
     'war',
@@ -1446,6 +1486,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'blackjack',
     'tar_pit',
     'screaming',
+    --'rud',
 
     --Rare
     'abyss',
@@ -1459,6 +1500,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'stop_sign',
     'chihuahua',
     'vulture',
+    --'sisillyan',
 
     --High Card Duo
     'loony',
@@ -1538,6 +1580,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'hypeman',
     'fools_gold',
     'trashman',
+    --'paperclip',
     'jackpot',
     'jestcoin',
     'severed_floor',

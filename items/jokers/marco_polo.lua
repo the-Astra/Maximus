@@ -45,3 +45,9 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_marco_polo',
+    type = 'loss',
+    extra = { center = 'j_mxms_marco_polo' }
+}

@@ -30,7 +30,7 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.joker_main then
-            if SMODS.pseudorandom_probability(card, 'spider', stg.prob, stg.odds) then
+            if SMODS.pseudorandom_probability(card, 'spider', stg.prob, stg.odds, nil, true) then
                 local og_sound = G.SETTINGS.SOUND.music_volume
                 G.E_MANAGER:add_event(Event({
                     func = function()

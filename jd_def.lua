@@ -88,6 +88,21 @@ jd_def['j_mxms_blackjack'] = { -- Blackjack
     },
 }
 
+jd_def['j_mxms_blue_tang'] = { -- Blue Tang
+    text = {
+        { text = "(" },
+        { ref_table = "card.joker_display_values", ref_value = "active" },
+        { text = ")" },
+    },
+    calc_function = function(card)
+        if card ~= G.jokers.cards[#G.jokers.cards] then
+            card.joker_display_values.active = localize('jdis_active')
+        else
+            card.joker_display_values.active = localize('jdis_inactive')
+        end
+    end
+}
+
 jd_def['j_mxms_bootleg'] = { -- Bootleg
     reminder_text = {
         { text = "(" },
@@ -1019,6 +1034,16 @@ jd_def['j_mxms_old_man_jimbo'] = { -- Old Man Jimbo
     end
 }
 
+jd_def['j_mxms_paperclip'] = { -- Red Paperclip
+    reminder_text = {
+        { text = "(" },
+        { text = "$",         colour = G.C.GOLD },
+        { ref_table = "card", ref_value = "sell_cost", colour = G.C.GOLD },
+        { text = ")" },
+    },
+    reminder_text_config = { scale = 0.35 }
+}
+
 jd_def['j_mxms_pessimistic'] = { -- Pessimistic Joker
     text = {
         { text = "+" },
@@ -1107,6 +1132,30 @@ jd_def['j_mxms_salt_circle'] = { -- Salt Circle
     calc_function = function(card)
         card.joker_display_values.chips = G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.spectral and
             G.GAME.consumeable_usage_total.spectral * card.ability.extra.gain or 0
+    end
+}
+
+jd_def['j_mxms_sisillyan'] = { -- Sisillyan
+    text = {
+        {
+            border_nodes = {
+                { text = "X" },
+                { ref_table = "card.ability.extra", ref_value = "Xmult" }
+            }
+        }
+    },
+    extra = {
+        {
+            { text = "(" },
+            { ref_table = "card.joker_display_values", ref_value = "odds" },
+            { text = ")" },
+        }
+    },
+    extra_config = { colour = G.C.GREEN, scale = 0.3 },
+    calc_function = function(card)
+        local numerator, denominator = SMODS.get_probability_vars(card, card.ability.extra.prob, card.ability.extra.odds,
+            'sisilly')
+        card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { numerator, denominator } }
     end
 }
 

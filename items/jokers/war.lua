@@ -20,3 +20,9 @@ SMODS.Joker {
         G.GAME.mxms_war_mod = G.GAME.mxms_war_mod / 2
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_war',
+    type = 'loss',
+    extra = { center = 'j_mxms_war' }
+}

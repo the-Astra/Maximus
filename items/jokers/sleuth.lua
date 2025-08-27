@@ -34,3 +34,9 @@ SMODS.Joker {
         change_shop_size(-stg.slots)
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_sleuth',
+    type = 'loss',
+    extra = { center = 'j_mxms_sleuth' }
+}

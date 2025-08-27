@@ -29,21 +29,20 @@ SMODS.Joker {
 
         if context.joker_main then
             return {
-                chip_mod = stg.chips,
-                message = '+' .. stg.chips,
-                colour = G.C.CHIPS,
-                card = card
+                chips = stg.chips
             }
         end
 
-        if context.scoring_name == 'High Card' and context.individual and context.cardarea == G.play then
-            stg.chips = stg.chips + context.other_card:get_chip_bonus() * G.GAME.mxms_soil_mod
-            return {
-                message = localize('k_upgrade_ex'),
-                colour = G.C.CHIPS,
-                message_card = context.blueprint_card or card,
-                func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
-            }
+        if context.scoring_name == 'High Card' and context.individual and context.cardarea == G.play and not context.blueprint then
+            stg.temp_gain = context.other_card:get_chip_bonus()
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "chips",
+                scalar_value = "temp_gain",
+                message_colour = G.C.CHIPS
+            })
+            stg.temp_gain = nil
+            return nil, true
         end
     end
 }

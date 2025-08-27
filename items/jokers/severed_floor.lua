@@ -32,7 +32,7 @@ SMODS.Joker {
 local ccsc = Card.can_sell_card
 Card.can_sell_card = function(self, context)
     local ret = ccsc(self, context)
-    if self.config.center.key == 'j_mxms_severed_floor' and G.STATE == G.STATES.ROUND_EVAL then
+    if self.config.center_key == 'j_mxms_severed_floor' and G.STATE == G.STATES.ROUND_EVAL then
         ret = false
     end
     return ret

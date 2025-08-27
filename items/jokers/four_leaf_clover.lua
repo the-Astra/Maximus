@@ -36,3 +36,15 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_four_leaf_clover',
+    type = 'loss',
+    extra = { center = 'j_mxms_four_leaf_clover' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_four_leaf_clover',
+    type = 'win',
+    extra = { center = 'j_mxms_four_leaf_clover' }
+}

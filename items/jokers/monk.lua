@@ -40,13 +40,28 @@ SMODS.Joker {
 
         if context.ending_shop and not context.blueprint then
             if not stg.purchase_made then
-                stg.chips = stg.chips + stg.gain * G.GAME.mxms_soil_mod
-                SMODS.calculate_effect(
-                    { message = localize { type = 'variable', key = 'a_chips', vars = { stg.chips } } },
-                    card)
-                SMODS.calculate_context({ mxms_scaling_card = true })
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = "chips",
+                    scalar_value = "gain",
+                    message_key = 'a_chips',
+                    message_colour = G.C.CHIPS
+                })
+                return nil, true
             end
             stg.purchase_made = false
         end
     end
+}
+
+SMODS.JimboQuip {
+    key = 'lq_monk',
+    type = 'loss',
+    extra = { center = 'j_mxms_monk' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_monk',
+    type = 'win',
+    extra = { center = 'j_mxms_monk' }
 }

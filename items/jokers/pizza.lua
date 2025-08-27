@@ -8,7 +8,8 @@ SMODS.Joker {
     rarity = 1,
     config = {
         extra = {
-            cards_left = 8
+            cards_left = 8,
+            card_decrement = 1
         }
     },
     mxms_credits = {
@@ -37,7 +38,14 @@ SMODS.Joker {
                 if not v.seal and not v.debuff and not v.pizza_sealed and stg.cards_left > 0 then
                     v.pizza_sealed = true
                     v:set_seal(SMODS.poll_seal({ guaranteed = true, type_key = 'pza' }))
-                    stg.cards_left = stg.cards_left - (1 / G.GAME.mxms_fridge_mod)
+                    SMODS.scale_card(card, {
+                        ref_table = stg,
+                        ref_value = "cards_left",
+                        scalar_value = "card_decrement",
+                        operation = "-",
+                        no_message = true
+                    })
+
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             v:juice_up()

@@ -29,8 +29,7 @@ SMODS.Joker {
         if context.mxms_reacquire_joker and not context.blueprint then
             return {
                 message = localize('k_upgrade_ex'),
-                colour = G.C.ATTENTION,
-                func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
+                colour = G.C.ATTENTION
             }
         end
 

@@ -67,3 +67,9 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.JimboQuip {
+    key = 'wq_moon_landing',
+    type = 'win',
+    extra = { center = 'j_mxms_moon_landing' }
+}

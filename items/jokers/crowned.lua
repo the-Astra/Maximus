@@ -40,3 +40,18 @@ SMODS.Joker {
         return next(SMODS.find_card('j_mxms_crowned'))
     end
 }
+
+SMODS.JimboQuip {
+    key = 'lq_crowned',
+    type = 'loss',
+    extra = {
+        center = 'j_mxms_crowned',
+        times = 1
+    }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_crowned',
+    type = 'win',
+    extra = { center = 'j_mxms_crowned' }
+}

@@ -26,7 +26,7 @@ SMODS.Booster {
         ease_background_colour({ new_colour = Maximus.C.SET.Horoscope, special_colour = G.C.BLACK, contrast = 2 })
     end,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.config.center.config.choose + (G.GAME.mxms_choose_mod or 0), card.ability.extra } }
+        return { vars = { math.min(card.ability.choose + (G.GAME.modifiers.booster_choice_mod or 0), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0)) } }
     end,
     in_pool = function(self, args)
         if G.mxms_horoscope and G.mxms_horoscope.config.highlighted_limit > 1 then

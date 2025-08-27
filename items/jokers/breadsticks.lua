@@ -42,15 +42,16 @@ SMODS.Joker {
                     card = card
                 }
             else
-                stg.chips = stg.chips + stg.dChips * G.GAME.mxms_soil_mod
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = "chips",
+                    scalar_value = "dChips",
+                    message_colour = G.C.CHIPS
+                })
                 stg.d_tally = 0
                 return {
                     delay = 0.2,
-                    message = localize('k_upgrade_ex'),
-                    colour = G.C.CHIPS,
-                    card = card,
                     func = function()
-                        SMODS.calculate_context({ mxms_scaling_card = true })
                         G.GAME.mxms_breadstick_scales = G.GAME.mxms_breadstick_scales + 1
                         G.E_MANAGER:add_event(Event({
                             func = function()

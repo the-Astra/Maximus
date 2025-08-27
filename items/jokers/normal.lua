@@ -38,3 +38,15 @@ SMODS.Joker {
         end
     end,
 }
+
+SMODS.JimboQuip {
+    key = 'lq_normal',
+    type = 'loss',
+    extra = { center = 'j_mxms_normal' }
+}
+
+SMODS.JimboQuip {
+    key = 'wq_normal',
+    type = 'win',
+    extra = { center = 'j_mxms_normal' }
+}

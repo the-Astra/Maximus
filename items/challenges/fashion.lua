@@ -16,21 +16,18 @@ SMODS.Challenge {
     },
     deck = {
         type = 'Challenge Deck'
-    }
-}
-
-local bsb = Blind.set_blind
-function Blind:set_blind(blind, reset, silent)
-    bsb(self, blind, reset, silent)
-    if blind and blind.name and G.GAME.modifiers.mxms_random_suit_debuff then
-        local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
-        G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
-            pseudoseed('fashion' .. G.GAME.round_resets.ante))
-        for _, v in ipairs(G.playing_cards) do
-            self:debuff_card(v)
+    },
+    calculate = function(self, context)
+        if context.setting_blind then
+            local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
+            G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
+                pseudoseed('fashion' .. G.GAME.round_resets.ante))
+            for _, v in ipairs(G.playing_cards) do
+                self:debuff_card(v)
+            end
         end
     end
-end
+}
 
 local bdc = Blind.debuff_card
 function Blind:debuff_card(card, from_blind)
