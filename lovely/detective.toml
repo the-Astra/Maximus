@@ -43,3 +43,16 @@ local stay_flipped = G.GAME and G.GAME.blind and G.GAME.blind:stay_flipped(self,
 '''
 match_indent = true
 times = 1
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+local stay_flipped = G.GAME and G.GAME.blind and G.GAME.blind:stay_flipped(to, card, from)
+'''
+position = 'at'
+payload = '''
+local stay_flipped = G.GAME and G.GAME.blind and G.GAME.blind:stay_flipped(to, card, from) or stay_flipped
+'''
+match_indent = true
+times = 1
