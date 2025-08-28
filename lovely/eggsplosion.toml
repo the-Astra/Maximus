@@ -8,11 +8,14 @@ priority = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-self.ability.extra_value = self.ability.extra_value + self.ability.extra
 SMODS.scale_card(self, {
     ref_table = self.ability,
     ref_value = "extra_value",
-    scalar_value = "extra"
+    scalar_value = "extra",
+    scaling_message = {
+        message = localize('k_val_up'),
+        colour = G.C.MONEY
+    }
 })
 self:set_cost()
 '''
