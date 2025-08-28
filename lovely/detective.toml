@@ -9,7 +9,7 @@ priority = 1
 target = "functions/state_events.lua"
 pattern = '''
 else
-    draw_card(G.deck,G.hand, i*100/hand_space,'up', true)
+    draw_card(G.deck,G.hand, i*100/hand_space,'up', true, cards_to_draw[i])
 end
 '''
 position = "before"
@@ -22,9 +22,9 @@ elseif next(SMODS.find_card('j_mxms_detective')) and G.STATE ~= G.STATES.SMODS_B
         end
     end
     if i <= biggest_size then
-        draw_card(G.deck,G.hand, i*100/hand_space,'up', true, nil, nil, nil, true)
+        draw_card(G.deck,G.hand, i*100/hand_space,'up', true, cards_to_draw[i], nil, nil, true)
     else
-        draw_card(G.deck,G.hand, i*100/hand_space,'up', true)
+        draw_card(G.deck,G.hand, i*100/hand_space,'up', true, cards_to_draw[i])
     end
 '''
 match_indent = true
