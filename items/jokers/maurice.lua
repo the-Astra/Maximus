@@ -15,5 +15,16 @@ SMODS.Joker {
     cost = 6,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_wild
+    end,
+    calculate = function(self, card, context)
+        local stg = card.ability.extra
+
+        if context.discard_from_play and SMODS.has_enhancement(context.card, 'm_wild') then
+            return {
+                cardarea = 'deck',
+                message = localize('k_saved_ex'),
+                sound = 'mxms_joker'
+            }
+        end
     end
 }

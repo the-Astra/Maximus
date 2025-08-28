@@ -32,7 +32,16 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         G.hand:change_size(-stg.size)
-    end
+    end,
+    calculate = function(self, card, context)
+        local stg = card.ability.extra
+
+        if context.draw_individual and context.num_drawn <= stg.size then
+            return {
+                stay_flipped = true
+            }
+        end
+    end,
 }
 
 SMODS.JimboQuip {
