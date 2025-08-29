@@ -36,7 +36,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.draw_individual and context.num_drawn <= stg.size then
+        if context.draw_individual and context.num_drawn <= stg.size and not context.to_booster then
             return {
                 stay_flipped = true
             }
