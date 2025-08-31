@@ -50,6 +50,13 @@ return {
                     '{C:red}X1.25{} base Blind size'
                 }
             },
+            b_mxms_scarred = {
+                name = 'Scarred Deck',
+                text = {
+                    'Start run with {C:attention}1 {C:green}random',
+                    '{C:legendary}Legendary {C:dark_edition,E:1}Maximus{} Joker'
+                }
+            },
             b_mxms_sixth_finger = {
                 name = 'Sixth Finger Deck',
                 text = {

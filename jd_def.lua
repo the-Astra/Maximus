@@ -572,7 +572,7 @@ jd_def['j_mxms_hamill'] = { -- Hamill
     },
     text_config = { colour = G.C.ORANGE, scale = 0.4 },
     calc_function = function(card)
-        card.joker_display_values.hand = localize(mxms_get_most_played_hand(), 'poker_hands')
+        card.joker_display_values.hand = localize(Maximus.get_most_played_hand(), 'poker_hands')
     end
 }
 
