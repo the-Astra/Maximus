@@ -1,5 +1,5 @@
 SMODS.Joker {
-    key = 'mxms_go_fish',
+    key = 'go_fish',
     atlas = 'Jokers',
     pos = {
         x = 8,
@@ -15,7 +15,7 @@ SMODS.Joker {
     cost = 4,
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { G.GAME.current_round.mxms_go_fish.rank, G.GAME.current_round.mxms_go_fish.mult }
+            vars = { localize(G.GAME.current_round.mxms_go_fish.rank, 'ranks'), G.GAME.current_round.mxms_go_fish.mult }
         }
     end,
     calculate = function(self, card, context)

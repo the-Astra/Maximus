@@ -31,11 +31,11 @@ SMODS.Joker {
         local colour
         if stg.side == 'a_side' then
             value = stg.mult
-            text = 'Mult'
+            text = localize('k_mult')
             colour = G.C.MULT
         else
             value = stg.chips
-            text = 'Chips'
+            text = localize('k_mxms_chips')
             colour = G.C.CHIPS
         end
 
