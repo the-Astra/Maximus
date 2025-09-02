@@ -54,7 +54,7 @@ end
 local shf = Card.should_hide_front
 function Card:should_hide_front()
     if self.ability.effect == 'Stone Card' and next(SMODS.find_card('j_mxms_hammer_and_chisel')) then return false end
-    shf(self)
+    return shf(self)
 end
 
 SMODS.JimboQuip {
