@@ -27,7 +27,7 @@ SMODS.Joker {
         return {
             vars = {
                 stg.cards_left,
-                G.GAME.current_round.mxms_jello_suit,
+                localize(G.GAME.current_round.mxms_jello_suit, 'suits_singular'),
                 colours = { G.C.SUITS[G.GAME.current_round.mxms_jello_suit] }
             }
         }
