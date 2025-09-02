@@ -1741,6 +1741,7 @@ return {
                     '{X:attention,C:white}主要美术:{} {C:attention}Maxiss02',
                     '{X:green,C:white}辅助美术:{} {C:green}pinkzigzagoon, anerdymous, PsyAlola, SadCube',
                     '{X:planet,C:white}其他贡献者:{} {C:planet}sup3p, DigitalDetective47, TheCoroboCorner',
+                    '{X:red,C:white}本土化:{} {C:red}MomoiAiriMMJ',
                     '{X:gold,C:white}特别感谢:{}Balatro Discord 中所有出色的人！',
                     '{C:white}所有人的努力让这个项目得以实现。感谢你们所做的一切！'
                 }

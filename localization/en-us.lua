@@ -1818,6 +1818,7 @@ return {
                     '{X:attention,C:white}Lead{} {X:attention,C:white}Artist:{} {C:attention}Maxiss02',
                     '{X:green,C:white}Supporting{} {X:green,C:white}Artists:{} {C:green}pinkzigzagoon, anerdymous, PsyAlola, SadCube',
                     '{X:planet,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, TheCoroboCorner',
+                    '{X:red,C:white}Localization:{} {C:red}MomoiAiriMMJ',
                     '{X:gold,C:white}Special{} {X:gold,C:white}Thanks:{} All the awesome people in the Balatro Discord!',
                     '{C:white}You all helped make this project possible. Thank you guys for everything!'
                 }
