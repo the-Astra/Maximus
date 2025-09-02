@@ -22,7 +22,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.mult, stg.type }
+            vars = { stg.mult, localize(stg.type, 'poker_hands') }
         }
     end,
     calculate = function(self, card, context)

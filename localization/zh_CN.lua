@@ -2220,6 +2220,7 @@ return {
             k_mxms_b_side_ex = "B-面!",
             k_mxms_blackjack_ex = "黑色杰克!",
             k_mxms_bust_ex = "破产!",
+            k_mxms_chips = "筹码",
             k_mxms_consumed = "吞噬",
             k_mxms_crashed_ex = "崩溃!",
             k_mxms_crowned = "加冕",

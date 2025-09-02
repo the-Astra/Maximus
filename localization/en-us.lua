@@ -2305,6 +2305,7 @@ return {
             k_mxms_b_side_ex = "B-Side!",
             k_mxms_blackjack_ex = "Blackjack!",
             k_mxms_bust_ex = "Bust!",
+            k_mxms_chips = "Chips",
             k_mxms_consumed = "Consumed",
             k_mxms_crashed_ex = "Crashed!",
             k_mxms_crowned = "Crowned",
