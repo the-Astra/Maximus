@@ -34,8 +34,8 @@ SMODS.Joker {
         end
 
         if context.after and not context.blueprint then
-            stg.chips = mod_chips(hand_chips * 0.15)
-            stg.mult = mod_mult(mult * 0.15)
+            stg.chips = hand_chips * 0.15
+            stg.mult = mult * 0.15
             return {
                 message = localize('k_mxms_pushed_ex'),
                 colour = G.C.ATTENTION
