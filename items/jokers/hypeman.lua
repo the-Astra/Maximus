@@ -27,7 +27,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.setting_ability and G.P_CENTER_POOLS.Enhanced[context.new] then
+        if context.setting_ability and string.sub(context.new, 1, 2) == 'm_' then
             ease_dollars(stg.dollars)
             return {
                 message = localize('$') .. stg.dollars,
