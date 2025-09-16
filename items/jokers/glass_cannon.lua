@@ -22,7 +22,6 @@ SMODS.Joker {
     calculate = function(self, card, context)
         if context.other_ret
             and context.retrigger_joker_check and not context.retrigger_joker and context.cardarea ~= G.mxms_horoscope then
-            print(context.other_ret)
                 if (context.other_ret.jokers and (context.other_ret.jokers.Xmult or context.other_ret.jokers.Xmult_mod or context.other_ret.jokers.x_mult or context.other_ret.jokers.xmult)) then
             return {
                 message = localize('k_again_ex'),
