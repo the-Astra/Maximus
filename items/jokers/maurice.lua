@@ -21,7 +21,7 @@ SMODS.Joker {
 
         if context.discard_from_play and SMODS.has_enhancement(context.card, 'm_wild') then
             return {
-                cardarea = 'deck',
+                draw_to = 'deck',
                 message = localize('k_saved_ex'),
                 sound = 'mxms_joker'
             }
