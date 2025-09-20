@@ -508,14 +508,17 @@ if not SMODS.ObjectTypes.Food then
     SMODS.ObjectType {
         key = 'Food',
         default = 'j_egg',
-        cards = {},
-        inject = function(self)
-            SMODS.ObjectType.inject(self)
-            -- Insert base game food jokers
-            for k, _ in pairs(Maximus.vanilla_food) do
-                self:inject_card(G.P_CENTERS[k])
-            end
-        end
+        cards = {
+            j_gros_michel = true,
+            j_selzer = true,
+            j_egg = true,
+            j_ice_cream = true,
+            j_popcorn = true,
+            j_cavendish = true,
+            j_turtle_bean = true,
+            j_diet_cola = true,
+            j_ramen = true
+        },
     }
 end
 
@@ -860,24 +863,6 @@ function Maximus.reset_horoscopes()
         ease_discard(-G.GAME.mxms_virgo_bonus)
         G.GAME.mxms_virgo_bonus = 0
     end
-end
-
----Checks if a provided card is classified as a "Food Joker"
-function Maximus.is_food(card)
-    local center = card.config and card.config.center and type(card.config.center_key) == "string"
-        and G.P_CENTERS[card.config.center_key] or type(card) == "string" and G.P_CENTERS[card]
-
-    if not center then
-        return false
-    end
-
-    -- If the center has the Food pool in its definition
-    if center.pools and center.pools.Food then
-        return true
-    end
-
-    -- If it doesn't, we check if this is a vanilla food joker
-    return Maximus.vanilla_food[center_key]
 end
 
 -- Checks if a card should have an inverted check when evaluating prob results
