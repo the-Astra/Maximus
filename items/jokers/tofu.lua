@@ -93,27 +93,7 @@ SMODS.Joker {
             SMODS.calculate_effect({ message = stg.hands_left .. ' ' .. localize('k_mxms_left_el'), colour = G.C.RED },
             card)
             if stg.hands_left <= 0 then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot2')
-                        card.T.r = -0.2
-                        card:juice_up(0.3, 0.4)
-                        card.states.drag.is = true
-                        card.children.center.pinch.x = true
-                        G.E_MANAGER:add_event(Event({
-                            trigger = 'after',
-                            delay = 0.3,
-                            blockable = false,
-                            func = function()
-                                G.jokers:remove_card(card)
-                                card:remove()
-                                card = nil
-                                return true;
-                            end
-                        }))
-                        return true
-                    end
-                }))
+                SMODS.destroy_cards(card, nil, nil, true)
                 return {
                     card = card,
                     message = localize('k_eaten_ex'),
