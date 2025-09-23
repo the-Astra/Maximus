@@ -17,7 +17,7 @@ SMODS.Blind { --The Grinder
     boss_colour = HEX('D9638D'),
     after_scoring = function(self)
         for k, v in ipairs(G.play.cards) do
-            if v.ability.set == 'Enhanced' or v.seal or v.edition then
+            if (v.ability.set == 'Enhanced' or v.seal or v.edition) and not v.seal ~= 'mxms_black' then
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     delay = 0.5,
