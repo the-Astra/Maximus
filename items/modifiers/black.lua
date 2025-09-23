@@ -34,12 +34,6 @@ SMODS.Seal {
                 x_mult = stg.Xmult
             }
         end
-
-        if context.check_eternal and context.other_card == card then
-            return {
-                no_destroy = { override_compat = true }
-            }
-        end
     end,
     in_pool = function(self, args)
         return false
@@ -103,6 +97,15 @@ Card.can_sell_card = function(self, context)
     return ret
 end
 
+local sis = SMODS.is_eternal
+function SMODS.is_eternal(card, trigger)
+    local ret = sis(card, trigger)
+    if card.seal == 'mxms_black' then
+        ret = true
+    end
+    return ret
+end
+
 local csd = Card.start_dissolve
 function Card:start_dissolve(dissolve_colours, silent, dissolve_time_fac, no_juice)
     if self.seal ~= 'mxms_black' then
@@ -111,7 +114,7 @@ function Card:start_dissolve(dissolve_colours, silent, dissolve_time_fac, no_jui
 end
 
 local cs = Card.shatter
-function Card:start_dissolve()
+function Card:shatter()
     if self.seal ~= 'mxms_black' then
         cs(self)
     end
