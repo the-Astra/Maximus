@@ -102,3 +102,17 @@ Card.can_sell_card = function(self, context)
     end
     return ret
 end
+
+local csd = Card.start_dissolve
+function Card:start_dissolve(dissolve_colours, silent, dissolve_time_fac, no_juice)
+    if self.seal ~= 'mxms_black' then
+        csd(self, dissolve_colours, silent, dissolve_time_fac, no_juice)
+    end
+end
+
+local cs = Card.shatter
+function Card:start_dissolve()
+    if self.seal ~= 'mxms_black' then
+        cs(self)
+    end
+end
