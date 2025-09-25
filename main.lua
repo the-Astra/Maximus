@@ -1394,7 +1394,7 @@ SMODS.Atlas { -- 4D Joker Atlas
     py = 95
 }
 
-local ENABLED_JOKERS = { -- Comment out item to disable
+Maximus.ENABLED_JOKERS = { -- Comment out item to disable
 
     --Misc
     --Common
@@ -1460,7 +1460,7 @@ local ENABLED_JOKERS = { -- Comment out item to disable
     'gravity',
     'fog',
     'rock_slide',
-    'game_review',
+    'review',
     'slippery_slope',
     'high_dive',
     'brainwashed',
@@ -1591,9 +1591,9 @@ local ENABLED_JOKERS = { -- Comment out item to disable
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')
-for i = 1, #ENABLED_JOKERS do
-    assert(SMODS.load_file('items/jokers/' .. ENABLED_JOKERS[i] .. '.lua'))()
-    sendDebugMessage("Loaded joker: " .. ENABLED_JOKERS[i], 'Maximus')
+for i = 1, #Maximus.ENABLED_JOKERS do
+    assert(SMODS.load_file('items/jokers/' .. Maximus.ENABLED_JOKERS[i] .. '.lua'))()
+    sendDebugMessage("Loaded joker: " .. Maximus.ENABLED_JOKERS[i], 'Maximus')
 end
 sendDebugMessage("", 'Maximus')
 
