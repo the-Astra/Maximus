@@ -1537,7 +1537,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'honorable',
     'sneaky_spirit',
     'spider',
-    --'blue_tang',
+    'blue_tang',
 
     --Uncommon
     'war',
@@ -1575,7 +1575,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'blackjack',
     'tar_pit',
     'screaming',
-    --'rud',
+    'rud',
 
     --Rare
     'abyss',
@@ -1589,7 +1589,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'stop_sign',
     'chihuahua',
     'vulture',
-    --'sisillyan',
+    'sisillyan',
 
     --High Card Duo
     'loony',
