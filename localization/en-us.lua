@@ -137,6 +137,133 @@ return {
                 }
             },
         },
+        Conspiracy = {
+            c_mxms_5g = {
+                name = '5G',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'add {C:dark_edition}Foil{} to',
+                    'up to {C:attention}#3#{} selected cards',
+                }
+            },
+            c_mxms_assassination = {
+                name = 'Assassination',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    '{C:red}destroy{} one random {C:attention}Joker{}',
+                    'and add a {C:attention}Red Seal{} to all',
+                    'playing cards held in hand'
+                }
+            },
+            c_mxms_conspiracy_dummy = {
+                name = 'Conspiracy Card',
+                text = {
+                    'Probability {C:attention}increases{} by {C:green}#1#{}',
+                    'for every other',
+                    '{C:conspiracy}Conspiracy Card{} held'
+                }
+            },
+            c_mxms_corruption = {
+                name = 'Corruption',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'give {C:money}$#3#{} for',
+                    'every {C:diamonds}Diamond{} in hand',
+                }
+            },
+            c_mxms_coverup = {
+                name = 'Cover-Up',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'destroy a selected {C:attention}Enhanced{} Card',
+                    'and replace it with {C:attention}#3#{} base cards',
+                    'of the same rank'
+                }
+            },
+            c_mxms_flat_earth = {
+                name = 'Flat Earth',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'create {C:attention}#3#{} random',
+                    '{C:dark_edition}Negative {C:planet}Planet{} Cards',
+                }
+            },
+            c_mxms_hoax = {
+                name = 'Hoax',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'change the suit of up to {C:attention}#3#',
+                    'selected cards to their',
+                    'same-color counterpart',
+                    '{C:inactive}({C:hearts}Hearts {C:inactive}<> {C:diamonds}Diamonds{C:inactive}, {C:clubs}Clubs {C:inactive}<> {C:spades}Spades{C:inactive})'
+                }
+            },
+            c_mxms_landing = {
+                name = 'Moon Landing',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'add {C:attention}#3#{} levels to your',
+                    '{C:attention}least{} played poker hand',
+                }
+            },
+            c_mxms_mib = {
+                name = 'Men in Black',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    '{C:attention}remove{} the enhancement of',
+                    'up to {C:attention}#3#{} selected cards',
+                }
+            },
+            c_mxms_nwo = {
+                name = 'New World Order',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'add a {C:green}random {C:dark_edition}edition{} to',
+                    'a {C:green}random{} Joker for every',
+                    '{C:clubs}Club{} held in hand'
+                }
+            },
+            c_mxms_pyramid = {
+                name = 'Pyramid',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'create a {C:attention}Stone Card{} for',
+                    'every {C:spades}Spade{} in hand',
+                }
+            },
+            c_mxms_sighting = {
+                name = 'Sighting',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'give {C:attention}+#3#{} hand size',
+                    'for current round',
+                }
+            },
+            c_mxms_tinfoil = {
+                name = 'Tinfoil Fail',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'disable an active',
+                    '{C:attention}Boss Blind',
+                }
+            },
+            c_mxms_vaccine = {
+                name = 'Vaccine',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'turn all {C:hearts}Hearts{} into',
+                    '{C:attention}Lucky{} Cards',
+                }
+            },
+            c_mxms_woke = {
+                name = 'Woke',
+                text = {
+                    '{C:green}#1# in #2#{} chance to',
+                    'change the rank of up to {C:attention}#3#',
+                    'selected cards into {C:attention}Queens',
+                }
+            },
+        },
         Enhanced = {
             m_mxms_footprint = {
                 name = "Footprint",
@@ -316,6 +443,14 @@ return {
                     '{s:0.8,C:inactive}Can override other editions{}'
                 }
             },
+            j_mxms_apophenia = {
+                name = 'Apophenia',
+                text = {
+                    "Played hands containing",
+                    "a {C:attention}Straight{} creates",
+                    "a {C:dark_edition}Negative {C:tarot}Conspiracy{} Card"
+                },
+            },
             j_mxms_bankrupt = {
                 name = 'Bankrupt',
                 text = {
@@ -342,6 +477,15 @@ return {
                     'according to deck size\'s',
                     'deviation from {C:attention}52{}'
                 }
+            },
+            j_mxms_bigfool = {
+                name = 'Bigfool',
+                text = {
+                    "After each round,",
+                    "{C:green}#1# in #2#{} chance to",
+                    "make a held {C:conspiracy}Conspiracy",
+                    "Card {C:dark_edition}Negative"
+                },
             },
             j_mxms_blackjack = {
                 name = 'Blackjack',
@@ -565,6 +709,13 @@ return {
                     'from previous hand',
                     '{C:inactive}(Currently: {C:chips}+#1#{C:inactive} Chips,', '{C:mult}+#2#{C:inactive} Mult)'
                 }
+            },
+            j_mxms_cork_board = {
+                name = 'Cork Board',
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult for every {C:conspiracy}Conspiracy{}",
+                    "card held in hand"
+                },
             },
             j_mxms_coronation = {
                 name = 'Coronation',
@@ -799,6 +950,14 @@ return {
                     '{C:red}-1{} level every round'
                 }
             },
+            j_mxms_grifter = {
+                name = 'Grifter',
+                text = {
+                    "{C:chips}+#1#{} Chips per {C:conspiracy}Conspiracy{}",
+                    "card used this run",
+                    "{C:inactive}(Currently {C:chips}+#2#{C:inactive})",
+                },
+            },
             j_mxms_group_chat = {
                 name = 'Group Chat',
                 text = {
@@ -914,6 +1073,15 @@ return {
                     "{E:1,s:1.3}?????",
                 },
             },
+            j_mxms_hush_money = {
+                name = 'Hush Money',
+                text = {
+                    "Gives {C:money}$#1#{} at",
+                    "end of round,",
+                    "{C:red}-$#2#{} for every used",
+                    "or sold {C:conspiracy}Conspiracy{} Card"
+                },
+            },
             j_mxms_hypeman = {
                 name = 'Hype Man',
                 text = {
@@ -932,6 +1100,14 @@ return {
 
                     '{C:inactive,s:0.8}Reference: ODESZA'
                 }
+            },
+            j_mxms_illuminati = {
+                name = 'Illuminati',
+                text = {
+                    "Creates {C:attention}#1#{} {C:conspiracy}Conspiracy{} Card",
+                    "at the end of each round",
+                    "{C:inactive, s:0.8}(Must have room)",
+                },
             },
             j_mxms_impractical_joker = {
                 name = 'Impractical Joker',
@@ -1369,6 +1545,14 @@ return {
                     '{C:mult}+#3#{} Bonus Mult'
                 }
             },
+            j_mxms_red_yarn = {
+                name = 'Red Yarn',
+                text = {
+                    "{C:mult}+#1#{} Chips per {C:conspiracy}Conspiracy{}",
+                    "card used this run",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive})",
+                },
+            },
             j_mxms_refrigerator = {
                 name = 'Refrigerator',
                 text = {
@@ -1651,6 +1835,15 @@ return {
                     'card than usual'
                 }
             },
+            j_mxms_ufo = {
+                name = 'Unidentified Funny Object',
+                text = {
+                    "{X:green,C:white}X#1#{} {C:green}probabilities{} of",
+                    "{C:conspiracy}Conspiracy{} Cards working",
+                    "{C:green}#2# in #3#{} chance to be",
+                    "{C:red}destroyed{} after each round"
+                },
+            },
             j_mxms_unpleasant_gradient = {
                 name = 'Unpleasant Gradient',
                 text = {
@@ -1744,6 +1937,38 @@ return {
             },
         },
         Other = {
+            p_mxms_conspiracy_jumbo_1 = {
+                name = 'Jumbo Classified Pack',
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:conspiracy} Conspiracy{} cards to",
+                    "be used immediately",
+                },
+            },
+            p_mxms_conspiracy_mega_1 = {
+                name = 'Mega Classified Pack',
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:conspiracy} Conspiracy{} cards to",
+                    "be used immediately",
+                },
+            },
+            p_mxms_conspiracy_normal_1 = {
+                name = 'Classified Pack',
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:conspiracy} Conspiracy{} cards to",
+                    "be used immediately",
+                },
+            },
+            p_mxms_conspiracy_normal_2 = {
+                name = 'Classified Pack',
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:conspiracy} Conspiracy{} cards to",
+                    "be used immediately",
+                },
+            },
             p_mxms_horoscope_jumbo_1 = {
                 name = 'Jumbo Zodiac Pack',
                 text = {
@@ -1816,12 +2041,22 @@ return {
                     '{C:dark_edition,E:1,s:4}M A X I M U S',
                     '{X:purple,C:white}Lead{} {X:purple,C:white}Programmer:{} {C:purple}theAstra',
                     '{X:attention,C:white}Lead{} {X:attention,C:white}Artist:{} {C:attention}Maxiss02',
-                    '{X:green,C:white}Supporting{} {X:green,C:white}Artists:{} {C:green}pinkzigzagoon, anerdymous, PsyAlola, SadCube',
+                    '{X:conspiracy,C:white}Other{} {X:conspiracy,C:white}Authors:{} {C:conspiracy}anerdymous',
+                    '{X:green,C:white}Supporting{} {X:green,C:white}Artists:{} {C:green}pinkzigzagoon, PsyAlola, SadCube',
                     '{X:planet,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, TheCoroboCorner',
                     '{X:red,C:white}Localization:{} {C:red}MomoiAiriMMJ',
                     '{X:gold,C:white}Special{} {X:gold,C:white}Thanks:{} All the awesome people in the Balatro Discord!',
                     '{C:white}You all helped make this project possible. Thank you guys for everything!'
                 }
+            },
+            undiscovered_conspiracy = {
+                name = "Not Discovered",
+                text = {
+                    "Purchase this",
+                    "card in an",
+                    "unseeded run to",
+                    "learn what it does",
+                },
             },
             undiscovered_horoscope = {
                 name = "Not Discovered",
@@ -2291,14 +2526,17 @@ return {
         dictionary = {
             b_horoscope_cards = "Horoscope Cards",
             b_mxms_4d_ticking = "Enable 4D Joker Ticking Sounds",
+            b_conspiracy_cards = "Conspiracy Cards",
             b_mxms_credits = "Credits",
             b_mxms_custom_menu = "Enable Custom Menu",
             b_mxms_enable_handtypes = "Enable New Handtypes",
+            b_mxms_enable_conspiracies = "Enable Conspiracy Cards",
             b_mxms_enable_horoscopes = "Enable Horoscopes",
             b_mxms_only_maximus_jokers = "Toggle Maximus Only Jokers",
             b_mxms_reset_achievements = "Reset Maximus Achievements",
             b_mxms_restart_settings = "(Must restart to apply changes)",
             b_mxms_stat_horoscopes = "Horoscopes",
+            k_conspiracy = "Conspiracy",
             k_horoscope = "Horoscope",
             k_mxms_a_side = "A-Side",
             k_mxms_a_side_ex = "A-Side!",
@@ -2307,7 +2545,9 @@ return {
             k_mxms_blackjack_ex = "Blackjack!",
             k_mxms_bust_ex = "Bust!",
             k_mxms_chips = "Chips",
+            k_mxms_classified_pack = "Classified Pack",
             k_mxms_consumed = "Consumed",
+            k_mxms_covered_up = "Covered Up",
             k_mxms_crashed_ex = "Crashed!",
             k_mxms_crowned = "Crowned",
             k_mxms_crumbled = "Crumbled",

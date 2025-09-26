@@ -102,6 +102,28 @@ Maximus.config_tab = function()
                 }
             },
 
+            -- Conspiracies Toggle
+            {
+                n = G.UIT.R,
+                config = { align = "cl", padding = 0 },
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { align = "cl", padding = 0.05 },
+                        nodes = {
+                            create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "conspiracies" },
+                        }
+                    },
+                    {
+                        n = G.UIT.C,
+                        config = { align = "c", padding = 0 },
+                        nodes = {
+                            { n = G.UIT.T, config = { text = localize('b_mxms_enable_conspiracies'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                        }
+                    },
+                }
+            },
+
             -- New Handtypes Toggle
             {
                 n = G.UIT.R,
@@ -300,11 +322,14 @@ Maximus.C = {
     MXMS_PRIMARY = HEX('7855fc'),
     MXMS_SECONDARY = HEX('901b7f'),
     HOROSCOPE = HEX('e86fa5'),
+    CONSPIRACY = HEX('7d8c8f'),
     SET = {
-        Horoscope = HEX('d9629c')
+        Horoscope = HEX('d9629c'),
+        Conspiracy = HEX('fbf5ee')
     },
     SECONDARY_SET = {
-        Horoscope = HEX('a64d79')
+        Horoscope = HEX('a64d79'),
+        Conspiracy = HEX('7d8c8f')
     }
 }
 
@@ -970,6 +995,19 @@ function Maximus.get_nominal_sum()
     return highest + lowest
 end
 
+---Helper function that counts all held Conspiracy Cards
+function Maximus.count_conspiracy_cards()
+    local count = 0
+    if G.consumeables then
+        for k, v in pairs(G.consumeables.cards) do
+            if v.ability.set == 'Conspiracy' then
+                count = count + 1
+            end
+        end
+    end
+    return count
+end
+
 --#endregion
 
 
@@ -1170,22 +1208,41 @@ SMODS.Atlas { -- Main Booster Atlas
     py = 95
 }
 
-local ENABLED_BOOSTERS = {
+local ENABLED_ZODIAC_BOOSTERS = {
     'horoscope_normal_1',
     'horoscope_normal_2',
     'horoscope_jumbo_1',
     'horoscope_mega_1',
 }
 
+local ENABLED_CLASSIFIED_BOOSTERS = {
+    --'classified_jumbo_1',
+    --'classified_mega_1',
+    --'classified_normal_1',
+    --'classified_normal_2',
+}
+
+
+sendDebugMessage("Loading Boosters...", 'Maximus')
+
 if Maximus_config.horoscopes then
-    sendDebugMessage("Loading Boosters...", 'Maximus')
-    for i = 1, #ENABLED_BOOSTERS do
-        assert(SMODS.load_file('items/boosters/' .. ENABLED_BOOSTERS[i] .. '.lua'))()
-        sendDebugMessage("Loaded booster: " .. ENABLED_BOOSTERS[i], 'Maximus')
+    for i = 1, #ENABLED_ZODIAC_BOOSTERS do
+        assert(SMODS.load_file('items/boosters/' .. ENABLED_ZODIAC_BOOSTERS[i] .. '.lua'))()
+        sendDebugMessage("Loaded booster: " .. ENABLED_ZODIAC_BOOSTERS[i], 'Maximus')
     end
 else
-    sendDebugMessage("Horoscopes disabled; Skipping Boosters...", 'Maximus')
+    sendDebugMessage("Horoscopes disabled; Skipping Zodiac Boosters...", 'Maximus')
 end
+
+if Maximus_config.conspiracies then
+    for i = 1, #ENABLED_CLASSIFIED_BOOSTERS do
+        assert(SMODS.load_file('items/boosters/' .. ENABLED_CLASSIFIED_BOOSTERS[i] .. '.lua'))()
+        sendDebugMessage("Loaded booster: " .. ENABLED_CLASSIFIED_BOOSTERS[i], 'Maximus')
+    end
+else
+    sendDebugMessage("Conspiracies disabled; Skipping Classified Boosters...", 'Maximus')
+end
+
 sendDebugMessage("", 'Maximus')
 
 
@@ -1223,6 +1280,52 @@ for i = 1, #ENABLED_CHALLENGES do
 end
 sendDebugMessage("", 'Maximus')
 
+--#endregion
+
+--#region Conspiracy ----------------------------------------------------------------------------------------
+if Maximus_config.conspiracies then
+    SMODS.Atlas { -- Main Conspiracy Atlas
+        key = 'Conspiracy',
+        path = "Conspiracy.png",
+        px = 71,
+        py = 95
+    }
+
+    -- Conspiracy Type
+    SMODS.ConsumableType {
+        key = 'Conspiracy',
+        primary_colour = Maximus.C.SET.Conspiracy,
+        secondary_colour = Maximus.C.SECONDARY_SET.Conspiracy,
+        default = 'c_mxms_sighting',
+        collection_rows = { 7, 7 },
+        shop_rate = 1
+    }
+
+    local ENABLED_CONSPIRACIES = {
+        'assassination',
+        'sighting',
+        'coverup',
+        'hoax',
+        'pyramid',
+        'vaccine',
+        'nwo',
+        'corruption',
+        'woke',
+        'mib',
+        'flat_earth',
+        'landing',
+        '5g',
+        'tinfoil',
+        'conspiracy_dummy',
+    }
+
+    sendDebugMessage("Loading Conspiracies...", 'Maximus')
+    for i = 1, #ENABLED_CONSPIRACIES do
+        assert(SMODS.load_file('items/conspiracy/' .. ENABLED_CONSPIRACIES[i] .. '.lua'))()
+        sendDebugMessage("Loaded conspiracy: " .. ENABLED_CONSPIRACIES[i], 'Maximus')
+    end
+    sendDebugMessage("", 'Maximus')
+end
 --#endregion
 
 --#region Consumables ---------------------------------------------------------------------------------------
@@ -1578,6 +1681,16 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'letter',
     'employee',
     'nomai',
+
+    --Conspiracy Jokers
+    'grifter',
+    'red_yarn',
+    'cork_board',
+    'illuminati',
+    'ufo',
+    'bigfool',
+    'hush_money',
+    'apophenia',
 
     --Legendaries
     'ledger',
