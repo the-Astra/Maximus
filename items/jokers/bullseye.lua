@@ -17,6 +17,7 @@ SMODS.Joker {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    perishable_compat = false,
     blueprint_compat = true,
     cost = 5,
     loc_vars = function(self, info_queue, card)

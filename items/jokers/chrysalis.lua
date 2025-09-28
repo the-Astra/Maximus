@@ -17,6 +17,7 @@ SMODS.Joker {
         code = { "theAstra" },
         idea = { "pinkzigzagoon" }
     },
+    perishable_compat = false,
     blueprint_compat = false,
     unlocked = false,
     cost = 2,

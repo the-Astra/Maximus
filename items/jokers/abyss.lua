@@ -54,10 +54,10 @@ SMODS.Joker {
                     -- Double check the target is not self
                     -- Code derived Madness
                     if chosen_joker and not (context.blueprint_card or card).getting_sliced then
+                        SMODS.destroy_cards(card)
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 (context.blueprint_card or card):juice_up(0.8, 0.8)
-                                chosen_joker:start_dissolve({ G.C.PURPLE }, nil, 1.6)
                                 return true;
                             end
                         }))

@@ -22,6 +22,7 @@ SMODS.Joker {
         idea = { "Maxiss02" }
     },
     blueprint_compat = true,
+    perishable_compat = false,
     cost = 8,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra

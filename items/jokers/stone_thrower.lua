@@ -18,6 +18,7 @@ SMODS.Joker {
         idea = { "anerdymous" }
     },
     blueprint_compat = true,
+    perishable_compat = false,
     enhancement_gate = 'm_glass',
     cost = 3,
     loc_vars = function(self, info_queue, card)

@@ -18,6 +18,7 @@ SMODS.Joker {
         idea = { "anerdymous" },
         reference = { "Wheel of Fortune" }
     },
+    perishable_compat = false,
     blueprint_compat = true,
     cost = 4,
     loc_vars = function(self, info_queue, card)

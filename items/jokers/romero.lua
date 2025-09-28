@@ -28,6 +28,7 @@ SMODS.Joker {
         idea = { "PsyAlola" }
     },
     blueprint_compat = true,
+    perishable_compat = false,
     cost = 20,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra

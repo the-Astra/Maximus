@@ -18,6 +18,7 @@ SMODS.Joker {
         idea = { "Maxiss02" }
     },
     blueprint_compat = true,
+    perishable_compat = false,
     cost = 7,
     pools = {
         Food = true

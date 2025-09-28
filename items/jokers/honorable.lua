@@ -18,6 +18,7 @@ SMODS.Joker {
         idea = { "anerdymous" }
     },
     blueprint_compat = true,
+    perishable_compat = false,
     cost = 4,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.c_judgement

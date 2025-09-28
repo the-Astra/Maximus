@@ -18,6 +18,7 @@ SMODS.Joker {
         idea = { "pinkzigzagoon" }
     },
     blueprint_compat = true,
+    perishable_compat = false,
     cost = 4,
     pools = {
         Food = true

@@ -18,6 +18,7 @@ SMODS.Joker {
         idea = { "anerdymous" }
     },
     blueprint_compat = false,
+    perishable_compat = false,
     cost = 6,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
@@ -35,12 +36,7 @@ SMODS.Joker {
                 colour = G.C.RED,
                 func = function()
                     if stg.money <= 0 then
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                                card:start_dissolve()
-                                return true;
-                            end
-                        }))
+                        SMODS.destroy_cards(card)
                     end
                 end
             }
@@ -53,12 +49,7 @@ SMODS.Joker {
                 colour = G.C.RED,
                 func = function()
                     if stg.money <= 0 then
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                                card:start_dissolve()
-                                return true;
-                            end
-                        }))
+                        SMODS.destroy_cards(card)
                     end
                 end
             }

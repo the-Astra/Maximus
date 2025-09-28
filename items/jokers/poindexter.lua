@@ -18,6 +18,7 @@ SMODS.Joker {
         idea = { "Maxiss02" }
     },
     blueprint_compat = true,
+    perishable_compat = false,
     cost = 7,
     enhancement_gate = 'm_glass',
     loc_vars = function(self, info_queue, card)

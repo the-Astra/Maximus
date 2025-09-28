@@ -19,6 +19,7 @@ SMODS.Joker {
         idea = { "theAstra" }
     },
     blueprint_compat = false,
+    perishable_compat = false,
     cost = 5,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
