@@ -1,0 +1,92 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+# Maximus logo menu draw stuff
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+if self.SPLASH_LOGO then self.SPLASH_LOGO:remove(); self.SPLASH_LOGO = nil end
+'''
+position = "after"
+payload = '''
+if self.SPLASH_MAXIMUS_LOGO then self.SPLASH_MAXIMUS_LOGO:remove(); self.SPLASH_MAXIMUS_LOGO = nil end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+if G.SPLASH_LOGO then
+    love.graphics.push()
+    G.SPLASH_LOGO:translate_container()
+    G.SPLASH_LOGO:draw()
+    love.graphics.pop()
+end
+'''
+position = "after"
+payload = '''
+
+if G.SPLASH_MAXIMUS_LOGO then
+    love.graphics.push()
+    G.SPLASH_MAXIMUS_LOGO:translate_container()
+
+    if not G.SPLASH_MAXIMUS_LOGO.states.drag.is then
+        local scale_mod = 0.07 + 0.02*math.sin(1.8*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+        local rotate_mod = 0.05*math.sin(1.219*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+
+        G.SPLASH_MAXIMUS_LOGO:draw_shader('dissolve',0, nil, nil, G.SPLASH_MAXIMUS_LOGO,scale_mod, rotate_mod,nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
+        G.SPLASH_MAXIMUS_LOGO:draw_shader('dissolve', nil, nil, nil, G.SPLASH_MAXIMUS_LOGO, scale_mod, rotate_mod)local scale_mod = 0.07 + 0.02*math.sin(1.8*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+        local rotate_mod = 0.05*math.sin(1.219*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+
+        G.SPLASH_MAXIMUS_LOGO:draw_shader('dissolve',0, nil, nil, G.SPLASH_MAXIMUS_LOGO,scale_mod, rotate_mod,nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
+        G.SPLASH_MAXIMUS_LOGO:draw_shader('dissolve', nil, nil, nil, G.SPLASH_MAXIMUS_LOGO, scale_mod, rotate_mod)
+    end
+
+    add_to_drawhash(G.SPLASH_MAXIMUS_LOGO)
+
+    love.graphics.pop()
+end
+'''
+match_indent = true
+times = 1
+
+# Maximus splash screen edits
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_joker'])
+'''
+position = "after"
+payload = '''
+SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_mxms_normal'],{bypass_discovery_center = true, bypass_discovery_ui = true})
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+local card = Card(  card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
+                    card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
+                    card_size*G.CARD_W, card_size*G.CARD_H, pseudorandom_element(G.P_CARDS), G.P_CENTERS.c_base)
+'''
+position = "at"
+payload = '''
+local key
+while not G.P_CENTERS[key] do
+    key = 'j_mxms_'..pseudorandom_element(Maximus.ENABLED_JOKERS)
+end
+local card = Card(  card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
+                    card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
+                    card_size*G.CARD_W, card_size*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[key],{bypass_discovery_center = true, bypass_discovery_ui = true})
+'''
+match_indent = true
+times = 1
