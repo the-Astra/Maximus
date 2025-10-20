@@ -203,8 +203,8 @@ SMODS.current_mod.optional_features = { retrigger_joker = true, post_trigger = t
 
 --#region Menu stuff ----------------------------------------------------------------------------------------
 local oldfunc = Game.main_menu
-Game.main_menu = function(change_context)
-    local ret = oldfunc(change_context)
+function Game:main_menu(change_context)
+    local ret = oldfunc(self, change_context)
 
     if Maximus_config.menu then
         -- Creates Maximus Logo Sprite
