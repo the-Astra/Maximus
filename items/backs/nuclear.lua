@@ -19,6 +19,11 @@ SMODS.Back {
 
         --Change joker slots
         G.GAME.starting_params.joker_slots = G.GAME.starting_params.joker_slots - 4
+
+            -- Following values for mid-run deck applying (crossmod)
+        if G.jokers then
+            G.jokers:change_size(-4)
+        end
     end
 }
 
