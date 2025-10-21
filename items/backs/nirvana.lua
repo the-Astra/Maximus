@@ -16,5 +16,10 @@ SMODS.Back {
 
         -- Change reroll starting price
         G.GAME.starting_params.reroll_cost = 0
+
+            -- Following values for mid-run deck applying (crossmod)
+        G.GAME.base_reroll_cost = 0
+        G.GAME.round_resets.reroll_cost = 0
+        G.GAME.current_round.reroll_cost = 0
     end
 }
