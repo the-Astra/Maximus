@@ -9,13 +9,13 @@
 	"priority": 0,
 	"badge_colour": "f51bbc",
 	"badge_text_colour": "f8a100",
-	"version": "1.2.3b",
+	"version": "1.2.3c",
 	"git_owner": "the-Astra",
 	"git_repo": "Maximus",
 	"mod_path": "Mods/Maximus-main",
 	"download_suffix": "Maximus-main.zip",
 	"dependencies": [
-		"Steamodded (>=1.0.0~BETA-0827)",
+		"Steamodded (>=1.0.0~BETA-1016c)",
 		"Lovely (>=0.7.1)"
 	],
 	"provides": [

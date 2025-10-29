@@ -118,49 +118,6 @@ payload = '''
 match_indent = true
 
 
-    # Force "SELECT" button on Ophiucus in packs
-[[patches]]
-[patches.pattern]
-target = "functions/UI_definitions.lua"
-pattern = '''if card.ability.consumeable and card.area == G.pack_cards and booster_obj and booster_obj.select_card and card:selectable_from_pack(booster_obj) then'''
-position = "before"
-payload = '''
-    if card.ability.consumeable and card.area == G.pack_cards and card.config.center.key == 'c_mxms_ophiucus' then
-        if (card.area == G.pack_cards and G.pack_cards) then
-            return {
-                n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
-                  {n=G.UIT.R, config={ref_table = card, r = 0.08, padding = 0.1, align = "bm", minw = 0.5*card.T.w - 0.15, maxw = 0.9*card.T.w - 0.15, minh = 0.3*card.T.h, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'use_card', func = 'can_select_from_booster'}, nodes={
-                    {n=G.UIT.T, config={text = localize('b_select'),colour = G.C.UI.TEXT_LIGHT, scale = 0.45, shadow = true}}
-                  }},
-              }}
-        end
-    end
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = '''=[SMODS _ "src/utils.lua"]'''
-pattern = '''function Card.selectable_from_pack(card, pack)'''
-position = "after"
-payload = '''
-    if card.config.center.key == 'c_mxms_ophiucus' then return 'mxms_horoscope' end
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = '''if card.ability.consumeable and not select_to then'''
-position = "before"
-payload = '''
-if not select_to and card.config.center.key == 'c_mxms_ophiucus' then
-    select_to = booster_obj and card:selectable_from_pack(booster_obj)
-end
-'''
-match_indent = true
-
-
     # Hook into Card:highlight for card alignment
 [[patches]]
 [patches.pattern]
