@@ -1059,9 +1059,9 @@ return {
             j_mxms_little_brother = {
                 name = 'Little Brother',
                 text = {
-                    'Copies ability of {C:attention}Joker{} to the left',
-                    'up to {C:attention}#1#{} time(s) per hand',
-                    'Times copied {C:attention}raises by 1{} for',
+                    'Copies up to {C:attention}#1#{} triggers per hand',
+                    'from the {C:attention}Joker{} to the left',
+                    'Triggers copied {C:attention}raises by 1{} for',
                     'every hand played in a row that',
                     'copies {C:attention}the same Joker{}'
                 }
