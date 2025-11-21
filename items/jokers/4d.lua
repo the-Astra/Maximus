@@ -45,7 +45,7 @@ SMODS.Joker {
             SMODS.calculate_context({ four_d_death = true })
         end
 
-        if context.selling_self then
+        if context.selling_self and not context.blueprint then
             SMODS.calculate_context({ four_d_death = true })
         end
     end
