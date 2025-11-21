@@ -376,32 +376,32 @@ jd_def['j_mxms_four_course_meal'] = { -- Four Course Meal
         { ref_table = "card.joker_display_values", ref_value = "value" },
     },
     calc_function = function(card)
-        if card.ability.extra.hands < 1 then
+        if card.ability.extra.hands_left >= 4 then
             card.joker_display_values.value = '+' .. card.ability.extra.chips
             return
-        elseif card.ability.extra.hands < 2 then
+        elseif card.ability.extra.hands_left >= 3 then
             card.joker_display_values.value = '+' .. card.ability.extra.mult
             return
-        elseif card.ability.extra.hands < 3 then
+        elseif card.ability.extra.hands_left >= 2 then
             card.joker_display_values.value = 'X' .. card.ability.extra.Xmult
             return
-        elseif card.ability.extra.hands < 4 then
+        elseif card.ability.extra.hands_left >= 1 then
             card.joker_display_values.value = '+$' .. card.ability.extra.money
             return
         end
     end,
     style_function = function(card, text, reminder_text, extra)
         if text and text.children[1].config.colour then
-            if card.ability.extra.hands < 1 then
+            if card.ability.extra.hands_left >= 4 then
                 text.children[1].config.colour = lighten(G.C.CHIPS, 0.35)
                 return
-            elseif card.ability.extra.hands < 2 then
+            elseif card.ability.extra.hands_left >= 3 then
                 text.children[1].config.colour = lighten(G.C.MULT, 0.35)
                 return
-            elseif card.ability.extra.hands < 3 then
+            elseif card.ability.extra.hands_left >= 2 then
                 text.children[1].config.colour = lighten(G.C.MULT, 0.35)
                 return
-            elseif card.ability.extra.hands < 4 then
+            elseif card.ability.extra.hands_left >= 1 then
                 text.children[1].config.colour = lighten(G.C.GOLD, 0.35)
                 return
             end
