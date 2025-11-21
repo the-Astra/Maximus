@@ -91,7 +91,7 @@ function Game:update(dt)
 
         for k, v in pairs(fourds) do
             local stg = v.ability.extra
-            if stg.Xmult > 1 then
+            if stg.Xmult > 1 and not v.debuff then
                 stg.Xmult = math.max(stg.Xmult - stg.dXmult, 1)
                 v:juice_up(0.1, 0.2)
 
