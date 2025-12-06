@@ -1844,6 +1844,15 @@ return {
                     "{C:red}destroyed{} after each round"
                 },
             },
+            j_mxms_under_construction = {
+                name = 'Under Construction',
+                text = {
+                    '{C:attention}-#1#{} Joker slot while held',
+                    'After {C:attention}#4#{} rounds,',
+                    'sell to gain {C:attention}+#2#{} Joker slot',
+                    '{C:inactive,s:0.8}(Currently #3#/#4#)'
+                }
+            },
             j_mxms_unpleasant_gradient = {
                 name = 'Unpleasant Gradient',
                 text = {
@@ -2962,7 +2971,8 @@ return {
         v_dictionary = {
             mxms_art = { 'Art: #1#' },
             mxms_code = { 'Code: #1#' },
-            mxms_idea = { 'Idea: #1#' }
+            mxms_idea = { 'Idea: #1#' },
+            a_mxms_jokersize = "+#1# Joker Size"
         }
     }
 }
