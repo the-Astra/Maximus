@@ -1670,7 +1670,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'hypeman',
     'fools_gold',
     'trashman',
-    --'paperclip',
+    'paperclip',
     'jackpot',
     'jestcoin',
     'severed_floor',
