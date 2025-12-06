@@ -29,7 +29,7 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
-        if context.selling_self and stg.rounds == 3 and not context.blueprint then
+        if context.selling_self and stg.rounds >= stg.req and not context.blueprint then
             local voucher_pool = get_current_pool('Voucher')
 
             local eligible_vouchers = {}
@@ -64,9 +64,9 @@ SMODS.Joker {
         end
 
         if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and
-            stg.rounds < 3 then
+            stg.rounds < stg.req then
             stg.rounds = stg.rounds + 1
-            if stg.rounds == 3 then
+            if stg.rounds >= stg.req then
                 local eval = function(card)
                     return not card.REMOVED
                 end
@@ -74,7 +74,7 @@ SMODS.Joker {
             end
 
             return {
-                message = (stg.rounds < 3) and (stg.rounds .. '/3') or
+                message = (stg.rounds < stg.req) and (stg.rounds .. '/' .. stg.req) or
                     localize('k_active_ex'),
                 colour = G.C.FILTER,
                 card = card
