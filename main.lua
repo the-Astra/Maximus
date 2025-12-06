@@ -1590,6 +1590,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'chihuahua',
     'vulture',
     'sisillyan',
+    'under_construction',
 
     --High Card Duo
     'loony',
