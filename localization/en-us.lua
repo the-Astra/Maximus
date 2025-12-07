@@ -443,6 +443,14 @@ return {
                     '{s:0.8,C:inactive}Can override other editions{}'
                 }
             },
+            j_mxms_adrenaline = {
+                name = 'Adrenaline',
+                text = {
+                    'When on {C:attention}last hand{} of round,',
+                    'gain {C:attention}+#1#{} hand size and {C:red}+#2#{} Discards',
+                    'for the rest of the round'
+                }
+            },
             j_mxms_apophenia = {
                 name = 'Apophenia',
                 text = {

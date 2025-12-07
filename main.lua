@@ -1591,6 +1591,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'vulture',
     'sisillyan',
     'under_construction',
+    'adrenaline',
 
     --High Card Duo
     'loony',
