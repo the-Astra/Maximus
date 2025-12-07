@@ -20,7 +20,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
     
-        if context.joker_type_destroyed and context.card.config.center.pools.Food and not context.card.config.center_key == 'j_mxms_leftovers' then
+        if context.joker_type_destroyed and context.card.config.center.pools.Food and context.card.config.center_key ~= 'j_mxms_leftovers' then
             local respawn_key = context.card.config.center_key
             G.E_MANAGER:add_event(Event({
                 func = function()
@@ -35,9 +35,9 @@ SMODS.Joker {
             SMODS.destroy_cards(card, nil, nil, true)
 
             return {
-                message = 'k_mxms_saved_later_ex',
+                message = localize('k_mxms_saved_later_ex'),
                 colour = G.C.FILTER,
-                sound = 'tarto1'
+                sound = 'tarot1'
             }
         end
     end,
