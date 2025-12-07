@@ -19,7 +19,7 @@ SMODS.Joker {
         idea = { "pinkzigzagoon" }
     },
     blueprint_compat = true,
-    cost = 4,
+    cost = 7,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
