@@ -2617,6 +2617,7 @@ return {
             k_mxms_r_mult_ex = "A random Mult appears!",
             k_mxms_sacrifice_ex = "Sacrifice!",
             k_mxms_saved_later_ex = "Saved for later!",
+            k_mxms_semisolid_ex = "Semisolid!",
             k_mxms_serious_q = "Why so serious?",
             k_mxms_splat_ex = "Splat!",
             k_mxms_step_el = "One Small Step...",

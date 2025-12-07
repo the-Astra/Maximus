@@ -422,6 +422,11 @@ SMODS.Sound({
     path = 'clown horn.ogg'
 })
 
+SMODS.Sound({
+    key = 'semisolid',
+    path = 'voice_semisolidplatform.ogg'
+})
+
 --#endregion
 
 

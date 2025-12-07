@@ -50,5 +50,12 @@ SMODS.Joker {
         if context.end_of_round and stg.activated and not context.blueprint then
             stg.activated = false
         end
+
+        if context.buying_self then
+            return {
+                message = localize('k_mxms_semisolid_ex'),
+                sound = 'mxms_semisolid'
+            }
+        end
     end
 }
