@@ -1649,6 +1649,14 @@ return {
                     '{C:inactive,s:0.8}2: {C:chips,s:0.8}+2 {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#3# {C:inactive,s:0.8}chips -> {C:chips,s:0.8}+#4# {C:inactive,s:0.8}chips)'
                 }
             },
+            j_mxms_semisolid = {
+                name = 'Semisolid Platform',
+                text = {
+                    'All {C:attention}8s{} in deck will',
+                    'be drawn {C:attention}first{} at',
+                    'start of round'
+                }
+            },
             j_mxms_severed_floor = {
                 name = 'Severed Floor',
                 text = {

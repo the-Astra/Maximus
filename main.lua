@@ -1539,6 +1539,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'spider',
     'blue_tang',
     'context',
+    'semisolid',
 
     --Uncommon
     'war',

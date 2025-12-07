@@ -1,0 +1,18 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+# Patch before determining deck limit
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''
+local limit = G.hand.config.card_limit - #G.hand.cards - (SMODS.cards_to_draw or 0)
+'''
+position = "before"
+payload = '''
+SMODS.calculate_context({mxms_pre_draw = true})
+'''
+match_indent = true
+times = 1
