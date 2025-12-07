@@ -448,7 +448,8 @@ return {
                 text = {
                     'When on {C:attention}last hand{} of round,',
                     'gain {C:attention}+#1#{} hand size and {C:red}+#2#{} Discards',
-                    'for the rest of the round'
+                    'for the rest of the round',
+                    '{C:inactive,s:0.8}Reference: Slay the Spire'
                 }
             },
             j_mxms_apophenia = {
@@ -716,7 +717,8 @@ return {
                     "Gives base {C:chips}Chips{} and {C:mult}Mult{}",
                     "from {C:attention}all{} previously played hands",
                     "this round",
-                    '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips, {C:mult}+#2# {C:inactive}Mult)'
+                    '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips, {C:mult}+#2# {C:inactive}Mult)',
+                    '{C:inactive,s:0.8}Reference: Meme'
                 }
             },
             j_mxms_conveyor_belt = {
