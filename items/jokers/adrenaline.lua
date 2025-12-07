@@ -18,7 +18,7 @@ SMODS.Joker {
         code = { "theAstra" },
         idea = { "pinkzigzagoon" }
     },
-    blueprint_compat = true,
+    blueprint_compat = false,
     cost = 7,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
@@ -29,7 +29,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.drawing_cards and G.GAME.current_round.hands_left == 1 and not stg.active then
+        if context.drawing_cards and G.GAME.current_round.hands_left == 1 and not stg.active and not context.blueprint then
             ease_discard(stg.discards)
             G.hand:change_size(stg.hand_size)
             stg.active = true
@@ -38,7 +38,7 @@ SMODS.Joker {
             }
         end
 
-        if context.end_of_round and not context.game_over and stg.active then
+        if context.end_of_round and not context.game_over and stg.active and not context.blueprint then
             G.hand:change_size(-stg.hand_size)
             stg.active = false
             return {
