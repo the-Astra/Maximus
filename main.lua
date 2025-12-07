@@ -1538,6 +1538,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'sneaky_spirit',
     'spider',
     'blue_tang',
+    'context',
 
     --Uncommon
     'war',

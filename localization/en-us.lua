@@ -710,6 +710,15 @@ return {
                     '{C:inactive,s:0.8}Reference: Art Piece'
                 }
             },
+            j_mxms_context = {
+                name = 'Context Joker',
+                text = {
+                    "Gives base {C:chips}Chips{} and {C:mult}Mult{}",
+                    "from {C:attention}all{} previously played hands",
+                    "this round",
+                    '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips, {C:mult}+#2# {C:inactive}Mult)'
+                }
+            },
             j_mxms_conveyor_belt = {
                 name = 'Conveyor Belt',
                 text = {
