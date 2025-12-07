@@ -28,6 +28,7 @@ SMODS.Joker {
                 if v:get_id() == 8 then
                     table.insert(cards, G.deck.cards[i])
                     table.remove(G.deck.cards, i)
+                    i = i - 1
                     stg.activated = true
                 end
             end
