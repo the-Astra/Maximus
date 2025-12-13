@@ -313,7 +313,8 @@ return {
             },
             c_mxms_gemini = {
                 name = 'Gemini',
-                text = { 'For the next {C:blue}#1#{} hands,',
+                text = { 
+                    'For the next {C:blue}#1#{} hands,',
                     'play {C:red}no repeat hand types{} to',
                     'receive {C:attention}+#2#{} levels for',
                     'each played hand type',

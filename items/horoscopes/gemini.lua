@@ -61,30 +61,32 @@ SMODS.Consumable {
     end,
     succeed = function(self, card, context)
         local stg = card.ability.extra
-        SMODS.calculate_effect(
-            {
-                message = localize('k_mxms_success_ex'),
-                colour = G.C.GREEN,
-                sound = 'tarot1',
-                func = function()
-                    Maximus.set_horoscope_success(card)
-                    check_for_unlock({ type = "all_horoscopes" })
-                    if TheFamily then G.GAME.horoscope_alert = true end
+        if stg.times > 0 then
+            SMODS.calculate_effect(
+                {
+                    message = localize('k_mxms_success_ex'),
+                    colour = G.C.GREEN,
+                    sound = 'tarot1',
+                    func = function()
+                        Maximus.set_horoscope_success(card)
+                        check_for_unlock({ type = "all_horoscopes" })
+                        if TheFamily then G.GAME.horoscope_alert = true end
+                    end
+                }, card)
+            for k, v in pairs(card.ability.hands) do
+                if v then
+                    SMODS.smart_level_up_hand(card, k, false, stg.upgrade)
                 end
-            }, card)
-        for k, v in pairs(card.ability.hands) do
-            if v then
-                SMODS.smart_level_up_hand(card, k, false, stg.upgrade)
             end
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
+                    return true
+                end
+            }))
+            G.GAME.zodiac_killer_pools["Gemini"] = false
+            SMODS.calculate_context({ mxms_beat_horoscope = true })
         end
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
-                return true
-            end
-        }))
-        G.GAME.zodiac_killer_pools["Gemini"] = false
-        SMODS.calculate_context({ mxms_beat_horoscope = true })
     end,
     fail = function(self, card)
         local stg = card.ability.extra
