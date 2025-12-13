@@ -1583,6 +1583,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'tar_pit',
     'screaming',
     'rud',
+    'couch_gag',
 
     --Rare
     'abyss',

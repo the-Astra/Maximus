@@ -746,6 +746,14 @@ return {
                     '{C:inactive}(Currently: #1#/#2#)'
                 }
             },
+            j_mxms_couch_gag = {
+                name = 'Couch Gag',
+                text = {
+                    'Retriggers all scoring cards',
+                    'if first hand of round',
+                    'contains a {C:attention}Full House{}',
+                }
+            },
             j_mxms_coupon = {
                 name = 'Coupon',
                 text = {
