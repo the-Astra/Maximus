@@ -27,7 +27,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.repetition and context.cardarea == G.play and
             (SMODS.has_enhancement(context.other_card, 'm_bonus') or
-            SMODS.has_enhancement(context.other_card, 'm_mult')) then
+                SMODS.has_enhancement(context.other_card, 'm_mult')) then
             return {
                 message = localize('k_again_ex'),
                 repetitions = stg.reps,
@@ -36,9 +36,11 @@ SMODS.Joker {
         end
     end,
     in_pool = function(self, args)
-        for k, v in pairs(G.playing_cards) do
-            if SMODS.has_enhancement(v, 'm_bonus') or SMODS.has_enhancement(v, 'm_mult') then
-                return true
+        if G.playing_cards then
+            for k, v in pairs(G.playing_cards) do
+                if SMODS.has_enhancement(v, 'm_bonus') or SMODS.has_enhancement(v, 'm_mult') then
+                    return true
+                end
             end
         end
 
