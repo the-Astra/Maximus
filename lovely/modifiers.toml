@@ -47,28 +47,6 @@ match_indent = true
 times = 1
 
 
-# All Rare check
-[[patches]]
-[patches.pattern]
-target = "functions/UI_definitions.lua"
-pattern = '''
-if polled_rate > check_rate and polled_rate <= check_rate + v.val then
-    local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
-'''
-position = "at"
-payload = '''
-if polled_rate > check_rate and polled_rate <= check_rate + v.val then
-    local card = nil
-    if G.GAME.modifiers.mxms_all_rare and v.type == 'Joker' then
-        card = create_card(v.type, area, nil, 0.99, nil, nil, nil, 'sho')
-    else
-        card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
-    end
-'''
-match_indent = true
-times = 1
-
-
 # Change Matador to not trigger on every hand on Fashion Disaster
 [[patches]]
 [patches.pattern]
