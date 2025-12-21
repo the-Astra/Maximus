@@ -38,5 +38,14 @@ SMODS.Challenge {
     },
     deck = {
         type = 'Challenge Deck'
-    }
+    },
+    calculate = function(self, context)
+        if context.create_shop_card and context.set == 'Joker' then
+            return {
+                shop_create_flags = {
+                    rarity = 3
+                }
+            }
+        end
+    end
 }

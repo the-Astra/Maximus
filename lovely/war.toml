@@ -40,15 +40,20 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "card.lua"
-pattern = "if self.ability.name == 'Sixth Sense' and #context.full_hand == 1 and context.full_hand[1]:get_id() == 6 and G.GAME.current_round.hands_played == 0 then"
+pattern = '''
+if self.ability.name == 'Sixth Sense' and #context.full_hand == 1 and context.full_hand[1]:get_id() == 6 and not context.full_hand[1].sixth_sense and G.GAME.current_round.hands_played == 0 then
+    context.full_hand[1].sixth_sense = true
+'''
 position = "at"
 payload = '''
-    if self.ability.name == 'Sixth Sense' and #context.full_hand <= 1 * G.GAME.mxms_war_mod and G.GAME.current_round.hands_played == 0 then
-        for i = 1, #context.full_hand do
-            if not (context.full_hand[i]:get_id() == 6 or (next(SMODS.find_card('j_mxms_perspective')) and context.full_hand[1]:get_id() == 9)) then
-                return
-            end
+if self.ability.name == 'Sixth Sense' and #context.full_hand == 1 * G.GAME.mxms_war_mod and G.GAME.current_round.hands_played == 0 then
+    for i = 1, #context.full_hand do
+        if not (context.full_hand[i]:get_id() == 6 or (next(SMODS.find_card('j_mxms_perspective')) and context.full_hand[1]:get_id() == 9)) or context.full_hand[i].sixth_sense then
+            -- Do nothing  
+        else
+            context.full_hand[i].sixth_sense = true
         end
+    end
 '''
 match_indent = true
 times = 1
