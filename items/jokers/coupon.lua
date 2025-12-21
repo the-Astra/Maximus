@@ -29,7 +29,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.mxms_joker_cost_check and context.card.cost ~= 0 then
+        if context.modify_shop_joker and context.card.ability.set == 'Joker' and context.card.cost ~= 0 then
             if SMODS.pseudorandom_probability(card, 'cou', stg.prob, stg.odds) then
                 G.E_MANAGER:add_event(Event({
                     func = function()
