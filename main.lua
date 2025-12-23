@@ -235,7 +235,14 @@ function Game:main_menu(change_context)
         -- Define node functions for Maximus Logo
         function G.SPLASH_MAXIMUS_LOGO:click()
             play_sound('button', 1, 0.3)
+            SMODS.LAST_SELECTED_MOD_TAB = nil
             G.FUNCS['openModUI_Maximus']()
+            G.OVERLAY_MENU:get_UIE_by_ID("overlay_menu_back_button").config.button = "exit_overlay_menu_mxms"
+        end
+
+        G.FUNCS.exit_overlay_menu_mxms = function()
+            G.ACTIVE_MOD_UI = nil
+            G.FUNCS.exit_overlay_menu()
         end
 
         function G.SPLASH_MAXIMUS_LOGO:hover()
