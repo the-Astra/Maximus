@@ -881,12 +881,7 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
         create_card = function(self, card, i)
             local _card
             if G.GAME.modifiers.mxms_empire_arcana then
-                local pool = get_current_pool('Tarot')
-                for n, v in ipairs(pool) do
-                    if v == 'UNAVAILABLE' then
-                        table.remove(pool, n)
-                    end
-                end
+                local pool = Maximus.get_clean_pool('Tarot')
                 _card = {
                     set = "Tarot",
                     area = G.pack_cards,
@@ -1091,6 +1086,16 @@ function Maximus.count_conspiracy_cards()
         end
     end
     return count
+end
+
+function Maximus.get_clean_pool(_type, _rarity, _legendary, _append)
+    local pool = get_current_pool(_type, _rarity, _legendary, _append)
+    for i, v in ipairs(pool) do
+        if v == 'UNAVAILABLE' then
+            pool[i] = nil
+        end
+    end
+    return pool
 end
 
 --#endregion
