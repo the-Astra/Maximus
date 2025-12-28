@@ -18,6 +18,13 @@ return {
                     'at the end of every ante'
                 }
             },
+            b_mxms_empire = {
+                name = 'Empire Deck',
+                text = {
+                    '{C:tarot}Arcana{} packs contain',
+                    '{C:attention}every{} available {C:tarot}Tarot{} card',
+                }
+            },
             b_mxms_grilled = {
                 name = 'Grilled Deck',
                 text = {

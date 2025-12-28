@@ -75,3 +75,18 @@ if self.GAME.starting_params.mxms_all_faces and not SMODS.Ranks[v.value].face th
 '''
 match_indent = true
 times = 1
+
+
+# Empire Deck custom context
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''
+G.GAME.pack_choices = math.min((self.ability.choose or self.config.center.config.choose or 1) + (G.GAME.modifiers.booster_choice_mod or 0), self.ability.extra and math.max(1, self.ability.extra + (G.GAME.modifiers.booster_size_mod or 0)) or self.config.center.extra and math.max(1, self.config.center.extra + (G.GAME.modifiers.booster_size_mod or 0)) or 1)
+'''
+position = 'before'
+payload = '''
+SMODS.calculate_context({mxms_pre_choice_modify = true, card = self, booster = booster_obj})
+'''
+match_indent = true
+times = 1
