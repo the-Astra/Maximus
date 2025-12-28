@@ -30,11 +30,11 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.selling_self and stg.rounds >= stg.req and not context.blueprint then
-            local voucher_pool = get_current_pool('Voucher')
+            local voucher_pool = Maximus.get_clean_pool('Voucher')
 
             local eligible_vouchers = {}
             for i = 1, #voucher_pool do
-                if voucher_pool[i] ~= 'UNAVAILABLE' and G.P_CENTERS[voucher_pool[i]].requires then
+                if G.P_CENTERS[voucher_pool[i]].requires then
                     eligible_vouchers[#eligible_vouchers + 1] = voucher_pool[i]
                 end
             end

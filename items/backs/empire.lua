@@ -16,8 +16,7 @@ SMODS.Back {
     end,
     calculate = function(self, back, context)
         if context.mxms_pre_choice_modify and context.booster.kind == 'Arcana' then
-            local pool = get_current_pool('Tarot')
-            context.card.ability.extra = SMODS.size_of_pool(pool)
+            context.card.ability.extra = SMODS.size_of_pool(get_current_pool('Tarot'))
         end
     end,
 }
