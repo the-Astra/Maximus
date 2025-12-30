@@ -14,7 +14,7 @@ SMODS.Joker { -- Refrigerator
     blueprint_compat = false,
     cost = 6,
     calculate = function(self, card, context)
-        if context.mod_probability and context.trigger_obj.config and (context.trigger_obj.config.center and context.trigger_obj.config.center.pools and context.trigger_obj.config.center.pools.Food) then
+        if context.mod_probability and context.trigger_obj.config and context.trigger_obj.config.center and context.trigger_obj.config.center.pools and context.trigger_obj.config.center.pools.Food then
             if context.trigger_obj.config.center_key == 'j_mxms_fortune_cookie' then
                 return {
                     numerator = context.numerator

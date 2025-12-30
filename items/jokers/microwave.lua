@@ -16,8 +16,8 @@ SMODS.Joker {
     cost = 6,
     calculate = function(self, card, context)
         -- Thank you to theonegoodali from the Balatro Discord for helping me with this conditional
-        if context.retrigger_joker_check and not context.retrigger_joker and (context.other_card.config.center.pools and context.other_card.config.center.pools.Food)
-            and context.other_card.config.center_key ~= "j_mxms_leftovers" then
+        if context.retrigger_joker_check and not context.retrigger_joker and context.other_card.config and context.other_card.config.center and context.other_card.config.center.pools
+            and context.other_card.config.center.pools.Food and context.other_card.config.center_key ~= "j_mxms_leftovers" then
             return {
                 message = localize('k_again_ex'),
                 repetitions = 1,
