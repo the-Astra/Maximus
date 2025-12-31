@@ -8,7 +8,9 @@ SMODS.Joker {
     rarity = 1,
     config = {
         extra = {
-            size = 3
+            size = 3,
+            num_drawn = 0,
+            prepped = false
         }
     },
     mxms_credits = {
@@ -36,7 +38,17 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.draw_individual and context.num_drawn <= stg.size and not context.to_booster then
+        if context.press_play then
+            stg.prepped = true
+        end
+
+        if context.setting_blind or context.hand_drawn then
+            stg.prepped = false
+            stg.num_drawn = 0
+        end
+
+        if context.stay_flipped and stg.num_drawn < stg.size and context.to_area == G.hand and stg.prepped then
+            stg.num_drawn = stg.num_drawn + 1
             return {
                 stay_flipped = true
             }
