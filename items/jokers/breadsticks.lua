@@ -8,7 +8,7 @@ SMODS.Joker {
     rarity = 1,
     config = {
         extra = {
-            d_requirement = 2,
+            d_requirement = 1,
             d_tally = 0,
             chips = 0,
             dChips = 25
