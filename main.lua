@@ -1693,7 +1693,6 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'lazy',
 
     --Food-Related
-    'chef',
     'fortune_cookie',
     'breadsticks',
     'leftovers',
@@ -1704,6 +1703,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'rock_candy',
     'microwave',
     'refrigerator',
+    'chef',
     'four_course_meal',
 
     --Glass Gang
