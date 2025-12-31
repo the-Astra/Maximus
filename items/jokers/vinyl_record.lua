@@ -10,7 +10,7 @@ SMODS.Joker {
         extra = {
             side = 'a_side',
             hands = 0,
-            hand_limit = 10,
+            hand_limit = 1,
             mult = 15,
             chips = 150
         }
@@ -77,17 +77,10 @@ SMODS.Joker {
                     trigger = 'after',
                     delay = 0.25,
                     func = function()
-                        if stg.side == 'a_side' then
-                            stg.side = 'b_side'
-                            card.children.center:set_sprite_pos({ x = 5, y = 12 })
-                            color = G.C.CHIPS
-                            sound = 'chips1'
-                        elseif stg.side == 'b_side' then
-                            stg.side = 'a_side'
-                            card.children.center:set_sprite_pos({ x = 4, y = 12 })
-                            color = G.C.MULT
-                            sound = 'multhit1'
-                        end
+                        stg.side = stg.side == 'a_side' and 'b_side' or 'a_side'
+                        card.children.center:set_sprite_pos({ x = stg.side == 'a_side' and 4 or 5, y = 12 })
+                        color = stg.side == 'a_side' and G.C.MULT or G.C.CHIPS
+                        sound = stg.side == 'a_side' and 'multhit1' or 'chips1'
                         stg.hands = 0
                         return true;
                     end
@@ -105,5 +98,16 @@ SMODS.Joker {
                 }))
             end
         end
+    end,
+    set_ability = function(self, card, initial, delay_sprites)
+        local stg = card.ability.extra
+
+        local sides = {
+            'a_side',
+            'b_side'
+        }
+
+        stg.side = sides[SMODS.pseudorandom_probability(card, 'vinyl', 1, 2, nil, true) and 1 or 2]
+        card.children.center:set_sprite_pos({ x = stg.side == 'a_side' and 4 or 5, y = 12 })
     end
 }
