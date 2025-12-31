@@ -1958,7 +1958,7 @@ return {
             j_mxms_werewolf = {
                 name = 'Werewolf',
                 text = {
-                    'Gains {C:mult}+#1#{} Mult every',
+                    'Gains {C:chips}+#1#{} Chips every',
                     'time {C:tarot}The Moon{} is used',
                     '{C:inactive}(Currently: {C:mult}+#2#{C:inactive} Mult)'
                 }
