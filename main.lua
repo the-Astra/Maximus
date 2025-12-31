@@ -1599,8 +1599,18 @@ SMODS.Atlas { -- Main Joker Atlas
     py = 95
 }
 
-SMODS.Atlas { -- 4D Joker Atlas
+SMODS.Atlas { -- 4D Joker Atlases
     key = '4D',
+    path = "4d_joker.png",
+    px = 71,
+    py = 95,
+	atlas_table = 'ANIMATION_ATLAS',
+    frames = 71,
+    fps = 20
+}
+
+SMODS.Atlas {
+    key = '4D_soul',
     path = "4d_joker.png",
     px = 71,
     py = 95

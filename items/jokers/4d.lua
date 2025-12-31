@@ -5,10 +5,6 @@ SMODS.Joker {
         x = 0,
         y = 0
     },
-    soul_pos = {
-        x = 1,
-        y = 7
-    },
     rarity = 2,
     perishable_compat = false,
     eternal_compat = false,
@@ -48,40 +44,36 @@ SMODS.Joker {
         if context.selling_self and not context.blueprint then
             SMODS.calculate_context({ four_d_death = true })
         end
+    end,
+    set_sprites = function(self, card, front)
+        card.children.floating_sprite = Sprite(card.T.x, card.T.y, card.T.w, card.T.h, G.ASSET_ATLAS['mxms_4D_soul'], {x = 0, y = 1})
+        card.children.floating_sprite.role.draw_major = card
+        card.children.floating_sprite.states.hover.can = false
+        card.children.floating_sprite.states.click.can = false
+    end,
+    draw = function(self, card, layer)
+        if layer == 'card' or layer == 'both' then
+            if card.sprite_facing == 'front' and (card.config.center.discovered or card.bypass_discovery_center) then
+                local scale_mod = 0.07 + 0.02*math.sin(1.8*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+                local rotate_mod = 0.05*math.sin(1.219*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+
+                card.children.floating_sprite:draw_shader('dissolve',0, nil, nil, card.children.center,scale_mod, rotate_mod,nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
+                card.children.floating_sprite:draw_shader('dissolve', nil, nil, nil, card.children.center, scale_mod, rotate_mod)
+            end
+        end
     end
 }
 
 local upd = Game.update
 
-mxms_4d_dt_anim = 0
 mxms_4d_dt_mod = 0
 
 function Game:update(dt)
     upd(self, dt)
 
-    -- Increment dt animation value
-    mxms_4d_dt_anim = mxms_4d_dt_anim + dt
-
     -- Only increment dt mod value when 4D is in hand and run is not paused
     if next(SMODS.find_card('j_mxms_4d')) and not G.SETTINGS.paused then
         mxms_4d_dt_mod = mxms_4d_dt_mod + dt
-    end
-
-    -- 4D Animation Sequence (Derived from Jimball animation code)
-    if G.P_CENTERS and G.P_CENTERS.j_mxms_4d and mxms_4d_dt_anim > 0.05 then
-        mxms_4d_dt_anim = 0
-
-        local obj = G.P_CENTERS.j_mxms_4d
-
-        if obj.pos.x == 0 and obj.pos.y == 7 then
-            obj.pos.x = 0
-            obj.pos.y = 0
-        elseif obj.pos.x < 9 then
-            obj.pos.x = obj.pos.x + 1
-        elseif obj.pos.y < 7 then
-            obj.pos.x = 0
-            obj.pos.y = obj.pos.y + 1
-        end
     end
 
     -- 4D Decrement Xmult values
