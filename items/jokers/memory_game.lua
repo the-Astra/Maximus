@@ -10,7 +10,7 @@ SMODS.Joker {
         code = { "theAstra" },
         idea = { "pinkzigzagoon" }
     },
-    rarity = 1,
+    rarity = 2,
     blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)
