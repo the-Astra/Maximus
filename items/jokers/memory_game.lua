@@ -12,7 +12,7 @@ SMODS.Joker {
     },
     rarity = 2,
     blueprint_compat = false,
-    cost = 5,
+    cost = 6,
     calculate = function(self, card, context)
         if context.before and context.scoring_name == "Pair" and not context.blueprint then
             play_sound('tarot1')
