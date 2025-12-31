@@ -8,21 +8,15 @@ priority = 1
 [patches.pattern]
 target = "card.lua"
 pattern = '''
-if self.ability.name == 'Judgement' or self.ability.name == 'The Soul' then
-    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-        play_sound('timpani')
-        local card = create_card('Joker', G.jokers, self.ability.name == 'The Soul', nil, nil, nil, nil, self.ability.name == 'Judgement' and 'jud' or 'sou')
-        card:add_to_deck()
-        G.jokers:emplace(card)
-        if self.ability.name == 'The Soul' then check_for_unlock{type = 'spawn_legendary'} end
-        used_tarot:juice_up(0.3, 0.5)
+if self.ability.name == 'The Soul' then check_for_unlock{type = 'spawn_legendary'} end
+used_tarot:juice_up(0.3, 0.5)
 '''
 position = "after"
 payload = '''
-        if self.ability.name == 'Judgement' and next(SMODS.find_card('j_mxms_honorable')) then
-            delay(0.6)
-            SMODS.calculate_context({mxms_judgement_used = true, card = card})
-        end
+if self.ability.name == 'Judgement' and next(SMODS.find_card('j_mxms_honorable')) then
+    delay(0.6)
+    SMODS.calculate_context({mxms_judgement_used = true, card = card})
+end
 '''
 match_indent = true
 times = 1
