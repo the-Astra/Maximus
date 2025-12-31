@@ -1754,10 +1754,10 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'butterfly',
 
     --Shoppers
-    'coupon',
     'monk',
     'sleuth',
     'lint',
+    'coupon',
     'hedonist',
     'power_creep',
 

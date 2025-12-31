@@ -5,7 +5,7 @@ SMODS.Joker {
         x = 1,
         y = 4
     },
-    rarity = 1,
+    rarity = 2,
     config = {
         extra = {
             prob = 1,
@@ -18,7 +18,7 @@ SMODS.Joker {
         idea = { "Maxiss02" }
     },
     blueprint_compat = true,
-    cost = 5,
+    cost = 6,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
