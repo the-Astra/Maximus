@@ -28,19 +28,17 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.individual and context.cardarea == G.hand and not context.end_of_round then
-            if context.other_card.edition and context.other_card.edition.polychrome and context.other_card:is_face() then
-                return {
-                    x_mult = stg.Xmult,
-                    card = card
-                }
-            end
+        if context.individual and context.cardarea == G.hand and not context.end_of_round and context.other_card.edition and context.other_card:is_face() then
+            return {
+                x_mult = stg.Xmult,
+                card = card
+            }
         end
     end,
     in_pool = function(self, args)
         if G.playing_cards then
             for k, v in pairs(G.playing_cards) do
-                if v.edition and v.edition.polychrome and v:is_face() then
+                if v.edition and v:is_face() then
                     return true
                 end
             end

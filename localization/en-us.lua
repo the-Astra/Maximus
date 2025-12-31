@@ -1337,7 +1337,7 @@ return {
             j_mxms_prince = {
                 name = 'The Prince',
                 text = {
-                    '{C:dark_edition}Polychrome{} {C:attention}face{} cards held',
+                    '{C:attention}Face{} cards with an {C:dark_edition}edition{} held',
                     'in hand give {X:mult,C:white}X#1#{} Mult',
 
                     '{C:inactive,s:0.8}Reference: Madeon - The Prince'
