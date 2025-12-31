@@ -10,9 +10,9 @@ SMODS.Joker {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
-    rarity = 2,
+    rarity = 1,
     blueprint_compat = false,
-    cost = 5,
+    cost = 3,
     calculate = function(self, card, context)
         if context.before and not context.blueprint and #context.scoring_hand == 4 then
             -- Code derived from Sigil
