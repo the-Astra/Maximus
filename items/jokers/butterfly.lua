@@ -30,7 +30,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.using_consumeable then
+        if context.using_consumeable and not context.consumeable.created_by_butterfly then
             if not context.blueprint then
                 stg.consumables = stg.consumables + 1
                 SMODS.calculate_effect({ message = stg.consumables .. '/' .. stg.goal, colour = G.C.PLANET }, card)
@@ -40,10 +40,11 @@ SMODS.Joker {
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     func = function()
-                        SMODS.add_card({
+                        local new_card = SMODS.add_card({
                             set = 'Spectral',
                             key_append = 'butterfly'
                         })
+                        new_card.created_by_butterfly = true
 
                         stg.consumables = 0
 

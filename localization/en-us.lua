@@ -439,6 +439,8 @@ return {
                 text = {
                     'Creates a {C:spectral}Spectral{} Card',
                     'every {C:attention}#2#{} consumables used',
+                    '{s:0.8,C:inactive}Cards created by Butterfly do',
+                    '{s:0.8,C:inactive}not count towards this total',
                     '{C:inactive}(Currently: #1#/#2#)'
                 },
                 unlock = {
