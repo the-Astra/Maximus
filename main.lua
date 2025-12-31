@@ -1774,10 +1774,10 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
 
     --Horoscope Jokers
     'hippie',
-    'cheat_day',
     'letter',
     'employee',
     'nomai',
+    'cheat_day',
 
     --Conspiracy Jokers
     'grifter',

@@ -11,9 +11,9 @@ if Maximus_config.horoscopes then
             code = { "theAstra" },
             idea = { "Maxiss02" }
         },
-        rarity = 2,
+        rarity = 3,
         blueprint_compat = false,
-        cost = 4,
+        cost = 7,
         calculate = function(self, card, context)
             if context.mxms_failed_horoscope and not context.blueprint then
                 SMODS.calculate_effect(
