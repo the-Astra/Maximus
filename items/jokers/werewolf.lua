@@ -8,8 +8,8 @@ SMODS.Joker {
     rarity = 1,
     config = {
         extra = {
-            mult = 0,
-            gain = 5
+            chips = 0,
+            gain = 40
         }
     },
     mxms_credits = {
@@ -24,7 +24,7 @@ SMODS.Joker {
         local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS['c_moon']
         return {
-            vars = { stg.gain, stg.mult }
+            vars = { stg.gain, stg.chips }
         }
     end,
     calculate = function(self, card, context)
@@ -33,17 +33,17 @@ SMODS.Joker {
         if context.using_consumeable and context.consumeable.config.center_key == 'c_moon' and not context.blueprint then
             SMODS.scale_card(card, {
                 ref_table = stg,
-                ref_value = "mult",
+                ref_value = "chips",
                 scalar_value = "gain",
-                message_key = 'a_mult',
-                message_colour = G.C.MULT
+                message_key = 'a_chips',
+                message_colour = G.C.chips
             })
             return nil, true
         end
 
-        if context.joker_main and stg.mult > 0 then
+        if context.joker_main and stg.chips > 0 then
             return {
-                mult = stg.mult
+                chips = stg.chips
             }
         end
     end
