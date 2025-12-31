@@ -10,7 +10,7 @@ SMODS.Joker {
         extra = {
             side = 'a_side',
             hands = 0,
-            hand_limit = 1,
+            hand_limit = 10,
             mult = 15,
             chips = 150
         }
