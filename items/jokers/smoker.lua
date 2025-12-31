@@ -35,13 +35,15 @@ SMODS.Joker {
         end
 
         if context.scoring_name == 'High Card' and context.individual and context.cardarea == G.play and not context.blueprint then
-            stg.temp_gain = context.other_card:get_chip_bonus()
-            SMODS.scale_card(card, {
-                ref_table = stg,
-                ref_value = "chips",
-                scalar_value = "temp_gain",
-                message_colour = G.C.CHIPS
-            })
+            stg.temp_gain = context.other_card.base.nominal
+            if stg.temp_gain > 0 then
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = "chips",
+                    scalar_value = "temp_gain",
+                    message_colour = G.C.CHIPS
+                })
+            end
             stg.temp_gain = nil
             return nil, true
         end

@@ -1732,7 +1732,7 @@ return {
                 text = {
                     'If played hand is a {C:attention}High Card{},',
                     'gains {C:chips}Chips{} equal to each scoring',
-                    'card\'s {C:chips}Chip{} value',
+                    'card\'s {C:attention}Rank{} value',
                     '{C:inactive}(Currently: {C:chips}+#1# {C:inactive}Chips)'
                 }
             },
