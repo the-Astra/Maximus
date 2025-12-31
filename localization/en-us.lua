@@ -1970,8 +1970,8 @@ return {
             j_mxms_wild_buddy = {
                 name = 'Wild Buddy',
                 text = {
-                    '{X:mult,C:white}X#1#{} Mult during',
-                    '{C:attention}non-Boss{} Blinds',
+                    '{X:mult,C:white}X#1#{} Mult,',
+                    '{C:red}debuffed} during {C:attention}Boss{} Blinds',
 
                     '{C:inactive,s:0.8}Reference: UFO 50'
                 }

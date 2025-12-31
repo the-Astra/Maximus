@@ -27,7 +27,12 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.joker_main and not G.GAME.blind.boss then
+        if context.setting_blind and G.GAME.blind.boss then
+            card.debuff = true
+            card.debuffed_by_blind = true
+        end
+
+        if context.joker_main then
             return {
                 x_mult = stg.Xmult
             }
