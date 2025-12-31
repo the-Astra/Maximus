@@ -37,20 +37,19 @@ SMODS.Joker {
                 }
             else
                 -- Choose Joker to affect
-                local chosen_joker = pseudorandom_element(eligible_jokers,
-                    pseudoseed('abyss' .. G.GAME.round_resets.ante))
+                local chosen_joker = pseudorandom_element(eligible_jokers, 'aby' .. G.GAME.round_resets.ante)
 
                 -- "Flip a coin" to decide what to do with the target
-                local flip = pseudorandom(pseudoseed('aby' .. G.GAME.round_resets.ante), 1, 2)
+                local flip = SMODS.pseudorandom_probability(card, 'aby' .. G.GAME.round_resets.ante, 1, 2, nil, nil, true)
 
-                if flip == 1 then -- Add negative edition to random held joker
+                if flip then -- Add negative edition to random held joker
                     (context.blueprint_card or card):juice_up(0.3, 0.4)
                     chosen_joker:set_edition({ negative = true }, true)
                     return {
                         message = localize('k_mxms_void_touched_ex'),
                         colour = G.C.PURPLE
                     }
-                elseif flip == 2 then -- Destroy a random non-negative joker
+                elseif not flip then -- Destroy a random non-negative joker
                     -- Double check the target is not self
                     -- Code derived Madness
                     if chosen_joker and not (context.blueprint_card or card).getting_sliced then
