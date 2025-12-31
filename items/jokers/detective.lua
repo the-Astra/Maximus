@@ -53,6 +53,10 @@ SMODS.Joker {
                 stay_flipped = true
             }
         end
+
+        if context.end_of_round and stg.prepped then
+            stg.prepped = false
+        end
     end,
 }
 
