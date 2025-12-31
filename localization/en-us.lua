@@ -470,7 +470,7 @@ return {
                 name = 'Pocket Change',
                 text = {
                     '{C:money}Reward Money{} is rounded',
-                    'up to the next multiple of {C:attention}5'
+                    'up to the next multiple of {C:attention}10'
                 },
             },
             j_mxms_cheat_day = {
