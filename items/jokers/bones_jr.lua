@@ -20,7 +20,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
 
-        local hands = G.GAME.starting_params.hands
+        local hands = G.GAME.round_resets.hands
         if not hands then
             hands = 4
         end
@@ -29,11 +29,12 @@ SMODS.Joker {
             vars = { hands, stg.extra_hands }
         }
     end,
+    display_size = { h = 66.5, w = 49.7 },
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
         if context.after and not context.blueprint and
-            hand_chips * mult < G.GAME.blind.chips / G.GAME.starting_params.hands then
+            hand_chips * mult < G.GAME.blind.chips / G.GAME.round_resets.hands then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     G.hand_text_area.blind_chips:juice_up()
