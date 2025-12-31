@@ -13,7 +13,7 @@ SMODS.Joker {
     config = {
         extra = {
             mult = 2,
-            chips = 15
+            chips = 10
         }
     },
     discovered = true,
