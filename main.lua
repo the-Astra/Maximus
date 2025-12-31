@@ -1508,6 +1508,23 @@ sendDebugMessage("", 'Maximus')
 
 -- Horoscope Type
 if Maximus_config.horoscopes then
+    Maximus.custom_card_areas = function(game)
+        game.mxms_horoscope_W = G.CARD_W*1.1
+        game.mxms_horoscope_H = 0.95*G.CARD_H
+
+        game.mxms_horoscope = CardArea(
+            G.consumeables.T.x + 2.25,
+            G.consumeables.T.y + G.consumeables.T.h + 1,
+            game.mxms_horoscope_W,
+            game.mxms_horoscope_H,
+            {card_limit = 1, type = 'joker', highlight_limit = 1}
+        )
+
+        if TheFamily then
+            game.mxms_horoscope.states.visible = false
+        end
+    end
+
     SMODS.ConsumableType {
         key = 'Horoscope',
         primary_colour = Maximus.C.SET.Horoscope,
