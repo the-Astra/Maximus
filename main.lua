@@ -945,26 +945,22 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
 
 --#region Helper Functions ----------------------------------------------------------------------------------
 
-function Maximus.reset_horoscopes()
-    if G.GAME.mxms_aries_bonus then
-        G.GAME.mxms_aries_bonus = false
-    end
-    if G.GAME.mxms_cancer_bonus > 0 then
-        G.GAME.round_resets.hands = G.GAME.round_resets.hands - G.GAME.mxms_cancer_bonus
-        ease_hands_played(-G.GAME.mxms_cancer_bonus)
-        G.GAME.mxms_cancer_bonus = 0
-    end
+function Maximus.activate_horoscope_tag(tag)
+    tag.config.active = true
 
-    if G.GAME.mxms_leo_bonus > 0 then
-        G.hand:change_size(-G.GAME.mxms_leo_bonus)
-        G.GAME.mxms_leo_bonus = 0
-    end
+    attention_text({
+        text = '+',
+        colour = G.C.WHITE,
+        scale = 1,
+        hold = 0.3 / G.SETTINGS.GAMESPEED,
+        cover = tag.HUD_tag,
+        cover_colour = Maximus.C.SET.Horoscope,
+        align = 'cm',
+    })
 
-    if G.GAME.mxms_virgo_bonus > 0 then
-        G.GAME.round_resets.discards = G.GAME.round_resets.discards - G.GAME.mxms_virgo_bonus
-        ease_discard(-G.GAME.mxms_virgo_bonus)
-        G.GAME.mxms_virgo_bonus = 0
-    end
+    tag.pos.y = tag.pos.y + 1
+    tag:juice_up(0.3, 0.4)
+    play_sound('foil1', 1.2, 0.4)
 end
 
 -- Checks if a card should have an inverted check when evaluating prob results
@@ -1506,15 +1502,15 @@ sendDebugMessage("", 'Maximus')
 -- Horoscope Type
 if Maximus_config.horoscopes then
     Maximus.custom_card_areas = function(game)
-        game.mxms_horoscope_W = G.CARD_W*1.1
-        game.mxms_horoscope_H = 0.95*G.CARD_H
+        game.mxms_horoscope_W = G.CARD_W * 1.1
+        game.mxms_horoscope_H = 0.95 * G.CARD_H
 
         game.mxms_horoscope = CardArea(
             G.consumeables.T.x + 2.25,
             G.consumeables.T.y + G.consumeables.T.h + 1,
             game.mxms_horoscope_W,
             game.mxms_horoscope_H,
-            {card_limit = 1, type = 'joker', highlight_limit = 1}
+            { card_limit = 1, type = 'joker', highlight_limit = 1 }
         )
 
         if TheFamily then
@@ -1603,7 +1599,7 @@ SMODS.Atlas { -- 4D Joker Atlases
     path = "4d_joker.png",
     px = 71,
     py = 95,
-	atlas_table = 'ANIMATION_ATLAS',
+    atlas_table = 'ANIMATION_ATLAS',
     frames = 71,
     fps = 20
 }
