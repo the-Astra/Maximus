@@ -58,7 +58,7 @@ SMODS.Consumable {
             end
         end
 
-        if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind.boss then
+        if context.ante_change and context.ante_end then
             stg.extra.antes = stg.extra.antes + 1
             if stg.extra.antes >= stg.extra.ante_limit then
                 self:fail(card)

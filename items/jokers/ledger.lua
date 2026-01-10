@@ -24,7 +24,7 @@ SMODS.Joker {
     },
     blueprint_compat = true,
     calculate = function(self, card, context)
-        if context.end_of_round and not context.individual and not context.repetition and G.GAME.blind and G.GAME.blind.boss then
+        if context.ante_change and context.ante_end then
             local eligible_jokers = {}
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] ~= card and not G.jokers.cards[i].edition and not G.jokers.cards[i].getting_sliced then
