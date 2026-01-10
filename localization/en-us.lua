@@ -2396,19 +2396,40 @@ return {
             tag_mxms_crab = {
                 name = 'Crab Tag',
                 text = {
-                    "{C:blue}+2{} hands next ante",
+                    "{C:blue}+#1#{} hands next ante",
+                },
+            },
+            tag_mxms_crab_active = {
+                name = 'Crab Tag',
+                text = {
+                    "{C:horoscope,E:1,s:1.2}ACTIVE!",
+                    "{C:blue}+#1#{} hands this ante",
                 },
             },
             tag_mxms_lion = {
                 name = 'Lion Tag',
                 text = {
-                    "{C:attention}+3 hand size{} next ante",
+                    "{C:attention}+#1# hand size{} next ante",
+                },
+            },
+            tag_mxms_lion_active = {
+                name = 'Lion Tag',
+                text = {
+                    "{C:horoscope,E:1,s:1.2}ACTIVE!",
+                    "{C:attention}+#1# hand size{} this ante",
                 },
             },
             tag_mxms_maiden = {
                 name = 'Maiden Tag',
                 text = {
-                    "{C:red}+3{} discards next ante",
+                    "{C:red}+#1#{} discards next ante",
+                },
+            },
+            tag_mxms_maiden_active = {
+                name = 'Maiden Tag',
+                text = {
+                    "{C:horoscope,E:1,s:1.2}ACTIVE!",
+                    "{C:red}+#1#{} discards this ante",
                 },
             },
             tag_mxms_ram = {
@@ -2416,6 +2437,14 @@ return {
                 text = {
                     "Cuts {C:attention}15%{} off all blind",
                     "requirements next ante",
+                },
+            },
+            tag_mxms_ram_active = {
+                name = 'Ram Tag',
+                text = {
+                    "{C:horoscope,E:1,s:1.2}ACTIVE!",
+                    "Cuts {C:attention}15%{} off all blind",
+                    "requirements this ante",
                 },
             },
             tag_mxms_scale = {

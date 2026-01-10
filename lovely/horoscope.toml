@@ -126,8 +126,9 @@ end
 '''
 position = "after"
 payload = '''
-if G.GAME.mxms_aries_bonus then
-    blind_amt = blind_amt * 0.85
+if G.GAME.mxms_aries_bonus and G.GAME.mxms_aries_bonus > 0 then
+    local aries_mod = G.GAME.mxms_aries_bonus >= 100 and 0 or 1 - (G.GAME.mxms_aries_bonus/100)
+    blind_amt = blind_amt * aries_mod
 end 
 '''
 match_indent = true
@@ -143,8 +144,9 @@ end
 '''
 position = "after"
 payload = '''
-if G.GAME.mxms_aries_bonus then
-    self.chips = self.chips * 0.85
+if G.GAME.mxms_aries_bonus and G.GAME.mxms_aries_bonus > 0 then
+    local aries_mod = G.GAME.mxms_aries_bonus >= 100 and 0 or 1 - (G.GAME.mxms_aries_bonus/100)
+    self.chips = self.chips * aries_mod
 end 
 '''
 match_indent = true

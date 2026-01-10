@@ -746,11 +746,8 @@ Game.init_game_object = function(self)
 
     ret.astro_last_pack = 1
 
-    ret.mxms_aries_bonus = false
-    ret.mxms_cancer_bonus = 0
-    ret.mxms_leo_bonus = 0
-    ret.mxms_virgo_bonus = 0
     ret.mxms_libra_bonus = 0
+    ret.mxms_aries_bonus = 0
     ret.mxms_sagittarius_bonus = false
 
     --Pool Flags
@@ -1558,7 +1555,9 @@ if Maximus_config.horoscopes then
     -- Global calculates for Horoscope resetting and and Horoscope tag application
     Maximus.calculate = function(self, context)
         if context.ante_change and context.ante_end then
-            Maximus.reset_horoscopes()
+            for i = 1, #G.GAME.tags do
+                G.GAME.tags[i]:apply_to_run({ type = 'reset_horoscopes' })
+            end
             for i = 1, #G.GAME.tags do
                 G.GAME.tags[i]:apply_to_run({ type = 'start_apply_horoscopes' })
             end
