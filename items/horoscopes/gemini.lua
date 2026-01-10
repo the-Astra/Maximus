@@ -7,20 +7,7 @@ SMODS.Consumable {
         y = 1
     },
     config = {
-        hands = {
-            ["Flush Five"] = false,
-            ["Flush House"] = false,
-            ["Five of a Kind"] = false,
-            ["Straight Flush"] = false,
-            ["Four of a Kind"] = false,
-            ["Full House"] = false,
-            ["Flush"] = false,
-            ["Straight"] = false,
-            ["Three of a Kind"] = false,
-            ["Two Pair"] = false,
-            ["Pair"] = false,
-            ["High Card"] = false,
-        },
+        hands = {},
         extra = {
             times = 0,
             goal = 3,
@@ -73,11 +60,17 @@ SMODS.Consumable {
                         if TheFamily then G.GAME.horoscope_alert = true end
                     end
                 }, card)
+
+            local hands_to_upgrade = {}
             for k, v in pairs(card.ability.hands) do
                 if v then
-                    SMODS.smart_level_up_hand(card, k, false, stg.upgrade)
+                    table.insert(hands_to_upgrade, k)
                 end
             end
+            if next(hands_to_upgrade) then
+                SMODS.upgrade_poker_hands({hands = hands_to_upgrade, level_up = stg.upgrade, from = card})
+            end
+
             G.E_MANAGER:add_event(Event({
                 func = function()
                     card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
