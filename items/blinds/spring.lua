@@ -1,8 +1,7 @@
 SMODS.Blind {
     key = 'spring',
     boss = {
-        min = 1,
-        max = 10
+        min = 1
     },
     atlas = 'Blinds',
     pos = {

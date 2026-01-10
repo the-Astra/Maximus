@@ -1,8 +1,7 @@
 SMODS.Blind { --The Grinder
     key = 'grinder',
     boss = {
-        min = 3,
-        max = 10
+        min = 3
     },
     atlas = 'Blinds',
     pos = {
