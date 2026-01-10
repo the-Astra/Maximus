@@ -1896,10 +1896,9 @@ return {
             j_mxms_under_construction = {
                 name = 'Under Construction',
                 text = {
-                    '{C:attention}-#1#{} Joker slot while held',
-                    'After {C:attention}#4#{} rounds,',
-                    'sell to gain {C:attention}+#2#{} Joker slot',
-                    '{C:inactive,s:0.8}(Currently #3#/#4#)'
+                    'After {C:attention}#3#{} rounds,',
+                    'sell to gain {C:attention}+#1#{} Joker slot',
+                    '{C:inactive,s:0.8}(Currently #2#/#3#)'
                 }
             },
             j_mxms_unpleasant_gradient = {

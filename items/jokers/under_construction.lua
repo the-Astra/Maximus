@@ -7,9 +7,9 @@ SMODS.Joker {
     },
     rarity = 3,
     config = {
+        extra_slots_used = 1,
         extra = {
             rounds = 0,
-            decrease = 1,
             increase = 1,
             goal = 3
         }
@@ -25,7 +25,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.decrease, stg.increase, stg.rounds, stg.goal }
+            vars = { stg.increase, stg.rounds, stg.goal }
         }
     end,
     calculate = function(self, card, context)
@@ -55,13 +55,5 @@ SMODS.Joker {
                 card = card
             }
         end
-    end,
-    add_to_deck = function(self, card, from_debuff)
-        local stg = card.ability.extra
-        G.jokers:change_size(-stg.decrease)
-    end,
-    remove_from_deck = function(self, card, from_debuff)
-        local stg = card.ability.extra
-        G.jokers:change_size(stg.decrease)
-    end,
+    end
 }
