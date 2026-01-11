@@ -28,8 +28,6 @@ if Maximus_config.horoscopes then
                     trigger = 'after',
                     delay = 0.4,
                     func = function()
-                        G.GAME.round_resets.hands = G.GAME.round_resets.hands + tag.config.hands
-                        ease_hands_played(2)
                         Maximus.activate_horoscope_tag(tag)
                         return true;
                     end
@@ -38,14 +36,16 @@ if Maximus_config.horoscopes then
                     trigger = 'after',
                     delay = 0.7
                 }))
+                G.GAME.round_resets.hands = G.GAME.round_resets.hands + tag.config.hands
+                ease_hands_played(2)
             end
 
             if context.type == 'reset_horoscopes' and tag.config.active then
                 tag:yep('-', Maximus.C.SET.Horoscope, function()
-                    G.GAME.round_resets.hands = G.GAME.round_resets.hands - tag.config.hands
-                    ease_hands_played(-tag.config.hands)
                     return true
                 end)
+                G.GAME.round_resets.hands = G.GAME.round_resets.hands - tag.config.hands
+                ease_hands_played(-tag.config.hands)
                 tag.triggered = true
             end
         end,

@@ -28,7 +28,6 @@ if Maximus_config.horoscopes then
                     trigger = 'after',
                     delay = 0.4,
                     func = function()
-                        G.hand:change_size(tag.config.hand_size)
                         Maximus.activate_horoscope_tag(tag)
                         return true;
                     end
@@ -37,13 +36,14 @@ if Maximus_config.horoscopes then
                     trigger = 'after',
                     delay = 0.7
                 }))
+                G.hand:change_size(tag.config.hand_size)
             end
 
             if context.type == 'reset_horoscopes' and tag.config.active then
                 tag:yep('-', Maximus.C.SET.Horoscope, function()
-                    G.hand:change_size(-tag.config.hand_size)
                     return true
                 end)
+                G.hand:change_size(-tag.config.hand_size)
                 tag.triggered = true
             end
         end,

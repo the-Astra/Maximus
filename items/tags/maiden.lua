@@ -28,8 +28,6 @@ if Maximus_config.horoscopes then
                     trigger = 'after',
                     delay = 0.4,
                     func = function()
-                        G.GAME.round_resets.discards = G.GAME.round_resets.discards + tag.config.discards
-                        ease_discard(tag.config.discards)
                         Maximus.activate_horoscope_tag(tag)
                         return true;
                     end
@@ -38,14 +36,16 @@ if Maximus_config.horoscopes then
                     trigger = 'after',
                     delay = 0.7
                 }))
+                G.GAME.round_resets.discards = G.GAME.round_resets.discards + tag.config.discards
+                ease_discard(tag.config.discards)
             end
 
             if context.type == 'reset_horoscopes' and tag.config.active then
                 tag:yep('-', Maximus.C.SET.Horoscope, function()
-                    G.GAME.round_resets.discards = G.GAME.round_resets.discards - tag.config.discards
-                    ease_discard(-tag.config.discards)
                     return true
                 end)
+                G.GAME.round_resets.discards = G.GAME.round_resets.discards - tag.config.discards
+                ease_discard(-tag.config.discards)
                 tag.triggered = true
             end
         end,
