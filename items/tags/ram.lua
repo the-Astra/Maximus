@@ -27,12 +27,16 @@ if Maximus_config.horoscopes then
                 G.GAME.mxms_aries_bonus = G.GAME.mxms_aries_bonus + tag.config.modifier
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
+                    delay = 0.4,
                     func = function()
                         Maximus.activate_horoscope_tag(tag)
                         return true;
                     end
                 }))
-                return true
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.7
+                }))
             end
 
             if context.type == 'reset_horoscopes' and tag.config.active then
