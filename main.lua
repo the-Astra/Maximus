@@ -960,7 +960,7 @@ function Maximus.activate_horoscope_tag(tag)
 
     tag.pos.y = tag.pos.y + 1
     tag:juice_up(0.3, 0.4)
-    play_sound('foil1', 1.2, 0.4)
+    play_sound('foil1', 1.2 + math.random()*0.1, 0.4)
 end
 
 -- Checks if a card should have an inverted check when evaluating prob results
