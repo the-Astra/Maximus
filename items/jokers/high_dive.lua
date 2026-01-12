@@ -7,7 +7,9 @@ SMODS.Joker {
     },
     rarity = 2,
     config = {
-        extra = 1
+        extra = {
+            repetitions = 1
+        }
     },
     mxms_credits = {
         art = { "pinkzigzagoon" },
@@ -28,7 +30,7 @@ SMODS.Joker {
         if context.repetition and context.cardarea == G.play and context.scoring_name == "High Card" then
             return {
                 message = localize('k_again_ex'),
-                repetitions = stg,
+                repetitions = stg.repetitions,
                 card = card
             }
         end
