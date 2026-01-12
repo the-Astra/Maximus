@@ -946,21 +946,31 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
 --#region Helper Functions ----------------------------------------------------------------------------------
 
 function Maximus.activate_horoscope_tag(tag)
-    tag.config.active = true
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.4,
+        func = function()
+            tag.config.active = true
+            attention_text({
+                text = '+',
+                colour = G.C.WHITE,
+                scale = 1,
+                hold = 0.3 / G.SETTINGS.GAMESPEED,
+                cover = tag.HUD_tag,
+                cover_colour = Maximus.C.SET.Horoscope,
+                align = 'cm',
+            })
 
-    attention_text({
-        text = '+',
-        colour = G.C.WHITE,
-        scale = 1,
-        hold = 0.3 / G.SETTINGS.GAMESPEED,
-        cover = tag.HUD_tag,
-        cover_colour = Maximus.C.SET.Horoscope,
-        align = 'cm',
-    })
-
-    tag.pos.y = tag.pos.y + 1
-    tag:juice_up(0.3, 0.4)
-    play_sound('foil1', 1.2 + math.random()*0.1, 0.4)
+            tag.pos.y = tag.pos.y + 1
+            tag:juice_up(0.3, 0.4)
+            play_sound('foil1', 1.2 + math.random() * 0.1, 0.4)
+            return true;
+        end
+    }))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.7
+    }))
 end
 
 -- Checks if a card should have an inverted check when evaluating prob results

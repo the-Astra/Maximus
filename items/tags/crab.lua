@@ -24,18 +24,7 @@ if Maximus_config.horoscopes then
         end,
         apply = function(self, tag, context)
             if context.type == 'start_apply_horoscopes' and not tag.config.active then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.4,
-                    func = function()
-                        Maximus.activate_horoscope_tag(tag)
-                        return true;
-                    end
-                }))
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.7
-                }))
+                Maximus.activate_horoscope_tag(tag)
                 G.GAME.round_resets.hands = G.GAME.round_resets.hands + tag.config.hands
                 ease_hands_played(2)
             end
