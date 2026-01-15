@@ -977,9 +977,9 @@ return {
             j_mxms_golden_rings = {
                 name = 'Five Golden Rings',
                 text = {
-                    'A hand made entirely',
-                    'of {C:attention}enhanced cards{}',
-                    'counts as a {C:attention}Flush{}',
+                    'A hand made of 5 or more',
+                    '{C:attention}enhanced cards{} counts',
+                    'as a {C:attention}Flush{}',
 
                     '{C:inactive,s:0.8}Reference: 12 Days of Christmas'
                 }
