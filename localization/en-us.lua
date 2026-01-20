@@ -186,7 +186,7 @@ return {
             },
             c_mxms_gemini = {
                 name = 'Gemini',
-                text = { 
+                text = {
                     'For the next {C:blue}#1#{} hands,',
                     'play {C:red}no repeat hand types{} to',
                     'receive {C:attention}+#2#{} levels for',
@@ -645,13 +645,15 @@ return {
             },
             j_mxms_fog = {
                 name = 'Fog',
-                text = {
+                text = { {
                     '{C:attention}Four of a Kinds',
                     'contain {C:attention}Two Pairs',
-                    'Two Pairs with a {C:attention}1-rank',
+                }, {
+                    '{C:attention}Two Pairs{} with a {C:attention}1-rank',
                     '{C:attention}difference{} count',
-                    'as Four of a Kinds',
+                    'as {C:attention}Four of a Kinds',
                     '{C:inactive}(ex. 6 6 5 5)'
+                }
                 }
             },
             j_mxms_fools_gold = {
@@ -1258,14 +1260,16 @@ return {
             },
             j_mxms_phoenix = {
                 name = 'Phoenix',
-                text = {
+                text = { {
                     'After scoring, all scored',
                     '{C:attention}Face{} cards are {C:red}destroyed{}',
+                }, {
                     'If any face cards are,',
                     '{C:red}destroyed{}, give a {C:attention}Red Seal',
                     'to all other scoring cards',
 
                     '{C:inactive,s:0.8}Reference: Joker (2019)'
+                }
                 },
                 unlock = {
                     "{E:1,s:1.3}?????",
