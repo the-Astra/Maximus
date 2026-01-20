@@ -28,23 +28,15 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         if context.after and not context.blueprint then
-            local faces = 0
+            local faces = {}
             for k, v in pairs(context.scoring_hand) do
                 if v:is_face() then
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.5,
-                        func = function()
-                            v:start_dissolve()
-                            card:juice_up(0.8, 0.8)
-                            return true;
-                        end
-                    }))
-                    faces = faces + 1
+                    table.insert(faces, v)
                 end
             end
 
-            if faces > 0 then
+            if #faces > 0 then
+                SMODS.destroy_cards(faces)
                 for k, v in pairs(context.scoring_hand) do
                     if not v:is_face() then
                         G.E_MANAGER:add_event(Event({
