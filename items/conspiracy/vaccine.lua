@@ -25,8 +25,9 @@ SMODS.Consumable {
         info_queue[#info_queue + 1] = G.P_CENTERS.m_lucky
 
         local consp_count = Maximus.count_conspiracy_cards()
+        local prob, odds = SMODS.get_probability_vars(card, consp_count, stg.odds, 'vaccine')
 
-        return { vars = { SMODS.get_probability_vars(card, consp_count, stg.odds, 'vaccine'), stg.cards } }
+        return { vars = { prob, odds, stg.cards } }
     end,
     use = function(self, card, area, copier)
         local stg = card.ability.extra
