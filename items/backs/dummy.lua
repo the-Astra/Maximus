@@ -14,7 +14,7 @@ SMODS.Back {
         idea = { "pinkzigzagoon" }
     },
     loc_vars = function(self, info_queue, back)
-        local modifier = G.GAME.dollars or 0
+        local modifier = G.GAME.dollars and G.GAME.dollars > 0 and G.GAME.dollars or 0
         return { vars = { self.config.money_cap, modifier } }
     end,
     apply = function(self, back)
