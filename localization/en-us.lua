@@ -18,6 +18,16 @@ return {
                     'at the end of every ante'
                 }
             },
+            b_mxms_dummy = {
+                name = 'Dummy Deck',
+                text = {
+                    'Cannot have more than {C:money}$#1#',
+                    'When blind is selected,',
+                    'gain {C:purple}% of score{} equal',
+                    'to current {C:money}$',
+                    '{s:0.8,C:inactive}Currently: #2#%'
+                }
+            },
             b_mxms_empire = {
                 name = 'Empire Deck',
                 text = {

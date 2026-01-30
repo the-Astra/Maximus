@@ -1,7 +1,12 @@
 SMODS.Back {
     key = 'scarred',
+    atlas = 'Placeholder',
+    pos = {
+        x = 4,
+        y = 2
+    },
     mxms_credits = {
-        art = { "pinkzigzagoon" },
+        art = { "???" },
         code = { "theAstra" },
         idea = { "theAstra" }
     },

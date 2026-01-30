@@ -1228,8 +1228,9 @@ local ENABLED_BACKS = {
     'grilled',
     'autographed',
     'destiny',
-    --'scarred',
+    'scarred',
     'empire',
+    'dummy',
 }
 
 sendDebugMessage("Loading Backs...", 'Maximus')
