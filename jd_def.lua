@@ -40,6 +40,34 @@ jd_def['j_mxms_abyss_angel'] = { -- Abyss Angel
     end
 }
 
+jd_def['j_mxms_adrenaline'] = { -- Adrenaline
+    text = {
+        { text = "(" },
+        { ref_table = "card.joker_display_values", ref_value = "active" },
+        { text = ")" },
+    },
+    calc_function = function(card)
+        card.joker_display_values.active = card.ability.extra.active and localize('jdis_active') or localize('jdis_inactive')
+    end
+}
+
+jd_def['j_mxms_apophenia'] = { -- Apophenia
+    text = {
+        { text = "(" },
+        { ref_table = "card.joker_display_values", ref_value = "active" },
+        { text = ")" },
+    },
+    extra_config = { colour = G.C.GREEN, scale = 0.3 },
+    calc_function = function(card)
+        local _, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
+        if poker_hands['Straight'] and next(poker_hands['Straight']) then
+            card.joker_display_values.active = localize('jdis_active')
+        else
+            card.joker_display_values.active = localize('jdis_inactive')
+        end
+    end
+}
+
 jd_def['j_mxms_bankrupt'] = { -- Bankrupt
     text = {
         { text = "+" },
