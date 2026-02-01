@@ -32,7 +32,7 @@ SMODS.Joker {
             G.E_MANAGER:add_event(Event({
                 func = function()
                     if to_big(G.GAME.chips) - to_big(G.GAME.blind.chips) < to_big(0) then
-                        SMODS.scale_card(card {
+                        SMODS.scale_card(card, {
                             ref_table = stg,
                             ref_value = "Xmult",
                             scalar_value = "gain",
