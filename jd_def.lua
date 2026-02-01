@@ -105,6 +105,19 @@ jd_def['j_mxms_bell_curve'] = { -- Bell Curve
     },
 }
 
+jd_def['j_mxms_bigfool'] = { -- Bigfool
+    extra = {
+        { text = "(" },
+        { ref_table = "card.joker_display_values", ref_value = "odds" },
+        { text = ")" },
+    },
+    extra_config = { colour = G.C.GREEN, scale = 0.3 },
+    calc_function = function(card)
+        local numerator, denominator = SMODS.get_probability_vars(card, card.ability.extra.prob, card.ability.extra.odds, 'bigfool')
+        card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { numerator, denominator } }
+    end
+}
+
 jd_def['j_mxms_blackjack'] = { -- Blackjack
     text = {
         {
@@ -300,6 +313,15 @@ jd_def['j_mxms_comedian'] = { -- Comedian
     end
 }
 
+jd_def['j_mxms_context'] = { -- Context Joker
+    text = {
+        { text = "+",                       colour = G.C.CHIPS },
+        { ref_table = "card.ability.extra", ref_value = "chips", colour = G.C.CHIPS, retrigger_type = "mult" },
+        { text = " +",                      colour = G.C.MULT },
+        { ref_table = "card.ability.extra", ref_value = "mult",  colour = G.C.MULT,  retrigger_type = "mult" }
+    }
+}
+
 jd_def['j_mxms_conveyor_belt'] = { -- Convyeor Belt
     text = {
         { text = "+",                       colour = G.C.CHIPS },
@@ -307,6 +329,22 @@ jd_def['j_mxms_conveyor_belt'] = { -- Convyeor Belt
         { text = " +",                      colour = G.C.MULT },
         { ref_table = "card.ability.extra", ref_value = "mult",  colour = G.C.MULT,  retrigger_type = "mult" }
     },
+}
+
+jd_def['j_mxms_salt_cork_board'] = { -- Cork Board
+    text = {
+        {
+            border_nodes = {
+                { text = "X" },
+                { ref_table = "card.ability.extra", ref_value = "Xmult", retrigger_type = "exp" }
+            }
+        }
+    },
+    text_config = { colour = G.C.CHIPS, scale = 0.4 },
+    calc_function = function(card)
+        local xmult = Maximus.count_conspiracy_cards() * card.ability.extra.Xmult
+        card.joker_display_values.Xmult = xmult > 0 and xmult or 1
+    end
 }
 
 jd_def['j_mxms_coronation'] = { -- Coronation
@@ -317,6 +355,16 @@ jd_def['j_mxms_coronation'] = { -- Coronation
         { ref_table = "card.ability.extra", ref_value = "goal" },
         { text = ")" },
     }
+}
+
+jd_def['j_mxms_couch_gag'] = { -- Couch Gag
+    reminder_text = {
+        { text = "(Full House)" },
+    },
+    retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
+        if held_in_hand then return 0 end
+        return scoring_hand.poker_hands['Full House'] and joker_card.ability.extra.reps * JokerDisplay.calculate_joker_triggers(joker_card) or 0
+    end
 }
 
 jd_def['j_mxms_coupon'] = { -- Coupon
@@ -695,6 +743,14 @@ jd_def['j_mxms_hugo'] = { -- Hugo
             'hugo')
         card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { numerator, denominator } }
     end
+}
+
+jd_def['j_mxms_hush_money'] = { -- Hush Money
+    text = {
+        { text = "+$" },
+        { ref_table = "card.ability.extra", ref_value = "money" },
+    },
+    text_config = { colour = G.C.GOLD, scale = 0.4 }
 }
 
 jd_def['j_mxms_icosahedron'] = { -- Icosahedron
@@ -1140,6 +1196,18 @@ jd_def['j_mxms_ra'] = { -- Winged Dragon of Ra
     },
 }
 
+jd_def['j_mxms_red_yarn'] = { -- Red Yarn
+    text = {
+        { text = "+" },
+        { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+    },
+    text_config = { colour = G.C.MULT, scale = 0.4 },
+    calc_function = function(card)
+        card.joker_display_values.muly = G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.conspiracy and
+            G.GAME.consumeable_usage_total.conspiracy * card.ability.extra.gain or 0
+    end
+}
+
 jd_def['j_mxms_romero'] = { -- Romero
     text = {
         {
@@ -1149,6 +1217,30 @@ jd_def['j_mxms_romero'] = { -- Romero
             }
         }
     },
+}
+
+jd_def['j_mxms_rud'] = { -- RUD
+    text = {
+        {
+            border_nodes = {
+                { text = "X" },
+                { ref_table = "card.joker_display_values", ref_value = "Xmult", retrigger_type = "exp" }
+            }
+        }
+    },
+    reminder_text = {
+        { text = "(" },
+        { ref_table = "card.joker_display_values", ref_value = "active" },
+        { text = ")" },
+    },
+    calc_function = function(card)
+        card.joker_display_values.Xmult = 1
+        card.joker_display_values.active = localize('jdis_inactive')
+        if G.GAME.current_round.hands_left == 0 then
+            card.joker_display_values.Xmult = card.ability.extra.Xmult
+            card.joker_display_values.active = localize('jdis_active')
+        end
+    end
 }
 
 jd_def['j_mxms_salt_circle'] = { -- Salt Circle
@@ -1338,6 +1430,29 @@ jd_def['j_mxms_tofu'] = { -- Tofu
     get_blueprint_joker = function(card)
         return G.jokers.cards[#G.jokers.cards]
     end
+}
+
+jd_def['j_mxms_ufo'] = { -- UFO
+    extra = {
+        { text = "(" },
+        { ref_table = "card.joker_display_values", ref_value = "odds" },
+        { text = ")" },
+    },
+    extra_config = { colour = G.C.GREEN, scale = 0.3 },
+    calc_function = function(card)
+        local numerator, denominator = SMODS.get_probability_vars(card, card.ability.extra.prob, card.ability.extra.odds, 'ufo')
+        card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { numerator, denominator } }
+    end
+}
+
+jd_def['j_mxms_under_construction'] = { -- Under Construction
+    text = {
+        { text = "(" },
+        { ref_table = "card.ability.extra", ref_value = "rounds", colour = G.C.ATTENTION },
+        { text = "/" },
+        { ref_table = "card.ability.extra", ref_value = "goal" },
+        { text = ")" },
+    }
 }
 
 jd_def['j_mxms_unpleasant_gradient'] = { -- Unpleasant Gradient
