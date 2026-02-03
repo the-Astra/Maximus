@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'ufo',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 5,
+        y = 18
     },
     rarity = 2,
     config = {
@@ -14,7 +14,7 @@ SMODS.Joker {
         }
     },
     mxms_credits = {
-        art = { "???" },
+        art = { "GhostSalt" },
         code = { "theAstra" },
         idea = { "anerdymous" }
     },

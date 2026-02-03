@@ -1739,7 +1739,7 @@ return {
                     '{C:dark_edition,E:1,s:4}M A X I M U S',
                     '{X:purple,C:white}主要程序:{} {C:purple}theAstra',
                     '{X:attention,C:white}主要美术:{} {C:attention}Maxiss02',
-                    '{X:green,C:white}辅助美术:{} {C:green}pinkzigzagoon, anerdymous, PsyAlola, SadCube',
+                    '{X:green,C:white}辅助美术:{} {C:green}pinkzigzagoon, anerdymous, PsyAlola, SadCube, GhostSalt',
                     '{X:planet,C:white}其他贡献者:{} {C:planet}sup3p, DigitalDetective47, TheCoroboCorner',
                     '{X:red,C:white}本土化:{} {C:red}MomoiAiriMMJ',
                     '{X:gold,C:white}特别感谢:{}Balatro Discord 中所有出色的人！',
