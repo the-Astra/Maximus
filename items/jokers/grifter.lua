@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'grifter',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 6,
+        y = 18
     },
     rarity = 1,
     config = {
@@ -12,7 +12,7 @@ SMODS.Joker {
         }
     },
     mxms_credits = {
-        art = { "???" },
+        art = { "GhostSalt" },
         code = { "theAstra" },
         idea = { "anerdymous" }
     },
