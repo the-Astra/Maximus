@@ -1898,11 +1898,13 @@ return {
             },
             j_mxms_ufo = {
                 name = 'Unidentified Funny Object',
-                text = {
+                text = { {
                     "{X:green,C:white}X#1#{} {C:green}probabilities{} of",
                     "{C:conspiracy}Conspiracy{} Cards working",
+                }, {
                     "{C:green}#2# in #3#{} chance to be",
                     "{C:red}destroyed{} after each round"
+                }
                 },
             },
             j_mxms_under_construction = {
