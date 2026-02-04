@@ -3,7 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-#Blind Size Modifier (includes Hugo check)
+#Blind Size Modifier (includes Hugo and Aries checks)
 [[patches]]
 [patches.pattern]
 target = 'blind.lua'
@@ -21,6 +21,10 @@ end
 if G.GAME.modifiers.mxms_nuclear_size then
     self.chips = self.chips^G.GAME.round_resets.ante
 end
+if G.GAME.mxms_aries_bonus and G.GAME.mxms_aries_bonus > 0 then
+    local aries_mod = G.GAME.mxms_aries_bonus >= 100 and 0 or 1 - (G.GAME.mxms_aries_bonus/100)
+    self.chips = self.chips * aries_mod
+end 
 '''
 match_indent = true
 times = 1
@@ -42,6 +46,10 @@ end
 if G.GAME.modifiers.mxms_nuclear_size then
     blind_amt = blind_amt^G.GAME.round_resets.ante
 end
+if G.GAME.mxms_aries_bonus and G.GAME.mxms_aries_bonus > 0 then
+    local aries_mod = G.GAME.mxms_aries_bonus >= 100 and 0 or 1 - (G.GAME.mxms_aries_bonus/100)
+    blind_amt = blind_amt * aries_mod
+end 
 '''
 match_indent = true
 times = 1

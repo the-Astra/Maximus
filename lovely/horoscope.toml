@@ -115,44 +115,6 @@ config = {align=
 match_indent = true
 
 
-    # Apply Aries effect
-[[patches]]
-[patches.pattern]
-target = "functions/UI_definitions.lua"
-pattern = '''
-if G.GAME.modifiers.mxms_nuclear_size then
-    blind_amt = blind_amt^G.GAME.round_resets.ante
-end
-'''
-position = "after"
-payload = '''
-if G.GAME.mxms_aries_bonus and G.GAME.mxms_aries_bonus > 0 then
-    local aries_mod = G.GAME.mxms_aries_bonus >= 100 and 0 or 1 - (G.GAME.mxms_aries_bonus/100)
-    blind_amt = blind_amt * aries_mod
-end 
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "blind.lua"
-pattern = '''
-if G.GAME.modifiers.mxms_nuclear_size then
-    self.chips = self.chips^G.GAME.round_resets.ante
-end
-'''
-position = "after"
-payload = '''
-if G.GAME.mxms_aries_bonus and G.GAME.mxms_aries_bonus > 0 then
-    local aries_mod = G.GAME.mxms_aries_bonus >= 100 and 0 or 1 - (G.GAME.mxms_aries_bonus/100)
-    self.chips = self.chips * aries_mod
-end 
-'''
-match_indent = true
-times = 1
-
-
     # Apply Sagittarius effect
 [[patches]]
 [patches.pattern]
