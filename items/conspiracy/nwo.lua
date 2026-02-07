@@ -1,10 +1,10 @@
 SMODS.Consumable {
     key = 'nwo',
     set = 'Conspiracy',
-    atlas = 'Placeholder',
+    atlas = 'Conspiracy',
     pos = {
-        x = 1,
-        y = 2
+        x = 5,
+        y = 0
     },
     config = {
         extra = {
@@ -12,11 +12,13 @@ SMODS.Consumable {
         }
     },
     mxms_credits = {
-        art = { "???" },
+        art = { "pangaea47" },
         code = { "theAstra" },
         idea = { "anerdymous" }
     },
     cost = 4,
+    pixel_size = {w = 69, h = 73},
+    display_size = {w = 69, h = 73},
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS['c_mxms_conspiracy_dummy']

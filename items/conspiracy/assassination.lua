@@ -3,7 +3,7 @@ SMODS.Consumable {
     set = 'Conspiracy',
     atlas = 'Conspiracy',
     pos = {
-        x = 0,
+        x = 1,
         y = 0
     },
     config = {
