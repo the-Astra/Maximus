@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'hush_money',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 2,
-        y = 0
+        x = 8,
+        y = 18
     },
     rarity = 3,
     config = {
@@ -13,7 +13,7 @@ SMODS.Joker {
         }
     },
     mxms_credits = {
-        art = { "???" },
+        art = { "GhostSalt" },
         code = { "theAstra" },
         idea = { "anerdymous" }
     },
