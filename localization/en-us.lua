@@ -9,6 +9,13 @@ return {
                     'and Jacks {C:attention}per suit{}'
                 }
             },
+            b_mxms_censored = {
+                name = 'Censored Deck',
+                text = {
+                    "Creates {C:attention}1{} {C:conspiracy}Conspiracy{} Card",
+                    "at the end of each round",
+                },
+            },
             b_mxms_destiny = {
                 name = 'Destiny Deck',
                 text = {
@@ -2246,6 +2253,20 @@ return {
                     'Starting deck contains',
                     'an extra {C:attention}#1# Stone Cards{}'
                 }
+            },
+            sleeve_mxms_censored = {
+                name = 'Censored Sleeve',
+                text = {
+                    "Creates {C:attention}1{} {C:conspiracy}Conspiracy{} Card",
+                    "at the end of each round",
+                },
+            },
+            sleeve_mxms_censored_alt = {
+                name = 'Censored Sleeve',
+                text = {
+                    "{C:conspiracy}Conspiracy{} Card {C:green}probabilities",
+                    "are out of {C:green}3{} instead of {C:green}5",
+                },
             },
             sleeve_mxms_destiny = {
                 name = 'Destiny Sleeve',

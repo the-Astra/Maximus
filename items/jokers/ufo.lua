@@ -29,7 +29,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.mod_probability and context.trigger_obj.ability and context.trigger_obj.ability.set == 'Conspiracy' then
+        if context.mod_probability and context.trigger_obj and context.trigger_obj.ability and context.trigger_obj.ability.set == 'Conspiracy' then
             return {
                 numerator = context.numerator * stg.multiplier
             }

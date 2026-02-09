@@ -27,7 +27,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.end_of_round and not context.individual and not context.repetition then
+        if context.end_of_round and not context.individual and not context.repetition and not context.game_over then
             for i = 1, stg.cards do
                 if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1

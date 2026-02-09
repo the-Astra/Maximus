@@ -1231,6 +1231,7 @@ local ENABLED_BACKS = {
     'scarred',
     'empire',
     'dummy',
+    'censored'
 }
 
 sendDebugMessage("Loading Backs...", 'Maximus')
