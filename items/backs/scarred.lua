@@ -28,7 +28,9 @@ SMODS.Back {
                 SMODS.add_card({
                     key = pseudorandom_element(legendary_keys, pseudoseed('mxms_scarred')),
                     no_edition = true,
-                    skip_materialize = false
+                    skip_materialize = false,
+                    bypass_discovery_center = true,
+                    bypass_discovery_ui = true
                 })
                 return true;
             end

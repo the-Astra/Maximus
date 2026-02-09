@@ -15,3 +15,4 @@ Maximus.code-workspace
 .luarc.json
 .lovelyignore
 /assets/raw
+/.vscode

@@ -78,7 +78,11 @@
         "JokerDisplay",
         "game_over",
         "generate_card_ui",
-        "check_and_set_high_score"
+        "check_and_set_high_score",
+        "Node",
+        "DynaText",
+        "discover_card",
+        "ease_value"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",
