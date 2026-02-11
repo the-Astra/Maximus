@@ -854,7 +854,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
         if G.GAME.modifiers.mxms_feast then
             for i = 1, #_pool do
                 local key = _pool[i]
-                if not Maximus.is_food(key) and key ~= 'j_mxms_microwave' and key ~= 'j_mxms_refrigerator' then
+                if not G.P_CENTERS[key].pools.Food and key ~= 'j_mxms_microwave' and key ~= 'j_mxms_refrigerator' then
                     _pool[i] = "UNAVAILABLE"
                 end
             end
