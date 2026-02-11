@@ -31,16 +31,18 @@ SMODS.Joker {
             stg.prevents = stg.prevents - 1
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    context.card:juice_up()
+                    card:juice_up()
                     return true;
                 end
             }))
             return {
                 no_destroy = true,
+                message_card = context.card,
                 message = localize('k_saved_ex'),
                 func = function()
                     if stg.prevents <= 0 then
                         SMODS.destroy_cards(card)
+                        SMODS.calculate_effect({ message = localize('k_mxms_fainted'), colour = G.C.ATTENTION },card)
                     end
                 end
             }
