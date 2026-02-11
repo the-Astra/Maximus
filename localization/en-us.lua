@@ -2364,15 +2364,6 @@ return {
             },
         },
         Spectral = {
-            c_ankh = {
-                name = "Ankh",
-                text = {
-                    "Create a copy of a",
-                    "random {C:attention}Joker{},",
-                    "{C:green}#1# in #2#{} chance to destroy",
-                    "each remaining Joker",
-                },
-            },
             c_mxms_doppelganger = {
                 name = 'Doppelganger',
                 text = {
@@ -2396,15 +2387,6 @@ return {
                     "card(s) in your hand, add",
                     "add {C:attention}#1#{} random {C:attention}Enhanced",
                     "{C:attention}Aces{} to your hand",
-                },
-            },
-            c_hex = {
-                name = "Hex",
-                text = {
-                    "Add {C:dark_edition}Polychrome{} to a",
-                    "random {C:attention}Joker{},",
-                    "{C:green}#1# in #2#{} chance to destroy",
-                    "each remaining Joker",
                 },
             },
             c_mxms_immortality = {
@@ -2679,6 +2661,7 @@ return {
             k_mxms_exoplanet = "Exoplanet",
             k_mxms_fail = "Fail",
             k_mxms_failed_ex = "Failed!",
+            k_mxms_fainted = 'Fainted',
             k_mxms_fortunate_ex = "Fortunate!",
             k_mxms_free_ex = "Free!",
             k_mxms_glassed = "Glassed",

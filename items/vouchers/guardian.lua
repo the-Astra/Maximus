@@ -11,7 +11,11 @@ SMODS.Voucher {
         idea = { "Maxiss02" }
     },
     requires = { 'v_mxms_shield' },
-    redeem = function(self, card, from_debuff)
-        G.GAME.mxms_v_destroy_reduction = G.GAME.mxms_v_destroy_reduction + 1
+    calculate = function(self, card, context)
+        if context.joker_type_destroyed and G.GAME.mxms_using_consumable and G.GAME.mxms_using_consumable.ability.set == 'Spectral' then
+            return {
+                no_destroy = true
+            }
+        end
     end
 }

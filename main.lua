@@ -693,7 +693,6 @@ Game.init_game_object = function(self)
         card = nil,
         pos = nil
     }
-    ret.mxms_v_destroy_reduction = 0
     ret.mxms_shop_price_multiplier = 1
     ret.mxms_base_planet_levels = 1
     ret.mxms_breadstick_scales = 0
