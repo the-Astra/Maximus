@@ -829,7 +829,7 @@ function SMODS.add_to_pool(prototype_obj, args)
     local ret = atp(prototype_obj, args)
 
     if prototype_obj.set == 'Joker' then
-        if Maximus.config.only_maximus_jokers and not prototype_obj.original_mod or prototype_obj.original_mod ~= 'Maximus' then
+        if Maximus.config.only_maximus_jokers and (not prototype_obj.original_mod or prototype_obj.original_mod ~= 'Maximus') then
             ret = false
         end
 
