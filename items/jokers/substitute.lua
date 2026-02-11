@@ -28,6 +28,7 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.joker_type_destroyed and stg.prevents > 0 then
+            stg.prevents = stg.prevents - 1
             G.E_MANAGER:add_event(Event({
                 func = function()
                     context.card:juice_up()
