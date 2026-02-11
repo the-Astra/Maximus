@@ -1863,6 +1863,13 @@ return {
                     '{C:inactive}(Currently: {C:chips}+#3# {C:inactive}Chips, {C:mult}+#4# {C:inactive}Mult)'
                 }
             },
+            j_mxms_substitute = {
+                name = 'Substitute',
+                text = {
+                    'Prevents the next {C:attention}#1#{} time(s)',
+                    'a {C:attention}Joker{} would be {C:red}destroyed'
+                }
+            },
             j_mxms_tar_pit = {
                 name = 'Tar Pit',
                 text = {

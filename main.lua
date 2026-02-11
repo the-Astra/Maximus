@@ -1666,6 +1666,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'blue_tang',
     'context',
     'semisolid',
+    'substitute',
 
     --Uncommon
     'war',
