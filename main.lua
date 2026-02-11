@@ -529,18 +529,6 @@ end
 
 -- VARIABLES
 --#region Misc Variables ------------------------------------------------------------------------------------
-Maximus.vanilla_food = {
-    j_gros_michel = true,
-    j_egg = true,
-    j_ice_cream = true,
-    j_cavendish = true,
-    j_turtle_bean = true,
-    j_diet_cola = true,
-    j_popcorn = true,
-    j_ramen = true,
-    j_selzer = true,
-}
-
 if not SMODS.ObjectTypes.Food then
     SMODS.ObjectType {
         key = 'Food',
@@ -836,31 +824,21 @@ function Card:set_cost()
 end
 
 -- Prevent other cards from spawning under certain conditions
-local get_current_pool_ref = get_current_pool
-function get_current_pool(_type, _rarity, _legendary, _append)
-    local _pool, _pool_key = get_current_pool_ref(_type, _rarity, _legendary, _append)
-    local new_pool
+local atp = SMODS.add_to_pool
+function SMODS.add_to_pool(prototype_obj, args)
+    local ret = atp(prototype_obj, args)
 
-    if _type == 'Joker' then
-        if Maximus.config.only_maximus_jokers then
-            for i = 1, #_pool do
-                local key = _pool[i]
-                if key:sub(1, 6) ~= "j_mxms" then
-                    _pool[i] = "UNAVAILABLE"
-                end
-            end
+    if prototype_obj.set == 'Joker' then
+        if Maximus.config.only_maximus_jokers and not prototype_obj.original_mod or prototype_obj.original_mod ~= 'Maximus' then
+            ret = false
         end
 
-        if G.GAME.modifiers.mxms_feast then
-            for i = 1, #_pool do
-                local key = _pool[i]
-                if not G.P_CENTERS[key].pools.Food and key ~= 'j_mxms_microwave' and key ~= 'j_mxms_refrigerator' then
-                    _pool[i] = "UNAVAILABLE"
-                end
-            end
+        if G.GAME.modifiers.mxms_feast and not prototype_obj.pools.Food and prototype_obj.center_key ~= 'j_mxms_microwave' and prototype_obj.center_key ~= 'j_mxms_refrigerator' then
+            ret = false
         end
     end
-    return _pool, _pool_key
+
+    return ret
 end
 
 local cubt = create_UIBox_blind_tag
