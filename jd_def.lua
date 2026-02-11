@@ -447,8 +447,7 @@ jd_def['j_mxms_galaxy_brain'] = { -- Galaxy Brain
                 if k == card.ability.extra.last_hand then
                     card.joker_display_values.Xmult = 1
                 elseif k == text then
-                    card.joker_display_values.Xmult = card.ability.extra.Xmult +
-                        card.ability.extra.gain * G.GAME.mxms_soil_mod
+                    card.joker_display_values.Xmult = card.ability.extra.Xmult + card.ability.extra.gain
                 end
             end
         end
@@ -1220,7 +1219,7 @@ jd_def['j_mxms_smoker'] = { -- Smoker
         if text == 'High Card' then
             local chips = 0
             for k, v in pairs(scoring_hand) do
-                chips = chips + v:get_chip_bonus() * G.GAME.mxms_soil_mod
+                chips = chips + v:get_chip_bonus()
             end
             card.joker_display_values.chips = card.ability.extra.chips + chips
         end

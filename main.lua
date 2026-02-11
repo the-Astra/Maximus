@@ -660,13 +660,10 @@ Game.init_game_object = function(self)
     -- Conditional/tracking Modifiers
     ret.mxms_choose_mod = 0
     ret.mxms_war_mod = 1
-    ret.mxms_fridge_mod = 1
     ret.mxms_soy_mod = 0
     ret.mxms_purchased_jokers = {}
     ret.mxms_gambler_mod = 1
     ret.mxms_creep_mod = 1
-    ret.mxms_soil_mod = 1
-    ret.mxms_skip_tag = ''
     ret.mxms_last_bought = {
         card = nil,
         pos = nil

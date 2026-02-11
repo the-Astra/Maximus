@@ -47,14 +47,12 @@ Card.add_to_deck = function(self, from_debuff)
     if self.ability.set == 'Joker' and not from_debuff then
         G.E_MANAGER:add_event(Event({
             func = function()
-                for k, v in pairs(G.GAME.mxms_purchased_jokers) do
-                    if v == self.ability.name then
-                        G.GAME.mxms_soy_mod = G.GAME.mxms_soy_mod + 1
-                        SMODS.calculate_context({ mxms_reacquire_joker = true })
-                        return true
-                    end
+                if G.GAME.mxms_purchased_jokers[self.ability.name] then
+                    G.GAME.mxms_soy_mod = G.GAME.mxms_soy_mod + 1
+                    SMODS.calculate_context({ mxms_reacquire_joker = true })
+                    return true
                 end
-                G.GAME.mxms_purchased_jokers[#G.GAME.mxms_purchased_jokers + 1] = self.ability.name
+                G.GAME.mxms_purchased_jokers[self.ability.name] = true
                 return true
             end
         }))

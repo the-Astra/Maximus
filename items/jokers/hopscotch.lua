@@ -33,7 +33,6 @@ SMODS.Joker {
                 play_sound('generic1')
                 card:juice_up(0.3, 0.4)
                 add_tag(G.GAME.round_resets.blind_tag)
-                G.GAME.mxms_skip_tag = ''
             else
                 return {
                     sound = 'tarot2',
