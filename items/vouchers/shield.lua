@@ -43,6 +43,7 @@ SMODS.Consumable:take_ownership('ankh', {
                     for k, v in pairs(deletable_jokers) do
                         if v ~= chosen_joker then
                             if SMODS.pseudorandom_probability(card, 'ankh', stg.prob - G.GAME.mxms_v_destroy_reduction, stg.odds) then
+                                v.getting_sliced = true
                                 v:start_dissolve(nil, _first_dissolve)
                                 _first_dissolve = true
                             elseif not G.GAME.used_vouchers.v_mxms_guardian then
@@ -100,6 +101,7 @@ SMODS.Consumable:take_ownership('hex', {
                     for k, v in pairs(G.jokers.cards) do
                         if v ~= eligible_card and (not v.ability.eternal) then
                             if SMODS.pseudorandom_probability(card, 'hex', stg.prob - G.GAME.mxms_v_destroy_reduction, stg.odds) then
+                                v.getting_sliced = true
                                 v:start_dissolve(nil, _first_dissolve); _first_dissolve = true
                             elseif not G.GAME.used_vouchers.v_mxms_guardian then
                                 card_eval_status_text(v, 'extra', nil, nil, nil, { message = localize('k_safe_ex') })
