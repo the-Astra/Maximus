@@ -9,7 +9,7 @@ SMODS.Joker {
     config = {
         extra = {
             dollars_stored = 0,
-            chip_factor = 10
+            chip_factor = 20
         }
     },
     mxms_credits = {
