@@ -1,15 +1,15 @@
 SMODS.Back {
     key = 'dummy',
-    atlas = 'Placeholder',
+    atlas = 'Modifiers',
     pos = {
-        x = 4,
-        y = 2
+        x = 1,
+        y = 1
     },
     config = {
         money_cap = 50
     },
     mxms_credits = {
-        art = { "???" },
+        art = { "pinkzigzagoon" },
         code = { "theAstra" },
         idea = { "pinkzigzagoon" }
     },
