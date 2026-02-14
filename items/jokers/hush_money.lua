@@ -36,7 +36,7 @@ SMODS.Joker {
                 colour = G.C.RED,
                 func = function()
                     if stg.money <= 0 then
-                        SMODS.destroy_cards(card)
+                        SMODS.destroy_cards(card, nil, nil, true)
                     end
                 end
             }
@@ -49,7 +49,7 @@ SMODS.Joker {
                 colour = G.C.RED,
                 func = function()
                     if stg.money <= 0 then
-                        SMODS.destroy_cards(card)
+                        SMODS.destroy_cards(card, nil, nil, true)
                     end
                 end
             }

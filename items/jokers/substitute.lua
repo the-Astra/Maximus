@@ -41,7 +41,7 @@ SMODS.Joker {
                 message = localize('k_saved_ex'),
                 func = function()
                     if stg.prevents <= 0 then
-                        SMODS.destroy_cards(card)
+                        SMODS.destroy_cards(card, nil, nil, true)
                         SMODS.calculate_effect({ message = localize('k_mxms_fainted'), colour = G.C.ATTENTION },card)
                     end
                 end
