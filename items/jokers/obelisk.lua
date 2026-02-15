@@ -31,25 +31,32 @@ SMODS.Joker {
         local stg = card.ability.extra
         if context.individual and context.cardarea == 'unscored' and not context.blueprint and not context.other_card.debuff then
             stg.unscoring_cards = stg.unscoring_cards + 1
+            local unscored_card = context.other_card
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    unscored_card:juice_up()
+                    return true;
+                end
+            }))
             if stg.unscoring_cards < stg.unscoring_goal then
                 return {
                     delay = 0.4,
                     message = stg.unscoring_cards .. '/' .. stg.unscoring_goal,
                     colour = G.C.MULT,
-                    card = card
+                    message_card = card
                 }
             else
                 SMODS.scale_card(card, {
                     ref_table = stg,
                     ref_value = "Xmult",
                     scalar_value = "gain",
-                    message_key = 'k_mxms_tribute_ex',
-                    message_colour = G.C.CHIPS
+                    scaling_message = {
+                        message = localize('k_mxms_tribute_ex'),
+                        colour = G.C.CHIPS,
+                        delay = 0.4
+                    }
                 })
                 stg.unscoring_cards = 0
-                return {
-                    delay = 0.4
-                }
             end
         end
 
