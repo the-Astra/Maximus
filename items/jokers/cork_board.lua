@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'cork_board',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
         x = 1,
-        y = 0
+        y = 19
     },
     rarity = 2,
     config = {
@@ -12,7 +12,7 @@ SMODS.Joker {
         }
     },
     mxms_credits = {
-        art = { "???" },
+        art = { "Willow" },
         code = { "theAstra" },
         idea = { "anerdymous" }
     },

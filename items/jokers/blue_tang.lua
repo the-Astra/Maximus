@@ -1,13 +1,13 @@
 SMODS.Joker {
     key = 'blue_tang',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 0,
-        y = 0
+        x = 2,
+        y = 19
     },
     rarity = 1,
     mxms_credits = {
-        art = { "pinkzigzagoon" },
+        art = { "Willow" },
         code = { "theAstra" },
         idea = { "pinkzigzagoon" }
     },

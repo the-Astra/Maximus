@@ -761,13 +761,13 @@ return {
                 name = 'Cork Board',
                 text = {
                     "{X:mult,C:white}X#1#{} Mult for every {C:conspiracy}Conspiracy{}",
-                    "card held in hand"
+                    "card in your consumable area"
                 },
             },
             j_mxms_coronation = {
                 name = 'Coronation',
                 text = {
-                    'If {C:attention}Joker{} is in hand after',
+                    'If {C:attention}Joker{} is held for',
                     '{C:attention}#2# rounds{} without skipping,',
                     'upgrade {C:attention}Joker{} to {C:attention}Crowned Joker{}',
                     '{C:inactive}(Currently: #1#/#2#)'
@@ -2118,7 +2118,7 @@ return {
                     '{C:dark_edition,E:1,s:4}M A X I M U S',
                     '{X:purple,C:white}Lead{} {X:purple,C:white}Programmer:{} {C:purple}theAstra',
                     '{X:conspiracy,C:white}Other{} {X:conspiracy,C:white}Authors:{} {C:conspiracy}anerdymous',
-                    '{X:green,C:white}Supporting{} {X:green,C:white}Artists:{} {C:green}pinkzigzagoon, PsyAlola, SadCube, GhostSalt, pangaea47',
+                    '{X:green,C:white}Supporting{} {X:green,C:white}Artists:{} {C:green}pinkzigzagoon, PsyAlola, SadCube, GhostSalt, pangaea47, Willow',
                     '{X:planet,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, TheCoroboCorner',
                     '{X:red,C:white}Localization:{} {C:red}MomoiAiriMMJ',
                     '{X:gold,C:white}Special{} {X:gold,C:white}Thanks:{} All the awesome people in the Balatro Discord!',
