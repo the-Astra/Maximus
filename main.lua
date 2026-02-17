@@ -1807,6 +1807,7 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'phoenix',
     'hamill',
     'hugo',
+    'raz',
 }
 
 sendDebugMessage("Loading Jokers...", 'Maximus')

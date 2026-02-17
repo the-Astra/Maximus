@@ -1605,6 +1605,19 @@ return {
                     '{C:mult}+#3#{} Bonus Mult'
                 }
             },
+            j_mxms_raz = {
+                name = 'Raz',
+                text = {{
+                    "All {C:attention}Flushes{} and",
+                    "{C:attention}Straights{} can be",
+                    "made with {C:attention}3{} cards",
+                },{
+                    "If played hand contains a {C:attention}Flush{}",
+                    "or a {C:attention}Straight{}, level up",
+                    "played {C:attention}poker hand{} once per",
+                    "{C:attention}played and unscored{} card"
+                }}
+            },
             j_mxms_red_yarn = {
                 name = 'Red Yarn',
                 text = {
