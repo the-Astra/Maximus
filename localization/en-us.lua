@@ -1612,10 +1612,10 @@ return {
                     "{C:attention}Straights{} can be",
                     "made with {C:attention}3{} cards",
                 },{
-                    "If played hand contains a {C:attention}Flush{}",
-                    "or a {C:attention}Straight{}, level up",
-                    "played {C:attention}poker hand{} once per",
-                    "{C:attention}played and unscored{} card"
+                    "Once per round, if hand",
+                    "contains a {C:attention}Flush{} or a {C:attention}Straight{},",
+                    "level up played {C:attention}poker hand{} once",
+                    "per {C:attention}played and unscored{} card"
                 }}
             },
             j_mxms_red_yarn = {

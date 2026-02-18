@@ -9,6 +9,11 @@ SMODS.Joker {
         x = 8,
         y = 8
     },
+    config = {
+        extra = {
+            triggered = false
+        }
+    },
     rarity = 4,
     mxms_credits = {
         art = { "pinkzigzagoon" },
@@ -20,12 +25,29 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.individual and context.cardarea == 'unscored' and (next(context.poker_hands['Straight']) or next(context.poker_hands['Flush'])) then
-            return {
-                level_up = true,
-                message = localize('k_level_up_ex'),
-                message_card = card
-            }
+        if context.setting_blind then
+            local eval = function(card) return not card.ability.extra.triggered and not G.RESET_JIGGLES end
+            juice_card_until(card, eval, true)
+        end
+
+        if context.before and not stg.triggered and (next(context.poker_hands['Straight']) or next(context.poker_hands['Flush'])) then
+            stg.triggered = true
+            for k, v in pairs(context.full_hand) do
+                if not SMODS.in_scoring(v, context.scoring_hand) then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            v:juice_up()
+                            return true;
+                        end
+                    }))
+                    SMODS.calculate_effect({ message = localize('k_level_up_ex') }, card)
+                    SMODS.smart_level_up_hand(v, context.scoring_name, false, 1)
+                end
+            end
+        end
+
+        if context.end_of_round and stg.triggered then
+            stg.triggered = false
         end
     end
 }
