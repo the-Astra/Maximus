@@ -6,7 +6,7 @@ SMODS.Challenge {
         }
     },
     jokers = {
-        { id = 'j_joker', edition = 'negative', eternal = true }
+        { id = 'j_joker', eternal = true }
     },
     deck = {
         type = 'Challenge Deck'
