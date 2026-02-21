@@ -3,7 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-# Patch as final end of round money adding event
+# Add mxms_modify_final_cashout
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
@@ -14,29 +14,21 @@ end
 position = "after"
 payload = '''
 
-    if next(SMODS.find_card('j_mxms_change')) then
-        local dollar_remainder = dollars % to_big(10)
-        if dollar_remainder ~= to_big(0) then
-            add_round_eval_row({bonus = true, name='joker'..i, pitch = pitch, dollars = 10 - dollar_remainder, card = SMODS.find_card('j_mxms_change')[1]})
-            pitch = pitch + 0.06
-            i = i + 1
-            dollars = dollars + (10 - dollar_remainder)
-        end
-    end
-
-    local boars = SMODS.find_card('j_mxms_boar_bank')
-    if next(boars) then
-        for k, v in ipairs(boars) do
-            local half = dollars / 2
-            dollars = half
-            v.ability.extra_value = v.ability.extra_value + half
-            v:set_cost()
-            SMODS.calculate_effect({message = localize('k_mxms_halved'), colour = G.C.RED, sound = 'slice1'}, v)
-            add_round_eval_row({bonus = true, name='joker'..i, pitch = pitch, dollars = -half, card = v})
-            pitch = pitch + 0.06
-            i = i + 1
+    for _, area in ipairs(SMODS.get_card_areas('jokers')) do
+        for _, _card in ipairs(area.cards) do
+            local obj = _card.config.center
+            if obj.mxms_modify_final_cashout and type(obj.mxms_modify_final_cashout) == 'function' then
+                local ret = obj:mxms_modify_final_cashout(_card, dollars)
+            
+                -- TARGET: mxms_modify_final_cashout per card
+                if ret then
+                    add_round_eval_row({dollars = ret, bonus = true, name='joker'..i, pitch = pitch, card = _card})
+                    i = i+1
+                    pitch = pitch + 0.06
+                    dollars = dollars + ret
+                end
+            end
         end
     end
 '''
 match_indent = false
-times = 1
