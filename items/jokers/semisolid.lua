@@ -8,7 +8,6 @@ SMODS.Joker {
     rarity = 1,
     config = {
         extra = {
-            activated = false
         }
     },
     mxms_credits = {
@@ -21,7 +20,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.drawing_cards and not stg.activated and not context.blueprint then
+        if context.drawing_cards and not G.GAME.current_round.any_hand_drawn and G.GAME.facing_blind and not context.blueprint then
             local cards = {}
             for i, v in ipairs(G.deck.cards) do
                 if v:get_id() == 8 then
@@ -39,10 +38,6 @@ SMODS.Joker {
                     modify = #cards
                 }
             end
-        end
-
-        if context.end_of_round and stg.activated and not context.blueprint then
-            stg.activated = false
         end
 
         if context.buying_self then
