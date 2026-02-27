@@ -10,14 +10,19 @@ SMODS.Back {
         code = { "theAstra" },
         idea = { "theAstra" }
     },
-    calculate = function(self, back, context)
-        if context.end_of_round and not context.individual and not context.repetition and not context.game_over then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    SMODS.add_card({set='Conspiracy'})
-                    return true;
-                end
-            }))
-        end
+    config = {
+        booster = 'p_mxms_classified_mega_1'
+    },
+    loc_vars = function(self, info_queue, back)
+        local stg = self.config
+
+        return {
+            vars = {
+                localize { type = 'name_text', key = stg.booster, set = 'Other' }
+            }
+        }
     end,
+    apply = function(self, back)
+        G.GAME.modifiers.mxms_booster_ante_end = back.effect.config.booster
+    end
 }

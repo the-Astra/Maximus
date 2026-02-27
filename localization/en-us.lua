@@ -12,8 +12,8 @@ return {
             b_mxms_censored = {
                 name = 'Censored Deck',
                 text = {
-                    "Creates {C:attention}1{} {C:conspiracy}Conspiracy{} Card",
-                    "at the end of each round",
+                    'Opens a {C:conspiracy}#1#{}',
+                    'at the end of every ante'
                 },
             },
             b_mxms_destiny = {
@@ -2035,7 +2035,7 @@ return {
             },
         },
         Other = {
-            p_mxms_conspiracy_jumbo_1 = {
+            p_mxms_classified_jumbo_1 = {
                 name = 'Jumbo Classified Pack',
                 text = {
                     "Choose {C:attention}#1#{} of up to",
@@ -2043,7 +2043,7 @@ return {
                     "be used immediately",
                 },
             },
-            p_mxms_conspiracy_mega_1 = {
+            p_mxms_classified_mega_1 = {
                 name = 'Mega Classified Pack',
                 text = {
                     "Choose {C:attention}#1#{} of up to",
@@ -2051,7 +2051,15 @@ return {
                     "be used immediately",
                 },
             },
-            p_mxms_conspiracy_normal_1 = {
+            p_mxms_classified_normal_1 = {
+                name = 'Classified Pack',
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:conspiracy} Conspiracy{} cards to",
+                    "be used immediately",
+                },
+            },
+            p_mxms_classified_normal_2 = {
                 name = 'Classified Pack',
                 text = {
                     "Choose {C:attention}#1#{} of up to",
@@ -2277,8 +2285,8 @@ return {
             sleeve_mxms_censored = {
                 name = 'Censored Sleeve',
                 text = {
-                    "Creates {C:attention}1{} {C:conspiracy}Conspiracy{} Card",
-                    "at the end of each round",
+                    'Opens a {C:horoscope}#1#{}',
+                    'at the end of every ante'
                 },
             },
             sleeve_mxms_censored_alt = {

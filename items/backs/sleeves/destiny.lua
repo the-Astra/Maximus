@@ -48,7 +48,7 @@ if Maximus_config.horoscopes then
                         return true
                     end
                 }))
-                G.GAME.modifiers.mxms_horoscope_ante_end = true
+                G.GAME.modifiers.mxms_horoscope_ante_end = 'p_mxms_horoscope_mega_1'
             end
         end
     }

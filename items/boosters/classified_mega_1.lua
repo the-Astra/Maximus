@@ -2,11 +2,11 @@ SMODS.Booster {
     key = "classified_mega_1",
     kind = "Conspiracy",
     group_key = "k_cspy_classified_pack",
-    atlas = 'Booster',
-    post = {
+--[[     atlas = 'Boosters',
+    pos = {
         x = 3,
         y = 0
-    },
+    }, ]]
     config = {
         extra = 4,
         choose = 2

@@ -26,15 +26,13 @@ CardSleeves.Sleeve {
                     denominator = 3
                 }
             end
-        else
-            if context.end_of_round and not context.individual and not context.repetition and not context.game_over then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        SMODS.add_card({ set = 'Conspiracy' })
-                        return true;
-                    end
-                }))
-            end
         end
     end,
+    apply = function(self, sleeve)
+        if self.get_current_deck_key() == 'b_mxms_destiny' then
+
+        else
+            G.GAME.modifiers.mxms_horoscope_ante_end = 'p_mxms_classified_mega_1'
+        end
+    end
 }

@@ -728,7 +728,7 @@ Game.init_game_object = function(self)
         ['Pisces'] = true,
     }
 
-    ret.astro_last_pack = 1
+    ret.ante_end_last_pack = 1
 
     ret.mxms_libra_bonus = 0
     ret.mxms_aries_bonus = 0
@@ -914,6 +914,27 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
     },
     true
 )
+
+-- Open a Pack after each Ante (derived from Lobotomy Corporation)
+local update_shopref = Game.update_shop
+function Game.update_shop(self, dt)
+    update_shopref(self, dt)
+    if not G.GAME.modifiers.mxms_booster_ante_end then return end
+    if G.GAME.round_resets.ante <= G.GAME.ante_end_last_pack then return end
+    G.GAME.ante_end_last_pack = G.GAME.round_resets.ante
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        func = function()
+            if G.STATE_COMPLETE then
+                local card = SMODS.add_card({ area = G.play, key = G.GAME.modifiers.mxms_booster_ante_end, skip_materialize = true, bypass_discovery_center = true, bypass_discovery_ui = true })
+                card.cost = 0
+                G.FUNCS.use_card({ config = { ref_table = card } })
+                card:start_materialize()
+                return true
+            end
+        end
+    }))
+end
 
 --#endregion
 
@@ -1287,10 +1308,10 @@ local ENABLED_ZODIAC_BOOSTERS = {
 }
 
 local ENABLED_CLASSIFIED_BOOSTERS = {
-    --'classified_jumbo_1',
-    --'classified_mega_1',
-    --'classified_normal_1',
-    --'classified_normal_2',
+    'classified_jumbo_1',
+    'classified_mega_1',
+    'classified_normal_1',
+    'classified_normal_2',
 }
 
 
