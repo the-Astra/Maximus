@@ -38,12 +38,8 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.press_play then
-            stg.prepped = true
-        end
-
         if context.setting_blind or context.hand_drawn then
-            stg.prepped = false
+            stg.prepped = true
             stg.num_drawn = 0
         end
 

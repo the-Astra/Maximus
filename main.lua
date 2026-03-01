@@ -270,20 +270,6 @@ function Game:main_menu(change_context)
             end)
         }))
 
-        -- adds a James to the main menu
-        local newcard = create_card('Joker', G.title_top, nil, nil, nil, nil, 'j_mxms_normal', 'astra')
-
-        -- recenter the title
-        G.title_top.T.w = G.title_top.T.w * 1.7675
-        G.title_top.T.x = G.title_top.T.x - 0.8
-        G.title_top:emplace(newcard)
-
-        -- make the card look the same way as the title screen Ace of Spades
-        newcard.T.w = newcard.T.w * 1.1 * 1.2
-        newcard.T.h = newcard.T.h * 1.1 * 1.2
-        newcard.no_ui = true
-        newcard.states.visible = false
-
         -- make the title screen use different background colors
         G.SPLASH_BACK:define_draw_steps({ {
             shader = 'splash',
@@ -294,29 +280,19 @@ function Game:main_menu(change_context)
                 { name = 'colour_2',   ref_table = Maximus.C, ref_value = 'MXMS_SECONDARY' },
             }
         } })
-
-        -- materialize James
-        G.E_MANAGER:add_event(Event({
-            trigger = "after",
-            delay = 0,
-            blockable = false,
-            blocking = false,
-            func = function()
-                if change_context == "splash" then
-                    newcard.states.visible = true
-                    newcard:start_materialize({ G.C.WHITE, Maximus.C.MXMS_SECONDARY }, true, 2.5)
-                else
-                    newcard.states.visible = true
-                    newcard:start_materialize({ G.C.WHITE, Maximus.C.MXMS_SECONDARY }, nil, 1.2)
-                end
-                return true
-            end,
-        }))
     end
 
     Maximus.update_check()
 
     return ret
+end
+
+Maximus.menu_cards = function()
+    if Maximus_config.menu and G.P_CENTERS['j_mxms_normal'] then
+        return {
+            { key = 'j_mxms_normal' }
+        }
+    end
 end
 
 --#endregion
@@ -836,7 +812,21 @@ function SMODS.add_to_pool(prototype_obj, args)
             ret = false
         end
     end
+local atp = SMODS.add_to_pool
+function SMODS.add_to_pool(prototype_obj, args)
+    local ret = atp(prototype_obj, args)
 
+    if prototype_obj.set == 'Joker' then
+        if Maximus.config.only_maximus_jokers and (not prototype_obj.original_mod or prototype_obj.original_mod ~= 'Maximus') then
+            ret = false
+        end
+
+        if G.GAME.modifiers.mxms_feast and not prototype_obj.pools.Food and prototype_obj.center_key ~= 'j_mxms_microwave' and prototype_obj.center_key ~= 'j_mxms_refrigerator' then
+            ret = false
+        end
+    end
+
+    return ret
     return ret
 end
 

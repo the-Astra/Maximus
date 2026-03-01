@@ -3,8 +3,6 @@ version = "1.0.0"
 dump_lua = true
 priority = 2
 
-# NOTE: All code relating to the Horoscope CardArea is heavily based on Baladrome's implementation 
-
     # Patch SMODS for horoscope CardArea
 [[patches]]
 [patches.pattern]
@@ -89,30 +87,40 @@ payload = '''
 match_indent = true
 
 
-    # Hook into Card:highlight for card alignment
+    # Apply Aries effect
 [[patches]]
 [patches.pattern]
-target = "card.lua"
+target = "functions/UI_definitions.lua"
 pattern = '''
-config = {align=
-        ((self.area == G.jokers) or (self.area == G.consumeables)) and "cr" or
-        "bmi"
-    , offset = 
-        ((self.area == G.jokers) or (self.area == G.consumeables)) and {x=x_off - 0.4,y=0} or
-        {x=0,y=0.65},
-    parent =self}
+if G.GAME.modifiers.mxms_nuclear_size then
+    blind_amt = blind_amt^G.GAME.round_resets.ante
+end
 '''
-position = "at"
+position = "after"
 payload = '''
-config = {align=
-        ((self.area == G.jokers) or (self.area == G.consumeables) or (self.area == G.mxms_horoscope)) and "cr" or
-        "bmi"
-    , offset = 
-        ((self.area == G.jokers) or (self.area == G.consumeables) or (self.area == G.mxms_horoscope)) and {x=x_off - 0.4,y=0} or
-        {x=0,y=0.65},
-    parent =self}
+if G.GAME.mxms_aries_bonus then
+    blind_amt = blind_amt * 0.85
+end 
 '''
 match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "blind.lua"
+pattern = '''
+if G.GAME.modifiers.mxms_nuclear_size then
+    self.chips = self.chips^G.GAME.round_resets.ante
+end
+'''
+position = "after"
+payload = '''
+if G.GAME.mxms_aries_bonus then
+    self.chips = self.chips * 0.85
+end 
+'''
+match_indent = true
+times = 1
 
 
     # Apply Sagittarius effect
