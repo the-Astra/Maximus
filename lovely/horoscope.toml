@@ -3,37 +3,6 @@ version = "1.0.0"
 dump_lua = true
 priority = 2
 
-# NOTE: All code relating to the Horoscope CardArea is heavily based on Baladrome's implementation 
-
-    # Add Horoscope Cardarea
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASSET_ATLAS["ui_1"], {x = 2, y = 0})'''
-position = "before"
-payload = '''
-if Maximus_config.horoscopes then
-    self.mxms_horoscope_W = G.CARD_W*1.1
-    self.mxms_horoscope_H = 0.95*G.CARD_H
-
-    self.mxms_horoscope = CardArea(
-        G.consumeables.T.x + 2.25,
-        G.consumeables.T.y + G.consumeables.T.h + 1, 
-        self.mxms_horoscope_W, 
-        self.mxms_horoscope_H, 
-        {card_limit = 1, type = 'joker', highlight_limit = 1}
-    )
-
-    if TheFamily then
-        G.mxms_horoscope.states.visible = false
-    end
-end
-
-'''
-match_indent = true
-times = 1
-
-
     # Patch SMODS for horoscope CardArea
 [[patches]]
 [patches.pattern]
@@ -114,32 +83,6 @@ payload = '''
             }},
         }}
     end
-'''
-match_indent = true
-
-
-    # Hook into Card:highlight for card alignment
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''
-config = {align=
-        ((self.area == G.jokers) or (self.area == G.consumeables)) and "cr" or
-        "bmi"
-    , offset = 
-        ((self.area == G.jokers) or (self.area == G.consumeables)) and {x=x_off - 0.4,y=0} or
-        {x=0,y=0.65},
-    parent =self}
-'''
-position = "at"
-payload = '''
-config = {align=
-        ((self.area == G.jokers) or (self.area == G.consumeables) or (self.area == G.mxms_horoscope)) and "cr" or
-        "bmi"
-    , offset = 
-        ((self.area == G.jokers) or (self.area == G.consumeables) or (self.area == G.mxms_horoscope)) and {x=x_off - 0.4,y=0} or
-        {x=0,y=0.65},
-    parent =self}
 '''
 match_indent = true
 
