@@ -19,9 +19,9 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.discard_from_play and SMODS.has_enhancement(context.card, 'm_wild') then
+        if context.stay_flipped and context.from_area == G.play and SMODS.has_enhancement(context.other_card, 'm_wild') then
             return {
-                draw_to = 'deck',
+                modify = { to_area = G.deck },
                 message = localize('k_saved_ex'),
                 sound = 'mxms_joker'
             }
