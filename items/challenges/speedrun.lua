@@ -19,7 +19,6 @@ SMODS.Challenge {
         end
     end,
     apply = function(self)
-        G.GAME.modifiers.disable_blind_skips = true
         G.GAME.win_ante = 4
         Maximus_config.four_d_ticks = true
     end
