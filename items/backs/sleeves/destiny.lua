@@ -48,7 +48,8 @@ if Maximus_config.horoscopes then
                         return true
                     end
                 }))
-                G.GAME.modifiers.mxms_horoscope_ante_end = 'p_mxms_horoscope_mega_1'
+                G.GAME.modifiers.mxms_booster_ante_end = G.GAME.modifiers.mxms_booster_ante_end or {}
+                table.insert(G.GAME.modifiers.mxms_booster_ante_end, 'p_mxms_horoscope_mega_1')
             end
         end
     }
