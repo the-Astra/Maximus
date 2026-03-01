@@ -812,21 +812,7 @@ function SMODS.add_to_pool(prototype_obj, args)
             ret = false
         end
     end
-local atp = SMODS.add_to_pool
-function SMODS.add_to_pool(prototype_obj, args)
-    local ret = atp(prototype_obj, args)
 
-    if prototype_obj.set == 'Joker' then
-        if Maximus.config.only_maximus_jokers and (not prototype_obj.original_mod or prototype_obj.original_mod ~= 'Maximus') then
-            ret = false
-        end
-
-        if G.GAME.modifiers.mxms_feast and not prototype_obj.pools.Food and prototype_obj.center_key ~= 'j_mxms_microwave' and prototype_obj.center_key ~= 'j_mxms_refrigerator' then
-            ret = false
-        end
-    end
-
-    return ret
     return ret
 end
 
