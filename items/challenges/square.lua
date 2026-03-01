@@ -15,7 +15,12 @@ SMODS.Challenge {
         type = 'Challenge Deck'
     },
     apply = function(self)
-        SMODS.change_play_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
-        SMODS.change_discard_limit(self.GAME.modifiers.mxms_highlight_limit - 5)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                SMODS.change_play_limit(G.GAME.modifiers.mxms_highlight_limit - 5)
+                SMODS.change_discard_limit(G.GAME.modifiers.mxms_highlight_limit - 5)
+                return true;
+            end
+        }))
     end
 }

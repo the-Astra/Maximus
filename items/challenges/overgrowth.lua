@@ -12,6 +12,11 @@ SMODS.Challenge {
         type = 'Challenge Deck'
     },
     apply = function(self)
-        G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                G.GAME.modifiers.scaling = G.GAME.modifiers.mxms_X_blind_scale
+                return true;
+            end
+        }))
     end
 }

@@ -785,7 +785,7 @@ end
 
 local cubt = create_UIBox_blind_tag
 create_UIBox_blind_tag = function(blind_choice, run_info)
-    if not G.GAME.modifiers.disable_blind_skips then
+    if not G.GAME.modifiers.mxms_disable_blind_skips then
         return cubt(blind_choice, run_info)
     end
 end

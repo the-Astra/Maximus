@@ -12,7 +12,7 @@ SMODS.Back {
     },
     apply = function(self, back)
         --Disable skipping
-        G.GAME.modifiers.disable_blind_skips = true
+        G.GAME.modifiers.mxms_disable_blind_skips = true
 
         -- Change blind size
         G.GAME.starting_params.ante_scaling = 1.25
