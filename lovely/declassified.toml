@@ -1,0 +1,17 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+# Add mxms_modify_final_cashout
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+create_shop_card_ui(card, 'Booster', G.shop_booster)
+'''
+position = "before"
+payload = '''
+SMODS.calculate_context({mxms_create_shop_booster = true, booster = card})
+'''
+match_indent = false
