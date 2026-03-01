@@ -1,7 +1,7 @@
 SMODS.Booster {
     key = "classified_normal_1",
     kind = "Conspiracy",
-    group_key = "k_cspy_classified_pack",
+    group_key = "k_mxms_classified_pack",
 --[[     atlas = 'Boosters',
     pos = {
         x = 0,
