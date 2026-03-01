@@ -23,6 +23,7 @@ SMODS.Back {
         }
     end,
     apply = function(self, back)
-        G.GAME.modifiers.mxms_booster_ante_end = back.effect.config.booster
+        G.GAME.modifiers.mxms_booster_ante_end = G.GAME.modifiers.mxms_booster_ante_end or {}
+        table.insert(G.GAME.modifiers.mxms_booster_ante_end, back.effect.config.booster)
     end
 }

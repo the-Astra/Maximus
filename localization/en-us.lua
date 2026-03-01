@@ -2285,15 +2285,15 @@ return {
             sleeve_mxms_censored = {
                 name = 'Censored Sleeve',
                 text = {
-                    'Opens a {C:horoscope}#1#{}',
+                    'Opens a {C:conspiracy}#1#{}',
                     'at the end of every ante'
                 },
             },
             sleeve_mxms_censored_alt = {
                 name = 'Censored Sleeve',
                 text = {
-                    "{C:conspiracy}Conspiracy{} Card {C:green}probabilities",
-                    "are out of {C:green}3{} instead of {C:green}5",
+                    'Start run with ',
+                    '{C:conspiracy,T:v_mxms_whistleblower}#1#{}'
                 },
             },
             sleeve_mxms_destiny = {
@@ -2528,6 +2528,13 @@ return {
                     'matching its suit'
                 }
             },
+            v_mxms_declassified = {
+                name = 'Declassified',
+                text = {
+                    '{C:conspiracy}Classified Packs{} in',
+                    'the shop are {C:money}free'
+                }
+            },
             v_mxms_guardian = {
                 name = 'Guardian',
                 text = {
@@ -2576,6 +2583,13 @@ return {
                     '{C:blue}+#2#{} hands and',
                     '{C:red}+#2#{} discards',
                     'each round'
+                }
+            },
+            v_mxms_whistleblower = {
+                name = 'Whistleblower',
+                text = {
+                    "Subtract {C:green}2{} from the denominator of",
+                    "{C:conspiracy}Conspiracy{} Card {C:green}probabilities",
                 }
             },
             v_mxms_workaholic = {

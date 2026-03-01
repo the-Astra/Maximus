@@ -895,21 +895,25 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
 local update_shopref = Game.update_shop
 function Game.update_shop(self, dt)
     update_shopref(self, dt)
-    if not G.GAME.modifiers.mxms_booster_ante_end then return end
+    if not G.GAME.modifiers.mxms_booster_ante_end or not next(G.GAME.modifiers.mxms_booster_ante_end) then return end
     if G.GAME.round_resets.ante <= G.GAME.ante_end_last_pack then return end
     G.GAME.ante_end_last_pack = G.GAME.round_resets.ante
-    G.E_MANAGER:add_event(Event({
-        trigger = 'after',
-        func = function()
-            if G.STATE_COMPLETE then
-                local card = SMODS.add_card({ area = G.play, key = G.GAME.modifiers.mxms_booster_ante_end, skip_materialize = true, bypass_discovery_center = true, bypass_discovery_ui = true })
-                card.cost = 0
-                G.FUNCS.use_card({ config = { ref_table = card } })
-                card:start_materialize()
-                return true
+    for _, v in pairs(G.GAME.modifiers.mxms_booster_ante_end) do
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            blockable = true,
+            blocking = false,
+            func = function()
+                if G.STATE_COMPLETE and not G.GAME.PACK_INTERRUPT then
+                    local card = SMODS.add_card({ area = G.play, key = v, skip_materialize = true, bypass_discovery_center = true, bypass_discovery_ui = true })
+                    card.cost = 0
+                    G.FUNCS.use_card({ config = { ref_table = card } })
+                    card:start_materialize()
+                    return true
+                end
             end
-        end
-    }))
+        }))
+    end
 end
 
 --#endregion
@@ -1878,6 +1882,8 @@ local ENABLED_VOUCHERS = {
     'guardian',
     'multitask',
     'workaholic',
+    'whistleblower',
+    'declassified'
 }
 
 sendDebugMessage("Loading Vouchers...", 'Maximus')
