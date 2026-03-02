@@ -873,13 +873,15 @@ return {
             },
             j_mxms_fortune_cookie = {
                 name = 'Fortune Cookie',
-                text = {
+                text = { {
                     '{C:green}#1# in #2#{} chance to',
                     'receive a {C:green}random {C:tarot}Tarot{}',
                     'card when playing a hand',
                     '{s:0.8,C:inactive}(Must have room)',
-                    '{s:0.8,C:inactive}Chance reduces by #3#',
-                    '{s:0.8,C:inactive}for every played hand'
+                }, {
+                    '{C:green}Chance{} reduces by {C:attention}#3#',
+                    'for every played hand'
+                }
                 }
             },
             j_mxms_four_course_meal = {
@@ -1607,16 +1609,16 @@ return {
             },
             j_mxms_raz = {
                 name = 'Raz',
-                text = {{
+                text = { {
                     "All {C:attention}Flushes{} and",
                     "{C:attention}Straights{} can be",
                     "made with {C:attention}3{} cards",
-                },{
+                }, {
                     "Once per round, if hand",
                     "contains a {C:attention}Flush{} or a {C:attention}Straight{},",
                     "level up played {C:attention}poker hand{} once",
                     "per {C:attention}played and unscored{} card"
-                }}
+                } }
             },
             j_mxms_red_yarn = {
                 name = 'Red Yarn',
