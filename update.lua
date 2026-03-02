@@ -1,7 +1,7 @@
 -- This file was taken from TheCoroboCorner's JoJoMod and adapted for Maximus
 
-local modPath = "Mods/Maximus-main" -- This is the path to your mod folder
-local id = "Maximus" -- This is the ID of your mod -- the same one you put in your metadata file
+local modPath = Maximus.path -- This is the path to your mod folder
+local id = Maximus.id -- This is the ID of your mod -- the same one you put in your metadata file
 local subpath = ""
 
 local function curl_fetch(url)
