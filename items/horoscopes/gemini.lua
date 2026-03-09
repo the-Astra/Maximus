@@ -47,6 +47,7 @@ SMODS.Consumable {
         return true
     end,
     succeed = function(self, card, context)
+        card.succeeded = true
         local stg = card.ability.extra
         if stg.times > 0 then
             SMODS.calculate_effect(
@@ -68,7 +69,7 @@ SMODS.Consumable {
                 end
             end
             if next(hands_to_upgrade) then
-                SMODS.upgrade_poker_hands({hands = hands_to_upgrade, level_up = stg.upgrade, from = card})
+                SMODS.upgrade_poker_hands({ hands = hands_to_upgrade, level_up = stg.upgrade, from = card })
             end
 
             G.E_MANAGER:add_event(Event({
@@ -82,40 +83,42 @@ SMODS.Consumable {
         end
     end,
     fail = function(self, card)
-        local stg = card.ability.extra
-        SMODS.calculate_effect(
-            {
-                message = localize('k_mxms_failed_ex'),
-                colour = G.C.RED,
-                sound = 'tarot2',
-                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
-            }, card)
-        if not next(SMODS.find_card('j_mxms_cheat_day')) then
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-        else
-            stg.times = 0
-            card.ability.hands = {
-                ["Flush Five"] = false,
-                ["Flush House"] = false,
-                ["Five of a Kind"] = false,
-                ["Straight Flush"] = false,
-                ["Four of a Kind"] = false,
-                ["Full House"] = false,
-                ["Flush"] = false,
-                ["Straight"] = false,
-                ["Three of a Kind"] = false,
-                ["Two Pair"] = false,
-                ["Pair"] = false,
-                ["High Card"] = false,
+        if not card.succeeded then
+            local stg = card.ability.extra
+            SMODS.calculate_effect(
+                {
+                    message = localize('k_mxms_failed_ex'),
+                    colour = G.C.RED,
+                    sound = 'tarot2',
+                    func = function() if TheFamily then G.GAME.horoscope_alert = true end end
+                }, card)
+            if not next(SMODS.find_card('j_mxms_cheat_day')) then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    func = function()
+                        card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
+                        return true
+                    end
+                }))
+            else
+                stg.times = 0
+                card.ability.hands = {
+                    ["Flush Five"] = false,
+                    ["Flush House"] = false,
+                    ["Five of a Kind"] = false,
+                    ["Straight Flush"] = false,
+                    ["Four of a Kind"] = false,
+                    ["Full House"] = false,
+                    ["Flush"] = false,
+                    ["Straight"] = false,
+                    ["Three of a Kind"] = false,
+                    ["Two Pair"] = false,
+                    ["Pair"] = false,
+                    ["High Card"] = false,
 
-            }
+                }
+            end
+            SMODS.calculate_context({ mxms_failed_horoscope = true })
         end
-        SMODS.calculate_context({ mxms_failed_horoscope = true })
     end
 }

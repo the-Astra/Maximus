@@ -1616,8 +1616,9 @@ return {
                 }, {
                     "Once per round, if hand",
                     "contains a {C:attention}Flush{} or a {C:attention}Straight{},",
-                    "level up played {C:attention}poker hand{} once",
-                    "per {C:attention}played and unscored{} card"
+                    '{C:attention}immediately{} fulfill {C:attention}all{} held',
+                    '{C:horoscope}Horoscope{} card requirements',
+                    '{C:inactive,s:0.8}(If possible)'
                 } }
             },
             j_mxms_red_yarn = {
@@ -2392,6 +2393,7 @@ return {
                 text = {
                     '{C:attention}Immediately{} fulfill {C:attention}all{} held',
                     '{C:horoscope}Horoscope{} card requirements',
+                    '{C:inactive,s:0.8}(If possible)'
                 },
             },
             c_familiar = {

@@ -32,17 +32,8 @@ SMODS.Joker {
 
         if context.before and not stg.triggered and (next(context.poker_hands['Straight']) or next(context.poker_hands['Flush'])) then
             stg.triggered = true
-            for k, v in pairs(context.full_hand) do
-                if not SMODS.in_scoring(v, context.scoring_hand) then
-                    G.E_MANAGER:add_event(Event({
-                        func = function()
-                            v:juice_up()
-                            return true;
-                        end
-                    }))
-                    SMODS.calculate_effect({ message = localize('k_level_up_ex') }, card)
-                    SMODS.smart_level_up_hand(v, context.scoring_name, false, 1)
-                end
+            for k, v in pairs(G.mxms_horoscope.cards) do
+                v.config.center:succeed(v)
             end
         end
 

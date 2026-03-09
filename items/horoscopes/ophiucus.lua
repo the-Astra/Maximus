@@ -7,18 +7,8 @@ SMODS.Consumable {
         y = 2
     },
     config = {
-        hands = {
-            ["Straight Flush"] = false,
-            ["Four of a Kind"] = false,
-            ["Full House"] = false,
-            ["Flush"] = false,
-            ["Straight"] = false,
-            ["Three of a Kind"] = false,
-            ["Two Pair"] = false,
-            ["Pair"] = false,
-            ["High Card"] = false,
-        },
         extra = {
+            hands = {},
             antes = 0,
             ante_limit = 2,
             handtypes_played = 0
@@ -40,11 +30,11 @@ SMODS.Consumable {
         return { vars = { stg.handtypes_played, stg.ante_limit } }
     end,
     calculate = function(self, card, context)
-        local stg = card.ability
+        local stg = card.ability.extra
         if context.before and not stg.hands[context.scoring_name] then
             stg.hands[context.scoring_name] = true
-            stg.extra.handtypes_played = stg.extra.handtypes_played + 1
-            SMODS.calculate_effect({ message = stg.extra.handtypes_played .. "/9", colour = Maximus.C.HOROSCOPE }, card)
+            stg.handtypes_played = stg.handtypes_played + 1
+            SMODS.calculate_effect({ message = stg.handtypes_played .. "/9", colour = Maximus.C.HOROSCOPE }, card)
 
             local all_hands = true
             for k, v in pairs(stg.hands) do
@@ -59,17 +49,18 @@ SMODS.Consumable {
         end
 
         if context.ante_change and context.ante_end then
-            stg.extra.antes = stg.extra.antes + 1
-            if stg.extra.antes >= stg.extra.ante_limit then
+            stg.antes = stg.antes + 1
+            if stg.antes >= stg.ante_limit then
                 self:fail(card)
             else
                 SMODS.calculate_effect(
-                    { message = stg.extra.ante_limit - stg.extra.antes .. " Ante Left...", colour = Maximus.C.HOROSCOPE },
+                    { message = stg.ante_limit - stg.antes .. " Ante Left...", colour = Maximus.C.HOROSCOPE },
                     card)
             end
         end
     end,
     succeed = function(self, card)
+        card.succeeded = true
         SMODS.calculate_effect(
             {
                 message = localize('k_mxms_success_ex'),
@@ -105,50 +96,28 @@ SMODS.Consumable {
         }))
     end,
     fail = function(self, card)
-        local stg = card.ability
-        SMODS.calculate_effect(
-            {
-                message = localize('k_mxms_failed_ex'),
-                colour = G.C.RED,
-                sound = 'tarot2',
-                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
-            }, card)
-        if not next(SMODS.find_card('j_mxms_cheat_day')) then
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-        else
-            stg.hands = {
-                ["Straight Flush"] = false,
-                ["Four of a Kind"] = false,
-                ["Full House"] = false,
-                ["Flush"] = false,
-                ["Straight"] = false,
-                ["Three of a Kind"] = false,
-                ["Two Pair"] = false,
-                ["Pair"] = false,
-                ["High Card"] = false,
-            }
+        if not card.succeeded then
+            local stg = card.ability.extra
+            SMODS.calculate_effect(
+                {
+                    message = localize('k_mxms_failed_ex'),
+                    colour = G.C.RED,
+                    sound = 'tarot2',
+                    func = function() if TheFamily then G.GAME.horoscope_alert = true end end
+                }, card)
+            if not next(SMODS.find_card('j_mxms_cheat_day')) then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    func = function()
+                        card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
+                        return true
+                    end
+                }))
+            else
+                stg.hands = {}
+            end
+            SMODS.calculate_context({ mxms_failed_horoscope = true })
         end
-        SMODS.calculate_context({ mxms_failed_horoscope = true })
-    end,
-    add_to_deck = function(self, card, from_debuff)
-        local stg = card.ability
-        stg.hands = {
-            ["Straight Flush"] = false,
-            ["Four of a Kind"] = false,
-            ["Full House"] = false,
-            ["Flush"] = false,
-            ["Straight"] = false,
-            ["Three of a Kind"] = false,
-            ["Two Pair"] = false,
-            ["Pair"] = false,
-            ["High Card"] = false,
-        }
     end,
     set_badges = function(self, card, badges)
         if self.discovered then

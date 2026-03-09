@@ -27,6 +27,7 @@ SMODS.Consumable {
         return true
     end,
     succeed = function(self, card)
+        card.succeeded = true
         G.GAME.mxms_sagittarius_bonus = true
         SMODS.calculate_effect(
             {
@@ -50,22 +51,24 @@ SMODS.Consumable {
         SMODS.calculate_context({ mxms_beat_horoscope = true })
     end,
     fail = function(self, card)
-        SMODS.calculate_effect(
-            {
-                message = localize('k_mxms_failed_ex'),
-                colour = G.C.RED,
-                sound = 'tarot2',
-                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
-            }, card)
-        if not next(SMODS.find_card('j_mxms_cheat_day')) then
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
+        if not card.succeeded then
+            SMODS.calculate_effect(
+                {
+                    message = localize('k_mxms_failed_ex'),
+                    colour = G.C.RED,
+                    sound = 'tarot2',
+                    func = function() if TheFamily then G.GAME.horoscope_alert = true end end
+                }, card)
+            if not next(SMODS.find_card('j_mxms_cheat_day')) then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    func = function()
+                        card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
+                        return true
+                    end
+                }))
+            end
+            SMODS.calculate_context({ mxms_failed_horoscope = true })
         end
-        SMODS.calculate_context({ mxms_failed_horoscope = true })
     end
 }
