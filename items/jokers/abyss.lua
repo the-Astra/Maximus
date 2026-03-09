@@ -40,7 +40,7 @@ SMODS.Joker {
                 local chosen_joker = pseudorandom_element(eligible_jokers, 'aby' .. G.GAME.round_resets.ante)
 
                 -- "Flip a coin" to decide what to do with the target
-                local flip = SMODS.pseudorandom_probability(card, 'aby' .. G.GAME.round_resets.ante, 1, 2, nil, nil, true)
+                local flip = SMODS.pseudorandom_probability(card, 'aby' .. G.GAME.round_resets.ante, 1, 2, nil, true)
 
                 if flip then -- Add negative edition to random held joker
                     (context.blueprint_card or card):juice_up(0.3, 0.4)
