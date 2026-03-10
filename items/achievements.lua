@@ -88,7 +88,6 @@ SMODS.Achievement {
 SMODS.Achievement {
     key = 'disciple',
     hidden_name = false,
-    bypass_all_unlocked = true,
     unlock_condition = function(self, args)
         if args.type == 'discover_amount' then
             local mxmsTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Joker"])
@@ -165,7 +164,6 @@ SMODS.Achievement {
 SMODS.Achievement {
     key = 'infinity',
     hidden_name = false,
-    bypass_all_unlocked = true,
     unlock_condition = function(self, args)
         if args.type == 'discover_amount' then
             local mxmsTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Planet"])
