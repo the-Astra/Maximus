@@ -1388,7 +1388,6 @@ if Maximus_config.conspiracies then
         'landing',
         '5g',
         'tinfoil',
-        'conspiracy_dummy',
     }
 
     sendDebugMessage("Loading Conspiracies...", 'Maximus')

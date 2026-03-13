@@ -22,7 +22,7 @@ SMODS.Consumable {
     display_size = {w = 69, h = 73},
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
-        info_queue[#info_queue + 1] = G.P_CENTERS['c_mxms_conspiracy_dummy']
+        info_queue[#info_queue + 1] = { set = 'Other', key = 'mxms_conspiracy_desc', vars = { SMODS.get_probability_vars(card, 1, 1, 'dummy') } }
 
         local consp_count = Maximus.count_conspiracy_cards()
         local prob, odds = SMODS.get_probability_vars(card, consp_count, stg.odds, 'coverup')

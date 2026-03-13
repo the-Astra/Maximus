@@ -179,14 +179,6 @@ return {
                     'playing cards held in hand'
                 }
             },
-            c_mxms_conspiracy_dummy = {
-                name = 'Conspiracy Card',
-                text = {
-                    'Probability {C:attention}increases{} by {C:green}#1#{}',
-                    'for every other',
-                    '{C:conspiracy}Conspiracy Card{} held'
-                }
-            },
             c_mxms_corruption = {
                 name = 'Corruption',
                 text = {
@@ -2134,6 +2126,14 @@ return {
                     "{X:mult,C:white}X#1#{} Mult,",
                     "Card cannot be {C:attention}modified",
                     "and or {C:red}destroyed"
+                }
+            },
+            mxms_conspiracy_desc = {
+                name = 'Conspiracy Card',
+                text = {
+                    'Probability {C:attention}increases{} by {C:green}#1#{}',
+                    'for every other',
+                    '{C:conspiracy}Conspiracy Card{} held'
                 }
             },
             mxms_credits = {
