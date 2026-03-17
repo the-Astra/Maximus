@@ -1273,9 +1273,16 @@ sendDebugMessage("", 'Maximus')
 
 --#region Boosters ------------------------------------------------------------------------------------------
 
-SMODS.Atlas { -- Main Booster Atlas
-    key = 'Boosters',
-    path = "Boosters.png",
+SMODS.Atlas { -- Zodiac Boosters Atlas
+    key = 'Zodiac',
+    path = "Zodiac.png",
+    px = 71,
+    py = 95
+}
+
+SMODS.Atlas { -- Classified Boosters Atlas
+    key = 'Classified',
+    path = "Classified.png",
     px = 71,
     py = 95
 }
@@ -1288,10 +1295,10 @@ local ENABLED_ZODIAC_BOOSTERS = {
 }
 
 local ENABLED_CLASSIFIED_BOOSTERS = {
-    'classified_jumbo_1',
-    'classified_mega_1',
     'classified_normal_1',
     'classified_normal_2',
+    'classified_jumbo_1',
+    'classified_mega_1',
 }
 
 

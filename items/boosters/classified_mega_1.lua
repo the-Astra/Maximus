@@ -2,14 +2,18 @@ SMODS.Booster {
     key = "classified_mega_1",
     kind = "Conspiracy",
     group_key = "k_mxms_classified_pack",
---[[     atlas = 'Boosters',
+    atlas = 'Classified',
     pos = {
-        x = 3,
-        y = 0
-    }, ]]
+        x = 1,
+        y = 1
+    },
     config = {
         extra = 4,
         choose = 2
+    },
+    mxms_credits = {
+        art = { "nixthatoneartist" },
+        code = { "theAstra" }
     },
     cost = 8,
     weight = 0.12,

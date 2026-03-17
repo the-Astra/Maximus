@@ -1,7 +1,7 @@
 SMODS.Booster {
     key = "horoscope_jumbo_1",
     kind = "Horoscope",
-    atlas = "Boosters",
+    atlas = "Zodiac",
     group_key = "k_mxms_zodiac_pack",
     pos = {
         x = 2,
