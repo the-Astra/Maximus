@@ -17,6 +17,7 @@ SMODS.Booster {
     },
     cost = 6,
     weight = 0.48,
+    disable_shine = true,
     create_card = function(self, card)
         return create_card("Conspiracy", G.pack_cards, nil, nil, true, true, nil, "cspy_classified")
     end,

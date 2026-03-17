@@ -68,3 +68,17 @@ SMODS.calculate_context({pre_reroll = true, cost = reroll_cost})
 '''
 match_indent = true
 times = 1
+
+    # disable_shine option for Classified Packs
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/card_draw.lua"]'''
+pattern = '''
+if (self.ability.set == 'Booster' or self.ability.set == 'Spectral') and self:should_draw_base_shader() then
+'''
+position = "at"
+payload = '''
+if (self.ability.set == 'Booster' or self.ability.set == 'Spectral') and self:should_draw_base_shader() and not self.config.center.disable_shine then
+'''
+match_indent = true
+times = 1
