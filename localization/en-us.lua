@@ -2330,7 +2330,10 @@ return {
             sleeve_mxms_dummy_alt = {
                 name = 'Dummy Sleeve',
                 text = {
-                    '???',
+                    'At end of round, if current {C:money}${}',
+                    'is equal to money cap {C:inactive}($#1#){},',
+                    '{C:attention}increase{} money cap by {C:money}$#2#',
+                    '{C:inactive,s_0.8}(Max cap of $#3#)'
                 }
             },
             sleeve_mxms_grilled = {
