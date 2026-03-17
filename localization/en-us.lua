@@ -2317,6 +2317,22 @@ return {
                     '{C:horoscope,T:v_mxms_workaholic}#1#{}'
                 }
             },
+            sleeve_mxms_dummy = {
+                name = 'Dummy Sleeve',
+                text = {
+                    'Cannot have more than {C:money}$#1#',
+                    'When blind is selected,',
+                    'gain {C:purple}% of score{} equal',
+                    'to current {C:money}$',
+                    '{s:0.8,C:inactive}Currently: #2#%'
+                }
+            },
+            sleeve_mxms_dummy_alt = {
+                name = 'Dummy Sleeve',
+                text = {
+                    '???',
+                }
+            },
             sleeve_mxms_grilled = {
                 name = 'Grilled Sleeve',
                 text = {

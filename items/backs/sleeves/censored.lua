@@ -21,7 +21,7 @@ if Maximus_config.conspiracies then
                 key = self.key
                 vars = localize { type = 'name_text', key = 'p_mxms_classified_mega_1', set = 'Other' }
             end
-            return { key = key, vars = vars }
+            return { key = key, vars = { vars } }
         end,
         apply = function(self, sleeve)
             if self.get_current_deck_key() == 'b_mxms_censored' then
