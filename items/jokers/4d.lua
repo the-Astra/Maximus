@@ -13,7 +13,8 @@ SMODS.Joker {
     config = {
         extra = {
             Xmult = 4,
-            dXmult = 0.01
+            dXmult = 0.01,
+            dt_mod = 0,
         }
     },
     mxms_credits = {
@@ -61,31 +62,18 @@ SMODS.Joker {
                 card.children.floating_sprite:draw_shader('dissolve', nil, nil, nil, card.children.center, scale_mod, rotate_mod)
             end
         end
-    end
-}
+    end,
+    update = function(self, card, dt)
+        local stg = card.ability.extra
+        if not G.SETTINGS.paused then
+            stg.dt_mod = stg.dt_mod + dt
+        end
 
-local upd = Game.update
-
-mxms_4d_dt_mod = 0
-
-function Game:update(dt)
-    upd(self, dt)
-
-    -- Only increment dt mod value when 4D is in hand and run is not paused
-    if next(SMODS.find_card('j_mxms_4d')) and not G.SETTINGS.paused then
-        mxms_4d_dt_mod = mxms_4d_dt_mod + dt
-    end
-
-    -- 4D Decrement Xmult values
-    local fourds = SMODS.find_card('j_mxms_4d')
-    if next(fourds) and mxms_4d_dt_mod > 1 then
-        mxms_4d_dt_mod = 0
-
-        for k, v in pairs(fourds) do
-            local stg = v.ability.extra
-            if stg.Xmult > 1 and not v.debuff then
+        if stg.dt_mod > 1 * G.SETTINGS.GAMESPEED then
+            stg.dt_mod = 0
+            if stg.Xmult > 1 and not card.debuff then
                 stg.Xmult = math.max(stg.Xmult - stg.dXmult, 1)
-                v:juice_up(0.1, 0.2)
+                card:juice_up(0.1, 0.2)
 
                 -- Only play ticking sound if config option is enabled
                 if Maximus_config.four_d_ticks then
@@ -94,7 +82,11 @@ function Game:update(dt)
             end
         end
     end
-end
+}
+
+local upd = Game.update
+
+mxms_4d_dt_mod = 0
 
 SMODS.JimboQuip {
     key = 'lq_4d',
