@@ -16,3 +16,4 @@ Maximus.code-workspace
 .lovelyignore
 /assets/raw
 /.vscode
+assets/downscale.py
