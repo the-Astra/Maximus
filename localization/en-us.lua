@@ -1427,7 +1427,7 @@ return {
                 name = 'Normal Joker',
                 text = {
                     'Played cards without an',
-                    '{C:attention}enchancement{}, {C:attention}edition{}, or {C:attention}seal',
+                    '{C:attention}enhancement{}, {C:attention}edition{}, or {C:attention}seal',
                     'give {C:mult}+#1#{} Mult and {C:chips}+#2#{} Chips'
                 }
             },
