@@ -52,17 +52,6 @@ SMODS.Joker {
         card.children.floating_sprite.states.hover.can = false
         card.children.floating_sprite.states.click.can = false
     end,
-    draw = function(self, card, layer)
-        if layer == 'card' or layer == 'both' then
-            if card.sprite_facing == 'front' and (card.config.center.discovered or card.bypass_discovery_center) then
-                local scale_mod = 0.07 + 0.02*math.sin(1.8*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
-                local rotate_mod = 0.05*math.sin(1.219*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
-
-                card.children.floating_sprite:draw_shader('dissolve',0, nil, nil, card.children.center,scale_mod, rotate_mod,nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
-                card.children.floating_sprite:draw_shader('dissolve', nil, nil, nil, card.children.center, scale_mod, rotate_mod)
-            end
-        end
-    end,
     update = function(self, card, dt)
         local stg = card.ability.extra
         if not G.SETTINGS.paused and card.area == G.jokers then
@@ -84,9 +73,27 @@ SMODS.Joker {
     end
 }
 
-local upd = Game.update
+SMODS.DrawStep {
+    key = 'mxms_4d_float',
+    order = 60,
+    func = function(self)
+        if self.config.center_key == 'j_mxms_4d' and (self.config.center.discovered or self.bypass_discovery_center) then
+            local scale_mod = 0.07 + 0.02*math.sin(1.8*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+            local rotate_mod = 0.05*math.sin(1.219*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
 
-mxms_4d_dt_mod = 0
+            self.children.floating_sprite:draw_shader('dissolve',0, nil, nil, self.children.center,scale_mod, rotate_mod,nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
+            self.children.floating_sprite:draw_shader('dissolve', nil, nil, nil, self.children.center, scale_mod, rotate_mod)
+
+            if self.edition then
+                local edition = G.P_CENTERS[self.edition.key]
+                if edition.apply_to_float and self.children.floating_sprite then
+                    self.children.floating_sprite:draw_shader(edition.shader, nil, nil, nil, self.children.center, scale_mod, rotate_mod)
+                end
+            end
+        end
+    end,
+    conditions = { vortex = false, facing = 'front' },
+}
 
 SMODS.JimboQuip {
     key = 'lq_4d',
