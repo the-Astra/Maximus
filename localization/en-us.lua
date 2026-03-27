@@ -670,9 +670,9 @@ return {
             j_mxms_chihuahua = {
                 name = 'Chihuahua',
                 text = {
-                    '{C:attention}Retriggers{} cards with ranks that appear',
-                    'the {C:attention}least{} number of times in the deck the',
-                    'same number of times that rank appears',
+                    '{C:attention}Retriggers{} cards with your',
+                    '{C:attention}least common{} rank the same number of times',
+                    'that rank appears in your deck',
                     '{s:0.8,C:inactive}Does not activate if there is a tie',
                     '{s:0.8,C:inactive}Limit of 10 retriggers'
                 }
@@ -1332,7 +1332,7 @@ return {
                 name = 'Marco Polo',
                 text = {
                     '{C:mult}+#1#{} Mult if card is at {C:attention}secret',
-                    '{C:attention}placement{} in Joker hand order',
+                    '{C:attention}placement{} in Joker tray',
                     '{C:mult}Mult{} is {C:red}subtracted by #2#{} for',
                     'each card out of place',
                     '{s:0.8,C:inactive}Position changes every round{}'
