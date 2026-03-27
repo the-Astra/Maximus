@@ -3,7 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 1
 
-# Add mxms_modify_final_cashout
+# Add mxms_create_shop_booster
 [[patches]]
 [patches.pattern]
 target = "game.lua"
@@ -14,4 +14,4 @@ position = "before"
 payload = '''
 SMODS.calculate_context({mxms_create_shop_booster = true, booster = card})
 '''
-match_indent = false
+match_indent = true
