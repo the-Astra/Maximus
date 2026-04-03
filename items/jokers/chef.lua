@@ -22,7 +22,7 @@ SMODS.Joker {
             G.E_MANAGER:add_event(Event({
                 func = function()
                     SMODS.add_card({
-                        set = 'Food',
+                        attributes = {'food'},
                     })
                     card:juice_up(0.3, 0.4)
                     G.GAME.joker_buffer = G.GAME.joker_buffer - 1

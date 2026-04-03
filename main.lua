@@ -921,6 +921,17 @@ function Maximus.get_nominal_sum()
     return highest + lowest
 end
 
+-- Thank you for this notmario you have saved so much time
+Maximus.has_attribute = function (card, key)
+    local card_key = card
+    if Object.is(card, Card) then card_key = card.config.center.key end
+    local pool = SMODS.get_attribute_pool(key)
+    for _, c in pairs(pool) do
+        if c == card_key then return true end
+    end
+    return false
+end
+
 --#endregion
 
 
