@@ -87,42 +87,6 @@ payload = '''
 match_indent = true
 
 
-    # Apply Aries effect
-[[patches]]
-[patches.pattern]
-target = "functions/UI_definitions.lua"
-pattern = '''
-if G.GAME.modifiers.mxms_nuclear_size then
-    blind_amt = blind_amt^G.GAME.round_resets.ante
-end
-'''
-position = "after"
-payload = '''
-if G.GAME.mxms_aries_bonus then
-    blind_amt = blind_amt * 0.85
-end 
-'''
-match_indent = true
-times = 1
-
-[[patches]]
-[patches.pattern]
-target = "blind.lua"
-pattern = '''
-if G.GAME.modifiers.mxms_nuclear_size then
-    self.chips = self.chips^G.GAME.round_resets.ante
-end
-'''
-position = "after"
-payload = '''
-if G.GAME.mxms_aries_bonus then
-    self.chips = self.chips * 0.85
-end 
-'''
-match_indent = true
-times = 1
-
-
     # Apply Sagittarius effect
 [[patches]]
 [patches.pattern]

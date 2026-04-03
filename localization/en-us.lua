@@ -906,8 +906,8 @@ return {
             j_mxms_hugo = {
                 name = 'Hugo',
                 text = {
-                    'Blind sizes do not exceed',
-                    '{C:attention}Small Blind',
+                    'When {C:attention}Blind{} is selected,',
+                    'set Blind size equal to {C:attention}Small Blind',
                     '{C:green}#1# in #2#{} chance to',
                     '{C:red}skip blinds{} when selected',
 
