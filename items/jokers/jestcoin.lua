@@ -41,9 +41,13 @@ SMODS.Joker {
             SMODS.calculate_effect({ message = localize('k_reset'), colour = G.C.ATTENTION }, card)
         else
             local cashout = stg.money
-            stg.money = stg.money ^ 2
+            SMODS.scale_card(card,{
+                ref_table = stg,
+                ref_value = 'money',
+                scalar_value = 'money',
+                operation = 'X'
+            })
             SMODS.calculate_effect({ message = localize('k_upgrade_ex'), colour = G.C.MONEY }, card)
-            SMODS.calculate_context({ mxms_scaling_card = true })
             return cashout
         end
     end
