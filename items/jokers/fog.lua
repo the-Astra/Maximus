@@ -12,7 +12,11 @@ SMODS.Joker {
     },
     blueprint_compat = false,
     cost = 5,
-    rarity = 2
+    rarity = 2,
+    attributes = {
+        'hand_type',
+        'passive'
+    },
 }
 
 -- Change 4oaK and 2P to work with Fog

@@ -11,6 +11,10 @@ SMODS.Joker {
         idea = { "theAstra" }
     },
     rarity = 1,
+    attributes = {
+        'on_sell',
+        'modify_card'
+    },
     blueprint_compat = false,
     cost = 4,
     calculate = function(self, card, context)

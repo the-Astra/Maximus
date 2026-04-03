@@ -11,6 +11,9 @@ SMODS.Joker {
         idea = { "Maxiss02" }
     },
     rarity = 2,
+    attributes = {
+        'retrigger'
+    },
     blueprint_compat = true,
     eternal_compat = false,
     cost = 6,

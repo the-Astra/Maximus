@@ -11,6 +11,14 @@ SMODS.Joker {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    attributes = {
+        'passive',
+        'suit',
+        'hearts',
+        'diamonds',
+        'spades',
+        'clubs'
+    },
     blueprint_compat = false,
     cost = 7,
     calculate = function(self, card, context)

@@ -17,6 +17,11 @@ SMODS.Joker {
         Food = true
     },
     rarity = 1,
+    attributes = {
+        'generation',
+        'food',
+        'joker'
+    },
     calculate = function(self, card, context)
         local stg = card.ability.extra
     

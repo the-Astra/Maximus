@@ -10,6 +10,10 @@ SMODS.Joker {
         y = 8
     },
     rarity = 4,
+    attributes = {
+        'editions',
+        'modify_card'
+    },
     unlocked = false,
     unlock_condition = {
         type = '',

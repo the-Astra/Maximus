@@ -15,6 +15,11 @@ SMODS.Joker {
             bad_Xmult = 0.5
         }
     },
+    attributes = {
+        'xmult',
+        'suit',
+        'rank'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

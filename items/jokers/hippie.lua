@@ -13,6 +13,11 @@ if Maximus_config.horoscopes then
                 gain = 0.5
             }
         },
+        attributes = {
+            'horoscope',
+            'xmult',
+            'scaling'
+        },
         mxms_credit = {
             art = { "Maxiss02" },
             code = { "theAstra" },

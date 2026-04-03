@@ -13,6 +13,10 @@ SMODS.Joker {
             mult = 5
         }
     },
+    attributes = {
+        'chance',
+        'mult'
+    },
     mxms_credits = {
         art = { "anerdymous" },
         code = { "theAstra" },

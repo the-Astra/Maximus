@@ -13,6 +13,9 @@ SMODS.Joker {
             copied_key = nil
         }
     },
+    attributes = {
+        'copying',
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

@@ -14,6 +14,11 @@ SMODS.Joker {
             discards = 2
         }
     },
+    attributes = {
+        'on_sell',
+        'hands',
+        'discard'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

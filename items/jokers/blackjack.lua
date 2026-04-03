@@ -13,6 +13,9 @@ SMODS.Joker {
             gain_best = 1
         }
     },
+    attributes = {
+        'xmult'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

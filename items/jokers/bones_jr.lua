@@ -10,6 +10,10 @@ SMODS.Joker {
             extra_hands = 1
         }
     },
+    attributes = {
+        'prevents_death',
+        'hands'
+    },
     mxms_credits = {
         code = { "theAstra" },
         idea = { "pinkzigzagoon" }

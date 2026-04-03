@@ -6,6 +6,14 @@ SMODS.Joker {
         y = 5
     },
     rarity = 3,
+    attributes = {
+        'modify_card',
+        'rank',
+        'ace',
+        'king',
+        'queen',
+        'jack'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

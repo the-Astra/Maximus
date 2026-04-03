@@ -11,6 +11,11 @@ SMODS.Joker {
             hands = 0
         }
     },
+    attributes = {
+        'hand_size',
+        'hands',
+        'passive'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

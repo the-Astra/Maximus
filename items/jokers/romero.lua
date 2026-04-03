@@ -16,6 +16,11 @@ SMODS.Joker {
             gain = 0.1
         }
     },
+    attributes = {
+        'xmult',
+        'scaling',
+        'joker'
+    },
     unlocked = false,
     unlock_condition = {
         type = '',

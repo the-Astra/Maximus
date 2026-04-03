@@ -14,6 +14,10 @@ SMODS.Joker {
             reps = 1
         }
     },
+    attributes = {
+        'retrigger',
+        'editions'
+    },
     rarity = 4,
     unlocked = false,
     unlock_condition = {

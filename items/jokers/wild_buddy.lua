@@ -11,6 +11,9 @@ SMODS.Joker {
             Xmult = 2
         }
     },
+    attributes = {
+        'xmult',
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

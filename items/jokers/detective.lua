@@ -13,6 +13,10 @@ SMODS.Joker {
             prepped = false
         }
     },
+    attributes = {
+        'hand_size',
+        'passive'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

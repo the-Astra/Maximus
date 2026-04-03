@@ -12,8 +12,8 @@ SMODS.Joker {
     rarity = 4,
     unlocked = false,
     unlock_condition = {
-        type = '', 
-        extra = '', 
+        type = '',
+        extra = '',
         hidden = true
     },
     blueprint_compat = true,
@@ -22,6 +22,10 @@ SMODS.Joker {
         extra = {
             levels = 1
         }
+    },
+    attributes = {
+        'hand_type',
+        'level_up'
     },
     mxms_credits = {
         art = { "Maxiss02" },

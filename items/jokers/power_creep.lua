@@ -11,12 +11,15 @@ SMODS.Joker {
         idea = { "Maxiss02" }
     },
     rarity = 3,
+    attributes = {
+        'editions',
+        'passive'
+    },
     blueprint_compat = false,
     cost = 7,
     add_to_deck = function(self, card, from_debuff)
         G.GAME.mxms_creep_mod = G.GAME.mxms_creep_mod * 2
     end,
-
     remove_from_deck = function(self, card, from_debuff)
         G.GAME.mxms_creep_mod = G.GAME.mxms_creep_mod / 2
     end,

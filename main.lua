@@ -1037,6 +1037,35 @@ sendDebugMessage("Loaded Achievements", 'Maximus')
 
 --#endregion
 
+--#region Attributes ----------------------------------------------------------------------------------------
+
+SMODS.Attribute {
+    key = 'voucher'
+}
+
+SMODS.Attribute {
+    key = 'editions'
+}
+
+SMODS.Attribute {
+    key = 'tags'
+}
+
+SMODS.Attribute {
+    key = 'level_up',
+    keys = { 'j_space' }
+}
+
+SMODS.Attribute {
+    key = 'unscoring'
+}
+
+SMODS.Attribute {
+    ley = 'mod_scaling'
+}
+
+--#endregion
+
 --#region Backs ---------------------------------------------------------------------------------------------
 
 local ENABLED_BACKS = {
@@ -1289,6 +1318,10 @@ if Maximus_config.horoscopes then
         collection_rows = { 3, 3 },
         shop_rate = 0.0,
         select_card = 'mxms_horoscope'
+    }
+
+    SMODS.Attribute {
+        key = 'horoscope'
     }
 
     -- CardArea emplace hook

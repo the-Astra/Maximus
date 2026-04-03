@@ -6,6 +6,10 @@ SMODS.Joker {
         y = 16
     },
     rarity = 2,
+    attributes = {
+        'modify_card',
+        'seals'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
@@ -15,7 +19,6 @@ SMODS.Joker {
     cost = 5,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_SEALS['mxms_black']
-
         return {
             vars = {
                 colours = {

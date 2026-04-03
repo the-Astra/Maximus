@@ -6,6 +6,10 @@ SMODS.Joker {
         y = 17
     },
     rarity = 1,
+    attributes = {
+        'economy',
+        'sell_value'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

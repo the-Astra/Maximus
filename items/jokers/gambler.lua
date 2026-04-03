@@ -6,6 +6,9 @@ SMODS.Joker {
         y = 3
     },
     rarity = 1,
+    attributes = {
+        'economy',
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

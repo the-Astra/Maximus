@@ -11,6 +11,9 @@ SMODS.Joker {
         code = { "theAstra" },
         idea = { "pinkzigzagoon" }
     },
+    attributes = {
+        'tags'
+    },
     blueprint_compat = true,
     cost = 4,
     calculate = function(self, card, context)

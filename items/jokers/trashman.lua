@@ -11,6 +11,10 @@ SMODS.Joker {
             money = 1
         }
     },
+    attributes = {
+        'unscoring',
+        'economy'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

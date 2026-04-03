@@ -13,6 +13,12 @@ SMODS.Joker {
             both_ranks = false
         }
     },
+    attributes = {
+        'xmult',
+        'rank',
+        'king',
+        'five'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

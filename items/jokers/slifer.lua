@@ -6,6 +6,9 @@ SMODS.Joker {
         y = 10
     },
     rarity = 3,
+    attributes = {
+        'xmult',
+    },
     mxms_credits = {
         art = { "anerdymous" },
         code = { "theAstra" },

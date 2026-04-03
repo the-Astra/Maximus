@@ -13,6 +13,11 @@ SMODS.Joker {
             dChips = 15
         }
     },
+    attributes = {
+        'chips',
+        'full_deck',
+        'enhancements'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

@@ -12,6 +12,11 @@ SMODS.Joker {
             card_decrement = 1
         }
     },
+    attributes = {
+        'seals',
+        'modify_card',
+        'food'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

@@ -12,6 +12,10 @@ SMODS.Joker {
             odds = 10
         }
     },
+    attributes = {
+        'chance',
+        'passive'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

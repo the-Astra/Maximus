@@ -11,6 +11,11 @@ SMODS.Joker {
         idea = { "PsyAlola" }
     },
     rarity = 2,
+    attributes = {
+        'enhancements',
+        'passive',
+        'food'
+    },
     blueprint_compat = false,
     cost = 5,
     pools = {

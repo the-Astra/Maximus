@@ -17,6 +17,10 @@ SMODS.Joker {
         code = { "theAstra" },
         idea = { "theAstra" }
     },
+    attributes = {
+        'chips',
+        'mult'
+    },
     blueprint_compat = true,
     cost = 4,
     loc_vars = function(self, info_queue, card)

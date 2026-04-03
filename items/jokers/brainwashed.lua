@@ -12,6 +12,10 @@ SMODS.Joker {
             odds = 2
         }
     },
+    attributes = {
+        'hand_type',
+        'modify_card'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

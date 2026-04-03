@@ -6,7 +6,9 @@ SMODS.Joker {
         y = 6
     },
     rarity = 3,
-    config = {},
+    attributes = {
+        'copying'
+    },
     blueprint_compat = true,
     cost = 3,
     mxms_credits = {

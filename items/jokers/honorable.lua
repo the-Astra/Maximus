@@ -12,6 +12,12 @@ SMODS.Joker {
             gain = 10
         }
     },
+    attributes = {
+        'mult',
+        'tarot',
+        'destroy_card',
+        'joker'
+    },
     mxms_credits = {
         art = { "pinkzigzaoon" },
         code = { "theAstra" },

@@ -11,6 +11,9 @@ SMODS.Joker {
         idea = { "Maxiss02" }
     },
     rarity = 2,
+    attributes = {
+        'passive',
+    },
     blueprint_compat = false,
     cost = 8,
     add_to_deck = function(self, card, from_debuff)

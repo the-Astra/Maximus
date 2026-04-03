@@ -11,6 +11,9 @@ SMODS.Joker {
             rounds = 5
         }
     },
+    attributes = {
+        'level_up',
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

@@ -11,6 +11,12 @@ SMODS.Joker {
             Xmult = 2
         }
     },
+    attributes = {
+        'editions',
+        'rank',
+        'faces',
+        'xmult'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

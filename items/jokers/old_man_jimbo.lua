@@ -11,6 +11,10 @@ SMODS.Joker {
             gain = 0.5
         }
     },
+    attributes = {
+        'xmult',
+        'hands'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

@@ -19,6 +19,12 @@ SMODS.Joker {
             odds = 10
         }
     },
+    attributes = {
+        'chance',
+        'generation',
+        'tarot',
+        'food'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

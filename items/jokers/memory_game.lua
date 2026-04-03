@@ -11,6 +11,10 @@ SMODS.Joker {
         idea = { "pinkzigzagoon" }
     },
     rarity = 1,
+    attributes = {
+        'modify_card',
+        'hand_type'
+    },
     blueprint_compat = false,
     cost = 5,
     calculate = function(self, card, context)

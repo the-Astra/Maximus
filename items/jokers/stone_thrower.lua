@@ -12,6 +12,12 @@ SMODS.Joker {
             gain = 30
         }
     },
+    attributes = {
+        'chips',
+        'scaling',
+        'enhancements',
+        'mod_chance'
+    },
     mxms_credits = {
         art = { "anerdymous" },
         code = { "theAstra" },

@@ -16,6 +16,10 @@ SMODS.Joker {
             chips = 15
         }
     },
+    attributes = {
+        'mult',
+        'chips'
+    },
     discovered = true,
     order = 2,
     rarity = 1,

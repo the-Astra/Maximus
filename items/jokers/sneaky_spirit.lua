@@ -13,6 +13,10 @@ SMODS.Joker {
             discards = 0
         }
     },
+    attributes = {
+        'xmult',
+        'discard'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

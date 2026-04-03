@@ -11,6 +11,11 @@ SMODS.Joker { -- Refrigerator
         idea = { "Maxiss02" }
     },
     rarity = 2,
+    attributes = {
+        'mod_chance',
+        'mod_scaling',
+        'passive'
+    },
     blueprint_compat = false,
     cost = 6,
     calculate = function(self, card, context)

@@ -16,6 +16,13 @@ SMODS.Joker {
             money = 10
         }
     },
+    attributes = {
+        'chips',
+        'mult',
+        'xmult',
+        'economy',
+        'food'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

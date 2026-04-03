@@ -12,6 +12,11 @@ SMODS.Joker {
             card_decrement = 1
         }
     },
+    attributes = {
+        'retrigger',
+        'suit',
+        'food'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

@@ -11,6 +11,11 @@ SMODS.Joker {
             dollars = 1
         }
     },
+    attributes = {
+        'modify_card',
+        'enhancements',
+        'economy'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

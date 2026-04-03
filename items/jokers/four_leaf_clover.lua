@@ -11,6 +11,10 @@ SMODS.Joker {
         idea = { "Maxiss02" }
     },
     rarity = 2,
+    attributes = {
+        'modify_card',
+        'enhancements',
+    },
     blueprint_compat = false,
     cost = 7,
     calculate = function(self, card, context)

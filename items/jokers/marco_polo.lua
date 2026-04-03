@@ -12,6 +12,10 @@ SMODS.Joker {
             dMult = 3
         }
     },
+    attributes = {
+        'mult',
+        'joker_slot'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

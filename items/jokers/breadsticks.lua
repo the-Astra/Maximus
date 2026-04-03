@@ -14,6 +14,12 @@ SMODS.Joker {
             dChips = 25
         }
     },
+    attributes = {
+        'chips',
+        'scaling',
+        'reset',
+        'food'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

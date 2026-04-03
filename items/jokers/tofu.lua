@@ -12,6 +12,10 @@ SMODS.Joker {
             hand_decrement = 1
         }
     },
+    attributes = {
+        'copying',
+        'food'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

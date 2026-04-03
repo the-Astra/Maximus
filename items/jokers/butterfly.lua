@@ -12,6 +12,10 @@ SMODS.Joker {
             goal = 5
         }
     },
+    attributes = {
+        'generation',
+        'spectral'
+    },
     mxms_credits = {
         art = "Maxiss02",
         code = "theAstra",

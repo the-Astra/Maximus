@@ -13,6 +13,9 @@ SMODS.Joker {
     rarity = 1,
     blueprint_compat = true,
     cost = 5,
+    attributes = {
+        'generation',
+    },
     calculate = function(self, card, context)
         if context.setting_blind and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
             G.GAME.joker_buffer = G.GAME.joker_buffer + 1

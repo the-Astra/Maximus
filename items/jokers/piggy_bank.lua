@@ -12,6 +12,9 @@ SMODS.Joker {
             chip_factor = 20
         }
     },
+    attributes = {
+        'chips',
+    },
     mxms_credits = {
         art = { "pinkzigzaoon" },
         code = { "theAstra" },

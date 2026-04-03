@@ -9,6 +9,10 @@ SMODS.Joker {
     config = {
         extra = 1
     },
+    attributes = {
+        'retrigger',
+        'hand_type',
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },
