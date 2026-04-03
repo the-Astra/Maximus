@@ -35,7 +35,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.selling_self and stg.rounds >= stg.req and not context.blueprint then
-            local voucher_pool = Maximus.get_clean_pool('Voucher')
+            local voucher_pool = SMODS.get_clean_pool('Voucher')
 
             local eligible_vouchers = {}
             for i = 1, #voucher_pool do

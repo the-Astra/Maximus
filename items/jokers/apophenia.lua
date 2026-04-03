@@ -7,6 +7,11 @@ if Maximus_config.conspiracies then
             y = 0
         },
         rarity = 3,
+        attributes = {
+            'conspiracy',
+            'generation',
+            'hand_type'
+        },
         blueprint_compat = true,
         cost = 5,
         mxms_credits = {

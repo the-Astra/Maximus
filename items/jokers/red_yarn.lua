@@ -12,6 +12,10 @@ if Maximus_config.conspiracies then
                 gain = 5
             }
         },
+        attributes = {
+            'conspiracy',
+            'mult'
+        },
         mxms_credits = {
             art = { "???" },
             code = { "theAstra" },
@@ -39,9 +43,6 @@ if Maximus_config.conspiracies then
                         SMODS.calculate_effect(
                             { message = localize { type = 'variable', key = 'a_mult', vars = { G.GAME.consumeable_usage_total.conspiracy * stg.gain } } },
                             card)
-                        if next(SMODS.find_mod('Maximus')) then
-                            SMODS.calculate_context({ scaling_card = true })
-                        end
                         return true
                     end
                 }))

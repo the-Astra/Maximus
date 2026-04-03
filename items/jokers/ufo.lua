@@ -14,6 +14,10 @@ if Maximus_config.conspiracies then
                 odds = 4
             }
         },
+        attributes = {
+            'conspiracy',
+            'mod_chance'
+        },
         mxms_credits = {
             art = { "GhostSalt" },
             code = { "theAstra" },

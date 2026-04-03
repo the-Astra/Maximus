@@ -12,6 +12,10 @@ if Maximus_config.conspiracies then
                 Xmult = 2
             }
         },
+        attributes = {
+            'conspiracy',
+            'xmult'
+        },
         mxms_credits = {
             art = { "Willow" },
             code = { "theAstra" },

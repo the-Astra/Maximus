@@ -11,6 +11,10 @@ SMODS.Joker {
             prevents = 2
         }
     },
+    attributes = {
+        'passive',
+        'joker'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

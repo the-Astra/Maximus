@@ -12,6 +12,10 @@ if Maximus_config.conspiracies then
                 cards = 1
             }
         },
+        attributes = {
+            'conspiracy',
+            'generation'
+        },
         mxms_credits = {
             art = { "GhostSalt" },
             code = { "theAstra" },

@@ -14,6 +14,9 @@ SMODS.Joker {
             goal = 3
         }
     },
+    attributes = {
+        'joker_slots',
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

@@ -811,7 +811,7 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
         create_card = function(self, card, i)
             local _card
             if G.GAME.modifiers.mxms_empire_arcana then
-                local pool = Maximus.get_clean_pool('Tarot')
+                local pool = SMODS.get_clean_pool('Tarot')
                 _card = {
                     set = "Tarot",
                     area = G.pack_cards,
@@ -1049,16 +1049,6 @@ function Maximus.count_conspiracy_cards()
     return count
 end
 
-function Maximus.get_clean_pool(_type, _rarity, _legendary, _append)
-    local pool = get_current_pool(_type, _rarity, _legendary, _append)
-    local clean_pool = {}
-    for i, v in ipairs(pool) do
-        if v ~= 'UNAVAILABLE' then
-            table.insert(clean_pool, v)
-        end
-    end
-    return clean_pool
-    
 -- Thank you for this notmario you have saved so much time
 Maximus.has_attribute = function (card, key)
     local card_key = card
@@ -1406,6 +1396,10 @@ if Maximus_config.conspiracies then
         shop_rate = 1
     }
 
+    SMODS.Attribute {
+        key = 'conspiracy'
+    }
+
     local ENABLED_CONSPIRACIES = {
         'assassination',
         'sighting',
@@ -1584,7 +1578,7 @@ if Maximus_config.horoscopes then
 
         if context.setting_blind and G.GAME.mxms_aries_bonus then
             return {
-                xblind_size = 0.85
+                xblind_size = 1 / G.GAME.mxms_aries_bonus
             }
         end
     end

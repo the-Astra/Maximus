@@ -6,9 +6,10 @@ SMODS.Joker {
         y = 18
     },
     rarity = 1,
-    config = {
-        extra = {
-        }
+    attributes = {
+        'hand_size',
+        'rank',
+        'eights'
     },
     mxms_credits = {
         art = { "pinkzigzagoon" },

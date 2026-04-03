@@ -6,6 +6,10 @@ SMODS.Joker {
         y = 18
     },
     rarity = 2,
+    attributes = {
+        'hand_type',
+        'retrigger'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

@@ -14,6 +14,11 @@ SMODS.Joker {
             triggered = false
         }
     },
+    attributes = {
+        'hand_type',
+        'horoscope',
+        'generation'
+    },
     rarity = 4,
     mxms_credits = {
         art = { "pinkzigzagoon" },

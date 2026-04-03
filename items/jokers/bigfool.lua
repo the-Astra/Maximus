@@ -13,6 +13,11 @@ if Maximus_config.conspiracies then
                 odds = 10
             }
         },
+        attributes = {
+            'conspiracy',
+            'chance',
+            'editions'
+        },
         mxms_credits = {
             art = { "???" },
             code = { "theAstra" },

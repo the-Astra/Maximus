@@ -12,6 +12,11 @@ SMODS.Joker {
             mult = 0
         }
     },
+    attributes = {
+        'chips',
+        'mult',
+        'reset'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },
