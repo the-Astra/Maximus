@@ -443,7 +443,7 @@ return {
                 },
                 unlock = {
                     'Fulfill the requirements of',
-                    'and sell a {C:attention}Chrysalis{}'
+                    'a {C:attention}Chrysalis{}'
                 }
             },
             j_mxms_caterpillar = {
@@ -516,7 +516,7 @@ return {
                 },
                 unlock = {
                     'Fulfill the requirements of',
-                    'and sell a {C:attention}Caterpillar{}'
+                    'a {C:attention}Caterpillar{}'
                 }
             },
             j_mxms_cleaner = {
