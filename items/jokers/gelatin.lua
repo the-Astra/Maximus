@@ -24,9 +24,7 @@ SMODS.Joker {
     },
     blueprint_compat = true,
     cost = 4,
-    pools = {
-        Food = true
-    },
+    
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {

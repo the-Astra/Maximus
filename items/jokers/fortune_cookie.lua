@@ -10,9 +10,7 @@ SMODS.Joker {
     eternal_compat = false,
     blueprint_compat = true,
     cost = 4,
-    pools = {
-        Food = true
-    },
+    
     config = {
         extra = {
             prob = 10,
