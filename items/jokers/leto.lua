@@ -10,6 +10,12 @@ SMODS.Joker {
         y = 8
     },
     rarity = 4,
+    attributes = {
+        'generation',
+        'rank',
+        'queen',
+        'enhancements'
+    },
     unlocked = false,
     unlock_condition = {
         type = '',

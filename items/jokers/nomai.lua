@@ -7,6 +7,11 @@ if Maximus_config.horoscopes then
             y = 14
         },
         rarity = 2,
+        attributes = {
+            'horoscope',
+            'planet',
+            'generation'
+        },
         mxms_credits = {
             art = { "Maxiss02" },
             code = { "theAstra" },

@@ -13,6 +13,10 @@ SMODS.Joker {
             gain = 25
         }
     },
+    attributes = {
+        'chips',
+        'scaling'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

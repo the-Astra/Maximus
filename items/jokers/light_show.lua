@@ -10,6 +10,10 @@ SMODS.Joker {
             reps = 1
         }
     },
+    attributes = {
+        'retrigger',
+        'enhancements'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

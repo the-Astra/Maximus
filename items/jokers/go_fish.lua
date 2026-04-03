@@ -6,6 +6,10 @@ SMODS.Joker {
         y = 4
     },
     rarity = 1,
+    attributes = {
+        'mult',
+        'full_deck'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

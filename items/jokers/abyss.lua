@@ -6,6 +6,12 @@ SMODS.Joker {
         x = 2,
         y = 0
     },
+    attributes = {
+        'destroy_card',
+        'modify_card',
+        'chance',
+        'editions'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

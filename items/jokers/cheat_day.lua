@@ -12,6 +12,9 @@ if Maximus_config.horoscopes then
             idea = { "Maxiss02" }
         },
         rarity = 3,
+        attributes = {
+            'horoscope'
+        },
         blueprint_compat = false,
         cost = 7,
         calculate = function(self, card, context)

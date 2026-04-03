@@ -11,6 +11,9 @@ SMODS.Joker {
     },
     cost = 20,
     rarity = 4,
+    attributes = {
+        'editions',
+    },
     unlocked = false,
     unlock_condition = {
         type = '',

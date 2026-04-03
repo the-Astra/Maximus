@@ -11,6 +11,11 @@ SMODS.Joker {
             chips = 0
         }
     },
+    attributes = {
+        'chips',
+        'scaling',
+        'hand_type'
+    },
     mxms_credits = {
         art = { "anerdymous" },
         code = { "theAstra" },

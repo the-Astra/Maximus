@@ -11,6 +11,10 @@ SMODS.Joker {
             hands = 0
         }
     },
+    attributes = {
+        'retrigger',
+        'joker'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

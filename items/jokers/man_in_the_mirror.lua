@@ -9,6 +9,10 @@ SMODS.Joker { -- Man in the Mirror
     eternal_compat = false,
     cost = 8,
     rarity = 2,
+    attributes = {
+        'on_sell',
+        'editions'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

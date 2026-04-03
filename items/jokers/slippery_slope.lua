@@ -13,6 +13,11 @@ SMODS.Joker {
     rarity = 2,
     blueprint_compat = true,
     cost = 6,
+    attributes = {
+        'chips',
+        'mult',
+        'hand_type'
+    },
     calculate = function(self, card, context)
         if context.joker_main then
             for k, v in pairs(context.poker_hands) do

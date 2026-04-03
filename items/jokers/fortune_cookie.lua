@@ -10,14 +10,18 @@ SMODS.Joker {
     eternal_compat = false,
     blueprint_compat = true,
     cost = 4,
-    pools = {
-        Food = true
-    },
+    
     config = {
         extra = {
             prob = 10,
             odds = 10
         }
+    },
+    attributes = {
+        'chance',
+        'generation',
+        'tarot',
+        'food'
     },
     mxms_credits = {
         art = { "Maxiss02" },

@@ -12,6 +12,11 @@ SMODS.Joker {
             gain = 0.25
         }
     },
+    attributes = {
+        'xmult',
+        'enhancements',
+        'reset'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
@@ -53,12 +58,14 @@ SMODS.Joker {
                     glass = glass + 1
                 end
             end
-            stg.Xmult = stg.Xmult + glass * stg.gain
-            return {
-                message = localize('k_mxms_eureka_ex'),
-                colour = G.C.ATTENTION,
-                func = function() SMODS.calculate_context({ mxms_scaling_card = true }) end
-            }
+            stg.temp_gain = glass * stg.gain
+            SMODS.scale_card(card {
+                ref_table = stg,
+                ref_value = 'Xmult',
+                scalar_value = 'temp_gain',
+                scaling_message = localize('k_mxms_eureka_ex')
+            })
+            stg.temp_gain = 0
         end
     end
 }

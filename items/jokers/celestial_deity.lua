@@ -11,6 +11,10 @@ SMODS.Joker {
             extra_levels = 1
         }
     },
+    attributes = {
+        'planet',
+        'space'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

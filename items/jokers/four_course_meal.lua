@@ -16,6 +16,13 @@ SMODS.Joker {
             money = 10
         }
     },
+    attributes = {
+        'chips',
+        'mult',
+        'xmult',
+        'economy',
+        'food'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
@@ -25,9 +32,7 @@ SMODS.Joker {
     eternal_compat = false,
     perishable_compat = false,
     cost = 8,
-    pools = {
-        Food = true
-    },
+    
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return { vars = { stg.chips, stg.mult, stg.Xmult, stg.money } }

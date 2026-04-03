@@ -7,6 +7,10 @@ SMODS.Joker {
         y = 2
     },
     rarity = 3,
+    attributes = {
+        'passive',
+        'enhancements'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

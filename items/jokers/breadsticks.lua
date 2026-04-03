@@ -14,6 +14,12 @@ SMODS.Joker {
             dChips = 25
         }
     },
+    attributes = {
+        'chips',
+        'scaling',
+        'reset',
+        'food'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },
@@ -21,9 +27,7 @@ SMODS.Joker {
     },
     blueprint_compat = false,
     cost = 4,
-    pools = {
-        Food = true
-    },
+    
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {

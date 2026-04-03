@@ -13,6 +13,12 @@ SMODS.Joker {
             last_hand = nil
         }
     },
+    attributes = {
+        'hand_type',
+        'xmult',
+        'scaling',
+        'reset'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

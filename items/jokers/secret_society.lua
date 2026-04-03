@@ -13,6 +13,10 @@ SMODS.Joker {
     blueprint_compat = false,
     cost = 5,
     rarity = 2,
+    attributes = {
+        'passive',
+        'rank'
+    },
     loc_vars = function(self, info_queue, card)
         local nom_sum = Maximus.get_nominal_sum()
         return {

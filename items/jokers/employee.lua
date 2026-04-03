@@ -17,6 +17,10 @@ if Maximus_config.horoscopes then
             code = { "theAstra" },
             idea = { "Maxiss02" }
         },
+        attributes = {
+            'horoscope',
+            'economy'
+        },
         blueprint_compat = true,
         cost = 7,
         loc_vars = function(self, info_queue, card)

@@ -14,6 +14,10 @@ SMODS.Joker {
             stones = 5
         }
     },
+    attributes = {
+        'generation',
+        'enhancements'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

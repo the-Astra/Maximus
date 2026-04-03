@@ -505,23 +505,6 @@ end
 
 -- VARIABLES
 --#region Misc Variables ------------------------------------------------------------------------------------
-if not SMODS.ObjectTypes.Food then
-    SMODS.ObjectType {
-        key = 'Food',
-        default = 'j_egg',
-        cards = {
-            j_gros_michel = true,
-            j_selzer = true,
-            j_egg = true,
-            j_ice_cream = true,
-            j_popcorn = true,
-            j_cavendish = true,
-            j_turtle_bean = true,
-            j_diet_cola = true,
-            j_ramen = true
-        },
-    }
-end
 
 Maximus.invert_prob_cards = {
     j_gros_michel = true,
@@ -808,7 +791,7 @@ function SMODS.add_to_pool(prototype_obj, args)
             ret = false
         end
 
-        if G.GAME.modifiers.mxms_feast and not prototype_obj.pools.Food and prototype_obj.center_key ~= 'j_mxms_microwave' and prototype_obj.center_key ~= 'j_mxms_refrigerator' then
+        if G.GAME.modifiers.mxms_feast and not Maximus.has_attribute(prototype_obj.key, 'food') and prototype_obj.key ~= 'j_mxms_microwave' and prototype_obj.key ~= 'j_mxms_refrigerator' then
             ret = false
         end
     end
@@ -1075,6 +1058,20 @@ function Maximus.get_clean_pool(_type, _rarity, _legendary, _append)
         end
     end
     return clean_pool
+    
+-- Thank you for this notmario you have saved so much time
+Maximus.has_attribute = function (card, key)
+    local card_key = card
+    if Object.is(card, Card) then
+        card_key = card.config.center_key
+    elseif type(card) == 'string' and G.P_CENTERS[card] then
+        card_key = card
+    end
+    local pool = SMODS.get_attribute_pool(key)
+    for _, c in pairs(pool) do
+        if c == card_key then return true end
+    end
+    return false
 end
 
 --#endregion
@@ -1190,6 +1187,35 @@ end
 
 assert(SMODS.load_file('items/achievements.lua'))()
 sendDebugMessage("Loaded Achievements", 'Maximus')
+
+--#endregion
+
+--#region Attributes ----------------------------------------------------------------------------------------
+
+SMODS.Attribute {
+    key = 'voucher'
+}
+
+SMODS.Attribute {
+    key = 'editions'
+}
+
+SMODS.Attribute {
+    key = 'tags'
+}
+
+SMODS.Attribute {
+    key = 'level_up',
+    keys = { 'j_space' }
+}
+
+SMODS.Attribute {
+    key = 'unscoring'
+}
+
+SMODS.Attribute {
+    key = 'mod_scaling'
+}
 
 --#endregion
 
@@ -1521,6 +1547,10 @@ if Maximus_config.horoscopes then
         select_card = 'mxms_horoscope'
     }
 
+    SMODS.Attribute {
+        key = 'horoscope'
+    }
+
     -- CardArea emplace hook
     local cae = CardArea.emplace
     function CardArea:emplace(card, location, stay_flipped)
@@ -1550,6 +1580,12 @@ if Maximus_config.horoscopes then
             for i = 1, #G.GAME.tags do
                 G.GAME.tags[i]:apply_to_run({ type = 'start_apply_horoscopes' })
             end
+        end
+
+        if context.setting_blind and G.GAME.mxms_aries_bonus then
+            return {
+                xblind_size = 0.85
+            }
         end
     end
 

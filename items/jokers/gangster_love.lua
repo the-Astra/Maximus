@@ -11,6 +11,10 @@ SMODS.Joker {
         idea = { "anerdymous" }
     },
     rarity = 2,
+    attributes = {
+        'hand_type',
+        'modify_card',
+    },
     blueprint_compat = false,
     cost = 4,
     calculate = function(self, card, context)

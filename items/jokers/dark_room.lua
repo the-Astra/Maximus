@@ -16,6 +16,11 @@ SMODS.Joker {
             req = 3
         }
     },
+    attributes = {
+        'on_sell',
+        'voucher',
+        'generation'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

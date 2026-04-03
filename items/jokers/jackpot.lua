@@ -13,6 +13,12 @@ SMODS.Joker {
             odds = 3
         }
     },
+    attributes = {
+        'chance',
+        'rank',
+        'sevens',
+        'economy'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

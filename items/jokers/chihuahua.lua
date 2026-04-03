@@ -18,6 +18,10 @@ SMODS.Joker {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    attributes = {
+        'retrigger',
+        'full_deck'
+    },
     blueprint_compat = true,
     cost = 8,
     calculate = function(self, card, context)

@@ -12,6 +12,10 @@ SMODS.Joker {
             goal = 3
         }
     },
+    attributes = {
+        'generation',
+        'joker'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

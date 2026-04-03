@@ -12,6 +12,10 @@ SMODS.Joker {
             hand_decrement = 1
         }
     },
+    attributes = {
+        'copying',
+        'food'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
@@ -20,9 +24,7 @@ SMODS.Joker {
     blueprint_compat = true,
     perishable_compat = false,
     cost = 7,
-    pools = {
-        Food = true
-    },
+    
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         card.ability.blueprint_compat_ui = card.ability.blueprint_compat_ui or ''

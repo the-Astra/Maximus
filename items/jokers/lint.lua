@@ -11,6 +11,9 @@ SMODS.Joker {
             sub = 1
         }
     },
+    attributes = {
+        'modify_card',
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

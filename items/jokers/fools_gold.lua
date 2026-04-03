@@ -12,6 +12,11 @@ SMODS.Joker {
             tally = 0
         }
     },
+    attributes = {
+        'full_deck',
+        'economy',
+        'enhancements'
+    },
     mxms_credits = {
         art = { "PsyAlola" },
         code = { "theAstra" },

@@ -11,6 +11,11 @@ SMODS.Joker {
         idea = { "pinkzigzagoon" }
     },
     rarity = 1,
+    attributes = {
+        'passive',
+        'hand_type',
+        'enhancements'
+    },
     blueprint_compat = false,
     cost = 5
 }

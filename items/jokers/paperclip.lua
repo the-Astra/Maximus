@@ -11,6 +11,12 @@ SMODS.Joker {
             gain = 1
         }
     },
+    attributes = {
+        'economy',
+        'scaling',
+        'reroll',
+        'sell_value'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

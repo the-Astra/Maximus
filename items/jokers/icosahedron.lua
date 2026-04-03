@@ -13,6 +13,12 @@ SMODS.Joker {
             Xmult = 0.2
         }
     },
+    attributes = {
+        'xmult',
+        'modify_card',
+        'suit',
+        'diamonds',
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

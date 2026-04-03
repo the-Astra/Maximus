@@ -12,6 +12,11 @@ SMODS.Joker {
             lucky_gain = 3
         }
     },
+    attributes = {
+        'chance',
+        'mult',
+        'scaling'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

@@ -14,6 +14,12 @@ SMODS.Joker {
             unscoring_goal = 2
         }
     },
+    attributes = {
+        'xmult',
+        'scaling',
+        'reset',
+        'unscoring'
+    },
     mxms_credits = {
         art = { "anerdymous" },
         code = { "theAstra" },

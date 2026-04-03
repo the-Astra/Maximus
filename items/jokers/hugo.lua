@@ -22,6 +22,9 @@ SMODS.Joker {
             odds = 4
         }
     },
+    attributes = {
+        'chance',
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
@@ -34,7 +37,16 @@ SMODS.Joker {
         return {
             vars = { SMODS.get_probability_vars(card, stg.prob, stg.odds, 'hugo') }
         }
-    end
+    end,
+    calculate = function(self, card, context)
+        local stg = card.ability.extra
+
+        if context.setting_blind and G.GAME.blind.mult > 1 then
+            return {
+                xblind_size = 1 /  G.GAME.blind.mult
+            }
+        end
+    end,
 }
 
 local gfsb = G.FUNCS.select_blind

@@ -12,6 +12,11 @@ SMODS.Joker {
             card_decrement = 1
         }
     },
+    attributes = {
+        'seals',
+        'modify_card',
+        'food'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
@@ -21,9 +26,7 @@ SMODS.Joker {
     perishable_compat = false,
     eternal_compat = false,
     cost = 4,
-    pools = {
-        Food = true
-    },
+    
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {

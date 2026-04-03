@@ -12,6 +12,12 @@ SMODS.Joker {
             Xmult = 1
         }
     },
+    attributes = {
+        'xmult',
+        'scaling',
+        'hand_type',
+        'destroy_card'
+    },
     mxms_credits = {
         art = { "anerdymous" },
         code = { "theAstra" },

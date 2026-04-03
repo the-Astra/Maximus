@@ -14,14 +14,17 @@ SMODS.Joker {
     eternal_compat = false,
     perishable_compat = false,
     cost = 4,
-    pools = {
-        Food = true
-    },
+    
     rarity = 1,
+    attributes = {
+        'generation',
+        'food',
+        'joker'
+    },
     calculate = function(self, card, context)
         local stg = card.ability.extra
     
-        if context.joker_type_destroyed and context.card.config and context.card.config.center and context.card.config.center.pools and context.card.config.center.pools.Food and context.card.config.center_key ~= 'j_mxms_leftovers' then
+        if context.joker_type_destroyed and Maximus.has_attribute(context.card, 'food') and context.card.config.center_key ~= 'j_mxms_leftovers' then
             local respawn_key = context.card.config.center_key
             G.E_MANAGER:add_event(Event({
                 func = function()

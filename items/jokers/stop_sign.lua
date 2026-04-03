@@ -11,6 +11,9 @@ SMODS.Joker {
         idea = { "Maxiss02" }
     },
     rarity = 3,
+    attributes = {
+        'passive',
+    },
     blueprint_compat = true,
     cost = 8
 }

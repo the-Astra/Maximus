@@ -11,6 +11,10 @@ SMODS.Joker {
         idea = { "Maxiss02" }
     },
     rarity = 3,
+    attributes = {
+        'passive',
+        'mod_scaling'
+    },
     blueprint_compat = false,
     cost = 8,
     calc_scaling = function(self, card, other_card, initial, scalar_value, args)

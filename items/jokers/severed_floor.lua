@@ -11,6 +11,9 @@ SMODS.Joker {
             money = 20,
         }
     },
+    attributes = {
+        'economy',
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

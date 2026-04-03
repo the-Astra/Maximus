@@ -12,6 +12,9 @@ SMODS.Joker {
             chip_factor = 10
         }
     },
+    attributes = {
+        'chips',
+    },
     mxms_credits = {
         art = { "pinkzigzaoon" },
         code = { "theAstra" },
@@ -29,7 +32,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.money_up and not card.shattered and not context.blueprint then
+        if context.mxms_money_up and not card.shattered and not context.blueprint then
             stg.dollars_stored = stg.dollars_stored + 1
             return {
                 message = localize('k_upgrade_ex')
@@ -42,7 +45,7 @@ SMODS.Joker {
             }
         end
 
-        if context.out_of_money and not context.blueprint then
+        if context.mxms_out_of_money and not context.blueprint then
             return {
                 func = function()
                     G.E_MANAGER:add_event(Event({
@@ -68,7 +71,7 @@ ease_dollars = function(mod, instant)
                 to_be_added = to_be_added - to_big(1)
             end
         end
-        SMODS.calculate_context({ money_up = true })
+        SMODS.calculate_context({ mxms_money_up = true })
     end
 
     ed(to_be_added, instant)
@@ -76,7 +79,7 @@ ease_dollars = function(mod, instant)
     G.E_MANAGER:add_event(Event({
         func = function()
             if to_big(G.GAME.dollars) <= to_big(0) then
-                SMODS.calculate_context({ out_of_money = true })
+                SMODS.calculate_context({ mxms_out_of_money = true })
             end
             return true;
         end

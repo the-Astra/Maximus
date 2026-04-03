@@ -15,6 +15,10 @@ SMODS.Joker {
             chips = 150
         }
     },
+    attributes = {
+        'chips',
+        'mult'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

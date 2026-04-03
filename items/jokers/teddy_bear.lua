@@ -6,6 +6,12 @@ SMODS.Joker {
         y = 14
     },
     rarity = 1,
+    attributes = {
+        'generation',
+        'planet',
+        'hand_type',
+        'hands'
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },

@@ -13,6 +13,9 @@ SMODS.Joker {
     rarity = 3,
     blueprint_compat = true,
     cost = 6,
+    attributes = {
+        'xmult'
+    },
     calculate = function(self, card, context)
         if context.joker_main and G.P_BLINDS[G.GAME.round_resets.blind_choices.Boss].boss.showdown then
             return {

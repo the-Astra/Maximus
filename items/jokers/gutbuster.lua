@@ -12,6 +12,11 @@ SMODS.Joker {
             pos = nil
         }
     },
+    attributes = {
+        'generation',
+        'joker',
+        'destroy_card'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

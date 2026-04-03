@@ -11,6 +11,9 @@ SMODS.Joker {
             extra_choices = 1
         }
     },
+    attributes = {
+        'passive',
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

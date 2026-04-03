@@ -12,6 +12,10 @@ SMODS.Joker {
             type = 'High Card'
         }
     },
+    attributes = {
+        'chips',
+        'hand_type'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
