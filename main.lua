@@ -1061,7 +1061,7 @@ SMODS.Attribute {
 }
 
 SMODS.Attribute {
-    ley = 'mod_scaling'
+    key = 'mod_scaling'
 }
 
 --#endregion
