@@ -1563,7 +1563,7 @@ if Maximus_config.horoscopes then
             end
         end
 
-        if context.setting_blind and G.GAME.mxms_aries_bonus then
+        if context.setting_blind and G.GAME.mxms_aries_bonus > 1 then
             return {
                 xblind_size = 1 / G.GAME.mxms_aries_bonus
             }
