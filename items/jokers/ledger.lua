@@ -13,6 +13,7 @@ SMODS.Joker {
     rarity = 4,
     attributes = {
         'editions',
+        'boss_blind'
     },
     unlocked = false,
     unlock_condition = {

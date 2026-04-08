@@ -16,7 +16,8 @@ SMODS.Joker {
     attributes = {
         'mult',
         'modify_card',
-        'chance'
+        'chance',
+        'perma_bonus'
     },
     mxms_credits = {
         art = { "Maxiss02" },

@@ -12,7 +12,7 @@ SMODS.Joker {
         idea = { "pinkzigzagoon" }
     },
     attributes = {
-        'tags'
+        'tag'
     },
     blueprint_compat = true,
     cost = 4,

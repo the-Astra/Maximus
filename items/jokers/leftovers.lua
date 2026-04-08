@@ -24,7 +24,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
     
-        if context.joker_type_destroyed and Maximus.has_attribute(context.card, 'food') and context.card.config.center_key ~= 'j_mxms_leftovers' then
+        if context.joker_type_destroyed and context.card:has_attribute('food') and context.card.config.center_key ~= 'j_mxms_leftovers' then
             local respawn_key = context.card.config.center_key
             G.E_MANAGER:add_event(Event({
                 func = function()
