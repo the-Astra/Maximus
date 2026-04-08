@@ -758,7 +758,7 @@ function SMODS.add_to_pool(prototype_obj, args)
             ret = false
         end
 
-        if G.GAME.modifiers.mxms_feast and not Maximus.has_attribute(prototype_obj.key, 'food') and prototype_obj.key ~= 'j_mxms_microwave' and prototype_obj.key ~= 'j_mxms_refrigerator' then
+        if G.GAME.modifiers.mxms_feast and not Maximus.key_has_attribute(prototype_obj.key, 'food') and prototype_obj.key ~= 'j_mxms_microwave' and prototype_obj.key ~= 'j_mxms_refrigerator' then
             ret = false
         end
     end
@@ -905,13 +905,8 @@ function Maximus.get_nominal_sum()
 end
 
 -- Thank you for this notmario you have saved so much time
-Maximus.has_attribute = function (card, key)
-    local card_key = card
-    if Object.is(card, Card) then
-        card_key = card.config.center_key
-    elseif type(card) == 'string' and G.P_CENTERS[card] then
-        card_key = card
-    end
+Maximus.key_has_attribute = function (card_key, key)
+    if type(card_key) ~= 'String' then return false end
     local pool = SMODS.get_attribute_pool(key)
     for _, c in pairs(pool) do
         if c == card_key then return true end

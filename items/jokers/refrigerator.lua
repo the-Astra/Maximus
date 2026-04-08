@@ -19,7 +19,7 @@ SMODS.Joker { -- Refrigerator
     blueprint_compat = false,
     cost = 6,
     calculate = function(self, card, context)
-        if context.mod_probability and Maximus.has_attribute(context.trigger_obj, 'food') then
+        if context.mod_probability and context.trigger_obj and context.trigger_obj:has_attribute('food') then
             if context.trigger_obj.config.center_key == 'j_mxms_fortune_cookie' then
                 return {
                     numerator = context.numerator
@@ -31,7 +31,7 @@ SMODS.Joker { -- Refrigerator
         end
     end,
     calc_scaling = function(self, card, other_card, initial, scalar_value, args)
-        if args.operation == '-' and Maximus.has_attribute(other_card, 'food') then
+        if args.operation == '-' and other_card:has_attribute('food') then
             return {
                 override_scalar_value = {
                     value = scalar_value * 0.5
