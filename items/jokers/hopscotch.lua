@@ -13,7 +13,7 @@ SMODS.Joker {
         }
     },
     attributes = {
-        'tags',
+        'tag',
         'chance'
     },
     mxms_credits = {

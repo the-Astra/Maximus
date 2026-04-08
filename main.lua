@@ -1037,14 +1037,6 @@ SMODS.Attribute {
 }
 
 SMODS.Attribute {
-    key = 'editions'
-}
-
-SMODS.Attribute {
-    key = 'tags'
-}
-
-SMODS.Attribute {
     key = 'level_up',
     keys = { 'j_space' }
 }
