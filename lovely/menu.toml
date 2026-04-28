@@ -78,13 +78,29 @@ local card = Card(  card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
 '''
 position = "at"
 payload = '''
-local key
-while not G.P_CENTERS[key] do
-    key = 'j_mxms_'..pseudorandom_element(Maximus.ENABLED_JOKERS)
+local card
+if Maximus and Maximus_config.menu then
+    local key
+    while not G.P_CENTERS[key] do
+        key = 'j_mxms_'..pseudorandom_element(Maximus.ENABLED_JOKERS)
+    end
+    local card = Card(  card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
+                        card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
+                        card_size*G.CARD_W, card_size*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
+
+    -- Check for card soul
+    if G.P_CENTERS[key].soul_pos then
+        card.children.front = SMODS.create_sprite(card.T.x, card.T.y, card.T.w, card.T.h, G.P_CENTERS[key].atlas, G.P_CENTERS[key].soul_pos)
+        card.children.front.states.hover = card.states.hover
+        card.children.front.states.click = card.states.click
+        card.children.front.states.drag = card.states.drag
+        card.children.front.states.collide.can = false
+        card.children.front:set_role({major = card, role_type = 'Glued', draw_major = card})
+    end
+else
+    local card = Card(  card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
+                        card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
+                        card_size*G.CARD_W, card_size*G.CARD_H, pseudorandom_element(G.P_CARDS), G.P_CENTERS.c_base)
 end
-local card = Card(  card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
-                    card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
-                    card_size*G.CARD_W, card_size*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[key],{bypass_discovery_center = true, bypass_discovery_ui = true})
 '''
 match_indent = true
-times = 1
