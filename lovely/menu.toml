@@ -84,7 +84,7 @@ if Maximus and Maximus_config.menu then
     while not G.P_CENTERS[key] do
         key = 'j_mxms_'..pseudorandom_element(Maximus.ENABLED_JOKERS)
     end
-    local card = Card(  card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
+    card = Card(  card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
                         card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
                         card_size*G.CARD_W, card_size*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
 
@@ -98,7 +98,7 @@ if Maximus and Maximus_config.menu then
         card.children.front:set_role({major = card, role_type = 'Glued', draw_major = card})
     end
 else
-    local card = Card(  card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
+    card = Card(  card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
                         card_pos.y + G.ROOM.T.h/2 - G.CARD_H*card_size/2,
                         card_size*G.CARD_W, card_size*G.CARD_H, pseudorandom_element(G.P_CARDS), G.P_CENTERS.c_base)
 end
