@@ -20,5 +20,6 @@
 	],
 	"provides": [
 		"OTMAPI (1.0.0)"
-	]
+	],
+	"allow_redistribution": true
 }
