@@ -1,13 +1,13 @@
 if Maximus_config.conspiracies then
     SMODS.Back {
         key = 'censored',
-        atlas = 'Placeholder',
+        atlas = 'Modifiers',
         pos = {
-            x = 4,
-            y = 2
+            x = 2,
+            y = 1
         },
         mxms_credits = {
-            art = { "???" },
+            art = { "Inky" },
             code = { "theAstra" },
             idea = { "theAstra" }
         },
