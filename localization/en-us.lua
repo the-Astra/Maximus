@@ -3127,6 +3127,20 @@ return {
             mxms_code = { 'Code: #1#' },
             mxms_idea = { 'Idea: #1#' },
             a_mxms_jokersize = "+#1# Joker Size"
+        },
+        playlog_types = {
+            mxms_horoscope_success = "Horoscope Success",
+            mxms_horoscope_fail = "Horoscope Fail",
+            mxms_horoscope_increment = "Horoscope Increment",
+        },
+        playlog = {
+            -- Areas
+            horoscope_area = "horoscope slots",
+
+            -- Logging
+            mxms_horoscope_success = "Horoscope {C:mxms_horoscope}#1#{} succeeded",
+            mxms_horoscope_fail = "Horoscope {C:mxms_horoscope}#1#{} failed",
+            mxms_horoscope_increment = "Horoscope {C:mxms_horoscope}#1#{} progress incremented {C:attention}#2#{} -> {C:attention}#3#",
         }
     }
 }

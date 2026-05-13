@@ -28,6 +28,7 @@ SMODS.Consumable {
         if context.remove_playing_cards then
             stg.tally = stg.tally + #context.removed
             SMODS.calculate_effect({ message = stg.tally .. "/" .. stg.goal, colour = Maximus.C.HOROSCOPE }, card)
+            if PlayLog then PlayLog.log({type = 'mxms_horoscope_increment', card = card, tally = stg.tally}) end
 
             if stg.tally >= stg.goal then
                 self:succeed(card)
@@ -55,6 +56,7 @@ SMODS.Consumable {
     end,
     succeed = function(self, card)
         card.succeeded = true
+        if PlayLog then PlayLog.log({type = 'mxms_horoscope_success', card = card}) end
         if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
             SMODS.calculate_effect(
@@ -94,6 +96,7 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         if not card.succeeded then
+            if PlayLog then PlayLog.log({type = 'mxms_horoscope_fail', card = card}) end
             local stg = card.ability.extra
             SMODS.calculate_effect(
                 {

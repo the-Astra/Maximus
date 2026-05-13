@@ -502,6 +502,41 @@ if JokerDisplay then
 end
 --#endregion
 
+--#region PlayLog compat -----------------------------------------------------------------------------------
+if PlayLog and Maximus_config.horoscopes then
+    PlayLog.LogType {
+        key = 'mxms_horoscope_success',
+        group = "effects",
+        get_message = function(self, args)
+            return PlayLog.localize(self.key, {PlayLog.format_object(args.card)})
+        end
+    }
+
+    PlayLog.LogType {
+        key = 'mxms_horoscope_fail',
+        group = "effects",
+        get_message = function(self, args)
+            return PlayLog.localize(self.key, {PlayLog.format_object(args.card)})
+        end
+    }
+
+    PlayLog.LogType {
+        key = 'mxms_horoscope_increment',
+        group = "effects",
+        get_message = function(self, args)
+            return PlayLog.localize(self.key, {PlayLog.format_object(args.card), args.tally - 1, args.tally})
+        end
+    }
+
+    local plgan = PlayLog.get_area_name
+    PlayLog.get_area_name = function(area)
+        if area == G.mxms_horoscope then
+            return PlayLog.localize('horoscope_area')
+        end
+        return plgan(area)
+    end
+end
+--#endregion
 
 -- VARIABLES
 --#region Misc Variables ------------------------------------------------------------------------------------
@@ -1449,6 +1484,7 @@ if Maximus_config.horoscopes then
             game.mxms_horoscope.states.visible = false
         end
     end
+
 
     SMODS.ConsumableType {
         key = 'Horoscope',

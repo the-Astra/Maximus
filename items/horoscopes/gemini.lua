@@ -33,9 +33,10 @@ SMODS.Consumable {
                 card.ability.hands[context.scoring_name] = true
                 stg.times = stg.times + 1
                 SMODS.calculate_effect({ message = stg.times .. "/" .. stg.goal, colour = Maximus.C.HOROSCOPE }, card)
+                if PlayLog then PlayLog.log({type = 'mxms_horoscope_increment', card = card, tally = stg.tally}) end
             end
 
-            if stg.times == stg.goal then
+            if stg.times >= stg.goal then
                 self:succeed(card, context)
             end
         end
@@ -48,6 +49,7 @@ SMODS.Consumable {
     end,
     succeed = function(self, card, context)
         card.succeeded = true
+        if PlayLog then PlayLog.log({type = 'mxms_horoscope_success', card = card}) end
         local stg = card.ability.extra
         if stg.times > 0 then
             SMODS.calculate_effect(
@@ -84,6 +86,7 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         if not card.succeeded then
+            if PlayLog then PlayLog.log({type = 'mxms_horoscope_fail', card = card}) end
             local stg = card.ability.extra
             SMODS.calculate_effect(
                 {

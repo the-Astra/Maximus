@@ -34,6 +34,7 @@ SMODS.Consumable {
     end,
     succeed = function(self, card)
         card.succeeded = true
+        if PlayLog then PlayLog.log({type = 'mxms_horoscope_success', card = card}) end
         SMODS.calculate_effect(
             {
                 message = localize('k_mxms_success_ex'),
@@ -65,6 +66,7 @@ SMODS.Consumable {
     end,
     fail = function(self, card)
         if not card.succeeded then
+            if PlayLog then PlayLog.log({type = 'mxms_horoscope_fail', card = card}) end
             SMODS.calculate_effect(
                 {
                     message = localize('k_mxms_failed_ex'),
