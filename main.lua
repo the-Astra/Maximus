@@ -1026,6 +1026,39 @@ Maximus.key_has_attribute = function (card_key, key)
     return false
 end
 
+Maximus.horoscope_succeed = function(card)
+    card.succeeded = true
+    if PlayLog then PlayLog.log({type = 'mxms_horoscope_success', card = card}) end
+    card.config.center:succeed(card)
+    G.GAME.zodiac_killer_pools[card.config.center_key] = false
+    SMODS.calculate_context({ mxms_beat_horoscope = true })
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
+            return true
+        end
+    }))
+end
+
+Maximus.horoscope_fail = function(card)
+    if not card.succeeded then
+        if PlayLog then PlayLog.log({type = 'mxms_horoscope_fail', card = card}) end
+        card.config.center:fail(card)
+        if not next(SMODS.find_card('j_mxms_cheat_day')) then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                func = function()
+                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
+                    return true
+                end
+            }))
+        elseif card.config.center.reset then
+            card.config.center:reset(card)
+        end
+        SMODS.calculate_context({ mxms_failed_horoscope = true })
+    end
+end
+
 --#endregion
 
 

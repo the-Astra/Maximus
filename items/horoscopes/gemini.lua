@@ -28,12 +28,12 @@ SMODS.Consumable {
         local stg = card.ability.extra
         if context.before then
             if card.ability.hands[context.scoring_name] then
-                self:fail(card)
+                Maximus.horoscope_fail(card)
             else
                 card.ability.hands[context.scoring_name] = true
                 stg.times = stg.times + 1
                 SMODS.calculate_effect({ message = stg.times .. "/" .. stg.goal, colour = Maximus.C.HOROSCOPE }, card)
-                if PlayLog then PlayLog.log({type = 'mxms_horoscope_increment', card = card, tally = stg.tally}) end
+                if PlayLog then PlayLog.log({ type = 'mxms_horoscope_increment', card = card, tally = stg.tally }) end
             end
 
             if stg.times >= stg.goal then
@@ -48,8 +48,6 @@ SMODS.Consumable {
         return true
     end,
     succeed = function(self, card, context)
-        card.succeeded = true
-        if PlayLog then PlayLog.log({type = 'mxms_horoscope_success', card = card}) end
         local stg = card.ability.extra
         if stg.times > 0 then
             SMODS.calculate_effect(
@@ -73,55 +71,33 @@ SMODS.Consumable {
             if next(hands_to_upgrade) then
                 SMODS.upgrade_poker_hands({ hands = hands_to_upgrade, level_up = stg.upgrade, from = card })
             end
-
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            G.GAME.zodiac_killer_pools["Gemini"] = false
-            SMODS.calculate_context({ mxms_beat_horoscope = true })
         end
     end,
     fail = function(self, card)
-        if not card.succeeded then
-            if PlayLog then PlayLog.log({type = 'mxms_horoscope_fail', card = card}) end
-            local stg = card.ability.extra
-            SMODS.calculate_effect(
-                {
-                    message = localize('k_mxms_failed_ex'),
-                    colour = G.C.RED,
-                    sound = 'tarot2',
-                    func = function() if TheFamily then G.GAME.horoscope_alert = true end end
-                }, card)
-            if not next(SMODS.find_card('j_mxms_cheat_day')) then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    func = function()
-                        card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
-                        return true
-                    end
-                }))
-            else
-                stg.times = 0
-                card.ability.hands = {
-                    ["Flush Five"] = false,
-                    ["Flush House"] = false,
-                    ["Five of a Kind"] = false,
-                    ["Straight Flush"] = false,
-                    ["Four of a Kind"] = false,
-                    ["Full House"] = false,
-                    ["Flush"] = false,
-                    ["Straight"] = false,
-                    ["Three of a Kind"] = false,
-                    ["Two Pair"] = false,
-                    ["Pair"] = false,
-                    ["High Card"] = false,
+        SMODS.calculate_effect(
+            {
+                message = localize('k_mxms_failed_ex'),
+                colour = G.C.RED,
+                sound = 'tarot2',
+                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
+            }, card)
+    end,
+    reset = function(self, card)
+        card.ability.extra.times = 0
+        card.ability.hands = {
+            ["Flush Five"] = false,
+            ["Flush House"] = false,
+            ["Five of a Kind"] = false,
+            ["Straight Flush"] = false,
+            ["Four of a Kind"] = false,
+            ["Full House"] = false,
+            ["Flush"] = false,
+            ["Straight"] = false,
+            ["Three of a Kind"] = false,
+            ["Two Pair"] = false,
+            ["Pair"] = false,
+            ["High Card"] = false,
 
-                }
-            end
-            SMODS.calculate_context({ mxms_failed_horoscope = true })
-        end
+        }
     end
 }
