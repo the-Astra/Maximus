@@ -2336,6 +2336,20 @@ return {
                     '{C:inactive,s_0.8}(Max cap of $#3#)'
                 }
             },
+            sleeve_mxms_empire = {
+                name = 'Empire Sleeve',
+                text = {
+                    '{C:tarot}Arcana{} packs contain',
+                    '{C:attention}every{} available {C:tarot}Tarot{} card',
+                }
+            },
+            sleeve_mxms_empire_alt = {
+                name = 'Empire Sleeve',
+                text = {
+                    '{C:attention}+1{} choice in',
+                    'all {C:tarot}Arcana{} packs'
+                }
+            },
             sleeve_mxms_grilled = {
                 name = 'Grilled Sleeve',
                 text = {

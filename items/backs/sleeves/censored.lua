@@ -3,11 +3,11 @@ if Maximus_config.conspiracies then
         key = "censored",
         atlas = "Sleeves",
         pos = {
-            x = 0,
-            y = 0
+            x = 4,
+            y = 1
         },
         mxms_credits = {
-            art = { "???" },
+            art = { "squeax09" },
             code = { "theAstra" },
             idea = { "theAstra" }
         },
@@ -16,7 +16,7 @@ if Maximus_config.conspiracies then
             local vars
             if self.get_current_deck_key() == 'b_mxms_censored' then
                 key = self.key .. '_alt'
-                vars = { localize { type = 'name_text', key = 'v_mxms_whistleblower', set = 'Voucher' } }
+                vars = localize { type = 'name_text', key = 'v_mxms_whistleblower', set = 'Voucher' }
             else
                 key = self.key
                 vars = localize { type = 'name_text', key = 'p_mxms_classified_mega_1', set = 'Other' }
