@@ -12,7 +12,7 @@ SMODS.Booster {
         choose = 1
     },
     mxms_credits = {
-        art = { "nixthatoneartist" },
+        art = { "squeax09" },
         code = { "theAstra" }
     },
     cost = 6,
