@@ -866,6 +866,18 @@ function Game.update_shop(self, dt)
     end
 end
 
+-- Prevent Horoscopes from overflowing when bought from shop
+local gfcfbs = G.FUNCS.check_for_buy_space
+G.FUNCS.check_for_buy_space = function(card)
+    if card.ability.set and card.ability.set == 'Horoscope' then
+        if not (#G.mxms_horoscope.cards + (1 + card.ability.extra_slots_used) <= G.mxms_horoscope.config.card_limit + card.ability.card_limit) then
+            alert_no_space(card, G.mxms_horoscope)
+            return false
+        end
+    end
+    return gfcfbs(card)
+end
+
 --#endregion
 
 --#region Helper Functions ----------------------------------------------------------------------------------
@@ -1510,7 +1522,7 @@ if Maximus_config.horoscopes then
             G.consumeables.T.y + G.consumeables.T.h + 1,
             game.mxms_horoscope_W,
             game.mxms_horoscope_H,
-            { card_limit = 1, type = 'joker', highlight_limit = 1 }
+            { card_limit = 1, type = 'joker', highlight_limit = 1, align_buttons = true }
         )
 
         if TheFamily then

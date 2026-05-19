@@ -12,6 +12,7 @@ G.STATE = G.STATES.SHOP
 '''
 position = "at"
 payload = '''
+-- Added by Maximus
 G.STATE = next(SMODS.find_card('j_mxms_severed_floor')) and G.STATES.BLIND_SELECT or G.STATES.SHOP
 if next(SMODS.find_card('j_mxms_severed_floor')) then
     G.CONTROLLER.locks.toggle_shop = nil

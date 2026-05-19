@@ -99,5 +99,6 @@ SMODS.Consumable {
             ["High Card"] = false,
 
         }
-    end
+    end,
+    can_use = function(self, card) return false end
 }

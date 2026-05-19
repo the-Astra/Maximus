@@ -112,5 +112,6 @@ SMODS.Consumable {
         if self.discovered then
             badges[#badges + 1] = create_badge(localize('k_horoscope'), Maximus.C.SET.Horoscope, G.C.WHITE, 1.2)
         end
-    end
+    end,
+    can_use = function(self, card) return false end
 }

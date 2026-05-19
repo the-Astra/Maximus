@@ -10,17 +10,17 @@ target = "functions/state_events.lua"
 pattern = '''
 for _, v in ipairs(SMODS.get_card_areas('playing_cards')) do
     SMODS.calculate_main_scoring({cardarea = v, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands}, v == G.play and scoring_hand or nil)
-    delay(0.3)
 end
+delay(0.3)
 '''
 position = "at"
 payload = '''
 if not next(SMODS.find_card('j_mxms_whos_on_first')) then
     for _, v in ipairs(SMODS.get_card_areas('playing_cards')) do
         SMODS.calculate_main_scoring({cardarea = v, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands}, v == G.play and scoring_hand or nil)
-        delay(0.3)
     end
 end
+delay(0.3)
 '''
 match_indent = true
 times = 1

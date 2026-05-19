@@ -14,6 +14,7 @@ end
 '''
 position = "at"
 payload = '''
+-- Modified by Maximus
 if (self.ability.effect == 'Stone Card' and not next(SMODS.find_card('j_mxms_hammer_and_chisel'))) or self.config.center.replace_base_card then
     return self.ability.bonus + (self.ability.perma_bonus or 0)
 end
@@ -30,7 +31,7 @@ if k == 'm_stone' or G.P_CENTERS[k].no_suit then is_stone = true end
 '''
 position = "before"
 payload = '''
-if k == 'm_stone' and next(SMODS.find_card('j_mxms_rock_candy')) then is_wild = true end
+if k == 'm_stone' and next(SMODS.find_card('j_mxms_rock_candy')) then is_wild = true end -- Added by Maximus
 '''
 match_indent = true
 times = 1
@@ -43,7 +44,7 @@ if k == 'm_stone' or G.P_CENTERS[k].no_suit then is_stone = true end
 '''
 position = "after"
 payload = '''
-if k == 'm_stone' and next(SMODS.find_card('j_mxms_hammer_and_chisel')) then is_stone = false end
+if k == 'm_stone' and next(SMODS.find_card('j_mxms_hammer_and_chisel')) then is_stone = false end -- Added by Maximus
 '''
 match_indent = true
 times = 1
@@ -57,7 +58,7 @@ if k == 'm_wild' or G.P_CENTERS[k].any_suit then return true end
 '''
 position = "after"
 payload = '''
-if k == 'm_stone' and next(SMODS.find_card('j_mxms_rock_candy')) then return true end
+if k == 'm_stone' and next(SMODS.find_card('j_mxms_rock_candy')) then return true end -- Added by Maximus
 '''
 match_indent = true
 times = 1
@@ -71,7 +72,7 @@ if k == 'm_stone' or G.P_CENTERS[k].no_rank then return true end
 '''
 position = "before"
 payload = '''
-if k == 'm_stone' and next(SMODS.find_card('j_mxms_hammer_and_chisel')) then return false end
+if k == 'm_stone' and next(SMODS.find_card('j_mxms_hammer_and_chisel')) then return false end -- Added by Maximus
 '''
 match_indent = true
 times = 1

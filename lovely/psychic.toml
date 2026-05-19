@@ -11,6 +11,7 @@ if self.debuff.h_size_ge and #cards < self.debuff.h_size_ge then
 '''
 position = "at"
 payload = '''
+-- Modified by Maximus
 if self.debuff.h_size_ge and #cards ~= self.debuff.h_size_ge then
 '''
 match_indent = true

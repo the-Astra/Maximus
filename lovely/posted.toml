@@ -9,7 +9,7 @@ priority = 1
 target = "game.lua"
 pattern = "if v.pinned then _joker.pinned = true end"
 position = "after"
-payload = "if v.mxms_posted then _joker.ability.mxms_posted = true end"
+payload = "if v.mxms_posted then _joker.ability.mxms_posted = true end -- Added by Maximus"
 match_indent = true
 times = 1
 
@@ -19,7 +19,7 @@ times = 1
 target = "cardarea.lua"
 pattern = "table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*((a.pinned and not a.ignore_pinned) and a.sort_id or 0) < b.T.x + b.T.w/2 - 100*((b.pinned and not b.ignore_pinned) and b.sort_id or 0) end)"
 position = "at"
-payload = "table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*((a.pinned and not a.ignore_pinned or b.ability.mxms_posted and not b.ignore_posted) and a.sort_id or 0) < b.T.x + b.T.w/2 - 100*((b.pinned and not b.ignore_pinned or a.ability.mxms_posted and not a.ignore_posted) and b.sort_id or 0) end)"
+payload = "table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*((a.pinned and not a.ignore_pinned or b.ability.mxms_posted and not b.ignore_posted) and a.sort_id or 0) < b.T.x + b.T.w/2 - 100*((b.pinned and not b.ignore_pinned or a.ability.mxms_posted and not a.ignore_posted) and b.sort_id or 0) end) -- Modified by Maximus"
 match_indent = true
 times = 1
 
@@ -29,7 +29,7 @@ times = 1
 target = '''=[SMODS _ "src/ui.lua"]'''
 pattern = "card.ignore_pinned = true"
 position = "after"
-payload = "card.ignore_posted = true"
+payload = "card.ignore_posted = true -- Added by Maximus"
 match_indent = true
 times = 1
 
@@ -39,6 +39,6 @@ times = 1
 target = "functions/UI_definitions.lua"
 pattern = "if v.pinned then card.pinned = true end"
 position = "after"
-payload = "if v.mxms_posted then card.ability.mxms_posted = true end"
+payload = "if v.mxms_posted then card.ability.mxms_posted = true end -- Added by Maximus"
 match_indent = true
 times = 1

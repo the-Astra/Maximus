@@ -21,6 +21,7 @@ self:set_cost()
 '''
 position = "after"
 payload = '''
+-- Added by Maximus
 if next(SMODS.find_card('j_mxms_microwave')) and pseudorandom('eggsplode' .. G.GAME.round_resets.ante, 1, 20) == 1 then
     G.E_MANAGER:add_event(Event({
         func = function()

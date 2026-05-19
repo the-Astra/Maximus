@@ -14,6 +14,7 @@ end
 position = "after"
 payload = '''
 
+    -- Added by Maximus
     for _, area in ipairs(SMODS.get_card_areas('jokers')) do
         for _, _card in ipairs(area.cards) do
             local obj = _card.config.center

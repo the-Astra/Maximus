@@ -10,7 +10,7 @@ priority = 1
 target = "card.lua"
 pattern = "G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then"
 position = "at"
-payload = "G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 * G.GAME.mxms_war_mod then"
+payload = "G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 * G.GAME.mxms_war_mod then -- Modified by Maximus"
 match_indent = true
 times = 1
 
@@ -19,7 +19,7 @@ times = 1
 target = "card.lua"
 pattern = "elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.extra}"
 position = "at"
-payload = "elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.extra, self.ability.destroy * G.GAME.mxms_war_mod}"
+payload = "elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.extra, self.ability.destroy * G.GAME.mxms_war_mod} -- Modified by Maximus"
 match_indent = true
 times = 1
 
@@ -31,7 +31,7 @@ j_trading=          {order = 95,   unlocked = true, discovered = false, blueprin
 '''
 position = "at"
 payload = '''
-j_trading=          {order = 95,   unlocked = true, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Trading Card",set = "Joker", config = {extra = 3, destroy = 1}, pos = {x=9,y=14}},
+j_trading=          {order = 95,   unlocked = true, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Trading Card",set = "Joker", config = {extra = 3, destroy = 1}, pos = {x=9,y=14}}, -- Modified by Maximus
 '''
 match_indent = true
 
@@ -46,7 +46,7 @@ if self.ability.name == 'Sixth Sense' and #context.full_hand == 1 and context.fu
 '''
 position = "at"
 payload = '''
-if self.ability.name == 'Sixth Sense' and #context.full_hand == 1 * G.GAME.mxms_war_mod and G.GAME.current_round.hands_played == 0 then
+if self.ability.name == 'Sixth Sense' and #context.full_hand == 1 * G.GAME.mxms_war_mod and G.GAME.current_round.hands_played == 0 then -- Modified by Maximus
     for i = 1, #context.full_hand do
         if not (context.full_hand[i]:get_id() == 6 or (next(SMODS.find_card('j_mxms_perspective')) and context.full_hand[1]:get_id() == 9)) or context.full_hand[i].sixth_sense then
             -- Do nothing  
@@ -63,7 +63,7 @@ times = 1
 target = "card.lua"
 pattern = "elseif self.ability.name == 'Sixth Sense' then loc_vars = {}"
 position = "at"
-payload = "elseif self.ability.name == 'Sixth Sense' then loc_vars = {self.ability.destroy * G.GAME.mxms_war_mod}"
+payload = "elseif self.ability.name == 'Sixth Sense' then loc_vars = {self.ability.destroy * G.GAME.mxms_war_mod} -- Modified by Maximus"
 match_indent = true
 times = 1
 
@@ -75,7 +75,7 @@ j_sixth_sense=      {order = 54,  unlocked = true,  discovered = false, blueprin
 '''
 position = "at"
 payload = '''
-j_sixth_sense=      {order = 54,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Sixth Sense', pos = {x = 8, y = 10}, set = 'Joker', config = {destroy = 1}},
+j_sixth_sense=      {order = 54,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Sixth Sense', pos = {x = 8, y = 10}, set = 'Joker', config = {destroy = 1}}, -- Modified by Maximus
 '''
 match_indent = true
 times = 1
@@ -87,7 +87,7 @@ times = 1
 target = "card.lua"
 pattern = "for i = 1, self.ability.extra.destroy do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end"
 position = "at"
-payload = "for i = 1, self.ability.extra.destroy * G.GAME.mxms_war_mod do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end"
+payload = "for i = 1, self.ability.extra.destroy * G.GAME.mxms_war_mod do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end -- Modified by Maximus"
 match_indent = true
 times = 1
 
@@ -96,7 +96,7 @@ times = 1
 target = "functions/common_events.lua"
 pattern = "elseif _c.name == 'Immolate' then loc_vars = {cfg.extra.destroy, cfg.extra.dollars}"
 position = "at"
-payload = "elseif _c.name == 'Immolate' then loc_vars = {cfg.extra.destroy * G.GAME.mxms_war_mod, cfg.extra.dollars}"
+payload = "elseif _c.name == 'Immolate' then loc_vars = {cfg.extra.destroy * G.GAME.mxms_war_mod, cfg.extra.dollars} -- Modified by Maximus"
 match_indent = true
 times = 1
 
@@ -112,7 +112,7 @@ end
 '''
 position = "at"
 payload = '''
-if self.ability.consumeable and self.ability.consumeable.max_highlighted then
+if self.ability.consumeable and self.ability.consumeable.max_highlighted then -- Modified by Maximus
     if self.ability.name == 'The Hanged Man' then
         self.ability.consumeable.mod_num = math.min(5, self.ability.consumeable.max_highlighted * G.GAME.mxms_war_mod)
     else
@@ -131,7 +131,7 @@ elseif _c.name == "The Hanged Man" then loc_vars = {cfg.max_highlighted}
 '''
 position = "at"
 payload = '''
-elseif _c.name == "The Hanged Man" then loc_vars = {cfg.max_highlighted * G.GAME.mxms_war_mod}
+elseif _c.name == "The Hanged Man" then loc_vars = {cfg.max_highlighted * G.GAME.mxms_war_mod} -- Modified by Maximus
 '''
 match_indent = true
 times = 1
@@ -150,7 +150,7 @@ position = "at"
 payload = '''
 local function random_destroy(used_tarot)
     local destroyed_cards = {}
-    for i = 1, used_tarot.ability.destroy * G.GAME.mxms_war_mod do
+    for i = 1, used_tarot.ability.destroy * G.GAME.mxms_war_mod do -- Modified by Maximus
         destroyed_cards[#destroyed_cards + 1] = pseudorandom_element(G.hand.cards, pseudoseed('random_destroy'..i))
     end
 '''
@@ -164,7 +164,7 @@ times = 1
 target = "functions/common_events.lua"
 pattern = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra}"
 position = "at"
-payload = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra, cfg.destroy * G.GAME.mxms_war_mod}"
+payload = "if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {cfg.extra, cfg.destroy * G.GAME.mxms_war_mod} -- Modified by Maximus"
 match_indent = true
 times = 1
 
@@ -178,9 +178,9 @@ c_incantation=      {order = 3,    discovered = false, cost = 4, consumeable = t
 '''
 position = "at"
 payload = '''
-c_familiar=         {order = 1,    discovered = false, cost = 4, consumeable = true, name = "Familiar", pos = {x=0,y=4}, set = "Spectral", config = {remove_card = true, extra = 3, destroy = 1}},
-c_grim=             {order = 2,    discovered = false, cost = 4, consumeable = true, name = "Grim",     pos = {x=1,y=4}, set = "Spectral", config = {remove_card = true, extra = 2, destroy = 1}},
-c_incantation=      {order = 3,    discovered = false, cost = 4, consumeable = true, name = "Incantation", pos = {x=2,y=4}, set = "Spectral", config = {remove_card = true, extra = 4, destroy = 1}},
+c_familiar=         {order = 1,    discovered = false, cost = 4, consumeable = true, name = "Familiar", pos = {x=0,y=4}, set = "Spectral", config = {remove_card = true, extra = 3, destroy = 1}}, -- Modified by Maximus
+c_grim=             {order = 2,    discovered = false, cost = 4, consumeable = true, name = "Grim",     pos = {x=1,y=4}, set = "Spectral", config = {remove_card = true, extra = 2, destroy = 1}}, -- Modified by Maximus
+c_incantation=      {order = 3,    discovered = false, cost = 4, consumeable = true, name = "Incantation", pos = {x=2,y=4}, set = "Spectral", config = {remove_card = true, extra = 4, destroy = 1}}, -- Modified by Maximus
 '''
 match_indent = true
 times = 1

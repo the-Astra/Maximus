@@ -104,5 +104,6 @@ SMODS.Consumable {
     end,
     reset = function(self, card)
         card.ability.extra.hands = 0
-    end
+    end,
+    can_use = function(self, card) return false end
 }

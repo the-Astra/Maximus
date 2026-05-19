@@ -12,6 +12,6 @@ create_shop_card_ui(card, 'Booster', G.shop_booster)
 '''
 position = "before"
 payload = '''
-SMODS.calculate_context({mxms_create_shop_booster = true, booster = card})
+SMODS.calculate_context({mxms_create_shop_booster = true, booster = card}) -- Added by Maximus
 '''
 match_indent = true

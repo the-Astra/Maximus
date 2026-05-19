@@ -22,6 +22,7 @@ end
 '''
 position = "at"
 payload = '''
+-- Modified by Maximus
 if self.ability.name == 'Mail-In Rebate' and
 not context.other_card.debuff then
     if context.other_card:get_id() == G.GAME.current_round.mail_card.id 
@@ -58,6 +59,7 @@ if self.ability.name == 'The Idol' and
 '''
 position = "at"
 payload = '''
+-- Modified by Maximus
 if self.ability.name == 'The Idol' then
     if (context.other_card:get_id() == G.GAME.current_round.idol_card.id
     or (next(SMODS.find_card('j_mxms_perspective')) and 
@@ -89,6 +91,7 @@ then
 '''
 position = "at"
 payload = '''
+-- Modified by Maximus
 if self.ability.name == 'Even Steven' and
 ((context.other_card:get_id() <= 10 and 
 context.other_card:get_id() >= 0 and
@@ -114,6 +117,7 @@ then
 '''
 position = "at"
 payload = '''
+-- Modified by Maximus
 if self.ability.name == 'Odd Todd' and
 (((context.other_card:get_id() <= 10 and 
 context.other_card:get_id() >= 0 and
@@ -135,7 +139,7 @@ if v:get_id() == 9 then self.ability.nine_tally = self.ability.nine_tally+1 end
 '''
 position = "at"
 payload = '''
-if v:get_id() == 9 or (next(SMODS.find_card('j_mxms_perspective')) and v:get_id() == 6) then self.ability.nine_tally = self.ability.nine_tally+1 end
+if v:get_id() == 9 or (next(SMODS.find_card('j_mxms_perspective')) and v:get_id() == 6) then self.ability.nine_tally = self.ability.nine_tally+1 end -- Modified by Maximus
 '''
 match_indent = true
 times = 1
@@ -162,7 +166,7 @@ function get_X_same(num, hand, or_more)
 '''
 position = "at"
 payload = '''
-function get_X_same(num, hand, or_more)
+function get_X_same(num, hand, or_more) -- Modified by Maximus
   local vals = {}
   local perspective = next(SMODS.find_card('j_mxms_perspective'))
   for i = 1, SMODS.Rank.max_id.value do

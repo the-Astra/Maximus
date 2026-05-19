@@ -29,6 +29,7 @@ new_card.ability[k] = copy_table(v)
 '''
 position = "at"
 payload = '''
+-- Added by Maximus
 if other.config.center.key:sub(1, 6) == "j_mxms" and other.ability[k].card then
     new_card.ability[k] = {card = nil, pos = nil}
 else
@@ -48,6 +49,7 @@ if specific_vars.nominal_chips then
 '''
 position = '''after'''
 payload = '''
+    -- Added by Maximus
     if next(SMODS.find_card('j_mxms_secret_society')) then
         specific_vars.nominal_chips = (Maximus.get_nominal_sum() - specific_vars.nominal_chips) * 2
     end
@@ -64,21 +66,7 @@ calculate_reroll_cost(final_free)
 '''
 position = 'after'
 payload = '''
-SMODS.calculate_context({pre_reroll = true, cost = reroll_cost})
-'''
-match_indent = true
-times = 1
-
-    # disable_shine option for Classified Packs
-[[patches]]
-[patches.pattern]
-target = '''=[SMODS _ "src/card_draw.lua"]'''
-pattern = '''
-if (self.ability.set == 'Booster' or self.ability.set == 'Spectral') and self:should_draw_base_shader() then
-'''
-position = "at"
-payload = '''
-if (self.ability.set == 'Booster' or self.ability.set == 'Spectral') and self:should_draw_base_shader() and not self.config.center.disable_shine then
+SMODS.calculate_context({pre_reroll = true, cost = reroll_cost}) -- Added by Maximus
 '''
 match_indent = true
 times = 1

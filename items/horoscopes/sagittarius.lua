@@ -59,5 +59,6 @@ SMODS.Consumable {
                 sound = 'tarot2',
                 func = function() if TheFamily then G.GAME.horoscope_alert = true end end
             }, card)
-    end
+    end,
+    can_use = function(self, card) return false end
 }

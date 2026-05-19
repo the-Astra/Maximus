@@ -13,7 +13,7 @@ if self.SPLASH_LOGO then self.SPLASH_LOGO:remove(); self.SPLASH_LOGO = nil end
 '''
 position = "after"
 payload = '''
-if self.SPLASH_MAXIMUS_LOGO then self.SPLASH_MAXIMUS_LOGO:remove(); self.SPLASH_MAXIMUS_LOGO = nil end
+if self.SPLASH_MAXIMUS_LOGO then self.SPLASH_MAXIMUS_LOGO:remove(); self.SPLASH_MAXIMUS_LOGO = nil end -- Added by Maximus
 '''
 match_indent = true
 times = 1
@@ -32,6 +32,7 @@ end
 position = "after"
 payload = '''
 
+-- Added by Maximus
 if G.SPLASH_MAXIMUS_LOGO then
     love.graphics.push()
     G.SPLASH_MAXIMUS_LOGO:translate_container()
@@ -63,6 +64,7 @@ SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CA
 '''
 position = "after"
 payload = '''
+-- Added by Maximus
 SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_mxms_normal'],{bypass_discovery_center = true, bypass_discovery_ui = true})
 '''
 match_indent = true
@@ -78,6 +80,7 @@ local card = Card(  card_pos.x + G.ROOM.T.w/2 - G.CARD_W*card_size/2,
 '''
 position = "at"
 payload = '''
+-- Added by Maximus
 local card
 if Maximus and Maximus_config.menu then
     local key

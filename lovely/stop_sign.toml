@@ -20,6 +20,7 @@ end
 '''
 position = "at"
 payload = '''
+-- Added by Maximus
 if not next(SMODS.find_card('j_mxms_stop_sign')) then
     reset_idol_card()
     reset_mail_rank()
@@ -44,7 +45,7 @@ if self.ability.name == 'To Do List' and not context.blueprint then
 '''
 position = "at"
 payload = '''
-if self.ability.name == 'To Do List' and not context.blueprint and (not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1) then
+if self.ability.name == 'To Do List' and not context.blueprint and (not next(SMODS.find_card('j_mxms_stop_sign')) and G.GAME.round ~= 1) then -- Modified by Maximus
 '''
 match_indent = true
 times = 1

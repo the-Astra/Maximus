@@ -20,48 +20,7 @@ match_indent = true
 times = 1
 
 
-    # Emplace horoscopes in their own area
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = '''
-elseif card.ability.set == 'Booster' then 
-'''
-position = "before"
-payload = '''
-elseif card.ability.set == 'Horoscope' or card.config.center.key == 'c_mxms_ophiucus' then 
-    card:add_to_deck()
-    G.mxms_horoscope:emplace(card)
-    play_sound('card1', 0.8, 0.6)
-    play_sound('generic1')
-    dont_dissolve = true
-    delay_fac = 0.2
-'''
-match_indent = true
-times = 1
-
-
 # Derived from SDM_0's Stuff
-
-    # Prevent "BUY AND USE" button on Horoscopes in shop
-[[patches]]
-[patches.pattern]
-target = "functions/UI_definitions.lua"
-pattern = '''return base_background'''
-position = "before"
-payload = '''
-if card.area == G.shop_jokers and G.shop_jokers then
-  if card.ability.consumeable and (card.ability.set == "Horoscope" or card.config.center.key == 'c_mxms_ophiucus') then
-    base_attach.children.buy_and_use = nil
-  end
-  base_attach.children.buy = G.UIDEF.card_focus_button{
-    card = card, parent = base_attach, type = 'buy',
-    func = 'can_buy', button = 'buy_from_shop', card_width = card_width, buy_and_use = buy_and_use
-  }
-end
-'''
-match_indent = true
-
 
     # Prevent "USE" button on Horoscopes in deck
 [[patches]]
@@ -96,7 +55,7 @@ if G.GAME.round_resets.temp_reroll_cost then G.GAME.round_resets.temp_reroll_cos
 '''
 position = "after"
 payload = '''
-if G.GAME.mxms_sagittarius_bonus then G.GAME.round_resets.temp_reroll_cost = 0; calculate_reroll_cost(true); G.GAME.mxms_sagittarius_bonus = false end
+if G.GAME.mxms_sagittarius_bonus then G.GAME.round_resets.temp_reroll_cost = 0; calculate_reroll_cost(true); G.GAME.mxms_sagittarius_bonus = false end -- Added by Maximus
 '''
 match_indent = true
 times = 1
@@ -115,7 +74,7 @@ deck_usage = {},
 '''
 position = "after"
 payload = '''
-horoscope_completions = {},
+horoscope_completions = {}, -- Added by Maximus
 '''
 match_indent = true
 times = 1
@@ -135,6 +94,7 @@ pattern = '''
 position = "after"
 payload = '''
 {
+    -- Added by Maximus
     label = localize('b_mxms_stat_horoscopes'),
     tab_definition_function = create_UIBox_usage,
     tab_definition_function_args = {'horoscope_completions', 'Horoscope'},
@@ -151,7 +111,7 @@ _type == 'consumeable_usage' and localize('ph_stat_consumable') or
 '''
 position = "after"
 payload = '''
-_type == 'horoscope_completions' and (Maximus and (Maximus_config.horoscope and localize('ph_mxms_stat_horoscope') or localize('ph_mxms_stat_horoscope')) or localize('k_none')) or
+_type == 'horoscope_completions' and (Maximus and (Maximus_config.horoscope and localize('ph_mxms_stat_horoscope') or localize('ph_mxms_stat_horoscope')) or localize('k_none')) or -- Added by Maximus
 '''
 match_indent = true
 times = 1
