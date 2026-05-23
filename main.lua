@@ -158,7 +158,7 @@ Maximus.config_tab = function()
     }
 end
 
--- Credits Tab - Derived from Joyous Spring credits tab
+-- Credits Tab - Derived from JoyousSpring credits tab
 SMODS.current_mod.extra_tabs = function()
     return {
         {
@@ -167,7 +167,25 @@ SMODS.current_mod.extra_tabs = function()
                 local modNodes = {}
 
                 modNodes[#modNodes + 1] = {}
-                local loc_vars = { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.4 }
+                local loc_vars = {
+                    background_colour = G.C.CLEAR,
+                    text_colour = G.C.WHITE,
+                    scale = 1.4,
+                    vars = {
+                        elements = {
+                            SMODS.create_sprite(0, 0, 6.6, 6.6 * (G.ASSET_ATLAS["mxms_logo"].py / G.ASSET_ATLAS["mxms_logo"].px), "mxms_logo", {x = 0, y = 0})
+                        },
+                        colours = {
+                            G.C.PURPLE,
+                            G.C.ATTENTION,
+                            Maximus.C.SECONDARY_SET.Conspiracy,
+                            G.C.GREEN,
+                            G.C.SECONDARY_SET.Planet,
+                            G.C.RED,
+                            G.C.GOLD
+                        }
+                    }
+                }
                 localize { type = 'descriptions', key = 'mxms_credits', set = 'Other', nodes = modNodes[#modNodes], vars = loc_vars.vars, scale = loc_vars.scale, text_colour = loc_vars.text_colour, shadow = loc_vars.shadow }
                 modNodes[#modNodes] = desc_from_rows(modNodes[#modNodes])
                 modNodes[#modNodes].config.colour = loc_vars.background_colour or modNodes[#modNodes].config.colour
