@@ -1320,37 +1320,19 @@ SMODS.Atlas { -- Classified Boosters Atlas
     py = 95
 }
 
-local ENABLED_ZODIAC_BOOSTERS = {
-    'horoscope_normal_1',
-    'horoscope_normal_2',
-    'horoscope_jumbo_1',
-    'horoscope_mega_1',
-}
-
-local ENABLED_CLASSIFIED_BOOSTERS = {
-    'classified_normal_1',
-    'classified_normal_2',
-    'classified_jumbo_1',
-    'classified_mega_1',
-}
-
 
 sendDebugMessage("Loading Boosters...", 'Maximus')
 
 if Maximus_config.horoscopes then
-    for i = 1, #ENABLED_ZODIAC_BOOSTERS do
-        assert(SMODS.load_file('items/boosters/' .. ENABLED_ZODIAC_BOOSTERS[i] .. '.lua'))()
-        sendDebugMessage("Loaded booster: " .. ENABLED_ZODIAC_BOOSTERS[i], 'Maximus')
-    end
+    assert(SMODS.load_file('items/boosters/zodiac_packs.lua'))()
+    sendDebugMessage("Loaded booster set: Zodiac", 'Maximus')
 else
     sendDebugMessage("Horoscopes disabled; Skipping Zodiac Boosters...", 'Maximus')
 end
 
 if Maximus_config.conspiracies then
-    for i = 1, #ENABLED_CLASSIFIED_BOOSTERS do
-        assert(SMODS.load_file('items/boosters/' .. ENABLED_CLASSIFIED_BOOSTERS[i] .. '.lua'))()
-        sendDebugMessage("Loaded booster: " .. ENABLED_CLASSIFIED_BOOSTERS[i], 'Maximus')
-    end
+    assert(SMODS.load_file('items/boosters/classified_packs.lua'))()
+    sendDebugMessage("Loaded booster set: Classified", 'Maximus')
 else
     sendDebugMessage("Conspiracies disabled; Skipping Classified Boosters...", 'Maximus')
 end
