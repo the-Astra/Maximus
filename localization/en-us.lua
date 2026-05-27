@@ -1616,7 +1616,7 @@ return {
             j_mxms_red_yarn = {
                 name = 'Red Yarn',
                 text = {
-                    "{C:mult}+#1#{} Chips per {C:conspiracy}Conspiracy{}",
+                    "{C:mult}+#1#{} Mult per {C:conspiracy}Conspiracy{}",
                     "card used this run",
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive})",
                 },

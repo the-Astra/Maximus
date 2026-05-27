@@ -1,10 +1,10 @@
 if Maximus_config.conspiracies then
     SMODS.Joker {
         key = 'red_yarn',
-        atlas = 'Placeholder',
+        atlas = 'Jokers',
         pos = {
-            x = 0,
-            y = 0
+            x = 3,
+            y = 19
         },
         rarity = 1,
         config = {
@@ -17,7 +17,7 @@ if Maximus_config.conspiracies then
             'mult'
         },
         mxms_credits = {
-            art = { "???" },
+            art = { "Inky" },
             code = { "theAstra" },
             idea = { "anerdymous" }
         },
