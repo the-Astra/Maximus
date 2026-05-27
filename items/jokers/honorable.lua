@@ -19,7 +19,7 @@ SMODS.Joker {
         'joker'
     },
     mxms_credits = {
-        art = { "pinkzigzaoon" },
+        art = { "pinkzigzagoon" },
         code = { "theAstra" },
         idea = { "anerdymous" }
     },

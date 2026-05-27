@@ -18,7 +18,7 @@ if Maximus_config.horoscopes then
             'xmult',
             'scaling'
         },
-        mxms_credit = {
+        mxms_credits = {
             art = { "Maxiss02" },
             code = { "theAstra" },
             idea = { "Maxiss02" }

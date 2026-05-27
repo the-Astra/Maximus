@@ -1,3 +1,10 @@
+SMODS.Atlas { -- Zodiac Boosters Atlas
+    key = 'Zodiac',
+    path = "Zodiac.png",
+    px = 71,
+    py = 95
+}
+
 Maximus.ZodiacBooster = SMODS.Booster:extend {
     kind = "Horoscope",
     atlas = "mxms_Zodiac",

@@ -17,9 +17,9 @@ SMODS.Joker {
         'spectral'
     },
     mxms_credits = {
-        art = "Maxiss02",
-        code = "theAstra",
-        idea = "pinkzigzagoon"
+        art = { "Maxiss02" },
+        code = { "theAstra" },
+        idea = { "pinkzigzagoon" }
     },
     perishable_compat = false,
     blueprint_compat = true,

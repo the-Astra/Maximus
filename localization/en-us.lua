@@ -2771,6 +2771,13 @@ return {
             k_mxms_zodiac_pack = "Zodiac Pack",
             ph_mxms_stat_horoscope = "Number of times this card has been fulfilled",
             ph_mxms_stat_horoscope_disabled = "Horoscopes disabled, stats cannot be displayed",
+
+            -- Credits
+            mxms_art_credit = 'Art by ',
+            mxms_code_credit = 'Code by ',
+            mxms_idea_credit = 'Idea by ',
+            mxms_and_spacer = ' and ',
+            mxms_comma_spacer = ', ',
         },
         labels = {
             mxms_posted = "Posted",
@@ -3137,9 +3144,6 @@ return {
             },
         },
         v_dictionary = {
-            mxms_art = { 'Art: #1#' },
-            mxms_code = { 'Code: #1#' },
-            mxms_idea = { 'Idea: #1#' },
             a_mxms_jokersize = "+#1# Joker Size"
         },
         playlog_types = {

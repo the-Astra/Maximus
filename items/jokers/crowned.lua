@@ -17,7 +17,7 @@ SMODS.Joker {
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
-        concept = { "Maxiss02" }
+        idea = { "Maxiss02" }
     },
     blueprint_compat = true,
     unlocked = false,
