@@ -1,5 +1,21 @@
 return {
     descriptions = {
+        Mod = {
+            Maximus = {
+                name = 'Maximus',
+                text = {
+                    ' {element:1} {}',
+                    " ",
+                    "{s:1.3}A {s:1.3,C:dark_edition,E:2}Vanilla+{s:1.3} mod that strives to preserve",
+                    "the Vanilla feel of the game",
+                    "{s:0.8,C:inactive}(for the most part, looking at you Nuclear deck)",
+                    "while innovating on newer ideas to keep things fresh!",
+                    " ",
+                    " ",
+                    "{C:blue,u:blue,button:mxms_discord}Click me to join the Discord!"
+                }
+            }
+        },
         Back = {
             b_mxms_autographed = {
                 name = 'Autographed Deck',

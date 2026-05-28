@@ -367,3 +367,12 @@ function Maximus.reset_game_globals(run_start)
     end
     G.GAME.current_round.mxms_jello_suit = pseudorandom_element(jello_suits, pseudoseed('jel' .. G.GAME.round_resets.ante))
 end
+
+G.FUNCS.mxms_discord = function(e)
+    love.system.openURL("https://discord.gg/GvCCcryM48")
+end
+
+--#region SMODS UI funcs (additions, config, collection)
+Maximus.description_loc_vars = function()
+    return { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.2, vars = { elements = { SMODS.create_sprite(0, 0, 6.6, 6.6 * (G.ASSET_ATLAS["mxms_logo"].py / G.ASSET_ATLAS["mxms_logo"].px), "mxms_logo", {x = 0, y = 0}) } } }
+end
