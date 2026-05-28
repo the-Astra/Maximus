@@ -59,6 +59,9 @@ SMODS.Consumable {
             end
         end
     end,
+    in_pool = function(self, args)
+        return Maximus_config.horoscopes
+    end,
     succeed = function(self, card)
         card.succeeded = true
         if PlayLog then PlayLog.log({ type = 'mxms_horoscope_success', card = card }) end

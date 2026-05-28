@@ -45,7 +45,7 @@ SMODS.Consumable {
         if G.GAME.modifiers.mxms_zodiac_killer then
             return G.GAME.zodiac_killer_pools["Gemini"]
         end
-        return true
+        return Maximus_config.horoscopes
     end,
     succeed = function(self, card, context)
         local stg = card.ability.extra

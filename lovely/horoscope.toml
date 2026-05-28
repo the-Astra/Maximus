@@ -12,9 +12,7 @@ pattern = '''
 '''
 position = "after"
 payload = '''
-if Maximus_config.horoscopes then
-    table.insert(t, G.mxms_horoscope)
-end
+table.insert(t, G.mxms_horoscope)
 '''
 match_indent = true
 times = 1

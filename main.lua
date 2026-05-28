@@ -56,6 +56,28 @@ Maximus.config_tab = function()
                 }
             },
 
+            -- Horoscopes Toggle
+            {
+                n = G.UIT.R,
+                config = { align = "cl", padding = 0 },
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { align = "cl", padding = 0.05 },
+                        nodes = {
+                            create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "horoscopes", callback = G.FUNCS.mxms_toggle_horoscopes },
+                        }
+                    },
+                    {
+                        n = G.UIT.C,
+                        config = { align = "c", padding = 0 },
+                        nodes = {
+                            { n = G.UIT.T, config = { text = localize('b_mxms_enable_horoscopes'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+                        }
+                    },
+                }
+            },
+
             { n = G.UIT.R, config = { minh = 0.04, minw = 4, colour = G.C.L_BLACK } },
 
             -- Custom Menu Toggle
@@ -75,28 +97,6 @@ Maximus.config_tab = function()
                         config = { align = "c", padding = 0 },
                         nodes = {
                             { n = G.UIT.T, config = { text = localize('b_mxms_custom_menu'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
-                        }
-                    },
-                }
-            },
-
-            -- Horoscopes Toggle
-            {
-                n = G.UIT.R,
-                config = { align = "cl", padding = 0 },
-                nodes = {
-                    {
-                        n = G.UIT.C,
-                        config = { align = "cl", padding = 0.05 },
-                        nodes = {
-                            create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Maximus_config, ref_value = "horoscopes" },
-                        }
-                    },
-                    {
-                        n = G.UIT.C,
-                        config = { align = "c", padding = 0 },
-                        nodes = {
-                            { n = G.UIT.T, config = { text = localize('b_mxms_enable_horoscopes'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
                         }
                     },
                 }
@@ -724,6 +724,14 @@ SMODS.Attribute {
     key = 'mod_scaling'
 }
 
+SMODS.Attribute {
+    key = 'conspiracy'
+}
+
+SMODS.Attribute {
+    key = 'horoscope'
+}
+
 --#endregion
 
 --#region Backs ---------------------------------------------------------------------------------------------
@@ -808,19 +816,11 @@ sendDebugMessage("", 'Maximus')
 
 sendDebugMessage("Loading Boosters...", 'Maximus')
 
-if Maximus_config.horoscopes then
-    assert(SMODS.load_file('items/boosters/zodiac_packs.lua'))()
-    sendDebugMessage("Loaded booster set: Zodiac", 'Maximus')
-else
-    sendDebugMessage("Horoscopes disabled; Skipping Zodiac Boosters...", 'Maximus')
-end
+assert(SMODS.load_file('items/boosters/zodiac_packs.lua'))()
+sendDebugMessage("Loaded booster set: Zodiac", 'Maximus')
 
-if Maximus_config.conspiracies then
-    assert(SMODS.load_file('items/boosters/classified_packs.lua'))()
-    sendDebugMessage("Loaded booster set: Classified", 'Maximus')
-else
-    sendDebugMessage("Conspiracies disabled; Skipping Classified Boosters...", 'Maximus')
-end
+assert(SMODS.load_file('items/boosters/classified_packs.lua'))()
+sendDebugMessage("Loaded booster set: Classified", 'Maximus')
 
 sendDebugMessage("", 'Maximus')
 
@@ -862,52 +862,46 @@ sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Conspiracy ----------------------------------------------------------------------------------------
-if Maximus_config.conspiracies then
-    SMODS.Atlas { -- Main Conspiracy Atlas
-        key = 'Conspiracy',
-        path = "Conspiracy.png",
-        px = 71,
-        py = 95
-    }
+SMODS.Atlas { -- Main Conspiracy Atlas
+    key = 'Conspiracy',
+    path = "Conspiracy.png",
+    px = 71,
+    py = 95
+}
 
-    -- Conspiracy Type
-    SMODS.ConsumableType {
-        key = 'Conspiracy',
-        primary_colour = Maximus.C.SET.Conspiracy,
-        secondary_colour = Maximus.C.SECONDARY_SET.Conspiracy,
-        default = 'c_mxms_sighting',
-        collection_rows = { 7, 7 },
-        shop_rate = 1
-    }
+-- Conspiracy Type
+SMODS.ConsumableType {
+    key = 'Conspiracy',
+    primary_colour = Maximus.C.SET.Conspiracy,
+    secondary_colour = Maximus.C.SECONDARY_SET.Conspiracy,
+    default = 'c_mxms_sighting',
+    collection_rows = { 7, 7 },
+    shop_rate = 1
+}
 
-    SMODS.Attribute {
-        key = 'conspiracy'
-    }
+local ENABLED_CONSPIRACIES = {
+    'assassination',
+    'sighting',
+    'coverup',
+    'hoax',
+    'pyramid',
+    'vaccine',
+    'nwo',
+    'corruption',
+    'woke',
+    'mib',
+    'flat_earth',
+    'landing',
+    '5g',
+    'tinfoil',
+}
 
-    local ENABLED_CONSPIRACIES = {
-        'assassination',
-        'sighting',
-        'coverup',
-        'hoax',
-        'pyramid',
-        'vaccine',
-        'nwo',
-        'corruption',
-        'woke',
-        'mib',
-        'flat_earth',
-        'landing',
-        '5g',
-        'tinfoil',
-    }
-
-    sendDebugMessage("Loading Conspiracies...", 'Maximus')
-    for i = 1, #ENABLED_CONSPIRACIES do
-        assert(SMODS.load_file('items/conspiracy/' .. ENABLED_CONSPIRACIES[i] .. '.lua'))()
-        sendDebugMessage("Loaded conspiracy: " .. ENABLED_CONSPIRACIES[i], 'Maximus')
-    end
-    sendDebugMessage("", 'Maximus')
+sendDebugMessage("Loading Conspiracies...", 'Maximus')
+for i = 1, #ENABLED_CONSPIRACIES do
+    assert(SMODS.load_file('items/conspiracy/' .. ENABLED_CONSPIRACIES[i] .. '.lua'))()
+    sendDebugMessage("Loaded conspiracy: " .. ENABLED_CONSPIRACIES[i], 'Maximus')
 end
+sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Consumables ---------------------------------------------------------------------------------------
@@ -997,100 +991,39 @@ sendDebugMessage("", 'Maximus')
 --#region Horoscope -----------------------------------------------------------------------------------------
 
 -- Horoscope Type
-if Maximus_config.horoscopes then
-    Maximus.custom_card_areas = function(game)
-        game.mxms_horoscope_W = G.CARD_W * 1.1
-        game.mxms_horoscope_H = 0.95 * G.CARD_H
 
-        game.mxms_horoscope = CardArea(
-            G.consumeables.T.x + 2.25,
-            G.consumeables.T.y + G.consumeables.T.h + 1,
-            game.mxms_horoscope_W,
-            game.mxms_horoscope_H,
-            { card_limit = 1, type = 'joker', highlight_limit = 1, align_buttons = true }
-        )
+SMODS.ConsumableType {
+    key = 'Horoscope',
+    primary_colour = Maximus.C.SET.Horoscope,
+    secondary_colour = Maximus.C.SECONDARY_SET.Horoscope,
+    default = 'c_mxms_taurus',
+    collection_rows = { 3, 3 },
+    shop_rate = 0.0,
+    select_card = 'mxms_horoscope'
+}
 
-        if TheFamily then
-            game.mxms_horoscope.states.visible = false
-        end
-    end
+local ENABLED_HOROSCOPES = {
+    'aries',
+    'taurus',
+    'gemini',
+    'cancer',
+    'leo',
+    'virgo',
+    'libra',
+    'scorpio',
+    'sagittarius',
+    'capricorn',
+    'aquarius',
+    'pisces',
+    'ophiucus',
+}
 
-
-    SMODS.ConsumableType {
-        key = 'Horoscope',
-        primary_colour = Maximus.C.SET.Horoscope,
-        secondary_colour = Maximus.C.SECONDARY_SET.Horoscope,
-        default = 'c_mxms_taurus',
-        collection_rows = { 3, 3 },
-        shop_rate = 0.0,
-        select_card = 'mxms_horoscope'
-    }
-
-    SMODS.Attribute {
-        key = 'horoscope'
-    }
-
-    -- CardArea emplace hook
-    local cae = CardArea.emplace
-    function CardArea:emplace(card, location, stay_flipped)
-        if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center_key == 'c_mxms_ophiucus') then
-            card:remove_from_area()
-            G.mxms_horoscope:emplace(card, location, stay_flipped)
-            discover_card(card.config.center)
-            card.bypass_discovery_center = true
-            card.bypass_discovery_ui = true
-            card.discovered = true
-            return
-        end
-
-        cae(self, card, location, stay_flipped)
-
-        if self == G.mxms_horoscope and TheFamily then
-            G.GAME.horoscope_alert = true
-        end
-    end
-
-    -- Global calculates for Horoscope resetting and and Horoscope tag application
-    Maximus.calculate = function(self, context)
-        if context.ante_change and context.ante_end then
-            for i = 1, #G.GAME.tags do
-                G.GAME.tags[i]:apply_to_run({ type = 'reset_horoscopes' })
-            end
-            for i = 1, #G.GAME.tags do
-                G.GAME.tags[i]:apply_to_run({ type = 'start_apply_horoscopes' })
-            end
-        end
-
-        if context.setting_blind and G.GAME.mxms_aries_bonus > 1 then
-            return {
-                xblind_size = 1 / G.GAME.mxms_aries_bonus
-            }
-        end
-    end
-
-    local ENABLED_HOROSCOPES = {
-        'aries',
-        'taurus',
-        'gemini',
-        'cancer',
-        'leo',
-        'virgo',
-        'libra',
-        'scorpio',
-        'sagittarius',
-        'capricorn',
-        'aquarius',
-        'pisces',
-        'ophiucus',
-    }
-
-    sendDebugMessage("Loading Horoscopes...", 'Maximus')
-    for i = 1, #ENABLED_HOROSCOPES do
-        assert(SMODS.load_file('items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua'))()
-        sendDebugMessage("Loaded horoscope: " .. ENABLED_HOROSCOPES[i], 'Maximus')
-    end
-    sendDebugMessage("", 'Maximus')
+sendDebugMessage("Loading Horoscopes...", 'Maximus')
+for i = 1, #ENABLED_HOROSCOPES do
+    assert(SMODS.load_file('items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua'))()
+    sendDebugMessage("Loaded horoscope: " .. ENABLED_HOROSCOPES[i], 'Maximus')
 end
+sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Jokers --------------------------------------------------------------------------------------------
@@ -1375,11 +1308,14 @@ local ENABLED_TAGS = {
     'ram',
     'scale',
 }
+
 sendDebugMessage("Loading Tags...", 'Maximus')
+
 for i = 1, #ENABLED_TAGS do
     assert(SMODS.load_file('items/tags/' .. ENABLED_TAGS[i] .. '.lua'))()
     sendDebugMessage("Loaded tag: " .. ENABLED_TAGS[i], 'Maximus')
 end
+
 sendDebugMessage("", 'Maximus')
 
 

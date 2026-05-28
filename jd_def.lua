@@ -47,7 +47,8 @@ jd_def['j_mxms_adrenaline'] = { -- Adrenaline
         { text = ")" },
     },
     calc_function = function(card)
-        card.joker_display_values.active = card.ability.extra.active and localize('jdis_active') or localize('jdis_inactive')
+        card.joker_display_values.active = card.ability.extra.active and localize('jdis_active') or
+        localize('jdis_inactive')
     end
 }
 
@@ -113,7 +114,8 @@ jd_def['j_mxms_bigfool'] = { -- Bigfool
     },
     extra_config = { colour = G.C.GREEN, scale = 0.3 },
     calc_function = function(card)
-        local numerator, denominator = SMODS.get_probability_vars(card, card.ability.extra.prob, card.ability.extra.odds, 'bigfool')
+        local numerator, denominator = SMODS.get_probability_vars(card, card.ability.extra.prob, card.ability.extra.odds,
+            'bigfool')
         card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { numerator, denominator } }
     end
 }
@@ -363,7 +365,8 @@ jd_def['j_mxms_couch_gag'] = { -- Couch Gag
     },
     retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
         if held_in_hand then return 0 end
-        return scoring_hand.poker_hands['Full House'] and joker_card.ability.extra.reps * JokerDisplay.calculate_joker_triggers(joker_card) or 0
+        return scoring_hand.poker_hands['Full House'] and
+        joker_card.ability.extra.reps * JokerDisplay.calculate_joker_triggers(joker_card) or 0
     end
 }
 
@@ -1439,7 +1442,8 @@ jd_def['j_mxms_ufo'] = { -- UFO
     },
     extra_config = { colour = G.C.GREEN, scale = 0.3 },
     calc_function = function(card)
-        local numerator, denominator = SMODS.get_probability_vars(card, card.ability.extra.prob, card.ability.extra.odds, 'ufo')
+        local numerator, denominator = SMODS.get_probability_vars(card, card.ability.extra.prob, card.ability.extra.odds,
+            'ufo')
         card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { numerator, denominator } }
     end
 }
@@ -1555,126 +1559,125 @@ jd_def['j_mxms_zombie'] = { -- Zombie
     end
 }
 
-if Maximus_config.horoscopes then
-    local jd_get_display_areas_ref = JokerDisplay.get_display_areas
-    function JokerDisplay.get_display_areas()
-        local ret = jd_get_display_areas_ref()
-        if G.mxms_horoscope then
-            table.insert(ret, G.mxms_horoscope)
-        end
-        return ret
+-- Horoscope stuff
+local jd_get_display_areas_ref = JokerDisplay.get_display_areas
+function JokerDisplay.get_display_areas()
+    local ret = jd_get_display_areas_ref()
+    if G.mxms_horoscope then
+        table.insert(ret, G.mxms_horoscope)
+    end
+    return ret
+end
+
+jd_def['j_mxms_employee'] = {     -- Employee
+    text = {
+        { text = "+$" },
+        { ref_table = "card.joker_display_values", ref_value = "dollars" },
+    },
+    text_config = { colour = G.C.GOLD, scale = 0.4 },
+    calc_function = function(card)
+        card.joker_display_values.dollars = #G.mxms_horoscope.cards * card.ability.extra.dollars
+    end
+}
+
+jd_def['j_mxms_hippie'] = {     -- Hippie
+    text = {
+        {
+            border_nodes = {
+                { text = "X" },
+                { ref_table = "card.ability.extra", ref_value = "Xmult", retrigger_type = "exp" }
+            }
+        }
+    },
+}
+
+jd_def['c_mxms_aquarius'] = {     -- Aquarius
+    text = {
+        { text = "(" },
+        { ref_table = "card.ability.extra", ref_value = "tally", colour = Maximus.C.HOROSCOPE },
+        { text = "/" },
+        { ref_table = "card.ability.extra", ref_value = "goal" },
+        { text = ")" },
+    },
+}
+
+jd_def['c_mxms_capricorn'] = {     -- Capricorn
+    text = {
+        { text = "(" },
+        { ref_table = "card.ability.extra", ref_value = "tally", colour = Maximus.C.HOROSCOPE },
+        { text = "/" },
+        { ref_table = "card.ability.extra", ref_value = "goal" },
+        { text = ")" },
+    },
+}
+
+jd_def['c_mxms_gemini'] = {     -- Gemini
+    text = {
+        { text = "(" },
+        { ref_table = "card.ability.extra", ref_value = "times", colour = Maximus.C.HOROSCOPE },
+        { text = "/" },
+        { ref_table = "card.ability.extra", ref_value = "goal" },
+        { text = ")" },
+    },
+}
+
+jd_def['c_mxms_libra'] = {     -- Libra
+    text = {
+        { text = "(" },
+        { ref_table = "card.ability.extra", ref_value = "money_spent", colour = Maximus.C.HOROSCOPE },
+        { text = "/" },
+        { ref_table = "card.ability.extra", ref_value = "goal" },
+        { text = ")" },
+    },
+}
+
+jd_def['c_mxms_ophiucus'] = {     -- Ophiucus
+    text = {
+        { text = "(" },
+        { ref_table = "card.ability.extra",        ref_value = "handtypes_played", colour = Maximus.C.HOROSCOPE },
+        { text = "/" },
+        { ref_table = "card.joker_display_values", ref_value = "goal" },
+        { text = ")" },
+    },
+    reminder_text = {
+        { text = "(" },
+        { ref_table = "card.ability.extra", ref_value = "antes" },
+        { text = "/" },
+        { ref_table = "card.ability.extra", ref_value = "ante_limit" },
+        { text = ")" },
+    },
+    calc_function = function(card)
+        card.joker_display_values.goal = #card.ability.hands
     end
 
-    jd_def['j_mxms_employee'] = { -- Employee
-        text = {
-            { text = "+$" },
-            { ref_table = "card.joker_display_values", ref_value = "dollars" },
-        },
-        text_config = { colour = G.C.GOLD, scale = 0.4 },
-        calc_function = function(card)
-            card.joker_display_values.dollars = #G.mxms_horoscope.cards * card.ability.extra.dollars
-        end
-    }
+}
 
-    jd_def['j_mxms_hippie'] = { -- Hippie
-        text = {
-            {
-                border_nodes = {
-                    { text = "X" },
-                    { ref_table = "card.ability.extra", ref_value = "Xmult", retrigger_type = "exp" }
-                }
-            }
-        },
-    }
+jd_def['c_mxms_pisces'] = {     -- Pisces
+    text = {
+        { text = "(" },
+        { ref_table = "card.ability.extra", ref_value = "tally", colour = Maximus.C.HOROSCOPE },
+        { text = "/" },
+        { ref_table = "card.ability.extra", ref_value = "goal" },
+        { text = ")" },
+    },
+}
 
-    jd_def['c_mxms_aquarius'] = { -- Aquarius
-        text = {
-            { text = "(" },
-            { ref_table = "card.ability.extra", ref_value = "tally", colour = Maximus.C.HOROSCOPE },
-            { text = "/" },
-            { ref_table = "card.ability.extra", ref_value = "goal" },
-            { text = ")" },
-        },
-    }
+jd_def['c_mxms_scorpio'] = {     -- Scorpio
+    text = {
+        { text = "(" },
+        { ref_table = "card.ability.extra", ref_value = "hands", colour = Maximus.C.HOROSCOPE },
+        { text = "/" },
+        { ref_table = "card.ability.extra", ref_value = "goal" },
+        { text = ")" },
+    },
+}
 
-    jd_def['c_mxms_capricorn'] = { -- Capricorn
-        text = {
-            { text = "(" },
-            { ref_table = "card.ability.extra", ref_value = "tally", colour = Maximus.C.HOROSCOPE },
-            { text = "/" },
-            { ref_table = "card.ability.extra", ref_value = "goal" },
-            { text = ")" },
-        },
-    }
-
-    jd_def['c_mxms_gemini'] = { -- Gemini
-        text = {
-            { text = "(" },
-            { ref_table = "card.ability.extra", ref_value = "times", colour = Maximus.C.HOROSCOPE },
-            { text = "/" },
-            { ref_table = "card.ability.extra", ref_value = "goal" },
-            { text = ")" },
-        },
-    }
-
-    jd_def['c_mxms_libra'] = { -- Libra
-        text = {
-            { text = "(" },
-            { ref_table = "card.ability.extra", ref_value = "money_spent", colour = Maximus.C.HOROSCOPE },
-            { text = "/" },
-            { ref_table = "card.ability.extra", ref_value = "goal" },
-            { text = ")" },
-        },
-    }
-
-    jd_def['c_mxms_ophiucus'] = { -- Ophiucus
-        text = {
-            { text = "(" },
-            { ref_table = "card.ability.extra",        ref_value = "handtypes_played", colour = Maximus.C.HOROSCOPE },
-            { text = "/" },
-            { ref_table = "card.joker_display_values", ref_value = "goal" },
-            { text = ")" },
-        },
-        reminder_text = {
-            { text = "(" },
-            { ref_table = "card.ability.extra", ref_value = "antes" },
-            { text = "/" },
-            { ref_table = "card.ability.extra", ref_value = "ante_limit" },
-            { text = ")" },
-        },
-        calc_function = function(card)
-            card.joker_display_values.goal = #card.ability.hands
-        end
-
-    }
-
-    jd_def['c_mxms_pisces'] = { -- Pisces
-        text = {
-            { text = "(" },
-            { ref_table = "card.ability.extra", ref_value = "tally", colour = Maximus.C.HOROSCOPE },
-            { text = "/" },
-            { ref_table = "card.ability.extra", ref_value = "goal" },
-            { text = ")" },
-        },
-    }
-
-    jd_def['c_mxms_scorpio'] = { -- Scorpio
-        text = {
-            { text = "(" },
-            { ref_table = "card.ability.extra", ref_value = "hands", colour = Maximus.C.HOROSCOPE },
-            { text = "/" },
-            { ref_table = "card.ability.extra", ref_value = "goal" },
-            { text = ")" },
-        },
-    }
-
-    jd_def['c_mxms_taurus'] = { -- Taurus
-        text = {
-            { text = "(" },
-            { ref_table = "card.ability.extra", ref_value = "times", colour = Maximus.C.HOROSCOPE },
-            { text = "/" },
-            { ref_table = "card.ability.extra", ref_value = "goal" },
-            { text = ")" },
-        },
-    }
-end
+jd_def['c_mxms_taurus'] = {     -- Taurus
+    text = {
+        { text = "(" },
+        { ref_table = "card.ability.extra", ref_value = "times", colour = Maximus.C.HOROSCOPE },
+        { text = "/" },
+        { ref_table = "card.ability.extra", ref_value = "goal" },
+        { text = ")" },
+    },
+}

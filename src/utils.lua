@@ -189,3 +189,48 @@ Maximus.horoscope_fail = function(card)
         SMODS.calculate_context({ mxms_failed_horoscope = true })
     end
 end
+
+-- Maximus custom card areas
+Maximus.custom_card_areas = function(game)
+    game.mxms_horoscope_W = G.CARD_W * 1.1
+    game.mxms_horoscope_H = 0.95 * G.CARD_H
+
+    game.mxms_horoscope = CardArea(
+        G.consumeables.T.x + 2.25,
+        G.consumeables.T.y + G.consumeables.T.h + 1,
+        game.mxms_horoscope_W,
+        game.mxms_horoscope_H,
+        { card_limit = 1, type = 'joker', highlight_limit = 1, align_buttons = true }
+    )
+
+    if TheFamily or not Maximus_config.horoscopes then
+        game.mxms_horoscope.states.visible = false
+    end
+end
+
+-- Global calculates for Horoscope resetting and and Horoscope tag application
+Maximus.calculate = function(self, context)
+    if context.ante_change and context.ante_end then
+        for i = 1, #G.GAME.tags do
+            G.GAME.tags[i]:apply_to_run({ type = 'reset_horoscopes' })
+        end
+        for i = 1, #G.GAME.tags do
+            G.GAME.tags[i]:apply_to_run({ type = 'start_apply_horoscopes' })
+        end
+    end
+
+    if context.setting_blind and G.GAME.mxms_aries_bonus > 1 then
+        return {
+            xblind_size = 1 / G.GAME.mxms_aries_bonus
+        }
+    end
+end
+
+-- Horoscope toggle callback
+function G.FUNCS.mxms_toggle_horoscopes(e)
+    if e and G.mxms_horoscope then
+        G.mxms_horoscope.states.visible = true
+    elseif not e and G.mxms_horoscope then
+        G.mxms_horoscope.states.visible = false
+    end
+end

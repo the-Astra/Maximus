@@ -65,7 +65,7 @@ SMODS.Consumable {
         if G.GAME.modifiers.mxms_zodiac_killer then
             return G.GAME.zodiac_killer_pools["Scorpio"] and G.GAME.round_resets.ante > 1
         end
-        return true
+        return Maximus_config.horoscopes
     end,
     succeed = function(self, card, context)
         card.succeeded = true

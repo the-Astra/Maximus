@@ -211,3 +211,23 @@ G.FUNCS.check_for_buy_space = function(card)
     end
     return gfcfbs(card)
 end
+
+-- CardArea emplace hook for Horoscope cards
+local cae = CardArea.emplace
+function CardArea:emplace(card, location, stay_flipped)
+    if self == G.consumeables and (card.ability.set == "Horoscope" or card.config.center_key == 'c_mxms_ophiucus') then
+        card:remove_from_area()
+        G.mxms_horoscope:emplace(card, location, stay_flipped)
+        discover_card(card.config.center)
+        card.bypass_discovery_center = true
+        card.bypass_discovery_ui = true
+        card.discovered = true
+        return
+    end
+
+    cae(self, card, location, stay_flipped)
+
+    if self == G.mxms_horoscope and TheFamily then
+        G.GAME.horoscope_alert = true
+    end
+end
