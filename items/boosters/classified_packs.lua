@@ -23,6 +23,9 @@ Maximus.ClassifiedBooster = SMODS.Booster:extend {
     end,
     loc_vars = function(self, info_queue, card)
         return { vars = { math.min(card.ability.choose + (G.GAME.modifiers.booster_choice_mod or 0), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0)) } }
+    end,
+    in_pool = function(self, args)
+        return Maximus_config.conspiracies
     end
 }
 

@@ -87,5 +87,8 @@ SMODS.Consumable {
     end,
     can_use = function(self, card)
         return true
+    end,
+    in_pool = function(self, args)
+        return Maximus_config.conspiracies
     end
 }

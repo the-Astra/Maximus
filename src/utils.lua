@@ -1,3 +1,14 @@
+-- List of cards whose probability results should be treated as the opposite
+Maximus.invert_prob_cards = {
+    j_gros_michel = true,
+    j_cavendish = true,
+    j_mxms_hugo = true,
+    j_mxms_jestcoin = true,
+    c_ankh = true,
+    c_hex = true,
+    m_glass = true
+}
+
 ---Generalized Horoscope-related Tag apply func
 function Maximus.activate_horoscope_tag(tag)
     G.E_MANAGER:add_event(Event({
@@ -233,4 +244,126 @@ function G.FUNCS.mxms_toggle_horoscopes(e)
     elseif not e and G.mxms_horoscope then
         G.mxms_horoscope.states.visible = false
     end
+end
+
+-- Conspiracy toggle callback
+function G.FUNCS.mxms_toggle_conspiracies(e)
+    if e then
+        G.GAME.conspiracy_rate = 1
+    elseif not e then
+        G.GAME.conspiracy_rate = 0
+    end
+end
+
+-- Round Changing Variables
+function Maximus.reset_game_globals(run_start)
+    -- Impractical Joker
+    if G.GAME.challenge == 'c_mxms_biggest_loser' then
+        G.GAME.current_round.mxms_impractical_hand = 'Straight Flush'
+    elseif G.GAME.round ~= 1 then
+        G.GAME.current_round.mxms_impractical_hand = G.GAME.current_round.mxms_impractical_hand
+        local valid_hands = {}
+
+        for k, v in pairs(G.GAME.hands) do
+            if v.visible then
+                valid_hands[#valid_hands + 1] = k
+            end
+        end
+
+        local new_hand = G.GAME.current_round.mxms_impractical_hand
+        while new_hand == G.GAME.current_round.mxms_impractical_hand do
+            new_hand = pseudorandom_element(valid_hands, pseudoseed('impractical' .. G.GAME.round_resets.ante))
+        end
+        G.GAME.current_round.mxms_impractical_hand = new_hand
+    end
+
+    -- Marco Polo
+    if G.GAME.round ~= 1 then
+        local new_pos = G.GAME.current_round.mxms_marco_polo_pos
+        if #G.jokers.cards <= 1 then
+            new_pos = 1
+        else
+            while new_pos == G.GAME.current_round.mxms_marco_polo_pos do
+                new_pos = pseudorandom(pseudoseed('marcopolo' .. G.GAME.round_resets.ante), 1, #G.jokers.cards)
+            end
+        end
+        G.GAME.current_round.mxms_marco_polo_pos = new_pos
+    end
+
+    -- Go Fish
+    if G.GAME.round ~= 1 then
+        local valid_ranks = {}
+        local new_rank = G.GAME.current_round.mxms_go_fish.rank
+        local new_mult = 0
+        for k, v in ipairs(G.playing_cards) do
+            valid_ranks[#valid_ranks + 1] = v.base.value
+        end
+        new_rank = pseudorandom_element(valid_ranks, pseudoseed('mxms_go_fish' .. G.GAME.round_resets.ante))
+        G.GAME.current_round.mxms_go_fish.rank = new_rank
+        for k, v in ipairs(valid_ranks) do
+            if v == new_rank then
+                new_mult = new_mult + 1
+            end
+        end
+        G.GAME.current_round.mxms_go_fish.mult = new_mult * 2
+    end
+
+    -- Zombie
+    if next(SMODS.find_card('j_mxms_zombie')) and G.GAME.current_round.mxms_zombie_target.card ~= nil then
+        if not SMODS.is_eternal(G.GAME.current_round.mxms_zombie_target.card) then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound('timpani')
+                    delay(0.4)
+                    G.GAME.current_round.mxms_zombie_target.card:set_ability(G.P_CENTERS['j_mxms_zombie'])
+                    G.GAME.current_round.mxms_zombie_target.card:juice_up(0.8, 0.8)
+                    delay(0.4)
+                    SMODS.calculate_effect({ message = localize('k_mxms_turned_ex'), colour = G.C.GREEN },
+                        G.GAME.current_round.mxms_zombie_target.card)
+                    G.GAME.current_round.mxms_zombie_target.card = nil
+
+                    check_for_unlock({ type = "zombified" })
+                    return true
+                end
+            }))
+        end
+    end
+
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        func = function()
+            local eligible_jokers = {}
+            local new_target = G.GAME.current_round.mxms_zombie_target.card
+            if #G.jokers.cards <= 1 or not next(SMODS.find_card('j_mxms_zombie')) then
+                new_target = nil
+            else
+                for i = 1, #G.jokers.cards do
+                    if G.jokers.cards[i].config.center_key ~= 'j_mxms_zombie' and G.jokers.cards[i] ~= new_target and G.jokers.cards[i].config.center.blueprint_compat then
+                        eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
+                    end
+                end
+                if next(eligible_jokers) then
+                    new_target = pseudorandom_element(eligible_jokers,
+                        pseudoseed('zombie' .. G.GAME.round_resets.ante))
+                else
+                    new_target = nil
+                end
+            end
+
+            G.GAME.current_round.mxms_zombie_target.card = new_target
+            if G.GAME.current_round.mxms_zombie_target.card ~= nil then
+                SMODS.calculate_effect({ message = localize('k_mxms_infected_ex'), colour = G.C.GREEN },
+                    G.GAME.current_round.mxms_zombie_target.card)
+            end
+            return true
+        end
+    }))
+
+
+    -- Jello
+    local jello_suits = {}
+    for k, v in ipairs({ 'Spades', 'Hearts', 'Clubs', 'Diamonds' }) do
+        if v ~= G.GAME.current_round.mxms_jello_suit then jello_suits[#jello_suits + 1] = v end
+    end
+    G.GAME.current_round.mxms_jello_suit = pseudorandom_element(jello_suits, pseudoseed('jel' .. G.GAME.round_resets.ante))
 end

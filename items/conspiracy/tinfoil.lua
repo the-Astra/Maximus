@@ -78,5 +78,8 @@ SMODS.Consumable {
         local stg = card.ability.extra
         
         return G.GAME.blind and G.GAME.blind.boss and not G.GAME.blind.disabled
+    end,
+    in_pool = function(self, args)
+        return Maximus_config.conspiracies
     end
 }

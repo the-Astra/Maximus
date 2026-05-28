@@ -37,7 +37,10 @@ Maximus.ZodiacBooster {
         choose = 1
     },
     cost = 6,
-    weight = 0.48
+    weight = 0.48,
+    in_pool = function(self, args)
+        return Maximus_config.horoscopes
+    end
 }
 
 Maximus.ZodiacBooster {
@@ -53,7 +56,7 @@ Maximus.ZodiacBooster {
     cost = 8,
     weight = 0.12,
     in_pool = function(self, args)
-        if G.mxms_horoscope and G.mxms_horoscope.config.highlighted_limit > 1 then
+        if G.mxms_horoscope and G.mxms_horoscope.config.highlighted_limit > 1 and Maximus_config.horoscopes then
             return true
         end
 
@@ -72,7 +75,10 @@ Maximus.ZodiacBooster {
         choose = 1
     },
     cost = 4,
-    weight = 0.96
+    weight = 0.96,
+    in_pool = function(self, args)
+        return Maximus_config.horoscopes
+    end
 }
 
 Maximus.ZodiacBooster {
@@ -86,5 +92,8 @@ Maximus.ZodiacBooster {
         choose = 1
     },
     cost = 4,
-    weight = 0.96
+    weight = 0.96,
+    in_pool = function(self, args)
+        return Maximus_config.horoscopes
+    end
 }

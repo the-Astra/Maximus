@@ -104,5 +104,8 @@ SMODS.Consumable {
         local stg = card.ability.extra
 
         return true
+    end,
+    in_pool = function(self, args)
+        return Maximus_config.conspiracies
     end
 }
