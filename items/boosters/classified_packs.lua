@@ -1,10 +1,3 @@
-SMODS.Atlas { -- Classified Boosters Atlas
-    key = 'Classified',
-    path = "Classified.png",
-    px = 71,
-    py = 95
-}
-
 Maximus.ClassifiedBooster = SMODS.Booster:extend {
     kind = "Conspiracy",
     group_key = "k_mxms_classified_pack",

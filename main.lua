@@ -317,258 +317,15 @@ end
 
 
 -- ASSETS
---#region Colors --------------------------------------------------------------------------------------------
-
-Maximus.C = {
-    MXMS_PRIMARY = HEX('7855fc'),
-    MXMS_SECONDARY = HEX('901b7f'),
-    HOROSCOPE = HEX('e86fa5'),
-    CONSPIRACY = HEX('7d8c8f'),
-    SET = {
-        Horoscope = HEX('d9629c'),
-        Conspiracy = HEX('fbf5ee')
-    },
-    SECONDARY_SET = {
-        Horoscope = HEX('a64d79'),
-        Conspiracy = HEX('7d8c8f')
-    }
-}
-
---#endregion
-
---#region Misc Atlases --------------------------------------------------------------------------------------
-
-SMODS.Atlas { -- Placeholder Atlas
-    key = 'Placeholder',
-    path = "placeholders.png",
-    px = 71,
-    py = 95
-}
-
-SMODS.Atlas { -- Main Modifiers/Backs Atlas
-    key = 'Modifiers',
-    path = "Modifiers.png",
-    px = 71,
-    py = 95
-}
-
-SMODS.Atlas { -- Mod Icon
-    key = "modicon",
-    path = "modicon.png",
-    px = 32,
-    py = 32
-}
-
-SMODS.Atlas { -- Maximus Menu Logo
-    key = 'logo',
-    path = 'Maximus_Logo.png',
-    px = 173,
-    py = 61
-}
-
-if next(SMODS.find_mod("AntePreview")) then -- Ante Preview compat
-    SMODS.Atlas {
-        key = 'poker_hands',
-        path = "Poker Hands.png",
-        px = 53,
-        py = 13
-    }
-end
---#endregion
-
---#region Sounds --------------------------------------------------------------------------------------------
-SMODS.Sound({
-    key = 'perfect',
-    path = 'perfect.ogg'
-})
-
-SMODS.Sound({
-    key = 'eggsplosion',
-    path = 'eggsplosion.ogg'
-})
-
-SMODS.Sound({
-    key = 'hey',
-    path = 'hey.ogg'
-})
-
-SMODS.Sound({
-    key = 'joker',
-    path = 'i\'m a joker.ogg'
-})
-
-SMODS.Sound({
-    key = 'spirit_beh',
-    path = 'spirit beh.ogg',
-    pitch = 0.8
-})
-
-SMODS.Sound({
-    key = 'spirit_miss',
-    path = 'spirit miss.ogg'
-})
-
-SMODS.Sound({
-    key = 'spirit_ough',
-    path = 'spirit ough.ogg'
-})
-
-SMODS.Sound({
-    key = 'spirit_pow',
-    path = 'spirit pow.ogg'
-})
-
-SMODS.Sound({
-    key = 'clown_horn',
-    path = 'clown horn.ogg'
-})
-
-SMODS.Sound({
-    key = 'semisolid',
-    path = 'voice_semisolidplatform.ogg'
-})
-
---#endregion
-
+assert(SMODS.load_file('src/assets.lua'))()
 
 -- CROSS-MOD
---#region Talisman compat -----------------------------------------------------------------------------------
-
-to_big = to_big or function(num)
-    return num
-end
-
-to_number = to_number or function(num)
-    return num
-end
-
---#endregion
-
---#region TheFamily compat ----------------------------------------------------------------------------------
-if TheFamily then
-    TheFamily.create_tab_group({
-        key = "Maximus",
-        order = 1,
-    })
-    TheFamily.create_tab({
-        key = "horoscope",
-        group_key = "Maximus",
-        type = "switch",
-        keep = true,
-
-        front_label = function(definition, card)
-            return {
-                text = localize('b_mxms_stat_horoscopes'),
-                colour = Maximus.C.HOROSCOPE,
-                scale = 0.5,
-            }
-        end,
-        center = "c_mxms_taurus",
-
-        popup = function(definition, card)
-            return {
-                name = {
-                    {
-                        n = G.UIT.T,
-                        config = {
-                            text = localize('b_mxms_stat_horoscopes'),
-                            colour = Maximus.C.HOROSCOPE,
-                            scale = 0.4,
-                        },
-                    },
-                },
-                description = {
-                    {
-                        {
-                            n = G.UIT.T,
-                            config = {
-                                text = "Show/Hide the Maximus Horoscope card area",
-                                scale = 0.3,
-                                colour = G.C.BLACK,
-                            },
-                        },
-                    },
-                },
-            }
-        end,
-        keep_popup_when_highlighted = false,
-        alert = function(definition, card)
-            if not G.GAME.horoscope_alert or G.mxms_horoscope.states.visible then
-                G.GAME.horoscope_alert = false
-                return {
-                    remove = true,
-                }
-            end
-            return {
-                text = "!",
-            }
-        end,
-        highlight = function(definition, card)
-            if Maximus_config.horoscopes then
-                G.mxms_horoscope.states.visible = true
-                G.GAME.horoscope_alert = false
-            end
-        end,
-        unhighlight = function(definition, card)
-            if Maximus_config.horoscopes then
-                G.mxms_horoscope.states.visible = false
-            end
-        end,
-    })
-end
---#endregion
-
---#region JokerDisplay compat -------------------------------------------------------------------------------
-if JokerDisplay then
-    assert(SMODS.load_file("jd_def.lua"))()
-end
---#endregion
-
---#region PlayLog compat -----------------------------------------------------------------------------------
-if PlayLog and Maximus_config.horoscopes then
-    PlayLog.LogType {
-        key = 'mxms_horoscope_success',
-        group = "effects",
-        get_message = function(self, args)
-            return PlayLog.localize(self.key, {PlayLog.format_object(args.card)})
-        end
-    }
-
-    PlayLog.LogType {
-        key = 'mxms_horoscope_fail',
-        group = "effects",
-        get_message = function(self, args)
-            return PlayLog.localize(self.key, {PlayLog.format_object(args.card)})
-        end
-    }
-
-    PlayLog.LogType {
-        key = 'mxms_horoscope_increment',
-        group = "effects",
-        get_message = function(self, args)
-            return PlayLog.localize(self.key, {PlayLog.format_object(args.card), args.tally - 1, args.tally})
-        end
-    }
-
-    local plgan = PlayLog.get_area_name
-    PlayLog.get_area_name = function(area)
-        if area == G.mxms_horoscope then
-            return PlayLog.localize('horoscope_area')
-        end
-        return plgan(area)
-    end
-end
---#endregion
-
+assert(SMODS.load_file('src/crossmod.lua'))()
 
 -- FUNCTIONS
---#region Load Func Files -----------------------------------------------------------------------------------
-
 assert(SMODS.load_file('src/overrides.lua'))()
 assert(SMODS.load_file('src/utils.lua'))()
 assert(SMODS.load_file('src/credits.lua'))()
-
---#endregion
 
 
 -- OBJECTS
@@ -634,12 +391,6 @@ sendDebugMessage("", 'Maximus')
 --#region Sleeves ---------------------------------------------------------------------------------------
 
 if CardSleeves then
-    SMODS.Atlas { -- Main Sleeve Atlas
-        key = 'Sleeves',
-        path = "Sleeves.png",
-        px = 73,
-        py = 95
-    }
 
     sendDebugMessage("Card Sleeves detected; Loading Sleeves...", 'Maximus')
     for i = 1, #ENABLED_BACKS do
@@ -654,15 +405,6 @@ end
 --#endregion
 
 --#region Blinds --------------------------------------------------------------------------------------------
-
-SMODS.Atlas { -- Main Blind Atlas
-    key = 'Blinds',
-    path = "Blinds.png",
-    atlas_table = 'ANIMATION_ATLAS',
-    frames = 21,
-    px = 34,
-    py = 34
-}
 
 local ENABLED_BLINDS = {
     'rot',
@@ -736,14 +478,9 @@ sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Conspiracy ----------------------------------------------------------------------------------------
-SMODS.Atlas { -- Main Conspiracy Atlas
-    key = 'Conspiracy',
-    path = "Conspiracy.png",
-    px = 71,
-    py = 95
-}
 
 -- Conspiracy Type
+
 SMODS.ConsumableType {
     key = 'Conspiracy',
     primary_colour = Maximus.C.SET.Conspiracy,
@@ -779,13 +516,6 @@ sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Consumables ---------------------------------------------------------------------------------------
-
-SMODS.Atlas { -- Main Consumable Atlas
-    key = 'Consumables',
-    path = "Consumables.png",
-    px = 71,
-    py = 95
-}
 
 local ENABLED_CONSUMABLES = {
     -- Planets
@@ -901,30 +631,6 @@ sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Jokers --------------------------------------------------------------------------------------------
-
-SMODS.Atlas { -- Main Joker Atlas
-    key = 'Jokers',
-    path = "Jokers.png",
-    px = 71,
-    py = 95
-}
-
-SMODS.Atlas { -- 4D Joker Atlases
-    key = '4D',
-    path = "4d_joker.png",
-    px = 71,
-    py = 95,
-    atlas_table = 'ANIMATION_ATLAS',
-    frames = 71,
-    fps = 20
-}
-
-SMODS.Atlas {
-    key = '4D_soul',
-    path = "4d_joker.png",
-    px = 71,
-    py = 95
-}
 
 Maximus.ENABLED_JOKERS = { -- Comment out item to disable
 
@@ -1167,13 +873,6 @@ sendDebugMessage("", 'Maximus')
 
 --#region Tags ----------------------------------------------------------------------------------------------
 
-SMODS.Atlas { -- Main Tag Atlas
-    key = "Tags",
-    path = "Tags.png",
-    px = 34,
-    py = 34
-}
-
 local ENABLED_TAGS = {
     'star',
     'crab',
@@ -1196,13 +895,6 @@ sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Vouchers ------------------------------------------------------------------------------------------
-
-SMODS.Atlas { -- Main Voucher Atlas
-    key = 'Vouchers',
-    path = "Vouchers.png",
-    px = 71,
-    py = 95
-}
 
 local ENABLED_VOUCHERS = {
     'launch_code',
