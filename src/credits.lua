@@ -14,12 +14,14 @@ Maximus.CREDITS.dev_colours = {
 }
 
 --#region Credits on Pop Up
-Maximus.CREDITS.generate_string = function(developers, prefix)
+Maximus.CREDITS.generate_string = function(developers, prefix, obj)
     if type(developers) ~= 'table' then return end
+
+    local padding = obj.set and obj.set == 'Sleeve' and 0 or 0.03
 
     local amount = #developers
     local credit_string = {n=G.UIT.R, config={align = 'tm'}, nodes={
-                {n=G.UIT.R, config={align='cm'}, nodes={{n=G.UIT.T, config={text = localize(prefix), shadow = true, colour = G.C.UI.BACKGROUND_WHITE, scale = 0.27}}}}
+                {n=G.UIT.R, config={align='cm', padding = padding}, nodes={{n=G.UIT.T, config={text = localize(prefix), shadow = true, colour = G.C.UI.BACKGROUND_WHITE, scale = 0.27}}}}
             }}
 
     for i, name in ipairs(developers) do
@@ -29,7 +31,7 @@ Maximus.CREDITS.generate_string = function(developers, prefix)
         table.insert(credit_string.nodes[target_row].nodes, {n=G.UIT.O, config = {object = DynaText({
                     string = dev or 'ERROR',
                     colours = { Maximus.CREDITS.dev_colours[dev] or G.C.ORANGE }, scale = 0.27,
-                    silent = true, shadow = true, y_offset = -0.6,
+                    silent = true, shadow = true, y_offset = -0.6
                 })
             }
         })
@@ -41,32 +43,29 @@ Maximus.CREDITS.generate_string = function(developers, prefix)
     return credit_string
 end
 
-local mxms_card_popup = G.UIDEF.card_h_popup
-function G.UIDEF.card_h_popup(card)
-    local ret_val = mxms_card_popup(card)
-    local obj = card.config.center or card.config.tag and SMODS.Tags[card.config.tag.key]
-    local target = ret_val.nodes[1].nodes[1].nodes[1].nodes
+local mxms_create_badges = SMODS.create_mod_badges
+function SMODS.create_mod_badges(obj, badges)
+    mxms_create_badges(obj, badges)
     if obj and obj.mxms_credits then
         if obj.mxms_credits.art then
-            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.art, 'mxms_art_credit')
+            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.art, 'mxms_art_credit', obj)
             if str then
-                table.insert(target, str)
+                table.insert(badges, str)
             end
         end
         if obj.mxms_credits.code then
-            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.code, 'mxms_code_credit')
+            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.code, 'mxms_code_credit', obj)
             if str then
-                table.insert(target, str)
+                table.insert(badges, str)
             end
         end
         if obj.mxms_credits.idea then
-            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.idea, 'mxms_idea_credit')
+            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.idea, 'mxms_idea_credit', obj)
             if str then
-                table.insert(target, str)
+                table.insert(badges, str)
             end
         end
     end
-    return ret_val
 end
 
 local mxms_create_UIBox_blind_popup = create_UIBox_blind_popup
@@ -76,19 +75,19 @@ function create_UIBox_blind_popup(blind, discovered, vars)
     local target = ret_val.nodes
     if obj and obj.mxms_credits then
         if obj.mxms_credits.art then
-            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.art, 'mxms_art_credit', obj.mod.prefix)
+            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.art, 'mxms_art_credit', obj)
             if str then
                 table.insert(target, str)
             end
         end
         if obj.mxms_credits.code then
-            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.code, 'mxms_code_credit', obj.mod.prefix)
+            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.code, 'mxms_code_credit', obj)
             if str then
                 table.insert(target, str)
             end
         end
         if obj.mxms_credits.idea then
-            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.idea, 'mxms_idea_credit', obj.mod.prefix)
+            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.idea, 'mxms_idea_credit', obj)
             if str then
                 table.insert(target, str)
             end

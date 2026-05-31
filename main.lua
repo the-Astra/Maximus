@@ -329,12 +329,10 @@ assert(SMODS.load_file('src/credits.lua'))()
 
 
 -- OBJECTS
---#region Achievements --------------------------------------------------------------------------------------
+-- Achievements --------------------------------------------------------------------------------------
 
 assert(SMODS.load_file('items/achievements.lua'))()
 sendDebugMessage("Loaded Achievements", 'Maximus')
-
---#endregion
 
 --#region Attributes ----------------------------------------------------------------------------------------
 
