@@ -37,7 +37,7 @@ Maximus.CREDITS.generate_string = function(developers, prefix, obj, args)
             }
         })
         if i < amount then
-            table.insert(credit_string.nodes[target_row].nodes, {n=G.UIT.T, config = {text = localize(i+1 == amount and 'mxms_and_spacer' or 'mxms_comma_spacer'), shadow = true, colour = G.C.UI.BACKGROUND_WHITE, scale = 0.27 } })
+            table.insert(credit_string.nodes[target_row].nodes, {n=G.UIT.T, config = {text = localize(i+1 == amount and 'mxms_and_spacer' or 'mxms_comma_spacer'), shadow = true, colour = args.colour or G.C.UI.BACKGROUND_WHITE, scale = 0.27 } })
         end
     end
 
