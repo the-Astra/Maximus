@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'rud',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 4,
+        y = 19
     },
     rarity = 2,
     config = {
@@ -16,7 +16,7 @@ SMODS.Joker {
         'hands'
     },
     mxms_credits = {
-        art = { "Maxiss02" },
+        art = { "AllUniversal" },
         code = { "theAstra" },
         idea = { "theAstra" }
     },
