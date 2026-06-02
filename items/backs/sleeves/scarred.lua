@@ -2,13 +2,13 @@ CardSleeves.Sleeve {
     key = "scarred",
     atlas = "Sleeves",
     pos = {
-        x = 4,
-        y = 0
+        x = 0,
+        y = 2
     },
     mxms_credits = {
         art = { "Inky" },
         code = { "theAstra" },
-        idea = { "pinkzigzagoon" }
+        idea = { "theAstra" }
     },
     loc_vars = function(self, info_queue, card)
         local key
