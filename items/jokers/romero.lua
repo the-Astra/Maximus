@@ -19,7 +19,8 @@ SMODS.Joker {
     attributes = {
         'xmult',
         'scaling',
-        'joker'
+        'joker',
+        'mxms_legendary'
     },
     unlocked = false,
     unlock_condition = {

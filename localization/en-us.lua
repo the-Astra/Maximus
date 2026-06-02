@@ -2423,6 +2423,20 @@ return {
                     'All hand types start at {V:1}Level 2'
                 }
             },
+            sleeve_mxms_scarred = {
+                name = 'Scarred Sleeve',
+                text = {
+                    'Start run with {C:attention}1 {C:green}random',
+                    '{C:legendary}Legendary {C:dark_edition,E:1}Maximus{} Joker'
+                }
+            },
+            sleeve_mxms_scarred_alt = {
+                name = 'Scarred Sleeve',
+                text = {
+                    '{C:legendary}Legendary{} Joker',
+                    'spawns as {C:dark_edition}Negative{}'
+                }
+            },
             sleeve_mxms_sixth_finger = {
                 name = 'Sixth Finger Sleeve',
                 text = {

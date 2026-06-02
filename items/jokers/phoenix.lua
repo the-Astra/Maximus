@@ -14,7 +14,8 @@ SMODS.Joker {
         'rank',
         'faces',
         'modify_card',
-        'seals'
+        'seals',
+        'mxms_legendary'
     },
     unlocked = false,
     unlock_condition = {

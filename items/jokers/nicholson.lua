@@ -16,7 +16,8 @@ SMODS.Joker {
     },
     attributes = {
         'retrigger',
-        'editions'
+        'editions',
+        'mxms_legendary'
     },
     rarity = 4,
     unlocked = false,

@@ -361,6 +361,10 @@ SMODS.Attribute {
     key = 'horoscope'
 }
 
+SMODS.Attribute {
+    key = 'mxms_legendary'
+}
+
 --#endregion
 
 --#region Backs ---------------------------------------------------------------------------------------------

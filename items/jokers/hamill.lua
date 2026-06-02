@@ -25,7 +25,8 @@ SMODS.Joker {
     },
     attributes = {
         'hand_type',
-        'level_up'
+        'level_up',
+        'mxms_legendary'
     },
     mxms_credits = {
         art = { "Maxiss02" },

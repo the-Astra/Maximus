@@ -17,7 +17,8 @@ SMODS.Joker {
     attributes = {
         'hand_type',
         'horoscope',
-        'generation'
+        'generation',
+        'mxms_legendary'
     },
     rarity = 4,
     mxms_credits = {

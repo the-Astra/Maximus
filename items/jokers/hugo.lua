@@ -24,7 +24,8 @@ SMODS.Joker {
     },
     attributes = {
         'chance',
-        'xblindsize'
+        'xblindsize',
+        'mxms_legendary'
     },
     mxms_credits = {
         art = { "Maxiss02" },

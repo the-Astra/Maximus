@@ -12,7 +12,8 @@ SMODS.Joker {
     rarity = 4,
     attributes = {
         'editions',
-        'modify_card'
+        'modify_card',
+        'mxms_legendary'
     },
     unlocked = false,
     unlock_condition = {

@@ -14,7 +14,8 @@ SMODS.Joker {
         'generation',
         'rank',
         'queen',
-        'enhancements'
+        'enhancements',
+        'mxms_legendary'
     },
     unlocked = false,
     unlock_condition = {

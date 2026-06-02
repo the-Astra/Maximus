@@ -13,7 +13,8 @@ SMODS.Joker {
     rarity = 4,
     attributes = {
         'editions',
-        'boss_blind'
+        'boss_blind',
+        'mxms_legendary'
     },
     unlocked = false,
     unlock_condition = {
