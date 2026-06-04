@@ -94,7 +94,9 @@ return {
                 name = 'Scarred Deck',
                 text = {
                     'Start run with {C:attention}1 {C:green}random',
-                    '{C:legendary}Legendary {C:dark_edition,E:1}Maximus{} Joker'
+                    '{C:legendary}Legendary {C:dark_edition,E:1}Maximus{} Joker',
+                    "{C:red}#1#{} Joker slot",
+                    "{C:inactive,s:0.8}(Spawned card will not be discovered)"
                 }
             },
             b_mxms_sixth_finger = {
@@ -1627,8 +1629,10 @@ return {
                     '{C:attention}immediately{} fulfill {C:attention}all{} held',
                     '{C:horoscope}Horoscope{} card requirements',
                     '{C:inactive,s:0.8}(If possible)'
-                } }
                 } },
+                unlock = {
+                    "{E:1,s:1.3}?????",
+                },
             },
             j_mxms_red_yarn = {
                 name = 'Red Yarn',
@@ -2428,7 +2432,9 @@ return {
                 name = 'Scarred Sleeve',
                 text = {
                     'Start run with {C:attention}1 {C:green}random',
-                    '{C:legendary}Legendary {C:dark_edition,E:1}Maximus{} Joker'
+                    '{C:legendary}Legendary {C:dark_edition,E:1}Maximus{} Joker',
+                    "{C:red}#1#{} Joker slot",
+                    "{C:inactive,s:0.8}(Spawned card will not be discovered)"
                 }
             },
             sleeve_mxms_scarred_alt = {

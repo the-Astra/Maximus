@@ -83,7 +83,8 @@
         "DynaText",
         "discover_card",
         "ease_value",
-        "PlayLog"
+        "PlayLog",
+        "unlock_card"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

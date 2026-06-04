@@ -152,7 +152,7 @@ end
 -- Prevent other cards from spawning under certain conditions
 local atp = SMODS.add_to_pool
 function SMODS.add_to_pool(prototype_obj, args)
-    local ret = atp(prototype_obj, args)
+    local ret, pool_opts = atp(prototype_obj, args)
 
     if prototype_obj.set == 'Joker' then
         if Maximus.config.only_maximus_jokers and (not prototype_obj.original_mod or prototype_obj.original_mod ~= 'Maximus') then -- Only Maximus Jokers option
@@ -162,9 +162,13 @@ function SMODS.add_to_pool(prototype_obj, args)
         if G.GAME.modifiers.mxms_feast and not Maximus.key_has_attribute(prototype_obj.key, 'food') and prototype_obj.key ~= 'j_mxms_microwave' and prototype_obj.key ~= 'j_mxms_refrigerator' then -- Feast Challenge Modifier
             ret = false
         end
+
+        if G.MXMS_SCARRED_SPAWN and Maximus.key_has_attribute(prototype_obj.key, 'mxms_legendary') then
+            ret, pool_opts = true, {override_base_checks = true}
+        end
     end
 
-    return ret
+    return ret, pool_opts
 end
 
 -- Don't generate tag UI at all if skipping is disabled by modifier
