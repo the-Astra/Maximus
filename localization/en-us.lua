@@ -1628,6 +1628,7 @@ return {
                     '{C:horoscope}Horoscope{} card requirements',
                     '{C:inactive,s:0.8}(If possible)'
                 } }
+                } },
             },
             j_mxms_red_yarn = {
                 name = 'Red Yarn',

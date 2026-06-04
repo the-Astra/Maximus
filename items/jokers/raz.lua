@@ -21,6 +21,12 @@ SMODS.Joker {
         'mxms_legendary'
     },
     rarity = 4,
+    unlocked = false,
+    unlock_condition = {
+        type = '',
+        extra = '',
+        hidden = true
+    },
     mxms_credits = {
         art = { "pinkzigzagoon" },
         code = { "theAstra" },
