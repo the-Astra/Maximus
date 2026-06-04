@@ -77,17 +77,18 @@ function Maximus.getMaximusTallies(pool, set)
     local obj_tally = { tally = 0, of = 0 }
 
     for _, v in pairs(pool) do
-        if v.mod and 'Maximus' == v.mod.id and not v.no_collection then
+        local proto = G.P_CENTERS[v] or v
+        if proto.mod and 'Maximus' == proto.mod.id and not proto.no_collection then
             if set then
-                if v.set and v.set == set then
+                if proto.set and proto.set == set then
                     obj_tally.of = obj_tally.of + 1
-                    if v.discovered then
+                    if proto.discovered then
                         obj_tally.tally = obj_tally.tally + 1
                     end
                 end
             else
                 obj_tally.of = obj_tally.of + 1
-                if v.discovered then
+                if proto.discovered then
                     obj_tally.tally = obj_tally.tally + 1
                 end
             end

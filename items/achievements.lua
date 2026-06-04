@@ -1,4 +1,19 @@
 SMODS.Achievement {
+    key = 'infinity',
+    hidden_name = false,
+    unlock_condition = function(self, args)
+        if args.type == 'discover_amount' then
+            local mxmsTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Planet"])
+            if mxmsTallies.tally / mxmsTallies.of >= 1 then
+                return true
+            end
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
     key = 'stargazer',
     hidden_name = false,
     bypass_all_unlocked = true,
@@ -7,6 +22,53 @@ SMODS.Achievement {
             local horoscopeTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Horoscope"])
             -- +1 to account for Ophiucus
             if #G.PROFILES[G.SETTINGS.profile].horoscope_completions / (horoscopeTallies.of + 1) >= 1 then
+                return true
+            end
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
+    key = 'conspirator',
+    hidden_name = false,
+    bypass_all_unlocked = true,
+    unlock_condition = function(self, args)
+        if args.type == "discover_amount" then
+            local conspiracyTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Conspiracy"])
+            if conspiracyTallies.tally / (conspiracyTallies.of) >= 1 then
+                return true
+            end
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
+    key = 'scars',
+    hidden_name = false,
+    bypass_all_unlocked = true,
+    unlock_condition = function(self, args)
+        if args.type == 'discover_amount' then
+            local mxmsTallies = Maximus.getMaximusTallies(SMODS.get_attribute_pool('mxms_legendary'))
+            if mxmsTallies.tally / mxmsTallies.of >= 1 then
+                return true
+            end
+        end
+    end
+}
+
+
+
+SMODS.Achievement {
+    key = 'disciple',
+    hidden_name = false,
+    unlock_condition = function(self, args)
+        if args.type == 'discover_amount' then
+            local mxmsTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Joker"])
+            if mxmsTallies.tally / mxmsTallies.of >= 1 then
                 return true
             end
         end
@@ -86,21 +148,6 @@ SMODS.Achievement {
 
 
 SMODS.Achievement {
-    key = 'disciple',
-    hidden_name = false,
-    unlock_condition = function(self, args)
-        if args.type == 'discover_amount' then
-            local mxmsTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Joker"])
-            if mxmsTallies.tally / mxmsTallies.of >= 1 then
-                return true
-            end
-        end
-    end
-}
-
-
-
-SMODS.Achievement {
     key = 'metamorphosis',
     hidden_name = false,
     hidden_text = true,
@@ -155,21 +202,6 @@ SMODS.Achievement {
     unlock_condition = function(self, args)
         if args.type == 'eggsplosion' then
             return true
-        end
-    end
-}
-
-
-
-SMODS.Achievement {
-    key = 'infinity',
-    hidden_name = false,
-    unlock_condition = function(self, args)
-        if args.type == 'discover_amount' then
-            local mxmsTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Planet"])
-            if mxmsTallies.tally / mxmsTallies.of >= 1 then
-                return true
-            end
         end
     end
 }
