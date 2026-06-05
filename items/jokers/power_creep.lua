@@ -24,18 +24,20 @@ SMODS.Joker {
         G.GAME.mxms_creep_mod = G.GAME.mxms_creep_mod / 2
     end,
     in_pool = function(self, args)
-        for k, v in pairs(G.playing_cards) do
-            if v.edition and (v.edition.type == 'foil'
-                    or v.edition.type == 'holo'
-                    or v.edition.type == 'polychrome') then
-                return true
+        if G.playing_cards and G.jokers then
+            for k, v in pairs(G.playing_cards) do
+                if v.edition and (v.edition.type == 'foil'
+                        or v.edition.type == 'holo'
+                        or v.edition.type == 'polychrome') then
+                    return true
+                end
             end
-        end
-        for k, v in ipairs(G.jokers) do
-            if v.edition and (v.edition.type == 'foil'
-                    or v.edition.type == 'holo'
-                    or v.edition.type == 'polychrome') then
-                return true
+            for k, v in ipairs(G.jokers) do
+                if v.edition and (v.edition.type == 'foil'
+                        or v.edition.type == 'holo'
+                        or v.edition.type == 'polychrome') then
+                    return true
+                end
             end
         end
 
