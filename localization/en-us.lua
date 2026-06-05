@@ -274,7 +274,7 @@ return {
                 }
             },
             c_mxms_tinfoil = {
-                name = 'Tinfoil Fail',
+                name = 'Tinfoil Hat',
                 text = {
                     '{C:green}#1# in #2#{} chance to',
                     'disable an active',
