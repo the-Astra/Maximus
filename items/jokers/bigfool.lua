@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'bigfool',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 1,
-        y = 0
+        x = 5,
+        y = 19
     },
     rarity = 2,
     config = {
@@ -18,7 +18,7 @@ SMODS.Joker {
         'editions'
     },
     mxms_credits = {
-        art = { "???" },
+        art = { "squeax09" },
         code = { "theAstra" },
         idea = { "anerdymous" }
     },
