@@ -1,12 +1,12 @@
 SMODS.Voucher {
     key = 'whistleblower',
-    atlas = 'Placeholder',
+    atlas = 'Vouchers',
     pos = {
-        x = 0,
-        y = 3
+        x = 4,
+        y = 0
     },
     mxms_credits = {
-        art = { "???" },
+        art = { "Inky" },
         code = { "theAstra" },
         idea = { "pinkzigzagoon" }
     },
