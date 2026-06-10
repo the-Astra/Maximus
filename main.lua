@@ -300,6 +300,35 @@ function Game:main_menu(change_context)
         } })
     end
 
+    UIBox({
+        definition = {
+            n = G.UIT.ROOT,
+            config = {
+                align = "cm",
+                colour = G.C.UI.TRANSPARENT_DARK
+            },
+            nodes = {
+                {
+                    n = G.UIT.T,
+                    config = {
+                        scale = 0.3,
+                        text = 'Maximus ' .. Maximus.version,
+                        colour = G.C.UI.TEXT_LIGHT
+                    }
+                }
+            }
+        },
+        config = {
+            align = "tri",
+            bond = "Weak",
+            offset = {
+                x = 0,
+                y = 0.6
+            },
+            major = G.ROOM_ATTACH
+        }
+    })
+
     Maximus.update_check()
 
     return ret
