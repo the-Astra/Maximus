@@ -10,7 +10,7 @@ SMODS.Joker {
         extra = {
             Xmult = 1,
             gain_norm = 0.1,
-            gain_best = 1
+            gain_best = 0.5
         }
     },
     attributes = {
