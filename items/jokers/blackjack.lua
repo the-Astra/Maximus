@@ -40,7 +40,7 @@ SMODS.Joker {
             -- Final pass to determine scaling
             if hand_value > 21 then
                 -- If Xmult isn't bigger than 1, do nothing
-                if stg.Xmult > 1 then 
+                if stg.Xmult > 1 then
                     stg.Xmult = 1
                     return {
                         message = localize('k_mxms_bust_ex'),
