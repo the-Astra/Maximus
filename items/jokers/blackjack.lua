@@ -33,28 +33,20 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
+        -- Initial hand value
         if context.before and not context.blueprint then
-            local hand_value = 0
-            for k, v in pairs(context.scoring_hand) do
-                local card_value = v:get_id()
-                if card_value > 0 then
-                    if card_value > 10 then
-                        if v:is_face() then
-                            card_value = 10
-                        else
-                            card_value = 11
-                        end
-                    end
-                    hand_value = hand_value + card_value
-                end
-            end
+            local hand_value = Maximus.calculate_blackjack_value(context.scoring_hand)
 
-            if hand_value > 21 and stg.Xmult > 1 then
-                stg.Xmult = 1
-                return {
-                    message = localize('k_mxms_bust_ex'),
-                    colour = G.C.RED
-                }
+            -- Final pass to determine scaling
+            if hand_value > 21 then
+                -- If Xmult isn't bigger than 1, do nothing
+                if stg.Xmult > 1 then 
+                    stg.Xmult = 1
+                    return {
+                        message = localize('k_mxms_bust_ex'),
+                        colour = G.C.RED
+                    }
+                end
             elseif hand_value == 21 then
                 SMODS.scale_card(card, {
                     ref_table = stg,

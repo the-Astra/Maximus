@@ -373,7 +373,31 @@ G.FUNCS.mxms_discord = function(e)
     love.system.openURL("https://discord.gg/GvCCcryM48")
 end
 
---#region SMODS UI funcs (additions, config, collection)
 Maximus.description_loc_vars = function()
     return { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.2, vars = { elements = { SMODS.create_sprite(0, 0, 6.6, 6.6 * (G.ASSET_ATLAS["mxms_logo"].py / G.ASSET_ATLAS["mxms_logo"].px), "mxms_logo", {x = 0, y = 0}) } } }
+end
+
+function Maximus.calculate_blackjack_value(hand)
+    local hand_value = 0
+
+    -- Initial pass
+    for _, v in pairs(hand) do
+        local card_value = v.base.nominal
+        if not SMODS.has_no_rank(v) and not v.debuff then
+            hand_value = hand_value + card_value
+        end
+    end
+
+    -- Dynamic Ace card demoting
+    -- If there are aces in hand and we are over 21, start demoting Aces to try to get under or equal to 21
+    if hand_value > 21 then
+        for _, v in pairs(hand) do
+            if v:get_id() == 14 and not v.debuff then
+                hand_value = hand_value - 10
+                if hand_value <= 21 then break end -- If hand no longer exceeds 21, we no longer need to demote
+            end
+        end
+    end
+
+    return hand_value
 end

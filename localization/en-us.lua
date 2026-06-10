@@ -545,7 +545,6 @@ return {
                         '{C:red}Resets{} if scored cards ranks',
                         'add up to more than {C:attention}21',
                         '{C:inactive}(Currently: {X:mult,C:white}X#3#{C:inactive} Mult)',
-                        '{s:0.8,C:inactive}Aces always count as 11',
                     } }
             },
             j_mxms_blue_tang = {
@@ -3185,7 +3184,8 @@ return {
             },
         },
         v_dictionary = {
-            a_mxms_jokersize = "+#1# Joker Size"
+            a_mxms_jokersize = "+#1# Joker Size",
+            a_mxms_blackjack_hand_value = "Current Hand Value: #1#"
         },
         playlog_types = {
             mxms_horoscope_success = "Horoscope Success",

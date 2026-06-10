@@ -129,6 +129,20 @@ jd_def['j_mxms_blackjack'] = { -- Blackjack
             }
         }
     },
+    reminder_text = {
+        { text = "(", colour = G.C.WHITE },
+        { ref_table = "card.joker_display_values", ref_value = 'current_hand_value', colour = G.C.WHITE },
+        { text = ")", colour = G.C.WHITE },
+    },
+    calc_function = function(card)
+        local hand_value = 0
+        local colour = G.C.WHITE
+        local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+        if text ~= 'Unknown' then
+            hand_value = Maximus.calculate_blackjack_value(scoring_hand)
+        end
+        card.joker_display_values.current_hand_value = localize { type = 'variable', key = 'a_mxms_blackjack_hand_value', vars = { hand_value }}
+    end
 }
 
 jd_def['j_mxms_blue_tang'] = { -- Blue Tang
