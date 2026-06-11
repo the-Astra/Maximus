@@ -647,8 +647,8 @@ return {
                 name = 'Celestial Deity',
                 text = {
                     'When a {C:planet}Planet{} card is used,',
-                    'this Joker adds {C:attention}+#1#{} extra level',
-                    'to the {C:planet}Planet{} card\'s hand type',
+                    'this Joker upgrades the {C:planet}Planet{} card\'s',
+                    'hand type by {C:attention}+#1#{} extra level',
                     '{C:inactive,s:0.8}Reference: meganeko - Eclipse album'
                 }
             },
