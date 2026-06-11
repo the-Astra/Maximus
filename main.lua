@@ -518,7 +518,8 @@ SMODS.ConsumableType {
     secondary_colour = Maximus.C.SECONDARY_SET.Conspiracy,
     default = 'c_mxms_sighting',
     collection_rows = { 7, 7 },
-    shop_rate = 1
+    shop_rate = 1,
+    select_card = 'consumeables'
 }
 
 local ENABLED_CONSPIRACIES = {
