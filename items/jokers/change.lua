@@ -16,10 +16,14 @@ SMODS.Joker {
     },
     blueprint_compat = false,
     cost = 5,
-    mxms_modify_final_cashout = function(self, card, dollars)
-        local dollar_remainder = dollars % to_big(10)
-        if dollar_remainder ~= to_big(0) then
-            return 10 - dollar_remainder
+    calculate = function(self, card, context)
+        if context.modify_final_cashout then
+            local dollar_remainder = context.amount % to_big(10)
+            if dollar_remainder ~= to_big(0) then
+                return {
+                    modify = 10 - dollar_remainder
+                }
+            end
         end
     end
 }

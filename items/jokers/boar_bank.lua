@@ -17,11 +17,17 @@ SMODS.Joker {
     },
     blueprint_compat = false,
     cost = 5,
-    mxms_modify_final_cashout = function(self, card, dollars)
-        local half = dollars/2
-        card.ability.extra_value  = card.ability.extra_value + half
-        card:set_cost()
-        SMODS.calculate_effect({message = localize('k_mxms_halved'), colour = G.C.RED, sound = 'slice1'}, card)
-        return -half
+    calculate = function(self, card, context)
+        if context.modify_final_cashout then
+            local half = context.amount / 2
+            card.ability.extra_value = card.ability.extra_value + math.floor(half)
+            card:set_cost()
+            return {
+                modify = -math.floor(half),
+                message = localize('k_mxms_halved'),
+                colour = G.C.RED,
+                sound = 'slice1'
+            }
+        end
     end
 }
