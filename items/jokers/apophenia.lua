@@ -1,9 +1,9 @@
 SMODS.Joker {
     key = 'apophenia',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 2,
-        y = 0
+        x = 6,
+        y = 19
     },
     rarity = 3,
     attributes = {
@@ -14,7 +14,7 @@ SMODS.Joker {
     blueprint_compat = true,
     cost = 5,
     mxms_credits = {
-        art = { "???" },
+        art = { "Meta" },
         code = { "theAstra" },
         idea = { "anerdymous" }
     },

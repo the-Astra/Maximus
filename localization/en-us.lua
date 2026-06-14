@@ -2164,7 +2164,7 @@ return {
                     '{B:2,C:white}Lead Artist:{} {C:attention}Maxiss02',
                     '{B:3,C:white}Other Authors:{} {C:conspiracy}anerdymous',
                     '{B:4,C:white}Supporting Artists:{} {C:green}pinkzigzagoon, PsyAlola, SadCube, GhostSalt,',
-                    '{C:green}pangaea47, Willow, squeax09, Inky',
+                    '{C:green}pangaea47, Willow, squeax09, Inky, Meta',
                     '{B:5,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, TheCoroboCorner',
                     '{B:6,C:white}Localization:{} {C:red}MomoiAiriMMJ',
                     '{B:7,C:white}Special Thanks:{} All the awesome people in the Balatro Discord!',

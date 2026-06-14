@@ -11,7 +11,8 @@ Maximus.CREDITS.dev_colours = {
     ['SadCube'] = HEX('6cc2c3'),
     ['pangaea47'] = HEX('e6fab8'),
     ['GhostSalt'] = HEX('FFDDDD'),
-    ['AllUniversal'] = G.C.BLACK
+    ['AllUniversal'] = G.C.BLACK,
+    ['Meta'] = HEX("FA69EB")
 }
 
 --#region Credits on Pop Up
