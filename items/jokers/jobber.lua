@@ -61,14 +61,7 @@ SMODS.Joker {
 
                     -- Copy Joker and add to hand
                     if chosen_joker then
-                        local new_card = copy_card(chosen_joker, nil, nil, nil,
-                            chosen_joker.edition and chosen_joker.edition.negative)
-                        new_card:start_materialize()
-                        new_card:add_to_deck()
-                        if new_card.edition and new_card.edition.negative then
-                            new_card:set_edition(nil, true)
-                        end
-                        G.jokers:emplace(new_card)
+                        SMODS.copy_card(chosen_joker, {strip_edition = chosen_joker.edition and chosen_joker.edition.negative or nil})
                         return {
                             message = localize('k_mxms_jobbed'),
                             colour = G.C.YELLOW

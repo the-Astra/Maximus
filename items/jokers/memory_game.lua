@@ -33,7 +33,7 @@ SMODS.Joker {
 
             delay(0.2)
 
-            copy_card(context.scoring_hand[2], context.scoring_hand[1])
+            SMODS.copy_card(context.scoring_hand[2], {new_card = context.scoring_hand[1]})
 
             for i = 1, 2 do
                 local percent = 0.85 - (i - 0.999) / (#context.scoring_hand - 0.998) * 0.3

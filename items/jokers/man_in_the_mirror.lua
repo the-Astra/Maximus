@@ -38,13 +38,10 @@ SMODS.Joker { -- Man in the Mirror
                             trigger = 'after',
                             delay = 0.3,
                             func = function()
-                                local new_card = copy_card(v, nil, nil, nil, v.edition and v.edition.negative)
+                                local new_card = SMODS.copy_card(v, {strip_edition = true})
                                 new_card:set_edition({
                                     negative = true
                                 }, true)
-                                new_card:start_materialize()
-                                new_card:add_to_deck()
-                                G.consumeables:emplace(new_card)
                                 return true
                             end
                         }))
