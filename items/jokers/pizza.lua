@@ -59,7 +59,7 @@ SMODS.Joker {
                     }))
 
                     if stg.cards_left <= 0 then
-                        SMODS.destroy_cards(card, nil, nil, true)
+                        SMODS.destroy_cards(card, {pinch_anim = true})
                         return {
                             card = card,
                             message = localize('k_eaten_ex'),

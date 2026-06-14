@@ -83,7 +83,7 @@ SMODS.Joker {
         -- "Crumble" card after scoring
         if context.after and not context.blueprint then
             if stg.prob <= 0 then
-                SMODS.destroy_cards(card, nil, nil, true)
+                SMODS.destroy_cards(card, {pinch_anim = true})
                 return {
                     message = localize('k_mxms_crumbled'),
                     colour = G.C.FILTER

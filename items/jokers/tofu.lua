@@ -96,7 +96,7 @@ SMODS.Joker {
             SMODS.calculate_effect({ message = stg.hands_left .. ' ' .. localize('k_mxms_left_el'), colour = G.C.RED },
             card)
             if stg.hands_left <= 0 then
-                SMODS.destroy_cards(card, nil, nil, true)
+                SMODS.destroy_cards(card, {pinch_anim = true})
                 return {
                     card = card,
                     message = localize('k_eaten_ex'),

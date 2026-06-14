@@ -57,7 +57,7 @@ SMODS.Joker {
 
         if context.after and not context.blueprint then
             if stg.cards_left <= 0 then
-                SMODS.destroy_cards(card, nil, nil, true)
+                SMODS.destroy_cards(card, {pinch_anim = true})
                 return {
                     message = localize('k_eaten_ex')
                 }

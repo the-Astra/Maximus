@@ -38,7 +38,7 @@ SMODS.Joker {
 
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
             if SMODS.pseudorandom_probability(card, 'comedian', stg.prob, stg.odds) then
-                SMODS.destroy_cards(card, nil, nil, true)
+                SMODS.destroy_cards(card, {pinch_anim = true})
                 return {
                     message = localize('k_extinct_ex')
                 }

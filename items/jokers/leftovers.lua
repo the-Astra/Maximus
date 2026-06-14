@@ -36,7 +36,7 @@ SMODS.Joker {
                 end
             }))
 
-            SMODS.destroy_cards(card, nil, nil, true)
+            SMODS.destroy_cards(card, {pinch_anim = true})
 
             return {
                 message = localize('k_mxms_saved_later_ex'),
