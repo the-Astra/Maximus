@@ -20,7 +20,7 @@ Maximus.CREDITS.generate_string = function(developers, prefix, obj, args)
     if type(developers) ~= 'table' then return end
 
     args = args or {}
-    local padding = obj.set and obj.set == 'Sleeve' and 0 or 0.03
+    local padding = obj and obj.set and obj.set == 'Sleeve' and 0 or 0.03
 
     local amount = #developers
     local credit_string = {n=G.UIT.R, config={align = 'tm'}, nodes={
