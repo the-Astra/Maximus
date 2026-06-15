@@ -519,7 +519,7 @@ SMODS.ConsumableType {
     default = 'c_mxms_sighting',
     collection_rows = { 7, 7 },
     shop_rate = 1,
-    select_card = 'consumeables'
+    select_card = function() return 'consumeables', true end
 }
 
 local ENABLED_CONSPIRACIES = {
