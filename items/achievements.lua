@@ -33,7 +33,6 @@ SMODS.Achievement {
 SMODS.Achievement {
     key = 'conspirator',
     hidden_name = false,
-    bypass_all_unlocked = true,
     unlock_condition = function(self, args)
         if args.type == "discover_amount" then
             local conspiracyTallies = Maximus.getMaximusTallies(G.P_CENTER_POOLS["Conspiracy"])
@@ -49,7 +48,6 @@ SMODS.Achievement {
 SMODS.Achievement {
     key = 'scars',
     hidden_name = false,
-    bypass_all_unlocked = true,
     unlock_condition = function(self, args)
         if args.type == 'discover_amount' then
             local mxmsTallies = Maximus.getMaximusTallies(SMODS.get_attribute_pool('mxms_legendary'))
