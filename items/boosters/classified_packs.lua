@@ -7,6 +7,7 @@ Maximus.ClassifiedBooster = SMODS.Booster:extend {
         code = { "theAstra" }
     },
     disable_shine = true,
+    draw_cards = true,
     create_card = function(self, card)
         return create_card("Conspiracy", G.pack_cards, nil, nil, true, true, nil, "cspy_classified")
     end,
