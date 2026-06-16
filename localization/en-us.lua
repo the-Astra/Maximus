@@ -762,7 +762,7 @@ return {
             j_mxms_conveyor_belt = {
                 name = 'Conveyor Belt',
                 text = {
-                    'Gives {C:attention}15%{} of {C:chips}Chips{} and {C:mult}Mult{}',
+                    'Gives {C:attention}5%{} of {C:chips}Chips{} and {C:mult}Mult{}',
                     'from previous hand',
                     '{C:inactive,s:0.8}Excludes score given by this card',
                     '{C:inactive}(Currently: {C:chips}+#1#{C:inactive} Chips,', '{C:mult}+#2#{C:inactive} Mult)'
