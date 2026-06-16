@@ -5,10 +5,10 @@ SMODS.Joker {
         x = 3,
         y = 13
     },
-    rarity = 1,
+    rarity = 2,
     config = {
         extra = {
-            cards_left = 8,
+            cards_left = 6,
             card_decrement = 1
         }
     },
@@ -26,7 +26,7 @@ SMODS.Joker {
     perishable_compat = false,
     eternal_compat = false,
     cost = 4,
-    
+
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
