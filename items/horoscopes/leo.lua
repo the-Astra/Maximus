@@ -19,7 +19,7 @@ SMODS.Consumable {
         if context.end_of_round and not context.individual and not context.repetition then
             Maximus.horoscope_succeed(card)
         end
-        if context.before and G.GAME.current_round.hands_left ~= G.GAME.round_resets.hands - 1 then
+        if context.before and G.GAME.current_round.hands_played > 0 then
             Maximus.horoscope_fail(card)
         end
     end,
