@@ -25,7 +25,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return {
-            vars = { stg.gain, G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.conspiracy * stg.gain or 0 }
+            vars = { stg.gain, G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.conspiracy and G.GAME.consumeable_usage_total.conspiracy * stg.gain or 0 }
         }
     end,
     calculate = function(self, card, context)
