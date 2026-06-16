@@ -9,7 +9,8 @@ SMODS.Consumable {
     config = {
         extra = {
             odds = 5,
-            cards = 3
+            cards = 3,
+            dollars = 3
         }
     },
     mxms_credits = {
@@ -27,7 +28,7 @@ SMODS.Consumable {
         local consp_count = Maximus.count_conspiracy_cards()
         local prob, odds = SMODS.get_probability_vars(card, consp_count, stg.odds, 'mib')
 
-        return { vars = { prob, odds, stg.cards } }
+        return { vars = { prob, odds, stg.cards, stg.dollars } }
     end,
     use = function(self, card, area, copier)
         local stg = card.ability.extra
@@ -56,6 +57,9 @@ SMODS.Consumable {
                     delay = 0.1,
                     func = function()
                         changing_card:set_ability(G.P_CENTERS.c_base)
+                        ease_dollars(stg.dollars, true)
+                        changing_card:juice_up()
+                        card:juice_up()
                         return true
                     end
                 }))
