@@ -15,6 +15,7 @@ SMODS.Back {
     },
     loc_vars = function(self, info_queue, back)
         local stg = self.config
+        info_queue[#info_queue+1] = G.P_CENTERS['p_mxms_classified_mega_1']
 
         return {
             vars = {
