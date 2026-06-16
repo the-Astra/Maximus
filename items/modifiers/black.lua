@@ -24,7 +24,9 @@ SMODS.Seal {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.seal.extra
 
-        return { vars = { stg.Xmult } }
+        local key = 'mxms_black_seal' .. (card.fake_card and '_fake_card' or '')
+
+        return { key = key, vars = { stg.Xmult } }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.seal.extra

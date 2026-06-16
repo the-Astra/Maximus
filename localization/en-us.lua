@@ -2150,6 +2150,15 @@ return {
                     "and or {C:red}destroyed"
                 }
             },
+            mxms_black_seal_fake_card = {
+                name = "Black Seal",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult,",
+                    "Card cannot be {C:attention}modified",
+                    "and or {C:red}destroyed",
+                    "{s:0.8,C:inactive}(Cannot appear naturally)"
+                }
+            },
             mxms_conspiracy_desc = {
                 name = 'Conspiracy Card',
                 text = {
