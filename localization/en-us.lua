@@ -28,7 +28,7 @@ return {
             b_mxms_censored = {
                 name = 'Censored Deck',
                 text = {
-                    'Opens a {C:conspiracy}#1#{}',
+                    'Opens a {C:conspiracy,T:p_mxms_classified_mega_1}#1#{}',
                     'at the end of every ante'
                 },
             },
@@ -2310,7 +2310,7 @@ return {
             sleeve_mxms_censored = {
                 name = 'Censored Sleeve',
                 text = {
-                    'Opens a {C:conspiracy}#1#{}',
+                    'Opens a {C:conspiracy,T:p_mxms_classified_mega_1}#1#{}',
                     'at the end of every ante'
                 },
             },
