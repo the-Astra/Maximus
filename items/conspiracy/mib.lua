@@ -56,10 +56,12 @@ SMODS.Consumable {
                     trigger = 'after',
                     delay = 0.1,
                     func = function()
+                        if changing_card.ability.set == 'Enhanced' then
+                            ease_dollars(stg.dollars, true)
+                            changing_card:juice_up()
+                            card:juice_up()
+                        end
                         changing_card:set_ability(G.P_CENTERS.c_base)
-                        ease_dollars(stg.dollars, true)
-                        changing_card:juice_up()
-                        card:juice_up()
                         return true
                     end
                 }))

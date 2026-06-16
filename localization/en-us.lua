@@ -246,7 +246,7 @@ return {
                     '{C:green}#1# in #2#{} chance to',
                     '{C:attention}remove{} the enhancement of',
                     'up to {C:attention}#3#{} selected cards',
-                    'Earn {C:dollars}$#4#{} for each',
+                    'Earn {C:money}$#4#{} for each',
                     'removed enhancement'
                 }
             },
