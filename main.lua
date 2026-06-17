@@ -1,3 +1,6 @@
+assert(SMODS.current_mod.lovely,
+    "Lovely modules were not loaded.\nMake sure your Maximus folder is not nested (there should be a bunch of files in the Maximus folder and not just another folder).")
+
 -- CONFIG
 --#region Config --------------------------------------------------------------------------------------------
 Maximus = SMODS.current_mod
