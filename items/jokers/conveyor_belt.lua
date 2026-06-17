@@ -42,8 +42,8 @@ SMODS.Joker {
         end
 
         if context.after and not context.blueprint then
-            stg.chips = math.ceil(hand_chips - to_big(stg.chips)) * 0.05
-            stg.mult = math.ceil(mult - to_big(stg.mult)) * 0.05
+            stg.chips = G.GAME.hands[context.scoring_name].chips
+            stg.mult = G.GAME.hands[context.scoring_name].mult
             return {
                 message = localize('k_mxms_pushed_ex'),
                 colour = G.C.ATTENTION
