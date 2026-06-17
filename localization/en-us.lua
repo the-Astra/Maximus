@@ -2689,6 +2689,7 @@ return {
         achievement_descriptions = {
             ach_mxms_apocalypse = "Have a full Joker roster consisting only of Zombies",
             ach_mxms_behind = "Encounter a Spider... somewhere...",
+            ach_mxms_champion = "Win on Professional Deck with Gold Stake applied",
             ach_mxms_commitment = "Have a deck consisting entirely of cards with a Black Seal",
             ach_mxms_conspirator = "Discover every Conspiracy Card",
             ach_mxms_copy = "Have a Bootleg target either a Blueprint or a Brainstorm",
@@ -2709,6 +2710,7 @@ return {
         achievement_names = {
             ach_mxms_apocalypse = "Apocalypse",
             ach_mxms_behind = "Right Behind You...",
+            ach_mxms_champion = "World Champion",
             ach_mxms_commitment = "Now That\'s Commitment",
             ach_mxms_conspirator = "Co-Conspirator",
             ach_mxms_copy = "Counterfeit Operation",

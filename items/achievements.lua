@@ -287,3 +287,17 @@ SMODS.Achievement {
         end
     end
 }
+
+
+
+SMODS.Achievement {
+    key = 'champion',
+    hidden_name = false,
+    hidden_text = true,
+    bypass_all_unlocked = true,
+    unlock_condition = function(self, args)
+        if args.type == 'win' then
+            return G.GAME.stake == 8 and G.GAME.selected_back.name == 'b_mxms_professional'
+        end
+    end
+}
