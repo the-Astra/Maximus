@@ -123,7 +123,7 @@ pattern = '''
 '''
 position = 'after'
 payload = '''
-if self.seal == 'mxms_black' then is_available = true end 
+if self.seal == 'mxms_black' then is_available = true; self.getting_sliced = nil; self.shattered = nil end 
 '''
 match_indent = true
 times = 1
