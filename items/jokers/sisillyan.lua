@@ -1,9 +1,13 @@
 SMODS.Joker {
     key = 'sisillyan',
-    atlas = 'Placeholder',
+    atlas = 'Jokers',
     pos = {
-        x = 2,
-        y = 0
+        x = 7,
+        y = 19
+    },
+    soul_pos = {
+        x = 8,
+        y = 19
     },
     rarity = 3,
     config = {
@@ -18,7 +22,7 @@ SMODS.Joker {
         'chance'
     },
     mxms_credits = {
-        art = { "anerdymous" },
+        art = { "ThunderEdge" },
         code = { "theAstra" },
         idea = { "anerdymous" }
     },

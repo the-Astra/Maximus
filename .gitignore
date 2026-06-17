@@ -17,3 +17,4 @@ Maximus.code-workspace
 /assets/raw
 /.vscode
 assets/downscale.py
+*.py

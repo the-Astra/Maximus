@@ -762,9 +762,8 @@ return {
             j_mxms_conveyor_belt = {
                 name = 'Conveyor Belt',
                 text = {
-                    'Gives {C:attention}5%{} of {C:chips}Chips{} and {C:mult}Mult{}',
+                    'Gives base {C:chips}Chips{} and {C:mult}Mult{}',
                     'from previous hand',
-                    '{C:inactive,s:0.8}Excludes score given by this card',
                     '{C:inactive}(Currently: {C:chips}+#1#{C:inactive} Chips,', '{C:mult}+#2#{C:inactive} Mult)'
                 }
             },
@@ -2175,7 +2174,7 @@ return {
                     '{B:2,C:white}Lead Artist:{} {C:attention}Maxiss02',
                     '{B:3,C:white}Other Authors:{} {C:conspiracy}anerdymous',
                     '{B:4,C:white}Supporting Artists:{} {C:green}pinkzigzagoon, PsyAlola, SadCube, GhostSalt,',
-                    '{C:green}pangaea47, Willow, squeax09, Inky, Meta',
+                    '{C:green}pangaea47, Willow, squeax09, Inky, Meta, ThunderEdge',
                     '{B:5,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, TheCoroboCorner',
                     '{B:6,C:white}Localization:{} {C:red}MomoiAiriMMJ',
                     '{B:7,C:white}Special Thanks:{} All the awesome people in the Balatro Discord!',

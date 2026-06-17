@@ -341,10 +341,14 @@ jd_def['j_mxms_context'] = { -- Context Joker
 jd_def['j_mxms_conveyor_belt'] = { -- Convyeor Belt
     text = {
         { text = "+",                       colour = G.C.CHIPS },
-        { ref_table = "card.ability.extra", ref_value = "chips", colour = G.C.CHIPS, retrigger_type = "mult" },
+        { ref_table = "card.joker_display_values", ref_value = "chips", colour = G.C.CHIPS, retrigger_type = "mult" },
         { text = " +",                      colour = G.C.MULT },
-        { ref_table = "card.ability.extra", ref_value = "mult",  colour = G.C.MULT,  retrigger_type = "mult" }
+        { ref_table = "card.joker_display_values", ref_value = "mult",  colour = G.C.MULT,  retrigger_type = "mult" }
     },
+    calc_function = function(card)
+        card.joker_display_values.chips = Talisman and to_number(card.ability.extra.chips) or card.ability.extra.chips
+        card.joker_display_values.mult = Talisman and to_number(card.ability.extra.mult) or card.ability.extra.mult
+    end
 }
 
 jd_def['j_mxms_salt_cork_board'] = { -- Cork Board
