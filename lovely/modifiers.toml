@@ -97,7 +97,7 @@ table.insert(cards, G.hand.highlighted[i])
 '''
 position = 'after'
 payload = '''
-if G.hand.highlighted[i].seal == 'mxms_black' then removed = false
+if G.hand.highlighted[i].seal == 'mxms_black' then removed = false end
 '''
 match_indent = true
 times = 1
