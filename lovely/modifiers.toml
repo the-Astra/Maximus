@@ -86,3 +86,31 @@ SMODS.calculate_context({mxms_pre_choice_modify = true, card = self, booster = b
 '''
 match_indent = true
 times = 1
+
+
+# More Black Seal checks
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''
+table.insert(cards, G.hand.highlighted[i])
+'''
+position = 'after'
+payload = '''
+if G.hand.highlighted[i].seal == 'mxms_black' then removed = false
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''
+if (not v.shattered) and (not v.destroyed) then 
+'''
+position = 'at'
+payload = '''
+if ((not v.shattered) and (not v.destroyed)) or v.seal == 'mxms_black' then 
+'''
+match_indent = true
+times = 1
