@@ -114,3 +114,16 @@ if ((not v.shattered) and (not v.destroyed)) or v.seal == 'mxms_black' then
 '''
 match_indent = true
 times = 1
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '''
+-- TARGET : Add extra conditions here
+'''
+position = 'after'
+payload = '''
+if self.seal == 'mxms_black' then is_available = true end 
+'''
+match_indent = true
+times = 1
