@@ -32,6 +32,7 @@ SMODS.Joker {
                             play_sound('slice1')
                             SMODS.change_base(context.scoring_hand[i], nil, '10')
                             context.scoring_hand[i]:juice_up(0.3, 0.3)
+                            card:juice_up(0.8,0.8)
                             return true
                         end
                     }))
