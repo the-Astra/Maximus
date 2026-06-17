@@ -243,11 +243,11 @@ return {
             c_mxms_mib = {
                 name = 'Men in Black',
                 text = {
-                    '{C:green}#1# in #2#{} chance to',
+                    {'{C:green}#1# in #2#{} chance to',
                     '{C:attention}remove{} the enhancement of',
-                    'up to {C:attention}#3#{} selected cards',
-                    'Earn {C:money}$#4#{} for each',
-                    'removed enhancement'
+                    'up to {C:attention}#3#{} selected cards',},
+                    {'Earn {C:money}$#4#{} for each',
+                    'removed enhancement'}
                 }
             },
             c_mxms_nwo = {
