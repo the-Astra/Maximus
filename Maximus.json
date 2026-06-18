@@ -2,7 +2,7 @@
 	"id": "Maximus",
 	"name": "Maximus",
 	"display_name": "Maximus",
-	"author": ["theAstra", "Maxiss02, anerdymous"],
+	"author": ["theAstra", "Maxiss02", "anerdymous"],
 	"description": "A Vanilla+ Mod. See full description in-game by enabling mod or checking `descriptions.Mods.Maximus`",
 	"prefix": "mxms",
 	"main_file": "main.lua",
