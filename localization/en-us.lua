@@ -494,7 +494,7 @@ return {
                 text = {
                     "Played hands containing",
                     "a {C:attention}Straight{} creates",
-                    "a {C:dark_edition}Negative {C:tarot}Conspiracy{} Card"
+                    "a {C:dark_edition}Negative {C:conspiracy}Conspiracy{} Card"
                 },
             },
             j_mxms_bankrupt = {
@@ -1176,7 +1176,7 @@ return {
                 text = {
                     "Creates {C:attention}#1#{} {C:conspiracy}Conspiracy{} Card",
                     "at the end of each round",
-                    "{C:inactive, s:0.8}(Must have room)",
+                    "{C:inactive,s:0.8}(Must have room)",
                 },
             },
             j_mxms_impractical_joker = {
@@ -1639,7 +1639,7 @@ return {
                 text = {
                     "{C:mult}+#1#{} Mult per {C:conspiracy}Conspiracy{}",
                     "card used this run",
-                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive})",
+                    "{C:inactive}(Currently: {C:mult}+#2#{C:inactive})",
                 },
             },
             j_mxms_refrigerator = {
@@ -2327,7 +2327,7 @@ return {
             sleeve_mxms_censored_alt = {
                 name = 'Censored Sleeve',
                 text = {
-                    'Start run with ',
+                    'Start run with',
                     '{C:conspiracy,T:v_mxms_whistleblower}#1#{}'
                 },
             },
@@ -2363,7 +2363,7 @@ return {
                     'At end of round, if current {C:money}${}',
                     'is equal to money cap {C:inactive}($#1#){},',
                     '{C:attention}increase{} money cap by {C:money}$#2#',
-                    '{C:inactive,s_0.8}(Max cap of $#3#)'
+                    '{C:inactive,s:0.8}(Max cap of $#3#)'
                 }
             },
             sleeve_mxms_empire = {
