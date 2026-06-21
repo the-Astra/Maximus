@@ -70,3 +70,19 @@ SMODS.calculate_context({pre_reroll = true, cost = reroll_cost}) -- Added by Max
 '''
 match_indent = true
 times = 1
+
+# Fix crash caused by vouchers being used outside of shop
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''
+if card.ability.set == 'Voucher' then 
+  G.CONTROLLER:snap_to({node = G.shop:get_UIE_by_ID('next_round_button')})
+'''
+position = 'at'
+payload = '''
+if card.ability.set == 'Voucher' and G.shop then 
+  G.CONTROLLER:snap_to({node = G.shop:get_UIE_by_ID('next_round_button')})
+'''
+match_indent = true
+times = 1

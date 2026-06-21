@@ -24,7 +24,7 @@ SMODS.Joker {
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },
-        concept = { "Maxiss02" }
+        idea = { "Maxiss02" }
     },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
