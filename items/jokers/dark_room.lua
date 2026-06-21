@@ -58,14 +58,7 @@ SMODS.Joker {
                 key_append = 'dark_room'
             })
             chosen_voucher.cost = 0
-            chosen_voucher:redeem()
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    chosen_voucher:start_dissolve({ G.C.ORANGE }, nil, 1.6)
-                    return true
-                end
-            }))
+            G.FUNCS.use_card({ config = { ref_table = chosen_voucher } })
         end
 
         if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and
