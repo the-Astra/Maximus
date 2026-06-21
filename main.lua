@@ -364,7 +364,6 @@ assert(SMODS.load_file('src/credits.lua'))()
 -- Achievements --------------------------------------------------------------------------------------
 
 assert(SMODS.load_file('items/achievements.lua'))()
-sendDebugMessage("Loaded Achievements", 'Maximus')
 
 --#region Attributes ----------------------------------------------------------------------------------------
 
@@ -415,23 +414,17 @@ local ENABLED_BACKS = {
     'censored'
 }
 
-sendDebugMessage("Loading Backs...", 'Maximus')
 for i = 1, #ENABLED_BACKS do
     assert(SMODS.load_file('items/backs/' .. ENABLED_BACKS[i] .. '.lua'))()
-    sendDebugMessage("Loaded deck: " .. ENABLED_BACKS[i], 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 
 --#region Sleeves ---------------------------------------------------------------------------------------
 
 if CardSleeves then
 
-    sendDebugMessage("Card Sleeves detected; Loading Sleeves...", 'Maximus')
     for i = 1, #ENABLED_BACKS do
         assert(SMODS.load_file('items/backs/sleeves/' .. ENABLED_BACKS[i] .. '.lua'))()
-        sendDebugMessage("Loaded Sleeve: " .. ENABLED_BACKS[i], 'Maximus')
     end
-    sendDebugMessage("", 'Maximus')
 end
 
 --#endregion
@@ -453,26 +446,18 @@ local ENABLED_BLINDS = {
     'maze',
 }
 
-sendDebugMessage("Loading Blinds...", 'Maximus')
 for i = 1, #ENABLED_BLINDS do
     assert(SMODS.load_file('items/blinds/' .. ENABLED_BLINDS[i] .. '.lua'))()
-    sendDebugMessage("Loaded blind: " .. ENABLED_BLINDS[i], 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 
 --#endregion
 
 --#region Boosters ------------------------------------------------------------------------------------------
 
-sendDebugMessage("Loading Boosters...", 'Maximus')
 
 assert(SMODS.load_file('items/boosters/zodiac_packs.lua'))()
-sendDebugMessage("Loaded booster set: Zodiac", 'Maximus')
 
 assert(SMODS.load_file('items/boosters/classified_packs.lua'))()
-sendDebugMessage("Loaded booster set: Classified", 'Maximus')
-
-sendDebugMessage("", 'Maximus')
 
 
 --#endregion
@@ -502,12 +487,9 @@ local ENABLED_CHALLENGES = {
     'greedy',
 }
 
-sendDebugMessage("Loading Challenges...", 'Maximus')
 for i = 1, #ENABLED_CHALLENGES do
     assert(SMODS.load_file('items/challenges/' .. ENABLED_CHALLENGES[i] .. '.lua'))()
-    sendDebugMessage("Loaded challenge: " .. ENABLED_CHALLENGES[i], 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -542,12 +524,9 @@ local ENABLED_CONSPIRACIES = {
     'tinfoil',
 }
 
-sendDebugMessage("Loading Conspiracies...", 'Maximus')
 for i = 1, #ENABLED_CONSPIRACIES do
     assert(SMODS.load_file('items/conspiracy/' .. ENABLED_CONSPIRACIES[i] .. '.lua'))()
-    sendDebugMessage("Loaded conspiracy: " .. ENABLED_CONSPIRACIES[i], 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Consumables ---------------------------------------------------------------------------------------
@@ -574,13 +553,9 @@ local ENABLED_CONSUMABLES = {
     'aeon',
 }
 
-sendDebugMessage("Loading Consumables...", 'Maximus')
 for i = 1, #ENABLED_CONSUMABLES do
     assert(SMODS.load_file('items/consumables/' .. ENABLED_CONSUMABLES[i] .. '.lua'))()
-    sendDebugMessage("Loaded consumable: " .. ENABLED_CONSUMABLES[i], 'Maximus')
 end
-
-sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -594,10 +569,8 @@ if Maximus_config.new_handtypes then
         's_straight'
     }
 
-    sendDebugMessage("Loading Hand Parts...", 'Maximus')
     for i = 1, #ENABLED_HAND_PARTS do
         assert(SMODS.load_file('items/handtypes/parts/' .. ENABLED_HAND_PARTS[i] .. '.lua'))()
-        sendDebugMessage("Loaded hand part: " .. ENABLED_HAND_PARTS[i], 'Maximus')
     end
     --#endregion
 
@@ -615,15 +588,12 @@ if Maximus_config.new_handtypes then
         'f_6oak',
     }
 
-    sendDebugMessage("Loading Hand Types...", 'Maximus')
     for i = 1, #ENABLED_HANDS do
         assert(SMODS.load_file('items/handtypes/' .. ENABLED_HANDS[i] .. '.lua'))()
-        sendDebugMessage("Loaded hand type: " .. ENABLED_HANDS[i], 'Maximus')
     end
 else
     sendDebugMessage("New hand types disabled; Skipping hands...", 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -657,12 +627,9 @@ local ENABLED_HOROSCOPES = {
     'ophiucus',
 }
 
-sendDebugMessage("Loading Horoscopes...", 'Maximus')
 for i = 1, #ENABLED_HOROSCOPES do
     assert(SMODS.load_file('items/horoscopes/' .. ENABLED_HOROSCOPES[i] .. '.lua'))()
-    sendDebugMessage("Loaded horoscope: " .. ENABLED_HOROSCOPES[i], 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 --#endregion
 
 --#region Jokers --------------------------------------------------------------------------------------------
@@ -880,12 +847,9 @@ Maximus.ENABLED_JOKERS = { -- Comment out item to disable
     'raz',
 }
 
-sendDebugMessage("Loading Jokers...", 'Maximus')
 for i = 1, #Maximus.ENABLED_JOKERS do
     assert(SMODS.load_file('items/jokers/' .. Maximus.ENABLED_JOKERS[i] .. '.lua'))()
-    sendDebugMessage("Loaded joker: " .. Maximus.ENABLED_JOKERS[i], 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 
 --#endregion
 
@@ -896,12 +860,9 @@ local ENABLED_MODIFIERS = {
     'posted',
     'footprint',
 }
-sendDebugMessage("Loading Card Modifiers...", 'Maximus')
 for i = 1, #ENABLED_MODIFIERS do
     assert(SMODS.load_file('items/modifiers/' .. ENABLED_MODIFIERS[i] .. '.lua'))()
-    sendDebugMessage("Loaded Card Modifier: " .. ENABLED_MODIFIERS[i], 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 
 
 --#endregion
@@ -917,15 +878,9 @@ local ENABLED_TAGS = {
     'scale',
 }
 
-sendDebugMessage("Loading Tags...", 'Maximus')
-
 for i = 1, #ENABLED_TAGS do
     assert(SMODS.load_file('items/tags/' .. ENABLED_TAGS[i] .. '.lua'))()
-    sendDebugMessage("Loaded tag: " .. ENABLED_TAGS[i], 'Maximus')
 end
-
-sendDebugMessage("", 'Maximus')
-
 
 --#endregion
 
@@ -944,11 +899,8 @@ local ENABLED_VOUCHERS = {
     'declassified'
 }
 
-sendDebugMessage("Loading Vouchers...", 'Maximus')
 for i = 1, #ENABLED_VOUCHERS do
     assert(SMODS.load_file('items/vouchers/' .. ENABLED_VOUCHERS[i] .. '.lua'))()
-    sendDebugMessage("Loaded voucher: " .. ENABLED_VOUCHERS[i], 'Maximus')
 end
-sendDebugMessage("", 'Maximus')
 
 --#endregion
