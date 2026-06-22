@@ -229,6 +229,7 @@ Maximus.calculate = function(self, context)
         for i = 1, #G.GAME.tags do
             G.GAME.tags[i]:apply_to_run({ type = 'start_apply_horoscopes' })
         end
+        G.GAME.open_ante_end_pack = true
     end
 
     if context.setting_blind and G.GAME.mxms_aries_bonus > 1 then

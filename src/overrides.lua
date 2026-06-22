@@ -49,7 +49,7 @@ Game.init_game_object = function(self)
         ['Pisces'] = true,
     }
 
-    ret.ante_end_last_pack = 1
+    ret.open_ante_end_pack = false
 
     ret.mxms_libra_bonus = 0
     ret.mxms_aries_bonus = 0
@@ -184,8 +184,8 @@ local update_shopref = Game.update_shop
 function Game.update_shop(self, dt)
     update_shopref(self, dt)
     if not G.GAME.modifiers.mxms_booster_ante_end or not next(G.GAME.modifiers.mxms_booster_ante_end) then return end
-    if G.GAME.round_resets.ante <= G.GAME.ante_end_last_pack then return end
-    G.GAME.ante_end_last_pack = G.GAME.round_resets.ante
+    if not G.GAME.open_ante_end_pack then return end
+    G.GAME.open_ante_end_pack = false
     for _, v in pairs(G.GAME.modifiers.mxms_booster_ante_end) do
         G.E_MANAGER:add_event(Event({
             trigger = 'after',
