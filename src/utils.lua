@@ -169,28 +169,36 @@ end
 
 ---Generalized Horoscope succeed func
 Maximus.horoscope_succeed = function(card)
-    card.succeeded = true
-    if PlayLog then PlayLog.log({type = 'mxms_horoscope_success', card = card}) end
-    card.config.center:succeed(card)
-    G.GAME.zodiac_killer_pools[card.config.center_key] = false
-    SMODS.calculate_context({ mxms_beat_horoscope = true })
-    G.E_MANAGER:add_event(Event({
-        func = function()
-            card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
-            return true
-        end
-    }))
+    if card.config.center:can_succeed(card) then
+        card.succeeded = true
+        if PlayLog then PlayLog.log({type = 'mxms_horoscope_success', card = card}) end
+        SMODS.calculate_effect({message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1'}, card)
+        if card.config.center.succeed and type(card.config.center.succeed) == 'function' then card.config.center:succeed(card) end
+        SMODS.calculate_context({ mxms_beat_horoscope = true, card = card })
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                Maximus.set_horoscope_success(card)
+                check_for_unlock({ type = "all_horoscopes" })
+                if TheFamily then G.GAME.horoscope_alert = true end
+                card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
+                return true
+            end
+        }))
+    end
 end
 
 ---Generalized Horoscope fail func
 Maximus.horoscope_fail = function(card)
     if not card.succeeded then
         if PlayLog then PlayLog.log({type = 'mxms_horoscope_fail', card = card}) end
-        card.config.center:fail(card)
+        SMODS.calculate_effect({ message = localize('k_mxms_failed_ex'),colour = G.C.RED, sound = 'tarot2' }, card)
+        if card.config.center.fail and type(card.config.center.fail) == 'function' then card.config.center:fail(card) end
+        local flags = SMODS.calculate_context({ mxms_failed_horoscope = true, card = card })
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 func = function()
+                    if TheFamily then G.GAME.horoscope_alert = true end
                     card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
                     return true
                 end
@@ -198,7 +206,7 @@ Maximus.horoscope_fail = function(card)
         elseif card.config.center.reset then
             card.config.center:reset(card)
         end
-        SMODS.calculate_context({ mxms_failed_horoscope = true })
+        
     end
 end
 
@@ -241,6 +249,12 @@ end
 
 -- Horoscope toggle callback
 function G.FUNCS.mxms_toggle_horoscopes(e)
+    if G.GAME.modifiers.mxms_zodiac_killer then
+        Maximus_config.horoscopes = true
+        G.mxms_horoscope.states.visible = true
+        return
+    end
+
     if e and G.mxms_horoscope then
         G.mxms_horoscope.states.visible = true
     elseif not e and G.mxms_horoscope then

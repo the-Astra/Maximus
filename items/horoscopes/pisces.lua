@@ -38,63 +38,26 @@ SMODS.Consumable {
             Maximus.horoscope_fail(card)
         end
     end,
-    in_pool = function(self, args)
-        if G.GAME.modifiers.mxms_zodiac_killer then
-            return G.GAME.zodiac_killer_pools["Pisces"]
-        end
-        return Maximus_config.horoscopes
-    end,
     succeed = function(self, card)
-        card.succeeded = true
-        if PlayLog then PlayLog.log({ type = 'mxms_horoscope_success', card = card }) end
-        if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-            SMODS.calculate_effect(
-                {
-                    message = localize('k_mxms_success_ex'),
-                    colour = G.C.GREEN,
-                    sound = 'tarot1',
-                    func = function()
-                        Maximus.set_horoscope_success(card)
-                        check_for_unlock({ type = "all_horoscopes" })
-                        if TheFamily then G.GAME.horoscope_alert = true end
-                    end
-                }, card)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'before',
-                func = function()
-                    play_sound('tarot1')
-                    card:juice_up(0.3, 0.4)
-
-                    SMODS.add_card({
-                        set = 'Spectral',
-                        key_append = 'pis'
-                    })
-                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
-                    return true;
-                end
-            }))
-        end
+        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
         G.E_MANAGER:add_event(Event({
+            trigger = 'before',
             func = function()
-                card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
-                return true
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.4)
+
+                SMODS.add_card({
+                    set = 'Spectral',
+                    key_append = 'pis'
+                })
+                G.GAME.consumeable_buffer = 0
+                return true;
             end
         }))
-        G.GAME.zodiac_killer_pools["Pisces"] = false
-        SMODS.calculate_context({ mxms_beat_horoscope = true })
-    end,
-    fail = function(self, card)
-        SMODS.calculate_effect(
-            {
-                message = localize('k_mxms_failed_ex'),
-                colour = G.C.RED,
-                sound = 'tarot2',
-                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
-            }, card)
     end,
     reset = function(self, card)
         card.ability.extra.tally = 0
     end,
-    can_use = function(self, card) return false end
+    can_use = function(self, card) return false end,
+    can_succeed = function(self, card) return #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit end
 }

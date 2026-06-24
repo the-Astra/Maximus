@@ -26,6 +26,13 @@ SMODS.Challenge {     -- Zodiac Killer
         type = 'Challenge Deck'
     },
     apply = function(self)
+        if not Maximus_config.horoscopes then
+            Maximus_config.horoscopes = true
+            G.FUNCS.mxms_toggle_horoscopes(true)
+        end
+
+        G.GAME.mxms_zodiac_killer_pools = {}
+
         G.E_MANAGER:add_event(Event({
             func = function()
                 local new_card = SMODS.add_card({
@@ -38,6 +45,10 @@ SMODS.Challenge {     -- Zodiac Killer
         }))
     end,
     calculate = function(self, context)
+        if context.mxms_beat_horoscope then
+            G.GAME.mxms_zodiac_killer_pools[context.card.config.center_key] = true
+        end
+
         if context.mxms_failed_horoscope or context.selling_card and context.card.ability.set == 'Horoscope' then
             Maximus.force_game_over()
         end

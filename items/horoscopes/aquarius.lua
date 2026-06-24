@@ -39,55 +39,27 @@ SMODS.Consumable {
             Maximus.horoscope_fail(card)
         end
     end,
-    in_pool = function(self, args)
-        if G.GAME.modifiers.mxms_zodiac_killer then
-            return G.GAME.zodiac_killer_pools["Aquarius"]
-        end
-        return Maximus_config.horoscopes
-    end,
     succeed = function(self, card)
-        if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-            SMODS.calculate_effect(
-                {
-                    message = localize('k_mxms_success_ex'),
-                    colour = G.C.GREEN,
-                    sound = 'tarot1',
-                    func = function()
-                        Maximus.set_horoscope_success(card)
-                        check_for_unlock({ type = "all_horoscopes" })
-                        if TheFamily then G.GAME.horoscope_alert = true end
-                    end
-                }, card)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'before',
-                func = function()
-                    play_sound('tarot1')
-                    card:juice_up(0.3, 0.4)
+        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+        G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.4)
 
-                    SMODS.add_card({
-                        set = 'Spectral',
-                        key = 'c_black_hole',
-                        key_append = 'aqu'
-                    })
-                    G.GAME.consumeable_buffer = 0
-                    return true;
-                end
-            }))
-        end
-    end,
-    fail = function(self, card)
-        SMODS.calculate_effect(
-            {
-                message = localize('k_mxms_failed_ex'),
-                colour = G.C.RED,
-                sound = 'tarot2',
-                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
-            },
-            card)
+                SMODS.add_card({
+                    set = 'Spectral',
+                    key = 'c_black_hole',
+                    key_append = 'aqu'
+                })
+                G.GAME.consumeable_buffer = 0
+                return true;
+            end
+        }))
     end,
     reset = function(self, card)
         card.ability.extra.tally = 0
     end,
-    can_use = function(self, card) return false end
+    can_use = function(self, card) return false end,
+    can_succeed = function(self, card) return #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit end
 }

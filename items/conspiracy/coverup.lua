@@ -83,8 +83,5 @@ SMODS.Consumable {
     end,
     can_use = function(self, card)
         return #G.hand.highlighted == 1 and G.hand.highlighted[1].ability.set == 'Enhanced'
-    end,
-    in_pool = function(self, args)
-        return Maximus_config.conspiracies
     end
 }

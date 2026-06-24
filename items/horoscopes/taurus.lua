@@ -41,55 +41,19 @@ SMODS.Consumable {
             end
 
             if stg.times == stg.goal then
-                self:succeed(card, context)
+                Maximus.horoscope_succeed(card)
             end
         end
     end,
-    in_pool = function(self, args)
-        if G.GAME.modifiers.mxms_zodiac_killer then
-            return G.GAME.zodiac_killer_pools["Taurus"]
-        end
-        return Maximus_config.horoscopes
-    end,
     succeed = function(self, card, context)
-        card.succeeded = true
-        if PlayLog then PlayLog.log({ type = 'mxms_horoscope_success', card = card }) end
         local stg = card.ability.extra
         if stg.hand_type then
-            SMODS.calculate_effect(
-                {
-                    message = localize('k_mxms_success_ex'),
-                    colour = G.C.GREEN,
-                    sound = 'tarot1',
-                    func = function()
-                        Maximus.set_horoscope_success(card)
-                        check_for_unlock({ type = "all_horoscopes" })
-                        if TheFamily then G.GAME.horoscope_alert = true end
-                    end
-                }, card)
             SMODS.smart_level_up_hand(card, stg.hand_type, false, stg.upgrade)
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                func = function()
-                    card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
-                    return true
-                end
-            }))
-            G.GAME.zodiac_killer_pools["Taurus"] = false
-            SMODS.calculate_context({ mxms_beat_horoscope = true })
         end
-    end,
-    fail = function(self, card)
-        SMODS.calculate_effect(
-            {
-                message = localize('k_mxms_failed_ex'),
-                colour = G.C.RED,
-                sound = 'tarot2',
-                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
-            }, card)
     end,
     reset = function(self, card)
         card.ability.extra.times = 0
     end,
-    can_use = function(self, card) return false end
+    can_use = function(self, card) return false end,
+    can_succeed = function(self, card) return card.ability.extra.hand_type end
 }

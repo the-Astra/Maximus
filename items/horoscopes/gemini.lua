@@ -37,68 +37,27 @@ SMODS.Consumable {
             end
 
             if stg.times >= stg.goal then
-                self:succeed(card, context)
+                Maximus.horoscope_succeed(card)
             end
         end
-    end,
-    in_pool = function(self, args)
-        if G.GAME.modifiers.mxms_zodiac_killer then
-            return G.GAME.zodiac_killer_pools["Gemini"]
-        end
-        return Maximus_config.horoscopes
     end,
     succeed = function(self, card, context)
         local stg = card.ability.extra
-        if stg.times > 0 then
-            SMODS.calculate_effect(
-                {
-                    message = localize('k_mxms_success_ex'),
-                    colour = G.C.GREEN,
-                    sound = 'tarot1',
-                    func = function()
-                        Maximus.set_horoscope_success(card)
-                        check_for_unlock({ type = "all_horoscopes" })
-                        if TheFamily then G.GAME.horoscope_alert = true end
-                    end
-                }, card)
 
-            local hands_to_upgrade = {}
-            for k, v in pairs(card.ability.hands) do
-                if v then
-                    table.insert(hands_to_upgrade, k)
-                end
-            end
-            if next(hands_to_upgrade) then
-                SMODS.upgrade_poker_hands({ hands = hands_to_upgrade, level_up = stg.upgrade, from = card })
+        local hands_to_upgrade = {}
+        for k, v in pairs(card.ability.hands) do
+            if v then
+                table.insert(hands_to_upgrade, k)
             end
         end
-    end,
-    fail = function(self, card)
-        SMODS.calculate_effect(
-            {
-                message = localize('k_mxms_failed_ex'),
-                colour = G.C.RED,
-                sound = 'tarot2',
-                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
-            }, card)
+        if next(hands_to_upgrade) then
+            SMODS.upgrade_poker_hands({ hands = hands_to_upgrade, level_up = stg.upgrade, from = card })
+        end
     end,
     reset = function(self, card)
         card.ability.extra.times = 0
-        card.ability.hands = {
-            ["Flush Five"] = false,
-            ["Flush House"] = false,
-            ["Five of a Kind"] = false,
-            ["Straight Flush"] = false,
-            ["Four of a Kind"] = false,
-            ["Full House"] = false,
-            ["Flush"] = false,
-            ["Straight"] = false,
-            ["Three of a Kind"] = false,
-            ["Two Pair"] = false,
-            ["Pair"] = false,
-            ["High Card"] = false,
-
-        }
+        card.ability.hands = {}
     end,
-    can_use = function(self, card) return false end
+    can_use = function(self, card) return false end,
+    can_succeed = function(self, card) return card.ability.extra.times > 0 end
 }

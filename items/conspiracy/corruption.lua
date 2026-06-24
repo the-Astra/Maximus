@@ -51,8 +51,5 @@ SMODS.Consumable {
     can_use = function(self, card)
         local stg = card.ability.extra
         return #G.hand.cards > 0
-    end,
-    in_pool = function(self, args)
-        return Maximus_config.conspiracies
     end
 }

@@ -168,6 +168,16 @@ function SMODS.add_to_pool(prototype_obj, args)
         end
     end
 
+    if prototype_obj.set == 'Horoscope' or prototype_obj.soul_set == 'Horoscope' then
+        if not Maximus_config.horoscopes or G.GAME.modifiers.mxms_zodiac_killer and G.GAME.mxms_zodiac_killer_pools[prototype_obj.key] then
+            ret = false
+        end
+    end
+
+    if (prototype_obj.set == 'Conspiracy' or prototype_obj.soul_set == 'Conspiracy') and not Maximus_config.conspiracies then
+        ret = false
+    end
+
     return ret, pool_opts
 end
 

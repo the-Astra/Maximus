@@ -59,23 +59,7 @@ SMODS.Consumable {
             end
         end
     end,
-    in_pool = function(self, args)
-        return Maximus_config.horoscopes
-    end,
     succeed = function(self, card)
-        card.succeeded = true
-        if PlayLog then PlayLog.log({ type = 'mxms_horoscope_success', card = card }) end
-        SMODS.calculate_effect(
-            {
-                message = localize('k_mxms_success_ex'),
-                colour = G.C.GREEN,
-                sound = 'tarot1',
-                func = function()
-                    Maximus.set_horoscope_success(card)
-                    check_for_unlock({ type = "all_horoscopes" })
-                    if TheFamily then G.GAME.horoscope_alert = true end
-                end
-            }, card)
         G.E_MANAGER:add_event(Event({
             trigger = 'before',
             func = function()
@@ -91,22 +75,6 @@ SMODS.Consumable {
                 return true;
             end
         }))
-        SMODS.calculate_context({ mxms_beat_horoscope = true })
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                card:start_dissolve({ Maximus.C.HOROSCOPE }, nil, 1.6)
-                return true
-            end
-        }))
-    end,
-    fail = function(self, card)
-        SMODS.calculate_effect(
-            {
-                message = localize('k_mxms_failed_ex'),
-                colour = G.C.RED,
-                sound = 'tarot2',
-                func = function() if TheFamily then G.GAME.horoscope_alert = true end end
-            }, card)
     end,
     reset = function(self, card)
         card.ability.extra.hands = {}
@@ -116,5 +84,6 @@ SMODS.Consumable {
             badges[#badges + 1] = create_badge(localize('k_horoscope'), Maximus.C.SET.Horoscope, G.C.WHITE, 1.2)
         end
     end,
-    can_use = function(self, card) return false end
+    can_use = function(self, card) return false end,
+    can_succeed = function(self, card) return true end
 }
