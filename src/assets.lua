@@ -21,7 +21,7 @@ Maximus.C = {
 
 SMODS.Atlas { -- Placeholder Atlas
     key = 'Placeholder',
-    path = "placeholders.png",
+    path = "Placeholders.png",
     px = 71,
     py = 95
 }
