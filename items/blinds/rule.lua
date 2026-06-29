@@ -41,7 +41,8 @@ SMODS.Blind {
         self.triggered = false
     end,
     in_pool = function(self, args)
-        if (not G.GAME.bosses_used['bl_mxms_rule'] or not (G.GAME.bosses_used['bl_mxms_rule'] > 0)) and self.boss.min <= math.max(1, G.GAME.round_resets.ante) then
+        local cheats_used = G.GAME.bosses_used['bl_mxms_cheat'] or 0
+        if not (cheats_used > 0) and self.boss.min <= math.max(1, G.GAME.round_resets.ante) then
             return true
         end
 
