@@ -1223,7 +1223,7 @@ jd_def['j_mxms_red_yarn'] = { -- Red Yarn
     },
     text_config = { colour = G.C.MULT, scale = 0.4 },
     calc_function = function(card)
-        card.joker_display_values.muly = G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.conspiracy and
+        card.joker_display_values.mult = G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.conspiracy and
             G.GAME.consumeable_usage_total.conspiracy * card.ability.extra.gain or 0
     end
 }
