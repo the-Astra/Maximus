@@ -22,20 +22,25 @@ SMODS.Joker {
         local stg = card.ability.extra
 
         if context.drawing_cards and not G.GAME.current_round.any_hand_drawn and G.GAME.facing_blind and not context.blueprint then
-            local cards = {}
+            local eights = {}
+            local final_list = {}
             for i, v in ipairs(G.deck.cards) do
                 if v:get_id() == 8 then
-                    table.insert(cards, G.deck.cards[i])
-                    table.remove(G.deck.cards, i)
-                    i = i - 1
+                    table.insert(eights, G.deck.cards[i])
+                else
+                    table.insert(final_list, G.deck.cards[i])
                 end
             end
-            for i, v in ipairs(cards) do
-                table.insert(G.deck.cards, #G.deck.cards + 1, v)
+
+            for i, v in ipairs(eights) do
+                table.insert(final_list, #final_list + 1, v)
             end
-            if #cards > G.hand.config.card_limit then
+
+            G.deck.cards = final_list
+
+            if #eights > G.hand.config.card_limit then
                 return {
-                    modify = #cards
+                    modify = #eights
                 }
             end
         end
