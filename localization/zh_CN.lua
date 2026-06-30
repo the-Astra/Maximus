@@ -2113,7 +2113,7 @@ return {
                     "{B:4,C:white}辅助美术:{} {C:green}pinkzigzagoon, PsyAlola, SadCube, GhostSalt,",
                     "{C:green}pangaea47, Willow, squeax09, Inky, Meta, ThunderEdge",
                     "{B:5,C:white}贡献者:{} {C:planet}sup3p, DigitalDetective47, TheCoroboCorner",
-                    "{B:6,C:white}本地化:{} {C:red}MomoiAiriMMJ",
+                    "{B:6,C:white}本地化:{} {C:red}MomoiAiriMMJ, mleaf233",
                     "{B:7,C:white}特别感谢:{} Balatro Discord 中所有出色的人!",
                     "{C:white}是大家让这个项目成为可能 感谢你们所做的一切!",
                 },
