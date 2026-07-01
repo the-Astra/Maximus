@@ -19,10 +19,10 @@ SMODS.Enhancement {
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
-        if context.before and context.cardarea == G.play then
+        if context.before and context.cardarea == G.play and not card.debuff then
             local chance = 0
             for k, v in pairs(context.scoring_hand) do
-                if SMODS.has_enhancement(v, 'm_mxms_footprint') then
+                if SMODS.has_enhancement(v, 'm_mxms_footprint') and not v.debuff then
                     if v.ability.extra.has_already_upgraded then
                         return
                     else
