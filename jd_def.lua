@@ -1665,7 +1665,7 @@ jd_def['c_mxms_ophiucus'] = {     -- Ophiucus
         { text = ")" },
     },
     calc_function = function(card)
-        card.joker_display_values.goal = #card.ability.hands
+        card.joker_display_values.goal = #card.ability.extra.hands
     end
 
 }
