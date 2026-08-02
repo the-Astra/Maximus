@@ -802,11 +802,11 @@ jd_def['j_mxms_impractical_joker'] = { -- Impractical Joker
         card.joker_display_values.Xmult = 1
         card.joker_display_values.hand = localize(G.GAME.current_round.mxms_impractical_hand, 'poker_hands')
         if card.ability.extra.fails == 3 then
-            card.joker_display_values.Xmult = card.abilit.extra.fail_Xmult
+            card.joker_display_values.Xmult = card.ability.extra.fail_Xmult
         end
         local text, _, _ = JokerDisplay.evaluate_hand()
         if text == G.GAME.current_round.mxms_impractical_hand then
-            card.joker_display_values.Xmult = card.abilit.extra.Xmult
+            card.joker_display_values.Xmult = card.ability.extra.Xmult
         end
     end
 }
