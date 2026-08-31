@@ -211,9 +211,6 @@ SMODS.current_mod.extra_tabs = function()
     }
 end
 
--- load update.lua
-assert(SMODS.load_file("update.lua"))()
-
 --#endregion
 
 --#region SMODS Optional Features ---------------------------------------------------------------------------
@@ -331,8 +328,6 @@ function Game:main_menu(change_context)
             major = G.ROOM_ATTACH
         }
     })
-
-    Maximus.update_check()
 
     return ret
 end
