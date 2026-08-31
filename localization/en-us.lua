@@ -2017,7 +2017,7 @@ return {
                 text = {
                     'Gains {C:chips}+#1#{} Chips every',
                     'time {C:tarot}The Moon{} is used',
-                    '{C:inactive}(Currently: {C:mult}+#2#{C:inactive} Mult)'
+                    '{C:inactive}(Currently: {C:chips}+#2#{C:inactive} Chips)'
                 }
             },
             j_mxms_whos_on_first = {
