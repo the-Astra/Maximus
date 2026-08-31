@@ -2,7 +2,7 @@
 	"name": "Maximus",
 	"description": "A Vanilla+ Mod. See full description in-game by enabling mod or checking `descriptions.Mods.Maximus`",
 	"website_url": "https://github.com/the-Astra/Maximus",
-	"version_number": "1.3.4",
+	"version_number": "1.3.5",
 	"dependencies": [
 		"Steamodded-1.1814.0"
 	]

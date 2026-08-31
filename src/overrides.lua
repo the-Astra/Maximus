@@ -55,6 +55,11 @@ Game.init_game_object = function(self)
     ret.mxms_aries_bonus = 0
     ret.mxms_sagittarius_bonus = false
 
+    --Conspiracy
+    if not Maximus_config.conspiracies then
+        ret.conspiracy_rate = 0
+    end
+
     --Pool Flags
     ret.pool_flags.mxms_cavendish_removed = false
 
