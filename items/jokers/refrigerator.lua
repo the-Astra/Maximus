@@ -29,14 +29,11 @@ SMODS.Joker { -- Refrigerator
                 denominator = context.denominator
             }
         end
-    end,
-    calc_scaling = function(self, card, other_card, initial, scalar_value, args)
-        if args.operation == '-' and other_card:has_attribute('food') then
+
+        if context.scaling_card and context.operation == '-' and context.card:has_attribute('food') then
             return {
-                override_scalar_value = {
-                    value = scalar_value * 0.5
-                },
-                message = localize('k_mxms_preserved_ex'),
+                override_scalar = context.scalar * 0.5,
+                message = localize('k_mxms_preserved_ex')
             }
         end
     end

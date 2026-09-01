@@ -17,14 +17,14 @@ SMODS.Joker {
     },
     blueprint_compat = false,
     cost = 8,
-    calc_scaling = function(self, card, other_card, initial, scalar_value, args)
+    calculate = function(self, card, context)
         local stg = card.ability.extra
-        if args.operation == '+' or args.operation == 'X' then
+    
+        
+        if context.scaling_card and (context.operation == '+' or context.operation == 'X') then
             return {
                 message = localize('k_mxms_doubled_ex'),
-                override_scalar_value = {
-                    value = scalar_value * 2
-                }
+                override_scalar= context.scalar * 2
             }
         end
     end

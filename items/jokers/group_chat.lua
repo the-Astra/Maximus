@@ -38,10 +38,8 @@ SMODS.Joker {
                 chips = stg.chips
             }
         end
-    end,
-    calc_scaling = function(self, card, other_card, initial, scalar_value, args)
-        local stg = card.ability.extra
-        if args.operation == '+' and other_card.config.center_key ~= 'j_mxms_group_chat' or args.operation == 'X' then
+ 
+        if context.scaling_card and context.card.ability.set == 'Joker' and (context.operation == '+' or context.operation == 'X') and context.card.config.center_key ~= 'j_mxms_group_chat' then
             SMODS.scale_card(card, {
                 ref_table = stg,
                 ref_value = "chips",
