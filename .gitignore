@@ -1,0 +1,20 @@
+*.psd
+/assets/Joker sprites
+/.code-workspace
+/assets/Voucher Sprites
+/assets/Planet Sprites
+/assets/Blind sprites
+/assets/Consumable Sprites
+/assets/Modifier sprites
+/assets/Pack Sprites
+/assets/Tag Sprites
+/assets/Modifier sprites
+Maximus.code-workspace
+/assets/Modifier sprites
+/assets/Sleeve sprites
+.luarc.json
+.lovelyignore
+/assets/raw
+/.vscode
+assets/downscale.py
+*.py
