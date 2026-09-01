@@ -1,0 +1,95 @@
+{
+    "Calculate function skeleton":  {
+        "prefix": "calc",
+        "body": [
+            "calculate = function(self, card, context)",
+            "    local stg = card.ability.extra",
+            "",
+            "    $0",
+            "end,"
+        ],
+        "description": "Shortcut for a calculate function skeleton"
+    },
+    "Add To Deck function skeleton":  {
+        "prefix": "atd",
+        "body": [
+            "add_to_deck = function(self, card, from_debuff)",
+            "    local stg = card.ability.extra",
+            "",
+            "    $0",
+            "end,"
+        ],
+        "description": "Shortcut for a add_to_deck function skeleton"
+    },
+    "Remove From Deck function skeleton":  {
+        "prefix": "rfd",
+        "body": [
+            "remove_from_deck = function(self, card, from_debuff)",
+            "    local stg = card.ability.extra",
+            "",
+            "    $0",
+            "end,"
+        ],
+        "description": "Shortcut for a remove_from_deck function skeleton"
+    },
+    
+    "Loc Vars function skeleton":  {
+        "prefix": "locvars",
+        "body": [
+            "loc_vars = function(self, info_queue, card)",
+            "    local stg = card.ability.extra",
+            "",
+            "    $1",
+            "    return { vars = { $2 } }",
+            "end,"
+        ],
+        "description": "Shortcut for a loc_vars function skeleton"
+    },
+    "Simple card loop":  {
+        "prefix": "scl",
+        "body": [
+            "for k,v in pairs($1) do",
+            "    $2",
+            "end"
+        ],
+        "description": "Shortcut for a simple card loop"
+    },
+    "Calculate Effect Skeleton":  {
+        "prefix": "calceffect",
+        "body": [
+            "SMODS.calculate_effect({ message = $1, colour = $2 },card)",
+        ],
+        "description": "Shortcut for a SMODS.calculate_effect skeleton"
+    },
+    "Event Manager Skeleton":  {
+        "prefix": "event",
+        "body": [
+            "G.E_MANAGER:add_event(Event({",
+            "    func = function()",
+            "        $0",
+            "        return true;",
+            "    end",
+            "}))",
+        ],
+        "description": "Shortcut for a SMODS.calculate_effect skeleton"
+    },
+    "Info Queue Card Skeleton":  {
+        "prefix": "iq",
+        "body": [
+            "info_queue[#info_queue + 1] = $0"
+        ],
+        "description": "Shortcut for an info_queue card skeleton"
+    },
+    "Maximus Localization Skeleton": {
+        "prefix": "mxmsloc",
+        "body": [
+            "$1_mxms_$2 = {",
+            "    name = '$3',",
+            "    text = {",
+            "        '$4',",
+            "    },",
+            "},"
+        ]
+    }
+}
+
