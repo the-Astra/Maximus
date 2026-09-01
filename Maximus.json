@@ -21,5 +21,6 @@
 	"provides": [
 		"OTMAPI (1.0.0)"
 	],
-	"allow_redistribution": true
+	"allow_redistribution": true,
+	"icon_path": "modicon.png"
 }

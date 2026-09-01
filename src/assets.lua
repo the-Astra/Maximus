@@ -33,13 +33,6 @@ SMODS.Atlas { -- Main Modifiers/Backs Atlas
     py = 95
 }
 
-SMODS.Atlas { -- Mod Icon
-    key = "modicon",
-    path = "modicon.png",
-    px = 32,
-    py = 32
-}
-
 SMODS.Atlas { -- Maximus Menu Logo
     key = 'logo',
     path = 'Maximus_Logo.png',
