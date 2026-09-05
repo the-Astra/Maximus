@@ -1,6 +1,6 @@
 {
 	"name": "Maximus",
-	"description": "A Vanilla+ Mod. See full description in-game by enabling mod or checking `descriptions.Mods.Maximus`",
+	"description": "A Vanilla+ mod that strives to (mostly) preserve the Vanilla feel of the game",
 	"website_url": "https://github.com/the-Astra/Maximus",
 	"version_number": "1.3.7",
 	"dependencies": [
