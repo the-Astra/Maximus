@@ -93,7 +93,7 @@ return {
             b_mxms_scarred = {
                 name = 'Scarred Deck',
                 text = {
-                    'Start run with {C:attention}1 {C:green}random',
+                    'Start run with {C:attention}1 {C:blue}chosen',
                     '{C:legendary}Legendary {C:dark_edition,E:1}Maximus{} Joker',
                     "{C:red}#1#{} Joker slot",
                     "{C:inactive,s:0.8}(Spawned card will not be discovered)"
@@ -2440,7 +2440,7 @@ return {
             sleeve_mxms_scarred = {
                 name = 'Scarred Sleeve',
                 text = {
-                    'Start run with {C:attention}1 {C:green}random',
+                    'Start run with {C:attention}1 {C:blue}chosen',
                     '{C:legendary}Legendary {C:dark_edition,E:1}Maximus{} Joker',
                     "{C:red}#1#{} Joker slot",
                     "{C:inactive,s:0.8}(Spawned card will not be discovered)"
@@ -2823,6 +2823,10 @@ return {
             k_mxms_zodiac_pack = "Zodiac Pack",
             ph_mxms_stat_horoscope = "Number of times this card has been fulfilled",
             ph_mxms_stat_horoscope_disabled = "Horoscopes disabled, stats cannot be displayed",
+
+            --Run Select
+            run_select_mxms_scarred_choice = 'Select Joker',
+            run_select_mxms_scarred_choice_random = 'Random Joker',
 
             -- Credits
             mxms_art_credit = 'Art by ',

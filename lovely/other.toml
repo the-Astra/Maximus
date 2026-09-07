@@ -86,3 +86,17 @@ if card.ability.set == 'Voucher' and G.shop then
 '''
 match_indent = true
 times = 1
+
+# Allow bypass_lock and bypass_discovery cards in runstart to be clickable
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils/run_select.lua"]'''
+pattern = '''
+elseif self.params.run_select_selection_choice and self.config.center.unlocked ~= false and self.config.center.discovered ~= false then
+'''
+position = 'at'
+payload = '''
+elseif self.params.run_select_selection_choice and (self.config.center.unlocked ~= false or self.bypass_lock) and (self.config.center.discovered ~= false or self.bypass_discovery_center) then
+'''
+match_indent = true
+times = 1
