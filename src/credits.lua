@@ -71,34 +71,3 @@ function SMODS.create_mod_badges(obj, badges)
         end
     end
 end
-
-local mxms_create_UIBox_blind_popup = create_UIBox_blind_popup
-function create_UIBox_blind_popup(blind, discovered, vars)
-    local ret_val = mxms_create_UIBox_blind_popup(blind, discovered, vars)
-    local obj = blind
-    local target = ret_val.nodes
-
-    local args = { colour = G.C.UI.TEXT_DARK }
-
-    if obj and obj.mxms_credits then
-        if obj.mxms_credits.art then
-            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.art, 'mxms_art_credit', obj, args)
-            if str then
-                table.insert(target, str)
-            end
-        end
-        if obj.mxms_credits.code then
-            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.code, 'mxms_code_credit', obj, args)
-            if str then
-                table.insert(target, str)
-            end
-        end
-        if obj.mxms_credits.idea then
-            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.idea, 'mxms_idea_credit', obj, args)
-            if str then
-                table.insert(target, str)
-            end
-        end
-    end
-    return ret_val
-end
