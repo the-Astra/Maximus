@@ -11,7 +11,8 @@ SMODS.Consumable {
             hands = {},
             antes = 0,
             ante_limit = 2,
-            handtypes_played = 0
+            handtypes_played = 0,
+            handtype_goal = 9
         }
     },
     mxms_credits = {
@@ -27,24 +28,17 @@ SMODS.Consumable {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         info_queue[#info_queue + 1] = G.P_CENTERS.c_soul
-        return { vars = { stg.handtypes_played, stg.ante_limit } }
+        return { vars = { stg.handtypes_played, stg.ante_limit, stg.handtype_goal } }
     end,
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.before and not stg.hands[context.scoring_name] then
             stg.hands[context.scoring_name] = true
             stg.handtypes_played = stg.handtypes_played + 1
-            SMODS.calculate_effect({ message = stg.handtypes_played .. "/9", colour = Maximus.C.HOROSCOPE }, card)
+            SMODS.calculate_effect({ message = stg.handtypes_played .. "/" .. stg.handtype_goal, colour = Maximus.C.HOROSCOPE }, card)
             if PlayLog then PlayLog.log({ type = 'mxms_horoscope_increment', card = card, tally = stg.handtypes_played }) end
 
-            local all_hands = true
-            for k, v in pairs(stg.hands) do
-                if not v then
-                    all_hands = false
-                    break
-                end
-            end
-            if all_hands then
+            if stg.handtypes_played >= stg.handtype_goal then
                 Maximus.horoscope_succeed(card)
             end
         end
@@ -69,7 +63,6 @@ SMODS.Consumable {
                 SMODS.add_card({
                     set = 'Spectral',
                     key = 'c_soul',
-                    edition = 'e_negative',
                     key_append = 'oph'
                 })
                 return true;
@@ -83,6 +76,15 @@ SMODS.Consumable {
         if self.discovered then
             badges[#badges + 1] = create_badge(localize('k_horoscope'), Maximus.C.SET.Horoscope, G.C.WHITE, 1.2)
         end
+    end,
+    set_ability = function(self, card, initial, delay_sprites)
+        local handcount = 0
+        for k, v in pairs(SMODS.PokerHands) do
+            if v.visible then
+                handcount = handcount + 1
+            end
+        end
+        card.ability.extra.handtype_goal = handcount
     end,
     can_use = function(self, card) return false end,
     can_succeed = function(self, card) return true end

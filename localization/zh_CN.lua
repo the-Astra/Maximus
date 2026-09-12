@@ -2450,8 +2450,8 @@ return {
                 text = {
                     "接下来的{C:attention}#2#{}个底注中",
                     "打出累计{C:attention}9{}次秘密牌型后",
-                    "生成一张{C:dark_edition}负片{C:spectral}灵魂",
-                    "{C:inactive}当前: #1#/9",
+                    "生成一张{C:spectral}灵魂",
+                    "{C:inactive}当前: #1#/#3#",
                     "{C:inactive}(每次触发后改变秘密牌型)",
                     "{C:inactive}(此牌具备星座牌特性)",
                 },
