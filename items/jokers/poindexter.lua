@@ -58,14 +58,18 @@ SMODS.Joker {
                     glass = glass + 1
                 end
             end
-            stg.temp_gain = glass * stg.gain
-            SMODS.scale_card(card {
-                ref_table = stg,
-                ref_value = 'Xmult',
-                scalar_value = 'temp_gain',
-                scaling_message = localize('k_mxms_eureka_ex')
-            })
-            stg.temp_gain = 0
+            if glass > 0 then
+                stg.temp_gain = glass * stg.gain
+                SMODS.scale_card(card, {
+                    ref_table = stg,
+                    ref_value = 'Xmult',
+                    scalar_value = 'temp_gain',
+                    scaling_message = {
+                        message = localize('k_mxms_eureka_ex')
+                    }
+                })
+                stg.temp_gain = 0
+            end
         end
     end
 }
