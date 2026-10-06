@@ -488,12 +488,9 @@ jd_def['j_mxms_four_course_meal'] = { -- Four Course Meal
         end
     end,
     style_function = function(card, text, reminder_text, extra)
-        if text and text.children[1].config.colour then
+        if text and text.children[1] and text.children[1].config.colour then
             if card.ability.extra.hands_left >= 4 then
                 text.children[1].config.colour = lighten(G.C.CHIPS, 0.35)
-                return
-            elseif card.ability.extra.hands_left >= 3 then
-                text.children[1].config.colour = lighten(G.C.MULT, 0.35)
                 return
             elseif card.ability.extra.hands_left >= 2 then
                 text.children[1].config.colour = lighten(G.C.MULT, 0.35)

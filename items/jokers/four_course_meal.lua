@@ -8,7 +8,7 @@ SMODS.Joker {
     rarity = 3,
     config = {
         extra = {
-            hands_left = 5,
+            hands_left = 4,
             hand_decrement = 1,
             chips = 150,
             mult = 30,
@@ -32,7 +32,7 @@ SMODS.Joker {
     eternal_compat = false,
     perishable_compat = false,
     cost = 8,
-    
+
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
         return { vars = { stg.chips, stg.mult, stg.Xmult, stg.money } }
@@ -40,14 +40,6 @@ SMODS.Joker {
     calculate = function(self, card, context)
         local stg = card.ability.extra
         if context.joker_main then
-            SMODS.scale_card(card, {
-                ref_table = stg,
-                ref_value = "hands_left",
-                scalar_value = "hand_decrement",
-                operation = "-",
-                no_message = true
-            })
-
             if stg.hands_left >= 4 then
                 return {
                     chips = stg.chips,
@@ -70,12 +62,22 @@ SMODS.Joker {
             end
         end
 
-        if context.after and stg.hands_left <= 1 and not context.blueprint then
-            SMODS.destroy_cards(card, {pinch_anim = true})
-            return {
-                message = localize('k_eaten_ex'),
-                colour = G.C.RED
-            }
+        if context.after and not context.blueprint then
+            SMODS.scale_card(card, {
+                ref_table = stg,
+                ref_value = "hands_left",
+                scalar_value = "hand_decrement",
+                operation = "-",
+                no_message = true
+            })
+
+            if stg.hands_left <= 0 then
+                SMODS.destroy_cards(card, { pinch_anim = true })
+                return {
+                    message = localize('k_eaten_ex'),
+                    colour = G.C.RED
+                }
+            end
         end
     end
 }
