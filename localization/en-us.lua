@@ -3206,6 +3206,12 @@ return {
             },
             ch_c_mxms_gambling = {
                 "{C:attention}Skip Tags{} are the only source of {C:money}money"
+            },
+            ch_c_mxms_p2w_arcana = {
+                "{C:attention}Arcana Packs{} only have {C:tarot,T:c_wheel_of_fortune}Wheel of Fortune{}"
+            },
+            ch_c_mxms_p2w_spectral = {
+                "{C:attention}Spectral Packs{} only have {C:dark_edition,T:c_aura}Aura{}"
             }
         },
         v_dictionary = {

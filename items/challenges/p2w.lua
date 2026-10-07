@@ -1,57 +1,32 @@
 SMODS.Challenge {
     key = 'p2w',
-    rules = {},
+    rules = {
+        custom = {
+            { id = 'mxms_p2w_arcana' },
+            { id = 'mxms_p2w_spectral'},
+        }
+    },
     jokers = {
         { id = 'j_mxms_power_creep', eternal = true }
     },
-    restrictions = {
-        banned_cards = {
-            { id = 'c_fool' },
-            { id = 'c_magician' },
-            { id = 'c_high_priestess' },
-            { id = 'c_empress' },
-            { id = 'c_emperor' },
-            { id = 'c_heirophant' },
-            { id = 'c_lovers' },
-            { id = 'c_chariot' },
-            { id = 'c_justice' },
-            { id = 'c_hermit' },
-            { id = 'c_strength' },
-            { id = 'c_hanged_man' },
-            { id = 'c_death' },
-            { id = 'c_temperance' },
-            { id = 'c_devil' },
-            { id = 'c_tower' },
-            { id = 'c_star' },
-            { id = 'c_moon' },
-            { id = 'c_sun' },
-            { id = 'c_judgement' },
-            { id = 'c_world' },
-            { id = 'c_familiar' },
-            { id = 'c_grim' },
-            { id = 'c_incantation' },
-            { id = 'c_talisman' },
-            { id = 'c_wraith' },
-            { id = 'c_sigil' },
-            { id = 'c_ouija' },
-            { id = 'c_ectoplasm' },
-            { id = 'c_immolate' },
-            { id = 'c_ankh' },
-            { id = 'c_deja_vu' },
-            { id = 'c_hex' },
-            { id = 'c_trance' },
-            { id = 'c_medium' },
-            { id = 'c_cryptid' },
-            { id = 'c_soul' },
-            { id = 'c_black_hole' },
-            { id = 'c_mxms_capricorn' },
-            { id = 'c_mxms_aquarius' },
-            { id = 'c_mxms_pisces' },
-            { id = 'c_mxms_doppelganger' },
-            { id = 'c_mxms_immortality' },
-        },
-    },
     deck = {
         type = 'Challenge Deck'
-    }
+    },
+    calculate = function(self, context)
+        if context.create_booster_card then
+            if context.booster.config.center.kind == 'Arcana' then
+                return {
+                    booster_create_flags = {
+                        key = 'c_wheel_of_fortune'
+                    }
+                }
+            elseif context.booster.config.center.kind == 'Spectral' then
+                return {
+                    booster_create_flags = {
+                        key = 'c_aura'
+                    }
+                }
+            end
+        end
+    end
 }
