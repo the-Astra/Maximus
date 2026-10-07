@@ -193,6 +193,14 @@ function SMODS.add_to_pool(prototype_obj, args)
         ret = false
     end
 
+    if G.GAME.modifiers.mxms_gambling then
+        if prototype_obj.set == 'Tag' and SMODS.has_attribute(prototype_obj, 'economy') then
+            -- Do nothing
+        elseif SMODS.has_attribute(prototype_obj, 'economy') then
+            ret = false
+        end
+    end
+
     return ret, pool_opts
 end
 

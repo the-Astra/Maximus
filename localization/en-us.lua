@@ -3204,6 +3204,9 @@ return {
             ch_c_mxms_no_generators = {
                 "Objects that create playing cards are {C:red}banned{}"
             },
+            ch_c_mxms_gambling = {
+                "{C:attention}Skip Tags{} are the only source of {C:money}money"
+            }
         },
         v_dictionary = {
             a_mxms_jokersize = "+#1# Joker Size",
