@@ -11,6 +11,10 @@ SMODS.Tag {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    attributes = {
+        'shop',
+        'economy'
+    },
     apply = function(self, tag, context)
         if context.type == 'shop_final_pass' then
             G.GAME.shop_free = true

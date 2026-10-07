@@ -12,7 +12,7 @@ SMODS.Joker {
         }
     },
     attributes = {
-        'level_up',
+        'hand_level',
     },
     mxms_credits = {
         art = { "pinkzigzagoon" },

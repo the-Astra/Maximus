@@ -9,6 +9,10 @@ SMODS.Consumable {
     config = {
         extra = 'mxms_black'
     },
+    attributes = {
+        'seals',
+        'modify_card'
+    },
     cost = 4,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_SEALS['mxms_black']

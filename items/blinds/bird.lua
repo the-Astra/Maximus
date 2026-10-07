@@ -19,6 +19,9 @@ SMODS.Blind {
         idea = { "pinkzigzagoon" }
     },
     boss_colour = HEX('BFFF3A'),
+    attributes = {
+        'hand_level'
+    },
     modify_hand = function(self, cards, poker_hands, text, mult, hand_chips)
         self.triggered = true
         return math.max(mult - (G.GAME.hands[text].l_mult * 2), G.GAME.hands[text].s_mult),

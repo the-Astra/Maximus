@@ -6,6 +6,9 @@ Maximus.ClassifiedBooster = SMODS.Booster:extend {
         art = { "squeax09" },
         code = { "theAstra" }
     },
+    attributes = {
+        'conspiracy'
+    },
     disable_shine = true,
     draw_hand = true,
     create_card = function(self, card)

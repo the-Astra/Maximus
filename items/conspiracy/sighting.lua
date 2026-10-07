@@ -12,6 +12,10 @@ SMODS.Consumable {
             size = 1
         }
     },
+    attributes = {
+        'chance',
+        'hand_size'
+    },
     mxms_credits = {
         art = { "pangaea47" },
         code = { "theAstra" },

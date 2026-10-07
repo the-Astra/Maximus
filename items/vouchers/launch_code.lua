@@ -11,6 +11,11 @@ SMODS.Voucher {
             val_mod = 1
         }
     },
+    attributes = {
+        'ante',
+        'hands',
+        'discards'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

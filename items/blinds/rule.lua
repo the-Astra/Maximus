@@ -14,6 +14,9 @@ SMODS.Blind {
         idea = { "theAstra" }
     },
     boss_colour = HEX('EABEDB'),
+    attributes = {
+        'debuff'
+    },
     recalc_debuff = function(self, card, from_blind)
         if card.ability.set == 'Default' and not card.edition and not card.seal then
             card.debuffed_by_blind = true

@@ -10,6 +10,10 @@ SMODS.Voucher {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    attributes = {
+        'spectral',
+        'destroy_card'
+    },
     requires = { 'v_mxms_shield' },
     calculate = function(self, card, context)
         if context.joker_type_destroyed and G.GAME.mxms_using_consumable and G.GAME.mxms_using_consumable.ability.set == 'Spectral' then

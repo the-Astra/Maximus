@@ -6,6 +6,9 @@ SMODS.Consumable {
         x = 0,
         y = 3
     },
+    attributes = {
+        'horoscope'
+    },
     cost = 4,
     use = function(self, card, area, copier)
         for k, v in pairs(G.mxms_horoscope.cards) do

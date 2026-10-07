@@ -12,6 +12,10 @@ SMODS.Consumable {
             levels = 2
         }
     },
+    attributes = {
+        'chance',
+        'hand_level'
+    },
     mxms_credits = {
         art = { "pangaea47" },
         code = { "theAstra" },

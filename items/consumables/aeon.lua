@@ -10,6 +10,10 @@ SMODS.Consumable {
         max_highlighted = 2,
         mod_conv = 'm_mxms_footprint'
     },
+    attributes = {
+        'modify_card',
+        'enhancements'
+    },
     cost = 4,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS['m_mxms_footprint']

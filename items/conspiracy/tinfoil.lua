@@ -11,6 +11,10 @@ SMODS.Consumable {
             odds = 5
         }
     },
+    attributes = {
+        'chance',
+        'boss_blind'
+    },
     mxms_credits = {
         art = { "pangaea47" },
         code = { "theAstra" },

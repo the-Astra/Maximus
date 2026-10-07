@@ -367,11 +367,6 @@ SMODS.Attribute {
 }
 
 SMODS.Attribute {
-    key = 'level_up',
-    keys = { 'j_space' }
-}
-
-SMODS.Attribute {
     key = 'unscoring'
 }
 

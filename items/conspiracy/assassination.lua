@@ -12,6 +12,12 @@ SMODS.Consumable {
             odds = 5
         }
     },
+    attributes = {
+        'chance',
+        'seals',
+        'modify_card',
+        'destroy_card'
+    },
     mxms_credits = {
         art = { "SadCube" },
         code = { "theAstra" },

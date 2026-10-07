@@ -14,6 +14,9 @@ SMODS.Blind {
         idea = { "pinkzigzagoon" }
     },
     boss_colour = HEX('110E47'),
+    attributes = {
+        'debuff'
+    },
     calculate = function(self, card, context)
         if context.after and not G.GAME.blind.disabled then
             for i, v in ipairs(G.hand.cards) do

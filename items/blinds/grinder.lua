@@ -14,6 +14,9 @@ SMODS.Blind { --The Grinder
         idea = { "Maxiss02" }
     },
     boss_colour = HEX('D9638D'),
+    attributes = {
+        'modify_card'
+    },
     after_scoring = function(self)
         for k, v in ipairs(G.play.cards) do
             if (v.ability.set == 'Enhanced' or v.seal or v.edition) and not v.seal ~= 'mxms_black' then

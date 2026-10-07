@@ -20,6 +20,10 @@ SMODS.Consumable {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    attributes = {
+        'generation',
+        'spectral'
+    },
     hidden = true,
     soul_set = 'Horoscope',
     soul_rate = 0.003,

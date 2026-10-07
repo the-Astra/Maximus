@@ -8,6 +8,11 @@ SMODS.Voucher {
     config = {
         extra = 0.2
     },
+    attributes = {
+        'tarot',
+        'xmult',
+        'suit'
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

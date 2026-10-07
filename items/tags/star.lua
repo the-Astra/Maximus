@@ -14,6 +14,9 @@ SMODS.Tag {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    attributes = {
+        'horoscope',
+    },
     loc_vars = function(self, info_queue)
         info_queue[#info_queue + 1] = { set = "Other", key = "p_mxms_horoscope_mega_1", specific_vars = { 2, 4 } }
     end,

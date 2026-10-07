@@ -9,6 +9,9 @@ SMODS.Tag {
         active = false,
         modifier = 15
     },
+    attributes = {
+        'xblindsize',
+    },
     min_ante = 2,
     mxms_credits = {
         art = { "Maxiss02" },

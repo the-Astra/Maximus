@@ -12,6 +12,11 @@ SMODS.Consumable {
             money = 5
         }
     },
+    attributes = {
+        'chance',
+        'economy',
+        'diamonds',
+    },
     mxms_credits = {
         art = { "pangaea47" },
         code = { "theAstra" },

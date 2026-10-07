@@ -19,6 +19,9 @@ SMODS.Consumable {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    attributes = {
+        'hand_level',
+    },
     cost = 4,
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra

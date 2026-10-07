@@ -11,6 +11,9 @@ if Maximus_config.new_handtypes then
             hand_type = 'mxms_three_pair',
             mxms_exoplanet = true,
         },
+        attributes = {
+            'hand_level'
+        },
         mxms_credits = {
             art = { "Maxiss02" },
             code = { "theAstra" }

@@ -10,6 +10,11 @@ SMODS.Voucher {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    attributes = {
+        'spectral',
+        'destroy_card',
+        'chance'
+    },
     calculate = function(self, card, context)
         if context.joker_type_destroyed and G.GAME.mxms_using_consumable and G.GAME.mxms_using_consumable.ability.set == 'Spectral' and not G.GAME.used_vouchers.v_mxms_guardian then
             if SMODS.pseudorandom_probability(card, 'shield', 1, 2) then

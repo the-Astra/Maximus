@@ -11,6 +11,10 @@ SMODS.Consumable {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    attributes = {
+        'generation',
+        'tag'
+    },
     cost = 4,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_TAGS['tag_mxms_ram']

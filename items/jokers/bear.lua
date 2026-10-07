@@ -14,7 +14,8 @@ SMODS.Joker {
         }
     },
     attributes = {
-        'xmult'
+        'xmult',
+        'lose_economy'
     },
     mxms_credits = {
         art = { "Maxiss02" },

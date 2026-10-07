@@ -11,6 +11,9 @@ SMODS.Enhancement {
         code = { "theAstra" },
         idea = { "pinkzigzagoon" }
     },
+    attributes = {
+        'hand_level',
+    },
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
 

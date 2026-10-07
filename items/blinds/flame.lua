@@ -14,6 +14,9 @@ SMODS.Blind {
         idea = { "theAstra" }
     },
     boss_colour = HEX('E87250'),
+    attributes = {
+        'destroy_card'
+    },
     calculate = function(self, card, context)
         if context.destroy_card and context.cardarea == G.play then
             G.E_MANAGER:add_event(Event({

@@ -9,6 +9,9 @@ SMODS.Tag {
         active = false,
         hand_size = 3
     },
+    attributes = {
+        'hand_size',
+    },
     min_ante = 2,
     mxms_credits = {
         art = { "Maxiss02" },

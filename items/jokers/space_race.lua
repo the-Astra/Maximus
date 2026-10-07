@@ -12,7 +12,7 @@ SMODS.Joker {
     },
     rarity = 3,
     attributes = {
-        'level_up',
+        'hand_level',
         'space',
         'hand_type'
     },

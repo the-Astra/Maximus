@@ -6,6 +6,9 @@ Maximus.ZodiacBooster = SMODS.Booster:extend {
         art = { "Maxiss02" },
         code = { "theAstra" }
     },
+    attributes = {
+        'horoscope'
+    },
     select_card = 'mxms_horoscope',
     create_card = function(self, card)
         return create_card("Horoscope", G.pack_cards, nil, nil, true, true, nil, "mxms_zodiac")

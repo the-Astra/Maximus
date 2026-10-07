@@ -13,6 +13,12 @@ SMODS.Consumable {
             cards = 5
         }
     },
+    attributes = {
+        'chance',
+        'modify_card',
+        'enhancements',
+        'hearts'
+    },
     mxms_credits = {
         art = { "pangaea47" },
         code = { "theAstra" },

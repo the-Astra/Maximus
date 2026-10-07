@@ -11,6 +11,12 @@ SMODS.Consumable {
             odds = 5
         }
     },
+    attributes = {
+        'chance',
+        'modify_card',
+        'editions',
+        'clubs'
+    },
     mxms_credits = {
         art = { "pangaea47" },
         code = { "theAstra" },

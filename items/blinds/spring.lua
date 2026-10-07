@@ -19,6 +19,9 @@ SMODS.Blind {
         idea = { "pinkzigzagoon" }
     },
     boss_colour = HEX('BDB087'),
+    attributes = {
+        'hand_size'
+    },
     set_blind = function(self)
         self.config.extra.hands_removed = 0
     end,

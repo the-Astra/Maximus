@@ -5,6 +5,10 @@ SMODS.Voucher {
         x = 4,
         y = 0
     },
+    attributes = {
+        'conpiracy',
+        'mod_chance'
+    },
     mxms_credits = {
         art = { "Inky" },
         code = { "theAstra" },

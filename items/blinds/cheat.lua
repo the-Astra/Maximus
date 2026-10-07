@@ -14,6 +14,9 @@ SMODS.Blind {
         idea = { "theAstra" }
     },
     boss_colour = HEX('4E4C76'),
+    attributes = {
+        'debuff'
+    },
     recalc_debuff = function(self, card, from_blind)
         if card.ability.set == 'Enhanced' or
             card.edition and (card.ability.set == 'Enhanced' or card.ability.set == 'Default') or

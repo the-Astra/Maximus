@@ -12,6 +12,9 @@ if Maximus_config.new_handtypes then
             mxms_exoplanet = true,
             softlock = true
         },
+        attributes = {
+            'hand_level'
+        },
         mxms_credits = {
             art = { "Maxiss02" },
             code = { "theAstra" }

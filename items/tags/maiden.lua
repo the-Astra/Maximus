@@ -9,6 +9,9 @@ SMODS.Tag {
         active = false,
         discards = 2
     },
+    attributes = {
+        'discards',
+    },
     min_ante = 2,
     mxms_credits = {
         art = { "Maxiss02" },

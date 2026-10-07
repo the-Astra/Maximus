@@ -13,6 +13,9 @@ SMODS.Blind {
         code = { "theAstra" },
         idea = { "theAstra" }
     },
+    attributes = {
+        'lose_economy'
+    },
     boss_colour = HEX('4CCAA9'),
     calculate = function(self, card, context)
         if context.post_trigger and context.other_ret

@@ -5,6 +5,9 @@ SMODS.Voucher {
         x = 3,
         y = 1
     },
+    attributes = {
+        'horoscope',
+    },
     mxms_credits = {
         art = { "Maxiss02" },
         code = { "theAstra" },

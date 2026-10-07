@@ -14,6 +14,9 @@ SMODS.Blind {
         idea = { "Maxiss02" }
     },
     boss_colour = HEX('A2CA4C'),
+    attributes = {
+        'debuff'
+    },
     set_blind = function(self)
         for i = 1, #G.playing_cards / 4 do
             local card = G.playing_cards[pseudorandom(pseudoseed('rotcard' .. i), 1, #G.playing_cards)]

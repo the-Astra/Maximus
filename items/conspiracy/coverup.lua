@@ -12,6 +12,12 @@ SMODS.Consumable {
             cards = 3
         }
     },
+    attributes = {
+        'chance',
+        'rank',
+        'destroy_card',
+        'generation'
+    },
     mxms_credits = {
         art = { "pangaea47" },
         code = { "theAstra" },

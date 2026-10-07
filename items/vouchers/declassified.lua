@@ -10,6 +10,11 @@ SMODS.Voucher {
         code = { "theAstra" },
         idea = { "pinkzigzagoon" }
     },
+    attributes = {
+        'conspiracy',
+        'booster',
+        'economy'
+    },
     requires = { 'v_mxms_whistleblower' },
     calculate = function(self, card, context)
         if context.mxms_create_shop_booster and context.booster.config.center.kind == 'Conspiracy' then

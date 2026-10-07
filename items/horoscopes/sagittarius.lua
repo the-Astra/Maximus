@@ -12,6 +12,11 @@ SMODS.Consumable {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    attributes = {
+        'reroll',
+        'economy',
+        'shop'
+    },
     calculate = function(self, card, context)
         if context.end_of_round and not context.individual and not context.repetition then
             Maximus.horoscope_succeed(card)

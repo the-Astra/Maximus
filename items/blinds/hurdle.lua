@@ -14,6 +14,9 @@ SMODS.Blind {
         idea = { "pinkzigzagoon" }
     },
     boss_colour = HEX('EE6672'),
+    attributes = {
+        'debuff'
+    },
     calculate = function(self, card, context)
         if context.before and not G.GAME.blind.disabled then
             local first_card = context.scoring_hand[1]

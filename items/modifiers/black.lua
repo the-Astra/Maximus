@@ -10,6 +10,9 @@ SMODS.Seal {
         code = { "theAstra" },
         idea = { "pinkzigzagoon" }
     },
+    attributes = {
+        'xmult',
+    },
     atlas = 'Modifiers',
     pos = {
         x = 0,

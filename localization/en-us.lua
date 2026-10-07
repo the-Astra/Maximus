@@ -287,7 +287,7 @@ return {
                 name = 'Vaccine',
                 text = {
                     '{C:green}#1# in #2#{} chance to',
-                    'turn all {C:hearts}Hearts{} into',
+                    'turn all held {C:hearts}Hearts{} into',
                     '{C:attention}Lucky{} Cards',
                 }
             },

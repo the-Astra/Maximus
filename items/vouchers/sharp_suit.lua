@@ -10,6 +10,11 @@ SMODS.Voucher {
         code = { "theAstra" },
         idea = { "Maxiss02" }
     },
+    attributes = {
+        'tarot',
+        'booster',
+        'suit'
+    },
     calculate = function(self, card, context)
         local stg = card.ability.extra
 
