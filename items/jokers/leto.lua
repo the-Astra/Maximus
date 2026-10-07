@@ -12,6 +12,7 @@ SMODS.Joker {
     rarity = 4,
     attributes = {
         'generation',
+        'playing_card',
         'rank',
         'queen',
         'enhancements',

@@ -157,16 +157,6 @@ function Maximus.count_conspiracy_cards()
     return count
 end
 
--- Thank you for this notmario you have saved so much time
-Maximus.key_has_attribute = function (card_key, key)
-    if type(card_key) ~= 'string' then return false end
-    local pool = SMODS.get_attribute_pool(key)
-    for _, c in pairs(pool) do
-        if c == card_key then return true end
-    end
-    return false
-end
-
 ---Generalized Horoscope succeed func
 Maximus.horoscope_succeed = function(card)
     if card.config.center:can_succeed(card) then

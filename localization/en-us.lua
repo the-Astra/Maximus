@@ -3198,6 +3198,9 @@ return {
             ch_c_mxms_greedy2 = {
                 "Leaving the shop with unopened boosters {C:red}loses the run{}"
             },
+            ch_c_mxms_no_generators = {
+                "Objects that create playing cards are {C:red}banned{}"
+            },
         },
         v_dictionary = {
             a_mxms_jokersize = "+#1# Joker Size",

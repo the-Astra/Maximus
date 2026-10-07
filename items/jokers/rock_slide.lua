@@ -16,6 +16,7 @@ SMODS.Joker {
     },
     attributes = {
         'generation',
+        'playing_card',
         'enhancements'
     },
     mxms_credits = {

@@ -164,11 +164,11 @@ function SMODS.add_to_pool(prototype_obj, args)
             ret = false
         end
 
-        if G.GAME.modifiers.mxms_feast and not Maximus.key_has_attribute(prototype_obj.key, 'food') and prototype_obj.key ~= 'j_mxms_microwave' and prototype_obj.key ~= 'j_mxms_refrigerator' then -- Feast Challenge Modifier
+        if G.GAME.modifiers.mxms_feast and not SMODS.has_attribute(prototype_obj, 'food') and prototype_obj.key ~= 'j_mxms_microwave' and prototype_obj.key ~= 'j_mxms_refrigerator' then -- Feast Challenge Modifier
             ret = false
         end
 
-        if G.MXMS_SCARRED_SPAWN and Maximus.key_has_attribute(prototype_obj.key, 'mxms_legendary') then
+        if G.MXMS_SCARRED_SPAWN and SMODS.has_attribute(prototype_obj, 'mxms_legendary') then
             ret, pool_opts = true, {override_base_checks = true}
         end
     end
@@ -180,6 +180,10 @@ function SMODS.add_to_pool(prototype_obj, args)
     end
 
     if (prototype_obj.set == 'Conspiracy' or prototype_obj.soul_set == 'Conspiracy') and not Maximus_config.conspiracies then
+        ret = false
+    end
+
+    if G.GAME.modifiers.mxms_no_generators and SMODS.has_attribute(prototype_obj, 'playing_card') then
         ret = false
     end
 
