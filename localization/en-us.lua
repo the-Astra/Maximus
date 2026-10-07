@@ -3201,7 +3201,8 @@ return {
         },
         v_dictionary = {
             a_mxms_jokersize = "+#1# Joker Size",
-            a_mxms_blackjack_hand_value = "Current Hand Value: #1#"
+            a_mxms_blackjack_hand_value = "Current Hand Value: #1#",
+            a_mxms_suit_debuff = "All #1# cards are debuffed"
         },
         playlog_types = {
             mxms_horoscope_success = "Horoscope Success",

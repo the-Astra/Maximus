@@ -20,11 +20,16 @@ SMODS.Challenge {
     calculate = function(self, context)
         if context.setting_blind then
             local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
-            G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits,
-                pseudoseed('fashion' .. G.GAME.round_resets.ante))
+            G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits, pseudoseed('fashion' .. G.GAME.round_resets.ante))
             for _, v in ipairs(G.playing_cards) do
-                self:debuff_card(v)
+                G.GAME.blind:debuff_card(v)
             end
+
+            local disp_text = localize { type = 'variable', key = 'a_mxms_suit_debuff', vars = { localize(G.GAME.modifiers.mxms_random_suit_debuff, 'suits_singular') } }
+            local hold_time = G.SETTINGS.GAMESPEED*(#disp_text*0.035 + 1.3)
+            attention_text({
+                scale = 0.7, text = disp_text, maxw = 12, hold = hold_time, align = 'cm', offset = {x = 0,y = -1},major = G.play
+            })
         end
     end
 }
