@@ -3151,7 +3151,10 @@ return {
                 "A {C:green}random{} suit is {C:attention}debuffed{} each round"
             },
             ch_c_mxms_all_rare = {
-                "Only {C:red}Rare{} Jokers can show up in the shop"
+                "All Jokers in the shop are {C:red}Rare{}"
+            },
+            ch_c_mxms_only_spectral_packs = {
+                "All Boosters in the shop are {C:dark_edition}Spectral Packs{}"
             },
             ch_c_mxms_picky = {
                 "A copy of {C:attention,T:j_mxms_four_course_meal}Four Course Meal{} spawns in hand"

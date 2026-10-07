@@ -173,6 +173,12 @@ function SMODS.add_to_pool(prototype_obj, args)
         end
     end
 
+    if prototype_obj.set == 'Booster' then
+        if G.GAME.modifiers.mxms_only_spectral_packs and prototype_obj.kind ~= 'Spectral' then
+            ret = false
+        end
+    end
+
     if prototype_obj.set == 'Horoscope' or prototype_obj.soul_set == 'Horoscope' then
         if not Maximus_config.horoscopes or G.GAME.modifiers.mxms_zodiac_killer and G.GAME.mxms_zodiac_killer_pools[prototype_obj.key] then
             ret = false
