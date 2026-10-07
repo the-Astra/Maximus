@@ -19,8 +19,8 @@ SMODS.Challenge {
     },
     calculate = function(self, context)
         if context.setting_blind then
-            local suits = { 'Clubs', 'Spades', 'Hearts', 'Diamonds' }
-            G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(suits, pseudoseed('fashion' .. G.GAME.round_resets.ante))
+
+            G.GAME.modifiers.mxms_random_suit_debuff = pseudorandom_element(SMODS.Suits, pseudoseed('fashion' .. G.GAME.round_resets.ante)).key
             for _, v in ipairs(G.playing_cards) do
                 G.GAME.blind:debuff_card(v)
             end
