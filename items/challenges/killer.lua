@@ -53,7 +53,7 @@ SMODS.Challenge {     -- Zodiac Killer
             Maximus.force_game_over()
         end
 
-        if context.ante_end then
+        if context.ante_change and context.ante_end then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.2,
