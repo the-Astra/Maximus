@@ -85,7 +85,7 @@ SMODS.RunSelectPage({
     end,
 	quick_start_text = function()
 		if not G.PROFILES[G.SETTINGS.profile].last_choices.mxms_scarred_choice then return end
-        if SMODS.RunSelect.Setup.choices.deck_choice ~= 'b_mxms_scarred' or SMODS.RunSelect.Setup.choices.casl_sleeve_choice ~= 'sleeve_mxms_scarred' then return end
+        if SMODS.RunSelect.Setup.choices.deck_choice ~= 'b_mxms_scarred' and SMODS.RunSelect.Setup.choices.casl_sleeve_choice ~= 'sleeve_mxms_scarred' then return end
 		local choice = G.PROFILES[G.SETTINGS.profile].last_choices.mxms_scarred_choice or 'j_mxms_hugo'
 		return localize({type = 'name_text', set = 'Joker', key = choice})
 	end,
