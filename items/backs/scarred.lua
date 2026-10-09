@@ -84,9 +84,12 @@ SMODS.RunSelectPage({
         return SMODS.RunSelect.Setup.choices.deck_choice == 'b_mxms_scarred' or SMODS.RunSelect.Setup.choices.casl_sleeve_choice == 'sleeve_mxms_scarred'
     end,
 	quick_start_text = function()
-		if not G.PROFILES[G.SETTINGS.profile].last_choices.mxms_scarred_choice then return end
-		local choice = G.PROFILES[G.SETTINGS.profile].last_choices.mxms_scarred_choice or 'j_mxms_hugo'
-		return localize({type = 'name_text', set = 'Joker', key = choice})
+		-- Only advertise this choice when a Quick Start would actually use this page.
+		-- Same condition as optional(); the callback takes no self, so read the save directly.
+		local choices = G.PROFILES[G.SETTINGS.profile].last_choices
+		if not choices.mxms_scarred_choice then return end
+		if choices.deck_choice ~= 'b_mxms_scarred' and choices.casl_sleeve_choice ~= 'sleeve_mxms_scarred' then return end
+		return localize({type = 'name_text', set = 'Joker', key = choices.mxms_scarred_choice})
 	end,
 	selected_text = function(self, selection)
 		if not selection then return end
