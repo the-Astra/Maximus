@@ -1435,8 +1435,9 @@ return {
             j_mxms_paperclip = {
                 name = "红色回形针",
                 text = {
-                    "在商店中每{C:attention}重掷{}一次",
-                    "这张小丑牌的出售价值增加{C:money}$#1#{}",
+                    "在商店中每有{C:attention}1{}张{C:attention}小丑牌{}",
+                    "被{C:attention}重掷{}换掉，这张小丑牌的",
+                    "出售价值增加{C:money}$#1#{}",
                 },
             },
             j_mxms_perspective = {
@@ -1934,7 +1935,7 @@ return {
                 text = {
                     "若被{C:red}摧毁{}的牌",
                     "有蜡封",
-                    "降此蜡封添加到",
+                    "将此蜡封添加到",
                     "一张{C:green}随机{}持有的{C:attention}小丑上",
                 },
             },
