@@ -160,7 +160,14 @@ function SMODS.add_to_pool(prototype_obj, args)
     local ret, pool_opts = atp(prototype_obj, args)
 
     if prototype_obj.set == 'Joker' then
-        if Maximus.config.only_maximus_jokers and (not prototype_obj.original_mod or prototype_obj.original_mod ~= 'Maximus') then -- Only Maximus Jokers option
+        -- Only Maximus Jokers option
+        -- `original_mod` is the mod object (its id lives in `.id`), not an id string;
+        -- it is nil for untouched vanilla objects. Comparing the object itself to the
+        -- string 'Maximus' is always true, which rejected every Joker (including
+        -- Maximus' own) and left the pool empty -> the engine fell back to j_joker.
+        local orig_mod_id = type(prototype_obj.original_mod) == 'table'
+            and prototype_obj.original_mod.id or prototype_obj.original_mod
+        if Maximus.config.only_maximus_jokers and orig_mod_id ~= 'Maximus' then
             ret = false
         end
 
