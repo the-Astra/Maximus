@@ -160,7 +160,7 @@ function SMODS.add_to_pool(prototype_obj, args)
     local ret, pool_opts = atp(prototype_obj, args)
 
     if prototype_obj.set == 'Joker' then
-        if Maximus.config.only_maximus_jokers and (not prototype_obj.original_mod or prototype_obj.original_mod ~= 'Maximus') then -- Only Maximus Jokers option
+        if Maximus.config.only_maximus_jokers and (not prototype_obj.original_mod or prototype_obj.original_mod.id ~= 'Maximus') then -- Only Maximus Jokers option
             ret = false
         end
 
