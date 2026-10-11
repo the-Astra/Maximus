@@ -1433,7 +1433,7 @@ return {
             j_mxms_paperclip = {
                 name = "红色回形针",
                 text = {
-                    "在商店中每有{C:attention}1{}张{C:attention}小丑牌{}",
+                    "在商店中每有{C:attention}1{}张牌",
                     "被{C:attention}重掷{}换掉，这张小丑牌的",
                     "出售价值增加{C:money}$#1#{}",
                 },
