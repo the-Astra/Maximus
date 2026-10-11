@@ -2752,6 +2752,10 @@ return {
             k_mxms_zodiac_pack = "星座包",
             ph_mxms_stat_horoscope = "这张牌充满的次数",
             ph_mxms_stat_horoscope_disabled = "星座牌失效, 无法显示统计信息",
+            
+            run_select_mxms_scarred_choice = "选择小丑",
+            run_select_mxms_scarred_choice_random = "随机小丑",
+            
             mxms_art_credit = "美术: ",
             mxms_code_credit = "代码: ",
             mxms_idea_credit = "创意: ",
