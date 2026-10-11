@@ -425,7 +425,7 @@ return {
         },
         Joker = {
             j_egg = {
-                name = "Egg",
+                name = "鸡蛋",
                 text = {
                     "在回合结束时",
                     "本卡的{C:attention}出售价值{}",
@@ -1240,10 +1240,7 @@ return {
                 },
             },
             j_mxms_letter = {
-                name = {
-                    "Letter of",
-                    "Recommendation",
-                },
+                name = "推荐信",
                 text = {
                     "当有{C:horoscope}星座牌{}{C:attention}生效{}时",
                     "生成一张{C:green}随机{}的{C:horoscope}星座牌{}",
