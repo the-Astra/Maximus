@@ -3116,6 +3116,21 @@ return {
             ch_c_mxms_greedy2 = {
                 "离开商店时若有未打开的补充包{C:red}游戏结束{}",
             },
+            ch_c_mxms_only_spectral_packs = {
+                "商店中的所有补充包都是{C:dark_edition}幻灵包{}",
+            },
+            ch_c_mxms_no_generators = {
+                "能生成扑克牌的物件会被{C:red}禁用{}",
+            },
+            ch_c_mxms_gambling = {
+                "{C:attention}跳过的标签{}是唯一的{C:money}金钱{}来源",
+            },
+            ch_c_mxms_p2w_arcana = {
+                "{C:attention}秘术包{}里只有{C:tarot,T:c_wheel_of_fortune}命运之轮{}",
+            },
+            ch_c_mxms_p2w_spectral = {
+                "{C:attention}幻灵包{}里只有{C:dark_edition,T:c_aura}光环{}",
+            },
         },
         v_dictionary = {
             a_mxms_jokersize = "+#1#小丑牌槽位",
