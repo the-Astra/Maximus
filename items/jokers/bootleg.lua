@@ -21,7 +21,7 @@ SMODS.Joker {
             local copied_key = G.GAME.mxms_last_bought.card.config.center_key
             info_queue[#info_queue + 1] = G.P_CENTERS[copied_key]
             return {
-                vars = { G.localization.descriptions.Joker[copied_key].name }
+                vars = { localize{set = 'Joker', type = 'name_text', key = copied_key} }
             }
         else
             return {
