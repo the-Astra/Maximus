@@ -52,8 +52,10 @@ SMODS.Joker {
                     ref_table = stg,
                     ref_value = "Xmult",
                     scalar_value = "gain_best",
-                    message_key = "k_mxms_blackjack_ex",
-                    message_colour = G.C.GREEN
+                    scaling_message = {
+                        message = localize('k_mxms_blackjack_ex'),
+                        colour = G.C.GREEN
+                    }
                 })
                 return nil, true
             else
