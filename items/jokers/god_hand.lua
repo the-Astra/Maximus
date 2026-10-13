@@ -30,17 +30,24 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
         local stg = card.ability.extra
 
-        local rank, suit, intermediary, color
         if stg.rank then
-            rank = stg.rank
-            suit = stg.suit
-            color = G.C.SUITS[stg.suit]
-            intermediary = ' of '
+            return {
+                key = 'j_mxms_god_hand_target',
+                vars = {
+                    stg.good_Xmult,
+                    stg.bad_Xmult,
+                    stg.rank,
+                    stg.suit,
+                    colours = { G.C.SUITS[stg.suit] }
+                }
+            }
         else
-            rank = ''
-            suit = ''
-            color = G.C.INACTIVE
-            intermediary = 'None'
+            return {
+                vars = {
+                    stg.good_Xmult,
+                    stg.bad_Xmult,
+                }
+            }
         end
 
         return {

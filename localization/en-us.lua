@@ -999,7 +999,19 @@ return {
                     'While a card with that rank and',
                     'suit is {C:attention}held in hand, {X:mult,C:white}X#1#{} Mult',
                     'Otherwise, {X:mult,C:white}X#2#{} Mult',
-                    '{C:inactive}Target:{} #3##4#{V:1}#5#{}',
+                    '{C:inactive}Target: None{}',
+                    '{C:inactive,s:0.8}Reference: Porter Robinson - Worlds album'
+                }
+            },
+            j_mxms_god_hand_target = {
+                name = 'God Hand',
+                text = {
+                    'Chooses a {C:green}random{} playing card',
+                    'in full deck when added to hand',
+                    'While a card with that rank and',
+                    'suit is {C:attention}held in hand, {X:mult,C:white}X#1#{} Mult',
+                    'Otherwise, {X:mult,C:white}X#2#{} Mult',
+                    '{C:inactive}Target:{} #3# of {V:1}#4#{}',
                     '{C:inactive,s:0.8}Reference: Porter Robinson - Worlds album'
                 }
             },

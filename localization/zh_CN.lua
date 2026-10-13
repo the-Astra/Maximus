@@ -969,6 +969,18 @@ return {
                     "{C:inactive}(当前为{C:mult}+#2#{C:inactive}倍率)",
                 },
             },
+            j_mxms_god_hand_target = {
+                name = "神之手",
+                text = {
+                    "当获得这张牌时",
+                    "在完整牌组中{C:green}随机{}选择一张牌",
+                    "当{C:attention}{}手牌中有相同的牌",
+                    "{X:mult,C:white}X#1#{}倍率",
+                    "否则, {X:mult,C:white}X#2#{}倍率",
+                    "{C:inactive}目标:{} {V:1}#4#{}#3#",
+                    "{C:inactive,s:0.8}出自:专辑 Porter Robinson - Worlds",
+                },
+            },
             j_mxms_god_hand = {
                 name = "神之手",
                 text = {
@@ -977,7 +989,7 @@ return {
                     "当{C:attention}{}手牌中有相同的牌",
                     "{X:mult,C:white}X#1#{}倍率",
                     "否则, {X:mult,C:white}X#2#{}倍率",
-                    "{C:inactive}目标:{} #3##4#{V:1}#5#{}",
+                    "{C:inactive}目标: 无{}",
                     "{C:inactive,s:0.8}出自:专辑 Porter Robinson - Worlds",
                 },
             },
