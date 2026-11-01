@@ -4,6 +4,7 @@ Maximus.C = {
     MXMS_PRIMARY = HEX('7855fc'),
     MXMS_SECONDARY = HEX('901b7f'),
     HOROSCOPE = HEX('e86fa5'),
+    HOROSCOPE_BG = HEX('4f6367'),
     CONSPIRACY = HEX('7d8c8f'),
     SET = {
         Horoscope = HEX('d9629c'),
@@ -185,5 +186,16 @@ SMODS.Sound({
     key = 'semisolid',
     path = 'voice_semisolidplatform.ogg'
 })
+
+SMODS.Sound {
+  key = "music_zodiac",
+  path = "zodiac_pack.ogg",
+  pitch = 1,
+  select_music_track = function (self)
+    if not G.screenwipe and G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER and string.find(SMODS.OPENED_BOOSTER.config.center.key, "horoscope", 0, true) ~= nil then
+      return 1339
+    end
+  end
+}
 
 --#endregion

@@ -15,11 +15,33 @@ Maximus.ZodiacBooster = SMODS.Booster:extend {
     end,
     ease_background_colour = function(self)
         ease_colour(G.C.DYN_UI.MAIN, Maximus.C.SET.Horoscope)
-        ease_background_colour({ new_colour = Maximus.C.SET.Horoscope, special_colour = G.C.BLACK, contrast = 2 })
+        ease_background_colour({ new_colour = Maximus.C.HOROSCOPE_BG, special_colour = G.C.BLACK, contrast = 2 })
     end,
     loc_vars = function(self, info_queue, card)
         return { vars = { math.min(card.ability.choose + (G.GAME.modifiers.booster_choice_mod or 0), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0)) } }
-    end
+    end,
+    particles = function(self)
+        G.booster_pack_stars = Particles(1, 1, 0, 0, {
+            timer = 0.07,
+            scale = 0.1,
+            initialize = true,
+            lifespan = 15,
+            speed = 0.1,
+            padding = -4,
+            attach = G.ROOM_ATTACH,
+            colours = { G.C.WHITE, HEX('e86fa5'), HEX('cbf5f1') },
+            fill = true
+        })
+        G.booster_pack_meteors = Particles(1, 1, 0, 0, {
+            timer = 2,
+            scale = 0.05,
+            lifespan = 1.5,
+            speed = 4,
+            attach = G.ROOM_ATTACH,
+            colours = { G.C.WHITE },
+            fill = true
+        })
+    end,
 }
 
 Maximus.ZodiacBooster {

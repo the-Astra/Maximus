@@ -2187,7 +2187,7 @@ return {
                     '{B:3,C:white}Other Authors:{} {C:conspiracy}anerdymous',
                     '{B:4,C:white}Supporting Artists:{} {C:green}pinkzigzagoon, PsyAlola, SadCube, GhostSalt,',
                     '{C:green}pangaea47, Willow, squeax09, Inky, Meta, ThunderEdge',
-                    '{B:5,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, TheCoroboCorner',
+                    '{B:5,C:white}Contributors:{} {C:planet}sup3p, DigitalDetective47, TheCoroboCorner, BitterDoes',
                     '{B:6,C:white}Localization:{} {C:red}MomoiAiriMMJ, mleaf233',
                     '{B:7,C:white}Special Thanks:{} All the awesome people in the Balatro Discord!',
                     '{C:white}You all helped make this project possible. Thank you guys for everything!'
