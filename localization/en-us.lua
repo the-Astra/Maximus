@@ -2852,6 +2852,7 @@ return {
             mxms_art_credit = 'Art by ',
             mxms_code_credit = 'Code by ',
             mxms_idea_credit = 'Idea by ',
+            mxms_music_credit = 'Music by ',
             mxms_and_spacer = ' and ',
             mxms_comma_spacer = ', ',
         },

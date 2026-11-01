@@ -4,7 +4,8 @@ Maximus.ZodiacBooster = SMODS.Booster:extend {
     group_key = "k_mxms_zodiac_pack",
     mxms_credits = {
         art = { "Maxiss02" },
-        code = { "theAstra" }
+        code = { "theAstra" },
+        music = { "BitterDoes" }
     },
     attributes = {
         'horoscope'

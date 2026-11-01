@@ -13,7 +13,8 @@ Maximus.CREDITS.dev_colours = {
     ['GhostSalt'] = HEX('FFDDDD'),
     ['AllUniversal'] = G.C.BLACK,
     ['Meta'] = HEX("FA69EB"),
-    ['ThunderEdge'] = HEX("89C41B")
+    ['ThunderEdge'] = HEX("89C41B"),
+    ['BitterDoes'] = HEX("ffb0e9")
 }
 
 --#region Credits on Pop Up
@@ -65,6 +66,12 @@ function SMODS.create_mod_badges(obj, badges)
         end
         if obj.mxms_credits.idea then
             local str = Maximus.CREDITS.generate_string(obj.mxms_credits.idea, 'mxms_idea_credit', obj)
+            if str then
+                table.insert(badges, str)
+            end
+        end
+        if obj.mxms_credits.music then
+            local str = Maximus.CREDITS.generate_string(obj.mxms_credits.music, 'mxms_music_credit', obj)
             if str then
                 table.insert(badges, str)
             end
