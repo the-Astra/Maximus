@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if not hide_desc and card and card.ability and (card.ability.extra_slots_used or 0) ~= 0 then"
+position = "before"
+match_indent = true
+payload = '''
+if not hide_desc and card and card.ability and card.ability.mxms_zombie_marked then
+    info_queue[#info_queue + 1] = {set = 'Other', key = 'mxms_zombie_infected'}
+end
+'''

@@ -161,9 +161,10 @@ end
 Maximus.horoscope_succeed = function(card)
     if card.config.center:can_succeed(card) then
         card.succeeded = true
-        if PlayLog then PlayLog.log({type = 'mxms_horoscope_success', card = card}) end
-        SMODS.calculate_effect({message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1'}, card)
-        if card.config.center.succeed and type(card.config.center.succeed) == 'function' then card.config.center:succeed(card) end
+        if PlayLog then PlayLog.log({ type = 'mxms_horoscope_success', card = card }) end
+        SMODS.calculate_effect({ message = localize('k_mxms_success_ex'), colour = G.C.GREEN, sound = 'tarot1' }, card)
+        if card.config.center.succeed and type(card.config.center.succeed) == 'function' then card.config.center:succeed(
+            card) end
         SMODS.calculate_context({ mxms_beat_horoscope = true, card = card })
         G.E_MANAGER:add_event(Event({
             func = function()
@@ -180,8 +181,8 @@ end
 ---Generalized Horoscope fail func
 Maximus.horoscope_fail = function(card)
     if not card.succeeded then
-        if PlayLog then PlayLog.log({type = 'mxms_horoscope_fail', card = card}) end
-        SMODS.calculate_effect({ message = localize('k_mxms_failed_ex'),colour = G.C.RED, sound = 'tarot2' }, card)
+        if PlayLog then PlayLog.log({ type = 'mxms_horoscope_fail', card = card }) end
+        SMODS.calculate_effect({ message = localize('k_mxms_failed_ex'), colour = G.C.RED, sound = 'tarot2' }, card)
         if card.config.center.fail and type(card.config.center.fail) == 'function' then card.config.center:fail(card) end
         local flags = SMODS.calculate_context({ mxms_failed_horoscope = true, card = card })
         if not next(SMODS.find_card('j_mxms_cheat_day')) then
@@ -196,7 +197,6 @@ Maximus.horoscope_fail = function(card)
         elseif card.config.center.reset then
             card.config.center:reset(card)
         end
-        
     end
 end
 
@@ -315,55 +315,52 @@ function Maximus.reset_game_globals(run_start)
     end
 
     -- Zombie
-    if next(SMODS.find_card('j_mxms_zombie')) and G.GAME.current_round.mxms_zombie_target.card ~= nil then
-        if not SMODS.is_eternal(G.GAME.current_round.mxms_zombie_target.card) then
+    if next(SMODS.find_card('j_mxms_zombie')) then
+        local zombie_card = Maximus.get_zombie_card()
+        if zombie_card then
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    play_sound('timpani')
-                    delay(0.4)
-                    G.GAME.current_round.mxms_zombie_target.card:set_ability(G.P_CENTERS['j_mxms_zombie'])
-                    G.GAME.current_round.mxms_zombie_target.card:juice_up(0.8, 0.8)
-                    delay(0.4)
-                    SMODS.calculate_effect({ message = localize('k_mxms_turned_ex'), colour = G.C.GREEN },
-                        G.GAME.current_round.mxms_zombie_target.card)
-                    G.GAME.current_round.mxms_zombie_target.card = nil
+                    if not SMODS.is_eternal(zombie_card) then
+                        play_sound('timpani')
+                        delay(0.4)
+                        zombie_card:set_ability(G.P_CENTERS['j_mxms_zombie'])
+                        zombie_card:juice_up(0.8, 0.8)
+                        delay(0.4)
+                        SMODS.calculate_effect({ message = localize('k_mxms_turned_ex'), colour = G.C.GREEN }, zombie_card)
+                        check_for_unlock({ type = "zombified" })
+                    end
 
-                    check_for_unlock({ type = "zombified" })
+                    zombie_card.ability.mxms_zombie_marked = nil
                     return true
                 end
             }))
         end
-    end
 
-    G.E_MANAGER:add_event(Event({
-        trigger = 'after',
-        func = function()
-            local eligible_jokers = {}
-            local new_target = G.GAME.current_round.mxms_zombie_target.card
-            if #G.jokers.cards <= 1 or not next(SMODS.find_card('j_mxms_zombie')) then
-                new_target = nil
-            else
-                for i = 1, #G.jokers.cards do
-                    if G.jokers.cards[i].config.center_key ~= 'j_mxms_zombie' and G.jokers.cards[i] ~= new_target and G.jokers.cards[i].config.center.blueprint_compat then
-                        eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = function()
+                local eligible_jokers = {}
+                local new_target = Maximus.get_zombie_card()
+
+                if not new_target then
+                    for i = 1, #G.jokers.cards do
+                        if G.jokers.cards[i].config.center_key ~= 'j_mxms_zombie' and not G.jokers.cards[i].ability.mxms_zombie_marked and G.jokers.cards[i].config.center.blueprint_compat then
+                            eligible_jokers[#eligible_jokers + 1] = G.jokers.cards[i]
+                        end
+                    end
+                    if next(eligible_jokers) then
+                        new_target = pseudorandom_element(eligible_jokers, pseudoseed('zombie' .. G.GAME.round_resets.ante))
                     end
                 end
-                if next(eligible_jokers) then
-                    new_target = pseudorandom_element(eligible_jokers,
-                        pseudoseed('zombie' .. G.GAME.round_resets.ante))
-                else
-                    new_target = nil
-                end
-            end
 
-            G.GAME.current_round.mxms_zombie_target.card = new_target
-            if G.GAME.current_round.mxms_zombie_target.card ~= nil then
-                SMODS.calculate_effect({ message = localize('k_mxms_infected_ex'), colour = G.C.GREEN },
-                    G.GAME.current_round.mxms_zombie_target.card)
+                if new_target then
+                    new_target.ability.mxms_zombie_marked = true
+                    SMODS.calculate_effect({ message = localize('k_mxms_infected_ex'), colour = G.C.GREEN }, new_target)
+                end
+                return true
             end
-            return true
-        end
-    }))
+        }))
+    end
 
 
     -- Jello
@@ -371,7 +368,8 @@ function Maximus.reset_game_globals(run_start)
     for k, v in ipairs({ 'Spades', 'Hearts', 'Clubs', 'Diamonds' }) do
         if v ~= G.GAME.current_round.mxms_jello_suit then jello_suits[#jello_suits + 1] = v end
     end
-    G.GAME.current_round.mxms_jello_suit = pseudorandom_element(jello_suits, pseudoseed('jel' .. G.GAME.round_resets.ante))
+    G.GAME.current_round.mxms_jello_suit = pseudorandom_element(jello_suits,
+        pseudoseed('jel' .. G.GAME.round_resets.ante))
 end
 
 G.FUNCS.mxms_discord = function(e)
@@ -379,7 +377,7 @@ G.FUNCS.mxms_discord = function(e)
 end
 
 Maximus.description_loc_vars = function()
-    return { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.2, vars = { elements = { SMODS.create_sprite(0, 0, 6.6, 6.6 * (G.ASSET_ATLAS["mxms_logo"].py / G.ASSET_ATLAS["mxms_logo"].px), "mxms_logo", {x = 0, y = 0}) } } }
+    return { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.2, vars = { elements = { SMODS.create_sprite(0, 0, 6.6, 6.6 * (G.ASSET_ATLAS["mxms_logo"].py / G.ASSET_ATLAS["mxms_logo"].px), "mxms_logo", { x = 0, y = 0 }) } } }
 end
 
 function Maximus.calculate_blackjack_value(hand)
@@ -448,4 +446,15 @@ function Maximus.poll_conspiracy_chance(card, odds, seed)
             end
         }))
     end
+end
+
+function Maximus.get_zombie_card()
+    local zombie_card
+    for _, v in pairs(G.jokers.cards) do
+        if v.ability.mxms_zombie_marked then
+            zombie_card = v
+            break
+        end
+    end
+    return zombie_card
 end

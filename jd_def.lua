@@ -1567,10 +1567,7 @@ jd_def['j_mxms_zombie'] = { -- Zombie
         JokerDisplay.copy_display(card, copied_joker, copied_debuff)
     end,
     get_blueprint_joker = function(card)
-        if G.GAME.current_round.mxms_zombie_target.card ~= nil then
-            return G.GAME.current_round.mxms_zombie_target.card
-        end
-        return nil
+        return Maximus.get_zombie_card()
     end
 }
 

@@ -2193,6 +2193,14 @@ return {
                     '{C:white}You all helped make this project possible. Thank you guys for everything!'
                 }
             },
+            mxms_zombie_infected = {
+                name = 'Infected',
+                text = {
+                    'This card will become a',
+                    '{C:green,T:j_mxms_zombie}Zombie{} at the end',
+                    'of the round'
+                }
+            },
             undiscovered_conspiracy = {
                 name = "Not Discovered",
                 text = {

@@ -25,10 +25,6 @@ Game.init_game_object = function(self)
         rank = "Ace",
         mult = 8
     }
-    ret.current_round.mxms_zombie_target = {
-        card = nil,
-        pos = nil
-    }
     ret.current_round.mxms_jello_suit = 'Spades'
 
     --Horoscope
@@ -78,18 +74,6 @@ end
 
 local save_r = save_run
 save_run = function(self)
-    -- Save position of Zombie target
-    if G.GAME.current_round.mxms_zombie_target and G.GAME.current_round.mxms_zombie_target.card then
-        local pos = 1
-        for k, v in pairs(G.jokers.cards) do
-            if v == G.GAME.current_round.mxms_zombie_target.card then
-                G.GAME.current_round.mxms_zombie_target.pos = pos
-                break
-            end
-            pos = pos + 1
-        end
-    end
-
     -- Save position of Bootleg target
     if G.GAME.mxms_last_bought and G.GAME.mxms_last_bought.card then
         local pos = 1
@@ -127,12 +111,6 @@ Game.start_run = function(self, args)
     if G.GAME.mxms_last_bought and G.GAME.mxms_last_bought.pos then
         G.GAME.mxms_last_bought.card = G.jokers.cards[G.GAME.mxms_last_bought.pos]
         G.GAME.mxms_last_bought.pos = nil
-    end
-
-    -- Set Zombie target card based on saved position
-    if G.GAME.current_round.mxms_zombie_target and G.GAME.current_round.mxms_zombie_target.pos then
-        G.GAME.current_round.mxms_zombie_target.card = G.jokers.cards[G.GAME.current_round.mxms_zombie_target.pos]
-        G.GAME.current_round.mxms_zombie_target.pos = nil
     end
 
     -- Set each Gutbuster target card based on saved position
